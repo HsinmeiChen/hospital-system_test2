@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+	{% include 'Public_head.html' %}
+	<title>慢箋預約記錄_預約慢箋_長安醫院</title>
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+	<!-- ======= 本頁 Modal Area ======= -->
+
+		<!-- ■■■ 領藥規則及說明 ■■■ -->
+		<div class="modal fade" id="Drugs_Info">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+				
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title cofe-word font-weight-bold">
+						<i class="fas fa-info-circle"></i> 領藥規則及說明
+					</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body p-0">
+					<div class="Drug_Notes mt-0">
+
+						<div class="px-4 py-3">
+							<p>可於領藥前一日以臨櫃 / 電話 / 網路方式預約慢箋領藥，並於約定領藥日持健保卡及連續處方箋至本院一樓藥局 發藥櫃檯領藥，為使預約領藥流程順暢，請務必遵守以下原則：</p>
+							<ol class="number-circle-list number-circle-list--secondary-color m-0">
+							<li class="number-circle-list--list-item">無法預約當日領藥</li>
+							<li class="number-circle-list--list-item">最長可預約天數為 30 天</li>
+							<li class="number-circle-list--list-item">每日於下午 5 點截止預約及更改隔日領藥</li>
+							<li class="number-circle-list--list-item">提醒您預約之藥品僅【保留當日】，請記得來院領藥。超過當日後視同作廢，需重新預約領藥或是直接前往櫃檯批價領藥</li>
+							<li class="number-circle-list--list-item">領藥時間：週一至週五，早上 9 點半至晚上 9 點半，六日<span class="text-danger"><b>無</b></span>提供服務</li>
+							<li class="number-circle-list--list-item">至藥局櫃檯領藥時務必出示連續處方箋及健保卡</li>
+							<li class="number-circle-list--list-item">有任何藥物使用/預約疑問，請直接與本院藥局聯絡 (聯絡電話 04-3611-3600)</li>
+							</ol>
+							<hr/>
+							<div>備註：預約領藥未到記一次，紀錄三次以上者，於8週 (56天) 內無法使用預約功能，請改以現場批價櫃檯過卡並依燈號進行排隊領藥。</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 黑名單 -->
+		<div class="modal fade" id="BreakList" aria-modal="true" role="dialog">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+				
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title font-weight-bold text-danger">
+							<i class="fas fa-info-circle"></i> 您未準時領藥紀錄
+						</h4>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					
+					<!-- Modal body -->
+					<div class="modal-body">
+						<table class="table table-striped cell-table mb-0">
+							<thead>
+								<tr>
+									<th class="font-weight-bold title-bg text-center beige-word text-nowrap">科別</th>
+									<th class="font-weight-bold title-bg text-center beige-word text-nowrap">慢箋單號</th>
+									<th class="font-weight-bold title-bg text-center beige-word text-nowrap">未準時領取日期</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for br in breakdata %}
+								<tr class="cell_row">
+									<td>
+										<div class="font-weight-bold text-center text-nowrap de_caption">{{br.0}}</div>
+									</td>
+									<td>
+										<div class="cell_left font-weight-bold text-nowrap">慢箋單號</div>
+										<div class="cell_right font-weight-bold text-center text-nowrap">{{br.1}}</div>
+									</td>
+									<td>
+										<div class="cell_left font-weight-bold text-nowrap">未準時領取日期</div>
+										<div class="cell_right font-weight-bold text-center text-nowrap">{{br.3}}</div>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- ■■■ 按我預約 ■■■ -->
+		<form id="hiddenForm" method="POST">
+			{% csrf_token %}
+			<!-- <input type="hidden" name="pa_info"> -->
+			<input type="hidden" name="reserve" id="hiddenInput">
+		</form>
+		{% if data_info %}
+		{% for da in data_info %}
+
+		
+		<div id="Drugs_booking_day-{{da.0}}-{{da.10}}" class="F_box">
+			<div class="login_title mb-3 p-2">
+				{% if da.10 == '2' %}
+				<div>第 2 次預約</div>
+				{% else %}
+				<div>第 3 次預約</div>
+				{% endif %}
+				<div>請選擇您要預約取藥的日期</div>
+			</div>
+			
+			{% if da.14 != '無' %}
+				<div class="d-flex flex-wrap justify-content-center align-items-center">
+					{{da.14}}
+				</div>
+			{% else %}
+				<div class="d-flex flex-wrap">
+					{% for date in da.13 %}
+					<input class="c-radio-table__radio" name="radio-{{da.0}}" id="radio-{{da.0}}-{{date}}" type="radio" value="{{ date }}">
+					<label class="c-radio-table__label" for="radio-{{da.0}}-{{date}}">{{date}}</label>
+					{% endfor %}
+				</div>
+			{% endif %}
+			<hr/>
+			<div class="Confirm_btn_50 mt-3">
+				<button id="checkButton-{{da.0}}" type="submit" class="btn btn-success Date_Ok_btn button_lock" onclick="Drugs_sure_ok('{{da.0}}')" disabled>
+					<span class="Date_text">確定日期</span>
+					<div class="Date_spinner"></div>
+				</button>
+				
+				<input type="button" class="btn btn-light" value="返回" data-fancybox-close="">
+			</div>
+		</div>
+		
+
+		<!-- ■■■ 確定日期-預約成功 (請求成功時) ■■■ -->
+		
+		<!-- <div id="successBlock-{{da.0}}-{{da.10}}-{{date}}" class="Cancel_data">
+			<div class="message-icon message-warning message-icon-show">
+				<div class="message-icon-content">!</div>
+			</div>
+			<div class="login_title mb-3 p-2">
+				{% if da.10 == '2' %}
+				<div>第 2 次預約</div>
+				{% else %}
+				<div>第 3 次預約</div>
+				{% endif %}
+				<div>慢箋預約資料如下，是否繼續?</div>
+			</div>
+			<div class="css_table" style="background-color: #ecf7ee;">
+				<div class="css_tr">
+					<div class="css_th">慢箋序號：</div>
+					<div class="css_td">{{da.0}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">姓名：</div>
+					<div class="css_td">{{pd_info.0.2}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">科別：</div>
+					<div class="css_td">{{da.1}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">醫師：</div>
+					<div class="css_td">{{da.3}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">日期：</div>
+					<div class="css_td">2024-10-14 (一)</div>
+				</div>
+			</div>
+			<div class="Confirm_btn_50 mt-3">
+				<input type="submit" class="btn btn-success" value="確定預約" onclick="sure_ok()">
+				<input type="button" class="btn btn-light" value="返回" onclick="closeModal()">
+			</div>
+		</div> -->
+
+
+		<!-- ■■■ 取消預約 ■■■ -->
+		<div id="dialog-content-{{da.0}}-{{da.10}}" class="Cancel_data">
+			<div class="message-icon message-warning message-icon-show">
+				<div class="message-icon-content">!</div>
+			</div>
+			<div class="login_title mb-3 p-2">
+				{% if da.10 == '2' %} 
+				<div>第 2 次預約</div>
+				{% else %}
+				<div>第 3 次預約</div>
+				{% endif %}
+				<div>取消資料如下，是否繼續?</div>
+			</div>
+			<div class="css_table">
+				<div class="css_tr">
+					<div class="css_th">慢箋序號：</div>
+					<div class="css_td">{{da.0}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">姓名：</div>
+					<div class="css_td">{{pd_info.0.2}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">科別：</div>
+					<div class="css_td">{{da.1}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">醫師：</div>
+					<div class="css_td">{{da.3}}</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">原預約：</div>
+					{% if da.10 == '2' %} 
+					<div class="css_td">{{da.6}}</div>
+					{% else %}
+					<div class="css_td">{{da.9}}</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="Confirm_btn_50 mt-3">
+				{% if da.10 == '2' %}
+				<input type="submit" id="loadingButton-{{da.0}}-{{da.10}}" class="btn btn-danger" value="確定取消" onclick="Drugs_cancel_ok('{{da.0}}','{{da.10}}','{{da.6}}')">
+				{% else %}
+				<input type="submit" id="loadingButton-{{da.0}}-{{da.10}}" class="btn btn-danger" value="確定取消" onclick="Drugs_cancel_ok('{{da.0}}','{{da.10}}','{{da.9}}')">
+				{% endif %}
+				<!-- <input type="submit" class="btn btn-danger" value="確定取消" onclick="submit_cancel('{{da.0}}','{{da.10}}')"> -->
+				<input type="button" class="btn btn-light" value="返回" data-fancybox-close="">
+			</div>
+		</div>
+		{% endfor %}
+		{% endif %}
+
+	<!-- ======= 本頁 Modal Area End ======= -->
+
+	<!-- ======= navbar ======= -->
+	{% include 'header.html' %}
+
+	<!-- ======= Second navbar ======= -->
+	<!-- <div>
+		<div class="online_nav_bg">
+			<div class="online_nav">
+				<div class="online_nav_title">
+					<span class="flex-fill">預約慢箋</span>
+					<div class="user_icon"><div>{{pd_info.0.2}}</div>，您好</div>
+				</div>
+				<div class="online_nav_btn">							
+					<div>
+						<a href="#" onclick="Drugs_logout_ok()">登出 <i class="fas fa-sign-out-alt"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<!-- ======= Second navbar end ======= -->
+	<!-- ======= navbar End ======= -->
+
+
+	<!-- ======= main-content ======= -->
+		<main class="online_main_list">
+			<div class="container">
+				<div class="row">
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-12 pb-3">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil font-weight-bold"><a href="/index/"><i class="fas fa-home"></i> 本院首頁</a></li>
+											<!-- <li class="breadcrumb-item Online_Appointment font-weight-bold"><a href="/A006_Online_Booking_0/">預約慢箋</a></li> -->
+											<li class="breadcrumb-item active" aria-current="page">慢箋預約記錄</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="Drugs_booking_Title">
+											<div class="onsale_heading">慢箋預約記錄</div>
+											<div>
+												<button type="submit" class="btn btn-link week_btn" data-toggle="modal" data-target="#Drugs_Info">
+													<i class="fas fa-info-circle"></i> 領藥規則及說明</button>
+											</div>
+										</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="">
+											<!-- ▼▼▼ 病患基本資料 ▼▼▼ -->
+											<div class="card rounded-0 mt-0 mb-3">
+												<div class="card-header Basic_Name">
+													<i class="fas fa-id-card"></i>{{pd_info.0.2}}
+												</div>
+												<div class="card-body p-0">
+													<div class="row no-gutters">
+														<div class="col-4 col-lg-2 Basic_bg">身分證字號</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.0}}</div>
+														<div class="col-4 col-lg-2 Basic_bg">生日</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.1}}</div>
+														<div class="col-4 col-lg-2 Basic_bg">病歷號</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.3}}</div>
+														<div class="col-4 col-lg-2 Basic_bg">性別</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.4}}</div>
+														<div class="col-4 col-lg-2 Basic_bg">住家電話</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.5}}</div>
+														<div class="col-4 col-lg-2 Basic_bg">行動電話</div>
+														<div class="col-8 col-lg-2 Basic_data">{{pd_info.0.6}}</div>
+													</div>
+
+												</div>
+											</div>
+
+											<!-- ▼▼▼ 黑名單 ▼▼▼ -->
+											{% if breakdata != '無' %}
+											<div class="alert alert-danger rounded-0" role="alert">
+												<h5 class="alert-heading mb-0 d-flex align-items-center font-weight-bold flex-wrap">您有{{breaktime}}筆未準時領藥紀錄。
+													<a data-toggle="modal" data-target="#BreakList" style="margin: 0px 5px 6px 3px; ">
+														<span class="badge badge-danger red_dot">！</span>
+													</a>
+													{% if stop_date != '無' %}
+													<div class="h6 mb-0">
+														您可於 <b>{{stop_date}}</b> 再次開啟預約功能
+													</div>
+													{% endif %}
+												</h5>
+												<hr class="my-2">
+												<p class="mb-0">請注意若達3次(含)，於8週(56天)內無法使用預約功能，請改以現場批價櫃檯過卡並依燈號進行排隊領藥。</p>
+											</div>
+											{% endif %}
+
+											<hr />
+											<!-- ▼▼▼ 各科別慢連清單 ▼▼▼ -->
+											{% if data_info %}
+											<div class="Patient_Drugs">
+												{% for da in data_info %}
+												<div class="Lists_Drugs">
+													<div class="row no-gutters">
+														<div class="col-lg-3 list_title">
+															<div class="text-center">
+																<div class="h4 font-weight-bold mb-1">{{da.1}}</div>
+																<div class="text-muted">{{da.3}} 醫師</div>
+															</div>
+														</div>
+														<div class="col-lg-9 px-0">
+															<div class="d-flex justify-content-center p-2 border-bottom">
+																<div class="slow_note_No">{{da.0}}</div>
+															</div>																
+															<div class="row no-gutters text-center">
+																<div class="col-12 col-lg-4 date_lines full_date align-self-center">
+																	<h3>{{da.2}}</h3>
+																	<span>看診日</span>
+																</div>
+
+																<div class="col-12 col-lg-8 date_lines">
+
+																	<table class="table table-bordered mb-0">
+																		<thead>
+																			<tr>
+																				<th class="Date_Title">第 2 次預約</th>
+																				<th class="Date_Title">第 3 次預約</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td>
+																					{% if da.6 == '可預約' and da.13 != '已無法預約' %}
+																					<div>
+																						<input type="submit" value="按我預約" class="btn btn-success button_lock" data-fancybox data-src="#Drugs_booking_day-{{da.0}}-{{da.10}}">
+																					</div>
+																					<div>
+																						<span>{{da.4}} 至 {{da.5}}</span>
+																					</div>
+																					{% elif da.6 == '可預約' and da.13 == '已無法預約' %}
+																					<div>
+																						<input type="submit" value="按我預約" class="btn btn-success button_lock" data-fancybox data-src="#Drugs_booking_day-{{da.0}}-{{da.10}}" disabled>
+																						<a data-toggle="modal" data-target="#Drugs_Info">
+																							<span class="badge badge-danger red_dot">！</span>
+																						</a>
+																					</div>
+																					<div>
+																						<span>{{da.4}} 至 {{da.5}}</span>
+																					</div>
+																					{% elif da.6 == '已領取' %}
+																					<div>
+																						<h3 class="see_room_no">
+																							<i class="fas fa-check-circle" style="font-size:14px"></i> 已領取
+																						</h3>
+																					</div>
+																					{% elif da.6 == '已逾期' or da.6 == '無法預約' %}
+																					<div>
+																						<h3 class="see_num_no">{{da.6}}</h3>
+																					</div>
+																					<div>
+																						<span>(可現場領藥)</span>
+																					</div>
+																					{% else%}
+																					<div class="d-flex align-items-center justify-content-center">
+																						<h3 class="see_room_no">{{da.6}}</h3>
+																						{% if mark == '尋找' and da.14 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% elif mark == '預約後' and da.15 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% elif mark == '預約後' and da.14 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% endif %}
+																					</div>
+																					{% endif %}
+																				</td>
+																				<td>
+																					{% if da.9 == '可預約' and da.13 != '已無法預約' %}
+																					<div>
+																						<input type="submit" value="按我預約" class="btn btn-success" data-fancybox data-src="#Drugs_booking_day-{{da.0}}-{{da.10}}">
+																					</div>
+																					<div>
+																						<span>{{da.7}} 至 {{da.8}}</span>
+																					</div>
+																					{% elif da.9 == '可預約' and da.13 == '已無法預約' %}
+																					<div>
+																						<input type="submit" value="按我預約" class="btn btn-success button_lock" data-fancybox data-src="#Drugs_booking_day-{{da.0}}-{{da.10}}" disabled>
+																						<a data-toggle="modal" data-target="#Drugs_Info">
+																							<span class="badge badge-danger red_dot">！</span>
+																						</a>
+																					</div>
+																					<div>
+																						<span>{{da.7}} 至 {{da.8}}</span>
+																					</div>
+																					{% elif da.9 == '已領取' %}
+																					<div>
+																						<h3 class="see_room_no">
+																							<i class="fas fa-check-circle" style="font-size:14px"></i> 已領取
+																						</h3>
+																					</div>
+																					{% elif da.9 == '已逾期' or da.9 == '無法預約' %}
+																					<div>
+																						<h3 class="see_num_no">{{da.9}}</h3>
+																					</div>
+																					<div>
+																						<span>(可現場領藥)</span>
+																					</div>
+																					{% elif da.9 == '未開放' %}
+																					<h3 class="text-muted mb-0">{{da.9}}</h3>
+																					<div>
+																						<span>{{da.7}} 至 {{da.8}}</span>
+																					</div>
+																					{% elif da.9 == '無' %}
+																					<h3 class="text-muted mb-0">無</h3>
+																					{% else%}
+																					<div class="d-flex align-items-center justify-content-center">
+																						<h3 class="see_room_no">{{da.9}}</h3>
+																						{% if mark == '尋找' and da.14 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% elif mark == '預約後' and da.15 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% elif mark == '預約後' and da.14 == '可取消' %}
+																						<input type="submit" class="btn btn-danger rounded-0 font-weight-bold" value="取消" data-fancybox data-src="#dialog-content-{{da.0}}-{{da.10}}">
+																						{% endif %}
+																					</div>
+																					{% endif %}
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+
+																</div>
+																
+															</div>
+														</div>
+													</div>
+												</div>
+												{% endfor %}
+
+											{% else %}
+												<div class="text-muted h2 text-center font-weight-bold mt-3 mb-2">查無慢箋資料</div>	
+											{% endif %}
+										    </div>
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+	<!-- ======= main 主要區 End ======= -->
+	</div>
+
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<script>
+		function submit_reserve(chrocard) {
+			const selectedDate = document.querySelector('input[name^="radio-"]:checked')?.value;
+			document.getElementById('hiddenInput').value = '預約'+'$'+selectedDate+'$'+chrocard;
+			document.getElementById('hiddenForm').submit();
+		}
+
+		function submit_cancel(chrocard,ch_number) {
+			document.getElementById('hiddenInput').value = '取消預約'+'$'+chrocard+'$'+ch_number;
+			document.getElementById('hiddenForm').submit();
+		}
+    </script>
+
+    {% if remark == '預約成功' %} 
+	<script>
+		// 自動執行 login_error 函數
+		window.onload = function() {
+		    Drugs_sure_ok();
+		};
+	</script>
+	{% elif remark == '取消成功' %}
+	<script>
+		// 自動執行 login_error 函數
+		window.onload = function() {
+		    Drugs_cancel_ok();
+		};
+	</script>
+	{% endif %}
+
+
+	{% if alert %} 
+	<script>
+		// 自動執行 login_error 函數
+		window.onload = function() {
+			var alert = "{{ alert }}";
+		    login_error(alert);
+		};
+	</script>
+	{% endif %}
+
+</body>
+</html>

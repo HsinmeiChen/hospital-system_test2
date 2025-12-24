@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+*.log
+
+# Django
+db.sqlite3
+media/
+local_settings.py
+
+# Environment Variables
+.env
+
+# Windows / Editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Server / Local specific configurations
+RunWeb.bat
+web.config
+*.cer
+*.key
+SSL/
+
+# Backups
+*備份*
+*_backup*
+*.bak
+views_20*.py
+
+# Public media (Large files, manually copied)
+Public/img/
+Public/video/
+Public/doc/

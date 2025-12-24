@@ -1,0 +1,114 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_medical/base.html" %}
+
+{% block title %}{{ treat_a_title }} - 治療項目 | 長安骨科微創手術中心{% endblock %}
+{% block title_1 %}{{ treat_a_title }} - 治療項目 | 長安骨科微創手術中心{% endblock %}
+{% block meta_description %}{{ treat_summary }}...{% endblock %}
+{% block og_title %}{{ treat_a_title }} - 治療項目 | 長安骨科微創手術中心{% endblock %}
+{% block og_description %}{{ treat_summary }}...{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        {% spaceless %}
+        <main class="treat-article-detail">
+
+            <div>
+                <!-- ■■■ Banner、Bread-crumbs ■■■ -->
+                <section class="section-grid">
+                    <div>
+                        <ul class="bc-nav">
+                            <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                            <li><a href="{% url 'treatment_list' %}">治療項目</a></li>
+                            <li>{{ treat_title }}</li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- ■■■ Treament-Articles ■■■ -->
+                <section class="section-grid shadow-4">             
+                    <div class="row">
+                        <!-- (1)、側邊選單-治療項目列表 -->
+                        <aside class="col-xl-3 fade-in-card">
+                            <input type="checkbox" id="menu-toggle" />
+                            <label for="menu-toggle" class="menu-icon">☰ 其他治療項目</label>
+                            <nav class="sidenav">
+                                <div class="menu-heading">
+                                    <span>治療項目 </span>
+                                    <small>Medical Services</small>
+                                </div>
+                                <div id="treatment-sidenav" class="treatment-sidenav"></div>
+                            </nav>
+                        </aside>
+                        <!-- (2)、治療項目介紹 -->
+                        <section class="col-xl-9 fade-in-card">
+                            <div class="pb-2">
+                                <div class="article_h">{{ treat_a_title }}</div>                    
+                                <div class="article-body">
+                                    {% for block in blocks %}
+                                        {% if block.type == 'h1' %}
+                                            <h1 class="{{ block.class }} border-bottom">{{ block.text }}</h1>
+                                        {% elif block.type == 'h3' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'ul' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'li' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'p' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'img' %}
+                                            <div class="{{ block.class }}">
+                                                <img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy" class="w-100">
+                                            </div>
+                                        {% elif block.type == 'div' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <!-- <div class="text-center mt-5">
+                                    <a href="/specialty_medical/ortz-doctor/" target="_blank">
+                                        <button type="button" class="group-btn yellow giant px-4 py-2 m-0 rounded-0">我要預約掛號</button>
+                                    </a>
+                                </div> -->
+                            </div>
+                        </section>
+                    </div>
+                    
+                </section>
+            </div>
+
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script src="{% static 'html/specialty_medical/js/sidenav-loader.js' %}"></script>
+<script src="{% static 'html/specialty_medical/js/treat-article-detail.js' %}"></script>
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

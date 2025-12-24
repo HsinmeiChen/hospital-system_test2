@@ -1,0 +1,15 @@
+Django==4.1.7
+python-dotenv
+pandas
+openpyxl
+Pillow
+filelock
+django-sslserver
+oracledb
+pymssql
+requests
+python-dateutil
+beautifulsoup4
+lxml
+xlrd
+urllib3

@@ -1,0 +1,152 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_medical/base.html" %}
+
+{% block title %}關於我們 |長安骨科微創手術中心{% endblock %}
+{% block title_1 %}關於我們 |長安骨科微創手術中心{% endblock %}
+{% block meta_description %}「長安骨科微創手術中心」在民國108年更成立骨科整合治療中心，優秀的骨科醫師陣容，完整的復健、神經內科、心臟等科別照會支援，創造民眾最大的醫療福祉與提供完善有品質的醫療服務。{% endblock %}
+{% block og_title %}關於我們 |長安骨科微創手術中心{% endblock %}
+{% block og_description %}「長安骨科微創手術中心」在民國108年更成立骨科整合治療中心，優秀的骨科醫師陣容，完整的復健、神經內科、心臟等科別照會支援，創造民眾最大的醫療福祉與提供完善有品質的醫療服務。{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        {% spaceless %}
+        <main class="dot-bg">
+            <!-- ■■■ Banner、bread-crumbs ■■■ -->
+            <!-- ------- ■■■ About us - intro ■■■ ------- -->
+            <section>
+                <div class="corner-banner">
+                    <h2 class="fade-in-card">關於我們</h2>
+                    <p class="fade-in-card">ABOUT</p>
+                </div>
+                <div class="article-area">
+                    <div class="article-area-Inner dot-bg">
+                        <span class="c-corner c-corner__opt1"></span>
+                        <span class="c-corner c-corner--right c-corner__opt1"></span>
+                        <div class="secInr">
+                            <h3 class="head02 fade-in-card">
+                                <span>「骨科整合治療中心」引領微創</span><br />
+                                <span>讓您好的更快、走的更遠；全方位照護、守護您的健康</span>
+                            </h3>
+                        </div>
+                        <div class="secInr fade-in-card">
+                            <div class="a-paragraph">
+                                長安醫院於民國105年成立之初即設立骨科，本科提供全方位骨科疾病治療照護，治療觀念和技術不斷地更新，擁有微創的技術，得以處理每年超過 1,500 例各類手術病例，包括各種骨折手術、人工關節置換手術、脊椎手術、韌帶重建與修補等；本院關節置換案例已累積超過 2,500 例，全體醫護團隊盡心盡力，不斷改善醫療及服務品質；本院骨科除提供門診服務外，也支援急診骨科病人的緊急醫療服務，皆可進一步住院檢查治療等，其設備及品質與國內醫學中心等相當。
+                            </div>
+                            <div class="a-paragraph">
+                                在民國108年更成立骨科整合治療中心，優秀的骨科醫師陣容，完整的復健、神經內科、心臟等科別照會支援，創造民眾最大的醫療福祉與提供完善有品質的醫療服務。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ------- ■■■ About us - 檢查、候診室 ■■■ ------- -->
+            <section class="team-section">
+                <div class="team-section-in">
+                    <div class="team-section-wrap">
+                        <div class="team-section-cnt">
+                            <div class="team-head fade-in-card">
+                                <p class="team-head-txt">專業服務</p>
+                                <h2 class="team-head-ttl">多元診療服務  
+                                    <br>陪你穩健每一步<br>
+                                    <span class="c-orange">創造全方位醫療福祉</span>
+                                </h2>
+                                <p class="team-head-word">各種骨折手術、微創導航人工關節 (膝、髖、肩、踝) 置換手術、脊椎微創手術、韌帶重建與修補術等、診斷骨骼韌帶軟組織問題 (媽媽手、網球肘、板機指等)、骨質疏鬆預防保健與治療、玻尿酸治療、PRP自體血小板增生療法、激痛點注射療法。</p>
+                            </div>
+                        </div>
+                        <div class="team-section-main">
+                            <div class="team-section-slider">
+                                <div>
+                                    <div class="team-section-slider-item">
+                                        <div class="form-row fade-in-card">
+                                            <div class="col-7 col-md-4">
+                                                <img src="/media/specialty_medical/ort/about-us/spine-surgery-equipment.webp" alt="...">
+                                            </div>
+                                            <div class="col-5 col-md-3">
+                                                <img src="/media/specialty_medical/ort/about-us/family-waiting-area.webp" alt="...">
+                                                <img src="/media/specialty_medical/ort/about-us/hospital-lounge.webp" alt="..." style="margin-top: 0.85rem;">
+                                            </div>
+                                            <div class="col-12 col-md-5">
+                                                <div class="form-row">
+                                                    <div class="col-5">
+                                                        <img src="/media/specialty_medical/ort/about-us/consultation-room.webp" alt="...">
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <img src="/media/specialty_medical/ort/about-us/waiting-area.webp" alt="...">
+                                                    </div>
+                                                </div>
+                                                <img src="/media/specialty_medical/ort/about-us/hbot-1.webp" alt="..." style="margin-top: 0.85rem;">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ------- ■■■ About us - Services & Equipment ■■■ ------- -->
+            <section class="top-data fade-in-card">
+                <div class="top-data-bg">
+                    <div class="bg01" title="高壓氧設備"></div>
+                    <div class="bg02" title="電腦斷層掃描(CT)"></div>
+                    <div class="bg03" title="核磁共振成像(MRI)"></div>
+                    <div class="bg04" title="機器人手臂"></div>
+                </div>
+                <div class="top-data-card fade-in-card shadow-lg">
+                    <div class="top-data-card-inner">
+                        <div class="top-data-title">
+                            <h4 class="c-title-wrap">
+                                <span class="c-title-text">結合先進</span>
+                                <span class="c-title-text">設備檢查</span>
+                            </h4>
+                        </div>
+                        <div class="top-data-body">
+                            <p>X光檢查、全身骨質密度檢查儀器、骨骼肌肉專用超音波、1.5T核磁共振攝影、128切電腦斷層。</p>
+                        </div>
+                        <div class="c-btnn-wrap">
+                            <a href="https://web.everanhospital.com.tw/A006_Online_Booking_1_part/?A006_sename=%E9%AA%A8%E7%A7%91" class="c-btnn" target="_blank" title="預約掛號"><span class="c-btnn-text">預約掛號</span><span class="c-btnn-arrow"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

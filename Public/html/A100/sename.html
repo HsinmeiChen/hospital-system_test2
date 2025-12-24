@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>新官網查詢－院內現行所有科別</title>
+		<!-- CSS ================================ -->
+		<!-- icon -->
+		<link rel="stylesheet" href="/public/icon/css/all.css">       <!-- icon -->
+		<link rel="stylesheet" href="/public/css/bootstrap.min.css">  <!-- Bootstrap -->
+		<link rel="stylesheet" href="/public/css/Frame_web.css">      <!-- Web Main Style -->
+
+		<!-- js ================================ -->	
+		<script src="/public/js/jquery.min.js"></script>        <!-- jQuery -->
+		<script src="/public/js/popper.min.js"></script>        <!-- Bootstrap-popper -->
+		<script src="/public/js/bootstrap.min.js"></script>     <!-- Bootstrap -->
+		<script src="/public/js/main.js"></script>              <!-- Bootstrap -->
+        <script src="/public/js/Sidebar.js"></script>           <!-- 側邊選單列 -->
+		<script src="https://www.w3schools.com/lib/w3.js"></script>
+
+		<!-- Font 字體 ================================ -->	
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap" rel="stylesheet">
+	</head>
+
+	<body class="dot_bg">
+		<div class="wrapper content_emp ">
+			<div class="row">
+				<div class="col-sm-3">
+					<!-- 標題列 -->
+					<h2>新官網查詢－院內現行所有科別</h2>
+				</div>
+
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-2">
+				</div>
+				{% if showlist %}
+					<div class="col-sm-6">
+
+						<form action="" method="GET">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>對外科別名稱</th>
+										<th>院內科別名稱</th>
+										<th>健保別代碼</th>
+										<th><input type="submit" value="更新"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for s in showlist %}
+											<tr>
+												<td><input type="text" name="newname{{ forloop.counter }}" value={{ s.0 }}></td>
+												<td>{{ s.1 }}</td>
+												<td>{{ s.2 }}</td>
+											</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</form>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		<!-- 頁尾 -->
+		<footer class="footer">
+			<div>© Web Designer | 長安醫院 | 資訊室</div>
+		</footer>
+	</body>
+</html>

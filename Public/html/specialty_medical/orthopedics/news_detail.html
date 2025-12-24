@@ -1,0 +1,113 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_medical/base.html" %}
+
+{% block title %}{{ data.treat_a_title|default:"最新消息" }} - 最新公告{% endblock %}
+{% block meta_description %}{{ data.summary|default:"本院最新消息與公告。" }}{% endblock %}
+{% block og_title %}{{ data.treat_a_title|default:"最新消息" }} - 最新公告{% endblock %}
+{% block og_description %}{{ data.summary|default:"本院最新消息與公告。" }}{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        {% spaceless %}
+        <main>
+            <!-- ■■■ Banner、bread-crumbs ■■■ -->
+            <section class="top-banner-grid">
+                <div class="page-banner">
+                    <div class="page-banner-inner fade-in-card">
+                        <!-- (1)、Title -->
+                        <div class="page-banner-title-div">
+                            <div class="page-banner-title">{{ data.title }}</div>
+                            <!-- <div class="page-banner-title-en">Media Reports</div> -->
+                        </div>
+                        <!-- (2)、Bread-crumbs -->
+                        <div>
+                            <ul class="bc-nav">
+                                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                                <li><a href="{% url 'health_news' %}">最新消息</a></li>
+                                <li>發表於 {{ date }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ■■■ News-Articles ■■■ -->
+            <section class="section-grid">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9">
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ message|default:"資料載入失敗，請稍後再試。" }}
+                            </div>
+                        {% else %}
+                            <article class="article_border p-4 mb-4 fade-in-card">
+                                {% for block in data.blocks %}
+                                    {% if block.type == 'h2' %}
+                                        <div class="{{ block.class }}">{{ block.text }}</div>
+                                    {% elif block.type == 'p' %}
+                                        <p class="{{ block.class }}">{{ block.text|safe }}</p>
+                                    {% elif block.type == 'img' %}
+                                        <div class="{{ block.class }}">
+                                            <img src="/media/{{ block.news_src }}" class="img-fluid rounded shadow-sm" loading="lazy" alt="{{ data.title }}">
+                                        </div>
+                                    {% elif block.type == 'embed' %}
+                                        <div class="{{ block.class }} mb-4">{{ block.text|safe }}</div>
+                                    {% elif block.type == 'h3' %}
+                                        <h3 class="{{ block.class }}">{{ block.text }}</h3>
+                                    {% elif block.type == 'ul' %}
+                                        <ul class="{{ block.class }}"><li>{{ block.text }}</li></ul>
+                                    {% elif block.type == 'li' %}
+                                        <li class="{{ block.class }}">{{ block.text }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </article>
+                        {% endif %}
+                    </div>
+                    <div class="col-xl-3">
+                        <div>
+                            <h2 class="title-03 title-03-under-line fade-in-card"><i class="fas fa-book-open"></i> 推薦文章</h2>
+                        </div>
+                        <div id="random-health-reports" class="row">
+                            <!-- 隨機媒體報導卡片將由 JS 動態載入 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        {% endspaceless %}
+    </div>
+
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script src="{% static 'html/specialty_medical/js/sidebar-random-articles.js' %}"></script>
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

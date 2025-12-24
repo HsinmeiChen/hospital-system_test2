@@ -1,0 +1,47 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_medical/base.html" %}
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        {% spaceless %}
+        <main>
+            <div class="container text-center mt-5">
+                <h1 class="display-4 text-danger">404 找不到頁面</h1>
+                <p class="lead">很抱歉，您尋找的文章不存在。</p>
+                <a href="{% url 'home' %}" class="btn btn-primary mt-3">回到首頁</a>
+            </div>
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

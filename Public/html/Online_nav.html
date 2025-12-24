@@ -1,0 +1,32 @@
+<div>
+	<!-- ======= main-content ======= -->
+	<div class="online_nav_bg">
+		<div class="online_nav">
+			<div class="online_nav_title">
+				<!-- 新增使用者名稱區塊 -->
+				<span class="flex-fill">網路掛號</span>
+				{% if request.session.A006_patname %}
+					<div class="mx-1 user_icon flex-fill"><div>{{ request.session.A006_patname }}</div>，您好</div>
+				{% endif %}
+				<!-- 新增使用者名稱區塊 -->
+			</div>
+			<div class="online_nav_btn">
+				<div><a href="/A006_Online_Booking_0/">我要掛號</a></div>
+				<div><a href="/A006_Online_Booking_data/">預約紀錄</a></div>
+				<div><a href="/A002_registration_notice/">掛號說明</a></div>
+				{% if request.session.A006_acc %}
+					<div>
+						<a href="#" onclick="logout_ok()">登出 <i class="fas fa-sign-out-alt"></i></a>
+					</div>
+				{% else %}
+					<div><a href="/A006_Online_Booking_login/"><i class="fas fa-sign-in-alt"></i> 登入</a></div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<style>
+		body.swal2-height-auto{
+			height: 100% !important;
+		}
+	</style>
+</div>

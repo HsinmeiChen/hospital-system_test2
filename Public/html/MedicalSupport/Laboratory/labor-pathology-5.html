@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>病理檢體送檢須知_長安醫院檢驗科</title>
+	<link rel="stylesheet" href="/Public/css/Laboratory.css">
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- ======= 本頁 Modal Area End ======= -->
+		<!-- ======= navbar ======= -->
+		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
+		<!-- ======= navbar End ======= -->
+		<!-- ======= main-content ======= -->
+		<main class="pt-5 pb-3">
+			<div class="container py-3">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/Laboratory/labor-pathology-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item labor_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">病理服務項目</li>										
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">病理服務項目</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											<div class="col-12">
+												<table class="table table-striped table-bordered cell-table">
+													<thead>
+														<!-- <tr>
+															<th width="100" scope="col" class="title-bg text-center">院內碼</th>
+															<th scope="col" class="title-bg text-center">項目名稱</th>
+															<th scope="col" class="title-bg text-center">檢體類別</th>
+															<th scope="col" class="title-bg text-center">檢體量</th>
+															<th scope="col" class="title-bg text-center">容器</th>
+														</tr> -->
+														<tr>
+															<th width="100" scope="col" class="title-bg text-center">院內碼</th>
+															<th scope="col" class="title-bg text-center">檢驗項目</th>
+															<th scope="col" class="title-bg text-center">檢體種類</th>
+															<th scope="col" class="title-bg text-center">檢體所需體積</th>
+															<th scope="col" class="title-bg text-center"></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">311</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">子宮頸抹片檢驗(國健局)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Vaginal discharge</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">15017</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Cervical smear</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Vaginal discharge</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25006</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">冰凍切片檢查 Frozen section</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">Y6504001</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Thin-prep(健管新柏氏超薄抹片)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Vaginal discharge</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">新柏氏採檢組</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">L25006B</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Frozen section(外送中國醫)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250011</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 1(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250021</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 2(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250031</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 3(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250041</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 4(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250241</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 5(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">250251</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 6(高雄病理)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25001A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 1(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25002A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 2(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25003A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 3(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25004A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 4(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25024A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 5(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25025A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Surgical pathology Level 6(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">病理容器</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150010A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Cytology(Other) (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Other</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150011A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Urine cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Urine</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150012A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Ascites cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Ascites</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150013A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">CSF cytology(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">CSF</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">依臨床情況，至少1-2 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150014A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Pleural Effusion cytology  (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Pleural</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管+預留1管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150015A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Pericardial effusion cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Pericardial effusion</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150016A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">bronchial brushing cytology(玻片檢體) (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Bronchial</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">15001A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Sputum cytology(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Sputum</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500701A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Lymph node aspiration cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Lymph node</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500702A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Breast aspiration cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Breast</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500703A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Lung aspiration cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Lung</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500704A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Liver aspiration cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Liver</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500705A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Pancreas aspiration cytology (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Pancreas</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500706A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Mass aspiration cytology(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Mass</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500707A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Aspiration cytology(other)(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Other</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">1500708A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Nasal aspiration cytology(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Nasal</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">15007A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Thyroid aspiration cytology(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Thyroid</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">1濕1乾玻片檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">15018A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Body fluid and cell block(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Body fluid</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">10 ml</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">150211A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Thin layer cytology(Thyroid aspiration)-部立台中</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Thyroid</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">加3-5 ml至固定液中</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">15021A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Thin layer cytology(Bronchoalveolar lavage)(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">Bronchoalveolar</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">加3-5 ml至固定液中</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">15/50 ml 無菌尖底離心管</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25012D</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Her-2 IHC(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">12195A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">Her-2/FISH(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>  
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">30101A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">EGFR (部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">301031</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">PD-L1(22C3) Immunohistochemical stains</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">301032</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">PD-L1(28-8) Immunohistochemical stains</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">301033</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">PD-L1(SP263) Immunohistochemical stains</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">301034</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">PD-L1(SP142) Immunohistochemical stains</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">30105A</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">間變性淋巴瘤激(ALK)突變體外診斷(部立台中)</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">玻片</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">25012C</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">ROS-1Immunohistochemical stains</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">LPA01</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">肺癌ROS-1 FISH螢光原位雜交FISH檢測</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+														<tr class="cell_row">
+															<td scope="row" class="text-center">
+																<div class="cell_left">院內碼</div>
+																<div class="cell_right">LPA02</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢驗項目</div>
+																<div class="cell_right">K ras基因檢測</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體種類</div>
+																<div class="cell_right">組織檢體</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">檢體所需體積</div>
+																<div class="cell_right">&nbsp;</div>
+															</td>
+															<td class="text-center">
+																<div class="cell_left">採檢容器</div>
+																<div class="cell_right">NA</div>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<div class="alert alert-warning">
+													<div class="row">
+														<div class="col-12 text-justify">
+															<strong>* 體液檢體(除CSF)需加入抗凝劑(3.8% Sodium citrate)。建議馬上送檢。</strong>
+														</div>
+														<div class="col-12 text-justify">
+															<strong>★ 項目，中山附醫病理科直接加做一般cytology(健保碼15001)。臨床不需加開。
+																細針抽取檢體若為大量液體，需盡快注入無菌盒內，並加入抗凝劑(3.8% Sodium citrate)。建議馬上送檢。
+															</strong>
+														</div>
+													</div>                               
+												</div>
+											</div>	
+										</div>						
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>		  
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

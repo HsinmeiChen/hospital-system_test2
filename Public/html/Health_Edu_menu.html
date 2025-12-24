@@ -1,0 +1,106 @@
+	<div class="">
+		<div class="text-white">
+			<div class="title-bg">
+				<div class="px-3 py-4">
+					<h3 class="mb-0">衛教園地</h3>
+					<div class="font-14 opacity-60">Health Education</div>
+				</div>		
+				<div class="d-block d-lg-none beige-bg cofe-word p-2 border-2px">
+					<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
+						<span><i class="fas fa-caret-right"></i></span>
+					</div>	
+				</div>				
+			</div>
+		</div>		
+	
+		<!-- 下拉選單 -->			
+		<div id="vn-info" class="vn-info">				
+			<div class="side_menu_div beige-bg">
+					<ul class="mb-0">
+						<li class="text-left">		
+							<!-- <a class="s_btn font-20" href="contact_us_index.html">獨立科別</a>-->
+							<div class="flex flex-column faq-section">
+								<div class="row">
+									<div class="col-md-12">
+	
+										<div id="accordion">
+											
+											{% for a in collapse_List%}
+											<div>
+												
+												<div class="s_btn font-20" id="heading-{{a.index}}">
+													<a class="collapsed" role="button" data-toggle="collapse" href="#collapse-{{a.index}}" aria-expanded="false" aria-controls="collapse-{{a.index}}">{{a.showfile}}</a>
+												</div>
+												
+												
+												<div id="collapse-{{a.index}}" class="collapse" data-parent="#accordion" aria-labelledby="heading-{{a.index}}">
+													<div class="sidemenu-items">
+														{% for b in a.sub_item %}
+															<a class="s_btn font-18" href="sub-{{a.file}}-{{b.name}}?page=1">{{b.name}}</a>
+														{% endfor %}
+													</div>
+												</div>
+												
+											</div>
+											{% endfor %}
+											
+										</div>
+									</div>								
+								</div>
+							</div>
+						</li>
+					</ul>
+			</div>
+		</div>
+	</div>		
+	
+	<!-- 展開選單 -->
+	<script type="text/javascript">
+	$(function(){
+		url_split=window.location.href.split('/')
+		text=decodeURI(decodeURI(url_split[4]))
+		if(text=="") localStorage.removeItem('open_collapse')
+		
+		text_split=text.split(/[-?]/)
+		sub_item=text_split[2]
+		console.log(sub_item)
+		$(`a[href*='${sub_item}']`).addClass('activeed collapse show')
+
+
+		open_collapse=localStorage.getItem('open_collapse')
+		// console.log(open_collapse)
+		
+		if(open_collapse){
+			$(open_collapse).addClass('show')
+		}
+		
+		$('a[href^="#collapse-"][aria-expanded="false"]').on('click',function(){
+			collapse=$(this).attr('href')
+			className=$(collapse).attr('class')
+			if(className=='collapse')
+				localStorage.setItem('open_collapse',collapse)
+			else
+				localStorage.removeItem('open_collapse')
+		})
+// =========================================================
+		vn_collapse=localStorage.getItem('vn-collapse')
+		//console.log(vn_collapse)
+
+		if(vn_collapse=='fa-caret-down fas'){
+			$(".vn-info").slideToggle();
+			$("i", this).toggleClass("fas fa-caret-down fas fa-caret-right");
+		}
+
+		$('#vn-click').on('click',function(){
+			console.log(123)
+			className=$("#vn-click>span>i").attr('class')
+			//console.log(className)
+			if(className=="fas fa-caret-right")//合
+				localStorage.removeItem('vn-collapse')
+			else if(className=="fa-caret-down fas")//開
+				localStorage.setItem('vn-collapse',className)
+			})
+		
+
+	})
+	</script>

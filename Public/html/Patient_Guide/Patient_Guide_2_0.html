@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>網路掛號_長安醫院</title>
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	 
+	<div class="wrapper L_sub_main_bg d-flex justify-content-center align-items-center">
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= 本頁 Modal Area ======= -->
+
+		<!-- ※※※ Fancy box ※※※ -->
+		<div id="dialog-content" class="Booking_login"></div>
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= main-content 主要區 ======= -->
+		<div>
+			<main class="online_main">
+				<div class="container py-1">			
+					<div class="row">
+						<!-- ※※※ 側邊選單 ※※※ -->
+						
+						<!-- ※※※ 側邊選單 End ※※※ -->
+
+						<!-- ※※※ 內容區 ※※※ -->
+						<div class="col-12">
+							<article>
+								<div class="content">
+									<!-- 麵包屑 -->
+									<!-- <div class="text-right font-16">
+										<nav aria-label="breadcrumb">
+											<ol class="breadcrumb justify-content-end">
+												<li class="breadcrumb-item main_pencil"><a href="http://192.168.66.146:3611/eah_index/"><i class="fas fa-home"></i> 首頁</a></li>
+												<li class="breadcrumb-item active" aria-current="page">網路掛號</li>
+											</ol>
+										</nav>
+									</div> -->
+									<!-- 內容區 -->
+									<div>
+										<!-- 標題 -->
+										<!-- <section id="content_h">
+											<div class="onsale_heading">網路掛號</div>
+											<hr class="my-2">
+										</section> -->
+										<!-- 細節 -->
+										<section id="content_body" style="padding-bottom: 0;">
+											<div class="row items_div">
+												<div class="col-lg-4 d-flex justify-content-center">
+													<div class="A_card trasition_site" onclick="location.href='/A006_Online_Booking_1/';">
+														<div class="info row align-items-center">
+															<div class="icon_1 col-4 col-lg-12">
+																<span class="livicon livicon-processed">
+																	<i class="fas fa-notes-medical"></i>
+																</span>
+															</div>
+															<div class="title col-8 col-lg-12">選擇科別</div>
+															<div class="descricao col-12">點我進入「科別名稱」查詢</div>
+														</div>
+													</div> 
+												</div>
+												<div class="col-lg-4 d-flex justify-content-center">
+													<div class="A_card trasition_site" onclick="location.href='/A006_Online_Booking_2/';">
+														<div class="info row align-items-center">
+															<div class="icon_2 col-4 col-lg-12">
+																<span class="livicon livicon-processed">
+																	<i class="fas fa-user-md"></i>
+																</span>
+															</div>
+															<div class="title col-8 col-lg-12">選擇醫師</div>
+															<div class="descricao col-12">點我進入「醫師名稱」查詢</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-4 d-flex justify-content-center">
+													<div class="A_card trasition_site" onclick="location.href='/A006_Online_Booking_data/';">
+														<div class="info row align-items-center">
+															<div class="icon_2 col-4 col-lg-12">
+																<span class="livicon livicon-processed">
+																	<i class="far fa-file-alt"></i>
+																</span>
+															</div>
+															<div class="title col-8 col-lg-12">預約紀錄</div>
+															<div class="descricao col-12">點我進入查詢或取消「預約紀錄」</div>
+														</div>   
+													</div>
+												</div>
+											</div>
+										</section>
+									</div>
+									<!-- 內容區 End -->
+								</div>
+							</article>	
+						</div>
+						<!-- ※※※ 內容區 End ※※※ -->
+						
+					</div>		  
+				</div>
+			</main>
+		</div>
+		<!-- ======= main 主要區 End ======= -->
+	</div>
+
+	<!-- ======= footer 頁尾區 ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer 頁尾區 End ======= -->
+</body>
+
+</html>

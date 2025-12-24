@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>病理檢體送檢須知_長安醫院檢驗科</title>
+	<link rel="stylesheet" href="/Public/css/Laboratory.css">
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		{% for dd in data %}
+			<div class="modal fade" id="P-{{ dd.0 }}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header og-bg line_break">
+							<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{ dd.3 }}</h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body cofe-word font-18 article_border">
+							<table class="table table-striped table-bordered cell-table">
+								<tbody>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">院內碼</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.1 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">健保碼</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.2 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">檢驗項目</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.3 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">檢體種類</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.4 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">檢體所需體積</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.5 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">採檢容器</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.6 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">病人準備</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.7 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">生物參考值(臨床決策值)</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.8 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">急件完成時間</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.9 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">一般件完成時間</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.10 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">特別注意事項</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.11 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">外送地</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.12 }}</div>
+										</td>
+									</tr>
+									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">類別</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.13 }}</div>
+										</td>
+									</tr>
+<!-- 									<tr class="cell_row">
+										<td scope="row" class="text-center">
+											<div class="cell_right">停用/使用中</div>
+										</td>
+										<td class="text-center">
+											<div class="cell_right">{{ dd.14 }}</div>
+										</td>
+									</tr> -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		<!-- ======= 本頁 Modal Area End ======= -->
+		<!-- ======= navbar ======= -->
+		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
+		<!-- ======= navbar End ======= -->
+		<!-- ======= main-content ======= -->
+		<main class="pt-5 pb-3">
+			<div class="container py-3">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/Laboratory/labor-pathology-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item labor_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">病理服務項目</li>										
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">病理服務項目</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											<div class="col-12" style="height: 360px;display: block;overflow-y: auto;">
+												<table class="table table-striped table-bordered cell-table">
+													<thead style="position:sticky;top:0;">
+														<tr>
+															<th width="100" scope="col" class="title-bg text-center">院內碼</th>
+															<th scope="col" class="title-bg text-center">檢驗項目</th>
+															<th scope="col" class="title-bg text-center">檢體種類</th>
+															<th scope="col" class="title-bg text-center">採檢容器</th>
+															<th scope="col" class="title-bg text-center">外送地</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for d in data %}
+															<tr class="cell_row">
+																<td scope="row" class="text-center">
+																	<div class="cell_left">院內碼</div>
+																	<div class="cell_right">
+																		<a class="font-weight-bold" data-toggle="modal" data-target="#P-{{ d.0 }}">
+																		{{ d.1 }}</a>
+																	</div>
+																</td>
+																<td class="text-center">
+																	<div class="cell_left">檢驗項目</div>
+																	<div class="cell_right">{{ d.3 }}</div>
+																</td>
+																<td class="text-center">
+																	<div class="cell_left">檢體種類</div>
+																	<div class="cell_right">{{ d.4 }}</div>
+																</td>
+																<td class="text-center">
+																	<div class="cell_left">檢體所需體積</div>
+																	<div class="cell_right">{{ d.6 }}</div>
+																</td>
+																<td class="text-center">
+																	<div class="cell_left">採檢容器</div>
+																	<div class="cell_right">{{ d.12 }}</div>
+																</td>
+															</tr>
+														{% endfor %}
+													</tbody>
+												</table>
+												<div class="alert alert-warning">
+													<div class="row">
+														<div class="col-12 text-justify">
+															<strong>* 體液檢體(除CSF)需加入抗凝劑(3.8% Sodium citrate)。建議馬上送檢。</strong>
+														</div>
+														<div class="col-12 text-justify">
+															<strong>★ 項目，中山附醫病理科直接加做一般cytology(健保碼15001)。臨床不需加開。
+																細針抽取檢體若為大量液體，需盡快注入無菌盒內，並加入抗凝劑(3.8% Sodium citrate)。建議馬上送檢。
+															</strong>
+														</div>
+													</div>                               
+												</div>
+											</div>	
+										</div>						
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>		  
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+	
+	<title>預約慢性病處方箋 ∣ 長安醫院</title>
+	<meta name="keywords" content="長安醫院, 太平醫院, 急診, 骨科, 眼科, 復健, 體檢, 健康檢查, 假日門診, 預約慢性病處方箋" />
+	<meta name="title" content="預約慢性病處方箋∣長安醫院">
+	<meta property="og:url" content="https://web.everanhospital.com.tw/A007_Reserve_pre/login/">
+	<meta property="og:title" content="預約慢性病處方箋∣長安醫院">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="長安醫院提供『預約慢性病處方箋』線上服務，免排隊、免現場等候，輕鬆預約續藥領取時間，照顧您的健康更便利！">
+	<meta name="description" content="長安醫院提供『預約慢性病處方箋』線上服務，免排隊、免現場等候，輕鬆預約續藥領取時間，照顧您的健康更便利！">
+	<meta property="og:image" content="https://web.everanhospital.com.tw/Public/img/drug-reservation.jpg">
+	{% include 'Public_head.html' %}
+	{% include 'GA_head.html' %}
+	
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- ■■■ 預約慢箋專線 ■■■ -->
+		<div class="modal fade" id="Drugs_tel">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">				
+					<!-- Modal body -->
+					<div class="modal-body p-0">
+						<div class="alert alert-info mb-0">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="text-center font-weight-bold">預約慢箋專線</h4>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">請您於領藥日前一天來電預約</li>
+								<li class="list-group-item">預約專線：04-3611-3611 轉 3128</li>
+								<li class="list-group-item">預約時間：週一至週五 08:30~17:00</li>
+							</ul>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+
+		<!-- ======= Second navbar ======= -->
+		<!-- <div>
+			<div class="online_nav_bg">
+				<div class="online_nav">
+					<div class="Drug_One_Title">
+						<span class="flex-fill"><i class="fas fa-notes-medical"></i> 預約慢箋</span>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- ======= Second navbar end ======= -->
+		<!-- ======= navbar End ======= -->
+
+
+		<!-- ======= main-content ======= -->
+		<main class="online_main">
+			<div class="container">
+					<!-- ※※※ 功能內容 ※※※ -->
+						<article>
+								<!-- 內容區 -->                                
+									<!-- 細節 -->
+									<section id="content_body" class="pb-0">
+											<div class="row Drug_Notes no-gutters">
+
+												<div class="col-lg-7 py-2">
+													<div class="content">
+														<div class="d-flex">
+															<div class="Note_title">
+																<div class="ribbon">領<br/>藥<br/>規<br/>則<br/>及<br/>說<br/>明</div>
+															</div>
+															<div class="mt-0">
+																<div class="pl-3 pr-4">
+																	<ol class="number-circle-list number-circle-list--secondary-color m-0">
+																	<li class="number-circle-list--list-item">無法預約當日領藥</li>
+																	<li class="number-circle-list--list-item">最長可預約天數為 30 天</li>
+																	<li class="number-circle-list--list-item">每日於下午5點截止預約及更改隔日領藥</li>
+																	<li class="number-circle-list--list-item">提醒您預約之藥品僅【保留當日】，請記得來院領藥。超過當日後視同作廢，需重新預約領藥或是直接前往櫃檯批價領藥</li>
+																	<li class="number-circle-list--list-item">領藥時間：週一至週五，早上 9 點半至晚上 9 點半，六日<span class="text-danger"><b>無</b></span>提供服務</li>
+																	<li class="number-circle-list--list-item">至藥局櫃檯領藥時務必出示連續處方箋及健保卡</li>
+																	<li class="number-circle-list--list-item">有任何藥物使用/預約疑問，請直接與本院藥局聯絡 (聯絡電話 04-3611-3600)</li>
+																	</ol>
+																	<hr>
+																	<div>備註：預約領藥未到記一次，紀錄三次以上者，於8週(56天)內無法使用預約功能，請改以現場批價櫃檯過卡並依燈號進行排隊領藥。</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+
+
+												<div class="col-lg-5 py-3 ">
+													<!-- ▼▼▼▼▼▼▼▼ 登入功能 ▼▼▼▼▼▼▼▼ -->
+													<div id="booking_login" class="Drugs_login">
+														<div class="login_title">登入</div>
+														<div>
+															<form action="" method="POST" name="Form1" onsubmit="return CheckInput()" style="padding: 0 10px;">
+															<!-- <form action="" method="POST" name="Form1" style="padding: 0 10px;" onsubmit="return handleSubmit()"> -->
+																{% csrf_token %}
+																<!-- 輸入身分證/生日 -->
+																<input type="hidden" name="csrfmiddlewaretoken" value="iCr5gbcOFtXXNvg2UYhrdBAsogffRCFiCuLtukpDmMnUtdr6lJIv5KR54YFHFdzi">
+																<div class="form-group">
+																	<label for="ID_card" class="cofe-word mark_arrow_title">
+																		<h5 class="font-weight-bold mb-0">身分證字號：</h5>
+																	</label>
+																	<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="pd_id" required="" minlength="10" maxlength="10" pattern="\S*" title="不能输入空格" style="text-transform:uppercase;"autocomplete="off">
+																</div>
+																<div class="form-group">
+																	<label for="Birthday" class="cofe-word mark_arrow_title">
+																	<h5 class="font-weight-bold mb-0">出生日期：</h5>
+																	</label>
+																	<input type="text" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 56 年 1 月 8 號，請輸入 0560108" name="birthday" required="" minlength="7" maxlength="7" pattern="\S*" title="不能输入空格"autocomplete="off">
+																</div>
+																<!-- 輸入身分證/生日 -->
+
+																<!-- 輸入病歷號 -->
+																<!-- <div class="form-group">
+																	<label for="ID_card" class="cofe-word mark_arrow_title">
+																		<h5 class="font-weight-bold mb-0">病歷號:</h5>
+																	</label>
+																	<input type="text" class="form-control border-coco rounded-0 input2" name="pdnum" required="" pattern="\S*" title="不能输入空格" style="text-transform:uppercase;"autocomplete="off">
+																</div> -->
+																<!-- 輸入病歷號 -->
+
+
+
+
+																<hr />
+																<!-- 效果：登入成功 -->
+																<div class="Confirm_btn_100">
+																	<!-- <input type="submit" class="btn btn-success" value="登入" name="login_sub" onclick="drug_login()"> -->
+																	<input type="submit" class="btn btn-success" value="登入" name="login_sub">
+																</div>
+																<!-- 效果：登入失敗 -->
+																<!-- <div class="Confirm_btn_100 mt-1">
+																	<input type="submit" class="btn btn-success" value="登入失敗" onclick="login_error()">
+																</div> -->
+															</form>
+															<script>
+																function CheckInput() {
+																if ( ! checkID( document.Form1.ID_card.value ) ){
+																	window.alert( "身份證字號錯誤!" );
+																	return false;
+																	}
+																else if ( ! checkBirthday( document.Form1.Birthday.value ) ){
+																	window.alert( "生日格式錯誤!" );
+																	return false;
+																}
+																else{
+																	return true;
+																	}
+																}
+
+																function checkID( idStr ) {
+																	// 依照字母的編號排列，存入陣列備用。
+																	var letters = new Array('A', 'B', 'C', 'D', 
+																		'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 
+																		'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
+																		'X', 'Y', 'W', 'Z', 'I', 'O');
+																	// 儲存各個乘數
+																	var multiply = new Array(1, 9, 8, 7, 6, 5, 
+																							4, 3, 2, 1);
+																	var nums = new Array(2);
+																	var firstChar;
+																	var firstNum;
+																	var lastNum;
+																	var total = 0;
+																	// 撰寫「正規表達式」。第一個字為英文字母，
+																	// 第二個字為1或2，後面跟著8個數字，不分大小寫。
+																	var regExpID=/^[a-z](1|2)\d{8}$/i;
+
+																	// 使用「正規表達式」檢驗格式
+																	if (idStr.search(regExpID)==-1) {
+																		// 2025/1/16 為了讓外籍人士可以登陸掛號，先不判斷身分證字號格式
+																		return true;
+																	} else {
+																		// 取出第一個字元和最後一個數字。
+																		firstChar = idStr.charAt(0).toUpperCase();
+																		lastNum = idStr.charAt(9);
+																	}
+
+																	// 找出第一個字母對應的數字，並轉換成兩位數數字。
+																	for (var i=0; i<26; i++) {
+																		if (firstChar == letters[i]) {
+																		firstNum = i + 10;
+																		nums[0] = Math.floor(firstNum / 10);
+																		nums[1] = firstNum - (nums[0] * 10);
+																		break;
+																		} 
+																	}
+
+																	// 執行加總計算
+																	for(var i=0; i<multiply.length; i++){
+																	if (i<2) {
+																		total += nums[i] * multiply[i];
+																	} else {
+																		total += parseInt(idStr.charAt(i-1)) * multiply[i];
+																	}
+																	}
+
+																	// 和最後一個數字比對
+																	if (((10 - (total % 10))%10) != lastNum) {
+																		return false;
+																	}
+
+																	return true;
+																}
+
+																function checkBirthday( birthDay ){
+																	var nowYear = new Date().getFullYear() - 1911;
+
+																	if (birthDay.substring(0,3) > nowYear){
+																		return false;
+																	}
+
+																	if ( ! (parseInt(birthDay.substring(3,5)) > 0) || ! (parseInt(birthDay.substring(3,5)) < 13)) {
+																		return false;
+																	}
+
+																	if ( ! (parseInt(birthDay.substring(5,7)) > 0) || ! (parseInt(birthDay.substring(5,7)) < 32)) {
+																		return false;
+																	}
+
+																	return true;
+																}
+															</script>
+
+															<!-- 登入失敗 -->
+															{% if alert %} 
+															<script>
+																// 自動執行 login_error 函數
+																window.onload = function() {
+																	var alert = "{{ alert }}";
+																    login_error(alert);
+																};
+															</script>
+															{% endif %}
+
+														</div>
+													</div>
+												</div>
+											</div>
+										
+									</section>
+								
+								<!-- 內容區 End -->
+							
+						</article>	
+					
+					<!-- ※※※ 功能內容 End ※※※ -->
+				
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>衛教園地_長安醫院</title>
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+
+		<!-- ======= 本頁 Modal Area ======= -->
+		{% for m in message_lists_cut %}
+		<div class="modal fade" id="H_Edu_{{ m.index}}" tabindex="-1" aria-labelledby="Health-Edu" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header og-bg line_break">
+						<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.name}}</h5>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					<!-- <h5 class="modal-title" id="Health-Edu">{{ sub_item }}</h5>
+					<button type="button" class="btn btn-warning font-20" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span> 關閉
+					</button> -->
+					</div>
+					<div class="modal-body">
+						{% for pic in m.arr %}
+						<img src="/Public/health_edu/Doc/{{main_item}}/{{sub_item}}/{{pic}}" class="img-fluid" alt="{{sub_item}}">
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= navbar 導航列 ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar 導航列 End ======= -->
+
+		<!-- ======= main-content 主要區 ======= -->
+		<div>
+			<main class="pb-3">
+				<div class="container py-1">			
+					<div class="row">
+						<!-- ※※※ 側邊選單 ※※※ -->
+						<div class="col-lg-3 mb-2">
+							<div class="menu_sidebar">
+								<aside>
+									{% include 'Health_Edu_menu.html'%}
+									<!-- <div class="side_menu"></div> -->
+									<!-- 用來載入 menu.html -->
+								</aside>
+							</div>
+						</div>
+						<!-- ※※※ 側邊選單 End ※※※ -->
+
+						<!-- ※※※ 內容區 ※※※ -->
+						<div class="col-lg-9">
+							<article>
+								<div class="content">
+									<div class="text-right">
+										<div class="font-16">
+											<nav aria-label="breadcrumb">
+												<ol class="breadcrumb justify-content-end">
+													<li class="breadcrumb-item main_pencil"></li>
+													<li class="breadcrumb-item health_edu font-weight-bold">
+														<a href='/A003_health_edu/'>衛教園地</a>
+													</li>
+													<li class="breadcrumb-item active" aria-current="page">{{sub_item}}</li>
+												</ol>
+											</nav>
+										</div>
+									</div>
+									<div class="bg-white rounded panel-shadow title_wrap">
+										<section id="content_h">
+											<div class="onsale_heading">{{showfile}} - {{sub_item}}</div>								
+											<!-- <div class="row">
+												<div class="col-12 col-md-1 mb-2">
+													<div class="onsale-section">
+														<span class="onsale"><i class="fas fa-star"></i></span>
+													</div>
+												</div>
+												<div class="col-12 col-md-11 px-md-0">
+													<div class="onsale_heading">{{showfile}} - {{sub_item}}</div>
+												</div>
+											</div> -->
+											<hr class="my-2">
+											<!-- 搜尋列 -->
+											<div class="d-flex justify-content-end">
+												<div class="search_box">
+													<form class="form-inline" action="search">
+														<div class="input-group" style="width: 100%;">
+															<input type="text" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="search_text">
+															<input type="hidden" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="page" value=1>
+															<div class="input-group-append ml-0">
+																<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</section>
+
+										<section id="content_body">
+											<div class="row">
+												<div class="col-12">
+													<!-- 新增內容區塊 -->
+													{% for m in message_lists_cut%}
+													<a href="#" data-toggle="modal" data-target="#H_Edu_{{m.index}}" class="health_list">
+														<div class="card">
+															<div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
+																<div class="card-title mb-0">
+																	<h5 class="mb-0 text_ellips_short">{{m.name}}</h5>
+																</div>
+																<!-- <div class="card-subtitle text-date mb-0 text-right">
+																	<small>{{m.time}}</small>
+																</div> -->
+															</div>
+														</div>
+													</a>
+													{% endfor %}
+													<!-- 分頁功能 -->
+													<div class="row mt-3">
+														<div class="col-12 d-flex justify-content-center">
+															<ul class="pagination">
+																{% if contacts_2.has_previous %}
+																<li class="active"><a class="page-link"
+																		href="?page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
+																{% endif %}
+
+																{% if paginator_2.has_previous_more %}
+																<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+																<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+																{% endif %}
+
+																{% for i in paginator_2.previous_range %}
+																<li class="page-item">
+																	<a class="page-link" href="?page={{ i }}">{{ i }}</a>
+																</li>
+																{% endfor %}
+
+																<li class="page-item active"><a class="page-link"
+																		href="?page={{paginator_2.number}}">{{ paginator_2.number }}</a></li>
+
+																{% for i2 in paginator_2.next_range %}
+																<li class="page-item">
+																	<a class="page-link" href="?page={{i2}}">{{ i2 }}</a>
+																</li>
+																{% endfor %}
+
+																{% if paginator_2.has_next_more %}
+																<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+																<li class="page-item"><a class="page-link" href="?page={{paginator_2.num_pages}}">{{paginator_2.num_pages}}</a></li>
+																{% endif %}
+
+																{% if contacts_2.has_next %}
+																<li class="active">
+																	<a class="page-link" href="?page={{contacts_2.next_page_number}}">&gt;&gt;</a>
+																</li>
+																{% endif %}
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</section>
+									</div>
+								</div>
+							</article>
+						</div>
+						<!-- ※※※ 內容區 End ※※※ -->
+
+					</div>		  
+				</div>	
+			</main>
+		</div>
+		<!-- ======= main 主要區 End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= JS 套件區 ======= -->
+	<!-- ======= JS 套件區 End ======= -->
+
+</body>
+</html>

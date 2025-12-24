@@ -1,0 +1,33 @@
+{% for data_line in data_lines %}
+	{% if "<h>" in data_line %}
+		<div class="article_h">{{ data_line|cut:"<h>"|safe }}</div>
+	{% endif %}
+
+	{% if "<in_date>" in data_line %}
+		<div class="text-date"><small>{{ data_line|cut:"<in_date>"|safe }}</small></div>
+	{% endif %}
+
+	{% if "<yt>" in data_line %}
+		<div class="info_iframe">
+			<iframe src="{{ data_line|cut:'<yt>'|safe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+		</div>
+	{% endif %}
+
+	{% if "<t>" in data_line %}
+		<p>{{ data_line|cut:"<t>"|safe }}</p>
+	{% endif %}
+
+	{% if "<dot>" in data_line %}
+		<div class="triangle">{{ data_line|cut:"<dot>"|safe }}</div>
+	{% endif %}
+
+	{% if "<cap>" in data_line %}
+		<div class="caption">{{ data_line|cut:"<cap>"|safe }}</div>
+	{% endif %}
+
+	{% if "<img1>" in data_line %}
+		<div class="info_img">
+			<img class="img-fluid w-100" src="/Public/A004/img/{{ data_line|cut:'<img1>'|safe }}" alt="" height="345">
+		</div>
+	{% endif %}
+{% endfor %}

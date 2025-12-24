@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    {% include 'Public_head.html' %}
+    <title>長安醫院</title>
+    <link rel="stylesheet" href="/Public/css/index.css?v=114.05.09">
+
+    <!-- 外掛資源：輪播 -->
+    <script src="/Public/js/slick.js"></script>
+    <link rel="stylesheet" href="/Public/css/slick.css" />
+    <link rel="stylesheet" href="/Public/css/slick-theme.css" />
+    {% include 'GA_head.html' %}
+    <meta name="google-site-verification" content="cxRGjKaWmPVHZpRnEEhMaxvpAhqe3tqxOjwtAKkd5TA" />
+</head>
+<body>
+    {% include 'GA_noscript.html' %}
+    <div class="wrapper">
+        <!-- ======= 本頁 Modal Area ======= -->
+            <!--  ▲▲▲ 最新消息 ▲▲▲  -->
+            {% for a,b in in_abc %}
+            <div class="modal fade" id="N-{{ a.0 }}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header og-bg line_break">
+                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{ a.3 }}</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body cofe-word font-18 article_border">
+                        {% for bb in b %}
+                            {% if "<h>" in bb %}
+                                <div class="col-12 px-0">
+                                    <div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
+                                </div>
+                            {% endif %}
+
+                            {% if "<t>" in bb %}
+                                <div>
+                                    <p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>       
+                                </div>
+                            {% endif %}
+
+                            {% if "<img1>" in bb %}
+                                <div class="col-12 px-0">
+                                    <img class="img-fluid w-100" src="/Public/news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!--  ▲▲▲ 媒體報導 ▲▲▲  -->
+            {% for ma,mb in in_zip_data %}
+            <div class="modal fade" id="M-{{ ma.0 }}" tabindex="-1" aria-labelledby="news1_content" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header og-bg line_break">                
+                            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="exampleModalLabel">{{ ma.3 }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body cofe-word font-18 article_border">                   
+                            {% for mbb in mb %}
+                                <!-- {% if "<h>" in bb %}
+                                    <div class="col-12 px-0">
+                                        <div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
+                                    </div>
+                                {% endif %} -->
+
+                                {% if "<t>" in mbb %}
+                                    <div>
+                                        <p class="py-2 text-justify">{{ mbb|cut:"<t>"|safe }}</p>       
+                                    </div>
+                                {% endif %}
+
+                                {% if "<img1>" in mbb %}
+                                    <div class="col-12 px-0">
+                                        <img class="img-fluid w-100" src="/Public/news_2/img/{{ mbb|cut:'<img1>'|safe }}" alt="" height="345">
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!--  ▲▲▲ 影音消息 ▲▲▲  -->
+            {% for m in message_lists_1 %}
+            <div class="modal fade show" id="D1-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header og-bg line_break">
+                            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body cofe-word font-18 article_border p-0">                       
+                            <div class="col-12 px-0" >
+                                <div class='embed-container'>
+                                    
+                                    <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for m in message_lists_2 %}
+            <div class="modal fade show" id="D2-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header og-bg line_break">
+                            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body cofe-word font-18 article_border p-0">                       
+                            <div class="col-12 px-0" >
+                                <div class='embed-container'>
+                                    
+                                    <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for m in message_lists_3 %}
+            <div class="modal fade show" id="D3-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header og-bg line_break">
+                            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body cofe-word font-18 article_border p-0">                       
+                            <div class="col-12 px-0" >
+                                <div class='embed-container'>
+                                    
+                                    <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for m in message_lists_4 %}
+            <div class="modal fade show" id="D4-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header og-bg line_break">
+                            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body cofe-word font-18 article_border p-0">                       
+                            <div class="col-12 px-0" >
+                                <div class='embed-container'>
+                                    
+                                    <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        <!-- ======= 本頁 Modal Area End ======= -->
+
+        <!-- ======= navbar ======= -->
+        {% include 'header.html' %}
+        <!-- ======= navbar End ======= -->
+
+        <!-- ======= main-content ======= -->
+        <main>
+            <!-- ▼▼▼ === Commercial & Advertisement 廣告圖 === ▼▼▼ -->
+            <section id="ad_commercial">
+                <div id="menucarousel_pc" class="d-none d-md-block">
+                    <div class="banner">
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-05-12" target="_blank">
+                                 <img src="/Public/img/banner/D_0001.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-01-18" target="_blank">
+                                <img src="/Public/img/banner/D_0002.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-01-10" target="_blank">
+                                <img src="/Public/img/banner/D_0003.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-07-03" target="_blank">
+                                <img src="/Public/img/banner/D_0004.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-12-02" target="_blank">
+                                <img src="/Public/img/banner/D_0005.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-09-02" target="_blank">
+                                <img src="/Public/img/banner/D_0006.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="menucarousel_mobile" class="d-block d-md-none">
+                    <div class="banner">
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-05-12" target="_blank">
+                                <img src="/Public/img/banner/M_0001.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-01-18" target="_blank">
+                                <img src="/Public/img/banner/M_0002.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-01-10" target="_blank">
+                                <img src="/Public/img/banner/M_0003.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-07-03" target="_blank">
+                                <img src="/Public/img/banner/M_0004.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-12-02" target="_blank">
+                                <img src="/Public/img/banner/M_0005.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2025-09-02" target="_blank">
+                                <img src="/Public/img/banner/M_0006.jpg" class="d-block w-100" alt="">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- ▲▲▲ === Commercial & Advertisement End === ▲▲▲ -->
+
+            <!-- ▼▼▼ === Speed tool-Function 常用服務 === ▼▼▼ -->
+            <section id="speed_tool">
+                <div class="elem__paragraph-center-large">
+                    <div class="a_inner hos-services">
+                        <div class="hos-services-item" onclick="location.href='/A002_clinic_time/'">
+                            <div class="service">
+                                <i class="far fa-calendar-alt icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">門診時刻表</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item top-item" onclick="location.href='/A006_Online_Booking_0/'">
+                            <div class="service">
+                                <i class="fas fa-notes-medical icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">網路掛號</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item" onclick="location.href='/A002_consultation_progress/'">
+                            <div class="service">
+                                <i class="fas fa-hospital-user icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">看診進度</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item" onclick="location.href='/A001_dr_search/'">
+                            <div class="service">
+                                <i class="fas fa-user-md icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">醫師查詢</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item" onclick="location.href='/A002_which_disease/'">
+                            <div class="service">
+                                <i class="fas fa-person-booth icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">看哪科</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item" onclick="location.href='/A007_Reserve_pre/login/'">
+                            <div class="service">
+                                <i class="fas fa-prescription icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">預約慢箋</h4>
+                            </div>
+                        </div>
+                        <div class="hos-services-item" onclick="location.href='/A000_closed_clinic/'">
+                            <div class="service">
+                                <i class="fas fa-paste icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">停休診訊息</h4>
+                            </div>
+                        </div>
+                        <!-- <div class="col-6 col-md-2" onclick="location.href='/Public/MedicalSupport/d-support_1.html'">
+                            <div class="service">
+                                <i class="fas fa-paste icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                                <h4 class="cofe-word">資料申請</h4>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </section>
+            <!-- ▲▲▲ === Speed tool-Function End === ▲▲▲ -->
+            
+            <!-- ▼▼▼ === News 最新消息 === ▼▼▼ -->
+            <section id="News" class="a_bg">
+                <div class="a_inner">
+                    <div class="a_inn_div">
+                        <div class="a_tit_1">
+                            <h2>最新消息<span><br class="d-block d-lg-none"> Event News</span></h2>                          
+                        </div>
+                        <div class="a_content_div">
+                            <table class="table">             
+                                <tbody class="text-left">
+                                    {% for in_news_list in in_contacts %}
+                                        <tr>
+                                            <!-- {% if in_news_list.2 == "本院訊息" %}
+                                            <td class="text-center">
+                                                <span class="tag">{{ in_news_list.2 }}</span>
+                                            </td>
+                                            {% elif in_news_list.2 == "活動訊息" %}
+                                            <td class="text-center">
+                                                <span class="tag tag-green">{{ in_news_list.2 }}</span>
+                                            </td>
+                                            {% elif in_news_list.2 == "重要訊息" %}
+                                            <td class="text-center">
+                                                <span class="tag tag-danger">{{ in_news_list.2 }}</span>
+                                            </td>
+                                            {% else %}
+                                            <td class="text-center">
+                                                <span class="tag tag-org">{{ in_news_list.2 }}</span>
+                                            </td>
+                                            {% endif %} -->
+                                            <td class="px-3">
+                                                <h5 class="mb-0 text-justify">
+                                                    <a data-toggle="modal" data-target="#N-{{ in_news_list.0 }}">{{ in_news_list.3 }}</a>
+                                                </h5>
+                                            </td>
+                                            <td class="w-15 h6 px-3">
+                                                <div class="text-nowrap font-weight-bold text-center">
+                                                    {{ in_news_list.7|cut:".txt" }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="mb-3">
+                                <button type="button" class="color warning button2" onclick="window.location.href='/A000_news/';">
+                                    閱讀更多 <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>                        
+                    </div>                    
+                </div>                   
+            </section>
+            <!-- ▲▲▲ === News 最新消息 End === ▲▲▲ -->
+            
+            <!-- ▼▼▼ === Reports 媒體報導 === ▼▼▼ -->
+            <section id="media_reports" class="a_bg_img">
+                <div class="a_inner">
+                    <div class="a_inn_div">
+                        <div class="a_tit">
+                            <h2>媒體報導<span> <br class="d-block d-lg-none">Media Reports</span></h2>
+                        </div>
+                        <div class="a_content_div">
+                            <div class="media_reports">
+                                {% for mmm,xxx,ppp in in_zdata %}
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="#" data-toggle="modal" data-target="#M-{{ mmm.0 }}">
+                                            <div class="slide_card">
+                                                <div class="pb-3 out_divimg">
+                                                    <div class="Img_div">                                                        
+                                                        <img class="" src="/Public/news_2/img/{{ ppp|cut:'<img1>' }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="rwd_px_0">                                                  
+                                                    <div class="ell_box">
+                                                        <h5 class="ell_two text-justify">
+                                                            {{ mmm.3 }}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="ell_box mt-3">
+                                                        <div class="ell_three text-muted">
+                                                            {{ xxx }}
+                                                        </div>
+                                                    </div>                                                    
+                                                </div>
+                                                <div class="text-date">
+                                                    {{ mmm.7|cut:".txt" }}
+                                                </div>                                         
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="color warning button2" onclick="window.location.href='/A000_reports/';">
+                            閱讀更多 <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- ▲▲▲ === Reports 媒體報導 End === ▲▲▲ -->
+
+            <!-- ▼▼▼ === Medical Infos 醫療資訊 === ▼▼▼ -->
+            <section id="medical_info" class="a_bg_grid">
+                <div class="a_inner">
+                    <div class="a_tit">
+                        <h2>醫療資訊<span> <br class="d-block d-lg-none">Medical Information</span></h2>
+                    </div>
+                    <div class="medical_info">
+                        {% if media_page_list %}
+                            {% for data in media_page_list %}
+                            <form action="/A000_medical_pages/" method="GET">
+                            <input type="hidden" name="media_page_path" value={{ data.4 }}>
+                            <a onclick="$(this).closest('form').submit();">
+                                <div>
+                                    <div class="spacing_mp">
+                                        <div class="slide_card">
+                                            <div class="pb-3">
+                                                <!-- <div class="Img_div" style="max-height: 320px;">
+                                                    <img class="" src="/Public/news_4/img/{{ data.3 }}" alt="">
+                                                </div> -->
+                                                <div class="info_img">
+                                                    <img class="w-100 h-100" src="/Public/news_4/img/{{ data.3 }}" alt="">
+                                                </div>                                                
+                                            </div>
+                                            <div class="rwd_px_0">                                                  
+                                                <div class="ell_box">
+                                                    <h5 class="cofe-word ell_two text-justify">{{ data.0 }}</h5>
+                                                </div>
+                                                <div class="ell_box mt-3">
+                                                    <div class="ell_three text-muted">{{ data.2 }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="cofe-word text-date">{{ data.1 }}</div>                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            </form>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <!-- <div class="text-center mt-3">
+                        <button type="button" class="color warning button2" onclick="window.location.href='/A000_medical_info/';">
+                            閱讀更多 <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div> -->
+                </div>
+            </section>
+            <!-- ▲▲▲ === Medical Info 醫療資訊 End === ▲▲▲ -->
+
+            <!-- ▼▼▼ === Report_MOV 影音消息 === ▼▼▼ -->
+            <section id="report_mov" class="a_bg">
+                <div class="a_inner">
+                    <div class="a_inn_div">
+                        <div class="a_tit">
+                            <h2>影音消息<span> <br class="d-block d-lg-none">Motion Media</span></h2>
+                        </div>
+                        <div class="a_content_div">
+                            <div class="tab_list">
+                                <div class="tabs_a">
+                                    <div class="tab-button-outer">
+                                        <ul id="tab-button_a">
+                                            <li>
+                                                <a href="#story">長安的故事</a>
+                                            </li>
+                                            <li>
+                                                <a href="#health_room">長安保健室</a>
+                                            </li>
+                                            <li>
+                                                <a href="#home_rehabilitation">長安居家復健輕鬆做</a>
+                                            </li>
+                                            <li>
+                                                <a href="#interview">專訪</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-select-outer">
+                                        <select id="tab-select" class="form-control form-control-lg">
+                                            <option value="#story">長安的故事</option>
+                                            <option value="#health_room">長安保健室</option>
+                                            <option value="#home_rehabilitation">長安居家復健輕鬆做</option>
+                                            <option value="#interview">專訪</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs_pages">
+                                <!-- 長安的故事 -->
+                                <div class="tab-contents_a" id="story">
+                                    <div class="Div_out">
+                                        {% for m in message_lists_1 %}
+                                        <div class="Div_box transform_result">
+                                            <div class="Div_body" style="padding: 1rem;">
+                                                <a href="#" data-toggle="modal" data-target="#D1-{{m.index}}">
+                                                    <div class="pb-3 out_divimg">
+                                                        <div class="Img_div">
+                                                            <img class="" src="{{m.youtube_image}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="rwd_px_0" style="height: 120px;">
+                                                        <div class="text-muted text-right mb-2 font-14">{{m.sub}}</div>
+                                                        <div class="ell_box">
+                                                            <h5 class="ell_two text-justify">{{m.name}}</h5>
+                                                        </div>
+                                                        <div class="text-date">{{m.date}}</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- 長安保健室 -->
+                                <div class="tab-contents_a" id="health_room">
+                                    <div class="Div_out">
+                                        {% for m in message_lists_2 %}
+                                        <div class="Div_box transform_result">
+                                            <div class="Div_body" style="padding: 1rem;">
+                                                <a href="#" data-toggle="modal" data-target="#D2-{{m.index}}">
+                                                    <div class="pb-3 out_divimg">
+                                                        <div class="Img_div">
+                                                            <img class="" src="{{m.youtube_image}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="rwd_px_0" style="height: 100px;">
+                                                        <div class="text-muted text-right mb-2 font-14">{{m.sub}}</div>
+                                                        <div class="ell_box">
+                                                            <h5 class="ell_two text-justify">{{m.name}}</h5>
+                                                        </div>
+                                                        <div class="text-date">{{m.date}}</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- 長安居家復健輕鬆做 -->
+                                <div class="tab-contents_a" id="home_rehabilitation">
+                                    <div class="Div_out">
+                                        {% for m in message_lists_3 %}
+                                        <div class="Div_box transform_result">
+                                            <div class="Div_body" style="padding: 1rem;">
+                                                <a href="#" data-toggle="modal" data-target="#D3-{{m.index}}">
+                                                    <div class="pb-3 out_divimg">
+                                                        <div class="Img_div">
+                                                            <img class="" src="{{m.youtube_image}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="rwd_px_0" style="height: 100px;">
+                                                        <div class="text-muted text-right mb-2 font-14">{{m.sub}}</div>
+                                                        <div class="ell_box">
+                                                            <h5 class="ell_two text-justify">{{m.name}}</h5>
+                                                        </div>
+                                                        <div class="text-date">{{m.date}}</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <!-- 專訪 -->
+                                <div class="tab-contents_a" id="interview">
+                                    <div class="Div_out">
+                                        {% for m in message_lists_4 %}
+                                        <div class="Div_box transform_result">
+                                            <div class="Div_body" style="padding: 1rem;">
+                                                <a href="#" data-toggle="modal" data-target="#D4-{{m.index}}">
+                                                    <div class="pb-3 out_divimg">
+                                                        <div class="Img_div">
+                                                            <img class="" src="{{m.youtube_image}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="rwd_px_0" style="height: 100px;">
+                                                        <div class="text-muted text-right mb-2 font-14">{{m.sub}}</div>
+                                                        <div class="ell_box">
+                                                            <h5 class="ell_two text-justify">{{m.name}}</h5>
+                                                        </div>
+                                                        <div class="text-date">{{m.date}}</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="button" class="color warning button2" onclick="window.location.href='/A000_video_message/';">
+                                        查看更多 <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ▲▲▲ === Report_MOV 影音消息 End === ▲▲▲ -->
+
+            <!-- ▼▼▼ === Special in 重點醫療 === ▼▼▼ -->
+            <section id="special_in" class="a_bg_img" style="background: url(/Public/img/special_bg.jpg) no-repeat fixed center center;">
+                <div class="a_inner">
+                    <div class="a_inn_div">
+                        <div class="a_tit">
+                            <h2>重點醫療<span> <br class="d-block d-lg-none">Specialty Medical</span></h2>
+                        </div>
+                        <div class="a_content_div">
+                            <div class="slider">
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="/specialty_medical/ort-main/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/bone_center.jpg" alt="骨科微創手術中心">
+                                                <div class="img_caption">
+                                                    <h2>骨科微創手術中心</h2>
+                                                    <p>Orthopaedics Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/neuro/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/Neurology_center.jpg" alt="神經醫學中心">
+                                                <div class="img_caption">
+                                                    <h2>神經醫學中心</h2>
+                                                    <p>Neurology Therapy Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                               <!--  <div>
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/cancercenter/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/cancer_center.jpg" alt="癌症治療中心">
+                                                <div class="img_caption">
+                                                    <h2>癌症治療中心</h2>
+                                                    <p>Cancer Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div> -->
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/cv/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/CVD_center.jpg" alt="心血管中心">
+                                                <div class="img_caption">
+                                                    <h2>心血管中心</h2>
+                                                    <p>Cardiovascular Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/breastcenter/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/breast_center.jpg" alt="全方位乳房中心">
+                                                <div class="img_caption">
+                                                    <h2>全方位乳房中心</h2>
+                                                    <p>Breast Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/healthcenter/" target="_blank">
+                                            <div class="special_container border">
+                                                <img src="/Public/img/health_center.jpg" alt="健康管理中心">
+                                                <div class="img_caption">
+                                                    <h2>健康管理中心</h2>
+                                                    <p>Health Management Center</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ▲▲▲ === Special in 重點醫療 End === ▲▲▲ -->
+            
+        </main>
+
+    <!-- ======= main End ======= -->
+    </div>
+
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+    <!-- ======= js 套件區 ======= -->
+
+    <!-- ※※ 頁籤轉下拉選單 ※※ -->
+    <script src="/Public/js/tab_switch_select.js"></script>
+    <!-- ※※ slick 輪播效果 ※※ -->
+    <script src="/Public/js/slide_div.js"></script>
+    <!-- ※※ Youtube 減少載入時間 ※※ -->
+    <script src="/Public/js/lite-youtube_lowtime.js"></script>
+
+    <!-- ======= js 套件區 End ======= -->
+</body>
+</html>
