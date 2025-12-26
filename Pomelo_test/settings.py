@@ -109,7 +109,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'specialty_medical.context_processors.default_tracking_ids', # 共用 GA、GTM 設定於 context_processors.py
+                'specialty_medical.context_processors.default_tracking_ids', # 共用 GA, GTM 設定於 context_processors.py
             ],
         },
     },
@@ -163,7 +163,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 MEDIA_URL = '/media/'   # MEDIA 是放上傳/下載檔案用
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  #絕對路徑；os.path-指路徑導向的副函數
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  #絕對路徑;os.path-指路徑導向的副函數
 SITE_DOMAIN = "https://web.everanhospital.com.tw" #Site Domain (固定給 og:url / og:image 用)
 STATIC_URL = '/Public/'   # STATIC 放置所有靜態檔，例 css/js/ html
 if (DEBUG == False):
