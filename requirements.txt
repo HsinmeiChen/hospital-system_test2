@@ -1,40 +1,30 @@
-# --- 核心框架與環境 ---
 Django==4.1.5
 python-dotenv
 django-sslserver==0.22
 oracledb
 
-# --- 數據處理 ---
-# Python 3.8
 pandas==1.5.2; python_version < "3.9"
-numpy==1.24.1; python_version < "3.9"
-openpyxl==3.1.0; python_version < "3.9"
-
-# Python 3.9+
 pandas; python_version >= "3.9"
+
+numpy==1.24.1; python_version < "3.9"
 numpy; python_version >= "3.9"
+
+openpyxl==3.1.0; python_version < "3.9"
 openpyxl; python_version >= "3.9"
 
 xlrd
 
-# --- 圖像與工具 ---
-# Python 3.8
 Pillow==9.4.0; python_version < "3.9"
-# Python 3.9+
 Pillow; python_version >= "3.9"
 
 filelock==3.16.1
 
-# --- 網路與資料庫 ---
-# Python 3.8
 pymssql==2.2.7; python_version < "3.9"
-# Python 3.9+
 pymssql; python_version >= "3.9"
 
 requests==2.28.1
 urllib3==1.26.13
 
-# --- 爬蟲與解析 ---
 beautifulsoup4
 lxml
 python-dateutil==2.8.2
