@@ -37,24 +37,46 @@ ALLOWED_HOSTS = ['*']
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 60 * 10
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True  # 2025.12.30 上 EECP 跟健管先註解
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
 
 
-CSRF_TRUSTED_ORIGINS = ['https://front.bluemix.net/']
+# CSRF_TRUSTED_ORIGINS = ['https://front.bluemix.net/'] # 2025/12/30 上 EECP 跟健管先註解
+CSRF_TRUSTED_ORIGINS = [
+    # 'https://front.bluemix.net',
+    'https://web.everanhospital.com.tw',
+]
 
 CORS_REPLACE_HTTPS_REFERER = True
 
-CSRF_COOKIE_DOMAIN = 'bluemix.net'
+# CSRF_COOKIE_DOMAIN = 'bluemix.net' # 2025/12/30 上 EECP 跟健管先註解
 
-CORS_ORIGIN_WHITELIST = (
-    'https://front.bluemix.net/',
-    'front.bluemix.net',
-    'bluemix.net',
-)
+# ================== 2025.12.30 上 EECP 跟健管新增 Start ==================
+
+# 跨域驗證，如果是 http、或開發環境 就設 False
+if DEBUG == True:
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+else:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+# 改為依 DEBUG 或環境決定（本機開發不設定 domain）
+    CSRF_COOKIE_DOMAIN = None
+
+# 若使用 Nginx 轉發 HTTPS，需加上此設定告知 Django 來源為 HTTPS
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# ================== 2025.12.30 上 EECP 跟健管新增 End ==================
+
+# CORS_ORIGIN_WHITELIST = (
+#     'https://front.bluemix.net/',
+#     'front.bluemix.net',
+#     'bluemix.net',
+# )
+
 
 # Application definition
 # 網站後台功能登錄區域設定
@@ -69,6 +91,8 @@ INSTALLED_APPS = [
     'Pomelo_API',
     "sslserver",
     "specialty_medical",
+    "specialty_health",
+    "EECP",
 ]
 
 MIDDLEWARE = [
@@ -110,6 +134,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'specialty_medical.context_processors.default_tracking_ids', # 共用 GA, GTM 設定於 context_processors.py
+                'specialty_health.context_processors.default_tracking_ids',
             ],
         },
     },
@@ -222,3 +247,16 @@ EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# ================== 2025.12.30 上 EECP 跟健管新增 Start ==================
+# Send-Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'mail.everanhospital.com.tw') # SMTP 伺服器位址 (預設值僅供參考，應使用 .env)
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True' # 根據伺服器設定
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 25)) # SMTP 伺服器連接埠
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # 使用者名稱
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # 密碼
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER) # 寄件者信箱
+# ================== 2025.12.30 上 EECP 跟健管新增 End ==================
+

@@ -1,0 +1,143 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_health/h-base.html" %}
+
+{% block title %}聯絡我們 | 長安健康管理中心{% endblock %}
+{% block title_1 %}聯絡我們 | 長安健康管理中心{% endblock %}
+{% block meta_description %}若您對長安健康管理中心有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+{% block og_title %}聯絡我們 | 長安健康管理中心{% endblock %}
+{% block og_description %}若您對長安健康管理中心有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_health/h-health-header.html' %}
+        </header>
+        {% spaceless %}
+
+        <main class="contact-div">
+            <section class="top-banner-grid">
+                <div class="page-banner">
+                    <div class="section-grid">
+                        <!-- ■■■ Title ■■■ -->
+                        <div class="fade-in-card">                            
+                            <div class="title-underline-sm">
+                                <h2>聯絡我們 <span>Contact</span></h2>
+                                <p>若您對「長安健康管理中心」有任何疑問或服務需求，歡迎透過本頁與我們聯繫，我們將盡快提供專業協助與回覆。</p>
+                            </div>
+                        </div>
+                        <!-- ■■■ Contact ■■■ -->
+                        <div class="card fade-in-card">
+                            <div class="row no-gutters">
+                                <!-- (1)、聯絡資訊 -->
+                                <div class="col-lg-5 l-box">
+                                    <div class="item">
+                                        <h2 class="item-ttl">諮詢時間</h2>
+                                        <div>
+                                            <div class="tel-ttl">週一至週五，08:00~11:30、13:00~16:30</div>
+                                            <div class="text-only">(如遇週六、國定假日請詳見門診表或事先來電詢問)</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <h2 class="item-ttl">電話諮詢</h2>
+                                        <div>
+                                            <a href="tel:0436113611" class="tel">
+                                                <img decoding="async" src="https://hara-hospital.jp/wp-content/themes/hara-hospital-jp/images/share/icon_tel.svg" alt="電話" width="30" height="30">
+                                                <span>04-3611-3611</span>
+                                            </a>
+                                        </div>
+                                        <div class="text-only">【高階自費健檢】分機 3875、3876</div>
+                                        <div class="text-only">【一般勞工體檢、成人健檢、樂齡長青健檢、五癌篩檢】分機 3151、3153、3700</div>
+                                    </div>
+                                </div>
+                                <!-- (2)、聯絡表單 -->
+                                <div class="col-lg-7 r-box">
+                                    <div class="contact-form">
+                                        <!-- 使用 Django 表單套件 -->
+                                        <form method="post" action="{% url 'send_mail' %}" class="row">
+                                            {% csrf_token %}
+                                            <div class="form-group col-12 col-xl-6">
+                                                {{ form.name.label_tag }} {{ form.name }}
+                                                {{ form.name.errors }}
+                                            </div>
+                                            <div class="form-group col-12 col-xl-6">
+                                                {{ form.email.label_tag }} {{ form.email }}
+                                                {{ form.email.errors }}
+                                            </div>
+                                            <div class="form-group col-12 col-xl-6">
+                                                {{ form.phone.label_tag }} {{ form.phone }}
+                                                {{ form.phone.errors }}
+                                            </div>
+                                            <div class="form-group col-12 col-xl-6">
+                                                {{ form.subject.label_tag }} {{ form.subject }}
+                                                {{ form.subject.errors }}
+                                            </div>
+                                            <div class="form-group col-12">
+                                                {{ form.message.label_tag }} {{ form.message }}
+                                                {{ form.message.errors }}
+                                            </div>
+
+                                            <!-- 驗證碼 -->
+                                            <div class="form-group col-12">
+                                                {{ form.captcha.label_tag }}
+                                                <div class="d-flex align-items-center flex-wrap">
+                                                    {{ form.captcha }}
+                                                    <img id="captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
+                                                    <button type="button" id="refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
+                                                        <i class="fas fa-sync-alt"></i>
+                                                    </button>
+                                                    <small id="captcha-timer" class="form-text text-muted">驗證碼將於 <span id="countdown">1:00</span> 後失效</small>
+                                                </div>     
+                                                {{ form.captcha.errors }}
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" class="btnn green btn-submit" title="送出">送出</button>
+                                            </div>
+                                        </form>
+                                        <!-- 顯示 Django messages (發送結果) -->
+                                        {% if messages %}
+                                            <div class="pt-3">
+                                                {% for message in messages %}
+                                                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} text-center font-weight-bold mb-0" role="alert">{{ message }}</div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script src="{% static 'html/specialty_health/js/health-contact.js' %}"></script>
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

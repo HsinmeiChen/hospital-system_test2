@@ -1,0 +1,85 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_health/h-base.html" %}
+
+{% block title %}關於「長安健康管理中心」｜專業健檢與預防醫學健康管理{% endblock %}
+{% block title_1 %}關於「長安健康管理中心」｜專業健檢與預防醫學健康管理{% endblock %}
+{% block og_title %}關於「長安健康管理中心」｜專業健檢與預防醫學健康管理{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_health/h-health-header.html' %}
+        </header>
+        {% spaceless %}
+        <main class="dot-bg">
+            <!-- ■■■ Banner、bread-crumbs ■■■ -->
+            <!-- ------- ■■■ About us - intro ■■■ ------- -->
+            <section>
+                <div class="corner-banner" style="background-position: initial;">
+                    <h2 class="fade-in-card">關於我們</h2>
+                    <p class="fade-in-card">ABOUT</p>
+                </div>
+                <div class="article-area">
+                    <div class="article-area-Inner dot-bg">
+                        <span class="c-corner c-corner__opt1"></span>
+                        <span class="c-corner c-corner--right c-corner__opt1"></span>
+                        <div class="secInr">
+                            <h3 class="head02 fade-in-card">
+                                <span>「健康管理中心」</span><br />
+                                <span>專業貼心健檢守護您的健康</span>
+                            </h3>
+                        </div>
+                        <div class="secInr fade-in-card">
+                            <div class="a-paragraph">
+                                長安醫院始終堅持「挑戰、創新、卓越」的使命及用心的服務理念，企盼為民眾的健康做把關。因此打造全方位「健康管理中心」，提供完善的健檢空間以及貼心的健檢服務，讓民眾定期做檢查，體認「早期檢查、早期治療」的重要性。
+                            </div>
+                            <div class="a-paragraph">
+                                本院「健康管理中心」提供「個人全身健檢」、「企業團體健檢」、「五癌篩檢」、「成老人預防保健」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ------- ■■■ About us - Services & Equipment ■■■ ------- -->
+            <section class="top-data fade-in-card">
+                <div class="top-data-bg">
+                    <div class="bg01" title="高壓氧設備"></div>
+                    <div class="bg02" title="電腦斷層掃描(CT)"></div>
+                </div>
+            </section>
+            
+
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

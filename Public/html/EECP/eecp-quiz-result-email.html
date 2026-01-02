@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <style>
+            body { 
+                font-family: Arial, sans-serif, "Microsoft JhengHei", "微軟正黑體";
+                color: #333;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                padding: 20px;
+                border-radius: 8px;
+            }
+            .header {
+                color: #f14d4c;
+                border-bottom: 2px solid #f14d4c;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+            .info-box {
+                margin: 20px 0;
+            }
+            .info-box p {
+                margin: 10px 0;
+            }
+            .result-box {
+                background-color: #f5f5f5;
+                padding: 15px;
+                border-left: 4px solid #f14d4c;
+                margin: 10px 0 20px 0;
+                border-radius: 4px;
+            }
+            .result-box h3 {
+                margin: 0 0 10px 0;
+                color: #f14d4c;
+            }
+            .result-box .result-badge {
+                display: inline-block;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 16px;
+                margin: 10px 0;
+            }
+            .result-badge.low {
+                background-color: #e8f5e9;
+                color: #43a047;
+                border: 1px solid #81c784;
+            }
+            .result-badge.medium {
+                background-color: #fff9e6;
+                color: #f57c00;
+                border: 1px solid #ffb74d;
+            }
+            .result-badge.high {
+                background-color: #ffebee;
+                color: #f14d4c;
+                border: 1px solid #e57373;
+            }
+            .result-box p {
+                margin: 5px 0;
+                line-height: 1.6;
+            }
+            .footer {
+                font-size: 14px;
+                color: #666;
+                margin-top: 20px;
+                padding-top: 15px;
+                border-top: 1px solid #ddd;
+                text-align: center;
+            }
+            .footer p {
+                margin: 5px 0;
+            }
+        </style>
+        <div class="container">
+            <h2 class="header">[訊息通知] EECP 測驗結果諮詢</h2>
+            
+            <div class="info-box">
+                <p><strong>姓名：</strong> {{ name }}</p>
+                <p><strong>聯絡電話：</strong> {{ phone|default:"未提供" }}</p>
+                <p><strong>電子郵件：</strong> <a href="mailto:{{ email }}">{{ email }}</a></p>
+            </div>
+            
+            <div class="result-box">
+                <h3>測驗結果</h3>
+                <p><strong>評估結果：</strong> 
+                    {% if score <= 8 %}
+                    <span class="result-badge low">{{ result }}</span>
+                    {% elif score <= 16 %}
+                    <span class="result-badge medium">{{ result }}</span>
+                    {% else %}
+                    <span class="result-badge high">{{ result }}</span>
+                    {% endif %}
+                </p>
+                <p><strong>總分：</strong> {{ score }} 分（滿分 24 分）</p>
+                
+                {% if score <= 8 %}
+                <p style="margin-top: 15px;"><strong>建議：</strong><br>
+                患者目前的心血管健康狀況相對良好。建議定期進行健康檢查，並保持健康的生活方式。EECP 可作為預防性治療，幫助維持和改善心血管健康。</p>
+                {% elif score <= 16 %}
+                <p style="margin-top: 15px;"><strong>建議：</strong><br>
+                患者可能有一些心血管相關的症狀或風險因素。強烈建議進行心血管健康評估。EECP 是一種安全、有效的治療方法，可以幫助改善症狀和整體心血管健康。</p>
+                {% else %}
+                <p style="margin-top: 15px;"><strong>建議：</strong><br>
+                患者可能有較明顯的心血管症狀或風險因素。強烈建議立即諮詢心血管專家進行評估。EECP 是一種安全、有效的非侵入性治療方法，已被廣泛用於改善心血管健康。</p>
+                {% endif %}
+            </div>
+            
+            <div class="footer">
+                <p>此信件由『長安醫院-EECP 體外反搏治療中心』官網自動發送，請勿直接回覆此郵件。</p>
+                <p style="margin-top: 10px;">請盡快與患者聯繫，提供專業的醫療諮詢服務。</p>
+            </div>
+        </div>
+    </body>
+</html>

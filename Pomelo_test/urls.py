@@ -143,6 +143,8 @@ urlpatterns = [
     re_path('A102_Safe_ISMS/', pomelo_views.A102_Safe_ISMS),
     # re_path(r'^web_speech/',include('web_speech.urls')),
     re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
+    re_path('EECP/', include('EECP.urls')),
+    re_path('specialty_health/', include('specialty_health.urls')), # 特色醫療-健管
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # 新增 media (讓檔案可下載)
