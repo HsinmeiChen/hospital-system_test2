@@ -258,5 +258,10 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT', 25)) # SMTP 伺服器連接埠
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # 使用者名稱
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # 密碼
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER) # 寄件者信箱
+
+# 新增：讀取通知信收件者，並轉為 List
+NOTIFY_EMAIL_RECIPIENTS = os.getenv('NOTIFY_EMAIL_RECIPIENTS', '').split(',')
+# 去除空字串（避免 .env 未設定時產生空字串元素）
+NOTIFY_EMAIL_RECIPIENTS = [email.strip() for email in NOTIFY_EMAIL_RECIPIENTS if email.strip()]
 # ================== 2025.12.30 上 EECP 跟健管新增 End ==================
 

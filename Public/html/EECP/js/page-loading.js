@@ -7,6 +7,37 @@
     // 最小顯示時間（毫秒）- 避免載入太快閃爍
     const MIN_LOADING_TIME = 1000;
 
+    // 波紋擴散效果
+    function rippleEffect() {
+        const textElement = document.querySelector('.loading-text');
+        if (!textElement) {
+            console.log('找不到 .loading-text 元素');
+            return;
+        }
+        
+        const text = '網頁讀取中';
+        
+        function createRippleText() {
+            textElement.innerHTML = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = text.charAt(i);
+                span.className = 'ripple-char';
+                span.style.animationDelay = `${i * 0.12}s`;
+                textElement.appendChild(span);
+            }
+        }
+        
+        createRippleText();
+        
+        // 每 3 秒重新播放一次
+        setInterval(createRippleText, 3000);
+    }
+
+    // 啟動波紋效果
+    setTimeout(rippleEffect, 100);
+
     // DOM 載入完成後隱藏 loading
     function hideLoading() {
         const loadingElement = document.getElementById('page-loading');

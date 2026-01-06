@@ -1,31 +1,39 @@
 <div id="page-loading">
-    <div class="loading-container">
-        <div class="loading-spinner-wrapper">
-            <!-- 脈衝擴散波 -->
-            <div class="pulse-wave pulse-wave-1"></div>
-            <div class="pulse-wave pulse-wave-2"></div>
-            
-            <!-- 循環軌道 -->
-            <div class="circulation-orbit">
-                <div class="orbit-particle orbit-particle-1"></div>
-                <div class="orbit-particle orbit-particle-2"></div>
-                <div class="orbit-particle orbit-particle-3"></div>
-                <div class="orbit-particle orbit-particle-4"></div>
-            </div>
-            
-            <!-- 中心 Logo -->
-            <div class="logo-container">
-                <img src="/Public/img/single-logo.png" alt="Loading" class="loading-logo">
-            </div>
+    <div class="back"></div>
+    
+    <!-- EECP 專屬 Loading 設計 -->
+    <div class="eecp-loading-container">
+        <!-- Logo 圖片（血液循環效果） -->
+        <div class="logo-pulse-wrapper">
+            <img src="/Public/img/single-logo.png" alt="EECP Logo" class="eecp-logo">
+            <!-- 血液循環粒子 -->
+            <div class="blood-particle blood-particle-1"></div>
+            <div class="blood-particle blood-particle-2"></div>
+            <div class="blood-particle blood-particle-3"></div>
+            <div class="blood-particle blood-particle-4"></div>
+            <div class="blood-particle blood-particle-5"></div>
+            <div class="blood-particle blood-particle-6"></div>
+            <div class="blood-particle blood-particle-7"></div>
+            <div class="blood-particle blood-particle-8"></div>
         </div>
-        
-        <!-- 載入訊息 -->
+
+        <!-- EECP 文字與狀態 -->
         <div class="loading-info">
-            <!-- <div class="loading-text">網頁讀取中</div> -->
-            <div class="loading-progress">
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
-                <div class="progress-dot"></div>
+            <div class="eecp-title">EECP 體外反搏</div>
+            <div class="loading-status">
+                <span class="status-text">網頁讀取中</span>
+                <div class="status-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            <!-- 進度條 -->
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                    <div class="progress-glow"></div>
+                </div>
             </div>
         </div>
     </div>

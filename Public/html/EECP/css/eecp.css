@@ -546,9 +546,9 @@ input[type="date"] {
 }
 
 
-/* ===================================================
-    Loading 載入效果
-==================================================== */
+/* ---------------------------------------------------
+    Loading 轉頁效果
+----------------------------------------------------- */
 #page-loading {
     position: fixed;
     top: 0;
@@ -563,249 +563,323 @@ input[type="date"] {
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     opacity: 1;
     visibility: visible;
+    /* ✅ 保險機制：5秒後自動隱藏 */
     animation: auto-hide-fallback 5s forwards;
 }
 
 #page-loading.fade-out {
     opacity: 0;
     visibility: hidden;
+    /* ✅ 當手動觸發淡出時，取消自動隱藏動畫 */
     animation: none;
 }
 
-.loading-container {
-    text-align: center;
+#page-loading .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #fff6eb 0%, #ffffff 50%, #fff6eb 100%);
+    opacity: 0.98;
 }
 
-.loading-spinner-wrapper {
+.eecp-loading-container {
     position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
 }
 
-/* 脈衝擴散波 - 從中心向外 */
-.pulse-wave {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 85px;
-    height: 85px;
-    margin: -42.5px 0 0 -42.5px;
-    border: 2px solid #EC7063;
-    border-radius: 50%;
-    opacity: 0;
-    animation: pulse-expand 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.pulse-wave-1 {
-    animation-delay: 0s;
-    border-color: #E74C3C;
-}
-
-.pulse-wave-2 {
-    animation-delay: 1.5s;
-    border-color: #EC7063;
-}
-
-@keyframes pulse-expand {
-    0% {
-        width: 85px;
-        height: 85px;
-        margin: -42.5px 0 0 -42.5px;
-        opacity: 0.8;
-        border-width: 2px;
-    }
-    50% {
-        opacity: 0.4;
-    }
-    100% {
-        width: 220px;
-        height: 220px;
-        margin: -110px 0 0 -110px;
-        opacity: 0;
-        border-width: 0.5px;
-    }
-}
-
-/* 循環軌道 */
-.circulation-orbit {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 170px;
-    height: 170px;
-    margin: -85px 0 0 -85px;
-    border: 1.5px solid rgba(241, 148, 138, 0.3);
-    border-radius: 50%;
-    animation: orbit-rotate 8s linear infinite;
-}
-
-@keyframes orbit-rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* 軌道粒子 - 模擬血液循環 */
-/* .orbit-particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #E74C3C, #EC7063);
-    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
-    top: 50%;
-    left: 50%;
-    margin: -4px 0 0 -4px;
-}
-
-.orbit-particle-1 {
-    animation: particle-move 2s ease-in-out infinite;
-    animation-delay: 0s;
-}
-
-.orbit-particle-2 {
-    animation: particle-move 2s ease-in-out infinite;
-    animation-delay: 0.5s;
-}
-
-.orbit-particle-3 {
-    animation: particle-move 2s ease-in-out infinite;
-    animation-delay: 1s;
-}
-
-.orbit-particle-4 {
-    animation: particle-move 2s ease-in-out infinite;
-    animation-delay: 1.5s;
-}
-
-@keyframes particle-move {
-    0% {
-        transform: translate(-85px, 0) scale(1);
-        opacity: 0.6;
-    }
-    25% {
-        transform: translate(0, -85px) scale(1.2);
-        opacity: 1;
-    }
-    50% {
-        transform: translate(85px, 0) scale(1);
-        opacity: 0.6;
-    }
-    75% {
-        transform: translate(0, 85px) scale(1.2);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-85px, 0) scale(1);
-        opacity: 0.6;
-    }
-} */
-
-/* Logo 容器 */
-.logo-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 50%;
+/* Logo 脈動效果 */
+.logo-pulse-wrapper {
+    width: 180px;
+    height: 180px;
+    position: relative;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
-    z-index: 10;
-    animation: logo-heartbeat 2s ease-in-out infinite;
 }
 
-@keyframes logo-heartbeat {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
-    }
-    7% {
-        transform: translate(-50%, -50%) scale(1.1);
-        box-shadow: 0 0 28px rgba(231, 76, 60, 0.4);
-    }
-    14% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
-    }
-    21% {
-        transform: translate(-50%, -50%) scale(1.15);
-        box-shadow: 0 0 32px rgba(231, 76, 60, 0.5);
-    }
-    30% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 20px rgba(231, 76, 60, 0.2);
-    }
-}
-
-.loading-logo {
-    width: 60px;
+.eecp-logo {
+    width: 140px;
     height: auto;
-    opacity: 0.95;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 4px 12px rgba(241, 77, 76, 0.2));
+    animation: bloodCirculation 3s ease-in-out infinite;
 }
 
-/* 載入訊息區 */
-/* .loading-info {
-    margin-top: 5px;
-} */
-
-.loading-text {
-    font-size: 1.2rem;
-    color: var(--grey-text);
-    font-weight: 500;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    animation: text-fade-in-out 3s ease-in-out infinite;
-}
-
-@keyframes text-fade-in-out {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-/* 進度點點 */
-.loading-progress {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.progress-dot {
+/* 血液粒子 */
+.blood-particle {
+    position: absolute;
     width: 8px;
     height: 8px;
-    background: linear-gradient(135deg, #E74C3C, #EC7063);
+    background: radial-gradient(circle at 30% 30%, #ff6b6a, #f14d4c, #d63939);
     border-radius: 50%;
-    animation: progress-flow 1.5s ease-in-out infinite;
+    box-shadow: 
+        0 0 10px rgba(241, 77, 76, 0.8),
+        0 0 20px rgba(241, 77, 76, 0.4),
+        inset 0 0 4px rgba(255, 255, 255, 0.3);
+    opacity: 0;
 }
 
-.progress-dot:nth-child(1) {
+.blood-particle-1 {
+    animation: bloodFloat1 3s ease-in-out infinite;
     animation-delay: 0s;
 }
 
-.progress-dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.progress-dot:nth-child(3) {
+.blood-particle-2 {
+    animation: bloodFloat2 3.5s ease-in-out infinite;
     animation-delay: 0.4s;
 }
 
-@keyframes progress-flow {
-    0%, 100% {
-        transform: scale(0.8);
+.blood-particle-3 {
+    animation: bloodFloat3 2.8s ease-in-out infinite;
+    animation-delay: 0.8s;
+}
+
+.blood-particle-4 {
+    animation: bloodFloat4 3.2s ease-in-out infinite;
+    animation-delay: 1.2s;
+}
+
+.blood-particle-5 {
+    animation: bloodFloat5 2.9s ease-in-out infinite;
+    animation-delay: 1.6s;
+}
+
+.blood-particle-6 {
+    animation: bloodFloat6 3.3s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+.blood-particle-7 {
+    animation: bloodFloat7 3.1s ease-in-out infinite;
+    animation-delay: 2.4s;
+}
+
+.blood-particle-8 {
+    animation: bloodFloat8 2.7s ease-in-out infinite;
+    animation-delay: 2.8s;
+}
+
+/* 血液循環動畫 - 模擬心臟收縮和舒張推動血液循環 */
+@keyframes bloodCirculation {
+    0% { 
+        transform: scale(1);
+        filter: drop-shadow(0 4px 12px rgba(241, 77, 76, 0.2));
+    }
+    15% { 
+        transform: scale(1.08);
+        filter: drop-shadow(0 6px 20px rgba(241, 77, 76, 0.5));
+    }
+    30% { 
+        transform: scale(1);
+        filter: drop-shadow(0 4px 12px rgba(241, 77, 76, 0.2));
+    }
+    45% { 
+        transform: scale(1.12);
+        filter: drop-shadow(0 8px 24px rgba(241, 77, 76, 0.6));
+    }
+    60% { 
+        transform: scale(1);
+        filter: drop-shadow(0 4px 12px rgba(241, 77, 76, 0.2));
+    }
+    100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 4px 12px rgba(241, 77, 76, 0.2));
+    }
+}
+
+/* 血液粒子隨意環繞動畫 - 每個粒子獨立軌跡 */
+@keyframes bloodFloat1 {
+    0%, 100% { top: -5%; left: 52%; transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 18%; left: 98%; transform: translate(-50%, -50%) scale(1.1); }
+    50% { top: 75%; left: 88%; transform: translate(-50%, -50%) scale(1.2); }
+    75% { top: 108%; left: 35%; transform: translate(-50%, -50%) scale(1); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat2 {
+    0%, 100% { top: 45%; left: 105%; transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 92%; left: 78%; transform: translate(-50%, -50%) scale(1.2); }
+    50% { top: 112%; left: 25%; transform: translate(-50%, -50%) scale(0.9); }
+    75% { top: 68%; left: -5%; transform: translate(-50%, -50%) scale(1.1); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat3 {
+    0%, 100% { top: 95%; left: 48%; transform: translate(-50%, -50%) scale(1.1); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 88%; left: 2%; transform: translate(-50%, -50%) scale(1); }
+    50% { top: 32%; left: -8%; transform: translate(-50%, -50%) scale(1.2); }
+    75% { top: 5%; left: 32%; transform: translate(-50%, -50%) scale(0.9); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat4 {
+    0%, 100% { top: 25%; left: 2%; transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: -2%; left: 38%; transform: translate(-50%, -50%) scale(1.1); }
+    50% { top: 12%; left: 92%; transform: translate(-50%, -50%) scale(1.2); }
+    75% { top: 58%; left: 108%; transform: translate(-50%, -50%) scale(1); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat5 {
+    0%, 100% { top: 65%; left: -8%; transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 22%; left: 12%; transform: translate(-50%, -50%) scale(0.9); }
+    50% { top: -8%; left: 62%; transform: translate(-50%, -50%) scale(1.1); }
+    75% { top: 28%; left: 102%; transform: translate(-50%, -50%) scale(1); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat6 {
+    0%, 100% { top: 8%; left: 75%; transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 42%; left: 110%; transform: translate(-50%, -50%) scale(1.2); }
+    50% { top: 88%; left: 95%; transform: translate(-50%, -50%) scale(1); }
+    75% { top: 115%; left: 58%; transform: translate(-50%, -50%) scale(1.1); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat7 {
+    0%, 100% { top: 82%; left: 18%; transform: translate(-50%, -50%) scale(1.1); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: 105%; left: 65%; transform: translate(-50%, -50%) scale(1); }
+    50% { top: 78%; left: 108%; transform: translate(-50%, -50%) scale(1.2); }
+    75% { top: 35%; left: 82%; transform: translate(-50%, -50%) scale(0.9); }
+    90% { opacity: 1; }
+}
+
+@keyframes bloodFloat8 {
+    0%, 100% { top: 48%; left: -2%; transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    25% { top: -5%; left: 32%; transform: translate(-50%, -50%) scale(1.1); }
+    50% { top: 15%; left: 78%; transform: translate(-50%, -50%) scale(0.9); }
+    75% { top: 55%; left: 98%; transform: translate(-50%, -50%) scale(1.2); }
+    90% { opacity: 1; }
+}
+
+/* 載入訊息區 */
+.loading-info {
+    text-align: center;
+    color: #312d29;
+}
+
+#page-loading .eecp-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(241, 77, 76, 0.15);
+    font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+.loading-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.status-text {
+    font-size: 16px;
+    color: rgba(49, 45, 41, 0.7);
+    margin-right: 10px;
+    font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+.status-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.status-dots .dot {
+    width: 5px;
+    height: 5px;
+    background: rgba(49, 45, 41, 0.7);
+    border-radius: 50%;
+    animation: dotBlink 1.4s infinite;
+    box-shadow: 0 0 4px rgba(49, 45, 41, 0.3);
+}
+
+.status-dots .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.status-dots .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes dotBlink {
+    0%, 60%, 100% { 
         opacity: 0.4;
-        box-shadow: 0 0 5px rgba(231, 76, 60, 0.2);
+        transform: scale(0.8);
     }
-    50% {
-        transform: scale(1.3);
+    30% { 
         opacity: 1;
-        box-shadow: 0 0 12px rgba(231, 76, 60, 0.5);
+        transform: scale(1.2);
     }
+}
+
+/* 進度條 */
+#page-loading .progress-bar-container {
+    width: 320px;
+    margin-top: 10px;
+}
+
+#page-loading .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(241, 77, 76, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(241, 77, 76, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #f14d4c 0%, 
+        #ff7a79 50%, 
+        #f14d4c 100%);
+    border-radius: 10px;
+    animation: progressFill 2.5s ease-in-out infinite;
+    box-shadow: 0 0 12px rgba(241, 77, 76, 0.5);
+}
+
+.progress-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.8) 50%, 
+        transparent 100%);
+    animation: progressGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    50% { width: 75%; }
+    100% { width: 100%; }
+}
+
+@keyframes progressGlow {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 
@@ -1627,6 +1701,7 @@ input[type="date"] {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
 }
 
 .contact-item {
@@ -1644,11 +1719,12 @@ input[type="date"] {
     justify-content: flex-start;
     height: auto;
     width: 100%;
+    flex: 1;
 }
 
 .contact-item svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
     color: var(--primary);
 }
@@ -1658,7 +1734,7 @@ input[type="date"] {
 }
 
 .contact-item svg + div > .info-title {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .contact-form-list button[type="submit"] {
@@ -1738,6 +1814,50 @@ input[type="date"] {
     #quiz-captcha-timer,
     #captcha-timer{
         width: auto;
+    }
+}
+
+
+/* Loading 響應式設計 */
+@media (max-width: 768px) {
+    .logo-pulse-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .eecp-logo {
+        width: 110px;
+    }
+    
+    #page-loading .eecp-title {
+        font-size: 24px;
+    }
+    
+    #page-loading .progress-bar-container {
+        width: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-pulse-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .eecp-logo {
+        width: 95px;
+    }
+    
+    #page-loading .eecp-title {
+        font-size: 20px;
+    }
+    
+    .status-text {
+        font-size: 14px;
+    }
+    
+    #page-loading .progress-bar-container {
+        width: 240px;
     }
 }
 

@@ -102,9 +102,7 @@ def send_email_to_client(cleaned_data):
 		subject=subject,
 		body=html_body,
 		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=[
-			'ha01633@everanhospital.com.tw'
-		],
+		to=settings.NOTIFY_EMAIL_RECIPIENTS,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html' # 設定郵件內容為 HTML 格式 (避免 html 標籤被當成純文字顯示)
@@ -186,9 +184,7 @@ def send_quiz_result_email(cleaned_data):
 		subject=subject,
 		body=html_body,
 		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=[
-			'ha01633@everanhospital.com.tw'
-		],
+		to=settings.NOTIFY_EMAIL_RECIPIENTS,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html'

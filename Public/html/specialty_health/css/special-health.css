@@ -305,9 +305,9 @@ footer{
     border-top: 1px solid var(--brown1);
     padding: 30px 10px 10px 10px;
 }
-.footer{
+/*.footer{
     padding-bottom: 65px;
-}
+}*/
 .footer-box{
     width: 98%;
     margin: 0 auto;
