@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     # path('hello/', view=views.hello_world),
-    path('health-main/', view=views.health_main, name="home"), # 前台-首頁
+    path('', view=views.health_main, name="home"), # 前台-首頁
     path('api/banner-data/', views.health_banner_api, name='ort_banner_api'), # 首頁-Banner
     path('api/health-news-home/', views.health_news_home_api, name='health_news_home_api'), # 首頁-最新消息
     path('api/health-film-home/', views.health_film_home_api, name='health_film_home_api'), # 首頁-影音專區

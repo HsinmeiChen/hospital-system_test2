@@ -18,7 +18,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('eecp-main/', view=views.eecp, name="eecp"),
+    path('', view=views.eecp, name="eecp"),
     # 驗證碼相關 API（供 EECP 頁面使用）
     path('api/refresh-captcha/', views.refresh_captcha, name='refresh_captcha'),  # AJAX 刷新驗證碼
     path('api/captcha-image/', views.generate_captcha_image, name='captcha_image'),  # 驗證碼圖片 API (pillow 產生圖片)
