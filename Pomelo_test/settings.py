@@ -191,11 +191,36 @@ MEDIA_URL = '/media/'   # MEDIA 是放上傳/下載檔案用
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  #絕對路徑;os.path-指路徑導向的副函數
 SITE_DOMAIN = "https://web.everanhospital.com.tw" #Site Domain (固定給 og:url / og:image 用)
 STATIC_URL = '/Public/'   # STATIC 放置所有靜態檔，例 css/js/ html
-if (DEBUG == False):
-    #STATIC_ROOT = os.path.join(BASE_DIR, 'Public')   # 正式區需帶語法 r 代表可把檔案路徑改成文字，所以可直接複製路徑貼上就好
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Public'),os.path.join(BASE_DIR, 'media'),]
+
+# 設定 collectstatic 收集目的地 (Nginx 指向這裡)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+if DEBUG:
+    # === [開發模式] ===
+    # 請根據您的啟動方式，選擇保留一個區塊，並註解掉另一個。
+
+    # [模式 A] 使用 python manage.py runserver 啟動 (預設)
+    # 特點：不需要 Nginx，Django 會自動處理靜態檔與媒體檔。
+    # 為了讓開發時能看到 /Public/ 下的媒體圖片，這裡把 media 也加入搜尋路徑。
+    # STATICFILES_DIRS = [
+    #     os.path.join(BASE_DIR, 'Public'),
+    #     os.path.join(BASE_DIR, 'media'),
+    # ]
+
+    # [模式 B] 使用 Nginx + Django 啟動
+    # 特點：模擬正式環境，靜態檔由 Nginx 處理。
+    # 執行 collectstatic 時不應該包含 media，以免複製大量圖片。
+    # 若要使用此模式，請打開下方註解，並註解掉上方 [模式 A]
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'Public'),
+    ]
+
 else:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'Public'),os.path.join(BASE_DIR, 'media'),]  # 測試區需帶這個語法，才吃得到 js/css 資料夾
+    # === [正式/模擬正式模式] (DEBUG=False) ===
+    # 必須使用 Nginx + collectstatic
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'Public'),
+    ]
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 

@@ -33,6 +33,9 @@ SSL/
 *.bak
 views_20*.py
 
+# 忽略 collectstatic 產生的靜態檔案資料夾
+staticfiles/
+
 # Public media (Large files, manually copied)
 Public/img/
 Public/video/
