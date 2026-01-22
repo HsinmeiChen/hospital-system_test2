@@ -86,8 +86,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    # 'whitenoise.runserver_nostatic',
     'Pomelo_API',
     "sslserver",
     "specialty_medical",
@@ -97,13 +97,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 LOGGING = {
@@ -125,13 +125,17 @@ ROOT_URLCONF = 'Pomelo_test.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  #讓 server 找得到 html 的位置
+        #修改前
+        # 'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  #讓 server 找得到 html 的位置
+        #修改後: 指向新的 templates 目錄
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
                 'specialty_medical.context_processors.default_tracking_ids', # 共用 GA, GTM 設定於 context_processors.py
                 'specialty_health.context_processors.default_tracking_ids',
@@ -222,7 +226,7 @@ else:
         os.path.join(BASE_DIR, 'Public'),
     ]
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -1,0 +1,132 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>採檢前作業流程_長安醫院檢驗科</title>
+	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- ======= 本頁 Modal Area End ======= -->
+		<!-- ======= navbar ======= -->
+		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
+		<!-- ======= navbar End ======= -->
+		<!-- ======= main-content ======= -->
+		<main class="pt-5 pb-3">
+			<div class="container py-3">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">											
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item labor_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">採檢前作業流程</li>
+										</ol>
+									</nav>		
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">採檢前作業流程</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											<div class="col-12">
+												<div class="p-2 title-bg d-inline-flex mb-2">
+													<h4 class="cofe-word mb-0">開立醫囑檢驗單</h4>
+												</div>
+												<div class="px-2 pb-2">
+													<ol class="custom-numbers mb-0">
+														<li class="mb-1 pt-1">
+															<div class="row">
+																<div class="col-12 font-18"><strong>電腦醫囑檢驗單</strong></div>
+																<div class="col-12">
+																	<p class="mb-0">A、醫囑檢驗單於電腦作業系統正常運作情形下，一律以電腦開立，電腦醫囑檢驗單。</p>
+																	<p>B、內容包括：病人姓名、病歷號。病人性別、年齡、身份證字號。病人來源（門診、急診、住院病房床號、體檢）。醫令代碼、醫囑開單日。開單科別、醫師。檢驗項目。檢體別。採檢容器及必要時加註採檢注意事項。</p>
+																</div>
+															</div>
+														</li>
+														<li class="mb-1 pt-1">
+															<div class="row">
+																<div class="col-12 font-18"><strong>手寫醫囑檢驗單</strong></div>
+																<div class="col-12">
+																<p class="mb-0">A、除非有電腦當機等特殊無法使用電腦開立醫囑檢驗單的狀況，檢驗科才受理手寫醫囑檢驗單。</p>
+																<p>B、內容包括：病人姓名、病歷號。病人來源（門診、急診、住院病房床號、體檢）。醫囑開單日。開單科別、醫師。檢驗項目。檢體別。</p>
+																</div>
+															</div>
+														</li>
+													</ol> 
+												</div>
+												<div class="p-2 title-bg d-inline-flex mb-2">
+													<h4 class="cofe-word mb-0">病患報到及檢體標示</h4>
+												</div>
+												<div class="px-2 pb-2">
+													<ol class="custom-numbers mb-0">
+														<li class="mb-1 pt-1">病患持健保卡於叫號系統插卡或持其它證件於櫃臺人工報到後，醫檢師依檢驗申請單於HIS系統報到後採檢。</li>
+														<li class="mb-1 pt-1">當醫囑開立後，病人至檢驗科採檢，便視同病人同意檢驗，無需另簽同意書。</li>
+														<li class="mb-1 pt-1">特殊檢驗，如後天免疫不全症候群之檢驗或輸血檢驗，應在臨床端先行徵得病人同意並簽立同意書始得執行，實驗室端不再另外要求病人簽立同意書。</li>
+													</ol> 
+												</div>
+												<div class="p-2 title-bg d-inline-flex mb-2">
+													<h4 class="cofe-word mb-0">病人辨識</h4>
+												</div>
+												<div class="px-2 pb-2">
+													<ol class="custom-numbers mb-0">
+														<li class="mb-1 pt-1">採檢人員於採檢前務必確實核對病人身份。</li>
+														<li class="mb-1 pt-1">收取病人健保卡(或可辨識身分之證件)與檢驗單時，需持健保卡及檢驗單同時與病人核對身分，詢問身分後，令病人自行回答姓名及出生年月日。未能言語者，可請病人出示具照片之證件進行核對。</li>
+														<li class="mb-1 pt-1">刷申請單條碼進行報到後，再次確認檢體標籤姓名正確後以適當容器進行採檢。</li>
+														<li class="mb-1 pt-1">虛弱之病人可由隨行親友代為答覆，採檢人員仍需適度查核病人性別、年齡及所顯示之採血意願與意識狀態，若無法確認，則不得進行採血。</li>
+														<li class="mb-1 pt-1">兒童應有親屬陪同，以協助辨識身份，陪同家屬應協助輔導兒童之採血意願。</li>
+													</ol> 
+												</div>
+												<div class="alert alert-warning">
+													<strong>檢體採集容器上標示內容亦須至少包含病人兩個辨識資料，辨識資料包括但不限於病人姓名、生日、病歷號、身份證號碼、唯一編號等。</strong>
+												</div>
+											</div>
+										</div>								
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>		  
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

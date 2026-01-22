@@ -37,6 +37,6 @@ views_20*.py
 staticfiles/
 
 # Public media (Large files, manually copied)
-Public/img/
-Public/video/
-Public/doc/
+Public/common/img/
+Public/common/doc/
+

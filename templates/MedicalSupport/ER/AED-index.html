@@ -1,0 +1,313 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>AED 介紹_長安醫院急診醫學科</title>
+	<link rel="stylesheet" href="{% static 'common/css/ER.css' %}">
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+
+		<div class="modal fade" id="M001" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-modal="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+			
+				<!-- Modal Header -->
+				<div class="modal-header og-bg line_break">
+					<h4 class="ell_two modal-title beige-word font-24 font-weight-bold Kir_bei">COVID19篩檢診</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+			
+				<!-- Modal body -->
+				<div class="modal-body cofe-word font-18 article_border">
+
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="card-counter info">
+								<i class="fas fa-door-closed"></i>
+								<span class="count-numbers">COVID-19</span>
+								<span class="count-name">診間位置</span>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="card-counter success">
+								<i class="fa fa-users"></i>
+								<span class="count-numbers" style="font-size: 50px;top: 5px;">35</span>
+								<span class="count-name">目前看診號碼</span>
+							</div>
+						</div>
+						
+						<div class="col-lg-4">
+							<div class="card-counter primary">
+								<i class="fas fa-stethoscope"></i>
+								<span class="count-numbers">徐錦池</span>
+								<span class="count-name">看診醫師</span>
+							</div>
+						</div>
+						
+						<div class="col">									
+							<div class="Div_out">														
+								<div class="Div_box">
+									<div class="Div_body">
+										<div class="d-inline-flex red_title">
+											<h5>看診時間</h5>
+										</div>
+										<div class="px-2">
+											<ul class="list-bullets">
+												<li class="mb-1">上午診：08:30~12:00</li>
+												<li class="mb-1">下午診：14:00~17:30</li>
+												<li class="mb-1">晚上診：18:00~21:30</li>
+											</ul>
+										</div>
+									</div>
+								</div>								
+								<div class="Div_box">									
+									<div class="Div_body">
+										<div class="d-inline-flex red_title">
+											<h5 class="cofe-word mb-0">提醒您！</h5>
+										</div>
+										<div class="px-2">
+											看診進度為參考值，實際現場進度為主，若有疑問請洽診間，謝謝。
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col p-1">		
+						
+						<div class="d-flex flex-wrap">
+							<div class="grid_out no_Checked_in">
+								<span>1</span>
+								<span></span>
+							</div>
+							<div class="grid_out Checked_in_num">
+								<span>2</span>
+								<span></span>
+							</div>
+							<div class="grid_out doc_seeing">								
+								<span>3</span>	
+								<span></span>
+								<div class="spinner"></div>										
+							</div>
+							<div class="grid_out completed_num">								
+								<span>4</span>
+								<span></span>
+							</div>
+							<div class="grid_out cancel_num">
+								<span>5</span>
+								<span><i class="fas fa-times"></i> </span>
+							</div>
+							<div class="p-2 w-20 border">6</div>
+							<div class="p-2 w-20 border">7</div>
+							<div class="p-2 w-20 border">8</div>
+							<div class="p-2 w-20 border">9</div>
+							<div class="p-2 w-20 border">10</div>
+							<div class="p-2 w-20 border">11</div>
+							<div class="p-2 w-20 border">12</div>
+							<div class="p-2 w-20 border">13</div>
+						</div>
+					</div>
+				</div>
+			
+				<!-- Modal footer -->
+				<!-- <div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div> -->
+			
+				</div>
+			</div>
+		</div>
+
+		<!-- ======= 本頁 Modal Area End ======= -->
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+		<!-- ======= main-content ======= -->
+		<main class="pb-3">
+			<div class="container py-1">			
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/ER/ER-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<!-- <li class="breadcrumb-item"><a href="about_cg.html"></a></li> -->
+											<li class="breadcrumb-item active" aria-current="page">AED 介紹</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">AED 介紹</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body" class="SDG_part">
+										<div class="row">
+											<div class="col-12">
+												<div class="d-flex float-right justify-content-end mb-3">
+													<div class="download_icon">
+														<a href="https://play.google.com/store/apps/details?id=com.supergeo.aed" target="_blank">
+															<img src="{% static 'common/img/ER/AED/google_play.png' %}" alt="Android 下載點">
+														</a>													
+													</div>
+													<div class="download_icon">
+														<a href="https://apps.apple.com/tw/app/%E8%81%BD%E8%A6%8Baed/id1501800215" target="_blank">
+															<img src="{% static 'common/img/ER/AED/App_Store.png' %}">
+														</a>
+													</div>
+													<div class="download_icon">
+														<a href="https://apps.apple.com/tw/app/%E8%81%BD%E8%A6%8Baed/id1501800215" target="_blank" class="btn btn-outline-warning rounded-0">AED 官網</a>
+													</div>
+												</div>
+												<div style="clear: both;"></div>
+												<p class="gradient_h">改變 AED 使用生態的社會企業 讓我們一起「聽見AED 拯救每顆心」</p>
+												<div class="px-3">
+													<p class="word-Indent">聽見AED團隊為長安醫院急診主任陳治圩醫師創辦成立，於2019參與聯發科數位社會創新競賽取得優等獎，於2020年取得經濟部科技研究發展專案智慧城鄉生活應用「智慧化公眾電擊器警報系統使用」之補助經費，於台中開始進行落地試驗的社會計畫，並於同年成立「愛陌生股份有限公司」預計透過社會企業的量能，將聽見AED計畫進行商轉。</p>
+				
+													<p class="word-Indent">愛陌生股份有限公司，團隊成員將致力於改變AED使用生態的大型社會實驗「聽見AED」：讓AED以一抵十。我們期待能夠過聽見AED的構想，讓目前在台灣已廣設的公眾AED能夠透過科技的連結，提高目前的AED使用率，讓需要被急救的生命不再因為AED難以搜尋與取得而產生遺憾。</p>
+	
+													<p class="word-Indent">打造「AED 安心城市」: 讓台灣成為國際知名的 AED安心島，希望與您一同打造更安心場域。</p>
+												</div>
+												<img src="{% static 'common/img/ER/AED/AED_siren.jpg' %}" alt="智慧化警報器演進">
+	
+	
+												<div class="p-2 mt-5 title-bg w-50 mx-auto">
+													<h4 class="cofe-word mb-0 text-center">改變 AED 使用生態的社會企業</h4>
+												</div>
+												<div class="container-timeline">
+													<ul>
+														<li>
+															<p class="h5 fw-bold text-justify">2019聯發科數位社會創新競賽</p>
+															<p class="text-muted text-justify">陳醫師領隊的好撒馬利亞人隊，設計第一代AED的警示發報，提昇公眾 AED的使用率(易找) ，獲頒優等獎。</p>
+														</li>
+														<li>
+															<p class="h5 fw-bold text-justify">2020經濟部科技研究發展專案智慧城鄉生活應用「智慧化公眾電擊器警報系統使用」</p>
+															<p class="text-muted text-justify">陳醫師於2020年1月將其發明之第M55870號「救護警報系統」非專屬授權給崧旭，研發成果無償、不可撤銷及永久回饋授權予陳治圩及其指定第三人(即愛陌生) 。</p>
+														</li>
+														<li>
+															<p class="h5 fw-bold text-justify">2020 July 愛陌生股份有限公司成立</p>
+															<p class="text-muted text-justify">為延續聽見AED社會實驗，成立愛陌生股份有限公司進行商轉。</p>
+														</li>
+														<li>
+															<p class="h5 fw-bold text-justify">2021 消防署救護日績優人員表揚</p>
+															<p class="text-muted text-justify">救護日主題研討會演講「你聽見AED了嗎?」獲得消防單位廣 大迴響及肯定，獲獎表揚。</p>
+														</li>
+														<li>
+															<p class="h5 fw-bold text-justify">2021台灣國際醫療暨健康照護展</p>
+															<p class="text-muted text-justify">愛陌生參與醫療系統聯盟進行攤位擺設，聽見 AED 第三代警報箱首次公開發表。 
+															</p>
+														</li>
+													</ul>
+												</div>
+												<section>
+													<div class="hd-box">
+														<h2 class="hd"><span class="txt"><span class="ic square"></span>使用困境</span></h2>
+													</div>
+													<div class="my-5">
+														<img src="{% static 'common/img/ER/AED/AED-dilemma.png' %}" class="img-fluid" alt="AED使用困境">
+													</div>
+												</section>
+												<section>
+													<div class="hd-box">
+														<h2 class="hd">
+															<span class="txt">
+																<span class="ic square"></span>智慧化整合方案
+															</span>
+														</h2>
+													</div>
+													<div class="" style="margin-bottom: 160px;">
+														<img src="{% static 'common/img/ER/AED/AED_siren_word.jpg' %}" alt="AED插圖">
+														<img src="{% static 'common/img/ER/AED/AED-wisdom.png' %}" class="img-fluid mt-4" alt="智慧化整合方案">
+													</div>
+												</section>
+												
+												<div class="container-fluid mb-5">
+													<div class="SDG_title">
+														<h3 class="cofe-word mb-0 text-center font-weight-bold">聽見 AED 團隊，符合SDG</h3>
+													</div>
+													<div class="row">
+														<div class="col-12 col-md-4">
+															<div class="trasition_site">
+																<div class="our-services">
+																	<div class="li_icon">
+																		<img src="{% static 'common/img/ER/AED/target_03.png' %}">
+																	</div>
+																	<h4>目標03</h4>
+																	<p>確保及促進各年齡層健康生活與福祉</p>
+																</div>
+															</div>
+														</div>
+														<div class="col-12 col-md-4">
+															<div class="trasition_site">
+																<div class="our-services">
+																	<div class="li_icon">
+																		<img src="{% static 'common/img/ER/AED/target_09.png' %}">
+																	</div>
+																	<div>
+																		<h4>目標09</h4>
+																		<p>建設具防災能力的基礎設施，促進具包容的永續工業化及推動創新</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-12 col-md-4">
+															<div class="trasition_site">
+																<div class="our-services">
+																	<div class="li_icon"> 
+																		<img src="{% static 'common/img/ER/AED/target_11.png' %}"> 
+																	</div>
+																	<h4>目標11</h4>
+																	<p>建設包容、安全 具防災能力與永續的城市</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>											
+											</div>
+										</div> 
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>	
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

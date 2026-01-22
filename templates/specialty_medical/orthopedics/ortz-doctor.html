@@ -1,0 +1,448 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    {% include 'specialty_medical/orthopedics/main-head.html' %}
+
+    <title>長安骨科微創手術中心 - 退化性關節炎治療 | 長安醫院 -骨科</title>
+    
+    {% include 'GA_head.html' %}
+</head>
+<body>
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+	
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <!-- ■■■ Other Tools ■■■ -->
+	{% include 'specialty_medical/orthopedics/other-tool.html' %}
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        <main style="background-color: #fff;">
+            <!-- ■■■ Banner、bread-crumbs ■■■ -->
+            <section>
+                <div>
+                    <style>
+                        body:not(.p-home-container) .l-page-container {
+                            max-width: 1260px;
+                            padding: 15px 30px 15px;
+                            margin: 0 auto
+                        }
+                        @media screen and (max-width: 960px) {
+                            body:not(.p-home-container) .l-page-container {
+                                padding:70px 4vw 100px
+                            }
+                        }
+                        .l-page-container{
+                            position: relative;
+                        }
+                        .p-corporate-mv{
+                            position: relative;
+                        }
+                        .p-corporate-mv__img {
+                            margin: 0 0 0 auto;
+                            margin-right: calc(50% - 50vw);
+                            width: 74vw;
+                            height: 420px
+                        }
+
+                        @media screen and (max-width: 960px) {
+                            .p-corporate-mv__img {
+                                width:80vw;
+                                height: 360px;
+                                text-align: right
+                            }
+                        }
+                        .p-corporate-mv__img img {
+                            height: 100%;
+                            width: 100%;
+                            -o-object-fit: cover;
+                            object-fit: cover;
+                            border-radius: 30px 0 0 30px
+                        }
+                        @media screen and (max-width: 960px) {
+                            .p-corporate-mv__img img {
+                                max-width:700px;
+                                border-radius: 15px 0 0 15px
+                            }
+                        }
+                        .p-corporate-mv__title {
+                            position: absolute;
+                            top: 161px;
+                            left: 0
+                        }
+                        @media screen and (max-width: 960px) {
+                            .p-corporate-mv__title {
+                                top:144px
+                            }
+                        }
+                        .p-corporate-mv__title>h1 {
+                            font-family: "Noto Sans JP",sans-serif;
+                            font-size: 42px;
+                            font-weight: 500;
+                            letter-spacing: .06em;
+                            line-height: 1.4;
+                            color: #222
+                        }
+                        @media screen and (max-width: 960px) {
+                            .p-corporate-mv__title>h1 {
+                                font-size:30px
+                            }
+                        }
+
+                        .p-corporate-mv__title>h1>span {
+                            display: block;
+                            margin-top: 10px;
+                            font-family: "Lato",Helvetica,sans-serif;
+                            font-size: 20px;
+                            font-weight: 300;
+                            letter-spacing: .06em;
+                            line-height: 1.2;
+                            color: #803b2d
+                        }
+                        @media screen and (max-width: 960px) {
+                            .p-corporate-mv__title>h1>span {
+                                font-size:16px
+                            }
+                            .pcOnly{
+                                display: none !important;
+                            }
+                        }
+                        @media print, screen and (min-width: 961px){
+                            .spOnly{
+                                display: none !important;
+                            }
+                        }
+
+
+                    </style>
+
+                    <div class="l-page-container">
+                        <section class="p-corporate-mv">
+                            <div class="p-corporate-mv__img">
+                                <img class="pcOnly" src="{% static 'common/img/special_medical/ortz/img_corporate_mv.jpg' %}" alt="">
+                                <img class="spOnly" src="{% static 'common/img/special_medical/ortz/img_corporate_mv_sp.jpg' %}" alt="">
+                            </div>
+                            <div class="p-corporate-mv__title">
+                                <h1>醫師陣容<span>Medical Team</span></h1>
+                            </div>
+                        </section>
+                    </div>
+                    
+                </div>
+            </section>
+            <!-- ■■■ Doctors ■■■ -->
+            <section class="container">
+                <div class="content">
+                    <!-- 麵包屑 -->
+                    <!-- <div class="text-right font-16">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-end">
+                                <li class="breadcrumb-item main_pencil font-weight-bold"></li>
+                                <li class="breadcrumb-item"><a href="about_cg.html"></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">醫師陣容</li>
+                            </ol>
+                        </nav>
+                    </div> -->
+                    <!-- 內容區 test -->
+                    <section id="officer01">
+
+
+                        <style>
+                            .c-title{
+                                color: #222;
+                                font-weight: 500;
+                            }
+                            .c-title__h2{
+                                position: relative;
+                                font-size: 30px;
+                                padding-bottom: 10px;
+                                border-bottom: 1px solid #ddd;
+                            }
+                            @media screen and (max-width: 960px) {
+                                .c-title__h2 {
+                                    font-size:24px;
+                                    padding-bottom: 15px;
+                                    margin-top: 80px
+                                }
+                            }
+                            .c-title__h2::before {
+                                position: absolute;
+                                content: "";
+                                display: block;
+                                background-color: #803b2d;
+                                width: 200px;
+                                height: 2px;
+                                bottom: -2px;
+                                left: 0
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .c-title__h2::before {
+                                    width:100px
+                                }
+                            }
+                            .c-title__h2+* {
+                                margin-top: 40px !important
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .c-title__h2+* {
+                                    margin-top:30px !important
+                                }
+                            }
+
+                            .p-corporate-profile-officer-list {
+                                display: flex;
+                                flex-wrap: wrap;
+                                padding-left: 0;
+                            }
+                            .p-corporate-profile-officer-list ul{
+                                list-style: none;
+                            }
+                            .p-corporate-profile-officer-list li{
+                                list-style: none;
+                            }
+                            .p-corporate-profile-officer-list> li > figure > img {
+                                max-width: 100%;
+                                height: auto;
+                                vertical-align: top;
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list {
+                                    max-width: 700px;
+                                    margin: 0 auto;
+                                }
+                            }
+                            @media print, screen and (min-width: 961px){
+                                .p-corporate-profile-officer-list>li{
+                                    width: 31%;
+                                }
+                                .p-corporate-profile-officer-list>li:not(:nth-child(3n)){
+                                    margin-right: 3.5%;
+                                }
+                            }
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list>li{
+                                    width: 47.85%;
+                                }
+                            }
+
+                            .p-corporate-profile-officer-list__role {
+                                font-size: 16px;
+                                line-height: 1.6;
+                                margin-top: 20px
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list__role {
+                                    font-size:15px;
+                                    margin-top: 14px
+                                }
+                            }
+
+                            .p-corporate-profile-officer-list__name {
+                                font-size: 20px;
+                                line-height: 1.6;
+                                margin-top: 10px;
+                                font-weight: 500;
+                                border-bottom: 1px solid #666;
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list__name {
+                                    font-size:18px;
+                                    margin-top: 10px
+                                }
+                            }
+                            .p-corporate-profile-officer-list__trigger {
+                                font-size: 16px;
+                                line-height: 1.6;
+                                cursor: pointer;
+                                margin-top: 15px;
+                                display: flex;
+                                align-items: center
+                            }
+
+                            .p-corporate-profile-officer-list__trigger span {
+                                position: relative
+                            }
+
+                            .p-corporate-profile-officer-list__trigger span::after {
+                                position: absolute;
+                                left: 0;
+                                content: "";
+                                width: 100%;
+                                height: 1px;
+                                background: #803b2d;
+                                bottom: 1px;
+                                -webkit-transform: scale(0, 1);
+                                transform: scale(0, 1);
+                                -webkit-transform-origin: right top;
+                                transform-origin: right top;
+                                transition: -webkit-transform .3s;
+                                transition: transform .3s;
+                                transition: transform .3s, -webkit-transform .3s
+                            }
+
+                            .p-corporate-profile-officer-list__trigger:hover span {
+                                color: #803b2d
+                            }
+
+                            .p-corporate-profile-officer-list__trigger:hover span::after {
+                                -webkit-transform: scale(1);
+                                transform: scale(1);
+                                -webkit-transform-origin: left top;
+                                transform-origin: left top
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list__trigger {
+                                    font-size:15px;
+                                    margin-top: 5px
+                                }
+                            }
+
+                            .p-corporate-profile-officer-list__trigger::after {
+                                content: "";
+                                display: inline-block;
+                                margin-left: 5px;
+                                width: 16px;
+                                height: 16px;
+                                background-image: url("../img/common/icon_biography.svg");
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: center center
+                            }
+
+                            @media screen and (max-width: 960px) {
+                                .p-corporate-profile-officer-list__trigger::after {
+                                    background-size:cover
+                                }
+                            }
+
+                        </style>
+
+
+
+
+                        <h2 class="c-title c-title__h2">
+                            <div class="text-right font-16">
+                                <ol class="breadcrumb justify-content-end">
+                                    <li class="breadcrumb-item main_pencil font-weight-bold"></li>
+                                    <!-- <li class="breadcrumb-item"><a href="about_cg.html"></a></li> -->
+                                    <li class="breadcrumb-item active" aria-current="page">醫師陣容</li>
+                                </ol>
+                            </div>
+                        </h2>
+                        <ul class="p-corporate-profile-officer-list">
+                            {% for doctor_name, doctor_pro, doctor_img, doctor_id, doctor_modal in doctors %}
+                            <li>
+                                <figure>
+                                    <img src="{% get_static_prefix %}department/img/{{ doctor_img }}" alt="{{ doctor_name }}">
+                                </figure>
+                                <p class="p-corporate-profile-officer-list__name">{{ doctor_name }}</p>
+                                <p class="p-corporate-profile-officer-list__role">{{ doctor_pro }}</p>
+                                <a class="p-corporate-profile-officer-list__trigger" href="#officer-modal-01"><span>停休診時間</span></a>
+                                <a class="p-corporate-profile-officer-list__trigger" href="#officer-modal-01"><span>網路掛號</span></a>
+                                <a class="p-corporate-profile-officer-list__trigger" href="#officer-modal-01"><span>詳細介紹</span></a>
+
+                                <div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
+                                    <div class="fill-flex">
+                                        <ul class="nav nav-pillstext-center">
+                                            <li class="flex-fill">
+                                                <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ doctor_modal }}">停休診時間</button>
+                                            </li>
+                                            <li class="flex-fill">
+                                                <a href="/A006_Online_Booking_2_1/?A006_userid={{ doctor_id }}&A006_sename=骨科" target="_blank">
+                                                    <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
+                                                </a>
+                                            </li>
+                                            <li class="flex-fill">
+                                                <input type="hidden" name="part_info" value="true">
+                                                <input type="hidden" name="open_info_name" value="{{ filename }}">
+                                                <!-- <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" onclick="window.location.href='/A001_department_orthopedics_' + {{ number }} + '/';">詳細介紹</button> -->
+                                                <button type="submit" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" >詳細介紹</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </section>
+
+                    <!-- 內容區 -->
+                    <!-- 內容區 End -->
+                </div>                   
+
+
+            </section>
+        </main>
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+
+    <!-- ▼▼▼ Modal Start ▼▼▼ -->
+    <!-- 停休診時間 -->
+    {% for doctor_modal,stop_datas in modals %}
+        <div class="modal fade" id="M{{ doctor_modal }}" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">停休診時間</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if stop_datas %}
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="title-bg text-center">月份</th>
+                                        <th class="title-bg text-center">日期</th>
+                                        <th class="title-bg text-center">科別</th>
+                                        <th class="title-bg text-center">時段</th>
+                                        <th class="title-bg text-center">診間</th>
+                                    </tr>
+                                </thead>
+                                {% for stop_data in stop_datas %}
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">{{ stop_data.5 }}</td>
+                                            <td class="text-center">{{ stop_data.6 }}</td>
+                                            <td class="text-center">{{ stop_data.0 }}</td>
+                                            <td class="text-center">{{ stop_data.3 }}</td>
+                                            <td class="text-center">{{ stop_data.4|slice:"1:4" }}</td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <div class="text-center font-18">無</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- ▲▲▲ Modal End ▲▲▲ -->
+
+    <!-- ※※※ JS Tool Start ※※※ -->
+	<script src="{% static 'apps/specialty_medical/js/script.js' %}"></script>
+    <!-- ※※※ JS Tool End ※※※ -->
+</body>
+</html>

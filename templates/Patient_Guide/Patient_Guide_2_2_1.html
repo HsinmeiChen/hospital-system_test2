@@ -1,0 +1,289 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>{{ drname }}_長安醫院{{ sename }}</title>
+	{% include 'GA_head.html' %}
+	<style>
+		.doctor_wh{
+			height: 295px !important;
+			max-width: 225px !important;
+			margin-bottom: 10px;
+		}		
+		.doc_bookable .css_table{
+			min-height: 70px;
+		}
+		.reg_bg .d_intro:hover{
+			background-color: #75482b;
+		}
+	</style>
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= main-content ======= -->
+		<main class="online_main">
+			<div class="container py-1">
+				<div class="row">
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-12">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil font-weight-bold"></li>
+											<li class="breadcrumb-item Online_Appointment font-weight-bold"></li>
+											<li class="breadcrumb-item Online_Appointment_doc font-weight-bold"></li>
+											<li class="breadcrumb-item active" aria-current="page">{{ sename }} {{ drname }}</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">{{ sename }} {{ drname }}</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div>
+											<div class="container py-2">
+												<div class="row">
+													<div class="col-lg-5">
+														<div class="d_img_div doctor_wh">
+															<img src="{% get_static_prefix %}department/img/{{ dr_img }}" title="{{ sename }}-{{ drname }}" alt="{{ sename }}-{{ drname }}">
+														</div>
+													</div>
+													<div class="col-lg-7">
+														<div>
+															<div class="caption">主治項目</div>
+															<div class="px-1">
+																<ul class="list-bullets font-18 mt-3">
+																	{% for e in dr_e %}
+																		<li>{{ e }}</li>
+																	{% endfor %}
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<hr class="mt-1"/>
+											<div class="booking_sys">
+												<form action="" method="GET">
+													<input type="hidden" name="A006_userid" value="{{ userid }}">
+													<input type="hidden" name="A006_sename" value="{{ sename }}">
+													<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0 }}">
+													<input type="hidden" name="A006_width" id="A006_width">
+													<p ></p>
+													<div class="tab-button-outer">
+														<div id="tab-button_a">
+															<div class="switch-field">
+																<input type="radio" onchange="this.form.submit();" id="radio-one" name="switch_day" value="1" {% if switch_day == 1 %} checked {% endif %}/>
+																<label for="radio-one">{{ A006_radio_day_1 }}月</label>
+																<input type="radio" onchange="this.form.submit();" id="radio-two" name="switch_day" value="2" {% if switch_day == 2 %} checked {% endif %}/>
+																<label for="radio-two">{{ A006_radio_day_2 }}月</label>
+																<input type="radio" onchange="this.form.submit();" id="radio-three" name="switch_day" value="3" {% if switch_day == 3 %} checked {% endif %}/>
+																<label for="radio-three">{{ A006_radio_day_3 }}月</label>
+																<!-- <input type="radio" onchange="this.form.submit();" id="radio-four" name="switch_day" value="4" {% if switch_day == 4 %} checked {% endif %}/> -->
+																<!-- <label for="radio-four">測試用</label> -->
+															</div>
+														</div>
+													</div>
+													<div class="tab-select-outer mb-2">
+														<select onchange="this.form.submit();" name="switch_day2" class="form-control form-control-lg">
+															<option value="1" {% if switch_day2 == 1 %} selected {% endif %}>{{ A006_radio_day_1 }}月</option>
+															<option value="2" {% if switch_day2 == 2 %} selected {% endif %}>{{ A006_radio_day_2 }}月</option>
+															<option value="3" {% if switch_day2 == 3 %} selected {% endif %}>{{ A006_radio_day_3 }}月</option>
+															<!-- <option value="4" {% if switch_day2 == 4 %} selected {% endif %}>測試用</option> -->
+														</select>
+													</div>
+													<script type="text/javascript">
+														const pageWidth  = document.documentElement.scrollWidth;
+														var width = document.getElementById("A006_width");
+														width.value = pageWidth;
+													</script>
+												</form>
+												<form action="" method="GET" class="d-flex justify-content-between align-items-center mb-2">
+													<input type="hidden" name="A006_userid" value="{{ userid }}">
+													<input type="hidden" name="A006_sename" value="{{ sename }}">
+													<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0 }}">
+													<div>
+														{% if c_startdt <= A006_today %}
+														{% else %}
+															<button type="submit" class="btn btn-link week_btn" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+														{% endif %}
+													</div>
+													<!-- <div class="cofe-word this_month">
+														<div>01/02</div>&nbsp;至&nbsp;
+														<div>01/08</div>
+													</div> -->
+													<div>
+														{% if dr_days_limit_start %}
+														{% else %}
+															<button type="submit" class="btn btn-link week_btn" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+														{% endif %}
+													</div>
+												</form>
+											</div>
+											<div class="doc_bookable">
+												<table class="table table-bordered table-hover">
+													<thead>
+														<tr>
+															<th class="font-weight-bold title-bg text-center beige-word text-nowrap" style="width: 20%;">日期</th>
+															<th class="font-weight-bold title-bg text-center beige-word text-nowrap">可預約時段{{document.documentElement.scrollWidth}}</th>
+														</tr>
+													</thead>
+													<tbody>
+														{% for dr_day,dr_weekday,dr_lookday_s,dr_lookday_a,dr_lookday_n in dr_clinic_list %}
+															<tr>
+																<td>
+																	<div class="booking_date_col">
+																		<div>{{ dr_day }}</div>
+																		<div>{{ dr_weekday }}</div>
+																	</div>
+																</td>
+																<td class="p-0">
+																	<div class="Div_out">
+																		<div class="Div_box_3pic d-flex align-items-stretch">
+																			<div class="Div_body p-0">
+																				<div class="css_table">
+																					<div class="css_tr">
+																						<div class="css_th mor_a">早</div>
+																						{% if dr_lookday_s.0 == 'Q' %}
+																							<div class="css_td">
+																								<input type="submit" value="停約" class="booking_btn booking_disable">
+																							</div>
+																						{% elif dr_lookday_s.4 == 'M' %}
+																							<div class="css_td">
+																								<div class="booking_full">約滿</div>
+																							</div>
+																						{% elif dr_lookday_s.0 == 'Y' %}
+																							<form action="/A006_Online_Booking_login/" method="POST" class="h-100 d-flex align-items-center">
+																								{% csrf_token %}
+																								<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+																								<input type="hidden" name="user_shiftno" value="1">
+																								<input type="hidden" name="user_sectno" value="{{ sectno }}">
+																								<input type="hidden" name="user_doccd" value="{{ userid }}">
+																								<input type="hidden" name="A006_check_in">
+																								<div class="css_td">
+																									<div class="booking">{{ dr_lookday_s.1 }}</div>{% if dr_lookday_s.2 == 'R' %}<span>{{ dr_lookday_s.3 }}</span>{% endif %}
+																								</div>
+																								<div class="css_td">
+																									<input type="submit" value="預約" class="booking_btn">
+																								</div>
+																							</form>
+																						{% endif %}
+																						<div></div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="Div_box_3pic d-flex align-items-stretch">
+																			<div class="Div_body p-0">
+																				<div class="css_table">
+																					<div class="css_tr">
+																						<div class="css_th noon_a">午</div>
+																						{% if dr_lookday_a.0 == 'Q' %}
+																							<div class="css_td">
+																								<input type="submit" value="停約" class="booking_btn booking_disable">
+																							</div>
+																						{% elif dr_lookday_a.4 == 'M' %}
+																							<div class="css_td">
+																								<div class="booking_full">約滿</div>
+																							</div>
+																						{% elif dr_lookday_a.0 == 'Y' %}
+																							<form action="/A006_Online_Booking_login/" method="POST" class="h-100 d-flex align-items-center">
+																								{% csrf_token %}
+																								<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+																								<input type="hidden" name="user_shiftno" value="2">
+																								<input type="hidden" name="user_sectno" value="{{ sectno }}">
+																								<input type="hidden" name="user_doccd" value="{{ userid }}">
+																								<input type="hidden" name="A006_check_in">
+																								<div class="css_td">
+																									<div class="booking">{{ dr_lookday_a.1 }}</div>{% if dr_lookday_a.2 == 'R' %}<span>{{ dr_lookday_a.3 }}</span>{% endif %}
+																								</div>
+																								<div class="css_td">
+																									<input type="submit" value="預約" class="booking_btn">
+																								</div>
+																							</form>
+																						{% endif %}
+																						<div></div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="Div_box_3pic d-flex align-items-stretch">
+																			<div class="Div_body p-0">
+																				<div class="css_table">
+																					<div class="css_tr">
+																						<div class="css_th night_a">晚</div>
+																						{% if dr_lookday_n.0 == 'Q' %}
+																							<div class="css_td">
+																								<input type="submit" value="停約" class="booking_btn booking_disable">
+																							</div>
+																						{% elif dr_lookday_n.4 == 'M' %}
+																							<div class="css_td">
+																								<div class="booking_full">約滿</div>
+																							</div>
+																						{% elif dr_lookday_n.0 == 'Y' %}
+																							<form action="/A006_Online_Booking_login/" method="POST" class="h-100 d-flex align-items-center">
+																								{% csrf_token %}
+																								<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+																								<input type="hidden" name="user_shiftno" value="3">
+																								<input type="hidden" name="user_sectno" value="{{ sectno }}">
+																								<input type="hidden" name="user_doccd" value="{{ userid }}">
+																								<input type="hidden" name="A006_check_in">
+																								<div class="css_td">
+																									<div class="booking">{{ dr_lookday_n.1 }}</div>{% if dr_lookday_n.2 == 'R' %}<span>{{ dr_lookday_n.3 }}</span>{% endif %}
+																								</div>
+																								<div class="css_td">
+																									<input type="submit" value="預約" class="booking_btn">
+																								</div>
+																							</form>
+																						{% endif %}
+																						<div></div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</td>
+															</tr>
+														{% endfor %}
+													</tbody>
+												</table>
+											</div>
+											<div class="py-3 text-center border-top">
+												<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A006_Online_Booking_1/';"> 回科別查詢</button>
+												<button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A006_Online_Booking_2/';">回醫師查詢</button>
+											</div>
+										</div>
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+</body>
+
+</html>

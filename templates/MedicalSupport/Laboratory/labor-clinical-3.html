@@ -1,0 +1,275 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+	{% include 'Public_head.html' %}
+	<title>檢體採集原則_長安醫院檢驗科</title>
+	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
+	{% include 'GA_head.html' %}
+	<style>
+		.categories-view1-wrap{
+			height: 130px;
+			padding: 30px 20px 30px 85px;
+			word-break: break-all;
+		}
+	</style>
+
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- ======= 本頁 Modal Area End ======= -->
+		<!-- ======= navbar ======= -->
+		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
+		<!-- ======= navbar End ======= -->
+		<!-- ======= main-content ======= -->
+		<main class="pt-5 pb-3">
+			<div class="container py-3">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">											
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item labor_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">檢體採集原則</li>
+										</ol>
+									</nav>		
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">檢體採集原則</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											<div class="col-12">
+												<div class="categories categories-view1">
+													<ul class="row mb-0">                            
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_blood/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-tint og-word"></i>
+																	<div>血液檢體採集前評估</div>
+																	<!-- <small>(3 Open Vacancies)</small> -->
+																	<!-- <span>01</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_solid/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-tint og-word"></i>
+																	<div>血液凝固檢驗檢體採檢</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>06</span> -->
+																</div>
+															</a>
+														</li>                                
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_vein/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-vial og-word"></i>
+																	<div>靜脈血檢體採集</div>
+																	<!-- <small>(2 Open Vacancies)</small> -->
+																	<!-- <span>02</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_art/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-vial og-word"></i>
+																	<div>動脈血檢體採集</div>
+																	<!-- <small>(13 Open Vacancies)</small> -->
+																	<!-- <span>03</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_baby/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-baby og-word"></i>
+																	<div>新生兒腳跟血毛細管採集</div>
+																	<!-- <small>(22 Open Vacancies)</small> -->
+																	<!-- <span>04</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_sugar/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-microscope og-word"></i>
+																	<div>快速血糖檢驗指尖血採集</div>
+																	<!-- <small>(18 Open Vacancies)</small> -->
+																	<!-- <span>05</span> -->
+																</div>
+															</a>
+														</li>
+														
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_ra/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-flask og-word"></i>
+																	<div>QuantiFERON (IGRA) 檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>07</span> -->
+																</div>
+															</a>
+														</li>                                
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_wine/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-wine-glass-alt og-word"></i>
+																	<div>酒精濃度(Alcohol)檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_csf/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-brain og-word"></i>
+																	<div>腦脊髓液 (CSF) 檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_cav/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-lungs-virus og-word"></i>
+																	<div>肋膜腔積液(胸水)、腹膜腔積液(腹水)、心包膜腔積液或其他積液</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_tract/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-search og-word"></i>
+																	<div>胃腸道檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_urine/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-vial og-word"></i>
+																	<div>尿液檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_semen/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-microscope og-word"></i>
+																	<div>精液檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_dung/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-prescription-bottle og-word"></i>
+																	<div>糞便檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_phlegm/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-head-side-cough og-word"></i>
+																	<div>痰液檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_respiratory/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-head-side-mask og-word"></i>
+																	<div>呼吸道檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_prepare/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fas fa-prescription-bottle-alt og-word"></i>
+																	<div>輸備血檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+														<li class="col-12 col-md-6">
+															<a href="/A003_labor_clinical_3_3c/">
+																<div class="categories-view1-wrap d-flex align-items-center">
+																	<i class="fab fa-cloudsmith og-word"></i>
+																	<div>Cold agglutinin、Cryoglobulin、IFE for Cryoglobulin 檢體採集</div>
+																	<!-- <small>(4 Open Vacancies)</small> -->
+																	<!-- <span>08</span> -->
+																</div>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>		  
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

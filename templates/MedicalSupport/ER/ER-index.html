@@ -1,0 +1,109 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>本科介紹_長安醫院急診醫學科</title>
+	<link rel="stylesheet" href="{% static 'common/css/ER.css' %}">
+	{% include 'GA_head.html' %}
+</head>
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= main-content ======= -->
+		<main class="pb-3">
+			<div class="container py-1">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/ER/ER-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">本科介紹</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">本科介紹</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											<div class="col-12">
+												<!-- <div class="intro_banner"></div> -->
+												<img src="{% static 'common/img/ER/ER_Ad.jpg' %}" class="img-fluid" alt="Responsive image">
+											</div>
+										</div>									
+										<div class="col-12 mt-4">
+											<div class="p-2 title-bg d-inline-flex mb-2">
+												<h4 class="cofe-word mb-0">關於急診醫學科</h4>
+											</div>
+											<p class="word-Indent font-18">急診在全體醫師群努力下，提供鄰近民眾緊急傷病時，24小時全天候診療服務及各類外傷處理。且配合內科、兒科、心臟科、骨科、泌尿科醫師全天候支援，在前線、後線的互相配合下讓治療成效大幅提升。</p>
+		
+											<p class="word-Indent font-18">胸悶、胸痛或急性心肌梗塞、急性腰痛、尿路結石、兒童腹瀉、嘔吐、急性腸胃炎、流感、諾羅、輪狀病毒篩檢、骨折或各種外傷。</p>
+		
+											<p class="word-Indent font-18">此外急診室也設有專門傷口照護人員，不管是急性或是慢性傷口都能夠提供社區民眾最優質的照護。</p>
+		
+										</div>
+										<div class="col-12 mt-4">
+											<div class="p-2 title-bg d-inline-flex mb-2">
+												<h4 class="cofe-word mb-0">各式儀器、設備、檢查</h4>
+											</div>
+											<div class="px-2">
+												<ul class="list-bullets">
+													<li class="mb-1">超音波</li>
+													<li class="mb-1">心電圖監視器</li>
+													<li class="mb-1">三合一行動監視器</li>
+													<li class="mb-1">自動心肺復甦機</li>
+													<li class="mb-1">血氧監測儀</li>
+													<li class="mb-1">人工呼吸機</li>
+												</ul>
+											</div>
+										</div>																		
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

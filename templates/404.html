@@ -1,0 +1,34 @@
+{% load static %}
+<html lang="zh-TW"><head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="長安醫院、太平醫院、急診、骨科、眼科、復健、體檢、健康檢查、假日門診">
+	<meta name="title" content="長安醫院">
+	<meta property="og:url" content="http://web.everanhospital.com.tw/">
+	<meta property="og:title" content="長安醫院">
+	<meta property="og:type" content="article">
+	<meta property="og:description" content="長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。">
+	<meta name="description" content="長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。">
+	<title>404！找不到網頁_長安醫院</title>
+    {% include 'GA_head.html' %}
+
+	<!-- CSS ================================ -->
+	<link rel="stylesheet" href="{% static 'common/css/style.css' %}">
+</head>
+
+<body id="Error_Page">
+	<!-- Google Tag Manager (noscript) -->
+    {% include 'GA_noscript.html' %}
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="L_sub_main_bg Error_Page">
+        <div class="Not_Found">
+            <div><img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院"></div>
+            <h1 class="Error">404</h1>
+            <div>Oops！Page Not Found</div>
+            <div class="page">抱歉，這個頁面不存在！</div>
+            <a class="back-home" href="https://web.everanhospital.com.tw/">回到本院首頁</a>
+        </div>
+    </div>
+</body>
+</html>

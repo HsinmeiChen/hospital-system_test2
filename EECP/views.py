@@ -39,7 +39,7 @@ def eecp(request):
 				return render(request, "EECP/EECP.html", {
 					"form": form,
 					"captcha_answer": request.session.get('captcha_answer'),
-					'og_image': f"{settings.SITE_DOMAIN}/Public/html/EECP/img/EECP.png"
+					'og_image': f"{settings.SITE_DOMAIN}/Public/apps/EECP/img/EECP.png"
 				})
 		
 		form = ContactForm(request.POST, captcha_answer=captcha_answer)
@@ -91,7 +91,7 @@ def eecp(request):
 			return render(request, "EECP/EECP.html", {
 				"form": form,
 				"captcha_answer": request.session.get('captcha_answer'),
-				'og_image': f"{settings.SITE_DOMAIN}/Public/html/EECP/img/EECP.png"
+				'og_image': f"{settings.SITE_DOMAIN}/Public/apps/EECP/img/EECP.png"
 			})
 	else:
 		# GET 請求：產生新驗證碼並顯示空表單
@@ -101,7 +101,7 @@ def eecp(request):
 	return render(request, "EECP/EECP.html", {
 		"form": form,
 		"captcha_answer": request.session.get('captcha_answer'),
-		'og_image': f"{settings.SITE_DOMAIN}/Public/html/EECP/img/EECP.png"
+		'og_image': f"{settings.SITE_DOMAIN}/Public/apps/EECP/img/EECP.png"
 	})
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ EECP (eecp_contact) ■■■■■■■■■■■■■■■■■■■■■■■■■■

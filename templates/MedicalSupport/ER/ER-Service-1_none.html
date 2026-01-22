@@ -1,0 +1,171 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>自費採檢_長安醫院急診醫學科</title>
+	<link rel="stylesheet" href="{% static 'common/css/ER.css' %}">
+	{% include 'GA_head.html' %}
+</head>
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+
+		<!-- ======= 本頁 Modal Area ======= -->
+		
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= main-content ======= -->
+		<main class="pb-3">
+			<div class="container py-1">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'MedicalSupport/ER/ER-menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<li class="breadcrumb-item active" aria-current="page">自費採檢</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="p-3 bg-white rounded panel-shadow">
+									<!-- 標題 -->
+									<section id="content_h">								
+										<div class="row">
+											<div class="col-12 col-md-1 mb-2">
+												<div class="onsale-section">
+													<span class="onsale"><i class="fas fa-star"></i></span>
+												</div>
+											</div>
+											<div class="col-12 col-md-11 px-md-0">
+												<div class="onsale_heading">自費採檢</div>
+											</div>
+										</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="row">
+											
+											<div class="col-12">
+												<div class="div1">
+													<img src="./img/covid-19自費採檢.jpg" class="img-fluid" alt="民眾自費採檢COVID-19(新冠肺炎)作業須知">
+												</div>											
+												<div class="mt-2">
+													<table class="table cell-table Oop_COVID-19">
+														<tbody>													
+															<tr>
+																<th width="80" class="text-center">適用對象</th>
+																<td>
+																	<div class="p-2">有自費採檢需求者</div>
+																</td>
+															</tr>
+															<tr>
+																<th class="text-center">受理時間</th>
+																<td>
+																	<div class="p-2">
+																		<div>週一 ~ 週五 : 【上午】08:30~12:00、【下午】14:00~17:30</div>
+																		<div>週六 : 【上午】08:30~12:00</div>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<th class="text-center">採檢項目</th>
+																<td>
+																	<div class="p-2">
+																		<div class="div1">
+																			<img src="./img/covid-19採檢須知.png" class="img-fluid" alt="採檢項目說明表格">
+																		</div>
+																		<div class="mt-3">
+																			<h5 class="font-weight-bold">備註 :</h5>
+																			<ol class="custom-numbers mb-0">
+																				<li>可現金繳費或信用卡刷卡。</li>
+																				<li>PCR費用含掛號費、診察費、檢驗費、中英文並列檢驗報告各一份
+																					<span class="text-primary">(第二份起多一份100元)</span>。
+																				</li>
+																			</ol>
+																		</div>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<th class="text-center">就醫流程</th>
+																<td>
+																	<div class="p-2">
+																		<ol class="custom-numbers mb-0">
+																			<li>網路掛號「自費COVID-19採檢診(101診)」。</li>
+																			<li>下載並填寫「自費PCR檢驗申請表」。</li>
+																			<li>掃描 QRCode 填寫中英文基本資料。
+																				<div class="small_img">
+																					<a href="http://www.everanhospital.com.tw:4119/eah/lab/patientedata.asp" target="_blank">
+																						<img src="./img/QRcode.png" class="img-fluid" alt="掃描 QRCode 填寫中英文基本資料">
+																					</a>
+																				</div>	
+																			</li>
+																			<li>備齊所需文件依掛號時間至自費COVID-19採檢診(101診)報到。</li>
+																			<li>至掛號櫃台領取報告。</li>
+																			<li>需本人持身分證正本；如委託他人，需持雙方身分證正本+委託書。</li>
+																		</ol>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<th class="text-center">諮詢電話</th>
+																<td>
+																	<div class="p-2">(04) 3611-3611 轉9</div>
+																</td>
+															</tr>
+															<tr>
+																<th class="text-center">檔案下載</th>
+																<td>
+																	<div class="p-2">
+																		<a href="./doc/MR-001-A-202-20210609.docx"><i class="fas fa-download og-word"></i> 自費PCR檢驗COVID-19申請表暨同意書</a>
+																	</div>
+																</td>
+															</tr>
+															
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>								
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+	<!-- ======= js 套件區 End ======= -->
+</body>
+
+</html>

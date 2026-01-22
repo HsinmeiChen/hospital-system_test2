@@ -1,0 +1,414 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>{{ doctor_name }}_長安醫院{{ department }}</title>
+
+	<!-- 外掛資源：輪播 -->
+	<script src="{% static 'common/js/slick.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'common/css/slick.css' %}" />
+	<link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" />
+	{% include 'GA_head.html' %}
+	<style>
+		.page-link:hover{
+			cursor: initial;
+		}
+		#content_body li a:hover:not(.page-item.active .page-link), .see_more_a a:hover{
+			background: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	 {% include 'GA_noscript.html' %}
+	 <div class="wrapper L_sub_main_bg">
+		<!-- ======= 本頁 Modal Area ======= -->
+		<!-- 停休診時間 -->
+		<div class="modal fade" id="stop_time" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">停休診時間</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						{% if stop_datas %}
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th class="title-bg text-center">月份</th>
+										<th class="title-bg text-center">日期</th>
+										<th class="title-bg text-center">科別</th>
+										<th class="title-bg text-center">時段</th>
+										<th class="title-bg text-center">診間</th>
+									</tr>
+								</thead>
+								{% for stop_data in stop_datas %}
+									<tbody>
+										<tr>
+											<td class="text-center">{{ stop_data.5 }}</td>
+											<td class="text-center">{{ stop_data.6 }}</td>
+											<td class="text-center">{{ stop_data.0 }}</td>
+											<td class="text-center">{{ stop_data.3 }}</td>
+											<td class="text-center">{{ stop_data.4|slice:"1:4" }}</td>
+										</tr>
+									</tbody>
+								{% endfor %}
+							</table>
+						{% else %}
+							<div class="text-center font-18">無</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ======= 本頁 Modal Area ======= -->
+		{% for a,b in in_zip_data %}
+		<div class="modal fade" id="M-{{ a.0 }}" tabindex="-1" aria-labelledby="news1_content" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+				<div class="modal-content">
+					<div class="modal-header og-bg line_break">                
+						<h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="exampleModalLabel">{{ a.3 }}</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body cofe-word font-18 article_border">		            
+						{% for bb in b %}
+							<!-- {% if "<h>" in bb %}
+								<div class="col-12 px-0">
+									<div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
+								</div>
+							{% endif %} -->
+
+							{% if "<t>" in bb %}
+								<div>
+									<p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>       
+								</div>
+							{% endif %}
+
+							{% if "<img1>" in bb %}
+								<div class="col-12 px-0">
+									<img class="img-fluid w-100" src="{% get_static_prefix %}news_2/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
+								</div>
+							{% endif %}
+
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+		<!--  ▲▲▲ 影音消息 ▲▲▲  -->
+		{% for m in message_lists_1 %}
+		<div class="modal fade show" id="D1-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
+			<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header og-bg line_break">
+						<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
+						<button type="button" class="close" data-dismiss="modal">×</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body cofe-word font-18 article_border p-0">                       
+						<div class="col-12 px-0" >
+							<div class='embed-container'>
+								<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<!-- ======= 本頁 Modal Area End ======= -->
+
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= main-content ======= -->
+		<main class="pb-3">
+			<div class="container py-1">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'department/d_bone_menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil font-weight-bold"></li>
+											<li class="breadcrumb-item surgical_in font-weight-bold"></li>
+											<li class="breadcrumb-item active" aria-current="page">{{ department }} {{ doctor_name }}</li>
+										</ol>
+									</nav>
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white panel-shadow rounded">
+									<!-- 標題 -->
+									<!-- <section id="content_h">								
+										<div class="row">
+											<div class="col-12 col-md-1 mb-2">
+												<div class="onsale-section">
+													<span class="onsale"><i class="fas fa-star"></i></span>
+												</div>
+											</div>
+											<div class="col-12 col-md-11 px-md-0">
+												<div class="onsale_heading">{{ doctor_name }}</div>
+											</div>
+										</div>
+										<hr class="my-2">	
+									</section> -->
+									<!-- 細節 -->
+									<section id="content_body">
+										<div class="">	
+											<div class="d-flex justify-content-start">
+												<div class="p-2 title-bg mb-2 text-center fill-flex w-100">
+													<h4 class="cofe-word mb-0">醫師個人介紹</h4>
+												</div>
+											</div>
+											<div>
+												<div class="container py-2">
+													<div class="row">
+														<div class="col-lg-5 mb-3">
+															<div class="d_img_div doctor_wh">
+																<img src="{% get_static_prefix %}department/img/{{ doctor_img }}" title="{{ department }}-{{ doctor_name }}" alt="{{ department }}-{{ doctor_name }}">
+															</div>
+															<div class="about-text cofe-word mt-4 text-center">
+																<h4>{{ doctor_name }}</h4>
+																<div class="px-4 text-justify gy-word font-18">
+																	<p>{{ doctor_info|safe }}</p>
+																</div>
+																{% if not disable_X %}
+																<div>
+																	<button type="button" class="group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#stop_time">停休診時間</button>
+																	<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
+																		<button type="button" class="group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
+																	</a>
+																</div>
+																{% endif %}
+															</div>
+
+														</div>
+														<div class="col-lg-7">
+															<div>
+																<div class="caption">專長</div>
+																<div class="px-1">
+																	<ul class="list-bullets font-18 mt-3">
+																		{% for e in doctor_e %}
+																			<!-- ===== 單位維護區 start ===== -->
+																			<li>{{ e }}</li>
+																			<!-- ===== 單位維護區 end ===== -->
+																		{% endfor %}
+																	</ul>
+																</div>
+															</div>
+															<div>
+																<div class="caption">學經歷</div>
+																<div class="px-1">
+																	<ul class="list-bullets font-18 mt-3">
+																		{% for a in doctor_a %}
+																			<!-- ===== 單位維護區 start ===== -->
+																			<li>{{ a }}</li>
+																			<!-- ===== 單位維護區 end ===== -->
+																		{% endfor %}
+																	</ul>
+																</div>
+															</div>
+														</div>													
+													</div>													
+												</div>
+											</div>
+											{% if in_zdata_i != 0 %}
+												<div class="caption_noline text-center">相關文章</div>
+												<div class="list-group list-group-flush">
+													{% for mmm,xxx,ppp in in_zdata %}
+													<div class="media_new">
+														<div class="border-bottom px-3 pt-3 pb-2">
+															<div>
+																<h5 class="ell_two">
+																	<a href="#" data-toggle="modal" data-target="#M-{{ mmm.0 }}">{{ mmm.3 }}</a>
+																</h5>														
+																<div class="single_ell text-muted">
+																	{{ xxx }}
+																</div>														
+																<div class="text-right mr-2 mb-0 text-date">
+																	<small>{{ mmm.7|cut:".txt" }}</small>
+																</div>
+															</div>
+														</div>
+													</div>
+													{% endfor %}
+													<div class="row mt-3">
+														<div class="col-12 d-flex justify-content-center">
+															<ul class="pagination">
+																<li class="page-item">
+																   <a class="page-link" href="{{ url }}&page=1&{{ dorp }}=&{{ porn }}=1">
+																	<i class="fas fa-angle-double-left"></i>
+																   </a>
+																</li>
+																{% if in_contacts_2.has_previous %}
+																	<li class="active">
+																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.previous_page_number }}&{{ dorp }}=&{{ porn }}=1">
+																			<i class="fas fa-angle-left"></i>
+																		</a>
+																	</li>
+																{% endif %}
+
+																{% if in_paginator_2.has_previous_more %}
+																	<li class="page-item"><a class="page-link" href="{{ url }}&page=1&{{ dorp }}=&{{ porn }}=1">1</a></li>
+																	<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+																{% endif %}
+
+																{% for i in in_paginator_2.previous_range %}
+																	<li class="page-item">
+																		<a class="page-link" href="{{ url }}&page={{ i }}&{{ dorp }}=&{{ porn }}=1">{{ i }}</a>
+																	</li>
+																{% endfor %}
+
+																<li class="page-item active"><a class="page-link">{{ in_paginator_2.number }}</a></li>
+
+																{% for i2 in in_paginator_2.next_range %}
+																	<li class="page-item">
+																		<a class="page-link" href="{{ url }}&page={{ i2 }}&{{ dorp }}=&{{ porn }}=1">{{ i2 }}</a>
+																	</li>
+																{% endfor %}
+
+																{% if in_paginator_2.has_next_more %}
+																	<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+																	<li class="page-item"><a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}&{{ dorp }}=&{{ porn }}=1">{{ in_paginator_2.num_pages }}</a></li>
+																{% endif %}
+
+																{% if in_contacts_2.has_next %}
+																	<li class="active">
+																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.next_page_number }}&{{ dorp }}=&{{ porn }}=1">
+																			<i class="fas fa-angle-right"></i>
+																		</a>
+																	</li>
+																{% endif %}
+																<li class="page-item">
+																	<a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}&{{ dorp }}=&{{ porn }}=1">
+																		<i class="fas fa-angle-double-right"></i>
+																	</a>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											{% endif %}
+											{% if message_lists_1_i != 0 %}
+												<div class="caption_noline text-center">相關影音</div>
+												<style>
+													.slick-track{
+														margin-left: initial;
+														margin-right: initial;
+													}
+												</style>
+												<div class="doctor_mov">
+													{% for m in message_lists_1 %}
+													<div>
+														<div class="spacing_mp">
+															<a href="#" data-toggle="modal" data-target="#D1-{{m.index}}">
+																<div class="media_new info_card transform_result">
+																	<div>
+																		<img class="" src="{{m.youtube_image}}" alt="">
+																	</div>
+																</div>
+															</a>
+														</div>
+													</div>
+													{% endfor %}
+												</div>
+											{% endif %}
+
+											<div class="py-3 text-center border-top">
+												<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A001_department_part/';"> 回本科首頁</button>
+												<button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A001_dr_search/';">回醫師查詢</button>
+											</div>
+
+										</div>
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+	<!-- ======= js 套件區 ======= -->
+
+	<!-- ※※ slick 輪播效果 ※※ -->
+	<script>
+		// 相關影音
+		$('.doctor_mov').slick({
+			// dots: true,
+			infinite: true,
+			nextArrow: '<button type="button" class="arrow_btright slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-right"></i></button>',
+			prevArrow: '<button type="button" class="arrow_btleft slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-left fa-1x"></i></button>',
+			speed: 300,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			responsive: [
+				{
+					breakpoint: 1024,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3,
+						infinite: true,
+						dots: true
+					}
+				},
+				{
+					breakpoint: 600,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
+		});
+	</script>
+
+    <!-- ※※ 頁籤轉下拉選單 ※※ -->
+    <script src="{% static 'common/js/tab_switch_select.js' %}"></script>
+    <!-- ※※ slick 輪播效果 ※※ -->
+    <script src="{% static 'common/js/slide_div.js' %}"></script>
+    <!-- ※※ Youtube 減少載入時間 ※※ -->
+    <script src="{% static 'common/js/lite-youtube_lowtime.js' %}"></script>
+	<!-- ======= js 套件區 End ======= -->
+
+</body>
+
+</html>

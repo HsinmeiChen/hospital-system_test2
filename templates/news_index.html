@@ -1,0 +1,145 @@
+{% load static %}
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	{% include 'Public_head.html' %}
+	<title>停休診公告_長安醫院</title>
+	{% include 'GA_head.html' %}
+</head>
+
+<body>
+	{% include 'GA_noscript.html' %}
+	<div class="wrapper L_sub_main_bg">
+		<!-- ======= navbar ======= -->
+		{% include 'header.html' %}
+		<!-- ======= navbar End ======= -->
+
+		<!-- ======= main-content ======= -->
+		<main class="pb-3">
+			<div class="container py-1">
+				<div class="row">
+					<!-- ※※※ 側邊選單 ※※※ -->
+					<div class="col-lg-3 mb-2">
+						<div class="menu_sidebar">
+							<aside>
+								{% include 'news_menu.html' %}
+							</aside>
+						</div>
+					</div>
+					<!-- ※※※ 側邊選單 End ※※※ -->
+
+					<!-- ※※※ 功能內容 ※※※ -->
+					<div class="col-lg-9">
+						<article>
+							<div class="content">
+								<!-- 麵包屑 -->
+								<div class="text-right font-16">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb justify-content-end">
+											<li class="breadcrumb-item main_pencil"></li>
+											<!-- <li class="breadcrumb-item"><a href="about_cg.html"></a></li> -->
+											<li class="breadcrumb-item active" aria-current="page">停休診公告</li>
+										</ol>
+									</nav>	
+								</div>
+								<!-- 內容區 -->
+								<div class="bg-white rounded panel-shadow title_wrap">
+									<!-- 標題 -->
+									<section id="content_h">
+										<div class="onsale_heading">停休診公告</div>
+										<hr class="my-2">
+									</section>
+									<!-- 細節 -->
+									<section id="content_body">
+										<form action="" method="GET">
+											<div class="d-flex justify-content-between two-h py-2">
+												<input type="hidden" name="date_now" value={{ year }}{{ month }}>
+												<div>
+													<button type="submit" class="btn btn-link cofe-word" name="date_sub"><i class="fas fa-chevron-left"></i></button>
+												</div>
+												<div class="og-word">
+													<h3 class="mb-0"><b>{{ year }} 年 {{ month }} 月</b></h3>
+												</div>
+												<div>
+													<button type="submit" class="btn btn-link cofe-word" name="date_add"><i class="fas fa-chevron-right"></i></button>
+												</div>
+											</div>
+										</form>
+										<div class="">
+											<table class="table table-striped cell-table">
+												<thead>
+													<tr>
+														<th class="font-weight-bold title-bg text-center beige-word text-nowrap w-15">科別</th>
+														<th class="font-weight-bold title-bg text-center beige-word text-nowrap w-15">醫師</th>
+														<th class="font-weight-bold title-bg text-center beige-word text-nowrap">停診日期</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for data1,data2 in datas %}
+														<tr class="cell_row">
+															<td>
+																<!-- <div class="cell_left font-weight-bold title-bg beige-word text-nowrap">科別</div> -->
+																<div class="font-weight-bold text-center text-nowrap de_caption">{{ data1.0 }}</div>
+															</td>
+															<td>
+																<div class="cell_left font-weight-bold text-nowrap">醫師</div>
+																<div class="cell_right font-weight-bold text-center text-nowrap">{{ data1.1 }}</div>
+															</td>
+															<td class="p-0">
+
+																<div class="cell_left font-weight-bold text-nowrap" style="font-size: 0.94rem;">{{ month }}月停診日期</div>
+																<div class="cell_right">
+																	<div class="d-flex flex-wrap">
+																		{% for d in data2 %}
+																			{% if d.3 == '1' %}
+																				<div class="box_out">
+																					<div class="stop_date mor_date">{{ d.2 }}</div>
+																				</div>
+																			{% endif %}
+																			{% if d.3 == '2' %}
+																				<div class="box_out">
+																					<div class="stop_date noon_date">{{ d.2 }}</div>
+																				</div>
+																			{% endif %}
+																			{% if d.3 == '3' %}
+																				<div class="box_out">
+																					<div class="stop_date eve_date">{{ d.2 }}</div>
+																				</div>
+																			{% endif %}
+																		{% endfor %}
+																	</div>
+																</div>
+															</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+									</section>
+								</div>
+								<!-- 內容區 End -->
+							</div>
+						</article>	
+					</div>
+					<!-- ※※※ 功能內容 End ※※※ -->
+				</div>
+			</div>
+		</main>
+		<!-- ======= main End ======= -->
+	</div>
+
+	<!-- ======= footer ======= -->
+	{% include 'footer.html' %}
+	<!-- ======= Footer End ======= -->
+
+    <!-- ======= js 套件區 ======= -->
+	<!-- 網頁讀取 loading -->
+	<script>
+        window.loadingStartTime = new Date();
+    </script>
+    <script src="{% static 'common/js/loading.js' %}"></script>
+	<!-- ======= js 套件區 End ======= -->
+	
+</body>
+
+</html>

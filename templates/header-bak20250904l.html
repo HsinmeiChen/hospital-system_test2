@@ -1,0 +1,451 @@
+{% load static %}
+	<!-- 載入 header_nop.html -->
+	<!-- ※※ 回到最上方 ※※ -->
+    <button onclick="topFunction()" id="myBtn" title="回到最上方"><i class="fas fa-chevron-up"></i></button>
+	<!-- 官網-導航列 -->
+	<div id="header">
+		<header class="header">
+			<div class="container" id="nav_1">
+				<div class="wrapper">
+					<div class="header-item-left">
+						<div class="logo">
+							<a class="navbar-brand" href="/index/">
+								<img src="{% static 'common/img/長安醫院LOGO(曲)-07.png' %}" alt="長安醫院">
+								<!-- <img src="{{mainip}}/Public/img/長安醫院LOGO(曲)-07.png" alt="長安醫院"> -->
+							</a>
+						</div>
+					</div>
+					<div class="header-item-center justify-content-end" style="flex: 0 0 73%;">
+						<div class="overlay"></div>
+						<nav class="menu">
+							<div class="menu-mobile-header">
+								<button type="button" class="menu-mobile-arrow"><i class="ion ion-ios-arrow-back"></i></button>
+								<div class="menu-mobile-title"></div>
+								<button type="button" class="menu-mobile-close">
+									<i class="ion ion-ios-close"></i>
+								</button>
+							</div>
+							<!-- <style>
+								.header .menu>ul>li.menu-item-has-children:hover .menu-subs{
+									visibility: initial;
+								}
+								.link {
+									/* stylish design */
+									padding: 10px 0;
+									width: 100px;
+									text-align: center;
+									cursor: pointer;
+								}							
+								.link:active + .popup {
+									display: block !important;
+								}
+							</style> -->
+							<ul class="menu-section" style="margin-bottom: 0;">
+								<li class="menu-item-has-children">
+									<a href="#" class="link">認識長安 <i class="ion ion-ios-arrow-down"></i></a>
+									<div class="menu-subs menu-mega menu-column-4 popup">
+										<div class="list-item" style="flex: 0 0 33.3%;">
+											<h4 class="title">關於長安</h4>
+											<ul>
+												<li><a href="/A004_hos_intro/">長安簡介</a></li>
+												<li><a href="/A004_hos_traffic_info/">交通資訊</a></li>
+											</ul>
+										</div>
+										<div class="list-item" style="flex: 0 0 33.3%;">
+											<h4 class="title">醫療團隊</h4>
+											<ul>
+												<li><a href="/A001_department_overview/">醫療科室介紹</a></li>
+												<li><a href="/A003_Medical_Support/">醫療支援</a></li>
+											</ul>
+										</div>
+										<div class="list-item" style="flex: 0 0 33.3%;">
+											<h4 class="title">服務諮詢</h4>
+											<ul>
+												<li><a href="#" data-toggle="modal" data-target="#bed_rate" id="bed_show">占床數</a></li>
+												<li><a href="http://web.everanhospital.com.tw:818/contact_us_index.html" class="list-group-item border-0">意見反映</a></li>
+											</ul>
+										</div>
+									</div>
+								</li>
+								<li class="menu-item-has-children">
+									<a href="#">醫療服務 <i class="ion ion-ios-arrow-down"></i></a>
+									<div class="menu-subs menu-mega menu-column-4">
+										<div class="list-item" style="flex: 0 0 70%;">
+											<h4 class="title">就醫指南</h4>												
+											<ul class="list-group list-group-horizontal-sm mb-0">
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_registration_notice/">掛號須知</a> </li>
+												<!-- <li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_registration_notice/">掛號須知</a> </li> -->
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_clinic_time/">門診時刻表</a> </li>
+												<li class="list-group-item fill-flex w-100 p-0 border-0">
+													<a href="/A006_Online_Booking_0/" target="_blank">網路掛號</a>
+												</li>
+											</ul>
+											<ul class="list-group list-group-horizontal-sm mb-0">
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_which_disease/">我該看哪一科</a></li>														
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_consultation_progress/">看診進度</a></li>
+												<!-- <li class="list-group-item fill-flex w-100 p-0 border-0"><a href="{% static 'MedicalSupport/Patient_Guide/Patient_Guide_4.html' %}">預約慢性處方簽</a></li> -->
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_payment_machine/">繳費機介紹</a></li>
+											</ul>	
+											<ul class="list-group list-group-horizontal-sm mb-0">
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_self_service/">自助掛號機介紹</a></li>
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_data_apply/">資料申請</a></li>
+												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A007_Reserve_pre/login/">預約慢性病處方箋</a></li>
+												<!-- <li class="list-group-item fill-flex w-100 p-0 border-0"></li> -->
+												<!-- <li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A006_Online_Booking_0/">網路掛號 (測試)</a></li> -->
+											</ul>
+										</div>
+										<!-- <div class="list-item" style="flex: 0 0 33.3%;">
+											<h4 class="title">醫療照護</h4>
+											<ul>
+												<li><a href="{% static 'Department/D02/covid_19_index.html' %}">COVID-19 專區</a></li>
+												<li><a href="{% static 'Department/D02/Disability_index.html' %}">身心障礙鑑定</a></li>
+												<li><a href="{% static 'Department/D02/longtern_care_index.html' %}">長照 2.0</a></li>
+											</ul>
+										</div> -->
+										<div class="list-item" style="flex: 0 0 30%;">
+											<h4 class="title">收費標準</h4>
+											<ul class="list-group list-group-horizontal-sm mb-0">
+												<li><a href="{% static 'common/doc/Self_fee/Self_fee.pdf' %}">自費項目</a></li>
+												<li><a href="{% static 'common/doc/Diff_fee/special_material_info.pdf' %}" onclick="openInFullScreenWin(this.href);return false">自費特材公開資訊</a></li>
+											</ul>
+											<ul class="list-group list-group-horizontal-sm mb-0">
+												<li><a href="/A005_ward_mes_0/">病房訊息</a></li>
+												<li><a href="{% static 'common/doc/Withdrawal_rules/Withdrawal_rules.pdf' %}">自費藥品退藥規定</a></li>
+											</ul>
+										</div>
+									</div>
+								</li>								
+								
+								<li class="menu-item-has-children">
+									<a href="#">重點醫療 <i class="ion ion-ios-arrow-down"></i></a>
+									<div class="menu-subs menu-mega menu-column-4">
+										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/mis/" target="_blank">
+												<img src="{% static 'common/img/bone_center.jpg' %}" class="responsive" alt="骨科微創手術中心">
+												<h4 class="title">骨科微創手術中心</h4>
+											</a>
+										</div>
+										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/neuro/" target="_blank">
+												<img src="{% static 'common/img/Neurology_center.jpg' %}" class="responsive" alt="神經醫學中心">
+												<h4 class="title">神經醫學中心</h4>
+											</a>
+										</div>
+										<!-- <div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/cancercenter/" target="_blank">
+												<img src="{% static 'common/img/cancer_center.jpg' %}" class="responsive" alt="癌症治療中心">
+												<h4 class="title">癌症治療中心</h4>
+											</a>
+										</div> -->
+										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/cv/" target="_blank">
+												<img src="{% static 'common/img/CVD_center.jpg' %}" class="responsive" alt="心血管中心">
+												<h4 class="title">心血管中心</h4>
+											</a>
+										</div>
+										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/breastcenter/" target="_blank">
+												<img src="{% static 'common/img/breast_center.jpg' %}" class="responsive" alt="全方位乳房中心">
+												<h4 class="title">全方位乳房中心</h4>
+											</a>
+										</div>
+										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
+											<a href="http://www.everanhospital.com.tw/healthcenter/" target="_blank">
+												<img src="{% static 'common/img/health_center.jpg' %}" class="responsive" alt="健康管理中心">
+												<h4 class="title">健康管理中心</h4>
+											</a>
+										</div>
+									</div>
+								</li>
+								<li class="menu-item-has-children">
+									<a href="/A003_health_edu/">衛教園地</a>
+								</li>
+							</ul>
+						</nav>
+					</div>			
+					<div class="header-item-right">
+						<!-- <a href="#" class="menu-icon"><i class="ion ion-md-search"></i></a>
+						<a href="#" class="menu-icon"><i class="ion ion-md-mail"></i></a>
+						<a href="#" class="menu-icon"><i class="ion ion-md-cart"></i></a> -->
+						<!-- RWD 漢堡 -->
+						<button type="button" class="menu-mobile-trigger">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+					</div>			
+				</div>
+			</div>
+			{% if A006_True %}
+				{% include 'Online_nav.html' %}
+			{% endif %}
+			{% if A007_True %}
+				{% include 'Online_nav_drug.html' %}
+			{% endif %}
+		</header>
+		<!-- *=== 共用 modal ===*  -->
+		<!-- 占床率 -->
+		<script type="text/javascript">
+		$( function () {
+				$("#bed_show").click(function(){
+					$.getJSON("/A101_search_bed/",function(result){
+						var EBDS1 = result.EBDS1;
+						var EBDS2 = result.EBDS2;
+						var EBDS3 = result.EBDS3;
+						var EBDS4 = result.EBDS4;
+						var EBDS5 = result.EBDS5;
+						var EBDS6 = result.EBDS6;
+						var EBDS7 = result.EBDS7;
+						var EBDS8 = result.EBDS8;
+						var EBDS9 = result.EBDS9;
+						var EBDSdate = result.EBDSdate;
+
+						$('#bed_RT').html(EBDS8);
+						var EBDS8S9 = EBDS8 - EBDS9;
+						$('#bed_RO').html(EBDS8S9);
+						$('#bed_RE').html(EBDS9);
+
+						var EBDS1S8 = EBDS1 - EBDS8;
+						var EBDS2S9 = EBDS2 - EBDS9;
+						$('#bed_DT').html(EBDS1S8);
+						var EBDDO = EBDS1S8 - EBDS2S9;
+						$('#bed_DO').html(EBDDO);
+						$('#bed_DE').html(EBDS2S9);
+
+						$('#bed_ER1').html(EBDS5);
+						var EBDS5S6 = EBDS5 - EBDS6;
+						$('#bed_ER2').html(EBDS5S6);
+						$('#bed_ER3').html(EBDS6);
+
+						$('#bed_ICU1').html(EBDS3);
+						var EBDS3S4 = EBDS3 - EBDS4;
+						$('#bed_ICU2').html(EBDS3S4);
+						$('#bed_ICU3').html(EBDS4);
+
+						var EBDS_01 = parseInt(EBDS8) + parseInt(EBDS1S8);
+						$('#bed_01').html(EBDS_01);
+						$('#bed_02').html(EBDS5);
+						$('#bed_03').html(6);
+						$('#bed_04').html(3);
+						$('#bed_05').html(32);
+						$('#bed_06').html(EBDS3);
+						$('#bed_07').html(EBDS7);
+
+						$('#bed_LMD').html(EBDSdate);
+
+						var EBDS_S8S9_DO = parseInt(EBDS8S9) + parseInt(EBDDO);
+						var EBDS_RD_p = ((parseFloat(EBDS_S8S9_DO) / parseFloat(EBDS_01)) * 100).toFixed(0);
+						$('#bed_RD_p').html(EBDS_RD_p);
+						var EBDS_ER_p = ((parseFloat(EBDS5S6) / parseFloat(EBDS5)) * 100).toFixed(0);
+						$('#bed_ER_p').html(EBDS_ER_p);
+						var EBDS_ICU_p = ((parseFloat(EBDS3S4) / parseFloat(EBDS3)) * 100).toFixed(0);
+						$('#bed_ICU_p').html(EBDS_ICU_p);
+
+					});
+				});
+			});
+		</script>
+		<div class="modal fade" id="bed_rate" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+							<h4 class="modal-title">占床率</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<!-- <div class="title_01">醫院規模</div>
+						<p>急性一般病床<span id="bed_01"></span>床、
+							急診觀察床<span id="bed_02"></span>床、
+							加護病床<span id="bed_06"></span>床、
+							手術台<span id="bed_03"></span>床、
+							手術恢復床<span id="bed_04"></span>床、
+							(門診)診療室<span id="bed_05"></span>床、
+							血液透析床<span id="bed_07"></span>床。</p>
+						<div class="title_01" style="font-style: normal; font-weight: 400;">&nbsp;
+						</div> -->
+						<style>
+							.Div_w_20{
+								width: calc(20% - 1%);
+							}
+							.Div_w_80{
+								width: calc(80% - 1%);
+							}
+							.bed_occ .Div_body,
+							.bed_occ .Div_body{
+								padding: 0;
+							}
+							.see_num{
+								width: 100%;
+							}
+							.column {
+								float: left;
+								width: 16.6%;
+							}
+
+							/* Responsive columns */
+							@media screen and (max-width: 992px) {
+								.Div_w_20,.Div_w_80{
+									width: calc(100% - 1%);
+								}
+								.column {
+									width: 33.3%;
+									display: block;
+									margin-bottom: 10px;
+								}
+							}
+						</style>
+						<div class="p-2 title-bg text-center" style="margin: 0 .5%;">
+							<h4 class="cofe-word mb-0">醫院規模</h4>
+						</div>
+						<div class="Div_out bed_occ">
+							<div class="Div_box Div_w_20">
+								<div class="Div_body">
+									<div class="card-content">
+										<div class="card-body p-0">
+											<div class="d-inline-flex see_title noon_a">
+												<h5>急性一般病床</h5>
+											</div>
+											<div class="media my-3">
+												<div class="media-body see_num">
+													<h3 class="see_room_no" style="font-size: 1.8rem;">99 床</h3>
+													<!-- <span>加護病床</span> -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="Div_box Div_w_80">
+								<div class="Div_body">
+									<div class="d-inline-flex see_title noon_a">
+										<h5>特殊病床 93 床</h5>
+									</div>
+									<div class="mx-auto mt-3 mb-1">
+										<div class="column">
+											<div class="see_num" style="border-left: 0px solid !important;">
+												<h3 class="see_room_no">24 床</h3>
+												<span>加護病床</span>
+											</div>
+										</div>						
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">1 床</h3>
+												<span>負壓隔離病床</span>
+											</div>
+										</div>							
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">45 床</h3>
+												<span>洗腎治療床</span>
+											</div>
+										</div>						
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">14 床</h3>
+												<span>急診觀察床</span>
+											</div>
+										</div>
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">6 間</h3>
+												<span>手術室</span>
+											</div>
+										</div>
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">3 床</h3>
+												<span>手術恢復室</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div style="margin: 0 .5%;">
+							<table class="table table-bordered table-striped text-center mb-0">
+								<thead>
+									<tr>
+										<th class="align-middle title-bg">病床類別</th>
+										<th class="align-middle title-bg">總床數</th>
+										<th class="align-middle title-bg">占床數</th>
+										<th class="align-middle title-bg">空床數</th>
+										<th class="align-middle title-bg">占床率</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="text-left font-weight-bold">急性一般病床</td>
+										<td><span id="bed_RT"></span>床</td>
+										<td><span id="bed_RO"></span>床</td>
+										<td><span id="bed_RE"></span>床</td>
+										<td rowspan="2"><span id="bed_RD_p"></span>%</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">急性收差額病床</td>
+										<td><span id="bed_DT"></span>床</td>
+										<td><span id="bed_DO"></span>床</td>
+										<td><span id="bed_DE"></span>床</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">急診觀察床</td>
+										<td><span id="bed_ER1"></span>床</td>
+										<td><span id="bed_ER2"></span>床</td>
+										<td><span id="bed_ER3"></span>床</td>
+										<td><span id="bed_ER_p"></span>%</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">加護病床</td>
+										<td><span id="bed_ICU1"></span>床</td>
+										<td><span id="bed_ICU2"></span>床</td>
+										<td><span id="bed_ICU3"></span>床</td>
+										<td><span id="bed_ICU_p"></span>%</td>
+									</tr>
+									<tr>
+										<td rowspan="2" colspan="3" class="font-weight-bold">差額病床收費 (健保)</td>
+										<td class="text-nowrap">單人房</td>
+										<td class="text-nowrap">5,000 元</td>
+									</tr>
+									<tr style="background-color: #f6f0e9;">
+										<td class="text-nowrap">雙人房</td>
+										<td class="text-nowrap">2,500 元</td>
+									</tr>
+
+									<tr style="background-color: #fff;">
+										<td rowspan="3" colspan="3" class="font-weight-bold">差額病床收費 (自費)</td>
+										<td class="text-nowrap">單人房</td>
+										<td class="text-nowrap">7,300 元</td>
+									</tr>
+									<tr>
+										<td class="text-nowrap">雙人房</td>
+										<td class="text-nowrap">4,800 元</td>
+									</tr>
+									<tr style="background-color: #fff;">
+										<td class="text-nowrap">健保房</td>
+										<td class="text-nowrap">1,780 元</td>
+									</tr>									
+									<!-- <tr>
+										<td colspan="4">保險床比率：<span id="bed_PC"></span>%</td>
+									</tr> -->
+									<tr style="background-color: #f6f0e9;">
+										<td colspan="5">保險病床比率：60%，每日占床數及空床數僅供參考，仍以住院服務中心實際床位分配為主。</td>
+									</tr>
+									<!-- <tr>
+										<td colspan="5">急性一般病床之全日平均配置比率 : <span id="bed_EV"></span>月份全日平均護病比12.1</td>
+									</tr> -->
+									<tr style="background-color: #fff;">
+										<td colspan="5">資料更新時間：
+											<span id="bed_LMD"></span>
+										</td>
+									</tr>								
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">關閉視窗</button>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
