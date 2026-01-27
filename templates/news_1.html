@@ -39,7 +39,7 @@
 
 		        		{% if "<img1>" in bb %}
 		                    <div class="col-12 px-0">
-		                        <img class="img-fluid w-100" src="{% get_static_prefix %}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
+		                        <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
 		                    </div>
 		                {% endif %}
 		        	{% endfor %}

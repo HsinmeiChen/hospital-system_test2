@@ -27,7 +27,7 @@
 					</div>
 					<div class="modal-body">
 						{% for pic in m.arr %}
-						<img src="{% get_static_prefix %}health_edu/Doc/{{main_item}}/{{sub_item}}/{{pic}}" class="img-fluid" alt="{{sub_item}}">
+						<img src="{{ MEDIA_URL }}health_edu/Doc/{{main_item}}/{{sub_item}}/{{pic}}" class="img-fluid" alt="{{sub_item}}">
 						{% endfor %}
 					</div>
 				</div>

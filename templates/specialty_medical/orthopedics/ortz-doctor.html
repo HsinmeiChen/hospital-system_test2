@@ -343,7 +343,7 @@
                             {% for doctor_name, doctor_pro, doctor_img, doctor_id, doctor_modal in doctors %}
                             <li>
                                 <figure>
-                                    <img src="{% get_static_prefix %}department/img/{{ doctor_img }}" alt="{{ doctor_name }}">
+                                    <img src="{{ MEDIA_URL }}department/img/{{ doctor_img }}" alt="{{ doctor_name }}">
                                 </figure>
                                 <p class="p-corporate-profile-officer-list__name">{{ doctor_name }}</p>
                                 <p class="p-corporate-profile-officer-list__role">{{ doctor_pro }}</p>

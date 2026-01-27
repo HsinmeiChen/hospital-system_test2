@@ -1686,6 +1686,9 @@ def index(request):
 
 	in_zdata = zip(in_contacts_2, in_contacts_3, in_contacts_3P)
 
+	# 傳遞 MEDIA_URL
+	MEDIA_URL = settings.MEDIA_URL
+
 	# 影音消息
 	_dir=os.path.join(settings.MEDIA_ROOT, 'news_3')
 	data = os.listdir(_dir)
@@ -1881,7 +1884,10 @@ def new_medias(request):
 	for mf in medias_all_box:
 		# open(filename,mode)-filename：檔案存在位置，mode：對這個檔案做些事情；r - 唯讀模式(檔案需存在)，只能從指定檔案讀取資料，並不能夠對這個檔案的內容進行任何寫入或變更
 		mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mf), "r", encoding="utf-8")
-		modal_content.append(mfd.readlines()) #.readlines():讀取檔案中的整行資料，直到讀完所有資料，也會於每行末加上'\n'換行字元，最後會將資料存在一個modal_content中
+		# 讀取檔案內容並去除換行符號
+		lines = mfd.readlines()
+		cleaned_lines = [line.strip() for line in lines]
+		modal_content.append(cleaned_lines) 
 		mfd.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
 
 	# 步驟(7)、設定 list 可以讀取顯示幾個字(150)
@@ -1896,7 +1902,7 @@ def new_medias(request):
 		# 步驟(8)、先把txt所有行數讀進去gg，再去找第一個<img1>把這行紀錄到 list_picture 陣列資料
 		for gg in mrd_size.readlines():
 			if "<img1>" in gg:
-				list_picture.append(gg)
+				list_picture.append(gg.strip())
 				break # 跳離迴圈 因為圖片只抓每個txt檔的第一張
 		mrd_size.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
 
@@ -1928,8 +1934,13 @@ def new_medias(request):
 	# (modal用) 因要把「檔名」+「檔案內容」資料帶到前端，所以需用 zip 將兩個重新組合起來並放到 abc 變數中 (程式碼要放在 sort 後面)
 	zip_data = zip(contacts_2, contacts_4)
 	# zdata = zip(medias_split_box, medias_all_box) # (列表清單內容用)html 若前面有用過變數，就要用另一個變數，不然會帶不出來
-
 	zdata = zip(contacts_2, contacts_3, contacts_3P)
+
+	# 確保 MEDIA_URL 傳遞到模板
+	MEDIA_URL = settings.MEDIA_URL
+
+	if ("medical" in request.path):
+		return render(request, "news_4/news_4.html", locals())
 
 	return render(request, "news_2.html", locals()) # 秀出網頁
 
@@ -2089,10 +2100,97 @@ def new_video(request):
 
 # 【總覽頁】
 def medical_info(request):
+	# 步驟(1)、定義變數 (先給一個空盒子，才有辦法裝 append 出來的資料)
+	medias_split_box = [] # 裝 news_lists.append(d.split("_")) 產出的切割後的「檔名」
+	medias_all_box = [] # 裝 info_data.append(d) 完整檔名下的「檔案內容」
+	modal_content = [] # 裝 modal_content.append(mfd.readlines()) 產出的完整檔名下的「檔案內容」
+	list_description = [] # 裝 list_description.append(mrd_size.read(20)) 產出的「檔案內容(前150字)」
+	list_picture = [] # 裝 list_picture.append(mrd_size.readlines()) 產出的完整檔名下的「檔案內容-圖片」
 
+	# 步驟(2)、查詢並帶入 C:\python\media\news_2 資料夾中所有檔案
+	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
+
+	# 步驟(3)、將步驟(2)取得的檔案資料用迴圈進行檔名切割並篩出指定檔案類型
+	i = 0
+	for md in medias_datas:
+		if (".txt" in md):
+			medias_split_box.append(md.split("_")) # 將檔名進行切割，再透過 append 一筆筆產出切後的「檔名」 (為了要分別放到 table 的欄位中)
+			# medias_all_box.append(md) # 因讀取 txt 檔需是完整檔名，才能一筆筆產出「檔案內容」
+
+			'''# 步驟(5) 顯示 modal 效果(因 modal 需要對應 ID，但因 txt 的檔名沒有唯一值，
+			所以需要幫他每筆資料新增流水號，讓 modal 可以取 ID 帶資料)'''
+			medias_split_box[i].insert(0, "D00" + str(i))
+			i += 1
+
+	# 步驟(4)、根據 get_m_year function 取出的值為 key，按照日期去進行資料排序
+	medias_split_box.sort(key = get_m_year, reverse = True)
+
+	'''# 步驟(6-1)、將「檔名」與「所有檔案」作比對 function，若有比對到，以切割後的「檔名」呈現的數量去執行次數
+		 並以第2位檔名去取值並進行檔案內容判斷，一筆筆產出「檔案內容」'''
+	'''# 步驟(6-2)、再打開「檔案」去讀裡面的內容，並將讀取的內容打包成一筆筆，存到 modal_content 陣列'''
+	for mc in medias_split_box:
+		for md in medias_datas:
+			if mc[3] in md:
+				medias_all_box.append(md)
+
+	for mf in medias_all_box:
+		# open(filename,mode)-filename：檔案存在位置，mode：對這個檔案做些事情；r - 唯讀模式(檔案需存在)，只能從指定檔案讀取資料，並不能夠對這個檔案的內容進行任何寫入或變更
+		mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mf), "r", encoding="utf-8")
+		# 讀取檔案內容並去除換行符號
+		lines = mfd.readlines()
+		cleaned_lines = [line.strip() for line in lines]
+		modal_content.append(cleaned_lines)
+		mfd.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
+
+	# 步驟(7)、設定 list 可以讀取顯示幾個字(150)
+	for mread in medias_all_box:
+		mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mread), "r", encoding="utf-8")
+		pxpx = mrd_size.read(100)
+		pxpx = pxpx.replace('<h>','') # 不帶出<h>
+		pxpx = pxpx.replace('\n','') # 不帶出\n
+		pxpx = pxpx.replace('\r','') # 不帶出\r
+		pxpx = pxpx.replace('<t>','')# 不帶出<t>
+		list_description.append(pxpx)
+		# 步驟(8)、先把txt所有行數讀進去gg，再去找第一個<img1>把這行紀錄到 list_picture 陣列資料
+		for gg in mrd_size.readlines():
+			if "<img1>" in gg:
+				list_picture.append(gg.strip())
+				break # 跳離迴圈 因為圖片只抓每個txt檔的第一張
+		mrd_size.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
+
+	page_limit = 10
+	# 步驟(9)、設定分頁功能
+	'''假設一個陣列已有作分頁，但另外一個陣列沒有作分頁的話，就會影響 zip 組合數量不一，
+	顯示的筆數就會以少的為主，所以要把數量(例如.分頁)弄成一致，才會完成組合順利顯示'''
+	paginator_2 = MyPaginator(medias_split_box, page_limit) # 設定一頁要顯示幾筆
+	total_2 = int(paginator_2.num_pages) # 將筆數計算總共有幾頁
+	page_2 = request.GET.get('page', 1) # 接收使用者點選的頁碼
+	contacts_2 = paginator_2.page(page_2) # (列表清單用變數) 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
+
+	paginator_3 = MyPaginator(list_description, page_limit)
+	total_3 = int(paginator_3.num_pages)
+	page_3 = request.GET.get('page', 1)
+	contacts_3 = paginator_3.page(page_3)
+
+	paginator_3P = MyPaginator(list_picture, page_limit)
+	total_3P = int(paginator_3P.num_pages)
+	page_3P = request.GET.get('page', 1)
+	contacts_3P = paginator_3P.page(page_3P)
+
+	paginator_4 = MyPaginator(modal_content, page_limit)
+	total_4 = int(paginator_4.num_pages)
+	page_4 = request.GET.get('page', 1)
+	contacts_4 = paginator_4.page(page_4)
+
+	# 步驟(10)、組合陣列變數，讓前端可以用帶值(contacts_可以被拿來組合，是因為已經整理好了)
+	# (modal用) 因要把「檔名」+「檔案內容」資料帶到前端，所以需用 zip 將兩個重新組合起來並放到 abc 變數中 (程式碼要放在 sort 後面)
+	zip_data = zip(contacts_2, contacts_4)
+	# zdata = zip(medias_split_box, medias_all_box) # (列表清單內容用)html 若前面有用過變數，就要用另一個變數，不然會帶不出來
+	zdata = zip(contacts_2, contacts_3, contacts_3P)
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "news_4/news_4.html",locals())
 
-# 【項目內頁】
+	# 【項目內頁】
 def medical_pages(request):
 	media_page_dir = os.path.join(settings.MEDIA_ROOT, 'news_4')
 	if ("media_page_path" in request.GET):
@@ -2109,6 +2207,7 @@ def medical_pages(request):
 		except:
 			return render(request, "404.html", status = 404)
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "news_4/news_4_1.html",locals())
 
 # =========================================A001(科室介紹)=========================================
@@ -2146,6 +2245,7 @@ def A001_department_overview(request):
 
 	datas = zip(subjects, departments)
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "department/department_index.html", locals()) # 秀出網頁
 
 # 科室介紹
@@ -2239,6 +2339,7 @@ def A001_department_part(request):
 		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8)
 		modals = zip(doctor_list4, doctor_list6)
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "department/department_part.html", locals()) # 秀出網頁
 
 # 醫師個人介紹
@@ -2632,6 +2733,7 @@ def A001_department_doctor(request):
 	# 		message_lists_1=list(message_lists)[:4]
 	# 		message_lists_1_i = i
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "department/department_doctor.html", locals()) # 秀出網頁
 
 # 醫師查詢

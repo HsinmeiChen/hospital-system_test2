@@ -1,4 +1,5 @@
 {% load static %}
+{% load static %}
 <!doctype html>
 <html lang="zh-TW">
 
@@ -80,7 +81,7 @@
 
 														{% if "<img1>" in data_line %}
 															<div class="info_img">
-																<img class="img-fluid w-100" src="{% get_static_prefix %}news_4/img/{{ data_line|cut:'<img1>'|safe }}" alt="" height="345">
+																<img class="img-fluid w-100" src="{{ MEDIA_URL }}news_4/img/{{ data_line|cut:'<img1>'|safe }}" alt="" height="345">
 															</div>
 														{% endif %}
 													{% endfor %}

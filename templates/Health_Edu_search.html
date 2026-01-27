@@ -101,7 +101,7 @@
                                                         </button> -->
                                                         </div>
                                                         <div class="modal-body">
-                                                            {% for pic in a.arr%}                                                            <img src="{% get_static_prefix %}health_edu/Doc/{{a.department}}/{{a.room}}/{{pic}}" class="img-fluid" alt="{{a.name}}">
+                                                            {% for pic in a.arr%}                                                            <img src="{{ MEDIA_URL }}health_edu/Doc/{{a.department}}/{{a.room}}/{{pic}}" class="img-fluid" alt="{{a.name}}">
                                                             {% endfor %}
                                                         </div>
                                                     </div>

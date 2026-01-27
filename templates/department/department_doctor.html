@@ -93,7 +93,7 @@
 
 							{% if "<img1>" in bb %}
 								<div class="col-12 px-0">
-									<img class="img-fluid w-100" src="{% get_static_prefix %}news_2/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
+									<img class="img-fluid w-100" src="{{ MEDIA_URL }}news_2/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
 								</div>
 							{% endif %}
 
@@ -189,7 +189,7 @@
 													<div class="row">
 														<div class="col-lg-5 mb-3">
 															<div class="d_img_div doctor_wh">
-																<img src="{% get_static_prefix %}department/img/{{ doctor_img }}" title="{{ department }}-{{ doctor_name }}" alt="{{ department }}-{{ doctor_name }}">
+																<img src="{{ MEDIA_URL }}department/img/{{ doctor_img }}" title="{{ department }}-{{ doctor_name }}" alt="{{ department }}-{{ doctor_name }}">
 															</div>
 															<div class="about-text cofe-word mt-4 text-center">
 																<h4>{{ doctor_name }}</h4>

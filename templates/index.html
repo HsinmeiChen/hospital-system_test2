@@ -44,7 +44,7 @@
 
                             {% if "<img1>" in bb %}
                                 <div class="col-12 px-0">
-                                    <img class="img-fluid w-100" src="{% get_static_prefix %}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
+                                    <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -80,7 +80,7 @@
 
                                 {% if "<img1>" in mbb %}
                                     <div class="col-12 px-0">
-                                        <img class="img-fluid w-100" src="{% get_static_prefix %}news_2/img/{{ mbb|cut:'<img1>'|safe }}" alt="" height="345">
+                                        <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_2/img/{{ mbb|cut:'<img1>'|safe }}" alt="" height="345">
                                     </div>
                                 {% endif %}
 
@@ -393,7 +393,7 @@
                                             <div class="slide_card">
                                                 <div class="pb-3 out_divimg">
                                                     <div class="Img_div">                                                        
-                                                        <img class="" src="{% get_static_prefix %}news_2/img/{{ ppp|cut:'<img1>' }}" alt="">
+                                                        <img class="" src="{{ MEDIA_URL }}news_2/img/{{ ppp|cut:'<img1>' }}" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="rwd_px_0">                                                  
@@ -445,10 +445,10 @@
                                         <div class="slide_card">
                                             <div class="pb-3">
                                                 <!-- <div class="Img_div" style="max-height: 320px;">
-                                                    <img class="" src="{% get_static_prefix %}news_4/img/{{ data.3 }}" alt="">
+                                                    <img class="" src="{{ MEDIA_URL }}news_4/img/{{ data.3 }}" alt="">
                                                 </div> -->
                                                 <div class="info_img">
-                                                    <img class="w-100 h-100" src="{% get_static_prefix %}news_4/img/{{ data.3 }}" alt="">
+                                                    <img class="w-100 h-100" src="{{ MEDIA_URL }}news_4/img/{{ data.3 }}" alt="">
                                                 </div>                                                
                                             </div>
                                             <div class="rwd_px_0">                                                  

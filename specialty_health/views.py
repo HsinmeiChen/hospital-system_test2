@@ -242,6 +242,7 @@ dirs = [
 	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
 	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
 	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科'),
 ]
 
 # 連動官網-相關文章、影音專區 txt 檔案及 txt 檔案中的圖片 (壓縮後-縮圖用)

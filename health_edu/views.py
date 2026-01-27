@@ -159,6 +159,7 @@ def index(request):
 
 	message_lists_cut=contacts_2
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "Health_Edu_index.html",locals())
 @csrf_exempt
 def index2(request,main_item,sub_item):
@@ -209,6 +210,7 @@ def index2(request,main_item,sub_item):
 
 	message_lists_cut=contacts_2
 	# message_lists=set(message_lists)
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "Health_Edu_index2.html",locals())
 
 # #兒科
@@ -313,6 +315,7 @@ def search_page(request):
 	contacts_2 = paginator_2.page(page_2) # (列表清單用變數) 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
 	message_lists_cut=contacts_2
 
+	MEDIA_URL = settings.MEDIA_URL
 	return render(request, """Health_Edu_search.html""",locals())
 # @csrf_exempt
 # def healthEdu_detail(request,main_item,sub_item):

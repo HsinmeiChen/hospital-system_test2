@@ -44,12 +44,12 @@
                             <li class="circle-item col-md-6 col-lg-3">
                                 <div class="circle-item-inner">
                                     <div class="circle-image">
-                                        <a href="{% url 'treatment_article' treat.url_name %}">
+                                        <a href="/specialty_medical/treatment/{{ treat.url_name }}/">
                                             <div style="background-image: url('/media/{{ treat.thumb_img }}');"></div>
                                         </a>
                                     </div>
                                     <div class="circle-texts">
-                                        <a href="{% url 'treatment_article' treat.url_name %}">{{ treat.title }}</a>
+                                        <a href="/specialty_medical/treatment/{{ treat.url_name }}/">{{ treat.title }}</a>
                                     </div>
                                 </div>
                             </li>
