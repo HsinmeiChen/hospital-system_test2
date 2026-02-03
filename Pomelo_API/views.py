@@ -1644,7 +1644,9 @@ def index(request):
 	for in_mf in in_medias_all_box:
 		# open(filename,mode)
 		in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8")
-		in_modal_content.append(in_mfd.readlines())
+		lines = in_mfd.readlines()
+		cleaned_lines = [line.strip() for line in lines]
+		in_modal_content.append(cleaned_lines)
 		in_mfd.close()
 
 	for in_mread in in_medias_all_box:
@@ -1657,7 +1659,7 @@ def index(request):
 		in_list_description.append(in_pxpx)
 		for in_gg in in_mrd_size.readlines():
 			if "<img1>" in in_gg:
-				in_list_picture.append(in_gg)
+				in_list_picture.append(in_gg.strip())
 				break
 		in_mrd_size.close()
 
@@ -2446,7 +2448,9 @@ def A001_department_doctor(request):
 		for in_mf in in_medias_all_box:
 			# open(filename,mode)
 			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8")
-			in_modal_content.append(in_mfd.readlines())
+			lines = in_mfd.readlines()
+			cleaned_lines = [line.strip() for line in lines]
+			in_modal_content.append(cleaned_lines)
 			in_mfd.close()
 
 		for in_mread in in_medias_all_box:
@@ -2459,7 +2463,7 @@ def A001_department_doctor(request):
 			in_list_description.append(in_pxpx)
 			for in_gg in in_mrd_size.readlines():
 				if "<img1>" in in_gg:
-					in_list_picture.append(in_gg)
+					in_list_picture.append(in_gg.strip())
 					break
 			in_mrd_size.close()
 
