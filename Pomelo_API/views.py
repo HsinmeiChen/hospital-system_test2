@@ -3286,7 +3286,7 @@ def get_values(sheet):
 	return arr
 
 def A003_labor_pathology_5(request):
-	wb = openpyxl.load_workbook(os.path.join(settings.BASE_DIR, 'Public', 'html', 'MedicalSupport', 'Laboratory', 'excel', 'pathology.xlsx'))
+	wb = openpyxl.load_workbook(os.path.join(settings.BASE_DIR, 'Public', 'apps', 'MedicalSupport', 'Laboratory', 'excel', 'pathology.xlsx'))
 	names = wb.sheetnames
 	s2 = wb.active
 
