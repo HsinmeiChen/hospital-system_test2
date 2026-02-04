@@ -53,11 +53,7 @@ case_plsql_pwd = settings.CASE_PLSQL_PWD
 class PLSQLAPI:
 	def Search_Stop_Show(date):
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-				,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		# 輸入你要查找的資料表語法
 		sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,8),SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD
@@ -84,11 +80,7 @@ class PLSQLAPI:
 
 	def Search_Stop_Show_by_Dr(patid):
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db,
-				encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 		today = datetime.datetime.now()
 		n_date = today.strftime("%Y%m%d")
 		e_date = (today + datetime.timedelta(days = 60)).strftime("%Y%m%d")

@@ -56,11 +56,7 @@ mssql_66_146_pwd = settings.MSSQL_66_146_PWD
 class HisapiReserve:
 	def select_CHTPAT(pd_id,birthday): #找病人資料
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_MOBILE,PT_TELNO_HOME
 				FROM CHTPAT
@@ -81,11 +77,7 @@ class HisapiReserve:
 
 	def select_CHTPAT2(pdnum): #找病人資料(病歷號)
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_MOBILE,PT_TELNO_HOME
 				FROM CHTPAT
@@ -104,11 +96,7 @@ class HisapiReserve:
 
 	def select_OPDCRO_OPDVCB_BASEMP_BASSECT_CHTPAT(pd_id,birthday,today):#搜尋慢箋
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_DRUGNO
@@ -148,11 +136,7 @@ class HisapiReserve:
 
 	def select_OPDCRO_OPDVCB_BASEMP_BASSECT_CHTPAT2(pdnum,today):#搜尋慢箋(病歷號)
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_DRUGNO
@@ -190,11 +174,7 @@ class HisapiReserve:
 
 	def select_OPDCRO_OPDVCB_BASEMP_BASSECT_CHTPAT3(pdnum,today):#搜尋慢箋(病歷號new)
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_VISITSEQ
@@ -233,11 +213,7 @@ class HisapiReserve:
 
 	def select_OPDCRO_OPDVCB_BASEMP_BASSECT_CHTPAT4(pdnum,today):#搜尋慢箋(病歷號new2) 20250304改
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		sql = f"""SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,main_opd.max_OCB_VISITSEQ,main_opd.OCB_DRUGNO
 				FROM OPDCRO
@@ -301,11 +277,7 @@ class HisapiReserve:
 
 	def select_OPDCRO_OPDVCB(chrocard,times,pd_num):#搜尋慢箋是否已領(黑名單)
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 
 		sql = '''
@@ -335,11 +307,7 @@ class HisapiReserve:
 
 	def select_BASCODE(): #過年提早領取參數
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		sql = '''SELECT BAS_FIELD
 				FROM BASCODE

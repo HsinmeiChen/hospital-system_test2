@@ -102,11 +102,7 @@ class PLSQLAPI:
 			return []
 		try:
 			# 連線Oracle資料庫
-			if settings.DEBUG:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-			else:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-				,encoding='UTF-8', nencoding='UTF-8')
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 		except Exception as e:
 			print(f"Oracle connection failed: {e}")
 			return []
@@ -140,11 +136,7 @@ class PLSQLAPI:
 			return []
 		try:
 			# 連線Oracle資料庫
-			if settings.DEBUG:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-			else:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db,
-					encoding='UTF-8', nencoding='UTF-8')
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 		except Exception as e:
 			print(f"Oracle connection failed: {e}")
 			return []
@@ -205,11 +197,7 @@ class PLSQLAPI:
 
 		try:
 			# 連線Oracle資料庫
-			if settings.DEBUG:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-			else:
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-					,encoding='UTF-8', nencoding='UTF-8')
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 		except Exception as e:
 			print(f"Oracle connection failed in A002_Search_Room_All_Number: {e}")
 			return []
@@ -252,11 +240,7 @@ class PLSQLAPI:
 
 	def A006_Search_BASEMP_EMPNAME(deptno):
 		# 連線Oracle資料庫
-		if settings.DEBUG:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		else:
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-				,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		# 輸入你要查找的資料表語法
 		sql = '''
