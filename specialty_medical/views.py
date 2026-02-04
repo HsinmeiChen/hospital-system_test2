@@ -9,10 +9,28 @@ from PIL import Image # 圖片壓縮、轉檔、裁切
 from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
 import os, datetime, pymssql, re, glob, calendar, time, smtplib, openpyxl
 
-if settings.DEBUG:
+try:
+	import oracledb
+	try:
+		# 從 settings 讀取 Oracle Client 路徑
+		oracle_client_path = getattr(settings, 'ORACLE_CLIENT_PATH', None)
+		
+		if oracle_client_path:
+			# 使用指定路徑啟用 Thick Mode
+			oracledb.init_oracle_client(lib_dir=oracle_client_path)
+			print(f"Oracle Thick Mode enabled with path: {oracle_client_path}")
+		else:
+			# 嘗試使用預設路徑啟用 Thick Mode
+			oracledb.init_oracle_client()
+			print("Oracle Thick Mode enabled with default path")
+	except Exception as e:
+		print(f"Failed to enable Thick Mode: {e}")
+		print("Will attempt to use Thin Mode, but may encounter password verifier issues")
+	
 	import oracledb as cx_Oracle
-else:
-	import cx_Oracle
+except ImportError:
+	cx_Oracle = None
+	print("oracledb module not installed")
 from django.views.decorators.http import require_GET
 from collections import OrderedDict
 from django.utils.html import escape

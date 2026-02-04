@@ -9,18 +9,27 @@ import os, datetime, re, glob, calendar, time, smtplib, openpyxl
 from django.conf import settings
 
 try:
-	if settings.DEBUG:
-		import oracledb
-		try:
-			# 嘗試啟用 Thick Mode (需指定 Oracle Client 路徑，若有安裝在預設路徑則免填)
-			oracledb.init_oracle_client() 
-		except Exception as e:
-			print(f"Failed to enable Thick Mode: {e}")
-		import oracledb as cx_Oracle
-	else:
-		import cx_Oracle
+	import oracledb
+	try:
+		# 從 settings 讀取 Oracle Client 路徑
+		oracle_client_path = getattr(settings, 'ORACLE_CLIENT_PATH', None)
+		
+		if oracle_client_path:
+			# 使用指定路徑啟用 Thick Mode
+			oracledb.init_oracle_client(lib_dir=oracle_client_path)
+			print(f"Oracle Thick Mode enabled with path: {oracle_client_path}")
+		else:
+			# 嘗試使用預設路徑啟用 Thick Mode
+			oracledb.init_oracle_client()
+			print("Oracle Thick Mode enabled with default path")
+	except Exception as e:
+		print(f"Failed to enable Thick Mode: {e}")
+		print("Will attempt to use Thin Mode, but may encounter password verifier issues")
+	
+	import oracledb as cx_Oracle
 except ImportError:
 	cx_Oracle = None
+	print("oracledb module not installed")
 
 try:
 	import pymssql

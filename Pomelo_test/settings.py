@@ -240,6 +240,9 @@ CASE_PLSQL_DB = os.getenv('CASE_PLSQL_DB')
 CASE_PLSQL_USER = os.getenv('CASE_PLSQL_USER')
 CASE_PLSQL_PWD = os.getenv('CASE_PLSQL_PWD')
 
+# Oracle Client Path (for Thick Mode)
+ORACLE_CLIENT_PATH = os.getenv('ORACLE_CLIENT_PATH')
+
 # MSSQL 66.146
 MSSQL_66_146_HOST = os.getenv('MSSQL_66_146_HOST')
 MSSQL_66_146_DB = os.getenv('MSSQL_66_146_DB')
