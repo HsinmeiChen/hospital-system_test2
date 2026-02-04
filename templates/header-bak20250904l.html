@@ -83,7 +83,6 @@
 											<ul class="list-group list-group-horizontal-sm mb-0">
 												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_which_disease/">我該看哪一科</a></li>														
 												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_consultation_progress/">看診進度</a></li>
-												<!-- <li class="list-group-item fill-flex w-100 p-0 border-0"><a href="{% static 'MedicalSupport/Patient_Guide/Patient_Guide_4.html' %}">預約慢性處方簽</a></li> -->
 												<li class="list-group-item fill-flex w-100 p-0 border-0"><a href="/A002_payment_machine/">繳費機介紹</a></li>
 											</ul>	
 											<ul class="list-group list-group-horizontal-sm mb-0">
@@ -98,9 +97,10 @@
 										<div class="list-item" style="flex: 0 0 33.3%;">
 											<h4 class="title">醫療照護</h4>
 											<ul>
-												<li><a href="{% static 'Department/D02/covid_19_index.html' %}">COVID-19 專區</a></li>
-												<li><a href="{% static 'Department/D02/Disability_index.html' %}">身心障礙鑑定</a></li>
-												<li><a href="{% static 'Department/D02/longtern_care_index.html' %}">長照 2.0</a></li>
+												<!-- 這些頁面需要通過 Django view 渲染，不應使用 static -->
+												<!-- <li><a href="{% static 'Department/D02/covid_19_index.html' %}">COVID-19 專區</a></li> -->
+												<!-- <li><a href="{% static 'Department/D02/Disability_index.html' %}">身心障礙鑑定</a></li> -->
+												<!-- <li><a href="{% static 'Department/D02/longtern_care_index.html' %}">長照 2.0</a></li> -->
 											</ul>
 										</div>
 										{% endcomment %}
@@ -133,12 +133,6 @@
 												<h4 class="title">神經醫學中心</h4>
 											</a>
 										</div>
-										<!-- <div class="list-item text-center img_card" style="flex: 0 0 33%;">
-											<a href="http://www.everanhospital.com.tw/cancercenter/" target="_blank">
-												<img src="{% static 'common/img/cancer_center.jpg' %}" class="responsive" alt="癌症治療中心">
-												<h4 class="title">癌症治療中心</h4>
-											</a>
-										</div> -->
 										<div class="list-item text-center img_card" style="flex: 0 0 33%;">
 											<a href="http://www.everanhospital.com.tw/cv/" target="_blank">
 												<img src="{% static 'common/img/CVD_center.jpg' %}" class="responsive" alt="心血管中心">

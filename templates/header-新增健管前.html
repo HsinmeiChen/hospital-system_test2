@@ -83,9 +83,10 @@
 										<div class="list-item" style="flex: 0 0 33.3%;">
 											<h4 class="title">醫療照護</h4>
 											<ul>
-												<li><a href="{% static 'Department/D02/covid_19_index.html' %}">COVID-19 專區</a></li>
-												<li><a href="{% static 'Department/D02/Disability_index.html' %}">身心障礙鑑定</a></li>
-												<li><a href="{% static 'Department/D02/longtern_care_index.html' %}">長照 2.0</a></li>
+												<!-- 這些頁面需要通過 Django view 渲染，不應使用 static -->
+												<!-- <li><a href="{% static 'Department/D02/covid_19_index.html' %}">COVID-19 專區</a></li> -->
+												<!-- <li><a href="{% static 'Department/D02/Disability_index.html' %}">身心障礙鑑定</a></li> -->
+												<!-- <li><a href="{% static 'Department/D02/longtern_care_index.html' %}">長照 2.0</a></li> -->
 											</ul>
 										</div>
 										{% endcomment %}
