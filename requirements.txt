@@ -3,6 +3,7 @@ python-dotenv==1.0.1
 django-sslserver==0.22
 oracledb==3.0.0
 whitenoise==6.7.0
+waitress==3.0.0
 
 # Conditional dependencies (Legacy support)
 pandas==1.5.2; python_version < "3.9"
