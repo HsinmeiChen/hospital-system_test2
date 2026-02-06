@@ -642,6 +642,9 @@ a:hover{
     color: #75482b;
 /*    font-size: 1.3rem;*/
 }
+.header .menu>ul>li .menu-subs.menu-column-4{
+    max-width: 85rem;
+}
 .header .menu>ul>li .menu-subs.menu-column-4>.list-item .title{
     color: #75482b;
     font-size: 16px;
