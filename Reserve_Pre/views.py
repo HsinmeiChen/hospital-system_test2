@@ -54,7 +54,11 @@ def A007_Reserve_pre_login(request):
 			# if birthday.isdigit():身分證
 			if (pd_info == '無此病患'): #登入失敗
 				alert = '請確認「身分證字號」與「出生年月日」是否輸入正確'
-				return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', locals())
+				return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', {
+					'A007_True': A007_True,
+					'Drug_login': Drug_login,
+					'alert': alert,
+				})
 
 			else: #登入成功
 				Drug_login = "False"
@@ -67,19 +71,41 @@ def A007_Reserve_pre_login(request):
 				request.session["mark"] = mark
 				#-----------記住資訊--------------------------
 
-				return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', locals())
+				return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', {
+					'A007_True': A007_True,
+					'Drug_login': Drug_login,
+					'Pdinfo_Page': Pdinfo_Page,
+					'pd_info': pd_info,
+					'data_info': data_info,
+					'breakdata': breakdata,
+					'stop_date': stop_date,
+					'mark': mark,
+					'breaktime': breaktime,
+				})
 
 		else: #登入失敗
 			alert = '請確認是否輸入正確'
-			return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', locals())
+			return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', {
+				'A007_True': A007_True,
+				'Drug_login': Drug_login,
+				'alert': alert,
+			})
 
-	return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', locals())
+	return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', {
+		'A007_True': A007_True,
+		'Drug_login': Drug_login,
+	})
 
 #登出頁
 def A007_Reserve_pre_logout(request):
+	A007_True = "True"
+	Drug_login = "True"
 	request.session.flush()
 	# print("已執行登出頁")
-	return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', locals())
+	return render(request, 'Reserve_Pre/Patient_Guide_Drug_1.html', {
+		'A007_True': A007_True,
+		'Drug_login': Drug_login,
+	})
 
 #預約/取消預約
 def A007_Reserve_pre_reserve(request): 
@@ -122,11 +148,22 @@ def A007_Reserve_pre_reserve(request):
 				data_info = newdata[1] #慢箋資料
 				breakdata = newdata[2]
 				#-----------記住資訊--------------------------
-				request.session["data_info"] = data_info #記住新data_info
-				request.session["breakdata"] = breakdata
-				#-----------記住資訊--------------------------
+			request.session["data_info"] = data_info #記住新data_info
+			request.session["breakdata"] = breakdata
+			#-----------記住資訊--------------------------
 
-		return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', locals())
+		A007_True = "True"
+		Pdinfo_Page = "True"
+		return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', {
+			'A007_True': A007_True,
+			'Pdinfo_Page': Pdinfo_Page,
+			'pd_info': pd_info,
+			'data_info': data_info,
+			'breakdata': breakdata,
+			'stop_date': stop_date,
+			'mark': mark,
+			'breaktime': breaktime,
+		})
 
 #讀取出資料
 def A007_Reserve_pre_data(request):
@@ -146,7 +183,16 @@ def A007_Reserve_pre_data(request):
 	else:
 		breaktime = len(breakdata)
 
-	return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', locals())
+	return render(request, 'Reserve_Pre/Patient_Guide_Drug_2.html', {
+		'A007_True': A007_True,
+		'Pdinfo_Page': Pdinfo_Page,
+		'pd_info': pd_info,
+		'data_info': data_info,
+		'breakdata': breakdata,
+		'stop_date': stop_date,
+		'mark': mark,
+		'breaktime': breaktime,
+	})
 
 
 

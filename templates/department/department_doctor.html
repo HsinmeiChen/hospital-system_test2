@@ -256,30 +256,31 @@
 														</div>
 													</div>
 													{% endfor %}
+													{% if in_paginator_2.num_pages > 1 %}
 													<div class="row mt-3">
 														<div class="col-12 d-flex justify-content-center">
 															<ul class="pagination">
 																<li class="page-item">
-																   <a class="page-link" href="{{ url }}&page=1&{{ dorp }}=&{{ porn }}=1">
+																   <a class="page-link" href="{{ url }}&page=1">
 																	<i class="fas fa-angle-double-left"></i>
 																   </a>
 																</li>
 																{% if in_contacts_2.has_previous %}
 																	<li class="active">
-																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.previous_page_number }}&{{ dorp }}=&{{ porn }}=1">
+																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.previous_page_number }}">
 																			<i class="fas fa-angle-left"></i>
 																		</a>
 																	</li>
 																{% endif %}
 
 																{% if in_paginator_2.has_previous_more %}
-																	<li class="page-item"><a class="page-link" href="{{ url }}&page=1&{{ dorp }}=&{{ porn }}=1">1</a></li>
+																	<li class="page-item"><a class="page-link" href="{{ url }}&page=1">1</a></li>
 																	<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
 																{% endif %}
 
 																{% for i in in_paginator_2.previous_range %}
 																	<li class="page-item">
-																		<a class="page-link" href="{{ url }}&page={{ i }}&{{ dorp }}=&{{ porn }}=1">{{ i }}</a>
+																		<a class="page-link" href="{{ url }}&page={{ i }}">{{ i }}</a>
 																	</li>
 																{% endfor %}
 
@@ -287,30 +288,31 @@
 
 																{% for i2 in in_paginator_2.next_range %}
 																	<li class="page-item">
-																		<a class="page-link" href="{{ url }}&page={{ i2 }}&{{ dorp }}=&{{ porn }}=1">{{ i2 }}</a>
+																		<a class="page-link" href="{{ url }}&page={{ i2 }}">{{ i2 }}</a>
 																	</li>
 																{% endfor %}
 
 																{% if in_paginator_2.has_next_more %}
 																	<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-																	<li class="page-item"><a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}&{{ dorp }}=&{{ porn }}=1">{{ in_paginator_2.num_pages }}</a></li>
+																	<li class="page-item"><a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}">{{ in_paginator_2.num_pages }}</a></li>
 																{% endif %}
 
 																{% if in_contacts_2.has_next %}
 																	<li class="active">
-																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.next_page_number }}&{{ dorp }}=&{{ porn }}=1">
+																		<a class="page-link" href="{{ url }}&page={{ in_contacts_2.next_page_number }}">
 																			<i class="fas fa-angle-right"></i>
 																		</a>
 																	</li>
 																{% endif %}
 																<li class="page-item">
-																	<a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}&{{ dorp }}=&{{ porn }}=1">
+																	<a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}">
 																		<i class="fas fa-angle-double-right"></i>
 																	</a>
 																</li>
 															</ul>
 														</div>
 													</div>
+													{% endif %}
 												</div>
 											{% endif %}
 											{% if message_lists_1_i != 0 %}

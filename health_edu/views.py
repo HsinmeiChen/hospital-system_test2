@@ -109,14 +109,16 @@ def index(request):
 				# data_paths.append(_dir + "\\" + d + "\\" + dd)
 
 	# datas = zip(data_files, data_paths)
-	random.shuffle(data_files)
+	# 移除 random.shuffle，改為按檔案名稱排序以確保一致性
+	data_files.sort(key=lambda x: x[0])
 
 	i=0
 	for file in data_files:
 		if(".jpg" in file[0]):
 			file_path=os.path.join(file[1],file[0])
 			#取得檔案修改時間os.path.getmtime，如果要用創立時間 用 os.path.getctime
-			unix_time = os.path.getctime(file_path)
+			# 使用修改時間而非創建時間，因為修改時間在不同環境更一致
+			unix_time = os.path.getmtime(file_path)
 			#轉時間物件
 			datetimeObj = datetime.datetime.fromtimestamp(unix_time)
 			#轉字串
@@ -148,7 +150,8 @@ def index(request):
 			"sub_item":sub_item ,
 			"time":get_time_str(p)})
 	message_lists=remove_duplicate_items(message_lists,"name")
-	message_lists.sort(key=lambda x: x["time"])
+	# 按時間降序排序（新的在前），並加入名稱作為次要排序以確保一致性
+	message_lists.sort(key=lambda x: (x["time"], x["name"]), reverse=True)
 
 	# 步驟(六)、設定分頁功能
 	page_limit=8
@@ -160,7 +163,13 @@ def index(request):
 	message_lists_cut=contacts_2
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "Health_Edu_index.html",locals())
+	return render(request, "Health_Edu_index.html", {
+		'collapse_List': collapse_List,
+		'message_lists_cut': message_lists_cut,
+		'contacts_2': contacts_2,
+		'paginator_2': paginator_2,
+		'MEDIA_URL': MEDIA_URL,
+	})
 @csrf_exempt
 def index2(request,main_item,sub_item):
 	collapse_List=menu_f()
@@ -179,7 +188,8 @@ def index2(request,main_item,sub_item):
 		if(".jpg" in file):
 			file_path=os.path.join(_dir,file)
 			#取得檔案修改時間os.path.getmtime，如果要用創立時間 用 os.path.getctime
-			unix_time = os.path.getctime(file_path)
+			# 使用修改時間而非創建時間，因為修改時間在不同環境更一致
+			unix_time = os.path.getmtime(file_path)
 			#轉時間物件
 			datetimeObj = datetime.datetime.fromtimestamp(unix_time)
 			#轉字串
@@ -199,7 +209,8 @@ def index2(request,main_item,sub_item):
 				temp_arr.append(f[3])
 		message_lists.append({"index":p[0],"name":get_image_name(p),"arr":temp_arr ,"time":get_time_str(p)})
 	message_lists=remove_duplicate_items(message_lists,"name")
-	message_lists.sort(key=lambda x: x["time"])
+	# 按時間降序排序（新的在前），並加入名稱作為次要排序以確保一致性
+	message_lists.sort(key=lambda x: (x["time"], x["name"]), reverse=True)
 
 	# 步驟(六)、設定分頁功能
 	page_limit=8
@@ -211,7 +222,16 @@ def index2(request,main_item,sub_item):
 	message_lists_cut=contacts_2
 	# message_lists=set(message_lists)
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "Health_Edu_index2.html",locals())
+	return render(request, "Health_Edu_index2.html", {
+		'collapse_List': collapse_List,
+		'showfile': showfile,
+		'main_item': main_item,
+		'sub_item': sub_item,
+		'message_lists_cut': message_lists_cut,
+		'contacts_2': contacts_2,
+		'paginator_2': paginator_2,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # #兒科
 # @csrf_exempt
@@ -316,7 +336,14 @@ def search_page(request):
 	message_lists_cut=contacts_2
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, """Health_Edu_search.html""",locals())
+	return render(request, """Health_Edu_search.html""", {
+		'collapse_List': collapse_List,
+		'message_lists_cut': message_lists_cut,
+		'contacts_2': contacts_2,
+		'paginator_2': paginator_2,
+		'search_text': search_text if search_text else '',
+		'MEDIA_URL': MEDIA_URL,
+	})
 # @csrf_exempt
 # def healthEdu_detail(request,main_item,sub_item):
 

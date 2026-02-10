@@ -1788,7 +1788,18 @@ def index(request):
 			media_page_data.append(media_page_file.split("_")[0] + "_" + media_page_file.split("_")[1])
 			media_page_list.append(media_page_data)
 
-	return render(request, "index.html", locals()) # 秀出網頁
+	return render(request, "index.html", {
+		'in_abc': in_abc,
+		'in_contacts': in_contacts,
+		'in_zip_data': in_zip_data,
+		'in_zdata': in_zdata,
+		'message_lists_1': message_lists_1,
+		'message_lists_2': message_lists_2,
+		'message_lists_3': message_lists_3,
+		'message_lists_4': message_lists_4,
+		'media_page_list': media_page_list,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # =========================================A000(醫院公告)=========================================
 
@@ -1831,11 +1842,15 @@ def new_news(request):
 	page_limit = 10
 	# 設定分頁功能
 	paginator = Paginator(news_lists, page_limit) # 設定一頁要顯示幾筆
-	total = int(paginator.num_pages) # 將筆數計算總共有幾頁
 	page = request.GET.get('page') # 接收使用者點選的頁碼
 	contacts = paginator.get_page(page) # 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
 
-	return render(request, "news_1.html", locals()) # 秀出網頁
+	return render(request, "news_1.html", {
+		'abc': abc,
+		'contacts': contacts,
+		'paginator': paginator,
+		'MEDIA_URL': settings.MEDIA_URL,
+	})
 
 # 功能(三)、子頁-媒體報導
 def get_m_year(element):
@@ -1935,9 +1950,24 @@ def new_medias(request):
 	MEDIA_URL = settings.MEDIA_URL
 
 	if ("medical" in request.path):
-		return render(request, "news_4/news_4.html", locals())
+		return render(request, "news_4/news_4.html", {
+			'contacts_2': contacts_2,
+			'contacts_3': contacts_3,
+			'contacts_3P': contacts_3P,
+			'contacts_4': contacts_4,
+			'paginator_2': paginator_2,
+			'zip_data': zip_data,
+			'zdata': zdata,
+			'MEDIA_URL': MEDIA_URL,
+		})
 
-	return render(request, "news_2.html", locals()) # 秀出網頁
+	return render(request, "news_2.html", {
+		'zip_data': zip_data,
+		'zdata': zdata,
+		'contacts_2': contacts_2,
+		'paginator_2': paginator_2,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # 功能(三)、子頁-停休診公告
 def new_stop_show(request):
@@ -1994,7 +2024,11 @@ def new_stop_show(request):
 
 			datas = zip(data1, data2)
 
-	return render(request, "news_index.html", locals()) # 秀出網頁
+	return render(request, "news_index.html", {
+		'datas': datas,
+		'year': year,
+		'month': month,
+	})
 
 # 功能(四)、子頁-影音消息
 @csrf_exempt
@@ -2089,7 +2123,21 @@ def new_video(request):
 
 	# message_lists_concat=message_lists_cut_1+message_lists_cut_2+message_lists_cut_3+message_lists_cut_4
 
-	return render(request, "news_3.html",locals())
+	return render(request, "news_3.html", {
+		'message_lists_cut_1': message_lists_cut_1,
+		'message_lists_cut_2': message_lists_cut_2,
+		'message_lists_cut_3': message_lists_cut_3,
+		'message_lists_cut_4': message_lists_cut_4,
+		'contacts_1': contacts_1,
+		'contacts_2': contacts_2,
+		'contacts_3': contacts_3,
+		'contacts_4': contacts_4,
+		'paginator_1': paginator_1,
+		'paginator_2': paginator_2,
+		'paginator_3': paginator_3,
+		'paginator_4': paginator_4,
+		'active_page': active_page,
+	})
 
 # 功能(五)、子頁-醫療資訊
 
@@ -2183,7 +2231,16 @@ def medical_info(request):
 	# zdata = zip(medias_split_box, medias_all_box) # (列表清單內容用)html 若前面有用過變數，就要用另一個變數，不然會帶不出來
 	zdata = zip(contacts_2, contacts_3, contacts_3P)
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "news_4/news_4.html",locals())
+	return render(request, "news_4/news_4.html", {
+		'contacts_2': contacts_2,
+		'contacts_3': contacts_3,
+		'contacts_3P': contacts_3P,
+		'contacts_4': contacts_4,
+		'paginator_2': paginator_2,
+		'zip_data': zip_data,
+		'zdata': zdata,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 	# 【項目內頁】
 def medical_pages(request):
@@ -2203,7 +2260,10 @@ def medical_pages(request):
 			return render(request, "404.html", status = 404)
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "news_4/news_4_1.html",locals())
+	return render(request, "news_4/news_4_1.html", {
+		'data_lines': data_lines,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # =========================================A001(科室介紹)=========================================
 
@@ -2241,7 +2301,10 @@ def A001_department_overview(request):
 	datas = zip(subjects, departments)
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "department/department_index.html", locals()) # 秀出網頁
+	return render(request, "department/department_index.html", {
+		'datas': datas,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # 科室介紹
 # @csrf_exempt
@@ -2272,6 +2335,7 @@ def A001_department_part(request):
 
 		# department = path.split("\\")[6].split("_")[1]
 		# disablePath = path.split("\\")[6].split("_")
+		disable_X = False
 		if ((len(disablePath) == 3) and (disablePath[2] == "x")):
 			disable_X = True
 
@@ -2335,26 +2399,83 @@ def A001_department_part(request):
 		modals = zip(doctor_list4, doctor_list6)
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "department/department_part.html", locals()) # 秀出網頁
+	return render(request, "department/department_part.html", {
+		'department': department,
+		'modals': modals,
+		'introduction_list': introduction_list,
+		'doctors': doctors,
+		'disable_X': disable_X,
+		'MEDIA_URL': MEDIA_URL,
+	})
 
 # 醫師個人介紹
 # @csrf_exempt
 def A001_department_doctor(request):
 	"""20250715 統一醫師查詢與科室總覽 path 格式為 大科室序號_科別序號_醫師序號"""
 	if ("part_info" in request.GET) or ("dr_search" in request.GET):
+		# 定義 dorp 和 porn 變數用於分頁連結
+		if ("part_info" in request.GET):
+			dorp = "part_info"
+			porn = "open_info_name"
+		elif ("dr_search" in request.GET):
+			dorp = "dr_search"
+			porn = "open_info_path"
+		else:
+			dorp = ""
+			porn = ""
+		
+		# 優先從 GET 參數獲取 filename，如果沒有則從 session 獲取（分頁時使用）
 		if ("open_info_name" in request.GET):
 			filename = request.GET.get("open_info_name")
 		elif ("open_info_path" in request.GET):
 			filename = request.GET.get("open_info_path")
+		elif ("path" in request.session):
+			filename = request.session.get("path", "")
 		else:
 			filename = ""
 
-		url = request.get_full_path().split("&")[0] + "&" + request.get_full_path().split("&")[1]
+		# 驗證 filename 格式是否正確（應為 大科室序號_科別序號_醫師序號）
+		if not filename or filename.count("_") < 2:
+			from django.http import Http404
+			raise Http404("無效的醫師路徑參數")
+
+		# 構建 URL，用於分頁連結
+		# 確保 URL 包含必要的參數（dorp 和 porn），但不包含 page 參數（分頁時會添加）
+		from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+		parsed = urlparse(request.get_full_path())
+		query_params = parse_qs(parsed.query)
+		
+		# 移除 page 參數（分頁時會重新添加）
+		if 'page' in query_params:
+			del query_params['page']
+		
+		# 確保保留必要的參數（dorp 和 porn）
+		if dorp and porn:
+			# 確保 dorp 參數存在
+			if dorp not in query_params:
+				query_params[dorp] = ['']
+			# 確保 porn 參數存在，使用實際的 filename
+			if porn not in query_params:
+				query_params[porn] = [filename] if filename else ['1']
+			else:
+				# 如果參數值為 '1'，更新為實際的 filename
+				if query_params.get(porn) == ['1'] and filename:
+					query_params[porn] = [filename]
+		
+		# 重新構建 URL（不包含 page 參數）
+		# 確保至少有一個查詢參數，這樣模板中使用 & 連接就不會有問題
+		if not query_params and dorp and porn:
+			query_params[dorp] = ['']
+			query_params[porn] = [filename] if filename else ['1']
+		
+		new_query = urlencode(query_params, doseq=True)
+		url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query, parsed.fragment))
 
 		request.session['path'] = filename
-		pathP = filename.split("_")[0]
-		pathD = filename.split("_")[1]
-		pathF = filename.split("_")[2]
+		filename_parts = filename.split("_")
+		pathP = filename_parts[0]
+		pathD = filename_parts[1]
+		pathF = filename_parts[2]
 		pathC = os.path.join(settings.MEDIA_ROOT, 'department')
 		pathDirs = os.listdir(pathC)
 		pathFile = ""
@@ -2388,6 +2509,7 @@ def A001_department_doctor(request):
 		# department = path.split("\\")[6].split("_")[1]
 
 		# disablePath = path.split("\\")[6].split("_")
+		disable_X = False
 		if ((len(disablePath) == 3) and (disablePath[2] == "x")):
 			disable_X = True
 
@@ -2731,7 +2853,28 @@ def A001_department_doctor(request):
 	# 		message_lists_1_i = i
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "department/department_doctor.html", locals()) # 秀出網頁
+	return render(request, "department/department_doctor.html", {
+		'doctor_name': doctor_name,
+		'department': department,
+		'stop_datas': stop_datas,
+		'in_zip_data': in_zip_data,
+		'in_zdata': in_zdata,
+		'in_zdata_i': in_zdata_i,
+		'in_contacts_2': in_contacts_2,
+		'in_paginator_2': in_paginator_2,
+		'message_lists_1': message_lists_1,
+		'message_lists_1_i': message_lists_1_i,
+		'doctor_img': doctor_img,
+		'doctor_info': doctor_info,
+		'disable_X': disable_X,
+		'docno': docno,
+		'doctor_e': doctor_e,
+		'doctor_a': doctor_a,
+		'MEDIA_URL': MEDIA_URL,
+		'url': url,
+		'dorp': dorp,
+		'porn': porn,
+	})
 
 # 醫師查詢
 def A001_dr_search(request):
@@ -2768,7 +2911,9 @@ def A001_dr_search(request):
 
 	datas = zip(subjects, doctors)
 
-	return render(request, "dr_search.html", locals()) # 秀出網頁
+	return render(request, "dr_search.html", {
+		'datas': datas,
+	})
 
 # =========================================A002(就醫指南)=========================================
 
@@ -2972,21 +3117,31 @@ def A002_consultation_progress(request):
 
 			modals = zip(number_lists, all_number_list,all_count_list,all_completed_list,all_no_completed_list)
 
-	return render(request, "consultation_progress_v3.html", locals()) # 秀出網頁
+	# 格式化 now 為顯示用
+	now_display = datetime.datetime.now()
+	now_display = datetime.datetime.strftime(now_display, "%Y-%m-%d %H:%M:%S")
+	
+	return render(request, "consultation_progress_v3.html", {
+		'modals': modals,
+		'number_lists': number_lists,
+		'now_status': now_status,
+		'now': now_display,
+	})
 
 # 掛號須知
 def A002_registration_notice(request):
 	A006_True = "True"
 	data = open(os.path.join(settings.MEDIA_ROOT, 'A002', 'registration_notice', 'main.txt'), "r", encoding="utf-8")
-	datas = []
 	data_lines = data.readlines()
 
-	return render(request, "Patient_Guide/Patient_Guide_index_v2.html", locals()) # 秀出網頁
+	return render(request, "Patient_Guide/Patient_Guide_index_v2.html", {
+		'data_lines': data_lines,
+	})
 
 # 門診時刻表
 def A002_clinic_time(request):
 
-	return render(request, "Patient_Guide/Patient_Guide_1.html", locals()) # 秀出網頁
+	return render(request, "Patient_Guide/Patient_Guide_1.html", {})
 
 # 我該看哪一科
 def A002_which_disease(request):
@@ -3023,47 +3178,49 @@ def A002_which_disease(request):
 
 	datas = zip(subjects, departments)
 
-	return render(request, "Patient_Guide/Patient_Guide_7.html", locals()) # 秀出網頁
+	return render(request, "Patient_Guide/Patient_Guide_7.html", {
+		'datas': datas,
+	})
 
 # 繳費機介紹
 def A002_payment_machine(request):
-	return render(request, "Patient_Guide/Patient_Guide_5.html", locals()) # 秀出網頁
+	return render(request, "Patient_Guide/Patient_Guide_5.html", {})
 # 自助掛號機介紹
 def A002_self_service(request):
-	return render(request, "Patient_Guide/Patient_Guide_6.html", locals()) 
+	return render(request, "Patient_Guide/Patient_Guide_6.html", {})
 
 # 資料申請
 def A002_data_apply(request):
-	return render(request, "Patient_Guide/Patient_Guide_8.html", locals()) # 秀出網頁
+	return render(request, "Patient_Guide/Patient_Guide_8.html", {})
 
 # =========================================A003(醫療支援部門)=========================================
 
 # 醫療支援-科室總覽
 def A003_Medical_Support(request):
 
-	return render(request, "MedicalSupport/d-support_index.html", locals())
+	return render(request, "MedicalSupport/d-support_index.html", {})
 
 # 急診醫學科
 def A003_ER(request):
-	return render(request, "MedicalSupport/ER/ER-index.html", locals())
+	return render(request, "MedicalSupport/ER/ER-index.html", {})
 
 def A003_ER_1(request):
-	return render(request, "MedicalSupport/ER/ER-1.html", locals())
+	return render(request, "MedicalSupport/ER/ER-1.html", {})
 
 def A003_ER_2(request):
-	return render(request, "MedicalSupport/ER/ER-Service-2.html", locals())
+	return render(request, "MedicalSupport/ER/ER-Service-2.html", {})
 
 def A003_AED(request):
-	return render(request, "MedicalSupport/ER/AED-index.html", locals())
+	return render(request, "MedicalSupport/ER/AED-index.html", {})
 
 def A003_AED_1(request):
-	return render(request, "MedicalSupport/ER/AED-1.html", locals())
+	return render(request, "MedicalSupport/ER/AED-1.html", {})
 
 def A003_Story_1(request):
-	return render(request, "MedicalSupport/ER/ER-Story-1.html", locals())
+	return render(request, "MedicalSupport/ER/ER-Story-1.html", {})
 
 def A003_Story_2(request):
-	return render(request, "MedicalSupport/ER/ER-Story-2.html", locals())
+	return render(request, "MedicalSupport/ER/ER-Story-2.html", {})
 
 # 檢驗科
 def A003_Laboratory(request):
@@ -3077,187 +3234,187 @@ def A003_Laboratory(request):
 	# except Exception as e:
 	# 	MSSQLAPI.Insert_LOG_WEB("ERROR", str(e))
 
-	return render(request, "MedicalSupport/Laboratory/labor-index.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-index.html", {})
 
 def A003_Laboratory_1(request):
-	return render(request, "MedicalSupport/Laboratory/labor-1.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-1.html", {})
 
 def A003_Laboratory_2(request):
-	return render(request, "MedicalSupport/Laboratory/labor-2.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-2.html", {})
 
 # def A003_Laboratory_3(request):
 # 	return render(request, "MedicalSupport/Laboratory/labor-3.html", locals())
 
 def A003_Laboratory_4(request):
-	return render(request, "MedicalSupport/Laboratory/labor-4.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-4.html", {})
 
 def A003_labor_blood(request):
-	return render(request, "MedicalSupport/Laboratory/labor-blood-index.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-blood-index.html", {})
 
 def A003_labor_blood_2(request):
-	return render(request, "MedicalSupport/Laboratory/labor-blood-2.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-blood-2.html", {})
 
 def A003_labor_blood_3(request):
-	return render(request, "MedicalSupport/Laboratory/labor-blood-3.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-blood-3.html", {})
 
 def A003_labor_clinical(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-index.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-index.html", {})
 
 def A003_labor_clinical_1(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-1.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-1.html", {})
 
 def A003_labor_clinical_2(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-2.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-2.html", {})
 
 def A003_labor_clinical_3(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3.html", {})
 
 def A003_labor_clinical_3_3c(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-3c.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-3c.html", {})
 
 def A003_labor_clinical_3_art(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-artery.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-artery.html", {})
 
 def A003_labor_clinical_3_baby(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-baby.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-baby.html", {})
 
 def A003_labor_clinical_3_blood(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-blood.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-blood.html", {})
 
 def A003_labor_clinical_3_cav(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-cavity.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-cavity.html", {})
 
 def A003_labor_clinical_3_csf(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-csf.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-csf.html", {})
 
 def A003_labor_clinical_3_dung(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-dung.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-dung.html", {})
 
 def A003_labor_clinical_3_ra(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-igra.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-igra.html", {})
 
 def A003_labor_clinical_3_phlegm(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-phlegm.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-phlegm.html", {})
 
 def A003_labor_clinical_3_prepare(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-prepare.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-prepare.html", {})
 
 def A003_labor_clinical_3_respiratory(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-respiratory.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-respiratory.html", {})
 
 def A003_labor_clinical_3_semen(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-semen.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-semen.html", {})
 
 def A003_labor_clinical_3_solid(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-solidification.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-solidification.html", {})
 
 def A003_labor_clinical_3_sugar(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-sugar.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-sugar.html", {})
 
 def A003_labor_clinical_3_tract(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-tract.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-tract.html", {})
 
 def A003_labor_clinical_3_urine(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-urine.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-urine.html", {})
 
 def A003_labor_clinical_3_vein(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-vein.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-vein.html", {})
 
 def A003_labor_clinical_3_wine(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-wine.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-3-wine.html", {})
 
 def A003_labor_clinical_4(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4.html", {})
 
 def A003_labor_clinical_4_abscess(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-abscess.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-abscess.html", {})
 
 def A003_labor_clinical_4_bf(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-bodyfluid.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-bodyfluid.html", {})
 
 def A003_labor_clinical_4_bottle(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-bottle.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-bottle.html", {})
 
 def A003_labor_clinical_4_collection(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-collection.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-collection.html", {})
 
 def A003_labor_clinical_4_dung(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-dung.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-dung.html", {})
 
 def A003_labor_clinical_4_eye(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-eye.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-eye.html", {})
 
 def A003_labor_clinical_4_respiratory(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-respiratory.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-respiratory.html", {})
 
 def A003_labor_clinical_4_urine(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-urine.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-4-urine.html", {})
 
 def A003_labor_clinical_5(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-5.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-5.html", {})
 
 def A003_labor_clinical_6(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-6.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-6.html", {})
 
 def A003_labor_clinical_7(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-7.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-7.html", {})
 
 def A003_labor_clinical_8(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-8.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-8.html", {})
 
 def A003_labor_clinical_9(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-9.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-9.html", {})
 
 def A003_labor_clinical_in_b(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-blood.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-blood.html", {})
 
 def A003_labor_clinical_in_du(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-dung.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-dung.html", {})
 
 def A003_labor_clinical_in_glu(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-glucose.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-glucose.html", {})
 
 def A003_labor_clinical_in_ig(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-igra.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-igra.html", {})
 
 def A003_labor_clinical_in_occ(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-occult.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-occult.html", {})
 
 def A003_labor_clinical_in_pin(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-pinworm.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-pinworm.html", {})
 
 def A003_labor_clinical_in_sem(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-semen.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-semen.html", {})
 
 def A003_labor_clinical_in_spu(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-sputum.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-sputum.html", {})
 
 def A003_labor_clinical_in_third(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-thirteen.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-thirteen.html", {})
 
 def A003_labor_clinical_in_urine(request):
-	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-urine.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-clinical-in-urine.html", {})
 
 def A003_labor_Genetic(request):
-	return render(request, "MedicalSupport/Laboratory/labor-Genetic-index.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-Genetic-index.html", {})
 
 def A003_labor_Genetic_1(request):
-	return render(request, "MedicalSupport/Laboratory/labor-Genetic-1.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-Genetic-1.html", {})
 
 def A003_labor_pathology(request):
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-index.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-index.html", {})
 
 def A003_labor_pathology_1(request):
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-1.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-1.html", {})
 
 def A003_labor_pathology_2(request):
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-2.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-2.html", {})
 
 def A003_labor_pathology_3(request):
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-3.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-3.html", {})
 
 def A003_labor_pathology_4(request):
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-4.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-4.html", {})
 
 
 def get_values(sheet):
@@ -3286,7 +3443,10 @@ def A003_labor_pathology_5(request):
 		if ((search_keywords in str(d[1]).lower()) or (search_keywords in str(d[3]).lower()) or (search_keywords in str(d[4]).lower()) or (search_keywords in str(d[12]).lower())):
 			data2.append(d)
 
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-5_v3.html", locals())
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-5_v3.html", {
+		'data2': data2,
+		'search_keywords': search_keywords,
+	})
 
 # =========================================A004(關於長安)=============================================
 
@@ -3296,17 +3456,19 @@ def A004_hos_intro(request):
 	data = open(path, "r", encoding="utf-8")
 	data_lines = data.readlines()
 
-	return render(request, "department/m_intro_index.html", locals()) # 秀出網頁
+	return render(request, "department/m_intro_index.html", {
+		'data_lines': data_lines,
+	})
 
 # 交通資訊
 def A004_hos_traffic_info(request):
-	return render(request, "department/m_intro_1.html", locals()) # 秀出網頁
+	return render(request, "department/m_intro_1.html", {})
 
 # =========================================A005(收費標準)=============================================
 
 # 自費項目
 def A005_Self_fee(request):
-	return render(request, "department/Self_fee_index.html", locals()) # 秀出網頁
+	return render(request, "department/Self_fee_index.html", {})
 
 # 自付差額特材
 # def A005_Diff_fee(request):
@@ -3314,7 +3476,7 @@ def A005_Self_fee(request):
 
 # 病房訊息_病人住院流程
 def A005_ward_mes_1(request):
-	return render(request, "department/ward_mes_1.html", locals()) # 秀出網頁
+	return render(request, "department/ward_mes_1.html", {})
 
 # 病房訊息_住院須知
 # def A005_ward_mes_2(request):
@@ -3322,11 +3484,11 @@ def A005_ward_mes_1(request):
 
 # 病房訊息_病人出院流程
 def A005_ward_mes_3(request):
-	return render(request, "department/ward_mes_3.html", locals()) # 秀出網頁
+	return render(request, "department/ward_mes_3.html", {})
 
 # 病房訊息_病房訊息
 def A005_ward_mes_0(request):
-	return render(request, "department/ward_mes_index.html", locals()) # 秀出網頁
+	return render(request, "department/ward_mes_index.html", {})
 
 # =========================================A006(網路掛號)=========================================
 # 取得下一個月一號
@@ -3356,7 +3518,9 @@ def A006_register(request):
 	now = datetime.datetime.now()
 	if (s_time < now) and (now < e_time):
 		A006_True = "True"
-		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", {
+			'A006_True': A006_True,
+		})
 	else:
 		A006_now = datetime.datetime.now()
 		A006_now = datetime.datetime.strftime(A006_now,"%H:%M:%S")
@@ -3464,7 +3628,9 @@ def A006_find_register(request):
 	now = datetime.datetime.now()
 	if (s_time < now) and (now < e_time):
 		A006_True = "True"
-		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", {
+			'A006_True': A006_True,
+		})
 	else:
 		if (request.session["A006_first"] == "0"):
 			# patid = request.session["A006_patid"]
@@ -3507,7 +3673,9 @@ def A006_out_register(request):
 	now = datetime.datetime.now()
 	if (s_time < now) and (now < e_time):
 		A006_True = "True"
-		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", {
+			'A006_True': A006_True,
+		})
 	else:
 		patid = request.session["A006_patid"]
 		visitdt = request.GET.get("A006_user_visitdt")
@@ -3526,7 +3694,9 @@ def A006_Online_Booking_0(request):
 	now = datetime.datetime.now()
 	if (s_time < now) and (now < e_time):
 		A006_True = "True"
-		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", {
+			'A006_True': A006_True,
+		})
 	else:
 		if (now < e_time):
 			A006_Stop = "True"
@@ -3572,13 +3742,19 @@ def A006_Online_Booking_0(request):
 				else:
 					return redirect("/A006_Online_Booking_0_0/")
 
-		return render(request, "Patient_Guide/Patient_Guide_2.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2.html", {
+			'A006_True': A006_True,
+			'A006_Stop': A006_Stop if 'A006_Stop' in locals() else None,
+			'referrer': referrer if 'referrer' in locals() else None,
+		})
 
 # 網路掛號_首頁
 def A006_Online_Booking_0_0(request):
 	A006_True = "True"
 
-	return render(request, "Patient_Guide/Patient_Guide_2_0.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_0.html", {
+		'A006_True': A006_True,
+	})
 
 # 網路掛號_登入頁
 # 是否有包括海外簽證號
@@ -3587,7 +3763,9 @@ def A006_Online_Booking_login(request):
 	now = datetime.datetime.now()
 	if (s_time < now) and (now < e_time):
 		A006_True = "True"
-		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_stop.html", {
+			'A006_True': A006_True,
+		})
 	else:
 		A006_True = "True"
 		# 未選擇初/複診，轉址回選擇
@@ -3670,7 +3848,13 @@ def A006_Online_Booking_login(request):
 
 			"""end"""
 
-		return render(request, "Patient_Guide/Patient_Guide_2_4_v8.html", locals())
+		return render(request, "Patient_Guide/Patient_Guide_2_4_v8.html", {
+			'A006_True': A006_True,
+			'errorMessageOn': errorMessageOn if 'errorMessageOn' in locals() else None,
+			'errorMessage': errorMessage if 'errorMessage' in locals() else None,
+			'user_acc': user_acc if 'user_acc' in locals() else None,
+			'user_pwd': user_pwd if 'user_pwd' in locals() else None,
+		})
 
 # 網路掛號_初診資料建立
 @csrf_exempt
@@ -3709,7 +3893,11 @@ def A006_Online_Booking_first(request):
 	if ("pat_sex" in request.session):
 		return redirect("/A006_Online_Booking_0_0/")
 
-	return render(request, "Patient_Guide/Patient_Guide_2_5_v8.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_5_v8.html", {
+		'A006_True': A006_True,
+		'showalert': showalert if 'showalert' in locals() else None,
+		'showalert_error': showalert_error if 'showalert_error' in locals() else None,
+	})
 
 # 網路掛號_預約資料確認
 def A006_Online_Booking_check(request):
@@ -3796,12 +3984,30 @@ def A006_Online_Booking_check(request):
 		A006_today = datetime.datetime.strftime(A006_today,"%Y%m%d")
 		age = int(A006_today) - int(pat_birthday)
 
+		stop_reserve_on = False
+		repeat_data_on = False
+		specialSectno = False
 		if (request.session["A006_user_sectno"] in ["12","AB","AC","AA","01","AG","AD"]) and (age < 180000):
 			stop_reserve_on = True
 		elif (request.session["A006_user_sectno"] in ["09"]) and (age < 120000):
 			stop_reserve_on = True
 
-	return render(request, "Patient_Guide/Patient_Guide_2_6_v3.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_6_v3.html", {
+		'A006_True': A006_True,
+		'stop_reserve_on': stop_reserve_on,
+		'repeat_data_on': repeat_data_on,
+		'specialSectno': specialSectno,
+		'pat_data': pat_data,
+		'pat_name': pat_name,
+		'n_sectno': n_sectno,
+		'n_doccd': n_doccd,
+		'n_visitdt': n_visitdt,
+		'n_shiftno': n_shiftno,
+		'n_roomno': n_roomno,
+		'pat_id': pat_id,
+		'birthday': birthday,
+		'sex': sex,
+	})
 
 # 網路掛號_掛號資料查詢、取消
 def A006_Online_Booking_data(request):
@@ -3868,7 +4074,22 @@ def A006_Online_Booking_data(request):
 		return redirect("/A006_Online_Booking_login/")
 
 	# 20250922 新增初診掛號顯示判斷，Patient_Guide_2_3_v2
-	return render(request, "Patient_Guide/Patient_Guide_2_3_v2.html", locals())
+	showalert = None
+	visitno = None
+	showfancybox = None
+	if 'showalert' in locals():
+		showalert = locals().get('showalert')
+	if 'visitno' in locals():
+		visitno = locals().get('visitno')
+	if 'showfancybox' in locals():
+		showfancybox = locals().get('showfancybox')
+	return render(request, "Patient_Guide/Patient_Guide_2_3_v2.html", {
+		'A006_True': A006_True,
+		'showalert': showalert,
+		'visitno': visitno,
+		'n_data': n_data,
+		'showfancybox': showfancybox,
+	})
 
 # 網路掛號_選擇科別
 def A006_Online_Booking_1(request):
@@ -3897,7 +4118,10 @@ def A006_Online_Booking_1(request):
 		senames.append(django_senames)
 
 	datas = zip(subjects, senames)
-	return render(request, "Patient_Guide/Patient_Guide_2_1.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_1.html", {
+		'A006_True': A006_True,
+		'datas': datas,
+	})
 
 # 網路掛號_選擇科別_當週該科醫師列表
 def A006_Online_Booking_1_part(request):
@@ -4208,8 +4432,21 @@ def A006_Online_Booking_1_part(request):
 
 	datas = zip(I000_day_list, I000_weekday_list, I000_lookday_list_s, I000_lookday_list_a, I000_lookday_list_n)
 
+	# 確保 switch_day2 有預設值
+	if 'switch_day2' not in locals():
+		switch_day2 = None
 
-	return render(request, "Patient_Guide/Patient_Guide_2_1_1.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_1_1.html", {
+		'A006_True': A006_True,
+		'datas': datas,
+		'sename': sename,
+		'A006_I000_list': A006_I000_list,
+		'A006_radio_day_1': A006_radio_day_1,
+		'A006_radio_day_2': A006_radio_day_2,
+		'A006_radio_day_3': A006_radio_day_3,
+		'switch_day2': switch_day2,
+		'I000_day_list': I000_day_list,
+	})
 
 # 網路掛號_選擇醫師
 def A006_Online_Booking_2(request):
@@ -4254,7 +4491,10 @@ def A006_Online_Booking_2(request):
 
 	datas = zip(subjects, doctors)
 
-	return render(request, "Patient_Guide/Patient_Guide_2_2.html", locals())
+	return render(request, "Patient_Guide/Patient_Guide_2_2.html", {
+		'A006_True': A006_True,
+		'datas': datas,
+	})
 
 # 網路掛號_個別醫師預約頁
 @csrf_exempt
@@ -4532,14 +4772,46 @@ def A006_Online_Booking_2_1(request):
 		print(dr_lookday_list_n)
 	dr_clinic_list = zip(dr_day_list, dr_weekday_list, dr_lookday_list_s, dr_lookday_list_a, dr_lookday_list_n)
 
-	return render(request, "Patient_Guide/Patient_Guide_2_2_1.html", locals())
+	# 確保變數有預設值（如果未定義）
+	if 'userid' not in locals():
+		userid = None
+	if 'sename' not in locals():
+		sename = None
+	if 'sectno' not in locals():
+		sectno = None
+	if 'drname' not in locals():
+		drname = None
+	if 'dr_img' not in locals():
+		dr_img = None
+	if 'dr_e' not in locals():
+		dr_e = []
+	if 'switch_day2' not in locals():
+		switch_day2 = None
+
+	return render(request, "Patient_Guide/Patient_Guide_2_2_1.html", {
+		'A006_True': A006_True,
+		'dr_clinic_list': dr_clinic_list,
+		'drname': drname,
+		'sename': sename,
+		'dr_img': dr_img,
+		'dr_e': dr_e,
+		'userid': userid,
+		'A006_radio_day_1': A006_radio_day_1,
+		'A006_radio_day_2': A006_radio_day_2,
+		'A006_radio_day_3': A006_radio_day_3,
+		'switch_day2': switch_day2,
+		'sectno': sectno,
+		'dr_day_list': dr_day_list,
+	})
 
 # =========================================A100(新官網相關協助查詢頁面)=============================================
 
 # 新官網查詢－查詢院內科別代碼
 def A100_search_sename(request):
 	showlist = MSSQLAPI123.Search_SENAME_BASSECT123()
-	return render(request, "A100/sename.html", locals()) # 秀出網頁
+	return render(request, "A100/sename.html", {
+		'showlist': showlist,
+	})
 
 # =========================================A101(新官網占床率)=============================================
 
@@ -4575,4 +4847,4 @@ def A101_search_bed(request):
 
 # =========================================A102(資通安全政策聲明)=============================================
 def A102_Safe_ISMS(request):
-	return render(request, "Safe_ISMS.html", locals()) # 秀出網頁
+	return render(request, "Safe_ISMS.html", {})
