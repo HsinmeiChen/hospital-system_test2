@@ -58,17 +58,16 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
+		# 使用 :param_name 作為佔位符
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_MOBILE,PT_TELNO_HOME
 				FROM CHTPAT
-				WHERE PT_IDNO = '{pd_id}' --身分證字號
-				AND PT_BIRTHDATE = '{birthday}'--生日
-				'''.format(
-					pd_id=pd_id,
-					birthday=birthday)
+				WHERE PT_IDNO = :pd_id --身分證字號
+				AND PT_BIRTHDATE = :birthday --生日
+				'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pd_id': pd_id, 'birthday': birthday})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -79,15 +78,15 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
+		# 使用 :param_name 作為佔位符
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_MOBILE,PT_TELNO_HOME
 				FROM CHTPAT
-				WHERE PT_PATID = '{pdnum}'
-				'''.format(
-					pdnum=pdnum)
+				WHERE PT_PATID = :pdnum
+				'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pdnum': pdnum})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -98,7 +97,7 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-
+		# 使用 :param_name 作為佔位符
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_DRUGNO
 			FROM OPDCRO
 			INNER JOIN OPDVCB 
@@ -116,17 +115,14 @@ class HisapiReserve:
 			AND OCB_TYPE <> 'D'
 			AND CRO_COUNTER < 3
 			AND CRO_MAXTIMES > CRO_COUNTER --最大調劑次數 >累計調劑次數 (未完成)
-			AND PT_IDNO = '{pd_id}' --身分證字號
-			AND PT_BIRTHDATE = '{birthday}'--生日
-			AND CRO_ENDDATE > '{today}' --最終有效日期
-				'''.format(
-					pd_id=pd_id,
-					birthday=birthday,
-					today=today)
+			AND PT_IDNO = :pd_id --身分證字號
+			AND PT_BIRTHDATE = :birthday --生日
+			AND CRO_ENDDATE > :today --最終有效日期
+				'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pd_id': pd_id, 'birthday': birthday, 'today': today})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -138,7 +134,7 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-
+		# 使用 :param_name 作為佔位符
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_DRUGNO
 			FROM OPDCRO
 			INNER JOIN OPDVCB 
@@ -156,15 +152,13 @@ class HisapiReserve:
 			AND OCB_TYPE <> 'D'
 			AND CRO_COUNTER < 3
 			AND CRO_MAXTIMES > CRO_COUNTER --最大調劑次數 >累計調劑次數 (未完成)
-			AND PT_PATID = '{pdnum}'
-			AND CRO_ENDDATE > '{today}' --最終有效日期
-				'''.format(
-					pdnum=pdnum,
-					today=today)
+			AND PT_PATID = :pdnum
+			AND CRO_ENDDATE > :today --最終有效日期
+				'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pdnum': pdnum, 'today': today})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -176,7 +170,7 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-
+		# 使用 :param_name 作為佔位符
 		sql = '''SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,OCB_VISITSEQ
 			FROM OPDCRO
 			INNER JOIN OPDVCB 
@@ -194,16 +188,14 @@ class HisapiReserve:
 			AND OCB_TYPE <> 'D'
 			--AND CRO_COUNTER < 3
 			--AND CRO_MAXTIMES > CRO_COUNTER --最大調劑次數 >累計調劑次數 (未完成)
-			AND PT_PATID = '{pdnum}'
-			AND CRO_ENDDATE > '{today}' --最終有效日期
-				'''.format(
-					pdnum=pdnum,
-					today=today)
+			AND PT_PATID = :pdnum
+			AND CRO_ENDDATE > :today --最終有效日期
+				'''
 		# print(sql)
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pdnum': pdnum, 'today': today})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -215,7 +207,8 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-		sql = f"""SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,main_opd.max_OCB_VISITSEQ,main_opd.OCB_DRUGNO
+		# 移除 f-string，改用參數化查詢
+		sql = """SELECT PT_IDNO,PT_BIRTHDATE,PT_PATNAME,PT_PATID,PT_SEX,PT_TELNO_HOME,PT_MOBILE,CRO_CHROCARD,SEC_SENAME,CRO_VISITDT,EMP_EMPNAME,CRO_COUNTER,CRO_MAXTIMES,CRO_LASTDATE,CRO_ENDDATE,CRO_DAYS,CRO_SECOND_START,CRO_SECOND_END,CRO_THIRD_START,CRO_THIRD_END,main_opd.max_OCB_VISITSEQ,main_opd.OCB_DRUGNO
 				FROM OPDCRO
 				INNER JOIN CHTPAT
 				ON CRO_PATID = PT_PATID
@@ -237,7 +230,7 @@ class HisapiReserve:
 								WHERE OCB_TYPE <> 'D'
 								AND OCB_NEXT > 0
 								AND OCB_CANDTTM = ' '
-								AND OCB_PATID = '{pdnum}' --病歷號
+								AND OCB_PATID = :pdnum --病歷號
 								GROUP BY OCB_CHROCARD
 					
 							) inside_opd
@@ -247,7 +240,7 @@ class HisapiReserve:
 						WHERE in_opd.OCB_TYPE <> 'D'
 						AND in_opd.OCB_NEXT > 0
 						AND in_opd.OCB_CANDTTM = ' '
-						AND in_opd.OCB_PATID = '{pdnum}' --病歷號
+						AND in_opd.OCB_PATID = :pdnum --病歷號
 					
 					) main_opd
 					ON CRO_CHROCARD = main_opd.OCB_CHROCARD
@@ -258,8 +251,8 @@ class HisapiReserve:
 					WHERE CRO_DCTYPE = 'N' --未取消
 					AND main_opd.max_OCB_VISITSEQ <> 'IC03' --此慢箋未完成
 					--AND CRO_COUNTER < CRO_MAXTIMES --此慢箋未完成
-					AND CRO_ENDDATE > '{today}' --最終有效日期
-					AND PT_PATID = '{pdnum}' --病歷號
+					AND CRO_ENDDATE > :today --最終有效日期
+					AND PT_PATID = :pdnum --病歷號
 					ORDER BY CRO_VISITDT DESC
 				"""
 
@@ -267,7 +260,7 @@ class HisapiReserve:
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'pdnum': pdnum, 'today': today})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -279,25 +272,22 @@ class HisapiReserve:
 		# 連線Oracle資料庫
 		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-
+		# 使用 :param_name 作為佔位符，注意 OCB_VISITSEQ 需要字串連接
 		sql = '''
 			SELECT SEC_SENAME,OCB_CHROCARD,SUBSTR(OCB_VISITSEQ, -1, 1),OCB_VISITDT
 			FROM OPDVCB
 			INNER JOIN BASSECT 
 			ON OCB_SECTNO = SEC_SECTNO
 			WHERE OCB_TYPE <> 'D'
-			AND OCB_CHROCARD = '{chrocard}'
-			AND OCB_VISITSEQ = 'IC0{times}'
-			AND OCB_PATID = '{pd_num}'
-				'''.format(
-					chrocard=chrocard,
-					times=times,
-					pd_num = pd_num)
+			AND OCB_CHROCARD = :chrocard
+			AND OCB_VISITSEQ = 'IC0' || :times
+			AND OCB_PATID = :pd_num
+				'''
 		# print(sql)
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, {'chrocard': chrocard, 'times': times, 'pd_num': pd_num})  # 使用字典傳參
 		data = c.fetchall()
 		# print("{:-^50s}".format("下一筆"))
 		c.close()
@@ -339,22 +329,19 @@ class MssqlApiReserve:
 			database = mssql_66_146_db,
 			charset='UTF-8')
 
-		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = """INSERT INTO LOG_WEB(
 			IDNO,
 			PATBIRTHDAY,
 			URL) VALUES (
-			'{idno}',
-			'{patBirthday}',
-			'{url}')
-		""".format(
-			idno = idno,
-			patBirthday = patBirthday,
-			url = url)
+			%s,
+			%s,
+			%s)
+		"""
 
 		# 定義資料庫游標
 		c = connection.cursor(as_dict = True)
-		c.execute(sql)
+		c.execute(sql, (idno, patBirthday, url))  # 使用元組傳參
 
 		# 如果執行的是修改操作，需要提交事務；如果執行的是查詢操作，不需要提交
 		connection.commit()
@@ -373,23 +360,22 @@ class MssqlApiReserve:
 				charset='UTF-8'
 			)
 
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT reserve_date
 				FROM reserve_pre_list
-				WHERE chrocard = '{chrocard}'
+				WHERE chrocard = %s
 				AND cancel = 'N'
-				AND resno_times = '{resno_times}'
-				AND reserve_date >= '{todayformat}'
-				'''.format(chrocard = chrocard,
-							resno_times = resno_times,
-							todayformat = todayformat)
+				AND resno_times = %s
+				AND reserve_date >= %s
+				'''
 		# print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
 		try:
-			c.execute(sql)
+			c.execute(sql, (chrocard, resno_times, todayformat))  # 使用元組傳參
 		except Exception as e:
-			if ('dead or not' in e): #網路斷掉
+			if ('dead or not' in str(e)): #網路斷掉
 				pass
 			else:
 				print(e)
@@ -411,23 +397,22 @@ class MssqlApiReserve:
 				charset='UTF-8'
 			)
 
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT reserve_date
 				FROM reserve_pre_list
-				WHERE chrocard = '{chrocard}'
+				WHERE chrocard = %s
 				AND cancel = 'N'
-				AND resno_times = '{resno_times}'
-				AND reserve_date < '{todayformat}' --小於今日(不包含今天)
-				'''.format(chrocard = chrocard,
-							resno_times = resno_times,
-							todayformat = todayformat)
+				AND resno_times = %s
+				AND reserve_date < %s --小於今日(不包含今天)
+				'''
 		# print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
 		try:
-			c.execute(sql)
+			c.execute(sql, (chrocard, resno_times, todayformat))  # 使用元組傳參
 		except Exception as e:
-			if ('dead or not' in e): #網路斷掉
+			if ('dead or not' in str(e)): #網路斷掉
 				pass
 			else:
 				print(e)
@@ -449,24 +434,23 @@ class MssqlApiReserve:
 				charset='UTF-8'
 			)
 
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT sen_name,chrocard,resno_times,reserve_date
 				FROM reserve_pre_list
-				WHERE pd_num = '{pdnum}'
+				WHERE pd_num = %s
 				AND cancel = 'N'
-				AND reserve_date >= '{breakdate}' --大於等於56天前
-				AND reserve_date < '{todayformat}' --小於今日
+				AND reserve_date >= %s --大於等於56天前
+				AND reserve_date < %s --小於今日
 				ORDER BY reserve_date
-				'''.format(pdnum = pdnum,
-							breakdate = breakdate,
-							todayformat = todayformat)
+				'''
 		# print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
 		try:
-			c.execute(sql)
+			c.execute(sql, (pdnum, breakdate, todayformat))  # 使用元組傳參
 		except Exception as e:
-			if ('dead or not' in e): #網路斷掉
+			if ('dead or not' in str(e)): #網路斷掉
 				pass
 			else:
 				print(e)
@@ -488,38 +472,43 @@ class MssqlApiReserve:
 			charset='UTF-8'
 		)
 
+		# 準備參數
+		chrocard = re_data[0]
+		pd_num = pd_info[0][3]
+		pd_name = pd_info[0][2]
+		pd_idnum = pd_info[0][0]
+		pd_birthday = pd_info[0][1]
+		visitdt = re_data[2]
+		resno_times = re_data[10]
+		sen_name = re_data[1]
+		doc_name = re_data[3]
+		reserve_date_val = reserve_date[0]
+		re = reserve_date[1]
+		cro_lastdate = re_data[11]
+		ocb_drugno = re_data[12]
+		
+		# 構建 SMS 訊息（這個可以保留字串格式化，因為是固定模板）
+		sms_words = f'{pd_name} 您好，您預約({re})領藥，請於早上8點半～下午5點半，持健保卡、慢箋單至藥局櫃檯領藥。如需改期請撥04-36113600，長安醫院關心您～'
+
+		# 使用 %s 作為佔位符
 		sql = """
 			IF NOT EXISTS(
 				SELECT * FROM reserve_pre_list
-				WHERE chrocard = '{chrocard}'
-				AND resno_times = '{resno_times}'
+				WHERE chrocard = %s
+				AND resno_times = %s
 				AND cancel = 'N'
-				AND reserve_date > '{today}'
+				AND reserve_date > %s
 				)
 			BEGIN 
 				INSERT INTO reserve_pre_list (chrocard,pd_num,pd_name,pd_idnum,pd_birthday,visitdt,resno_times,sen_name,doc_name,reserve_date,sms_words,cro_lastdate,ocb_drugno)
-				VALUES ('{chrocard}', '{pd_num}', N'{pd_name}', '{pd_idnum}', '{pd_birthday}','{visitdt}','{resno_times}', N'{sen_name}', N'{doc_name}','{reserve_date}', 
-				N'{pd_name} 您好，您預約({re})領藥，請於早上8點半～下午5點半，持健保卡、慢箋單至藥局櫃檯領藥。如需改期請撥04-36113600，長安醫院關心您～','{cro_lastdate}','{ocb_drugno}');
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
 			END;
-		""".format(
-				chrocard = re_data[0],
-				pd_num = pd_info[0][3],
-				pd_name = pd_info[0][2],
-				pd_idnum = pd_info[0][0],
-				pd_birthday = pd_info[0][1],
-				visitdt = re_data[2],
-				resno_times = re_data[10],
-				sen_name = re_data[1],
-				doc_name = re_data[3],
-				reserve_date = reserve_date[0],
-				re = reserve_date[1],
-				cro_lastdate = re_data[11],
-				ocb_drugno = re_data[12],
-				today = today)
+		"""
 		# print(sql)
 
 		c = connection.cursor(as_dict = True)
-		c.execute(sql)
+		# 參數順序：IF NOT EXISTS 的參數 + INSERT VALUES 的參數
+		c.execute(sql, (chrocard, resno_times, today, chrocard, pd_num, pd_name, pd_idnum, pd_birthday, visitdt, resno_times, sen_name, doc_name, reserve_date_val, sms_words, cro_lastdate, ocb_drugno))
 		connection.commit()
 		c.close()
 		connection.close()
@@ -536,38 +525,43 @@ class MssqlApiReserve:
 			charset='UTF-8'
 		)
 
+		# 準備參數
+		chrocard = re_data[0]
+		pd_num = pd_info[0][3]
+		pd_name = pd_info[0][2]
+		pd_idnum = pd_info[0][0]
+		pd_birthday = pd_info[0][1]
+		visitdt = re_data[2]
+		resno_times = re_data[10]
+		sen_name = re_data[1]
+		doc_name = re_data[3]
+		reserve_date_val = reserve_date[0]
+		re = reserve_date[1]
+		cro_lastdate = re_data[11]
+		ocb_drugno = re_data[12]
+		
+		# 構建 SMS 訊息（這個可以保留字串格式化，因為是固定模板）
+		sms_words = f'{pd_name} 您好，您預約({re})領藥，請於早上9點半～下午9點半，持健保卡、慢箋單至藥局櫃檯領藥。如需改期請撥04-36113600，長安醫院關心您～'
+
+		# 使用 %s 作為佔位符
 		sql = """
 			IF NOT EXISTS(
 				SELECT * FROM reserve_pre_list
-				WHERE chrocard = '{chrocard}'
-				AND resno_times = '{resno_times}'
+				WHERE chrocard = %s
+				AND resno_times = %s
 				AND cancel = 'N'
-				AND reserve_date > '{today}'
+				AND reserve_date > %s
 				)
 			BEGIN 
 				INSERT INTO reserve_pre_list (chrocard,pd_num,pd_name,pd_idnum,pd_birthday,visitdt,resno_times,sen_name,doc_name,reserve_date,sms_words,cro_lastdate,ocb_drugno)
-				VALUES ('{chrocard}', '{pd_num}', N'{pd_name}', '{pd_idnum}', '{pd_birthday}','{visitdt}','{resno_times}', N'{sen_name}', N'{doc_name}','{reserve_date}', 
-				N'{pd_name} 您好，您預約({re})領藥，請於早上9點半～下午9點半，持健保卡、慢箋單至藥局櫃檯領藥。如需改期請撥04-36113600，長安醫院關心您～','{cro_lastdate}','{ocb_drugno}');
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
 			END;
-		""".format(
-				chrocard = re_data[0],
-				pd_num = pd_info[0][3],
-				pd_name = pd_info[0][2],
-				pd_idnum = pd_info[0][0],
-				pd_birthday = pd_info[0][1],
-				visitdt = re_data[2],
-				resno_times = re_data[10],
-				sen_name = re_data[1],
-				doc_name = re_data[3],
-				reserve_date = reserve_date[0],
-				re = reserve_date[1],
-				cro_lastdate = re_data[11],
-				ocb_drugno = re_data[12],
-				today = today)
+		"""
 		# print(sql)
 
 		c = connection.cursor(as_dict = True)
-		c.execute(sql)
+		# 參數順序：IF NOT EXISTS 的參數 + INSERT VALUES 的參數
+		c.execute(sql, (chrocard, resno_times, today, chrocard, pd_num, pd_name, pd_idnum, pd_birthday, visitdt, resno_times, sen_name, doc_name, reserve_date_val, sms_words, cro_lastdate, ocb_drugno))
 		connection.commit()
 		c.close()
 		connection.close()
@@ -583,21 +577,18 @@ class MssqlApiReserve:
 				charset='UTF-8'
 			)
 
+		# 使用 %s 作為佔位符
 		sql = """
 			UPDATE reserve_pre_list 
-			SET cancel = 'Y',cancel_datetime='{cancel_datetime}'
-			WHERE chrocard = '{chrocard}'
-			AND resno_times = '{resno_times}'
+			SET cancel = 'Y',cancel_datetime=%s
+			WHERE chrocard = %s
+			AND resno_times = %s
 			AND cancel = 'N'
-			AND reserve_date > '{today}' --今天以前的都無法再取消了(留黑名單)
-			""".format(
-				cancel_datetime = cancel_datetime,
-				chrocard = chrocard,
-				resno_times = resno_times,
-				today = today)
+			AND reserve_date > %s --今天以前的都無法再取消了(留黑名單)
+			"""
 
 		c = connection.cursor(as_dict = True)
-		c.execute(sql)
+		c.execute(sql, (cancel_datetime, chrocard, resno_times, today))  # 使用元組傳參
 		connection.commit()
 		c.close()
 		connection.close()
