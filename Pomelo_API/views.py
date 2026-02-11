@@ -107,28 +107,44 @@ class PLSQLAPI:
 			print(f"Oracle connection failed: {e}")
 			return []
 
-		# 輸入你要查找的資料表語法
-		sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,8),SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD
-		INNER JOIN BASEMP
-			ON SCD_EMPNO = EMP_EMPNO 
-		INNER JOIN BASSECT
-			ON SCD_SECTNO = SEC_SECTNO
-		WHERE SCD_CANCEL = 'Q'
-			AND SCD_VISITDT LIKE '{date}%'
-			AND EMP_DC = 'N'
-		ORDER BY SCD_VISITDT,SCD_SHIFTNO'''.format(
-			date = date)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		try:
+			# 輸入你要查找的資料表語法
+			# 使用 :param_name 作為佔位符
+			# SUBSTR(SCD_VISITDT,7,2) 從第7個字符開始取2個字符，獲取日期部分（DD）
+			# TO_CHAR(SCD_SHIFTNO) 將時段轉換為字符串格式
+			# 在 Python 中構建完整的 LIKE 模式，避免 Oracle 綁定變量問題
+			date_pattern = date + '%'
+			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,2),TO_CHAR(SCD_SHIFTNO),SCD_ROOMNO FROM REGSCD
+			INNER JOIN BASEMP
+				ON SCD_EMPNO = EMP_EMPNO 
+			INNER JOIN BASSECT
+				ON SCD_SECTNO = SEC_SECTNO
+			WHERE SCD_CANCEL = 'Q'
+				AND SCD_VISITDT LIKE :date_pattern
+				AND EMP_DC = 'N'
+			ORDER BY SCD_VISITDT,SCD_SHIFTNO'''
+			# 定義資料庫游標
+			c = connection.cursor()
+			c.execute(sql, {'date_pattern': date_pattern})
 
-		rows = c.fetchall()
+			rows = c.fetchall()
 
-		c.close()
-		connection.close()
+			c.close()
+			connection.close()
 
-		# 回傳第一比查詢資料(rows[0])
-		return(rows)
+			# 回傳第一比查詢資料(rows[0])
+			return(rows)
+		except Exception as e:
+			print(f"SQL execution failed in Search_Stop_Show: {e}")
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
+			return []
 
 	def Search_Stop_Show_by_Dr(patid):
 		if cx_Oracle is None:
@@ -144,49 +160,59 @@ class PLSQLAPI:
 		n_date = today.strftime("%Y%m%d")
 		e_date = (today + datetime.timedelta(days = 60)).strftime("%Y%m%d")
 
-		# 輸入你要查找的資料表語法
-		sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
-		INNER JOIN BASEMP
-			ON SCD_EMPNO = EMP_EMPNO 
-		INNER JOIN BASSECT
-			ON EMP_SECTNO = SEC_SECTNO
-		WHERE SCD_CANCEL = 'Q'
-			AND SCD_EMPNO = '{patid}'
-			AND SCD_VISITDT BETWEEN '{n_date}' AND '{e_date}'
-			AND EMP_DC = 'N'
-		ORDER BY SCD_VISITDT'''.format(
-			patid = patid,
-			n_date = n_date,
-			e_date = e_date)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		try:
+			# 輸入你要查找的資料表語法
+			# 使用 :param_name 作為佔位符
+			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			INNER JOIN BASEMP
+				ON SCD_EMPNO = EMP_EMPNO 
+			INNER JOIN BASSECT
+				ON EMP_SECTNO = SEC_SECTNO
+			WHERE SCD_CANCEL = 'Q'
+				AND SCD_EMPNO = :patid
+				AND SCD_VISITDT BETWEEN :n_date AND :e_date
+				AND EMP_DC = 'N'
+			ORDER BY SCD_VISITDT'''
+			# 定義資料庫游標
+			c = connection.cursor()
+			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
 
-		rows = c.fetchall()
-		datas = []
+			rows = c.fetchall()
+			datas = []
 
-		for row in rows:
-			datas.append(list(row))
+			for row in rows:
+				datas.append(list(row))
 
-		i = 0
-		for data in datas:
-			datas[i].append(data[2][4:6])
-			datas[i].append(data[2][6:8])
+			i = 0
+			for data in datas:
+				datas[i].append(data[2][4:6])
+				datas[i].append(data[2][6:8])
 
-			if (data[3] == "1"):
-				datas[i][3] = "早診"
-			elif (data[3] == "2"):
-				datas[i][3] = "午診"
-			elif (data[3] == "3"):
-				datas[i][3] = "晚診"
+				if (data[3] == "1"):
+					datas[i][3] = "早診"
+				elif (data[3] == "2"):
+					datas[i][3] = "午診"
+				elif (data[3] == "3"):
+					datas[i][3] = "晚診"
 
-			i += 1
+				i += 1
 
-		c.close()
-		connection.close()
+			c.close()
+			connection.close()
 
-		# 回傳第一比查詢資料(rows[0])
-		return(datas)
+			# 回傳第一比查詢資料(rows[0])
+			return(datas)
+		except Exception as e:
+			print(f"SQL execution failed in Search_Stop_Show_by_Dr: {e}")
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
+			return []
 
 	def A002_Search_Room_All_Number(shiftno, roomno):
 		if cx_Oracle is None:
@@ -203,25 +229,25 @@ class PLSQLAPI:
 			return []
 
 		# 輸入你要查找的資料表語法
-		sql = '''SELECT REG_VISITNO,REG_CANCD,CAL_STATUS,CAL_LEVEL,CASE WHEN CAL_STARTTIME = ' ' OR CAL_STARTTIME IS NULL THEN 'N' ELSE 'Y' END 報到否 FROM REGBAS 
+		# 使用位置參數 :1, :2, :3 避免命名參數的問題
+		# 中文別名用雙引號包起來並加上 AS
+		sql = '''SELECT REG_VISITNO,REG_CANCD,CAL_STATUS,CAL_LEVEL,CASE WHEN CAL_STARTTIME = ' ' OR CAL_STARTTIME IS NULL THEN 'N' ELSE 'Y' END AS "報到否" FROM REGBAS 
 		LEFT JOIN CALLOG
 			ON REG_PATID = CAL_PATID
 			AND REG_SHIFTNO = CAL_SHIFTNO
 			AND REG_VISITDT = CAL_VISITDT
 			AND REG_ROOMNO = CAL_ROOMNO
 			AND REG_SEQ = CAL_SEQ
-		WHERE REG_SHIFTNO = '{shiftno}'
-			AND REG_VISITDT = '{date}'
-			AND REG_ROOMNO = '{roomno}'
-		ORDER BY REG_VISITNO'''.format(
-			shiftno = shiftno,
-			roomno = roomno,
-			date = date)
+		WHERE REG_SHIFTNO = :1
+			AND REG_VISITDT = :2
+			AND REG_ROOMNO = :3
+		ORDER BY REG_VISITNO'''
 		
 		try:
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql)
+			# 使用元組傳遞位置參數，順序：shiftno, date, roomno
+			c.execute(sql, (shiftno, date, roomno))
 
 			rows = c.fetchall()
 
@@ -232,6 +258,9 @@ class PLSQLAPI:
 			return(rows)
 		except Exception as e:
 			print(f"SQL execution failed in A002_Search_Room_All_Number: {e}")
+			print(f"Parameters: shiftno={shiftno} (type: {type(shiftno)}), roomno={roomno} (type: {type(roomno)}), date={date}")
+			import traceback
+			traceback.print_exc()
 			try:
 				connection.close()
 			except:
@@ -239,25 +268,44 @@ class PLSQLAPI:
 			return []
 
 	def A006_Search_BASEMP_EMPNAME(deptno):
-		# 連線Oracle資料庫
-		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		try:
+			# 連線Oracle資料庫
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		except Exception as e:
+			print(f"Oracle connection failed in A006_Search_BASEMP_EMPNAME: {e}")
+			return None
 
-		# 輸入你要查找的資料表語法
-		sql = '''
-			SELECT EMP_EMPNAME FROM BASEMP
-			WHERE EMP_EMPNO = '{deptno}'
-		'''.format(deptno = deptno)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		try:
+			# 輸入你要查找的資料表語法
+			# 使用 :param_name 作為佔位符
+			sql = '''
+				SELECT EMP_EMPNAME FROM BASEMP
+				WHERE EMP_EMPNO = :deptno
+			'''
+			# 定義資料庫游標
+			c = connection.cursor()
+			c.execute(sql, {'deptno': deptno})
 
-		rows = c.fetchone()
+			rows = c.fetchone()
 
-		c.close()
-		connection.close()
+			c.close()
+			connection.close()
 
-		# 回傳第一比查詢資料(rows[0])
-		return(rows[0])
+			# 回傳第一比查詢資料(rows[0])
+			if rows:
+				return rows[0]
+			return None
+		except Exception as e:
+			print(f"SQL execution failed in A006_Search_BASEMP_EMPNAME: {e}")
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
+			return None
 
 class MSSQLAPI:
 	# 網路掛號，登入LOG 20241225新增
@@ -271,21 +319,19 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = """INSERT INTO LOG_WEB(
 			IDNO,
 			PATBIRTHDAY,
 			URL) VALUES (
-			'{idno}',
-			'{patBirthday}',
-			'{url}')
-		""".format(
-			idno = idno,
-			patBirthday = patBirthday,
-			url = url)
+			%s,
+			%s,
+			%s)
+		"""
 
 		# 定義資料庫游標
 		c = connection.cursor(as_dict = True)
-		c.execute(sql)
+		c.execute(sql, (idno, patBirthday, url))
 
 		# 如果執行的是修改操作，需要提交事務；如果執行的是查詢操作，不需要提交
 		connection.commit()
@@ -307,18 +353,18 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = """SELECT CONVERT(NVARCHAR(40),SCD_RONAME) as SCD_RONAME,CONVERT(NVARCHAR(40),SCD_SENAME) as SCD_SENAME,
 		SCD_EMPNAME,SCD_CALLER_NOW_NUM,SCD_ROOMNO FROM NRGSCD
-		WHERE SCD_SHIFTNO='{shiftno}' 
-			AND SCD_VISITDT='{date}' 
+		WHERE SCD_SHIFTNO=%s 
+			AND SCD_VISITDT=%s 
 			AND SCD_CANCEL='N'
 		ORDER BY SCD_ROOMNO
-		""".format(shiftno = shiftno,
-			date = date)
+		"""
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (shiftno, date))
 
 		rows = c.fetchall()
 
@@ -337,6 +383,7 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = """INSERT INTO LOG_WEB(
 			PATID,
 			IDNO,
@@ -346,29 +393,21 @@ class MSSQLAPI:
 			ROOMNO,
 			SECTNO,
 			DOCCD) VALUES (
-			'{patid}',
-			'{idno}',
-			'{visitdt}',
-			'{recno}',
-			'{shiftno}',
-			'{roomno}',
-			'{sectno}',
-			'{doccd}')
-		""".format(
-			patid = patid,
-			idno = idno,
-			visitdt = visitdt,
-			recno = recno,
-			shiftno = shiftno,
-			roomno = roomno,
-			sectno = sectno,
-			doccd = doccd)
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s,
+			%s)
+		"""
 
 		# 定義資料庫游標
 		c = connection.cursor(as_dict = True)
 
 		try:
-			c.execute(sql)
+			c.execute(sql, (patid, idno, visitdt, recno, shiftno, roomno, sectno, doccd))
 			# 如果執行的是修改操作，需要提交事務；如果執行的是查詢操作，不需要提交
 			connection.commit()
 		except Exception as e:
@@ -392,13 +431,13 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''SELECT SEC_SECTNO FROM NRGSEC 
-		WHERE SEC_SHOWNAME='{sename}'
-		'''.format(
-			sename = sename)
+		WHERE SEC_SHOWNAME=%s
+		'''
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (sename,))
 
 		rows = c.fetchone()
 
@@ -445,16 +484,16 @@ class MSSQLAPI:
 			return []
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = """SELECT * FROM EAH_WEB_DATA
-			WHERE EAH_WEB_TYPE = '{data_type}'
+			WHERE EAH_WEB_TYPE = %s
 			AND EAH_WEB_STOP = 'N'
 			ORDER BY EAH_WEBNO
-			""".format(
-			data_type = data_type)
+			"""
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (data_type,))
 
 		rows = c.fetchall()
 
@@ -474,14 +513,14 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''SELECT SEC_SECTNO FROM NRGSEC
-			WHERE SEC_SHOWNAME = '{sename}'
-			'''.format(
-				sename = sename)
+			WHERE SEC_SHOWNAME = %s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (sename,))
 
 		data = c.fetchone()
 
@@ -505,6 +544,7 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''SELECT SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM NRGSCD
 			-- INNER JOIN NRGSEC
 			-- 	  ON SCD_HOSPAREA = SEC_HOSPAREA
@@ -512,19 +552,15 @@ class MSSQLAPI:
 			  WHERE SCD_HOSPAREA='1'
 				  AND SCD_CANCEL='N'
 				  AND SCD_KNDKIND='1'
-				  AND SCD_SECTNO = '{sectno}'
+				  AND SCD_SECTNO = %s
 				  --AND SEC_ISNET='Y'
-				  AND SCD_VISITDT BETWEEN '{startdt}'AND '{enddt}'
-				  AND SCD_EMPNO = '{empno}'
-			'''.format(
-				startdt = startdt,
-				enddt = enddt,
-				sectno = sectno,
-				empno = empno)
+				  AND SCD_VISITDT BETWEEN %s AND %s
+				  AND SCD_EMPNO = %s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (sectno, startdt, enddt, empno))
 
 		data = c.fetchall()
 
@@ -545,6 +581,7 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''SELECT SCD_VISITDT,SCD_SHIFTNO,SCD_EMPNO,SCD_SECTNO,SCD_EMPNAME FROM NRGSCD
 			-- INNER JOIN NRGSEC
 			-- 	  ON SCD_HOSPAREA = SEC_HOSPAREA
@@ -552,17 +589,14 @@ class MSSQLAPI:
 			  WHERE SCD_HOSPAREA='1'
 				  AND SCD_CANCEL='N'
 				  AND SCD_KNDKIND='1'
-				  AND SCD_SECTNO = '{sectno}'
+				  AND SCD_SECTNO = %s
 				  --AND SEC_ISNET='Y'
-				  AND SCD_VISITDT BETWEEN '{startdt}'AND '{enddt}'
-			'''.format(
-				startdt = startdt,
-				enddt = enddt,
-				sectno = sectno)
+				  AND SCD_VISITDT BETWEEN %s AND %s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (sectno, startdt, enddt))
 
 		data = c.fetchall()
 
@@ -583,25 +617,22 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT REG_HOSPAREA,REG_VISITDT,REG_SECTNO,REG_SHIFTNO,REG_DOCCD,count(*) AS NRP FROM NRGRGB
 				WHERE REG_HOSPAREA='1'
-					AND REG_VISITDT='{visitdt}'
-					AND REG_SECTNO='{sectno}'
-					AND REG_DOCCD='{doccd}'
-					AND REG_SHIFTNO='{shiftno}'
+					AND REG_VISITDT=%s
+					AND REG_SECTNO=%s
+					AND REG_DOCCD=%s
+					AND REG_SHIFTNO=%s
 					AND REG_VISITNO > 0
 					AND REG_CANCEL='N'
 				GROUP BY REG_HOSPAREA,REG_VISITDT,REG_SECTNO,REG_SHIFTNO,REG_DOCCD
-			'''.format(
-				visitdt = visitdt,
-				sectno = sectno,
-				shiftno = shiftno,
-				doccd = doccd)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, sectno, doccd, shiftno))
 
 		data = c.fetchall()
 		if (len(data) == 0):
@@ -626,22 +657,19 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT NPRO_HOSPAREA,NPRO_VISITDT,NPRO_SECTNO,NPRO_SHIFTNO,NPRO_DOCCD,NPRO_NRP FROM NRGNPRO
 				WHERE NPRO_HOSPAREA='1'
-					AND NPRO_VISITDT='{visitdt}'
-					AND NPRO_SECTNO='{sectno}'
-					AND NPRO_DOCCD='{doccd}'
-					AND NPRO_SHIFTNO='{shiftno}'
-			'''.format(
-				visitdt = visitdt,
-				sectno = sectno,
-				shiftno = shiftno,
-				doccd = doccd)
+					AND NPRO_VISITDT=%s
+					AND NPRO_SECTNO=%s
+					AND NPRO_DOCCD=%s
+					AND NPRO_SHIFTNO=%s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, sectno, doccd, shiftno))
 
 		data = c.fetchall()
 		if (len(data) == 0):
@@ -666,6 +694,7 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT
 				 REG_HOSPAREA,
@@ -677,25 +706,22 @@ class MSSQLAPI:
 				FROM NRGRGB
 				WHERE 
 				 REG_HOSPAREA = '1'
-				 and REG_VISITDT >= '{startdt}'
-				 and REG_VISITDT <= '{enddt}'
+				 and REG_VISITDT >= %s
+				 and REG_VISITDT <= %s
 				 and REG_CANCEL = 'N'
 				 AND REG_VISITNO > 0
-				 AND REG_SECTNO = '{sectno}'
+				 AND REG_SECTNO = %s
 				GROUP BY 
 				 REG_HOSPAREA,
 				 REG_VISITDT,
 				 REG_SECTNO,
 				 REG_SHIFTNO,
 				 REG_DOCCD ;
-			'''.format(
-				sectno = sectno,
-				startdt = startdt,
-				enddt = enddt)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (startdt, enddt, sectno))
 
 		data = c.fetchall()
 
@@ -715,22 +741,19 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT SCD_REPLACE,SCD_REPLACENO,SCD_REPLACENM,SCD_RESVNORM FROM NRGSCD
-				WHERE SCD_VISITDT = '{visitdt}'
-				AND SCD_SHIFTNO = '{shiftno}'
-				AND SCD_SECTNO = '{sectno}'
-				AND SCD_EMPNO = '{doccd}'
+				WHERE SCD_VISITDT = %s
+				AND SCD_SHIFTNO = %s
+				AND SCD_SECTNO = %s
+				AND SCD_EMPNO = %s
 				AND SCD_CANCEL = 'N'
-			'''.format(
-				visitdt = visitdt,
-				sectno = sectno,
-				shiftno = shiftno,
-				doccd = doccd)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, shiftno, sectno, doccd))
 
 		data = c.fetchone()
 
@@ -752,20 +775,18 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT SCD_REPLACE,SCD_REPLACENO,SCD_REPLACENM,SCD_RESVNORM,SCD_SHIFTNO,SCD_EMPNO FROM NRGSCD
-				WHERE SCD_VISITDT BETWEEN '{startdt}' AND '{enddt}'
-					AND SCD_SECTNO = '{sectno}'
+				WHERE SCD_VISITDT BETWEEN %s AND %s
+					AND SCD_SECTNO = %s
 					AND SCD_REPLACE = 'Y'
 					AND SCD_CANCEL = 'N'
-			'''.format(
-				sectno = sectno,
-				startdt = startdt,
-				enddt = enddt)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (startdt, enddt, sectno))
 
 		data = c.fetchall()
 
@@ -787,26 +808,25 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 			    SELECT PAT_PATID,PAT_PATNAME,PAT_BIRTHDATE FROM NRGPAT
 			    WHERE PAT_HOSPAREA='1'
-			    AND (PAT_IDNO='{acc}' OR PAT_PATID='{acc}')
-			'''.format(
-				acc = acc)
+			    AND (PAT_IDNO=%s OR PAT_PATID=%s)
+			'''
 
 		sql2 = '''
 			    SELECT TPT_PATID,TPT_PATNAME,TPT_BIRTHDATE FROM NRGPATTEMP
 			    WHERE TPT_HOSPAREA='1'
-			    AND (TPT_IDNO='{acc}' OR TPT_PATID='{acc}')
+			    AND (TPT_IDNO=%s OR TPT_PATID=%s)
 			    AND TPT_PATID <> ' '
-			'''.format(
-				acc = acc)
+			'''
 
 		#print(sql2)
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (acc, acc))
 
 		data = c.fetchone()
 
@@ -815,7 +835,7 @@ class MSSQLAPI:
 		if (data == None):
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql2)
+			c.execute(sql2, (acc, acc))
 
 			data = c.fetchone()
 
@@ -837,8 +857,10 @@ class MSSQLAPI:
 			timeout = 5,
 			charset='UTF-8')
 
+		date = datetime.date.today().strftime("%Y%m%d")
 		if (patid[0].isdigit()):
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
 					SELECT REG_PATID,PAT_PATNAME,REG_VISITDT,REG_SHIFTNO,SCD_SECTNO,SCD_EMPNAME,REG_VISITNO,REG_DOCCD,REG_RECNO,SCD_RONAME FROM NRGRGB
 					LEFT JOIN NRGPAT
@@ -849,16 +871,15 @@ class MSSQLAPI:
 					AND SCD_VISITDT = REG_VISITDT
 					AND SCD_SHIFTNO = REG_SHIFTNO
 					WHERE REG_HOSPAREA='1'
-					AND REG_PATID='{patid}'
-					AND REG_VISITDT >= '{date}'
+					AND REG_PATID=%s
+					AND REG_VISITDT >= %s
 					AND REG_CANCEL='N'
 					AND SCD_CANCEL='N'
 					AND REG_VISITNO > -1
-				'''.format(
-					patid = patid,
-					date = datetime.date.today().strftime("%Y%m%d"))
+				'''
 		else:
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
 					SELECT REG_PATID,TPT_PATNAME,REG_VISITDT,REG_SHIFTNO,SCD_SECTNO,SCD_EMPNAME,REG_VISITNO,REG_DOCCD,REG_RECNO,SCD_RONAME FROM NRGRGB
 					LEFT JOIN NRGPATTEMP
@@ -869,17 +890,15 @@ class MSSQLAPI:
 					AND SCD_VISITDT = REG_VISITDT
 					AND SCD_SHIFTNO = REG_SHIFTNO
 					WHERE REG_HOSPAREA='1'
-					AND REG_PATID='{patid}'
-					AND REG_VISITDT >= '{date}'
+					AND REG_PATID=%s
+					AND REG_VISITDT >= %s
 					AND REG_CANCEL='N'
 					AND SCD_CANCEL='N'
-				'''.format(
-					patid = patid,
-					date = datetime.date.today().strftime("%Y%m%d"))
+				'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (patid, date))
 
 		data = c.fetchall()
 
@@ -901,24 +920,21 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT * FROM NRGRGB
 				WHERE REG_HOSPAREA='1'
-				AND REG_PATID = '{patid}'
-				AND REG_VISITDT = '{visitdt}'
-				AND REG_SHIFTNO = '{shiftno}'
-				AND REG_DOCCD = '{doccd}'
+				AND REG_PATID = %s
+				AND REG_VISITDT = %s
+				AND REG_SHIFTNO = %s
+				AND REG_DOCCD = %s
 				AND REG_CANCEL='N'
 				AND REG_VISITNO <> -300
-			'''.format(
-				patid = patid,
-				visitdt = visitdt,
-				shiftno = shiftno,
-				doccd = doccd)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (patid, visitdt, shiftno, doccd))
 
 		data = c.fetchone()
 
@@ -940,14 +956,15 @@ class MSSQLAPI:
 			charset='CP950')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 			SELECT SEC_SHOWNAME FROM NRGSEC
-			WHERE SEC_SECTNO = '{sectno}'
-		'''.format(sectno = sectno)
+			WHERE SEC_SECTNO = %s
+		'''
 		#print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (sectno,))
 
 		rows = c.fetchone()
 
@@ -969,22 +986,19 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT SCD_ROOMNO FROM NRGSCD
-				WHERE SCD_VISITDT = '{visitdt}'
-					AND SCD_SHIFTNO = '{shiftno}'
-					AND SCD_SECTNO = '{sectno}'
-					AND SCD_EMPNO = '{doccd}'
+				WHERE SCD_VISITDT = %s
+					AND SCD_SHIFTNO = %s
+					AND SCD_SECTNO = %s
+					AND SCD_EMPNO = %s
 					AND SCD_CANCEL='N'
-			'''.format(
-				visitdt = visitdt,
-				shiftno = shiftno,
-				sectno = sectno,
-				doccd = doccd)
+			'''
 		#print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, shiftno, sectno, doccd))
 
 		data = c.fetchone()
 
@@ -1007,21 +1021,22 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT PAT_IDNO,PAT_PATNAME,PAT_BIRTHDATE,PAT_SEX FROM NRGPAT
 				WHERE PAT_HOSPAREA='1'
-				AND PAT_PATID = '{patid}'
-			'''.format(patid = patid)
+				AND PAT_PATID = %s
+			'''
 
 		sql2 = '''
 				SELECT TPT_IDNO,TPT_PATNAME,TPT_BIRTHDATE,TPT_SEX FROM NRGPATTEMP
 				WHERE TPT_HOSPAREA='1'
-				AND TPT_PATID = '{patid}'
-			'''.format(patid = patid)
+				AND TPT_PATID = %s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (patid,))
 
 		data = c.fetchone()
 
@@ -1030,7 +1045,7 @@ class MSSQLAPI:
 		if (data == None):
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql2)
+			c.execute(sql2, (patid,))
 
 			data = c.fetchone()
 
@@ -1110,8 +1125,14 @@ class MSSQLAPI:
 			connection.close()
 
 		except Exception as e:
-			c.close()
-			connection.close()
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
 			return("更新最大序號失敗!", e)
 
 	# 查詢診資料序號
@@ -1126,13 +1147,14 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
-				SELECT * FROM NRGRGS WHERE RGS_VISITDT='{visitdt}'
-			'''.format(visitdt = visitdt)
+				SELECT * FROM NRGRGS WHERE RGS_VISITDT=%s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt,))
 
 		data = c.fetchone()
 
@@ -1158,13 +1180,14 @@ class MSSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
-					INSERT INTO NRGRGS VALUES ('1', '{visitdt}', 1)
-				'''.format(visitdt = visitdt)
+					INSERT INTO NRGRGS VALUES ('1', %s, 1)
+				'''
 
 			# 定義資料庫游標
 			c = connection.cursor(as_dict = True)
-			c.execute(sql)
+			c.execute(sql, (visitdt,))
 			connection.commit()
 
 			c.close()
@@ -1173,8 +1196,14 @@ class MSSQLAPI:
 			# 回傳第一比查詢資料(rows[0])
 			return("OK")
 		except:
-			c.close()
-			connection.close()
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
 			return("新增資料序號失敗!")
 
 	# 更新資料最大序號
@@ -1193,14 +1222,15 @@ class MSSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
 				UPDATE NRGRGS SET RGS_RECNO=RGS_RECNO+1
-				WHERE RGS_HOSPAREA='1' AND RGS_VISITDT='{visitdt}'
-				'''.format(visitdt = visitdt)
+				WHERE RGS_HOSPAREA='1' AND RGS_VISITDT=%s
+				'''
 
 			# 定義資料庫游標
 			c = connection.cursor(as_dict = True)
-			c.execute(sql)
+			c.execute(sql, (visitdt,))
 			connection.commit()
 
 			c.close()
@@ -1214,18 +1244,12 @@ class MSSQLAPI:
 
 	# 新增複診掛號資料
 	def A006_Insert_NRGRGB_0(patid, visitdt, recno, shiftno, roomno, sectno, doccd):
+		# 使用 %s 作為佔位符
 		sql = '''
 			INSERT INTO NRGRGB ( REG_HOSPAREA, REG_PATID, REG_VISITDT, REG_RECNO, REG_SHIFTNO,
 			 REG_ROOMNO, REG_SECTNO, REG_DOCCD, REG_KNDKIND, REG_WAY ) VALUES( 
-			 '1', '{patid}', '{visitdt}', {recno}, '{shiftno}', '{roomno}', '{sectno}', '{doccd}', '1', '5')
-			'''.format(
-				patid = patid,
-				visitdt = visitdt,
-				recno = recno,
-				shiftno = shiftno,
-				roomno = roomno,
-				sectno = sectno,
-				doccd = doccd)
+			 '1', %s, %s, %s, %s, %s, %s, %s, '1', '5')
+			'''
 
 		# MSSQLAPI.Insert_LOG_WEB(patid, visitdt, recno, shiftno, roomno, sectno, doccd, sql)
 
@@ -1268,7 +1292,7 @@ class MSSQLAPI:
 			#print(sql)
 			# 定義資料庫游標
 			c = connection.cursor(as_dict = True)
-			c.execute(sql)
+			c.execute(sql, (patid, visitdt, recno, shiftno, roomno, sectno, doccd))
 			connection.commit()
 
 			c.close()
@@ -1293,16 +1317,17 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT TOP (1) REG_RECNO FROM NRGRGB
 				WHERE REG_HOSPAREA='1'
-					AND REG_VISITDT='{visitdt}'
+					AND REG_VISITDT=%s
 				ORDER BY REG_RECNO DESC
-			'''.format(visitdt = visitdt)
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt,))
 
 		data = c.fetchone()
 
@@ -1324,18 +1349,17 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT REG_VISITNO,REG_CANCODE FROM NRGRGB
 				WHERE REG_HOSPAREA='1'
-				AND REG_VISITDT='{visitdt}'
-				AND REG_RECNO={recno}
-			'''.format(
-				visitdt = visitdt,
-				recno = recno)
+				AND REG_VISITDT=%s
+				AND REG_RECNO=%s
+			'''
 		#print(sql)
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, recno))
 
 		data = c.fetchone()
 
@@ -1358,20 +1382,18 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT * FROM NRGRGB
 				WHERE REG_HOSPAREA='1'
-				AND REG_VISITDT='{visitdt}'
-				AND REG_RECNO={recno}
-				AND REG_PATID='{patid}'
-			'''.format(
-				patid = patid,
-				visitdt = visitdt,
-				recno = recno)
+				AND REG_VISITDT=%s
+				AND REG_RECNO=%s
+				AND REG_PATID=%s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (visitdt, recno, patid))
 
 		data = c.fetchone()
 
@@ -1397,18 +1419,17 @@ class MSSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
 					UPDATE NRGRGB SET REG_CANCEL='Y'
 					WHERE REG_HOSPAREA='1'
-					AND REG_VISITDT='{visitdt}'
-					AND REG_RECNO={recno}
-				'''.format(
-					visitdt = visitdt,
-					recno = recno)
+					AND REG_VISITDT=%s
+					AND REG_RECNO=%s
+				'''
 
 			# 定義資料庫游標
 			c = connection.cursor(as_dict = True)
-			c.execute(sql)
+			c.execute(sql, (visitdt, recno))
 			connection.commit()
 
 			c.close()
@@ -1433,28 +1454,27 @@ class MSSQLAPI:
 			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
+		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT * FROM NRGPAT
 				WHERE PAT_HOSPAREA='1'
-				AND PAT_IDNO = '{idno}'
-			'''.format(
-				idno = idno)
+				AND PAT_IDNO = %s
+			'''
 
 		sql2 = '''
 				SELECT * FROM NRGPATTEMP
 				WHERE TPT_HOSPAREA='1'
-				AND TPT_IDNO = '{idno}'
-			'''.format(
-				idno = idno)
+				AND TPT_IDNO = %s
+			'''
 
 		# 定義資料庫游標
 		c = connection.cursor()
-		c.execute(sql)
+		c.execute(sql, (idno,))
 
 		data = c.fetchone()
 
 		if (data == None):
-			c.execute(sql2)
+			c.execute(sql2, (idno,))
 			data = c.fetchone()
 
 		c.close()
@@ -1479,25 +1499,19 @@ class MSSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
+			# 使用 %s 作為佔位符
 			sql = '''
 					INSERT INTO NRGPATTEMP ( TPT_HOSPAREA, TPT_VISITDT, TPT_RECNO, TPT_PATID, TPT_IDNO, TPT_PATNAME,
 					 TPT_SEX, TPT_BIRTHDATE, TPT_HOMETELNO, TPT_MOBILETELNO )
-					  VALUES ( '1', '{visitdt}', {recno}, ' ', '{idno}', '{name}',
-					   '{sex}', '{birthday}', '{phone}', ' ' )
-				'''.format(
-					visitdt = visitdt,
-					recno = recno,
-					idno = idno,
-					name = name,
-					sex = sex,
-					birthday = birthday,
-					phone = phone)
+					  VALUES ( '1', %s, %s, ' ', %s, %s,
+					   %s, %s, %s, ' ' )
+				'''
 
 			#print(sql)
 
 			# 定義資料庫游標
 			c = connection.cursor(as_dict = True)
-			c.execute(sql)
+			c.execute(sql, (visitdt, recno, idno, name, sex, birthday, phone))
 			connection.commit()
 
 			c.close()
@@ -1974,55 +1988,61 @@ def new_stop_show(request):
 	today = datetime.datetime.today()
 	year = datetime.datetime.strftime(today,"%Y")
 	month = datetime.datetime.strftime(today,"%m")
-	pl_data = PLSQLAPI.Search_Stop_Show(year + month)
 
-	data1 = []
-	data2 = []
-	df = pd.DataFrame(pl_data)
-	df.columns = ["科別", "醫師", "休診日", "時段", "診間"]
-	data_g = df.groupby(["科別", "醫師"])
-	for d in data_g:
-		data1.append(d[0])
-		data2.append(d[1].values.tolist())
-		datas = zip(data1, data2)
-
-		if ("date_add" in request.GET):
+	# 處理日期加減
+	if ("date_add" in request.GET):
+		try:
 			re_today = datetime.datetime.strptime(request.GET['date_now'],"%Y%m")
 			re_date = re_today + relativedelta(months=1)
 			year = datetime.datetime.strftime(re_date,"%Y")
 			month = datetime.datetime.strftime(re_date,"%m")
-			pl_data = PLSQLAPI.Search_Stop_Show(year + month)
+		except Exception as e:
+			print(f"Error parsing date_add: {e}")
+			pass
 
-			data1 = []
-			data2 = []
-			df = pd.DataFrame(pl_data)
-			df.columns = ["科別", "醫師", "休診日", "時段", "診間"]
-			data_g = df.groupby(["科別", "醫師"])
-
-			for d in data_g:
-				data1.append(d[0])
-				data2.append(d[1].values.tolist())
-
-			datas = zip(data1, data2)
-
-		if ("date_sub" in request.GET):
+	if ("date_sub" in request.GET):
+		try:
 			re_today = datetime.datetime.strptime(request.GET['date_now'],"%Y%m")
 			re_date = re_today - relativedelta(months=1)
 			year = datetime.datetime.strftime(re_date,"%Y")
 			month = datetime.datetime.strftime(re_date,"%m")
-			pl_data = PLSQLAPI.Search_Stop_Show(year + month)
+		except Exception as e:
+			print(f"Error parsing date_sub: {e}")
+			pass
 
-			data1 = []
-			data2 = []
-			df = pd.DataFrame(pl_data)
-			df.columns = ["科別", "醫師", "休診日", "時段", "診間"]
-			data_g = df.groupby(["科別", "醫師"])
+	# 查詢資料
+	pl_data = PLSQLAPI.Search_Stop_Show(year + month)
 
-			for d in data_g:
-				data1.append(d[0])
-				data2.append(d[1].values.tolist())
+	# 處理空資料情況
+	if not pl_data or len(pl_data) == 0:
+		datas = zip([], [])
+		return render(request, "news_index.html", {
+			'datas': datas,
+			'year': year,
+			'month': month,
+		})
 
-			datas = zip(data1, data2)
+	# 處理資料
+	data1 = []
+	data2 = []
+	try:
+		# 將 tuple 列表轉換為列表列表，確保資料格式正確
+		pl_data_list = [list(row) for row in pl_data]
+		df = pd.DataFrame(pl_data_list)
+		df.columns = ["科別", "醫師", "休診日", "時段", "診間"]
+		data_g = df.groupby(["科別", "醫師"])
+		for d in data_g:
+			data1.append(d[0])
+			data2.append(d[1].values.tolist())
+	except Exception as e:
+		print(f"Error processing data in new_stop_show: {e}")
+		import traceback
+		traceback.print_exc()
+		data1 = []
+		data2 = []
+
+	# 在迴圈外部創建 zip 對象
+	datas = zip(data1, data2)
 
 	return render(request, "news_index.html", {
 		'datas': datas,
@@ -3136,6 +3156,7 @@ def A002_registration_notice(request):
 
 	return render(request, "Patient_Guide/Patient_Guide_index_v2.html", {
 		'data_lines': data_lines,
+		'A006_True': A006_True,
 	})
 
 # 門診時刻表
@@ -3811,8 +3832,8 @@ def A006_Online_Booking_login(request):
 			""" 20241225 修正先判斷身分證是否存在病歷號，才後判斷生日是否正確 """
 			A006_user_data = MSSQLAPI.A006_Search_NRGPAT(user_acc)
 			try:
-				print(n_user_pwd[:4], n_user_pwd[4:6], n_user_pwd[6:8])
-				print(datetime.date(int(n_user_pwd[:4]), int(n_user_pwd[4:6]), int(n_user_pwd[6:8])))
+				# 驗證生日格式，但不輸出到控制台
+				datetime.date(int(n_user_pwd[:4]), int(n_user_pwd[4:6]), int(n_user_pwd[6:8]))
 				patBirthdayError = False
 			except:
 				patBirthdayError = True
@@ -3848,13 +3869,20 @@ def A006_Online_Booking_login(request):
 
 			"""end"""
 
-		return render(request, "Patient_Guide/Patient_Guide_2_4_v8.html", {
+		# 準備模板變數，只有在有錯誤訊息時才保留輸入值
+		template_vars = {
 			'A006_True': A006_True,
 			'errorMessageOn': errorMessageOn if 'errorMessageOn' in locals() else None,
 			'errorMessage': errorMessage if 'errorMessage' in locals() else None,
-			'user_acc': user_acc if 'user_acc' in locals() else None,
-			'user_pwd': user_pwd if 'user_pwd' in locals() else None,
-		})
+		}
+		# 只有在有錯誤訊息時才傳遞輸入值，否則不傳遞以保持空白
+		if 'errorMessageOn' in locals() and errorMessageOn == "true":
+			if 'user_acc' in locals() and user_acc is not None:
+				template_vars['user_acc'] = user_acc
+			if 'user_pwd' in locals() and user_pwd is not None:
+				template_vars['user_pwd'] = user_pwd
+		
+		return render(request, "Patient_Guide/Patient_Guide_2_4_v8.html", template_vars)
 
 # 網路掛號_初診資料建立
 @csrf_exempt
@@ -4808,7 +4836,7 @@ def A006_Online_Booking_2_1(request):
 
 # 新官網查詢－查詢院內科別代碼
 def A100_search_sename(request):
-	showlist = MSSQLAPI123.Search_SENAME_BASSECT123()
+	showlist = MSSQLAPI.Search_SENAME_BASSECT()
 	return render(request, "A100/sename.html", {
 		'showlist': showlist,
 	})
@@ -4848,3 +4876,8 @@ def A101_search_bed(request):
 # =========================================A102(資通安全政策聲明)=============================================
 def A102_Safe_ISMS(request):
 	return render(request, "Safe_ISMS.html", {})
+
+# =========================================A103(麵包屑導航)=============================================
+def A103_bread_pencil(request):
+	'''提供麵包屑導航 HTML 片段，供 JavaScript 動態載入使用'''
+	return render(request, "bread_pencil.html", {})

@@ -63,13 +63,21 @@
 														<label for="ID_card" class="cofe-word mark_arrow_title">
 															<h5 class="font-weight-bold mb-0">身分證字號:</h5>
 														</label>
+														{% if user_acc %}
 														<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required minlength="10" maxlength="10" pattern="\S*" title="不能输入空格" style="text-transform:uppercase;" value="{{user_acc}}">
+														{% else %}
+														<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required minlength="10" maxlength="10" pattern="\S*" title="不能输入空格" style="text-transform:uppercase;">
+														{% endif %}
 													</div>
 													<div class="form-group">
 														<label for="Birthday" class="cofe-word mark_arrow_title">
 														<h5 class="font-weight-bold mb-0">出生日期：</h5>
 														</label>
+														{% if user_pwd %}
 														<input type="text" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 52 年 1 月 8 號，請輸入 0520108" name="Birthday" required minlength="7" maxlength="7" pattern="\S*" title="不能输入空格" value="{{user_pwd}}">
+														{% else %}
+														<input type="text" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 52 年 1 月 8 號，請輸入 0520108" name="Birthday" required minlength="7" maxlength="7" pattern="\S*" title="不能输入空格">
+														{% endif %}
 													</div>
 <!-- 													<div class="form-inline">
 														<label for="vcode" class="cofe-word mark_arrow_title">

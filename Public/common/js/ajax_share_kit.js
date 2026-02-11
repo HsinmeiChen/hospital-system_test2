@@ -1,6 +1,6 @@
 $(function () {
     // ----首頁---- //
-    $(".main_pencil").load("/Public/apps/bread_pencil.html .main_pencil>a");
+    $(".main_pencil").load("/A103_bread_pencil/ .main_pencil>a");
     // ----網路掛號---- //
     // $(".online_nav_bg").load("Online_nav.html", function () {// 動態載入menu.html
     //         setTimeout(() => {
@@ -14,19 +14,19 @@ $(function () {
     //             //a元素判斷擷取的字元是否有效，無效就選是首頁的a元素，再套上CSS效果
     //         }, 200);
     //     });
-    $(".Online_Appointment").load("/Public/apps/bread_pencil.html .Online_Appointment>a");
-    $(".Online_Appointment_part").load("/Public/apps/bread_pencil.html .Online_Appointment_part>a");
-    $(".Online_Appointment_doc").load("/Public/apps/bread_pencil.html .Online_Appointment_doc>a");
+    $(".Online_Appointment").load("/A103_bread_pencil/ .Online_Appointment>a");
+    $(".Online_Appointment_part").load("/A103_bread_pencil/ .Online_Appointment_part>a");
+    $(".Online_Appointment_doc").load("/A103_bread_pencil/ .Online_Appointment_doc>a");
 
     // ----科室總覽---- //
-    $(".surgical_in").load("/Public/apps/bread_pencil.html .surgical_in>a");
+    $(".surgical_in").load("/A103_bread_pencil/ .surgical_in>a");
     // ----檢驗科---- //
-    $(".labor_pencil").load("/Public/apps/bread_pencil.html .labor_pencil>a");     //* 檢驗科首頁 *//
-    $(".pencil_in").load("/Public/apps/bread_pencil.html .pencil_in>a");  //* 檢體採集衛教 *//
+    $(".labor_pencil").load("/A103_bread_pencil/ .labor_pencil>a");     //* 檢驗科首頁 *//
+    $(".pencil_in").load("/A103_bread_pencil/ .pencil_in>a");  //* 檢體採集衛教 *//
     $(".select_in").load("/Public/apps/MedicalSupport/Laboratory/ajax_labor_element.html .select_in>div");  //* 檢體採集衛教-下拉選項 *//
-    $(".pencil_4").load("/Public/apps/bread_pencil.html .pencil_4>a");  //* 微生物培養檢體採集方法須知 *//
+    $(".pencil_4").load("/A103_bread_pencil/ .pencil_4>a");  //* 微生物培養檢體採集方法須知 *//
     $(".select_4").load("/Public/apps/MedicalSupport/Laboratory/ajax_labor_element.html .select_4>div");  //* 微生物培養檢體採集方法須知-下拉選項 *//
-    $(".pencil_3").load("/Public/apps/bread_pencil.html .pencil_3>a");  //* 檢體採集原則 *//
+    $(".pencil_3").load("/A103_bread_pencil/ .pencil_3>a");  //* 檢體採集原則 *//
     $(".select_3").load("/Public/apps/MedicalSupport/Laboratory/ajax_labor_element.html .select_3>div"); //* 檢體採集原則-下拉選項 *//
 });
 

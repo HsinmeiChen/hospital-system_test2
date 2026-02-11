@@ -52,82 +52,113 @@ case_plsql_pwd = settings.CASE_PLSQL_PWD
 # HIS資料庫相關程式
 class PLSQLAPI:
 	def Search_Stop_Show(date):
-		# 連線Oracle資料庫
-		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		try:
+			# 連線Oracle資料庫
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		except Exception as e:
+			print(f"Oracle connection failed in Search_Stop_Show: {e}")
+			return []
 
-		# 輸入你要查找的資料表語法
-		sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,8),SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD
-		INNER JOIN BASEMP
-			ON SCD_EMPNO = EMP_EMPNO 
-		INNER JOIN BASSECT
-			ON SCD_SECTNO = SEC_SECTNO
-		WHERE SCD_CANCEL = 'Q'
-			AND SCD_VISITDT LIKE '{date}%'
-			AND EMP_DC = 'N'
-		ORDER BY SCD_VISITDT,SCD_SHIFTNO'''.format(
-			date = date)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		try:
+			# 輸入你要查找的資料表語法
+			# 使用 :param_name 作為佔位符
+			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,8),SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD
+			INNER JOIN BASEMP
+				ON SCD_EMPNO = EMP_EMPNO 
+			INNER JOIN BASSECT
+				ON SCD_SECTNO = SEC_SECTNO
+			WHERE SCD_CANCEL = 'Q'
+				AND SCD_VISITDT LIKE :date || '%'
+				AND EMP_DC = 'N'
+			ORDER BY SCD_VISITDT,SCD_SHIFTNO'''
+			# 定義資料庫游標
+			c = connection.cursor()
+			c.execute(sql, {'date': date})
 
-		rows = c.fetchall()
+			rows = c.fetchall()
 
-		c.close()
-		connection.close()
+			c.close()
+			connection.close()
 
-		# 回傳第一比查詢資料(rows[0])
-		return(rows)
+			# 回傳第一比查詢資料(rows[0])
+			return(rows)
+		except Exception as e:
+			print(f"SQL execution failed in Search_Stop_Show: {e}")
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
+			return []
 
 	def Search_Stop_Show_by_Dr(patid):
-		# 連線Oracle資料庫
-		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		try:
+			# 連線Oracle資料庫
+			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		except Exception as e:
+			print(f"Oracle connection failed in Search_Stop_Show_by_Dr: {e}")
+			return []
+
 		today = datetime.datetime.now()
 		n_date = today.strftime("%Y%m%d")
 		e_date = (today + datetime.timedelta(days = 60)).strftime("%Y%m%d")
 
-		# 輸入你要查找的資料表語法
-		sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
-		INNER JOIN BASEMP
-			ON SCD_EMPNO = EMP_EMPNO 
-		INNER JOIN BASSECT
-			ON EMP_SECTNO = SEC_SECTNO
-		WHERE SCD_CANCEL = 'Q'
-			AND SCD_EMPNO = '{patid}'
-			AND SCD_VISITDT BETWEEN '{n_date}' AND '{e_date}'
-			AND EMP_DC = 'N'
-		ORDER BY SCD_VISITDT'''.format(
-			patid = patid,
-			n_date = n_date,
-			e_date = e_date)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		try:
+			# 輸入你要查找的資料表語法
+			# 使用 :param_name 作為佔位符
+			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			INNER JOIN BASEMP
+				ON SCD_EMPNO = EMP_EMPNO 
+			INNER JOIN BASSECT
+				ON EMP_SECTNO = SEC_SECTNO
+			WHERE SCD_CANCEL = 'Q'
+				AND SCD_EMPNO = :patid
+				AND SCD_VISITDT BETWEEN :n_date AND :e_date
+				AND EMP_DC = 'N'
+			ORDER BY SCD_VISITDT'''
+			# 定義資料庫游標
+			c = connection.cursor()
+			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
 
-		rows = c.fetchall()
-		datas = []
+			rows = c.fetchall()
+			datas = []
 
-		for row in rows:
-			datas.append(list(row))
+			for row in rows:
+				datas.append(list(row))
 
-		i = 0
-		for data in datas:
-			datas[i].append(data[2][4:6])
-			datas[i].append(data[2][6:8])
+			i = 0
+			for data in datas:
+				datas[i].append(data[2][4:6])
+				datas[i].append(data[2][6:8])
 
-			if (data[3] == "1"):
-				datas[i][3] = "早診"
-			elif (data[3] == "2"):
-				datas[i][3] = "午診"
-			elif (data[3] == "3"):
-				datas[i][3] = "晚診"
+				if (data[3] == "1"):
+					datas[i][3] = "早診"
+				elif (data[3] == "2"):
+					datas[i][3] = "午診"
+				elif (data[3] == "3"):
+					datas[i][3] = "晚診"
 
-			i += 1
+				i += 1
 
-		c.close()
-		connection.close()
+			c.close()
+			connection.close()
 
-		# 回傳第一比查詢資料(rows[0])
-		return(datas)
+			# 回傳第一比查詢資料(rows[0])
+			return(datas)
+		except Exception as e:
+			print(f"SQL execution failed in Search_Stop_Show_by_Dr: {e}")
+			try:
+				c.close()
+			except:
+				pass
+			try:
+				connection.close()
+			except:
+				pass
+			return []
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 

@@ -141,6 +141,7 @@ urlpatterns = [
     re_path('A100_search_sename/', pomelo_views.A100_search_sename),
     re_path('A101_search_bed/', pomelo_views.A101_search_bed),
     re_path('A102_Safe_ISMS/', pomelo_views.A102_Safe_ISMS),
+    re_path('A103_bread_pencil/', pomelo_views.A103_bread_pencil),  # 麵包屑導航
     # re_path(r'^web_speech/',include('web_speech.urls')),
     re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
     re_path('EECP/', include('EECP.urls')),
