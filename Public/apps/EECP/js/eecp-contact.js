@@ -332,7 +332,7 @@ function startQuizCaptchaCountdown() {
     captchaTimer.style.display = 'block';
     captchaInput.disabled = false;
     captchaInput.readOnly = false;  // 確保移除 readonly
-    captchaInput.placeholder = '請輸入驗證碼數字';
+    captchaInput.placeholder = '請輸入5位數字驗證碼';
     captchaInput.style.cursor = '';
     captchaInput.style.backgroundColor = '';  // 重置背景色
     captchaImage.style.opacity = '1';
@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
         captchaTimer.innerHTML = '驗證碼將於 <span id="countdown">0:30</span> 後失效';
         captchaTimer.className = 'form-text text-muted';
         captchaTimer.style.display = 'block';
-        captchaInput.placeholder = '請輸入驗證碼數字';
+        captchaInput.placeholder = '請輸入5位數字驗證碼';
         captchaInput.disabled = false;
         captchaInput.readOnly = false;  // 確保移除 readonly
         captchaInput.style.cursor = '';

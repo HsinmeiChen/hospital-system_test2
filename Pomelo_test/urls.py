@@ -146,6 +146,7 @@ urlpatterns = [
     re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
     re_path('EECP/', include('EECP.urls')),
     re_path('specialty_health/', include('specialty_health.urls')), # 特色醫療-健管
+    re_path('breast-care-center/', include('Breast_Care_Center.urls')), # 特色醫療-乳房中心
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # 新增 media (讓檔案可下載)

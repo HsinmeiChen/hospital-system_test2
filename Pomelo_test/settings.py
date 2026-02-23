@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     "specialty_medical",
     "specialty_health",
     "EECP",
+    "Breast_Care_Center",
 ]
 
 MIDDLEWARE = [
@@ -291,9 +292,20 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # 使用者名稱
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # 密碼
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER) # 寄件者信箱
 
-# 新增：讀取通知信收件者，並轉為 List
+# 新增：讀取通知信收件者，並轉為 List（共用預設，各服務未設定時使用）
 NOTIFY_EMAIL_RECIPIENTS = os.getenv('NOTIFY_EMAIL_RECIPIENTS', '').split(',')
-# 去除空字串（避免 .env 未設定時產生空字串元素）
 NOTIFY_EMAIL_RECIPIENTS = [email.strip() for email in NOTIFY_EMAIL_RECIPIENTS if email.strip()]
+
+def _parse_contact_recipients(env_key, default_list):
+	"""從 env 讀取逗號分隔的收件信箱，若為空則回傳 default_list"""
+	raw = os.getenv(env_key, '').strip()
+	if not raw:
+		return default_list
+	return [email.strip() for email in raw.split(',') if email.strip()]
+
+# 各服務聯絡我們收件信箱（可多個，逗號分隔）
+CONTACT_EMAIL_RECIPIENTS_EECP = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_EECP', NOTIFY_EMAIL_RECIPIENTS)
+CONTACT_EMAIL_RECIPIENTS_HEALTH = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_HEALTH', NOTIFY_EMAIL_RECIPIENTS)  # 健管中心
+CONTACT_EMAIL_RECIPIENTS_BREAST = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_BREAST', NOTIFY_EMAIL_RECIPIENTS)   # 乳房中心
 # ================== 2025.12.30 上 EECP 跟健管新增 End ==================
 

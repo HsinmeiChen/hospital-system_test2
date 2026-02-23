@@ -1,21 +1,26 @@
 from django.conf import settings # 取得專案 (setting.py) 內的變數跟設定
 from django.shortcuts import render, Http404, redirect # 網頁渲染至 HTML 頁面 / 例外類型 用來找不到資源時，丟出 404 頁面 / 重導向 (302、303)，常用於 POST 成功後的 PRG（避免重複提交）
-from django.http import JsonResponse, HttpResponse # 回傳不同類型的 HTTP 回應
+from django.http import JsonResponse, HttpResponse, FileResponse # 回傳不同類型的 HTTP 回應
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger # 用於分頁並處理例外情況
 from collections import defaultdict, OrderedDict # 用於分群或累加資料 / 用於需要穩定排序的回傳資料
 from django.utils.html import escape # 用於轉義 HTML 字元，避免 XSS 攻擊
 from django.views.decorators.http import require_GET # 限制只能用 GET 方法存取的裝飾器
+from django.core.cache import cache # 用於快取資料，減少磁碟 I/O
+
+import urllib.parse  # 用來處理 URL 中的特殊字元，讓網址能正確顯示中文或其他特殊字符
+
 from PIL import Image, ImageDraw, ImageFont, ImageFilter # 圖片壓縮、轉檔、裁切 (將圖片轉成 WebP 或改變品質/尺寸)
 import io # 用於處理圖片的記憶體檔案流
 
 from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
 
-import os, oracledb, datetime, re, time # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
+import os, oracledb, datetime, re, time, hashlib # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤 / 產生 hash 值
 import traceback, random, zlib # 除錯（debug） 或 記錄錯誤訊息（logging）/ 隨機選擇 5 筆文章 / 用來產生檔名的 hash 值以避免檔名衝突或快取問題
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
-from Pomelo_test.utils import generate_captcha_image_bytes
 from .forms import ContactForm, send_email_to_client
+from Pomelo_test.decorators import ratelimit_captcha, ratelimit_form_submit, captcha_failure_limit
+from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes
 # ContactForm：Django 表單類別，用來驗證使用者輸入（name/email/subject/message 等）
 # send_email_to_client：封裝郵件內容與發送邏輯的函式（使用 Django 的郵件後端發送 EmailMessage）。
 
@@ -31,110 +36,88 @@ case_plsql_pwd = "admin696"
 class PLSQLAPI:
 	def Search_Stop_Show(date):
 		try:
-			# 連線Oracle資料庫
 			connection = oracledb.connect(user=case_plsql_user, password=case_plsql_pwd, dsn=f"{case_plsql_host}/{case_plsql_db}")
 		except Exception as e:
 			print(f"Oracle connection failed in Search_Stop_Show: {e}")
 			return []
-
 		try:
-			# 輸入你要查找的資料表語法
-			# 使用 :param_name 作為佔位符
 			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,8),SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
 				ON SCD_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
-				AND SCD_VISITDT LIKE :date || '%'
+				AND SCD_VISITDT LIKE :date
 				AND EMP_DC = 'N'
 			ORDER BY SCD_VISITDT,SCD_SHIFTNO'''
-			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql, {'date': date})
-
+			c.execute(sql, {'date': date + '%'})
 			rows = c.fetchall()
-
 			c.close()
 			connection.close()
-
-			# 回傳第一比查詢資料(rows[0])
-			return(rows)
+			return rows
 		except Exception as e:
 			print(f"SQL execution failed in Search_Stop_Show: {e}")
 			try:
 				c.close()
-			except:
+			except Exception:
 				pass
 			try:
 				connection.close()
-			except:
+			except Exception:
 				pass
 			return []
 
-	def Search_Stop_Show_by_Dr(patid):
+	def Search_Stop_Show_by_Dr(emp_id):
 		try:
-			# 連線Oracle資料庫
 			connection = oracledb.connect(user=case_plsql_user, password=case_plsql_pwd, dsn=f"{case_plsql_host}/{case_plsql_db}")
 		except Exception as e:
 			print(f"Oracle connection failed in Search_Stop_Show_by_Dr: {e}")
 			return []
-
 		today = datetime.datetime.now()
 		n_date = today.strftime("%Y%m%d")
-		e_date = (today + datetime.timedelta(days = 60)).strftime("%Y%m%d")
-
+		e_date = (today + datetime.timedelta(days=60)).strftime("%Y%m%d")
 		try:
-			# 輸入你要查找的資料表語法
-			# 使用 :param_name 作為佔位符
 			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
 				ON EMP_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
-				AND SCD_EMPNO = :patid
+				AND SCD_EMPNO = :emp_id
 				AND SCD_VISITDT BETWEEN :n_date AND :e_date
 				AND EMP_DC = 'N'
+				AND SCD_SECTNO = 'BZ'
 			ORDER BY SCD_VISITDT'''
-			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
-
+			c.execute(sql, {'emp_id': emp_id, 'n_date': n_date, 'e_date': e_date})
 			rows = c.fetchall()
 			datas = []
-
 			for row in rows:
 				datas.append(list(row))
-
 			i = 0
 			for data in datas:
 				datas[i].append(data[2][4:6])
 				datas[i].append(data[2][6:8])
-
 				if (data[3] == "1"):
 					datas[i][3] = "早診"
 				elif (data[3] == "2"):
 					datas[i][3] = "午診"
 				elif (data[3] == "3"):
 					datas[i][3] = "晚診"
-
 				i += 1
-
 			c.close()
 			connection.close()
-
-			# 回傳第一比查詢資料(rows[0])
-			return(datas)
+			return datas
 		except Exception as e:
 			print(f"SQL execution failed in Search_Stop_Show_by_Dr: {e}")
 			try:
 				c.close()
-			except:
+			except Exception:
 				pass
 			try:
 				connection.close()
-			except:
+			except Exception:
 				pass
 			return []
 
@@ -142,147 +125,170 @@ class PLSQLAPI:
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 聯絡我們 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 def generate_captcha(request):
 	"""產生新的驗證碼並儲存到 session（5位純數字）"""
+	# 只使用數字1-9（排除0避免混淆）
 	digits = '123456789'
 	captcha_code = ''.join(random.choices(digits, k=5))
 	request.session['captcha_answer'] = captcha_code
 	request.session['captcha_timestamp'] = time.time()  # 記錄產生時間
+	request.session['captcha_failures'] = request.session.get('captcha_failures', 0)  # 初始化失敗次數
 	return captcha_code
 
-def generate_captcha_image(request):
+def breast_generate_captcha_image(request):
 	"""生成干擾驗證碼圖片（PNG 格式，統一第一種風格：網格＋多色點＋多色干擾線）"""
 	code = str(request.session.get('captcha_answer', '12345'))
 	png_bytes = generate_captcha_image_bytes(code)
 	return HttpResponse(png_bytes, content_type='image/png')
 
-
-def send_mail(request):
+@ratelimit_form_submit(max_requests=5, window=300, redirect_url='breast_send_mail')  # 5 分鐘內最多 5 次提交
+@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='breast_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
+def breast_send_mail(request):
 	"""
-	GET: 顯示表單並產生驗證碼
-	POST: 驗證表單並寄信，成功發送後，重導向到 GET 頁面（避免 F5 重複提交）
+	聯絡我們頁面 - 包含表單功能
+	GET: 顯示頁面和表單
+	POST: 處理表單提交（支援 AJAX 和普通提交）
 	"""
-
-	CAPTCHA_EXPIRY = 60  # 驗證碼有效時間（秒），1 分鐘 = 60 秒
+	CAPTCHA_EXPIRY = 120  # 驗證碼有效時間（秒，2分鐘）
 
 	if request.method == "POST":
 		captcha_answer = request.session.get('captcha_answer')
 		captcha_timestamp = request.session.get('captcha_timestamp', 0)
 		
+		# 檢查是否為 AJAX 請求
+		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'multipart/form-data'
+		
+		# 檢查驗證碼是否過期
 		if time.time() - captcha_timestamp > CAPTCHA_EXPIRY:
-			messages.error(request, "驗證碼已過期，請重新整理後再試")
 			generate_captcha(request)
-			form = ContactForm()
-			return render(request, "specialty_health/h-contact.html", {
-				"form": form,
-				"captcha_answer": request.session.get('captcha_answer'),
-				'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
-				'ga_id': '',
-				'gtm_id': ''
-			})
+			if is_ajax:
+				return JsonResponse({
+					'success': False,
+					'message': '驗證碼已過期，請重新輸入',
+					'errors': {'captcha': '驗證碼已過期，請重新輸入'}
+				})
+			else:
+				messages.error(request, "驗證碼已過期，請重新整理後再試")
+				form = ContactForm()
+				return render(request, "Breast_Care_Center/breast-contact.html", {
+					"form": form,
+					"captcha_answer": request.session.get('captcha_answer'),
+					'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+					'ga_id': '',
+					'gtm_id': ''
+				})
 		
 		form = ContactForm(request.POST, captcha_answer=captcha_answer)
 		
 		if form.is_valid():
 			try:
 				send_email_to_client(form.cleaned_data)
-				messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
 				
+				# 清除 session 中的驗證碼
 				if 'captcha_answer' in request.session:
 					del request.session['captcha_answer']
 				if 'captcha_timestamp' in request.session:
 					del request.session['captcha_timestamp']
 				
-				return redirect('send_mail')
+				if is_ajax:
+					return JsonResponse({
+						'success': True,
+						'message': '您的訊息已成功送出，感謝您的聯繫！'
+					})
+				else:
+					messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
+					return redirect('breast_send_mail')
 			except Exception as e:
 				import logging
-				logging.exception("send_mail failed")
-				messages.error(request, "郵件寄送失敗，請稍後再試。")
+				logging.exception("send_mail failed in health contact view")
 				generate_captcha(request)
+				if is_ajax:
+					return JsonResponse({
+						'success': False,
+						'message': '郵件寄送失敗，請稍後再試。'
+					})
+				else:
+					messages.error(request, "郵件寄送失敗，請稍後再試。")
 		else:
+			# 表單驗證失敗
 			generate_captcha(request)
+			if is_ajax:
+				errors = {}
+				for field, error_list in form.errors.items():
+					errors[field] = error_list[0] if error_list else '此欄位有誤'
+				
+				return JsonResponse({
+					'success': False,
+					'message': '表單驗證失敗，請檢查您的輸入',
+					'errors': errors
+				})
 		
-		return render(request, "specialty_health/h-contact.html", {
-			"form": form,
-			"captcha_answer": request.session.get('captcha_answer'),
-			'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
-			'ga_id': '',
-			'gtm_id': ''
-		})
+		if not is_ajax:
+			return render(request, "Breast_Care_Center/breast-contact.html", {
+				"form": form,
+				"captcha_answer": request.session.get('captcha_answer'),
+				'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+				'ga_id': '',
+				'gtm_id': ''
+			})
 	else:
+		# GET 請求：產生新驗證碼並顯示空表單
 		generate_captcha(request)
 		form = ContactForm()
 
-	return render(request, "specialty_health/h-contact.html", {
+	return render(request, "Breast_Care_Center/breast-contact.html", {
 		"form": form,
 		"captcha_answer": request.session.get('captcha_answer'),
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		'ga_id': '',
 		'gtm_id': ''
 	})
 
 # 新增：AJAX 刷新驗證碼端點
 @require_GET
-def refresh_captcha(request):
+@ratelimit_captcha(max_requests=10, window=60)  # 1 分鐘內最多 10 次刷新
+def breast_refresh_captcha(request):
 	"""提供前端 AJAX 刷新驗證碼"""
 	captcha_code = generate_captcha(request)
 	# 回傳時間戳記，讓前端知道何時產生
 	return JsonResponse({
+		'success': True,
 		'captcha': captcha_code,
 		'timestamp': time.time()
 	})
 
 
+
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
-# 連動官網-各科醫師個人介紹 txt 檔案
-dirs = [
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科'),
-]
+# 連動官網：醫師-個人介紹（依專案 MEDIA_ROOT，勿硬編碼）
+dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '3_乳房外科')
 
-# 連動官網-相關文章、影音專區 txt 檔案及 txt 檔案中的圖片 (壓縮後-縮圖用)
+# 連動官網：醫師-最新消息、相關文章、影音專區
+NEWS_FOLDER = os.path.join(settings.MEDIA_ROOT, 'news_1')
 article_dir = os.path.join(settings.MEDIA_ROOT, 'news_2')
 video_dir = os.path.join(settings.MEDIA_ROOT, 'news_3')
+
+# 連動官網：醫師-相關文章 (壓縮後-縮圖用)
+news_img_dir = os.path.join(settings.MEDIA_ROOT, 'news_1', 'img')
 media_base_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
 
-# 健檢專網獨立(專案資料夾路徑設定)
-special_base_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health') # 主資料夾
-health_item_dir = os.path.join(special_base_dir, 'h-articles') # 子資料夾-健檢專案
+# 乳房中心-專網主資料夾設定
+special_base_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center')
 
-# 健檢專網獨立(''最新消息'' txt 檔及壓縮後-縮圖用圖片)：
-NEWS_DIR = os.path.join(special_base_dir, 'h-news')
-news_img_dir = os.path.join(special_base_dir, 'h-news', 'img')
+# 乳房中心-專網：治療文章
 
-# 健檢專網獨立(衛教資訊)：
-Films_Dir = os.path.join(special_base_dir, 'h-films')
+breast_treat_dir = os.path.join(special_base_dir, 'treat-articles')
 
+# 乳房中心-專網：影音專區
+Films_Dir = os.path.join(special_base_dir, 'breast-films')
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 (記得要呼叫才會啟動) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 ■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+NEWS_DIR = os.path.join(settings.MEDIA_ROOT, 'news_1')
+BREAST_EDU_DIR = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+
 def append_crc32_to_filenames():
-	for filename in os.listdir(NEWS_DIR):
-		# 僅處理 .txt 檔案
-		if not filename.endswith('.txt'):
-			continue
-
-		# 檢查是否已含有 ^（代表已有 hash，不處理）
-		if '^' in filename:
-			continue
-
-		# 計算 CRC32 值
-		crc32_value = zlib.crc32(filename.encode('utf-8')) & 0xffffffff
-		crc32_hex = format(crc32_value, '08x')
-
-		# 建立新檔名
-		name_part, ext = os.path.splitext(filename)
-		new_filename = f"{name_part}^{crc32_hex}{ext}"
-
-		# 執行重新命名
-		src_path = os.path.join(NEWS_DIR, filename)
-		dst_path = os.path.join(NEWS_DIR, new_filename)
-		os.rename(src_path, dst_path)
-
-		print(f"✔ 已重新命名：{filename} → {new_filename}")
+	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
+	append_hash_to_filenames(BREAST_EDU_DIR, extension='.txt', separator='^')
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -320,7 +326,7 @@ def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 	return os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
 
 # === 工具：處理包在段落中的 <img1> 與 <yt> 轉換 html 邏輯 【用於 parse_article_txt() 呼叫】 ===
-def render_custom_tags(line, img_url):
+def render_custom_tags(line, img_url, filepath=""):
 	'''
 	專門用來處理 <t> 段落文字中內嵌的自定標籤
 	將 <img1> 替換成 <img>，<yt> 替換成 <iframe>
@@ -330,7 +336,16 @@ def render_custom_tags(line, img_url):
 		parts = line.split('<img1>')
 		for part in parts[1:]:
 			filename = part.strip().split()[0].split('</')[0]
-			webp_path = convert_item_article_image_to_webp(filename)
+			# 根據檔案路徑自動選擇正確的 WebP 轉換函式
+			if 'breast-edu' in filepath:
+				webp_path = convert_edu_article_image_to_webp(filename)
+			elif 'treat-articles-img' in filepath:
+				webp_path = convert_treat_article_image_to_webp(filename)
+			elif 'news_1' in filepath:
+				webp_path = convert_news_image_to_webp(filename)
+			else:
+				webp_path = convert_article_image_to_webp(filename)
+
 			if webp_path:
 				img_tag = f'<img src="/media/{webp_path}" class="img-fluid w-100">'
 			else:
@@ -355,23 +370,25 @@ def parse_article_txt(filepath):
 	# 根據 txt 來源資料夾路徑自動推導 img_url
 	if 'news_2' in filepath:
 		img_url = '/media/news_2/img'
-	elif 'h-news' in filepath:
-		img_url = '/media/specialty_health/h-news/img'
-	elif 'h-articles-img' in filepath:
-		img_url = '/media/specialty_health/h-articles/h-articles-img/img_webp_article'
+	elif 'news_1' in filepath:
+		img_url = '/media/news_1/img'
+	elif 'treat-articles-img' in filepath:
+		img_url = '/media/Breast_Care_Center/treat-articles/treat-articles-img/img_webp_article'
+	elif 'breast-edu' in filepath:
+		img_url = '/media/Breast_Care_Center/breast-edu/edu-article/'
 	else:
 		img_url = '/media'
 
 	org_thumb_img= ""
 	thumb_img = ""
 	card_image = ""
-	item_a_title = ""
+	treat_a_title = ""
 	original_image = ""
 	article_image = ""
 	news_image = ""
-	item_article_image = ""
+	treat_article_image = ""
+	edu_article_image = ""
 	content_blocks = []
-	pdf_url = ""  # 儲存 PDF 連結
 
 	for line in lines:
 		line = line.strip()
@@ -379,22 +396,11 @@ def parse_article_txt(filepath):
 		# (1) 處理縮圖
 		if line.startswith('<thumb-img>'):
 			org_thumb_img = line.replace('<thumb-img>', '').strip()
-			# 治療項目縮圖 (轉 webp 格式)
-			thumb_img = convert_item_icon_image_to_webp(org_thumb_img)
-		
-		# ← 新增：處理 PDF 連結
-		elif line.startswith('<openpdf>'):
-			pdf_filename = line.replace('<openpdf>', '').strip()
-			# ✅ 僅接受檔名，不接受完整 URL
-			# 檔案必須放在指定資料夾
-			pdf_path = os.path.join(health_item_dir, 'item-pdfs', pdf_filename)
-			
-			if os.path.exists(pdf_path) and pdf_filename.endswith('.pdf'):
-				# 轉換為 media URL
-				pdf_url = f"/media/specialty_health/h-articles/item-pdfs/{pdf_filename}"
+			# 治療項目/衛教園地縮圖 (轉 webp 格式)
+			if 'breast-edu' in filepath:
+				thumb_img = convert_edu_icon_image_to_webp(org_thumb_img)
 			else:
-				print(f"⚠️ PDF 檔案不存在：{pdf_filename}")
-				pdf_url = ""
+				thumb_img = convert_treat_icon_image_to_webp(org_thumb_img)
 
 		# (2) 處理主要圖片
 		elif line.startswith('<img1>'):
@@ -406,13 +412,17 @@ def parse_article_txt(filepath):
 				card_image = convert_image_to_webp_separate_folder(original_image)				
 				article_image = convert_article_image_to_webp(original_image)
 			
-			elif 'h-news' in filepath:
+			elif 'news_1' in filepath:
 				# 「最新消息」文章內文圖片
 				news_image = convert_news_image_to_webp(original_image)
 
-			elif 'h-articles' in filepath or 'h-articles-img' in filepath:
-				# 「健檢專案」文章內文圖片
-				item_article_image = convert_item_article_image_to_webp(original_image)
+			elif 'treat-articles' in filepath or 'treat-articles-img' in filepath:
+				# 「治療項目」文章內文圖片
+				treat_article_image = convert_treat_article_image_to_webp(original_image)
+			
+			elif 'breast-edu' in filepath:
+				# 「衛教園地」文章內文圖片
+				edu_article_image = convert_edu_article_image_to_webp(original_image)
 			
 			content_blocks.append({
 				'type': 'img',
@@ -420,32 +430,45 @@ def parse_article_txt(filepath):
 				'src': card_image,
 				'article_src': article_image,
 				'news_src': news_image,
-				'item_article_src': item_article_image
+				'treat_article_src': treat_article_image,
+				'edu_article_src': edu_article_image
 			})
 
 		elif line.startswith('<yt>'):
 			yt_url = line.replace('<yt>', '').strip()
-			iframe_html = f'<iframe width="100%" height="315" src="{yt_url}" frameborder="0" allowfullscreen></iframe>'
+			iframe_html = f'<iframe class="embed-responsive-item" src="{yt_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>'			
 			content_blocks.append({
-				'type': 'embed',
-				'class': 'video-embed',
+				'type': 'p',
+				'class': 'embed-responsive embed-responsive-16by9',
 				'text': iframe_html
 			})
 
 		elif line.startswith('<h01>'):
-			item_a_title = line.replace('<h01>', '').strip()
-
-		elif line.startswith('<h>'):
+			treat_a_title = line.replace('<h01>', '').strip()
+		
+		elif line.startswith('<posted>'):
 			content_blocks.append({
-				'type': 'h2',
-				'class': 'article_h',
-				'text': line.replace('<h>', '').strip()
+				'type': 'div',
+				'class': 'posted-date',
+				'text': line.replace('<posted>', '').strip()
 			})
 		elif line.startswith('<cap>'):
 			content_blocks.append({
 				'type': 'h3',
 				'class': 'title-02',
 				'text': line.replace('<cap>', '').strip()
+			})
+		elif line.startswith('<t-note>'):
+			content_blocks.append({
+				'type': 'div',
+				'class': 'text-note',
+				'text': line.replace('<t-note>', '').strip()
+			})
+		elif line.startswith('<quo>'):
+			content_blocks.append({
+				'type': 'blockquote',
+				'class': 'quote-box',
+				'text': line.replace('<quo>', '').strip()
 			})
 		elif line.startswith('<li-t>'):
 			content_blocks.append({
@@ -461,24 +484,22 @@ def parse_article_txt(filepath):
 			})
 		elif line.startswith('<li-q>'):
 			content_blocks.append({
-				'type': 'ul',
+				'type': 'div',
 				'class': 'list-question',
 				'text': line.replace('<li-q>', '').strip()
 			})
 		elif line.startswith('<li-a>'):
 			content_blocks.append({
-				'type': 'li',
+				'type': 'div',
 				'class': 'list-answer',
 				'text': line.replace('<li-a>', '').strip()
 			})
-		# elif line.startswith('<row-2>'):
-		# 	col_text = line.replace('<row-2>', '').strip()
-		# 	col_text = render_custom_tags(col_text, img_url=img_url)
-		# 	content_blocks.append({
-		# 		'type': 'div',
-		# 		'class': 'col-flex',
-		# 		'text': col_text
-		# 	})
+		elif line.startswith('<li-w-txt>'):
+			content_blocks.append({
+				'type': 'div',
+				'class': 'list-w-text',
+				'text': line.replace('<li-w-txt>', '').strip()
+			})
 		elif line.startswith('<t>'):
 			# 過濾整段含有「含有<a>的預約掛號」的 <t> 標籤
 			if 'news_2' in filepath:  # 指定檔案來源是 news_2 才進行不顯示的程式
@@ -486,7 +507,7 @@ def parse_article_txt(filepath):
 					continue
 
 			text = line.replace('<t>', '').strip() # 解析到 <t> 開頭，又得到文字含 <img1> 或 <yt> 呼叫 render_custom_tags(text, ...)
-			text = render_custom_tags(text, img_url=img_url) # img_url-自動判斷資料夾來源；
+			text = render_custom_tags(text, img_url=img_url, filepath=filepath) # img_url-自動判斷資料夾來源；
 
 			if text.startswith('新聞連結'):
 				# 抓出所有 <a href="...">文字</a>
@@ -512,38 +533,35 @@ def parse_article_txt(filepath):
 	for block in content_blocks:
 		if block['type'] == 'p':
 			summary = block['text'][:50]
-			# 移除段落中的 HTML 標籤
-			summary = re.sub(r'<[^>]*>', '', summary)
 			break
 
 	return {
 		'thumb_img': thumb_img,
-		'og_img_item': org_thumb_img,
+		'og_img_treat': org_thumb_img,
 		'og_img': original_image,
 		'image': card_image,
-		'item_a_title': item_a_title,
+		'treat_a_title': treat_a_title,
 		'summary': summary,
 		'blocks': content_blocks,
-		'pdf_url': pdf_url,  # 回傳 PDF 連結
 	}
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 首頁 (health_main) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 首頁 (breast_main) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ======================= 後端處理 ======================
 # 後:首頁「Banner」
 def convert_banner_image_to_webp(original_filename):
 	"""
 	專用：轉換 Banner 圖片為 WebP
-	儲存路徑：media/specialty_health/banner/webp
+	儲存路徑：media/Breast_Care_Center/banner/banner-webp
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'banner')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'banner')
 	target_dir = os.path.join(source_dir, 'banner-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
-def health_banner_api(request):
-	banner_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'banner')
+def breast_banner_api(request):
+	banner_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'banner')
 	files = os.listdir(banner_dir)
 
 	image_dict = {}
@@ -590,7 +608,7 @@ def health_banner_api(request):
 
 # 後:首頁「最新消息」
 @require_GET
-def health_news_home_api(request):
+def breast_news_home_api(request):
 	"""首頁用：取得最新 5 筆最新消息"""
 	try:
 		all_news = get_all_health_news()
@@ -612,9 +630,9 @@ def health_news_home_api(request):
 
 # 後:首頁「影音專區」
 @require_GET
-def health_film_home_api(request):
-	"""首頁「影音專區」專用 API：取得最新 3 筆影片（同時讀取 video_dir 與 Films_Dir）"""
-	employee_ids = get_health_center_doctor_ids()
+def breast_film_home_api(request):
+	"""首頁「影音專區」專用 API：取得最新 7 筆影片"""
+	employee_ids = get_active_doctor_ids()
 	all_videos = []
 
 	# 需要掃描的資料夾（原本的 video_dir 與 新增的 Films_Dir）
@@ -631,7 +649,7 @@ def health_film_home_api(request):
 			# 若是原本的 video_dir，仍保留以 employee_id 過濾的邏輯
 			if d == video_dir and not any(emp_id in video_filename for emp_id in employee_ids):
 				continue
-
+			
 			filepath = os.path.join(d, video_filename)
 			with open(filepath, 'r', encoding='utf-8-sig') as f:
 				lines = f.read().splitlines()
@@ -679,7 +697,6 @@ def health_film_home_api(request):
 					video_data['title'] = name.split('_', 1)[1]
 				else:
 					video_data['title'] = name
-
 			all_videos.append(video_data)
 
 	# 按 date（字串）或無日期的項目排序，若沒有 date，會排在後面；取最新 3 筆
@@ -690,9 +707,9 @@ def health_film_home_api(request):
 
 # 後:首頁「媒體報導」
 @require_GET
-def health_media_home_api(request):
+def breast_media_home_api(request):
 	"""首頁「媒體報導」專用：只回傳最新前 3 筆媒體報導文章"""
-	employee_ids = get_health_center_doctor_ids()
+	employee_ids = get_active_doctor_ids()
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -719,7 +736,7 @@ def health_media_home_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/specialty_health/articles/{web_url}"
+			'url': f"/breast-care-center/articles/{web_url}"
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
@@ -729,45 +746,44 @@ def health_media_home_api(request):
 
 
 # ======================= 前端模板 ======================
-def health_main(request):
+def breast_main(request):
 	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
+	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
 
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and ("item" in item_filename):
+	for treat_filename in breast_t_dirs:
+		if treat_filename.endswith('.txt') and ("treat" in treat_filename):
 			try:
-				match = re.search(r'T(\d+)', item_filename)
+				match = re.search(r'T(\d+)', treat_filename)
 				order_num = int(match.group(1)) if match else 9999
 
-				parts = item_filename.rsplit('_', 3)
-				item_title = parts[2]
+				parts = treat_filename.rsplit('_', 3)
+				treat_title = parts[2]
 				url_name = parts[3].replace('.txt', '')
 
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
+				treat_path = os.path.join(breast_treat_dir, treat_filename)
+				treat_parsed = parse_article_txt(treat_path)
 
 				treatments.append({
-					'title': item_title,
+					'title': treat_title,
 					'url_name': url_name,
-					'thumb_img': item_parsed['thumb_img'],
-					'order': order_num,
-					'pdf_url': item_parsed.get('pdf_url', '')
+					'thumb_img': treat_parsed['thumb_img'],
+					'order': order_num
 				})
 			except Exception as e:
-				print(f"[首頁健檢專案解析失敗] {item_filename}：{e}")
+				print(f"[首頁治療項目解析失敗] {treat_filename}：{e}")
 				continue
 
 	treatments.sort(key=lambda x: x['order'])
-	return render(request, "specialty_health/health-index.html", {
+	return render(request, "Breast_Care_Center/breast-index.html", {
 		'treatments': treatments,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 	})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (ort_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
-def health_about(request):
-	return render(request, "specialty_health/h-about-us.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (breast_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+def breast_about(request):
+	return render(request, "Breast_Care_Center/breast-about.html", {
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 	})
 
 
@@ -838,55 +854,27 @@ def parse_doctor_txt(content):
 @require_GET
 def doctor_sidenav_api(request):
 	'''
-	後端程式處理：醫師「個人介紹」頁中「側邊選單」帶入其他醫師選項列表，按科別分類
+	後端程式處理：醫師「個人介紹」頁中「側邊選單」帶入其他醫師選項列表
 	'''
-	sidenav_doctors_by_department = []
-
-	# 遍歷所有科別路徑
-	for dir_path in dirs:
-		if not os.path.exists(dir_path):
-			continue  # 如果路徑不存在，跳過
-
-		# 提取科別名稱
-		department_name = os.path.basename(dir_path)
-
-		# 取得該科別下的所有醫師
-		doctors = []
-		for doc_filename in os.listdir(dir_path):
-			if doc_filename.endswith('.txt') and "D000" in doc_filename:
-				try:
-					parts = doc_filename.rsplit('_', 1)
-					emp_id = parts[1].replace('.txt', '')
-					name_title = parts[0].split('_', 2)[-1]
-					name_parts = name_title.split(' ')
-					name = name_parts[0]
-					job_title = name_parts[1] if len(name_parts) > 1 else ''
-					# 提取科別名稱並去掉前綴（如 "1_"
-					department_name = os.path.basename(dir_path).split('_', 1)[-1]
-
-					doctors.append({
-						'employee_id': emp_id,
-						'name': name,
-						'job_title': job_title,
-						'department': department_name,  # 加入科別名稱
-					})
-				except Exception as e:
-					print(f"錯誤解析 {doc_filename}：{e}")
-					continue
-
-		# 按醫師姓名排序
-		doctors.sort(key=lambda x: x['name'])
-
-		# 將該科別的醫師加入分類列表
-		sidenav_doctors_by_department.append({
-			'department': department_name,
-			'doctors': doctors,
-		})
-	
-	# 按科別順序排序
-	sidenav_doctors_by_department.sort(key=lambda x: DEPARTMENT_ORDER.get(x['department'], 999))
-
-	return JsonResponse({'departments': sidenav_doctors_by_department})
+	sidenav_doctors = []
+	doc_dirs = os.listdir(dir)  # ← 每次 request 重新取得
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and "D000" in doc_filename:
+			try:
+				parts = doc_filename.rsplit('_', 1)
+				emp_id = parts[1].replace('.txt', '')
+				name_title = parts[0].split('_', 2)[-1]
+				name_parts = name_title.split(' ')
+				name = name_parts[0]
+				job_title = name_parts[1] if len(name_parts) > 1 else ''
+				sidenav_doctors.append({
+					'employee_id': emp_id,
+					'name': name,
+					'job_title': job_title,
+				})
+			except:
+				continue
+	return JsonResponse({'doctors': sidenav_doctors})
 
 # 後:停休診日期時間
 def group_stops_by_month(stop_list):
@@ -1003,7 +991,7 @@ def get_related_articles_api(request, employee_id):
 			'summary': a['summary'],
 			'image': a['image'],
 			'pub_date': a['pub_date'].strftime('%Y-%m-%d'),
-			'url': f"/specialty_health/articles/{a['filename']}"
+			'url': f"/breast-care-center/articles/{a['filename']}"
 		} for a in page_obj]
 
 		return JsonResponse({
@@ -1015,11 +1003,11 @@ def get_related_articles_api(request, employee_id):
 		return JsonResponse({'error': str(e)}, status=500)
 
 
-# 後：隨機取得 5 筆媒體報導文章（供 article_detail 側欄卡片用）
+# 後：隨機取得 5 筆媒體報導文章（供 breast-article-detail 側欄卡片用）
 @require_GET
-def random_health_reports_api(request):
-	"""隨機取得 5 筆媒體報導文章（供 article_detail 側欄卡片用）"""
-	employee_ids = get_health_center_doctor_ids()
+def random_breast_reports_api(request):
+	"""隨機取得 5 筆媒體報導文章（供 breast-article-detail 側欄卡片用）"""
+	employee_ids = get_active_doctor_ids()
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -1046,13 +1034,14 @@ def random_health_reports_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/specialty_health/articles/{web_url}",
+			'url': f"/breast-care-center/articles/{web_url}",
 			'filename': web_url
 		})
 
 	# 隨機挑選 5 筆
 	random_articles = random.sample(all_articles, min(5, len(all_articles)))
 	return JsonResponse({'articles': random_articles})
+
 
 # 後:醫師「影音專區」
 def get_related_video(employee_id):
@@ -1123,78 +1112,49 @@ def video_section_ajax(request, employee_id):
 
 
 # ======================= 前端模板 =======================
-# 定義科別的顯示順序
-DEPARTMENT_ORDER = {
-    "家醫科": 1,
-    "肝膽腸胃科": 2,
-    "婦科": 3
-}
+
 def doctor_list(request):
-	'''建立「醫師列表」頁，按科別分類顯示'''
-	doctors_by_department = []
+	'''建立「醫師列表」頁'''
+	doctors = []
+	doc_dirs = os.listdir(dir)  # ← 每次 request 重新取得
 
-	# 健檢中心專用科別路徑（排除骨科）
-	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
-	]
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and ("D000" in doc_filename):
+			try:
+				parts = doc_filename.rsplit('_', 1)				
+				employee_id = parts[1].replace('.txt', '')
+				name_and_title = parts[0].split('_', 2)[-1]
+				# 以空白為界，分離並取得姓名與職稱
+				name_parts = name_and_title.split(' ')
+				name = name_parts[0]
+				job_title = name_parts[1] if len(name_parts) > 1 else ''
 
-	# 遍歷健檢中心相關科別路徑（排除骨科）
-	for dir_path in health_dirs:
-		if not os.path.exists(dir_path):
-			continue  # 如果路徑不存在，跳過
+				with open(os.path.join(dir, doc_filename), 'r', encoding='utf-8') as f:
+					parsed = parse_doctor_txt(f.read())
 
-		# 提取科別名稱（從路徑中提取最後一層資料夾名稱）
-		department_name = os.path.basename(dir_path)
+				# 讀取停休診日期時間
+				stop_raw = PLSQLAPI.Search_Stop_Show_by_Dr(employee_id)
+				# 「停休診日期時間」按月份分群組
+				stop_grouped = group_stops_by_month(stop_raw) if stop_raw else {}
+				# 醫師照轉 webp，若沒有則帶 parsed['image']
+				webp_image = convert_doctor_image_to_webp(parsed['image']) if parsed['image'] else ''
 
-		# 取得該科別下的所有醫師
-		doctors = []
-		for doc_filename in os.listdir(dir_path):
-			if doc_filename.endswith('.txt') and "D000" in doc_filename:
-				try:
-					parts = doc_filename.rsplit('_', 1)
-					emp_id = parts[1].replace('.txt', '')
-					name_title = parts[0].split('_', 2)[-1]
-					name_parts = name_title.split(' ')
-					name = name_parts[0]
-					job_title = name_parts[1] if len(name_parts) > 1 else ''
-					# 提取科別名稱並去掉前綴（如 "1_"
-					department_name = os.path.basename(dir_path).split('_', 1)[-1]
-
-					with open(os.path.join(dir_path, doc_filename), 'r', encoding='utf-8') as f:
-						parsed = parse_doctor_txt(f.read())
-
-					webp_image = convert_doctor_image_to_webp(parsed['image']) if parsed['image'] else ''
-
-					doctors.append({
-						'employee_id': emp_id,
-						'name': name,
-						'job_title': job_title,
-						'expertise': parsed['expertise'],
-						'image': parsed['image'],
-						'image_webp': webp_image,
-						'department': department_name,  # 加入科別名稱
-					})
-				except Exception as e:
-					print(f"錯誤解析 {doc_filename}：{e}")
-					continue
-
-		# 按醫師姓名排序
-		doctors.sort(key=lambda x: x['name'])
-
-		# 將該科別的醫師加入分類列表
-		doctors_by_department.append({
-			'department': department_name,
-			'doctors': doctors,
-		})
-
-	# 按科別順序排序
-	doctors_by_department.sort(key=lambda x: DEPARTMENT_ORDER.get(x['department'], 999))
-
-	return render(request, 'specialty_health/h-doctor-list.html', {
-		'doctors_by_department': doctors_by_department,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+				doctors.append({
+					'employee_id': employee_id,
+					'name_and_title': name_and_title,
+					'name': name,
+					'job_title': job_title,
+					'expertise': parsed['expertise'],
+					'image': parsed['image'],
+					'image_webp': webp_image,
+					'stop_info': stop_grouped,
+				})
+			except Exception as e:
+				print(f"錯誤解析 {doc_filename}：{e}")
+				continue
+	return render(request, 'Breast_Care_Center/breast-doctor-list.html', {
+		'doctors': doctors,
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
@@ -1202,48 +1162,27 @@ def doctor_list(request):
 
 def doctor_profile(request, employee_id):
 	'''「個人介紹」頁'''
+	doc_dirs = os.listdir(dir)  # ← 每次 request 重新取得
 	matched_file = None
-	matched_dir = None
 	name = None
 	name_and_title = None
-	job_title = None
-	department = None
+	job_title = ""
 
-	# 健檢中心專用科別路徑（排除骨科）
-	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
-	]
-
-	# 遍歷健檢中心相關科別路徑（排除骨科）
-	for dir_path in health_dirs:
-		if not os.path.exists(dir_path):
-			continue  # 如果路徑不存在，跳過
-
-		doc_dirs = os.listdir(dir_path)
-
-		for doc_filename in doc_dirs:
-			if doc_filename.endswith('.txt') and doc_filename.endswith(f"{employee_id}.txt"):
-				matched_file = doc_filename
-				matched_dir = dir_path
-				name_and_title = doc_filename.rsplit('_', 1)[0].split('_', 2)[-1]
-				# 以空白為界，分離並取得姓名與職稱
-				name_parts = name_and_title.split(' ')
-				name = name_parts[0]
-				job_title = name_parts[1] if len(name_parts) > 1 else ''
-
-				# 提取科別名稱並去掉前綴（如 "1_"
-				department = os.path.basename(dir_path).split('_', 1)[-1]
-				break
-
-		if matched_file:
-			break  # 找到檔案後跳出迴圈
+	# === 取得目前這位醫師的個人檔案 ===
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and doc_filename.endswith(f"{employee_id}.txt"):
+			matched_file = doc_filename
+			name_and_title = doc_filename.rsplit('_', 1)[0].split('_', 2)[-1]
+			# 以空白為界，分離並取得姓名與職稱
+			name_parts = name_and_title.split(' ')
+			name = name_parts[0]
+			job_title = name_parts[1] if len(name_parts) > 1 else ''
+			break
 
 	if not matched_file:
 		raise Http404("找不到醫師介紹")
 
-	with open(os.path.join(matched_dir, matched_file), 'r', encoding='utf-8') as f:
+	with open(os.path.join(dir, matched_file), 'r', encoding='utf-8') as f:
 		content = f.read()
 
 	# 將 def parse_doctor_txt(content) 這段函式引入，帶入拆解後的變數
@@ -1253,36 +1192,28 @@ def doctor_profile(request, employee_id):
 	doc_img = parsed['image']
 	webp_img = convert_doctor_image_to_webp(doc_img) if doc_img else ''
 	og_img_path = f'/media/department/img/{doc_img}'
-	og_image_url = request.build_absolute_uri(og_img_path)
+	og_image_url = f"{settings.SITE_DOMAIN}{og_img_path}"
 
-	# === 取得全部醫師清單（用於側邊欄，僅健檢中心醫師） ===
+	# === 取得全部醫師清單（用於側邊欄） ===
 	doctors = []
-	for dir_path in health_dirs:
-		if not os.path.exists(dir_path):
-			continue
-
-		doc_dirs = os.listdir(dir_path)
-
-		for doc_filename in doc_dirs:
-			if doc_filename.endswith('.txt') and "D000" in doc_filename:
-				try:
-					parts = doc_filename.rsplit('_', 1)
-					emp_id = parts[1].replace('.txt', '')
-					name_title = parts[0].split('_', 2)[-1]
-					name_parts = name_title.split(' ')
-					d_name = name_parts[0]
-					d_title = name_parts[1] if len(name_parts) > 1 else ''
-					d_department = os.path.basename(dir_path).split('_', 1)[-1]  # 提取科別名稱並去掉前綴
-					doctors.append({
-						'employee_id': emp_id,
-						'name': d_name,
-						'job_title': d_title,
-						'department': d_department,
-					})
-				except Exception as e:
-					print(f"醫師清單錯誤: {e}")
-					continue
-
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and "D000" in doc_filename:
+			try:
+				parts = doc_filename.rsplit('_', 1)
+				emp_id = parts[1].replace('.txt', '')
+				name_title = parts[0].split('_', 2)[-1]
+				name_parts = name_title.split(' ')
+				d_name = name_parts[0]
+				d_title = name_parts[1] if len(name_parts) > 1 else ''
+				doctors.append({
+					'employee_id': emp_id,
+					'name': d_name,
+					'job_title': d_title,
+				})
+			except Exception as e:
+				print(f"醫師清單錯誤: {e}")
+				continue
+	
 	# === 醫師「相關文章」、「影音專區」=== 
 	related_articles = get_related_articles(employee_id)
 	related_videos = get_related_video(employee_id)
@@ -1290,11 +1221,10 @@ def doctor_profile(request, employee_id):
 	has_articles = bool(related_articles)
 	has_videos = bool(related_videos)
 
-	return render(request, 'specialty_health/h-doctor-profile.html', {
+	return render(request, 'Breast_Care_Center/breast-doctor-profile.html', {
 		'name_and_title': name_and_title,
 		'name': name,
 		'job_title': job_title,
-		'department': department,  # 傳遞科別變數到模板
 		'employee_id': employee_id,
 		'expertise': parsed['expertise'],
 		'expertise_list': parsed['expertise_list'],
@@ -1307,7 +1237,7 @@ def doctor_profile(request, employee_id):
 		'related_videos': related_videos,
 		'has_articles': has_articles,
 		'has_videos': has_videos,
-		'doctors': doctors,  # 側邊欄清單
+		'doctors': doctors, # 側邊欄清單
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -1320,11 +1250,14 @@ def article_share_view(request, get_filename):
 	full_filename = 'C002_^_80歲阿公治二十年膝痛 機器人手臂破壞少復原快_企劃室_2022-04-06_^_2018-03-30_HA00434.txt'
 	"""
 	key_filename = f'{get_filename}.txt'  # 例：2018-04-20_HA00504.txt
+	full_filename = None
 	for temp_f in os.listdir(article_dir):
 		if key_filename in temp_f:
 			full_filename = temp_f.replace('.txt', '')
 			break # 找到後，就不用再繼續搜尋檔案了
 
+	if not full_filename:
+		raise Http404("找不到文章")
 	article_path = os.path.join(article_dir, f"{full_filename}.txt")
 
 	if not os.path.exists(article_path):
@@ -1342,57 +1275,71 @@ def article_share_view(request, get_filename):
 		'image': parsed['image'],
 		'summary': parsed['summary'],
 		'tags': extract_tags_from_blocks(parsed['blocks']),
-		# 'og_image': f"/media/news_2/img/{parsed['image']}",
-		'og_image': request.build_absolute_uri(f"/media/news_2/img/{parsed['og_img']}")
+		# 'og_image': request.build_absolute_uri(f"/media/news_2/img/{parsed['og_img']}")
+		'og_image': f"{settings.SITE_DOMAIN}/media/news_2/img/{parsed['og_img']}",
 	}
-	return render(request, 'specialty_health/h-article-detail.html', context)
+	return render(request, 'Breast_Care_Center/breast-article-detail.html', context)
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 健檢專案 (treatment_list / treatment_article) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 治療項目 (treatment_list / treatment_article) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # =================== 後端處理 ===================
-# 後:健檢專案-圖片轉 webp 格式
-def convert_item_icon_image_to_webp(original_filename):
+# 後:治療項目-圖片轉 webp 格式
+def convert_treat_icon_image_to_webp(original_filename):
 	"""
-	專用：轉換「健檢專案-卡片縮圖」為 WebP
-	儲存路徑：media/specialty_health/img/h-icon/thumb-webp
+	專用：轉換「治療項目-卡片縮圖」為 WebP
+	儲存路徑：media/Breast_Care_Center/treat-articles/treat-icon/thumb-webp
 	壓縮品質：50%
 	"""
-	source_dir = os.path.join(health_item_dir, 'h-icon')
+	source_dir = os.path.join(breast_treat_dir, 'treat-icon')
 	target_dir = os.path.join(source_dir, 'thumb-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=50)
 
-def convert_item_article_image_to_webp(original_filename):
+def convert_edu_icon_image_to_webp(original_filename):
 	"""
-	專用：轉換「健檢專案-內文圖片」為 WebP
-	儲存路徑：media/specialty_health/img/h-articles-img/img_webp_article
+	專用：轉換「衛教園地-卡片縮圖」為 WebP
+	儲存路徑：media/Breast_Care_Center/breast-edu/edu-icon/thumb-webp
+	壓縮品質：50%
+	"""
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu', 'edu-icon')
+	target_dir = os.path.join(source_dir, 'thumb-webp')
+	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=50)
+
+def convert_treat_article_image_to_webp(original_filename):
+	"""
+	專用：轉換「治療項目-內文圖片」為 WebP
+	儲存路徑：media/Breast_Care_Center/treat-articles/treat-articles-img/img_webp_article
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(health_item_dir, 'h-articles-img')
+	source_dir = os.path.join(breast_treat_dir, 'treat-articles-img')
 	target_dir = os.path.join(source_dir, 'img_webp_article')
+	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
+
+def convert_edu_article_image_to_webp(original_filename):
+	"""
+	專用：轉換「衛教園地-內文圖片」為 WebP
+	儲存路徑：media/Breast_Care_Center/breast-edu/edu-article/article-webp
+	壓縮品質：80%
+	"""
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu', 'edu-article')
+	target_dir = os.path.join(source_dir, 'article-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
 # 後:治療項目文章頁-AJAX 載入側邊選單
 @require_GET
 def treatment_sidenav_api(request):
-	'''「健檢專案文章頁-AJAX 載入側邊選單 / 可切換文章頁面」'''
+	'''「治療項目文章頁-AJAX 載入側邊選單 / 可切換文章頁面」'''
 	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得(如果放在全域變數，只會在伺服器啟動時執行一次，之後異動檔案不會更新--因 ajaxao6)
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and "item" in item_filename:
+	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得(如果放在全域變數，只會在伺服器啟動時執行一次，之後異動檔案不會更新--因 ajaxao6)
+	for treat_filename in breast_t_dirs:
+		if treat_filename.endswith('.txt') and "treat" in treat_filename:
 			try:
-				parts = item_filename.rsplit('_', 3)
+				parts = treat_filename.rsplit('_', 3)
 				title = parts[2]
 				url_name = parts[3].replace('.txt', '')
-
-				# ✅ 解析 txt 內容，取得 pdf_url
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
-
 				treatments.append({
 					'title': escape(title),
-					'url_name': url_name,
-					'pdf_url': item_parsed.get('pdf_url', '')
+					'url_name': url_name
 				})
 			except Exception as e:
 				continue
@@ -1401,81 +1348,85 @@ def treatment_sidenav_api(request):
 
 # =================== 前端模板 ===================
 def treatment_list(request):
-	'''建立「健檢專案」頁'''
+	'''建立「治療項目」頁'''
 	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
+	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
 
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and ("item" in item_filename):
+	for treat_filename in breast_t_dirs:
+		if treat_filename.endswith('.txt') and ("treat" in treat_filename): # 例.T001_treat_髖關節置換_mako01.txt
 			try:
 				# 抓出 T001 裡面的數字 → 1
-				match = re.search(r'T(\d+)', item_filename)
+				match = re.search(r'T(\d+)', treat_filename)
 				order_num = int(match.group(1)) if match else 9999  # 沒抓到就放後面
 
-				parts = item_filename.rsplit('_', 3) # 從右起切 2 次；parts = ['T001', 'item', '髖關節置換', 'mako01.txt']
-				item_title = parts[2] # 選索引值位於 2；item_title = "髖關節置換"
+				parts = treat_filename.rsplit('_', 3) # 從右起切 2 次；parts = ['T001', 'treat', '髖關節置換', 'mako01.txt']
+				treat_title = parts[2] # 選索引值位於 2；treat_title = "髖關節置換"
 				url_name = parts[3].replace('.txt', '') # 選索引值位於 3；url_name = "mako01"
 
 				# 共用 parse_article_txt 這個函式解析 txt 內容 (函式已有 with open，所以根據參數 filepath 提供檔案路徑)
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
+				treat_path = os.path.join(breast_treat_dir, treat_filename)
+				treat_parsed = parse_article_txt(treat_path)
 
 				treatments.append({
-					'title': item_title,
+					'title': treat_title,
 					'url_name': url_name,
-					'thumb_img': item_parsed['thumb_img'],
-					'order': order_num,  # 排序用的欄位
-					'pdf_url': item_parsed.get('pdf_url', '')
+					'thumb_img': treat_parsed['thumb_img'],
+					'order': order_num  # 排序用的欄位
 				})
 			except Exception as e:
-				print(f"錯誤解析 {item_filename}：{e}")
+				print(f"錯誤解析 {treat_filename}：{e}")
 				continue
 
 	# 根據 'order' 由小到大排序
 	treatments.sort(key=lambda x: x['order'])
-	# treatments.reverse() # 若需要由大到小排序，請取消註解
 			
-	return render(request, 'specialty_health/h-item-list.html', {
+	return render(request, 'Breast_Care_Center/breast-treatment-list.html', {
 		'treatments': treatments,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
 	})
+	# return render(request, 'Breast_Care_Center/treatments.html', {
+	# 	'treatments': treatments,
+	# 	'og_image': request.build_absolute_uri(f"/media/Breast_Care_Center/everan2.png"),
+	# 	# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
+	# 	'ga_id': '', 
+	# 	'gtm_id': ''
+	# })
 
 def treatment_article(request, url_name):
-	'''「健檢專案-文章頁」'''
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
-	matched_item_file = None
-	# item_name = None
+	'''「治療項目文章頁」'''
+	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
+	matched_treat_file = None
+	# treat_name = None
 
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and item_filename.endswith(f"{url_name}.txt"):
-			matched_item_file = item_filename
-			item_name = item_filename.rsplit('_', 2)[1]
+	for treat_filename in breast_t_dirs:
+		if treat_filename.endswith('.txt') and treat_filename.endswith(f"{url_name}.txt"):
+			matched_treat_file = treat_filename
+			treat_name = treat_filename.rsplit('_', 2)[1]
 			break
 
-	if not matched_item_file:
+	if not matched_treat_file:
 		raise Http404("找不到文章")
 
 	# 引入 parse_article_txt 函式，解析 txt 內容
-	item_path = os.path.join(health_item_dir, matched_item_file)
-	item_parsed = parse_article_txt(item_path)
+	treat_path = os.path.join(breast_treat_dir, matched_treat_file)
+	treat_parsed = parse_article_txt(treat_path)
 
 	context = {
-		'item_title': item_name, # 標題取自檔名
-		'item_a_title': item_parsed['item_a_title'], # 標題取自 txt 內容
-		'blocks': item_parsed['blocks'],
-		'image': item_parsed['image'],
-		'item_summary': item_parsed['summary'],
-		'tags': extract_tags_from_blocks(item_parsed['blocks']),
-		# 'og_image': f"/media/news_2/img/{parsed['image']}",
-		'og_image': request.build_absolute_uri(f"/media/specialty_health/h-articles/h-icon/{item_parsed['og_img_item']}")
+		'treat_title': treat_name, # 標題取自檔名
+		'treat_a_title': treat_parsed['treat_a_title'], # 標題取自 txt 內容
+		'blocks': treat_parsed['blocks'],
+		'image': treat_parsed['image'],
+		'treat_summary': treat_parsed['summary'],
+		'tags': extract_tags_from_blocks(treat_parsed['blocks']),
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/treat-articles/treat-icon/{treat_parsed['og_img_treat']}",
 	}
-	return render(request, 'specialty_health/h-item-article-detail.html', context)
+	return render(request, 'Breast_Care_Center/breast-treat-article-detail.html', context)
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 最新消息 (health_news) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 最新消息 (breast_news) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 # 後: 最新消息 - 圖片轉 WebP
@@ -1491,7 +1442,7 @@ def convert_news_image_to_webp(original_filename):
 
 # 後: 最新消息 - 支援 ajax 分頁
 @require_GET
-def health_news_api(request):
+def breast_news_api(request):
 	"""後端 API - 支援最新消息 Ajax 分頁"""
 	try:
 		page = int(request.GET.get("page", 1))
@@ -1518,28 +1469,27 @@ def health_news_api(request):
 
 # 後：共用邏輯-取得所有最新消息（已排序，for 頁面/API 使用/)
 def get_all_health_news():
-	"""共用邏輯：取得所有最新消息（已排序，for 頁面/API 使用） - 支援新檔名格式 N001_類別_標題_YYYY-MM-DD.txt"""
+	"""共用邏輯：取得所有最新消息（已排序，for 頁面/API 使用）"""
 	news_items = []
 
-	for fname in os.listdir(NEWS_DIR):
+	for fname in os.listdir(NEWS_FOLDER):
 		if not fname.endswith('.txt') or '^' not in fname:
 			continue
 		try:
 			body_part, key = fname.replace('.txt', '').split('^')
 			sub_parts = body_part.split('_')
-			# 期待格式：N001_類別_標題_YYYY-MM-DD（標題 可能含底線，取 parts[2] 作為主標）
-			if len(sub_parts) < 4:
+			if len(sub_parts) < 7:
 				continue
 
 			title = sub_parts[2].strip()
-			date_str = sub_parts[3].strip()
-			pub_date = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+			date = sub_parts[6].strip()
+			pub_date = datetime.datetime.strptime(date, "%Y-%m-%d")
 
 			news_items.append({
 				'title': title,
 				'date': pub_date,
 				'key': key,
-				'url': f"/specialty_health/health-news/{key}/"
+				'url': f"/breast-care-center/breast-news/{key}/"
 			})
 
 		except Exception as e:
@@ -1551,27 +1501,24 @@ def get_all_health_news():
 
 
 # ==================== 前端模板 ====================
-def health_news_list_view(request):
-	append_crc32_to_filenames() # 呼叫執行-新增 CRC32 Hash 值至圖片檔名的函式
-
+def breast_news_list_view(request):
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
-	# 新檔名格式不需 append_crc32_to_filenames()
-	return render(request, "specialty_health/h-health-news.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+	return render(request, "Breast_Care_Center/breast-news.html", {
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		# "meta_title": "",
 		# "meta_summary": ""
 	})
 
-def health_news_detail_view(request, key):
+def breast_news_detail_view(request, key):
 	try:
 		matched_file = None
-		for filename in os.listdir(NEWS_DIR):
+		for filename in os.listdir(NEWS_FOLDER):
 			if filename.endswith(f'^{key}.txt'):
-				matched_file = os.path.join(NEWS_DIR, filename)
+				matched_file = os.path.join(NEWS_FOLDER, filename)
 				break
 
 		if not matched_file or not os.path.exists(matched_file):
-			return render(request, 'specialty_health/h-news-detail.html', {
+			return render(request, 'Breast_Care_Center/breast-news-detail.html', {
 				'error': True,
 				'message': '找不到該則消息內容'
 			})
@@ -1584,9 +1531,9 @@ def health_news_detail_view(request, key):
 		sub_parts = body_part.split('_')
 
 		title = sub_parts[2] if len(sub_parts) >= 3 else '未命名'
-		date = sub_parts[3] if len(sub_parts) >= 4 else ''
+		date = sub_parts[6] if len(sub_parts) >= 7 else ''
 
-		return render(request, 'specialty_health/h-news-detail.html', {
+		return render(request, 'Breast_Care_Center/breast-news-detail.html', {
 			'data': {
 				**parsed_data,
 				'title': title
@@ -1596,13 +1543,13 @@ def health_news_detail_view(request, key):
 
 	except Exception as e:
 		traceback.print_exc()
-		return render(request, 'specialty_health/h-news-detail.html', {
+		return render(request, 'Breast_Care_Center/breast-news-detail.html', {
 			'error': True,
 			'message': '資料載入失敗，請稍後再試'
 		})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 媒體報導 (ort_media) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 媒體報導 (breast_media) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 
@@ -1613,54 +1560,22 @@ def get_active_doctor_ids():
 	"""
 	應用：當 doctor-list 刪除對應醫師的 .txt，employee_id 不會出現在 doctor-list → 「媒體報導」、「影音專區」的文章也會自動消失！
 	"""
-
 	ids = []
-	for doc_dirs in dirs: # 遍歷所有科別路徑
-		if not os.path.exists(doc_dirs):
-			continue  # 如果路徑不存在，跳過
-
-		doc_dirs = os.listdir(doc_dirs) # 取得該科別下的所有檔案
-
-		for doc_filename in doc_dirs:
-			if doc_filename.endswith('.txt') and "D000" in doc_filename:
-				try:
-					emp_id = doc_filename.rsplit('_', 1)[-1].replace('.txt', '')
-					ids.append(emp_id)
-				except Exception as e:
-					print(f"錯誤解析 {doc_filename}：{e}")
-					continue
-	return ids
-
-def get_health_center_doctor_ids():
-	"""
-	取得健檢中心專用的醫師ID（排除骨科）
-	應用：健檢中心的媒體報導、推薦文章等，不應包含骨科醫師
-	"""
-	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
-	]
-	
-	ids = []
-	for doc_dir in health_dirs:
-		if not os.path.exists(doc_dir):
-			continue
-		for doc_filename in os.listdir(doc_dir):
-			if doc_filename.endswith('.txt') and "D000" in doc_filename:
-				try:
-					emp_id = doc_filename.rsplit('_', 1)[-1].replace('.txt', '')
-					ids.append(emp_id)
-				except Exception as e:
-					print(f"錯誤解析 {doc_filename}：{e}")
-					continue
+	doc_dirs = os.listdir(dir)  # ← 每次 request 重新取得
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and "D000" in doc_filename:
+			try:
+				emp_id = doc_filename.rsplit('_', 1)[-1].replace('.txt', '')
+				ids.append(emp_id)
+			except:
+				continue
 	return ids
 
 # 後: 媒體報導主頁 - AJAX 載入分頁 (只更新文章區塊，不重新刷頁)
 @require_GET
-def health_media_api(request):
-	""" Ajax 回傳健檢中心醫師的所有文章（支援分頁）"""
-	employee_ids = get_health_center_doctor_ids() # 健檢中心專用醫師ID（排除骨科）
+def breast_media_api(request):
+	""" Ajax 回傳 doctor-list 中乳房外科醫師的所有文章（支援分頁）"""
+	employee_ids = get_active_doctor_ids() # 快取有效醫師
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -1687,7 +1602,7 @@ def health_media_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/specialty_health/articles/{web_url}"
+			'url': f"/breast-care-center/articles/{web_url}"
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
@@ -1703,19 +1618,33 @@ def health_media_api(request):
 
 
 # ==================== 前端模板 ====================
-def health_media(request):
+def breast_media(request):
 	''' 媒體報導主頁 '''
 	all_articles = []
-	# 使用健檢中心專用函式取得醫師ID（排除骨科）
-	employee_ids = get_health_center_doctor_ids()
+	employee_ids = []
+	doc_dirs = os.listdir(dir)
+
+	# Step 1：取得 doctor-list 中所有骨科醫師的 employee_id
+	for doc_filename in doc_dirs:
+		if doc_filename.endswith('.txt') and "D000" in doc_filename:
+			try:
+				emp_id = doc_filename.rsplit('_', 1)[-1].replace('.txt', '')
+				employee_ids.append(emp_id)
+			except:
+				continue
 
 	# Step 2：從 media/news_2 找出所有對應醫師的文章
 	for post_filename in os.listdir(article_dir):
 		if not post_filename.endswith('.txt'):
 			continue
 
-		# 若該文章不包含任何在 doctor-list 的 employee_id，則略過
-		if not any(emp_id in post_filename for emp_id in employee_ids):
+		matched = False
+		for emp_id in employee_ids:
+			if emp_id in post_filename:
+				matched = True
+				break
+
+		if not matched:
 			continue
 
 		parts = post_filename.split('_')
@@ -1755,29 +1684,29 @@ def health_media(request):
 	meta_summary = page_obj.object_list[0]['summary'] if page_obj.object_list else ""
 	meta_image = page_obj.object_list[0]['image'] if page_obj.object_list else ""
 
-	return render(request, "specialty_health/h-health-reports.html", {
+	return render(request, "Breast_Care_Center/breast-reports.html", {
 		'page_obj': page_obj,
 		'meta_title': meta_title,
 		'meta_summary': meta_summary,
 		'meta_image': meta_image,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		'ga_id': '',
 		'gtm_id': ''
 	})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 影音專區 (health_film) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 影音專區 (breast_film) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 
 # ==== 若單位有增刪醫師，要重啟程式，再刷新網頁 ====
 
-# 後: 影音專區 - 回傳健檢中心影音專區影片（支援 ajax 分頁）
+# 後: 影音專區 - 回傳乳房外科醫師影音專區影片（支援 ajax 分頁）
 @require_GET
-def health_film_api(request):
+def breast_film_api(request):
 	"""Ajax 回傳影音專區影片（同時掃描 video_dir 與 Films_Dir，video_dir 仍以 doctor-list 過濾）"""
 	try:
-		employee_ids = get_health_center_doctor_ids()
+		employee_ids = get_active_doctor_ids()  # 取 doctor-list 中的乳房外科醫師 employee_id
 		all_videos = []
 
 		# 同時掃描兩個資料夾：原本的 video_dir（有醫師過濾）與新增的 Films_Dir（不過濾）
@@ -1853,7 +1782,7 @@ def health_film_api(request):
 
 				all_videos.append(video_data)
 
-		# 若沒有影片，回傳提示
+		# **如果沒有影片，直接回傳提示**
 		if not all_videos:
 			return JsonResponse({
 				'videos': [],
@@ -1861,11 +1790,11 @@ def health_film_api(request):
 				'total_pages': 0,
 				'message': '目前暫無影音文章'
 			})
-
+		
 		# 以 date 欄位排序（字串），空日期會排到後面
 		all_videos.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-		# 分頁，每頁 8 筆（保持與原本一致）
+		# 分頁，每頁 8 筆
 		paginator = Paginator(all_videos, 8)
 		page = int(request.GET.get("page", 1))
 		page_obj = paginator.get_page(page)
@@ -1881,24 +1810,31 @@ def health_film_api(request):
 
 
 # ==================== 前端模板 ====================
-def health_film(request):
+def breast_film(request):
 	"""影音專區主頁，初始渲染不載入影片內容，由 AJAX 呼叫 health_film_api 動態載入；附帶回傳是否存在 Films_Dir 的簡單狀態供前端使用"""
 	has_films_dir = os.path.exists(Films_Dir) and any(f.endswith('.txt') for f in os.listdir(Films_Dir))
-	return render(request, "specialty_health/h-health-film.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+	return render(request, "Breast_Care_Center/breast-film.html", {
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		'ga_id': '',
 		'gtm_id': '',
 		'has_films_dir': has_films_dir
 	})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 衛教園地 (health_health_edu) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 衛教園地 (breast_edu) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
-# 後: 衛教園地 - 分組資料並進行排序 (取得的資料可給 health_edu_api 及 health_health_edu 使用)
+# 後: 衛教園地 - 分組資料並進行排序 (取得的資料可給 breast_edu_api 及 breast_edu 使用)
 def get_health_edu_items():
-	"""取得衛教園地分組後的資料（list of (title, [images])）"""
-	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '骨科')
+	"""取得衛教園地分組後的資料（list of (title, title_hash, images, [optional] is_txt, [optional] thumb)）"""
+	# 優化：先從快取中尋找資料
+	cache_key = 'breast_edu_items_metadata_v3' # 檔名邏輯更新，更新快取 key
+	cached_data = cache.get(cache_key)
+	if cached_data:
+		return cached_data, os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '乳房外科')
+
+	# 1. 處理舊有的純圖片衛教資料
+	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '乳房外科')
 	image_files = [f for f in os.listdir(base_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
 	grouped_images = defaultdict(list)
@@ -1908,43 +1844,194 @@ def get_health_edu_items():
 			title = parts[0]
 			grouped_images[title].append(filename)
 
-	# 排序每組圖片（根據 page-xxxx 序號）
-	for title in grouped_images:
-		grouped_images[title].sort(key=lambda name: int(name.split('page-')[-1].split('.')[0]))
+	formatted_items = []
+	for title, images in grouped_images.items():
+		images.sort(key=lambda name: int(name.split('page-')[-1].split('.')[0]))
+		title_hash = hashlib.md5(title.encode('utf-8')).hexdigest()[:8]
+		formatted_items.append((title, title_hash, images, False, None))
 
-	# 保持順序
-	grouped_images = OrderedDict(sorted(grouped_images.items()))
-	return list(grouped_images.items()), base_path
+	# 2. 處理新的 E001 .txt 衛教文章
+	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+	edu_icon_dir = os.path.join(edu_txt_dir, 'edu-icon')
+	
+	# 先讀取所有目前的 icon 檔名，用於快速比對
+	icon_files = os.listdir(edu_icon_dir) if os.path.exists(edu_icon_dir) else []
+
+	if os.path.exists(edu_txt_dir):
+		txt_files = [f for f in os.listdir(edu_txt_dir) if f.startswith('E001') and f.endswith('.txt')]
+		for filename in txt_files:
+			# 解析檔名標題：E001_edu_標題_日期.txt
+			parts = filename.replace('.txt', '').split('_')
+			if len(parts) >= 3:
+				title = parts[2]
+				prefix = "_".join(parts[:3]) # E001_edu_標題
+			else:
+				title = filename.replace('.txt', '')
+				prefix = title
+			
+			# 2026-02-08 更新：優先從檔名擷取 ^hash，若無則跳過 (需先經過 append_crc32_to_filenames 處理)
+			title_hash = ""
+			if '^' in filename:
+				title_hash = filename.replace('.txt', '').split('^')[-1]
+			else:
+				# 備註：如果不想要自動跳過未改名的檔案，可以保留舊的 md5 邏輯作為 fallback
+				# title_hash = hashlib.md5(title.encode('utf-8')).hexdigest()[:8]
+				continue
+			
+			# 極致優化：從檔名對應縮圖，不讀取檔案內容
+			thumb_filename = ""
+			for icon_f in icon_files:
+				if icon_f.startswith(prefix) and icon_f.lower().endswith(('.jpg', '.jpeg', '.png')):
+					thumb_filename = icon_f
+					break
+			
+			# 轉換縮圖為 WebP
+			thumb_rel_path = ""
+			if thumb_filename:
+				thumb_rel_path = convert_edu_icon_image_to_webp(thumb_filename)
+			
+			formatted_items.append((title, title_hash, filename, True, thumb_rel_path))
+
+	# 根據標題文字排序
+	formatted_items.sort(key=lambda x: x[0])
+	
+	# 儲存到快取（快取 2 小時）
+	cache.set(cache_key, formatted_items, timeout=7200)
+	
+	return formatted_items, base_path
 
 # 後: 衛教園地 - 支援 ajax 分頁
 @require_GET
-def health_edu_api(request):
+def breast_edu_api(request):
 	page = int(request.GET.get("page", 1))
 	per_page = int(request.GET.get("per_page", 8))
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, per_page)
 	page_obj = paginator.get_page(page)
-	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/骨科/'
-	data = [{
-		'title': title,
-		'images': [media_url + img for img in images],
-	} for title, images in page_obj]
+	
+	image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+	
+	data = []
+	for item in page_obj:
+		title, title_hash, content, is_txt, thumb = item
+		if is_txt:
+			# 此處 thumb 已經是 media 相對路徑，例如 "Breast_Care_Center/breast-edu/edu-icon/thumb-webp/xxx.webp"
+			data.append({
+				'title': title,
+				'titleId': title_hash,
+				'images': [settings.MEDIA_URL + thumb] if thumb else [],
+				'is_txt': True
+			})
+		else:
+			# 此處 content 為圖片清單
+			data.append({
+				'title': title,
+				'titleId': title_hash,
+				'images': [image_media_url + img for img in content],
+				'is_txt': False
+			})
+
 	return JsonResponse({
 		'items': data,
 		'current_page': page_obj.number,
 		'num_pages': paginator.num_pages,
 	})
 
+# 後: 衛教園地 - 隨機取得 5 筆衛教項目（供 breast-article-detail 側欄卡片用）
+@require_GET
+def random_breast_edus_api(request):
+	"""隨機取得 5 筆衛教園地項目（供 breast-article-detail 側欄卡片用）"""
+	all_items, base_path = get_health_edu_items()
+	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+
+	# 隨機挑選最多 5 筆
+	random_items = random.sample(all_items, min(5, len(all_items)))
+
+	edu_data = []
+	for item in random_items:
+		title, title_hash, content, is_txt, thumb = item
+		
+		# 決定縮圖路徑
+		if is_txt:
+			# .txt 檔案使用 WebP 縮圖路徑
+			thumb_image_url = settings.MEDIA_URL + thumb if thumb else ''
+		else:
+			# 圖片組使用第一張圖的路徑
+			thumb_image = content[0] if content else ''
+			thumb_image_url = media_url + thumb_image if thumb_image else ''
+
+		edu_data.append({
+			'title': title,
+			'thumb_image': thumb_image_url,
+			'title_id': title_hash
+		})
+
+	return JsonResponse({'edus': edu_data})
+
 
 # ==================== 前端模板 ====================
-def health_health_edu(request):
+def breast_edu(request):
+	append_crc32_to_filenames() # 自動重命名衛教文章檔案 (加上 ^hash)
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, 8)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
 	context = {
-		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科/骨科/',
+		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/',
 		'page_obj': page_obj,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 	}
-	return render(request, 'specialty_health/h-health-edu.html', context)
+	return render(request, 'Breast_Care_Center/breast-edu.html', context)
+
+@require_GET
+def breast_edu_detail(request, title_id):
+	"""衛教園地詳細頁面"""
+	all_items, base_path = get_health_edu_items()
+	
+	matched_item = None
+	# 2026-02-08 更新：支援透過檔名中的 Hash 值尋找檔案
+	for title, title_hash, content, is_txt, thumb in all_items:
+		if title_id == title_hash:
+			matched_item = (title, content, is_txt)
+			break
+		# 這裡保留一個保險：如果網址帶的是舊的標題(中文)，也嘗試匹配 (雖然以後會失效)
+		if title_id == title:
+			matched_item = (title, content, is_txt)
+			break
+
+	if not matched_item:
+		raise Http404("找不到該筆衛教資料")
+
+	title, content, is_txt = matched_item
+	
+	if is_txt:
+		# 文字檔模式
+		edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+		filepath = os.path.join(edu_txt_dir, content)
+		parsed = parse_article_txt(filepath)
+		
+		# 找出第一個圖片作為 og_image
+		og_image_path = ""
+		for block in parsed['blocks']:
+			if block['type'] == 'img' and block.get('edu_article_src'):
+				og_image_path = f"/media/{block['edu_article_src']}"
+				break
+
+		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {
+			'title': title,
+			'blocks': parsed['blocks'],
+			'is_txt': True,
+			'images': [], # 確保 JS 變數不會噴錯
+			'og_image': f"{settings.SITE_DOMAIN}{og_image_path}" if og_image_path else '',
+		})
+	else:
+		# 純圖片模式
+		image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+		full_images = [image_media_url + img for img in content]
+
+		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {
+			'title': title,
+			'images': full_images,
+			'is_txt': False,
+			'og_image': f"{settings.SITE_DOMAIN}{full_images[0]}" if full_images else '',
+		})

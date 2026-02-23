@@ -1,0 +1,118 @@
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "Breast_Care_Center/breast-base.html" %}
+
+{% block title %}治療項目 | 長安醫院-全方位乳房中心{% endblock %}
+{% block title_1 %}治療項目 | 長安醫院-全方位乳房中心{% endblock %}
+{% block meta_description %}長安醫院關節治療中心採用最先進且精準的醫療技術，協助有退化性膝關節、髖關節問題的患者走得更快更遠，治療項目包括Mako機器人關節全膝、髖置換術、Mako機器人局部關節置換術、 MIS微創全膝、全髖關節置換術、PRP關節注射療法、玻尿酸注射、微創關節鏡手術等，並且配有全方位術後復健與住院配套，不論是動刀或是不動刀都能給您最佳的治療建議。{% endblock %}
+{% block og_title %}治療項目 | 長安醫院-全方位乳房中心{% endblock %}
+{% block og_description %}長安醫院關節治療中心採用最先進且精準的醫療技術，協助有退化性膝關節、髖關節問題的患者走得更快更遠，治療項目包括Mako機器人關節全膝、髖置換術、Mako機器人局部關節置換術、 MIS微創全膝、全髖關節置換術、PRP關節注射療法、玻尿酸注射、微創關節鏡手術等，並且配有全方位術後復健與住院配套，不論是動刀或是不動刀都能給您最佳的治療建議。{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        {% include 'Breast_Care_Center/v1-header.html' %}
+        <!-- ■■■ Logo、Navbar End ■■■ -->
+        <!-- ■■■ Treatments Start ■■■ -->
+        {% spaceless %}
+        <header class="bg-light d-flex align-items-center justify-content-center" style="height: 300px; margin-top: 60px;background-image: url('/Public/apps/breast_care_center/img/bg-2.jpg');background-size: cover;background-position: center;background-repeat: no-repeat;">
+            <div class="text-center">
+                <h1 class="mb-3">治療項目</h1>
+                <p class="text-muted" style="letter-spacing: 1px;">Treatments</p>
+            </div>
+        </header>
+        <main>
+            <!-- Breadcrumbs -->
+            <div class="breadcrumb-container">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'breast_home' %}">
+                                    <i class="fas fa-home"></i> 首頁
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" id="breadcrumb-active" aria-current="page">治療項目</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- ■■■ Medical Services ■■■ -->
+            <section class="section-padding" style="padding-top: 0px;">
+                <div class="container">
+                    <div class="row">
+                        {% for treat in treatments %}
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'breast_treatment_article' treat.url_name %}">
+                                <div class="card h-100">
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <div class="mb-4 d-inline-block rounded-circle p-1">
+                                            <img src="/media/{{ treat.thumb_img }}" class="rounded-circle shadow-sm" style="width:140px; height:140px; object-fit:cover;" alt="{{ treat.title }}" title="{{ treat.title }}">
+                                        </div>
+                                        <h5 class="card-title text-center">{{ treat.title }}</h5>
+                                        <p class="card-text text-muted">使用高階超音波儀器，適合年輕女性或緻密型乳房的初步篩檢，過程無痛且無輻射，能清晰顯示乳房組織結構。</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <style>
+                .bg-quote-pro {
+                    background: linear-gradient(rgba(44, 44, 44, 0.8), rgba(44, 44, 44, 0.8)), url('/Public/apps/breast_care_center/img/care.jpg');
+                    /* background: linear-gradient(rgba(249, 249, 247, 0.94), rgba(249, 249, 247, 0.94)), url('/Public/apps/breast_care_center/img/everan-1.png'); */
+                    background-size: cover;
+                    background-position: center;
+                    background-attachment: fixed;
+                    background-repeat: no-repeat;
+                    color: #fff;
+                }
+            </style>
+            <section class="section-padding text-center bg-quote-pro">
+                <div class="container">
+                    <h2 class="mb-4">守護健康，從定期檢查開始</h2>
+                    <a href="https://web.everanhospital.com.tw/A006_Online_Booking_1_part/?A006_sename=乳房外科" class="btn btn-primary">立即預約</a>
+                </div>
+            </section>
+            <!-- <section class="section-padding bg-white text-center" style="background-image: url('/Public/apps/breast_care_center/img/bg-1.jpg');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                <div class="container">
+                    <h2 class="mb-4">守護健康，從定期檢查開始</h2>
+                    <a href="https://web.everanhospital.com.tw/A006_Online_Booking_1_part/?A006_sename=乳房外科" class="btn btn-primary">立即預約</a>
+                </div>
+            </section> -->
+        </main>
+        <!-- ■■■ Treatments End ■■■ -->
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

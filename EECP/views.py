@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import io, time, random
 
 from django.contrib import messages
+from Pomelo_test.utils import generate_captcha_image_bytes
 from .forms import ContactForm, send_email_to_client
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ EECP (eecp_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -106,54 +107,18 @@ def eecp(request):
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ EECP (eecp_contact) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 def generate_captcha(request):
-	"""產生新的驗證碼並儲存到 session"""
-	captcha_code = random.randint(1000, 9999)
-	request.session['captcha_answer'] = str(captcha_code)
+	"""產生新的驗證碼並儲存到 session（5位純數字）"""
+	digits = '123456789'
+	captcha_code = ''.join(random.choices(digits, k=5))
+	request.session['captcha_answer'] = captcha_code
 	request.session['captcha_timestamp'] = time.time()  # 記錄產生時間
 	return captcha_code
 
 def generate_captcha_image(request):
-	"""生成干擾驗證碼圖片（PNG 格式）"""
-	code = str(request.session.get('captcha_answer', '1234'))
-
-	# 創建圖片
-	width, height = 160, 60
-	image = Image.new('RGB', (width, height), color=(240, 240, 240))
-	draw = ImageDraw.Draw(image)
-
-	# 嘗試載入字體（若無自訂字體會使用預設）
-	try:
-		font = ImageFont.truetype("arial.ttf", 36)
-	except:
-		font = ImageFont.load_default()
-
-	# 繪製干擾線
-	for _ in range(5):
-		x1, y1 = random.randint(0, width), random.randint(0, height)
-		x2, y2 = random.randint(0, width), random.randint(0, height)
-		draw.line([(x1, y1), (x2, y2)], fill=(random.randint(100, 200),)*3, width=2)
-
-	# 繪製文字（每個字元不同顏色和位置）
-	char_width = width // len(code)
-	for i, char in enumerate(code):
-		x = char_width * i + random.randint(5, 15)
-		y = random.randint(5, 15)
-		color = (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100))
-		draw.text((x, y), char, font=font, fill=color)
-
-	# 添加噪點
-	for _ in range(200):
-		x, y = random.randint(0, width-1), random.randint(0, height-1)
-		image.putpixel((x, y), (random.randint(150, 255),)*3)
-
-	# 模糊處理
-	image = image.filter(ImageFilter.GaussianBlur(radius=0.8))
-
-	# 返回圖片
-	buffer = io.BytesIO()
-	image.save(buffer, 'PNG')
-	buffer.seek(0)
-	return HttpResponse(buffer, content_type='image/png')
+	"""生成干擾驗證碼圖片（PNG 格式，統一第一種風格：網格＋多色點＋多色干擾線）"""
+	code = str(request.session.get('captcha_answer', '12345'))
+	png_bytes = generate_captcha_image_bytes(code)
+	return HttpResponse(png_bytes, content_type='image/png')
 
 # 新增：AJAX 刷新驗證碼端點
 @require_GET

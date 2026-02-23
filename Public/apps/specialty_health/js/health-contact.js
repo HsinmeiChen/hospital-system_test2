@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         captchaTimer.innerHTML = '驗證碼將於 <span id="countdown">1:00</span> 後失效';
         captchaTimer.className = 'form-text text-muted';
         captchaTimer.style.display = ''; // ✅ 顯示提示文字
-        captchaInput.placeholder = '請輸入驗證碼數字';
+        captchaInput.placeholder = '請輸入5位數字驗證碼';
         captchaInput.disabled = false;
         captchaInput.style.cursor = '';
         captchaImage.style.opacity = '1';
@@ -51,11 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.transform = 'rotate(360deg)';
         setTimeout(() => this.style.transform = '', 300);
         
-        fetch("{% url 'refresh_captcha' %}")
+        const refreshUrl = (window.HEALTH_CONTACT_CONFIG && window.HEALTH_CONTACT_CONFIG.refreshCaptchaUrl) || '/specialty_health/api/refresh-captcha/';
+        const imageUrl = (window.HEALTH_CONTACT_CONFIG && window.HEALTH_CONTACT_CONFIG.captchaImageUrl) || '/specialty_health/api/captcha-image/';
+        fetch(refreshUrl)
             .then(response => response.json())
             .then(data => {
                 // 更新圖片 src（加時間戳記避免快取）
-                captchaImage.src = "{% url 'captcha_image' %}?t=" + data.timestamp;
+                captchaImage.src = imageUrl + "?t=" + data.timestamp;
                 captchaInput.value = '';
                 startCountdown(); // 重新啟動倒數（會自動重置所有狀態）
             })

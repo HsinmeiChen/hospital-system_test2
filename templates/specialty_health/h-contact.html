@@ -138,6 +138,12 @@
 
 <!-- ※※※ Extra JS Start ※※※ -->
 {% block extra_js %}
+<script>
+    window.HEALTH_CONTACT_CONFIG = {
+        refreshCaptchaUrl: "{% url 'refresh_captcha' %}",
+        captchaImageUrl: "{% url 'captcha_image' %}"
+    };
+</script>
 <script src="{% static 'apps/specialty_health/js/health-contact.js' %}"></script>
 {% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

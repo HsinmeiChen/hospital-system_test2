@@ -862,7 +862,7 @@
                                             <div class="form-group">
                                                 <label for="quizCaptcha">驗證碼</label>
                                                 <div class="captcha-container">
-                                                    <input type="text" id="quizCaptcha" name="captcha" placeholder="請輸入驗證碼數字" maxlength="4" autocomplete="off" required>
+                                                    <input type="text" id="quizCaptcha" name="captcha" placeholder="請輸入5位數字驗證碼" maxlength="5" autocomplete="off" required>
                                                     <img id="quiz-captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
                                                     <button type="button" id="quiz-refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
                                                         <i class="fas fa-sync-alt"></i>

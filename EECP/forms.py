@@ -65,10 +65,14 @@ class ContactForm(forms.Form):
 	# 新增驗證碼欄位
 	captcha = forms.CharField(
 		label="驗證碼",
-		max_length=4,
+		max_length=5,
+		min_length=5,
 		widget=forms.TextInput(attrs={
-			'placeholder': '請輸入驗證碼數字',
-			'autocomplete': 'off'
+			'placeholder': '請輸入5位數字驗證碼',
+			'autocomplete': 'off',
+			'maxlength': '5',
+			'pattern': '[0-9]{5}',
+			'title': '請輸入5位數字驗證碼'
 		})
 	)
 
@@ -77,8 +81,8 @@ class ContactForm(forms.Form):
 		super().__init__(*args, **kwargs)
 
 	def clean_captcha(self):
-		user_input = self.cleaned_data.get('captcha')
-		if str(user_input) != str(self.captcha_answer):
+		user_input = self.cleaned_data.get('captcha', '').strip()
+		if user_input != str(self.captcha_answer):
 			raise ValidationError("驗證碼錯誤，請重新輸入")
 		return user_input
 
@@ -102,7 +106,7 @@ def send_email_to_client(cleaned_data):
 		subject=subject,
 		body=html_body,
 		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=settings.NOTIFY_EMAIL_RECIPIENTS,
+		to=settings.CONTACT_EMAIL_RECIPIENTS_EECP,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html' # 設定郵件內容為 HTML 格式 (避免 html 標籤被當成純文字顯示)
@@ -146,10 +150,14 @@ class QuizResultForm(forms.Form):
 	# 驗證碼欄位（使用不同名稱避免與預約表單衝突）
 	quiz_captcha = forms.CharField(
 		label="",
-		max_length=4,
+		max_length=5,
+		min_length=5,
 		widget=forms.TextInput(attrs={
-			'placeholder': '請輸入驗證碼數字',
+			'placeholder': '請輸入5位數字驗證碼',
 			'autocomplete': 'off',
+			'maxlength': '5',
+			'pattern': '[0-9]{5}',
+			'title': '請輸入5位數字驗證碼',
 			'id': 'quizCaptcha'  # 明確指定 id
 		})
 	)
@@ -159,8 +167,8 @@ class QuizResultForm(forms.Form):
 		super().__init__(*args, **kwargs)
 
 	def clean_quiz_captcha(self):
-		user_input = self.cleaned_data.get('quiz_captcha')
-		if str(user_input) != str(self.captcha_answer):
+		user_input = self.cleaned_data.get('quiz_captcha', '').strip()
+		if user_input != str(self.captcha_answer):
 			raise ValidationError("驗證碼錯誤，請重新輸入")
 		return user_input
 
@@ -184,7 +192,7 @@ def send_quiz_result_email(cleaned_data):
 		subject=subject,
 		body=html_body,
 		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=settings.NOTIFY_EMAIL_RECIPIENTS,
+		to=settings.CONTACT_EMAIL_RECIPIENTS_EECP,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html'

@@ -59,7 +59,7 @@ class ContactForm(forms.Form):
 		super().__init__(*args, **kwargs)
 
 	def clean_captcha(self):
-		user_input = self.cleaned_data.get('captcha', '').strip()
+		user_input = self.cleaned_data.get('captcha', '').strip()  # 數字不需轉大小寫
 		if user_input != str(self.captcha_answer):
 			raise ValidationError("驗證碼錯誤，請重新輸入")
 		return user_input
@@ -69,10 +69,10 @@ def send_email_to_client(cleaned_data):
 	cleaned_data: ContactForm.cleaned_data
 	寄信到內部收件者，使用 HTML template 格式
     """    
-	subject = f"[長安健康管理中心-客服信件] {cleaned_data['subject']}"
+	subject = f"【長安醫院-全方位乳房中心】客服信件 {cleaned_data['subject']}"
 
 	# 用 Django template 渲染 HTML
-	html_body = render_to_string('specialty_health/h-email-content.html', {
+	html_body = render_to_string('Breast_Care_Center/breast-email-content.html', {
 		'name': cleaned_data['name'],
 		'email': cleaned_data['email'],
 		'phone': cleaned_data.get('phone', ''),
@@ -84,9 +84,8 @@ def send_email_to_client(cleaned_data):
 		subject=subject,
 		body=html_body,
 		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=settings.CONTACT_EMAIL_RECIPIENTS_HEALTH,
+		to=settings.CONTACT_EMAIL_RECIPIENTS_BREAST,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html' # 設定郵件內容為 HTML 格式 (避免 html 標籤被當成純文字顯示)
 	email.send(fail_silently=False)
-

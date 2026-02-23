@@ -1,0 +1,71 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="nav-box">
+        <div class="v-center">
+            <div class="header-item item-left">
+                <div class="logo">
+                    <a href="{% url 'breast_home' %}">
+                        <img src="/media/Breast_Care_Center/breast-care-center.webp" alt="長安醫院-全方位乳房中心">
+                    </a>
+                </div>
+            </div>
+            <!-- menu start here -->
+            <div class="header-item item-center">
+                <div class="menu-overlay"></div>
+                <div class="menu">
+                    <div class="mobile-menu-head">
+                        <div class="go-back"><i class="fa fa-angle-left"></i></div>
+                        <div class="current-menu-title"></div>
+                        <div class="mobile-menu-close">&times;</div>
+                    </div>
+                    <ul class="menu-main">
+                        <li>
+                            <a href="{% url 'breast_about' %}">關於我們</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'breast_doctor_list' %}">醫師陣容</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'breast_treatment_list' %}">治療項目</a>
+                        </li>
+                        <li class="menu-item-has-children">
+                            <a href="#">案例分享 <i class="fas fa-angle-down"></i></a>
+                            <div class="sub-menu single-column-menu">
+                                <ul style="margin-top: 0;">
+                                    <li><a href="{% url 'breast_media' %}">媒體報導</a></li>
+                                    <li><a href="{% url 'breast_film' %}">影音專區</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="{% url 'breast_edu' %}">衛教園地</a>
+                        </li>
+                        <li>
+                            <a href="https://web.everanhospital.com.tw/A006_Online_Booking_1_part/?A006_sename=乳房外科" target="_blank">線上掛號</a>
+                        </li>
+                        <li>
+                            <div class="navbar-btns-div">
+                                <div>
+                                    <a href="{% url 'breast_send_mail' %}" id="emailBtn" title="聯絡我們">                                
+                                        <span><i class="fas fa-envelope"></i> 聯絡我們</span>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="/index/" id="homeBtn" class="btn-icon-circle" title="回長安醫院">
+                                        <i class="fas fa-home"></i>
+                                        <span class="btn-icon-text">長安<br/>醫院</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- mobile menu trigger -->
+                <div class="mobile-menu-trigger">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
