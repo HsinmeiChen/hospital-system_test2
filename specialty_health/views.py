@@ -605,7 +605,7 @@ def health_banner_api(request):
 
 	# 整理排序結果
 	result = []
-	for key in sorted(image_dict.keys(), reverse=True):
+	for key in sorted(image_dict.keys()):
 		images = image_dict[key]
 		pc_img = images.get('pc')
 		mb_img = images.get('mb', pc_img)
@@ -649,7 +649,7 @@ def health_news_home_api(request):
 @require_GET
 def health_film_home_api(request):
 	"""首頁「影音專區」專用 API：取得最新 3 筆影片（同時讀取 video_dir 與 Films_Dir）"""
-	employee_ids = get_active_doctor_ids()
+	employee_ids = get_health_center_doctor_ids()
 	all_videos = []
 
 	# 需要掃描的資料夾（原本的 video_dir 與 新增的 Films_Dir）
@@ -727,7 +727,7 @@ def health_film_home_api(request):
 @require_GET
 def health_media_home_api(request):
 	"""首頁「媒體報導」專用：只回傳最新前 3 筆媒體報導文章"""
-	employee_ids = get_active_doctor_ids()
+	employee_ids = get_health_center_doctor_ids()
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -1054,7 +1054,7 @@ def get_related_articles_api(request, employee_id):
 @require_GET
 def random_health_reports_api(request):
 	"""隨機取得 5 筆媒體報導文章（供 article_detail 側欄卡片用）"""
-	employee_ids = get_active_doctor_ids()
+	employee_ids = get_health_center_doctor_ids()
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -1168,8 +1168,15 @@ def doctor_list(request):
 	'''建立「醫師列表」頁，按科別分類顯示'''
 	doctors_by_department = []
 
-	# 遍歷所有科別路徑
-	for dir_path in dirs:
+	# 健檢中心專用科別路徑（排除骨科）
+	health_dirs = [
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+	]
+
+	# 遍歷健檢中心相關科別路徑（排除骨科）
+	for dir_path in health_dirs:
 		if not os.path.exists(dir_path):
 			continue  # 如果路徑不存在，跳過
 
@@ -1237,8 +1244,15 @@ def doctor_profile(request, employee_id):
 	job_title = None
 	department = None
 
-	# 遍歷所有科別路徑
-	for dir_path in dirs:
+	# 健檢中心專用科別路徑（排除骨科）
+	health_dirs = [
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+	]
+
+	# 遍歷健檢中心相關科別路徑（排除骨科）
+	for dir_path in health_dirs:
 		if not os.path.exists(dir_path):
 			continue  # 如果路徑不存在，跳過
 
@@ -1276,9 +1290,9 @@ def doctor_profile(request, employee_id):
 	og_img_path = f'/media/department/img/{doc_img}'
 	og_image_url = request.build_absolute_uri(og_img_path)
 
-	# === 取得全部醫師清單（用於側邊欄） ===
+	# === 取得全部醫師清單（用於側邊欄，僅健檢中心醫師） ===
 	doctors = []
-	for dir_path in dirs:
+	for dir_path in health_dirs:
 		if not os.path.exists(dir_path):
 			continue
 
@@ -1652,11 +1666,36 @@ def get_active_doctor_ids():
 					continue
 	return ids
 
+def get_health_center_doctor_ids():
+	"""
+	取得健檢中心專用的醫師ID（排除骨科）
+	應用：健檢中心的媒體報導、推薦文章等，不應包含骨科醫師
+	"""
+	health_dirs = [
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+	]
+	
+	ids = []
+	for doc_dir in health_dirs:
+		if not os.path.exists(doc_dir):
+			continue
+		for doc_filename in os.listdir(doc_dir):
+			if doc_filename.endswith('.txt') and "D000" in doc_filename:
+				try:
+					emp_id = doc_filename.rsplit('_', 1)[-1].replace('.txt', '')
+					ids.append(emp_id)
+				except Exception as e:
+					print(f"錯誤解析 {doc_filename}：{e}")
+					continue
+	return ids
+
 # 後: 媒體報導主頁 - AJAX 載入分頁 (只更新文章區塊，不重新刷頁)
 @require_GET
 def health_media_api(request):
-	""" Ajax 回傳 doctor-list 中骨科醫師的所有文章（支援分頁）"""
-	employee_ids = get_active_doctor_ids() # 快取有效醫師
+	""" Ajax 回傳健檢中心醫師的所有文章（支援分頁）"""
+	employee_ids = get_health_center_doctor_ids() # 健檢中心專用醫師ID（排除骨科）
 	all_articles = []
 
 	for post_filename in os.listdir(article_dir):
@@ -1702,8 +1741,8 @@ def health_media_api(request):
 def health_media(request):
 	''' 媒體報導主頁 '''
 	all_articles = []
-	# 直接使用共用函式取得所有在 doctor-list 的 employee_id（會掃描 `dirs`）
-	employee_ids = get_active_doctor_ids()
+	# 使用健檢中心專用函式取得醫師ID（排除骨科）
+	employee_ids = get_health_center_doctor_ids()
 
 	# Step 2：從 media/news_2 找出所有對應醫師的文章
 	for post_filename in os.listdir(article_dir):
@@ -1768,12 +1807,12 @@ def health_media(request):
 
 # ==== 若單位有增刪醫師，要重啟程式，再刷新網頁 ====
 
-# 後: 影音專區 - 回傳骨科醫師影音專區影片（支援 ajax 分頁）
+# 後: 影音專區 - 回傳健檢中心影音專區影片（支援 ajax 分頁）
 @require_GET
 def health_film_api(request):
 	"""Ajax 回傳影音專區影片（同時掃描 video_dir 與 Films_Dir，video_dir 仍以 doctor-list 過濾）"""
 	try:
-		employee_ids = get_active_doctor_ids()
+		employee_ids = get_health_center_doctor_ids()
 		all_videos = []
 
 		# 同時掃描兩個資料夾：原本的 video_dir（有醫師過濾）與新增的 Films_Dir（不過濾）

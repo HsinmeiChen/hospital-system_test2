@@ -674,4 +674,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 啟動預約表單驗證碼倒數計時
     startCountdown();
+    
+    // EECP 影片點擊播放
+    const eecpVideoPlayer = document.querySelector('.youtube-player[data-id="QdQPjEKfsoI"]');
+    if (eecpVideoPlayer) {
+        eecpVideoPlayer.addEventListener('click', function() {
+            const videoId = this.dataset.id;
+            if (videoId) {
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('src', 'https://www.youtube.com/embed/' + videoId + '?rel=0&autoplay=1');
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allowfullscreen', '1');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                iframe.setAttribute('loading', 'lazy');
+                iframe.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100;';
+                
+                // 移除圖片和播放按鈕，替換為 iframe
+                this.innerHTML = '';
+                this.appendChild(iframe);
+            }
+        });
+    }
 });

@@ -1601,7 +1601,16 @@ def index(request):
 	i = 0
 	for d in in_n_data:
 		if (".txt" in d):
-			in_news_lists.append(d.split("_"))
+			# 處理檔名：移除 .txt 和 hash 部分（^627eded3）
+			name_without_ext = d.replace(".txt", "")
+			if '^' in name_without_ext:
+				# 分離檔名主體和 hash key
+				body_part, hash_key = name_without_ext.split('^', 1)
+				parts = body_part.split("_")
+			else:
+				parts = name_without_ext.split("_")
+			
+			in_news_lists.append(parts)
 			in_news_lists[i].insert(0, "D00" + str(i))
 			i += 1
 
@@ -1834,7 +1843,16 @@ def new_news(request):
 	# 將檔案名稱進行文字切割並篩選檔案類型分類 (例如.txt)
 	for d in n_data:
 		if (".txt" in d):
-			news_lists.append(d.split("_")) #切割後的檔名 (為了要分別放到 table 的欄位中)
+			# 處理檔名：移除 .txt 和 hash 部分（^627eded3）
+			name_without_ext = d.replace(".txt", "")
+			if '^' in name_without_ext:
+				# 分離檔名主體和 hash key
+				body_part, hash_key = name_without_ext.split('^', 1)
+				parts = body_part.split("_")
+			else:
+				parts = name_without_ext.split("_")
+			
+			news_lists.append(parts) #切割後的檔名 (為了要分別放到 table 的欄位中)
 			news_lists[i].insert(0, "D00" + str(i)) #因 modal 需要取到 ID，但因 txt 的檔名沒有唯一值，所以需要幫他每筆資料新增流水號，讓 modal 可以取 ID 帶資料
 			i += 1
 
