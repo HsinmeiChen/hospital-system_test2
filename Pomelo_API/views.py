@@ -2394,6 +2394,8 @@ def A001_department_part(request):
 		doctor_list7 = []
 		# 醫師員編
 		doctor_list8 = []
+		# 科室介紹內容
+		introduction_list = []
 
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
 		# files = os.listdir(path)
