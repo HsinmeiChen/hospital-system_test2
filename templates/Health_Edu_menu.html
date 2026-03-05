@@ -62,9 +62,13 @@
 		if(text=="") localStorage.removeItem('open_collapse')
 		
 		text_split=text.split(/[-?]/)
+		main_item=text_split[1]
 		sub_item=text_split[2]
 		console.log(sub_item)
-		$(`a[href*='${sub_item}']`).addClass('activeed collapse show')
+		// 使用精確匹配，避免誤匹配到其他項目（例如點擊「兒科」時不會誤匹配「婦科」）
+		$(`a[href='sub-${main_item}-${sub_item}?page=1']`).addClass('activeed')
+		// 展開對應的 collapse
+		$(`a[href='sub-${main_item}-${sub_item}?page=1']`).closest('.collapse').addClass('show')
 
 
 		open_collapse=localStorage.getItem('open_collapse')
