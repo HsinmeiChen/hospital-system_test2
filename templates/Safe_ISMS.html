@@ -1,96 +1,55 @@
-<!doctype html>
-<html lang="zh-TW">
+{% extends "One_Page_base.html" %}
 
-<head>
-	{% include 'Public_head.html' %}
-	<title>資通安全政策聲明_長安醫院</title>
-	{% include 'GA_head.html' %}
-</head>
+{% load static %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
+{% block title %}資通安全政策聲明 | {{ block.super }}{% endblock %}
+{% block og_title %}資通安全政策聲明 | {{ block.super }}{% endblock %}
 
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
+{% block guide_content %}
+<header id="content_h">
+    <h2 class="c-onsale-heading">資通安全政策聲明</h2>
+</header>
 
-		<!-- ======= navbar 導航列 ======= -->
-		{% include 'header.html' %}
-		<!-- ======= navbar 導航列 End ======= -->
+<div class="l-main-content__body">
+    <div class="row">
+        <div class="col-12">
+            <div class="p-safe-isms__content">
+                <p>為了使本院ISMS（資訊安全管理系統）能貫徹執行、有效運作、監督管理、持續進行，維護本院重要資訊系統的機密性、完整性與可用性，特頒布資通安全管理政策。 </p>
+                <p>本政策旨在讓同仁於日常工作時有一明確指導原則，所有同仁皆有義務積極參與推動資通安全管理政策，以確保本院所有職員、資料、資訊系統、設備及網路之安全維運，並期許全體同仁均能了解、實施與維持，以達資訊持續營運的目標。有關同仁在使用一般資訊設備及各項網路服務時之規範，請詳閱「ISMS-W-001一般資訊設備安全管理作業標準書」。</p>
 
-		<!-- ======= main-content 主要區 ======= -->
-		<div>
-			<main class="pb-3">
-				<div class="container py-1">			
-					<!-- ※※※ 內容區 ※※※ -->
-					<div>
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item active" aria-current="page">資通安全政策聲明</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
-									<section id="content_h">
-										<div class="onsale_heading">資通安全政策聲明</div>
-										<hr class="my-2">
-									</section>
-									<!-- 細節 -->
-									<section id="content_body">
-										<div class="row">
-											<div class="col-12">
-												<div class="safe_content p-3 text-secondary">
-													<p>為了使本院ISMS（資訊安全管理系統）能貫徹執行、有效運作、監督管理、持續進行，維護本院重要資訊系統的機密性、完整性與可用性，特頒布資通安全管理政策。 </p>
+                <div class="p-safe-isms__slogan-group">
+                    <p>「落實資通安全，強化服務品質」；</p>
+                    <p>「加強資安訓練，確保持續營運」；</p>
+                    <p>「做好緊急應變，迅速災害復原」。</p>
+                </div>
 
-													<p>本政策旨在讓同仁於日常工作時有一明確指導原則，所有同仁皆有義務積極參與推動資通安全管理政策，以確保本院所有職員、資料、資訊系統、設備及網路之安全維運，並期許全體同仁均能了解、實施與維持，以達資訊持續營運的目標。有關同仁在使用一般資訊設備及各項網路服務時之規範，請詳閱「ISMS-W-001一般資訊設備安全管理作業標準書」。</p>
+                <h4>一、落實資通安全，強化服務品質</h4>
+                <p>由全體同仁貫徹執行ISMS，所有資訊作業相關措施，應確保業務資料之機密性、完整性及可用性，免於因外在之威脅或內部人員不當的管理，遭受洩密、破壞或遺失等風險，選擇適切的保護措施，將風險降至可接受程度持續進行監控、審查及稽核資訊安全管理制度的工作，強化服務品質，提升服務水準。</p>
+                
+                <h4>二、加強資安訓練，確保持續營運</h4>
+                <p>督導全體同仁落實資通安全管理工作，每年持續進行適當的資通安全教育訓練，建立「資通安全，人人有責」的觀念，促使同仁瞭解資通安全之重要性，促其遵守資通安全規定，藉此提高資通安全認知及緊急應變能力，降低資通安全風險，達持續營運之目標。</p>
 
-													<div class="safe_slogan">
-														<p>「落實資通安全，強化服務品質」；</p>
-														<p>「加強資安訓練，確保持續營運」；</p>
-														<p>「做好緊急應變，迅速災害復原」。</p>
-													</div>
+                <h4>三、做好緊急應變，迅速災害復原</h4>
+                <p>訂定重要資訊資產及關鍵性業務之緊急應變計畫及災害復原計畫，並定期執行各項緊急應變流程的演練，以確保資訊系統失效或重大災害事件發生時，能迅速復原，確保關鍵性業務持續運作，並將損失降至最低。</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-													
-													<h4>一、落實資通安全，強化服務品質</h4>
-													
-													<p>由全體同仁貫徹執行ISMS，所有資訊作業相關措施，應確保業務資料之機密性、完整性及可用性，免於因外在之威脅或內部人員不當的管理，遭受洩密、破壞或遺失等風險，選擇適切的保護措施，將風險降至可接受程度持續進行監控、審查及稽核資訊安全管理制度的工作，強化服務品質，提升服務水準。</p>
-													
-													<h4>二、加強資安訓練，確保持續營運</h4>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="資通安全政策聲明" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->
 
-													<p>督導全體同仁落實資通安全管理工作，每年持續進行適當的資通安全教育訓練，建立「資通安全，人人有責」的觀念，促使同仁瞭解資通安全之重要性，促其遵守資通安全規定，藉此提高資通安全認知及緊急應變能力，降低資通安全風險，達持續營運之目標。</p>
-												
-													<h4>三、做好緊急應變，迅速災害復原</h4>
+<!-- ※※※ Sub Extra CSS Start ※※※ -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-safe-isms.css' %}">
+{% endblock %}
+<!-- ※※※ Sub Extra CSS End ※※※ -->
 
-													<p>訂定重要資訊資產及關鍵性業務之緊急應變計畫及災害復原計畫，並定期執行各項緊急應變流程的演練，以確保資訊系統失效或重大災害事件發生時，能迅速復原，確保關鍵性業務持續運作，並將損失降至最低。</p>
-												</div>
-											</div>
-										</div> 
-									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 內容區 End ※※※ -->
-				</div>
-			</main>
-		</div>
-		<!-- ======= main 主要區 End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
-
-	<!-- ======= JS 套件區 ======= -->
-	<!-- ======= JS 套件區 End ======= -->
-
-</body>
-
-</html>
+<!-- ※※※ Sub Extra JS Start ※※※ -->
+{% block sub_extra_js %}
+{% endblock %}
+<!-- ※※※ Sub Extra JS End ※※※ -->

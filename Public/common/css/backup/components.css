@@ -1,0 +1,122 @@
+/* ==========================================================================
+   共用組件 (Common Components)
+   ========================================================================== */
+
+/* --- 圖片容器與懸停效果 --- */
+.out_divimg {
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+}
+
+.Img_div {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.Img_div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.48s ease-in-out;
+    transform: scale(1.1);
+}
+
+.youtube_page:hover .Img_div img {
+    transform: scale(1.1) !important;
+}
+
+.media_new:hover .Img_div img,
+.slide_card:hover .Img_div img {
+    transform: scale(1.2);
+}
+
+/* --- 日期與圖示 --- */
+.text-date {
+    font-size: var(--font-size-sm);
+    color: #888;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.7;
+}
+
+.text-date > small:before {
+    margin-right: var(--spacing-xs);
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; 
+    content: "\f017";
+}
+
+/* --- YouTube 播放器 --- */
+.youtube-player {
+    position: relative;
+    padding-bottom: 56.25%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin: var(--spacing-xs);
+}
+
+.youtube-player iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background: transparent;
+}
+
+.youtube-player img {
+    object-fit: cover;
+    display: block;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    height: auto;
+    cursor: pointer;
+    transition: 0.4s all;
+}
+
+.youtube-player img:hover {
+    filter: brightness(75%);
+}
+
+.youtube-player .play {
+    height: 48px;
+    width: 68px;
+    left: 50%;
+    top: 50%;
+    margin-left: -34px;
+    margin-top: -24px;
+    position: absolute;
+    background: url('https://i.ibb.co/j3jcJKv/yt.png') no-repeat;
+    cursor: pointer;
+}
+
+.embed-container { 
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe, 
+.embed-container object, 
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

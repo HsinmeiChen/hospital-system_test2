@@ -1,12 +1,15 @@
 from django.conf import settings # 取得專案 (setting.py) 內的變數跟設定
 from django.shortcuts import render, Http404, redirect # 網頁渲染至 HTML 頁面 / 例外類型 用來找不到資源時，丟出 404 頁面 / 重導向 (302、303)，常用於 POST 成功後的 PRG（避免重複提交）
-from django.http import JsonResponse, HttpResponse # 回傳不同類型的 HTTP 回應
+from django.http import JsonResponse, HttpResponse, FileResponse # 回傳不同類型的 HTTP 回應
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger # 用於分頁並處理例外情況
 from collections import defaultdict, OrderedDict # 用於分群或累加資料 / 用於需要穩定排序的回傳資料
 from django.utils.html import escape # 用於轉義 HTML 字元，避免 XSS 攻擊
 from django.views.decorators.http import require_GET # 限制只能用 GET 方法存取的裝飾器
+import mimetypes # 用於偵測檔案的 MIME 類型
+
 from PIL import Image, ImageDraw, ImageFont, ImageFilter # 圖片壓縮、轉檔、裁切 (將圖片轉成 WebP 或改變品質/尺寸)
 import io # 用於處理圖片的記憶體檔案流
+import fitz  # PyMuPDF - 用於將 PDF 轉換成圖片（不需要外部 Poppler 依賴）
 
 from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
 
@@ -174,7 +177,7 @@ def send_mail(request):
 			return render(request, "specialty_health/h-contact.html", {
 				"form": form,
 				"captcha_answer": request.session.get('captcha_answer'),
-				'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+				'og_image': '',
 				'ga_id': '',
 				'gtm_id': ''
 			})
@@ -203,7 +206,7 @@ def send_mail(request):
 		return render(request, "specialty_health/h-contact.html", {
 			"form": form,
 			"captcha_answer": request.session.get('captcha_answer'),
-			'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+			'og_image': '',
 			'ga_id': '',
 			'gtm_id': ''
 		})
@@ -214,7 +217,7 @@ def send_mail(request):
 	return render(request, "specialty_health/h-contact.html", {
 		"form": form,
 		"captcha_answer": request.session.get('captcha_answer'),
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -319,6 +322,86 @@ def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
 	return os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
 
+
+# === PDF 自動轉 WebP 圖片（使用 PyMuPDF，無需外部依賴）===
+def convert_pdf_to_webp(source_dir, target_dir, pdf_filename, quality=100):
+	"""
+	將 PDF 檔案自動轉換為 WebP 圖片（支援多頁 PDF）
+	使用 PyMuPDF (fitz)，不需要安裝 Poppler
+	- source_dir: PDF 來源資料夾
+	- target_dir: WebP 目標儲存資料夾
+	- pdf_filename: PDF 檔名（如 '2025-health-project.pdf'）
+	- quality: 壓縮品質 (預設 100 %)
+	回傳：WebP 圖片相對路徑列表
+	"""
+	os.makedirs(target_dir, exist_ok=True)
+	pdf_path = os.path.join(source_dir, pdf_filename)
+	
+	if not os.path.exists(pdf_path):
+		print(f"[錯誤] 找不到 PDF 檔案：{pdf_path}")
+		return []
+	
+	# PDF 檔名（去除副檔名）
+	pdf_basename = os.path.splitext(pdf_filename)[0]
+	
+	# 使用檔案鎖避免重複轉換
+	lock_path = os.path.join(target_dir, f"{pdf_basename}.lock")
+	with FileLock(lock_path):
+		# 檢查是否已經轉換過（檢查第一頁是否存在）
+		first_page_webp = os.path.join(target_dir, f"{pdf_basename}-page1.webp")
+		
+		newly_converted = False
+		if not os.path.exists(first_page_webp):
+			newly_converted = True
+			try:
+				print(f"[PDF轉換] 開始轉換：{pdf_filename}")
+				
+				# 開啟 PDF 檔案
+				pdf_document = fitz.open(pdf_path)
+				page_count = pdf_document.page_count
+				
+				# 逐頁轉換並儲存為 WebP
+				for page_num in range(page_count):
+					page = pdf_document[page_num]
+					
+					# 設定縮放比例 (zoom=2 相當於 200 DPI)
+					mat = fitz.Matrix(2, 2)  # 2倍縮放 = 高清晰度
+					pix = page.get_pixmap(matrix=mat)
+					
+					# 將 Pixmap 轉換為 PIL Image
+					img_data = pix.tobytes("png")
+					image = Image.open(io.BytesIO(img_data))
+					
+					# 儲存為 WebP 格式
+					webp_filename = f"{pdf_basename}-page{page_num + 1}.webp"
+					webp_path = os.path.join(target_dir, webp_filename)
+					image.save(webp_path, 'WEBP', quality=quality)
+					print(f"[PDF轉換] 已儲存第 {page_num + 1} 頁：{webp_filename}")
+				
+				pdf_document.close()
+				print(f"[PDF轉換] 完成，共 {page_count} 頁")
+			except Exception as e:
+				print(f"[錯誤] PDF 轉換失敗：{str(e)}")
+				traceback.print_exc()
+				return []
+	
+	# 回傳所有已轉換的 WebP 圖片相對路徑
+	webp_files = []
+	page = 1
+	while True:
+		webp_filename = f"{pdf_basename}-page{page}.webp"
+		webp_path = os.path.join(target_dir, webp_filename)
+		if os.path.exists(webp_path):
+			relative_path = os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
+			webp_files.append(relative_path)
+			page += 1
+		else:
+			break
+	
+	return webp_files, newly_converted
+
+
+
 # === 工具：處理包在段落中的 <img1> 與 <yt> 轉換 html 邏輯 【用於 parse_article_txt() 呼叫】 ===
 def render_custom_tags(line, img_url):
 	'''
@@ -371,7 +454,7 @@ def parse_article_txt(filepath):
 	news_image = ""
 	item_article_image = ""
 	content_blocks = []
-	pdf_url = ""  # 儲存 PDF 連結
+
 
 	for line in lines:
 		line = line.strip()
@@ -382,19 +465,58 @@ def parse_article_txt(filepath):
 			# 治療項目縮圖 (轉 webp 格式)
 			thumb_img = convert_item_icon_image_to_webp(org_thumb_img)
 		
-		# ← 新增：處理 PDF 連結
+		# ← 新增：處理 PDF 自動轉 WebP 圖片
 		elif line.startswith('<openpdf>'):
-			pdf_filename = line.replace('<openpdf>', '').strip()
-			# ✅ 僅接受檔名，不接受完整 URL
-			# 檔案必須放在指定資料夾
-			pdf_path = os.path.join(health_item_dir, 'item-pdfs', pdf_filename)
+			pdf_name = line.replace('<openpdf>', '').strip()
 			
-			if os.path.exists(pdf_path) and pdf_filename.endswith('.pdf'):
-				# 轉換為 media URL
-				pdf_url = f"/media/specialty_health/h-articles/item-pdfs/{pdf_filename}"
+			# 根據 txt 來源路徑自動推導 PDF 來源資料夾與目標資料夾
+			if 'h-news' in filepath:
+				source_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-news', 'news-pdfs')
+				target_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-news', 'news-pdfs', 'img_webp_pdf')
+			elif 'h-articles' in filepath:
+				source_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-articles', 'item-pdfs')
+				target_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-articles', 'item-pdfs', 'img_webp_pdf')
 			else:
-				print(f"⚠️ PDF 檔案不存在：{pdf_filename}")
-				pdf_url = ""
+				source_dir = os.path.join(settings.MEDIA_ROOT)
+				target_dir = os.path.join(source_dir, 'img_webp_pdf')
+			
+			# 自動將 PDF 轉換為 WebP 圖片
+			webp_images, is_new = convert_pdf_to_webp(source_dir, target_dir, pdf_name, quality=100)
+			
+			if is_new:
+				print(f"[檔案下載] 已新增下載連結：{pdf_name}")
+				print(f"[PDF轉換] 已將 {pdf_name} 轉換為 {len(webp_images)} 張 WebP 圖片")
+
+			# 將每張 WebP 圖片按順序加入內容區塊（page1, page2, page3...）
+			for webp_path in webp_images:
+				content_blocks.append({
+					'type': 'img',  # 使用 'img' 與模板的 {% elif block.type == 'img' %} 匹配
+					'class': 'a-img',
+					'item_article_src': webp_path  # 使用相對路徑，模板會自動加上 /media/
+				})
+			
+			continue
+
+		# ← 新增：處理 PDF 下載連結
+		elif line.startswith('<viewpdf>'):
+			download_filename = line.replace('<viewpdf>', '').strip()
+			
+			# 根據 txt 來源路徑推導下載類型
+			if 'h-news' in filepath:
+				download_type = 'news'
+			elif 'h-articles' in filepath:
+				download_type = 'item'
+			else:
+				download_type = 'general'
+			
+			# 加入下載按鈕區塊
+			content_blocks.append({
+				'type': 'download',
+				'class': 'download-section',
+				'filename': download_filename,
+				'download_type': download_type
+			})
+			continue
 
 		# (2) 處理主要圖片
 		elif line.startswith('<img1>'):
@@ -471,14 +593,6 @@ def parse_article_txt(filepath):
 				'class': 'list-answer',
 				'text': line.replace('<li-a>', '').strip()
 			})
-		# elif line.startswith('<row-2>'):
-		# 	col_text = line.replace('<row-2>', '').strip()
-		# 	col_text = render_custom_tags(col_text, img_url=img_url)
-		# 	content_blocks.append({
-		# 		'type': 'div',
-		# 		'class': 'col-flex',
-		# 		'text': col_text
-		# 	})
 		elif line.startswith('<t>'):
 			# 過濾整段含有「含有<a>的預約掛號」的 <t> 標籤
 			if 'news_2' in filepath:  # 指定檔案來源是 news_2 才進行不顯示的程式
@@ -512,8 +626,6 @@ def parse_article_txt(filepath):
 	for block in content_blocks:
 		if block['type'] == 'p':
 			summary = block['text'][:50]
-			# 移除段落中的 HTML 標籤
-			summary = re.sub(r'<[^>]*>', '', summary)
 			break
 
 	return {
@@ -524,7 +636,6 @@ def parse_article_txt(filepath):
 		'item_a_title': item_a_title,
 		'summary': summary,
 		'blocks': content_blocks,
-		'pdf_url': pdf_url,  # 回傳 PDF 連結
 	}
 
 
@@ -728,46 +839,110 @@ def health_media_home_api(request):
 	return JsonResponse({'articles': latest_articles})
 
 
+# === 健檢專案：分群組處理 (按序號 Txxx 整合) ===
+def get_grouped_treatments():
+	"""
+	將健檢專案按序號 (Txxx) 進行分組。
+	如果一個序號下有多個檔案，則歸類為一個主專案，主專案名稱取自檔案前綴。
+	"""
+	all_files = os.listdir(health_item_dir)
+	serial_map = OrderedDict()
+	
+	# 1. 蒐集並分群
+	for filename in all_files:
+		if filename.endswith('.txt') and "item" in filename:
+			match = re.search(r'T(\d+)', filename)
+			if match:
+				serial = match.group(0) # e.g. T001, T002
+				if serial not in serial_map:
+					serial_map[serial] = []
+				serial_map[serial].append(filename)
+				
+	grouped_results = []
+	
+	# 2. 處理每一群
+	for serial, files in serial_map.items():
+		if len(files) == 1:
+			# 單一專案：維持原樣
+			filename = files[0]
+			parts = filename.rsplit('_', 3)
+			title = parts[2]
+			url_name = parts[3].replace('.txt', '')
+			
+			item_path = os.path.join(health_item_dir, filename)
+			item_parsed = parse_article_txt(item_path)
+			
+			grouped_results.append({
+				'serial': serial,
+				'title': title,
+				'url_name': url_name,
+				'thumb_img': item_parsed['thumb_img'],
+				'order': int(serial[1:]),
+				'is_group': False,
+				'children': []
+			})
+		else:
+			# 多個專案：整合成一個主專案
+			children = []
+			main_title = ""
+			main_thumb = ""
+			
+			# 子項目排序（按檔名）
+			files.sort()
+			
+			for i, filename in enumerate(files):
+				parts = filename.rsplit('_', 3)
+				full_title = parts[2]
+				url_name = parts[3].replace('.txt', '')
+				
+				# 拆分主標題與子標題 (e.g. 公教人員-基礎專案)
+				if '-' in full_title:
+					prefix, sub = full_title.split('-', 1)
+					if not main_title: main_title = f"{prefix}"
+					sub_title = sub
+				else:
+					if not main_title: main_title = full_title
+					sub_title = full_title
+					
+				item_path = os.path.join(health_item_dir, filename)
+				item_parsed = parse_article_txt(item_path)
+				
+				if i == 0:
+					main_thumb = item_parsed['thumb_img']
+					
+				children.append({
+					'title': sub_title,
+					'url_name': url_name,
+				})
+				
+			grouped_results.append({
+				'serial': serial,
+				'title': main_title,
+				'url_name': children[0]['url_name'], # 點擊主專案導向第一個子專案
+				'thumb_img': main_thumb,
+				'order': int(serial[1:]),
+				'is_group': True,
+				'children': children
+			})
+			
+	# 按序號排序
+	grouped_results.sort(key=lambda x: x['order'])
+	return grouped_results
+
+
 # ======================= 前端模板 ======================
 def health_main(request):
-	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
-
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and ("item" in item_filename):
-			try:
-				match = re.search(r'T(\d+)', item_filename)
-				order_num = int(match.group(1)) if match else 9999
-
-				parts = item_filename.rsplit('_', 3)
-				item_title = parts[2]
-				url_name = parts[3].replace('.txt', '')
-
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
-
-				treatments.append({
-					'title': item_title,
-					'url_name': url_name,
-					'thumb_img': item_parsed['thumb_img'],
-					'order': order_num,
-					'pdf_url': item_parsed.get('pdf_url', '')
-				})
-			except Exception as e:
-				print(f"[首頁健檢專案解析失敗] {item_filename}：{e}")
-				continue
-
-	treatments.sort(key=lambda x: x['order'])
+	treatments = get_grouped_treatments() # 使用整合後的列表
 	return render(request, "specialty_health/health-index.html", {
 		'treatments': treatments,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+		'og_image': '',
 	})
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (ort_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 def health_about(request):
 	return render(request, "specialty_health/h-about-us.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+		'og_image': '',
 	})
 
 
@@ -1194,8 +1369,7 @@ def doctor_list(request):
 
 	return render(request, 'specialty_health/h-doctor-list.html', {
 		'doctors_by_department': doctors_by_department,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
-		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
+		'og_image': '',
 		'ga_id': '', 
 		'gtm_id': ''
 	})
@@ -1253,7 +1427,7 @@ def doctor_profile(request, employee_id):
 	doc_img = parsed['image']
 	webp_img = convert_doctor_image_to_webp(doc_img) if doc_img else ''
 	og_img_path = f'/media/department/img/{doc_img}'
-	og_image_url = request.build_absolute_uri(og_img_path)
+	og_image_url = f"{settings.SITE_DOMAIN}{og_img_path}"
 
 	# === 取得全部醫師清單（用於側邊欄，僅健檢中心醫師） ===
 	doctors = []
@@ -1342,8 +1516,7 @@ def article_share_view(request, get_filename):
 		'image': parsed['image'],
 		'summary': parsed['summary'],
 		'tags': extract_tags_from_blocks(parsed['blocks']),
-		# 'og_image': f"/media/news_2/img/{parsed['image']}",
-		'og_image': request.build_absolute_uri(f"/media/news_2/img/{parsed['og_img']}")
+		'og_image': f"{settings.SITE_DOMAIN}/media/news_2/img/{parsed['og_img']}",
 	}
 	return render(request, 'specialty_health/h-article-detail.html', context)
 
@@ -1372,78 +1545,27 @@ def convert_item_article_image_to_webp(original_filename):
 	target_dir = os.path.join(source_dir, 'img_webp_article')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
-# 後:治療項目文章頁-AJAX 載入側邊選單
+# 後:健檢專案文章頁-AJAX 載入側邊選單
 @require_GET
-def treatment_sidenav_api(request):
+def health_treatment_sidenav_api(request):
 	'''「健檢專案文章頁-AJAX 載入側邊選單 / 可切換文章頁面」'''
-	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得(如果放在全域變數，只會在伺服器啟動時執行一次，之後異動檔案不會更新--因 ajaxao6)
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and "item" in item_filename:
-			try:
-				parts = item_filename.rsplit('_', 3)
-				title = parts[2]
-				url_name = parts[3].replace('.txt', '')
-
-				# ✅ 解析 txt 內容，取得 pdf_url
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
-
-				treatments.append({
-					'title': escape(title),
-					'url_name': url_name,
-					'pdf_url': item_parsed.get('pdf_url', '')
-				})
-			except Exception as e:
-				continue
+	treatments = get_grouped_treatments()
 	return JsonResponse({'treatments': treatments})
 
 
 # =================== 前端模板 ===================
-def treatment_list(request):
+def health_treatment_list(request):
 	'''建立「健檢專案」頁'''
-	treatments = []
-	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
-
-	for item_filename in ort_t_dirs:
-		if item_filename.endswith('.txt') and ("item" in item_filename):
-			try:
-				# 抓出 T001 裡面的數字 → 1
-				match = re.search(r'T(\d+)', item_filename)
-				order_num = int(match.group(1)) if match else 9999  # 沒抓到就放後面
-
-				parts = item_filename.rsplit('_', 3) # 從右起切 2 次；parts = ['T001', 'item', '髖關節置換', 'mako01.txt']
-				item_title = parts[2] # 選索引值位於 2；item_title = "髖關節置換"
-				url_name = parts[3].replace('.txt', '') # 選索引值位於 3；url_name = "mako01"
-
-				# 共用 parse_article_txt 這個函式解析 txt 內容 (函式已有 with open，所以根據參數 filepath 提供檔案路徑)
-				item_path = os.path.join(health_item_dir, item_filename)
-				item_parsed = parse_article_txt(item_path)
-
-				treatments.append({
-					'title': item_title,
-					'url_name': url_name,
-					'thumb_img': item_parsed['thumb_img'],
-					'order': order_num,  # 排序用的欄位
-					'pdf_url': item_parsed.get('pdf_url', '')
-				})
-			except Exception as e:
-				print(f"錯誤解析 {item_filename}：{e}")
-				continue
-
-	# 根據 'order' 由小到大排序
-	treatments.sort(key=lambda x: x['order'])
-	# treatments.reverse() # 若需要由大到小排序，請取消註解
+	treatments = get_grouped_treatments()
 			
 	return render(request, 'specialty_health/h-item-list.html', {
 		'treatments': treatments,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
-		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
+		'og_image': '',
 		'ga_id': '', 
 		'gtm_id': ''
 	})
 
-def treatment_article(request, url_name):
+def health_treatment_article(request, url_name):
 	'''「健檢專案-文章頁」'''
 	ort_t_dirs = os.listdir(health_item_dir)  # ← 每次 request 重新取得
 	matched_item_file = None
@@ -1462,6 +1584,23 @@ def treatment_article(request, url_name):
 	item_path = os.path.join(health_item_dir, matched_item_file)
 	item_parsed = parse_article_txt(item_path)
 
+	# 幫下載區塊加上序號 (若有多個 PDF，從第 2 個檔案才開始顯示序號)
+	download_blocks = [b for b in item_parsed['blocks'] if b['type'] == 'download']
+	if len(download_blocks) > 1:
+		for i, b in enumerate(download_blocks, 1):
+			if i > 1:
+				b['serial'] = i
+
+	# --- 新增：取得同群組的子專案（用於頂部切換按鈕） ---
+	grouped = get_grouped_treatments()
+	siblings = []
+	for group in grouped:
+		if group['is_group']:
+			if any(child['url_name'] == url_name for child in group['children']):
+				# 找到該群組，過濾掉當前專案
+				siblings = [child for child in group['children'] if child['url_name'] != url_name]
+				break
+
 	context = {
 		'item_title': item_name, # 標題取自檔名
 		'item_a_title': item_parsed['item_a_title'], # 標題取自 txt 內容
@@ -1469,8 +1608,8 @@ def treatment_article(request, url_name):
 		'image': item_parsed['image'],
 		'item_summary': item_parsed['summary'],
 		'tags': extract_tags_from_blocks(item_parsed['blocks']),
-		# 'og_image': f"/media/news_2/img/{parsed['image']}",
-		'og_image': request.build_absolute_uri(f"/media/specialty_health/h-articles/h-icon/{item_parsed['og_img_item']}")
+		'siblings': siblings, # 傳遞兄弟專案
+		'og_image': f"{settings.SITE_DOMAIN}/media/specialty_health/h-articles/h-icon/{item_parsed['og_img_item']}"
 	}
 	return render(request, 'specialty_health/h-item-article-detail.html', context)
 
@@ -1557,7 +1696,7 @@ def health_news_list_view(request):
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
 	# 新檔名格式不需 append_crc32_to_filenames()
 	return render(request, "specialty_health/h-health-news.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': '',
 		# "meta_title": "",
 		# "meta_summary": ""
 	})
@@ -1586,12 +1725,20 @@ def health_news_detail_view(request, key):
 		title = sub_parts[2] if len(sub_parts) >= 3 else '未命名'
 		date = sub_parts[3] if len(sub_parts) >= 4 else ''
 
+		# 幫下載區塊加上序號 (若有多個 PDF，從第 2 個檔案才開始顯示序號)
+		download_blocks = [b for b in parsed_data['blocks'] if b.get('type') == 'download']
+		if len(download_blocks) > 1:
+			for i, b in enumerate(download_blocks, 1):
+				if i > 1:
+					b['serial'] = i
+
 		return render(request, 'specialty_health/h-news-detail.html', {
 			'data': {
 				**parsed_data,
 				'title': title
 			},
-			'date': date
+			'date': date,
+			'og_image': '',
 		})
 
 	except Exception as e:
@@ -1760,7 +1907,7 @@ def health_media(request):
 		'meta_title': meta_title,
 		'meta_summary': meta_summary,
 		'meta_image': meta_image,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -1885,7 +2032,7 @@ def health_film(request):
 	"""影音專區主頁，初始渲染不載入影片內容，由 AJAX 呼叫 health_film_api 動態載入；附帶回傳是否存在 Films_Dir 的簡單狀態供前端使用"""
 	has_films_dir = os.path.exists(Films_Dir) and any(f.endswith('.txt') for f in os.listdir(Films_Dir))
 	return render(request, "specialty_health/h-health-film.html", {
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png'),
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': '',
 		'has_films_dir': has_films_dir
@@ -1945,6 +2092,70 @@ def health_health_edu(request):
 	context = {
 		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科/骨科/',
 		'page_obj': page_obj,
-		'og_image': request.build_absolute_uri('/media/specialty_health/everan2.png')
+		'og_image': '',
 	}
 	return render(request, 'specialty_health/h-health-edu.html', context)
+
+
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 安全下載 PDF 檔案 ■■■■■■■■■■■■■■■■■■■■■■■■■■
+@require_GET
+def view_pdf_file(request, download_type, filename):
+	"""
+	安全的 PDF 檔案瀏覽功能（直接在瀏覽器開啟）
+	- download_type: 'item' (健檢專案) 或 'news' (最新消息)
+	- filename: 檔案名稱（僅檔名，不含路徑）
+	
+	資安措施：
+	1. 檔案名稱白名單驗證（僅允許安全字元）
+	2. 路徑遍歷攻擊防護
+	3. 僅允許 PDF 檔案類型
+	4. 檔案必須存在於指定資料夾
+	"""
+	
+	# === 資安檢查 1：檔名白名單驗證（防止路徑遍歷攻擊） ===
+	import re
+	if not re.match(r'^[\w\u4e00-\u9fa5\-\.]+$', filename):
+		raise Http404("無效的檔案名稱")
+	
+	# === 資安檢查 2：防止路徑遍歷攻擊 ===
+	if '..' in filename or '/' in filename or '\\' in filename:
+		raise Http404("無效的檔案路徑")
+	
+	# === 資安檢查 3：僅允許 PDF 檔案 ===
+	if not filename.lower().endswith('.pdf'):
+		raise Http404("僅支援 PDF 檔案下載")
+	
+	# === 根據類型決定檔案路徑 ===
+	if download_type == 'item':
+		file_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-articles', 'item-pdfs')
+	elif download_type == 'news':
+		file_dir = os.path.join(settings.MEDIA_ROOT, 'specialty_health', 'h-news', 'news-pdfs')
+	else:
+		raise Http404("無效的下載類型")
+	
+	# === 檔案完整路徑 ===
+	file_path = os.path.join(file_dir, filename)
+	
+	# === 資安檢查 4：確保檔案在允許的目錄內（防止符號連結攻擊） ===
+	real_path = os.path.realpath(file_path)
+	real_dir = os.path.realpath(file_dir)
+	if not real_path.startswith(real_dir):
+		raise Http404("無效的檔案路徑")
+	
+	# === 資安檢查 5：檔案必須存在 ===
+	if not os.path.exists(file_path) or not os.path.isfile(file_path):
+		raise Http404("檔案不存在")
+	
+	# === 直接在瀏覽器開啟 PDF ===
+	try:
+		# 使用 FileResponse 安全下載
+		response = FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+		
+		# 直接使用原始檔名設定 Content-Disposition
+		response['Content-Disposition'] = f'inline; filename="{filename}"'
+			
+		print(f"[檔案瀏覽] 使用者開啟：{filename}")
+		return response
+	except Exception as e:
+		print(f"[錯誤] 開啟檔案失敗：{str(e)}")
+		raise Http404("開啟失敗")

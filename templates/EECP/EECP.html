@@ -1,1282 +1,1282 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "EECP/eecp-base.html" %}
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        {% spaceless %}
-        <main>
-            <!-- ----- EECP ----- -->
-            <section class="hero-section" id="eecp-slogan">
-                <div class="container">
-                    <div class="text-center">
-                        <div class="badge-title">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:162"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>守護您的心血管健康
-                        </div>
-                        <h1 class="eecp-title">EECP 體外反搏
-                            <span class="d-block eecp-highlight">不吃藥、不開刀</span>
-                            <span class="d-block eecp-subtitle">輕鬆躺著就能改善血液循環</span>
-                        </h1>
-                        <p class="eecp-description">非侵入治療，助您找回心血管健康！安全有效，適合各年齡層</p>                        
-                        <div class="btnn-div">
-                            <button type="button" class="btnn red" onclick="scrollToContact()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar svg-20 mr-2" data-loc="client/src/pages/Home.tsx:180"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>立即預約諮詢
-                            </button>
-                            <a href="tel:0909264006" class="btnn shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone svg-20 mr-2" data-loc="client/src/pages/Home.tsx:185"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>0909-264-006
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 您是否有這些困擾？ ----- -->
-            <section class="section-class" id="eecp-problems">
-                <div class="grid-w-50">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">您是否有這些困擾？</h2>
-                        <p class="content-description">年紀漸長，身體開始出現警訊...</p>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card red-border-animate">
-                                <div class="card-body">
-                                    <div>
-                                        <div class="svg-box">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                        </div>
-                                        <p>吃藥多年效果有限</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card red-border-animate">
-                                <div class="card-body">
-                                    <div>
-                                        <div class="svg-box">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                        </div>
-                                        <p>常覺得胸悶、喘、容易累</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card red-border-animate">                                
-                                <div class="card-body">
-                                    <div>
-                                        <div class="svg-box">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                        </div>
-                                        <p>不想開刀又擔心病情惡化</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card red-border-animate">
-                                <div class="card-body">
-                                    <div>
-                                        <div class="svg-box">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                                        </div>
-                                        <p>想保養血管卻不知道怎麼開始</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 按鈕 -->
-                    <div class="btnn-div">
-                        <button type="button" class="btnn red" onclick="scrollToContact()">了解 EECP 如何幫助您</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 什麼是 EECP 體外反搏療法？ ----- -->
-            <section class="section-class">
-                <div class="grid-w-50">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">什麼是 EECP 體外反搏療法？</h2>
-                        <p class="content-description">EECP（Enhanced External Counter-Pulsation）是一種<span class="text-primary">非侵入性</span>的心血管治療裝置， 經<span class="text-secondary">美國 FDA 認證</span>，無侵入性、免麻醉、免開刀、免住院， 已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。</p>
-                    </div>
-                    <!-- 內容區塊 -->
-
-                    <div class="intro-box">
-                        <div class="card gradient-card">
-                            <div class="intro-body">
-                                <div class="intro-content">
-                                    <div class="svg-box">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-24">
-                                            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path>
-                                            <path d="M22 5h-4"></path>
-                                            <path d="M4 17v2"></path>
-                                            <path d="M5 18H3"></path>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3>就像「幫血管做 SPA」</h3>
-                                        <p>治療過程讓您輕鬆平躺就能享受療效！透過外部壓力有節奏地按摩腿部血管， 就像幫血管做了一次高強度運動，刺激血管分泌內皮生長因子、一氧化氮和神經荷爾蒙等有益物質。 這些物質能放鬆血壓、軟化血管，還能促進心腦血管健康、抗發炎， 同時改善器官血流、減輕心臟負擔。</p>
-                                    </div>
-                                </div>
-                                <div class="intro-memo">
-                                    <p>根據 2021 年美國心臟病學會年會發表的大規模臨床試驗，<span> EECP 治療可使穩定型心絞痛患者的心絞痛頻率降低 50% 以上</span>， 生活品質指標顯著提升。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 影片顯示區塊 - 獨立於文字描述區塊外 -->
-                    <div class="mt-4">
-                        <div class="embed-container">
-                            <div class="youtube-player" data-id="QdQPjEKfsoI">
-                                <img src="https://i.ytimg.com/vi/QdQPjEKfsoI/maxresdefault.jpg" alt="EECP體外反搏是什麼?1分鐘教你看懂!">
-                                <div class="play"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 6 大健康促進功效 ----- -->
-            <section class="section-class" id="eecp-six-benefit">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">6 大健康促進功效</h2>
-                        <p class="content-description">增強心肺功能，全面提升生活品質</p>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="item-card">
-                        <div class="row">
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm">
-                                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                                                </svg>
-                                            </div>
-                                            <h3>促進末梢血液循環</h3>
-                                        </div>
-                                        <div>
-                                            <p>揮手告別手腳冰冷，讓全身血液流動更順暢</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity svg-sm" data-loc="client/src/pages/Home.tsx:102"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
-                                            </div>
-                                            <h3>睡眠品質明顯提升</h3>
-                                        </div>
-                                        <div>
-                                            <p>容易入睡不易驚醒，享受深層休息</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-sm" data-loc="client/src/pages/Home.tsx:107"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg>
-                                            </div>
-                                            <h3>運動潛能大幅增加</h3>
-                                        </div>
-                                        <div>
-                                            <p>運動量與期間延長，重拾活力</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-sm" data-loc="client/src/pages/Home.tsx:112"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
-                                            </div>
-                                            <h3>自律神經失調均衡</h3>
-                                        </div>
-                                        <div>
-                                            <p>副交感神經活性劇增，身心更平衡</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users svg-sm" data-loc="client/src/pages/Home.tsx:117"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                            </div>
-                                            <h3>改善下肢靜脈水腫</h3>
-                                        </div>
-                                        <div>
-                                            <p>步伐大步輕快愉悅，行動更自在</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-sm" data-loc="client/src/pages/Home.tsx:122"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
-                                            </div>
-                                            <h3>勃起功能改善恢復</h3>
-                                        </div>
-                                        <div>
-                                            <p>性生活美滿不需藥物，重拾自信</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>                   
-                </div>
-            </section>
-
-            <!-- ----- EECP 獨特優勢 ----- -->
-            <section class="section-class" id="eecp-benefit-item">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">EECP 獨特優勢</h2>
-                        <p class="content-description">安全、有效、持久的心血管保健方案</p>
-                    </div>
-                    <!-- 內容區塊 -->
-
-                    <div class="item-card">
-                        <div class="row">
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card red-border-animate">
-
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box secondary-svg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
-                                            </div>
-                                            <h3>非侵入性</h3>
-                                        </div>
-                                        <div>
-                                            <p>無需手術、無傷口、無恢復期、不需住院</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card red-border-animate">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box secondary-svg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-24"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
-                                            </div>
-                                            <h3>安全性高</h3>
-                                        </div>
-                                        <div>
-                                            <p>副作用極少，適合多種無法接受手術的患者</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card red-border-animate">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box secondary-svg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock svg-24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                            </div>
-                                            <h3>長效持久</h3>
-                                        </div>
-                                        <div>
-                                            <p>完整35次療程效果可持續3年以上</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card red-border-animate">
-                                    
-                                    <div class="item-box">
-                                        <div>
-                                            <div class="svg-box secondary-svg">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users svg-24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                            </div>
-                                            <h3>高齡適用</h3>
-                                        </div>
-                                        <div>
-                                            <p>最老患者年齡可達97歲，安全可靠</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid-width-900px">
-                    <div class="card gradient-card">
-                        <div>
-                            <h3>EECP 如何改變您的心臟健康？</h3>
-                        </div>
-                        <div class="list-box">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>減少心絞痛發作：降低發作頻率與強度</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>降低血壓：促進血流順暢，減輕心臟壓力</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>提升血氧濃度：增加血中氧氣，提升全身供氧</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>增加冠狀動脈血流量：強化心肌供血</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>穩定心跳速率：減輕心臟工作負荷</span>
-                                </div>
-                                <div class="col-md-6">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
-                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                        <path d="m9 11 3 3L22 4"></path>
-                                    </svg>
-                                    <span>增加血管彈性：預防未來心血管事件</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 誰適合 EECP 治療？ ----- -->
-            <section class="section-class" id="eecp-suitable">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">誰適合 EECP 治療？</h2>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="grid-width-900px">
-                        <div class="item-card">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-                                                    </svg>
-                                                </div>
-                                                <h3>心血管疾病</h3>
-                                            </div>
-                                            <div class="list-box">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>心絞痛、心衰竭</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>心肌梗塞、心肌病變</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>冠狀動脈支架手術後</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity svg-sm" data-loc="client/src/pages/Home.tsx:102">
-                                                        <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
-                                                    </svg>
-                                                </div>
-                                                <h3>腦血管疾病</h3>
-                                            </div>
-                                            <div class="list-box">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>缺血性腦中風</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>早期失智症</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted"></div>
-                                                        <span>帕金森氏症、睡眠障礙</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-24 text-secondary">
-                                                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
-                                                        <path d="M20 3v4"></path>
-                                                        <path d="M22 5h-4"></path>
-                                                        <path d="M4 17v2"></path>
-                                                        <path d="M5 18H3"></path>
-                                                    </svg>
-                                                </div>
-                                                <h3>其他適應症</h3>
-                                            </div>
-                                            <div class="list-box">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>慢性疲勞、自律神經失調</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>勃起功能障礙</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>糖尿病、高血壓、腎臟疾病</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-24 text-secondary">
-                                                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-                                                    </svg>
-                                                </div>
-                                                <h3>健康管理與預防</h3>
-                                            </div>
-                                            <div class="list-box">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>心血管疾病高風險族群</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>改善末梢循環</span>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="list-dotted bg-secondary"></div>
-                                                        <span>想提前預防的亞健康族群</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="alert-memo">
-                                <div class="card"><span>特別適合：</span>藥物治療效果不佳者，或不適合、不願接受侵入性手術者</div>
-                            </div>
-                            <div class="section-eecp-assessment">
-                                <div class="eecp-assessment-header">
-                                    <h3 class="eecp-assessment-title">快速評估您是否適合 EECP</h3>
-                                    <p class="eecp-assessment-desc">回答以下 8 個簡單問題，只需 2-3 分鐘，即可了解您是否適合接受 EECP 治療</p>
-                                </div>
-
-                                <div class="eecp-test">
-                                    <!-- 進度條 -->
-                                    <div class="quiz-progress">
-                                        <div class="quiz-progress-header">
-                                            <div class="quiz-progress-title">EECP 適合度評估測驗</div>
-                                            <div class="quiz-progress-text">第 <span id="currentQuestion">1</span> / 8 題</div>
-                                        </div>
-                                        <div class="progress-bar-container">
-                                            <div class="progress-bar-fill" id="progressBar"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 1 -->
-                                    <div class="quiz-question active" data-question="1">
-                                        <h4 class="question-title">您是否經常感到胸悶或胸痛？</h4>
-                                        <p class="question-description">尤其是在運動或勞累時</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q1" id="q1a1" value="0">
-                                                <label for="q1a1">沒有，很少感到</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q1" id="q1a2" value="1">
-                                                <label for="q1a2">偶爾會，但不嚴重</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q1" id="q1a3" value="2">
-                                                <label for="q1a3">經常感到，影響日常生活</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q1" id="q1a4" value="3">
-                                                <label for="q1a4">非常頻繁，需要經常休息</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" disabled onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn1" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 2 -->
-                                    <div class="quiz-question" data-question="2">
-                                        <h4 class="question-title">您是否容易感到氣喘或呼吸困難？</h4>
-                                        <p class="question-description">走路或爬樓梯時</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q2" id="q2a1" value="0">
-                                                <label for="q2a1">沒有，體力很好</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q2" id="q2a2" value="1">
-                                                <label for="q2a2">輕微，但不影響日常活動</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q2" id="q2a3" value="2">
-                                                <label for="q2a3">中等程度，需要停下來休息</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q2" id="q2a4" value="3">
-                                                <label for="q2a4">嚴重，經常無法完成日常活動</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn2" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 3 -->
-                                    <div class="quiz-question" data-question="3">
-                                        <h4 class="question-title">您的手腳是否經常感到冰冷？</h4>
-                                        <p class="question-description">即使在溫暖的環境中</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q3" id="q3a1" value="0">
-                                                <label for="q3a1">沒有，手腳溫暖</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q3" id="q3a2" value="1">
-                                                <label for="q3a2">偶爾冰冷</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q3" id="q3a3" value="2">
-                                                <label for="q3a3">經常冰冷，影響生活</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q3" id="q3a4" value="3">
-                                                <label for="q3a4">非常冰冷，嚴重影響生活</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn3" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 4 -->
-                                    <div class="quiz-question" data-question="4">
-                                        <h4 class="question-title">您的睡眠品質如何？</h4>
-                                        <p class="question-description">是否容易入睡和保持睡眠</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q4" id="q4a1" value="0">
-                                                <label for="q4a1">很好，睡眠充足</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q4" id="q4a2" value="1">
-                                                <label for="q4a2">還可以，偶爾有睡眠問題</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q4" id="q4a3" value="2">
-                                                <label for="q4a3">不好，經常失眠</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q4" id="q4a4" value="3">
-                                                <label for="q4a4">很差，嚴重失眠</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn4" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 5 -->
-                                    <div class="quiz-question" data-question="5">
-                                        <h4 class="question-title">您是否有心血管疾病的病史？</h4>
-                                        <p class="question-description">如心臟病、高血壓、中風等</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q5" id="q5a1" value="0">
-                                                <label for="q5a1">沒有</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q5" id="q5a2" value="1">
-                                                <label for="q5a2">有輕微症狀或家族史</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q5" id="q5a3" value="2">
-                                                <label for="q5a3">有診斷的心血管疾病</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q5" id="q5a4" value="3">
-                                                <label for="q5a4">有多種心血管相關疾病</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn5" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 6 -->
-                                    <div class="quiz-question" data-question="6">
-                                        <h4 class="question-title">您的運動耐受度如何？</h4>
-                                        <p class="question-description">能否進行日常運動而不感到疲勞</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q6" id="q6a1" value="0">
-                                                <label for="q6a1">很好，可以進行劇烈運動</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q6" id="q6a2" value="1">
-                                                <label for="q6a2">中等，可以進行適度運動</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q6" id="q6a3" value="2">
-                                                <label for="q6a3">較差，只能進行輕度運動</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q6" id="q6a4" value="3">
-                                                <label for="q6a4">很差，運動能力有限</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn6" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 7 -->
-                                    <div class="quiz-question" data-question="7">
-                                        <h4 class="question-title">您的年齡和整體健康狀況？</h4>
-                                        <p class="question-description">考慮年齡和其他健康因素</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q7" id="q7a1" value="0">
-                                                <label for="q7a1">年輕且健康</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q7" id="q7a2" value="1">
-                                                <label for="q7a2">中年，有輕微健康問題</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q7" id="q7a3" value="2">
-                                                <label for="q7a3">年長或有多個健康問題</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q7" id="q7a4" value="3">
-                                                <label for="q7a4">年長且有多個慢性疾病</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-next" id="nextBtn7" disabled onclick="nextQuestion()">下一題</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 問題 8 -->
-                                    <div class="quiz-question" data-question="8">
-                                        <h4 class="question-title">您對接受 EECP 治療的意願？</h4>
-                                        <p class="question-description">是否願意嘗試非侵入性治療</p>
-                                        <div class="quiz-options">
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q8" id="q8a1" value="0">
-                                                <label for="q8a1">非常願意，已準備好開始</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q8" id="q8a2" value="1">
-                                                <label for="q8a2">願意，想了解更多</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q8" id="q8a3" value="2">
-                                                <label for="q8a3">不確定，需要更多資訊</label>
-                                            </div>
-                                            <div class="quiz-option">
-                                                <input type="radio" name="q8" id="q8a4" value="3">
-                                                <label for="q8a4">不太願意或有疑慮</label>
-                                            </div>
-                                        </div>
-                                        <div class="quiz-navigation">
-                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
-                                            <button class="quiz-btn quiz-btn-result" id="resultBtn8" disabled onclick="showResult()">查看結果</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 結果頁面 -->
-                                    <div class="quiz-result">
-                                        <h3 class="result-title">您的評估結果</h3>
-                                        <div class="result-status" id="resultStatus"></div>
-                                        <p class="result-description" id="resultDescription"></p>
-                                        <div class="result-score">
-                                            您的評估分數：<strong id="resultScore"></strong> / 24
-                                        </div>
-                                        
-                                        <div class="result-recommendation">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb svg-20 text-primary flex-shrink-0" data-loc="client/src/components/AssessmentQuiz.tsx:338"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
-                                            <div>
-                                                <h4>建議</h4>
-                                                <p id="resultRecommendation"></p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="result-actions">
-                                            <div class="result-action-card">
-                                                <div class="result-action-content">
-                                                    <h5>下一步</h5>
-                                                    <p>與我們的醫療團隊聯繫，進行完整的治療評估</p>
-                                                </div>
-                                            </div>
-                                            <div class="result-action-card">
-                                                <div class="result-action-content">
-                                                    <h5>立即行動</h5>
-                                                    <p>點擊下方按鈕保存結果，開始您的健康之旅</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="result-buttons">
-                                            <button class="quiz-btn quiz-btn-secondary" onclick="resetQuiz()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
-                                                    <path d="M21 3v5h-5"></path>
-                                                </svg>
-                                                重新測驗
-                                            </button>
-                                            <button class="quiz-btn quiz-btn-primary" onclick="showForm()">保存結果並諮詢</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 表單頁面 -->
-                                    <div class="quiz-form">
-                                        <h3 class="form-title">保存您的測驗結果</h3>
-                                        <p class="form-description">請提供您的聯繫方式，我們會根據您的評估結果與您聯繫</p>
-                                        
-                                        <form id="quizContactForm">
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                                <label for="userName">請輸入您的姓名</label>
-                                                <input type="text" id="userName" name="userName" required>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label for="userPhone">請輸入您的電話</label>
-                                                <input type="tel" id="userPhone" name="userPhone" pattern="^\+?\d{8,15}$" title="請輸入 8~15 碼數字，國際格式可加 + 號於開頭" maxlength="16" required>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label for="userEmail">請輸入您的 Email</label>
-                                                <input type="email" id="userEmail" name="userEmail" required>
-                                            </div>
-                                            
-                                            <div class="form-result-display">
-                                                <p>您的評估結果：<strong id="formResultStatus" class="result-badge"></strong></p>
-                                            </div>
-                                            
-                                            <!-- 驗證碼 -->
-                                            <div class="form-group">
-                                                <label for="quizCaptcha">驗證碼</label>
-                                                <div class="captcha-container">
-                                                    <input type="text" id="quizCaptcha" name="captcha" placeholder="請輸入5位數字驗證碼" maxlength="5" autocomplete="off" required>
-                                                    <img id="quiz-captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
-                                                    <button type="button" id="quiz-refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <small id="quiz-captcha-timer" class="form-text text-muted">驗證碼將於 <span id="quiz-countdown">1:00</span> 後失效</small>
-                                                </div>
-                                                <div class="errorlist" id="quiz-captcha-error"></div>
-                                            </div>
-                                            
-                                            <div class="form-buttons">
-                                                <button type="button" class="quiz-btn quiz-btn-secondary" onclick="backToResult()">返回結果</button>
-                                                <button type="submit" class="quiz-btn quiz-btn-primary" id="quiz-submit-btn">送出</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 治療流程 ----- -->
-            <section class="section-class" id="care-steps">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">治療流程</h2>
-                        <p class="content-description">專人服務，舒適安全</p>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="grid-width-900px">
-                        <div class="item-card">
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">1</div>
-                                                <h3>治療前評估</h3>
-                                            </div>
-                                            <div>
-                                                <p>醫師會進行詳細檢查，完整的治療評估，確認您適合接受 EECP 治療</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">2</div>
-                                                <h3>準備階段</h3>
-                                            </div>
-                                            <div>
-                                                <p>穿著舒適的棉質長褲，躺臥在專用治療床上</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">3</div>
-                                                <h3>設備連接</h3>
-                                            </div>
-                                            <div>
-                                                <p>醫護人員會在您的腿部和臀部綁上壓力袖帶，並連接心電圖監測儀</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="item-box">
-                                            <div>
-                                                <div class="svg-box">4</div>
-                                                <h3>治療進行</h3>
-                                            </div>
-                                            <div>
-                                                <p>治療過程中放鬆休息，全程約 1 小時，類似按摩，感覺很舒服</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="card gradient-card">
-                            <div class="svg-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock svg-md"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            </div>
-                            <h3>完整療程</h3>
-                            <p>完整療程為 <strong class="text-primary">35 個小時</strong>， 每次 1 小時，每週 5 次，連續 7 週</p>
-                            <p>做 10 次會有顯著效果，完整 35 次療程效果可持續 3 年以上</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            
-            <!-- ----- 治療中心 ----- -->
-            <section class="section-class" id="care-center">
-                <div class="container">
-                    <div class="max-w-1024">
-                        <!-- 標題 -->
-                        <div class="one-div">
-                            <h2 class="content-title">治療中心</h2>
-                            <p class="content-description">四家專業醫療機構，就近選擇最方便的地點</p>
-                        </div>
-                        <!-- 內容區塊 -->
-                        <div class="item-card">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div>
-                                            <h3>長安醫院</h3>
-                                            <div class="info-text">專業心血管治療中心，提供完整 EECP 療程服務</div>
-                                        </div>
-                                        <div>
-                                            <div class="c-address">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
-                                                </svg>
-                                                <span class="info-text">台中市太平區永平路一段9號</span>
-                                            </div>
-                                            <div class="c-tel">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
-                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                                </svg>
-                                                <a href="tel:0909264006">0909-264-006</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div>
-                                            <h3>勝美醫院</h3>
-                                            <div class="info-text">專業醫療團隊，溫馨舒適的治療環境</div>
-                                        </div>
-                                        <div>
-                                            <div class="c-address">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
-                                                </svg>
-                                                <span class="info-text">台中市北區五權路482號</span>
-                                            </div>
-                                            <div class="c-tel">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
-                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                                </svg>
-                                                <a href="tel:0972210731">0972-210-731</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div>
-                                            <h3>第一醫院</h3>
-                                            <div class="info-text">先進醫療設備，貼心的個人化照護</div>
-                                        </div>
-                                        <div>
-                                            <div class="c-address">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
-                                                </svg>
-                                                <span class="info-text">台中市中區民族路182號</span>
-                                            </div>
-                                            <div class="c-tel">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
-                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                                </svg>
-                                                <a href="tel:0972210731">0972-210-731</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div>
-                                            <h3>祥恩醫院</h3>
-                                            <div class="info-text">先進醫療設備，貼心的個人化照護</div>
-                                        </div>
-                                        <div>
-                                            <div class="c-address">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
-                                                </svg>
-                                                <span class="info-text">台中市豐原區中興路35號</span>
-                                            </div>
-                                            <div class="c-tel">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
-                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                                </svg>
-                                                <a href="tel:0911386659">0911-386-659</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <!-- ----- 常見問題 ----- -->
-            <section class="section-class" id="faq-section">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">常見問題</h2>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="grid-width-900px">
-                        <div class="item-card">
-                            <div class="row">
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">EECP 療程要做多久？</div>
-                                        <div class="info-text">完整療程為 35 個小時，每次一個小時，每週五次，連續做到七週。</div>
-                                    </div>
-                                </div>
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">做治療後可能會有哪些不舒服、副作用？</div>
-                                        <div class="info-text">少數患者可能在初期感到身體乏力或肌肉痠痛、皮膚搔癢、瘀傷等輕微不適，但通常在幾次治療後就能適應。</div>
-                                    </div>
-                                </div>
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">治療前需要禁食嗎？</div>
-                                        <div class="info-text">不用空腹，最好進食後一小時之後再做（建議不要吃太飽）。</div>
-                                    </div>
-                                </div>
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">EECP 做起來的感覺是什麼？</div>
-                                        <div class="info-text">因為是平躺在床上進行治療，類似按摩，感覺很舒服，有些人還會睡著！</div>
-                                    </div>
-                                </div>
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">有年齡限制嗎？</div>
-                                        <div class="info-text">沒有。在美國曾經成功治療的年紀，最老是 97 歲。</div>
-                                    </div>
-                                </div>
-                                <div class="card col-12">
-                                    <div class="item-box">
-                                        <div class="q-title">療程全部結束後，可以再次進行治療嗎？</div>
-                                        <div class="info-text">可以。由於心臟病是慢性病，且在未來任一時間都可以發作，故經醫師診斷後，可再次進行療程。</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ----- 立即預約諮詢 ----- -->
-            <section class="hero-section" id="contact-area">
-                <div class="container">
-                    <!-- 標題 -->
-                    <div class="one-div">
-                        <h2 class="content-title">立即預約諮詢</h2>
-                        <p class="content-description">填寫表單或直接聯繫我們，專人為您服務</p>
-                    </div>
-                    <!-- 內容區塊 -->
-                    <div class="grid-width-900px">
-                        <div class="row">
-                            <div class="col-md-6" class="contact-area-form">
-                                <div class="card">
-                                    <div class="info-title-box">
-                                        <div class="info-title">預約諮詢表單</div>
-                                        <div class="info-text">請留下您的聯絡資訊，我們會盡快與您聯繫</div>
-                                    </div>
-                                    <div class="contact-form-list">
-                                        <!-- 使用 Django 表單套件 -->
-                                        <form method="post" action="" class="row" id="contactForm">
-                                            {% csrf_token %}
-                                            <div class="form-group col-12">
-                                                {{ form.name.label_tag }} {{ form.name }}
-                                                {{ form.name.errors }}
-                                            </div>
-                                            <div class="form-group col-12">
-                                                {{ form.phone.label_tag }} {{ form.phone }}
-                                                {{ form.phone.errors }}
-                                            </div>
-                                            <div class="form-group col-12">
-                                                {{ form.email.label_tag }} {{ form.email }}
-                                                {{ form.email.errors }}
-                                            </div>                                            
-                                            <div class="form-group col-12">
-                                                {{ form.appointment_date.label_tag }} {{ form.appointment_date }}
-                                                {{ form.appointment_date.errors }}
-                                            </div>
-                                            <div class="form-group col-12">
-                                                {{ form.message.label_tag }} {{ form.message }}
-                                                {{ form.message.errors }}
-                                            </div>
-
-                                            <!-- 驗證碼 -->
-                                            <div class="form-group col-12">
-                                                <label for="captcha">驗證碼</label>
-                                                <div class="d-flex align-items-center flex-wrap">
-                                                    {{ form.captcha }}
-                                                    <div class="captcha-container">
-                                                        <img id="captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
-                                                        <button type="button" id="refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
-                                                            <i class="fas fa-sync-alt"></i>
-                                                        </button>
-                                                        <small id="captcha-timer" class="form-text text-muted">驗證碼將於 <span id="countdown">1:00</span> 後失效</small>
-                                                    </div>
-                                                </div>     
-                                                {{ form.captcha.errors }}
-                                                <div class="errorlist" id="contact-captcha-error"></div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button type="submit" id="contact-submit-btn" title="送出諮詢" class="red">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send svg-xs"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>送出諮詢</button>
-                                            </div>
-                                            
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">                                
-                                <div class="grid-rows-2-1">
-                                            
-                                    <div class="card contact-area-methods">
-                                        <div class="info-title-box">
-                                            <div class="info-title">其他聯繫方式</div>
-                                            <div class="info-text">選擇最方便的方式與我們聯繫</div>
-                                        </div>
-                                        <div class="info-contact-box">
-                                            <a href="tel:0909264006" class="contact-item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone">
-                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                                </svg>
-                                                <div>
-                                                    <div class="info-title">電話諮詢</div>
-                                                    <div class="info-text">0909-264-006</div>
-                                                </div>
-                                            </a>
-                                            <a href="https://line.me/R/ti/p/@833vtjkr" target="_blank" rel="noopener noreferrer" class="contact-item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle">
-                                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                                                </svg>
-                                                <div>
-                                                    <div class="info-title">LINE 客服</div>
-                                                    <div class="info-text">即時線上諮詢</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="card contact-area-service">
-                                        <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-                                            </svg>
-                                            <h3 class="info-title">服務時間</h3>
-                                            <p class="info-text">週一至週五 09:00 - 18:00<br / >週六 09:00 - 12:00</p>
-                                            <div class="info-text">我們會在 24 小時內回覆您的諮詢</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-    
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    <footer class="footer">
-        <div class="container">
-
-            <div class="text-center">
-                <div class="svg-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm text-primary"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                    <span>EECP 體外反搏治療</span>
-
-                </div>
-                <p class="info-text">守護您的心血管健康，讓生活更有活力</p>
-                <div class="info-text">
-                    <span>長安醫院</span>
-                    <span>勝美醫院</span>
-                    <span>第一醫院</span>
-                    <span>祥恩醫院</span>
-                </div>
-                <div class="info-text copyright">© {% now "Y" %} EECP 體外反搏治療中心. All rights reserved.</div>
-            </div>
-
-        </div>
-    </footer>
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script src="{% static 'apps/EECP/js/eecp-contact.js' %}"></script>
-{% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "EECP/eecp-base.html" %}
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        {% spaceless %}
+        <main>
+            <!-- ----- EECP ----- -->
+            <section class="hero-section" id="eecp-slogan">
+                <div class="container">
+                    <div class="text-center">
+                        <div class="badge-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:162"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>守護您的心血管健康
+                        </div>
+                        <h1 class="eecp-title">EECP 體外反搏
+                            <span class="d-block eecp-highlight">不吃藥、不開刀</span>
+                            <span class="d-block eecp-subtitle">輕鬆躺著就能改善血液循環</span>
+                        </h1>
+                        <p class="eecp-description">非侵入治療，助您找回心血管健康！安全有效，適合各年齡層</p>                        
+                        <div class="btnn-div">
+                            <button type="button" class="btnn red" onclick="scrollToContact()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar svg-20 mr-2" data-loc="client/src/pages/Home.tsx:180"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>立即預約諮詢
+                            </button>
+                            <a href="tel:0909264006" class="btnn shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone svg-20 mr-2" data-loc="client/src/pages/Home.tsx:185"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>0909-264-006
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 您是否有這些困擾？ ----- -->
+            <section class="section-class" id="eecp-problems">
+                <div class="grid-w-50">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">您是否有這些困擾？</h2>
+                        <p class="content-description">年紀漸長，身體開始出現警訊...</p>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card red-border-animate">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="svg-box">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                                        </div>
+                                        <p>吃藥多年效果有限</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card red-border-animate">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="svg-box">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                                        </div>
+                                        <p>常覺得胸悶、喘、容易累</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card red-border-animate">                                
+                                <div class="card-body">
+                                    <div>
+                                        <div class="svg-box">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                                        </div>
+                                        <p>不想開刀又擔心病情惡化</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card red-border-animate">
+                                <div class="card-body">
+                                    <div>
+                                        <div class="svg-box">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-xs" data-loc="client/src/pages/Home.tsx:217"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                                        </div>
+                                        <p>想保養血管卻不知道怎麼開始</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 按鈕 -->
+                    <div class="btnn-div">
+                        <button type="button" class="btnn red" onclick="scrollToContact()">了解 EECP 如何幫助您</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 什麼是 EECP 體外反搏療法？ ----- -->
+            <section class="section-class">
+                <div class="grid-w-50">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">什麼是 EECP 體外反搏療法？</h2>
+                        <p class="content-description">EECP（Enhanced External Counter-Pulsation）是一種<span class="text-primary">非侵入性</span>的心血管治療裝置， 經<span class="text-secondary">美國 FDA 認證</span>，無侵入性、免麻醉、免開刀、免住院， 已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。</p>
+                    </div>
+                    <!-- 內容區塊 -->
+
+                    <div class="intro-box">
+                        <div class="card gradient-card">
+                            <div class="intro-body">
+                                <div class="intro-content">
+                                    <div class="svg-box">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-24">
+                                            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path>
+                                            <path d="M22 5h-4"></path>
+                                            <path d="M4 17v2"></path>
+                                            <path d="M5 18H3"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3>就像「幫血管做 SPA」</h3>
+                                        <p>治療過程讓您輕鬆平躺就能享受療效！透過外部壓力有節奏地按摩腿部血管， 就像幫血管做了一次高強度運動，刺激血管分泌內皮生長因子、一氧化氮和神經荷爾蒙等有益物質。 這些物質能放鬆血壓、軟化血管，還能促進心腦血管健康、抗發炎， 同時改善器官血流、減輕心臟負擔。</p>
+                                    </div>
+                                </div>
+                                <div class="intro-memo">
+                                    <p>根據 2021 年美國心臟病學會年會發表的大規模臨床試驗，<span> EECP 治療可使穩定型心絞痛患者的心絞痛頻率降低 50% 以上</span>， 生活品質指標顯著提升。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 影片顯示區塊 - 獨立於文字描述區塊外 -->
+                    <div class="mt-4">
+                        <div class="embed-container">
+                            <div class="youtube-player" data-id="QdQPjEKfsoI">
+                                <img src="https://i.ytimg.com/vi/QdQPjEKfsoI/maxresdefault.jpg" alt="EECP體外反搏是什麼?1分鐘教你看懂!">
+                                <div class="play"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 6 大健康促進功效 ----- -->
+            <section class="section-class" id="eecp-six-benefit">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">6 大健康促進功效</h2>
+                        <p class="content-description">增強心肺功能，全面提升生活品質</p>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="item-card">
+                        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm">
+                                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                                                </svg>
+                                            </div>
+                                            <h3>促進末梢血液循環</h3>
+                                        </div>
+                                        <div>
+                                            <p>揮手告別手腳冰冷，讓全身血液流動更順暢</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity svg-sm" data-loc="client/src/pages/Home.tsx:102"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
+                                            </div>
+                                            <h3>睡眠品質明顯提升</h3>
+                                        </div>
+                                        <div>
+                                            <p>容易入睡不易驚醒，享受深層休息</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-sm" data-loc="client/src/pages/Home.tsx:107"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg>
+                                            </div>
+                                            <h3>運動潛能大幅增加</h3>
+                                        </div>
+                                        <div>
+                                            <p>運動量與期間延長，重拾活力</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-sm" data-loc="client/src/pages/Home.tsx:112"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                                            </div>
+                                            <h3>自律神經失調均衡</h3>
+                                        </div>
+                                        <div>
+                                            <p>副交感神經活性劇增，身心更平衡</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users svg-sm" data-loc="client/src/pages/Home.tsx:117"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                            </div>
+                                            <h3>改善下肢靜脈水腫</h3>
+                                        </div>
+                                        <div>
+                                            <p>步伐大步輕快愉悅，行動更自在</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-sm" data-loc="client/src/pages/Home.tsx:122"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                                            </div>
+                                            <h3>勃起功能改善恢復</h3>
+                                        </div>
+                                        <div>
+                                            <p>性生活美滿不需藥物，重拾自信</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+            </section>
+
+            <!-- ----- EECP 獨特優勢 ----- -->
+            <section class="section-class" id="eecp-benefit-item">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">EECP 獨特優勢</h2>
+                        <p class="content-description">安全、有效、持久的心血管保健方案</p>
+                    </div>
+                    <!-- 內容區塊 -->
+
+                    <div class="item-card">
+                        <div class="row">
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card red-border-animate">
+
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box secondary-svg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                                            </div>
+                                            <h3>非侵入性</h3>
+                                        </div>
+                                        <div>
+                                            <p>無需手術、無傷口、無恢復期、不需住院</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card red-border-animate">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box secondary-svg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-24"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>
+                                            </div>
+                                            <h3>安全性高</h3>
+                                        </div>
+                                        <div>
+                                            <p>副作用極少，適合多種無法接受手術的患者</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card red-border-animate">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box secondary-svg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock svg-24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                            </div>
+                                            <h3>長效持久</h3>
+                                        </div>
+                                        <div>
+                                            <p>完整35次療程效果可持續3年以上</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3">
+                                <div class="card red-border-animate">
+                                    
+                                    <div class="item-box">
+                                        <div>
+                                            <div class="svg-box secondary-svg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users svg-24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                            </div>
+                                            <h3>高齡適用</h3>
+                                        </div>
+                                        <div>
+                                            <p>最老患者年齡可達97歲，安全可靠</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-width-900px">
+                    <div class="card gradient-card">
+                        <div>
+                            <h3>EECP 如何改變您的心臟健康？</h3>
+                        </div>
+                        <div class="list-box">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>減少心絞痛發作：降低發作頻率與強度</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>降低血壓：促進血流順暢，減輕心臟壓力</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>提升血氧濃度：增加血中氧氣，提升全身供氧</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>增加冠狀動脈血流量：強化心肌供血</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>穩定心跳速率：減輕心臟工作負荷</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big svg-20">
+                                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                                        <path d="m9 11 3 3L22 4"></path>
+                                    </svg>
+                                    <span>增加血管彈性：預防未來心血管事件</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 誰適合 EECP 治療？ ----- -->
+            <section class="section-class" id="eecp-suitable">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">誰適合 EECP 治療？</h2>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="grid-width-900px">
+                        <div class="item-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <h3>心血管疾病</h3>
+                                            </div>
+                                            <div class="list-box">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>心絞痛、心衰竭</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>心肌梗塞、心肌病變</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>冠狀動脈支架手術後</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity svg-sm" data-loc="client/src/pages/Home.tsx:102">
+                                                        <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+                                                    </svg>
+                                                </div>
+                                                <h3>腦血管疾病</h3>
+                                            </div>
+                                            <div class="list-box">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>缺血性腦中風</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>早期失智症</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted"></div>
+                                                        <span>帕金森氏症、睡眠障礙</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles svg-24 text-secondary">
+                                                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                                                        <path d="M20 3v4"></path>
+                                                        <path d="M22 5h-4"></path>
+                                                        <path d="M4 17v2"></path>
+                                                        <path d="M5 18H3"></path>
+                                                    </svg>
+                                                </div>
+                                                <h3>其他適應症</h3>
+                                            </div>
+                                            <div class="list-box">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>慢性疲勞、自律神經失調</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>勃起功能障礙</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>糖尿病、高血壓、腎臟疾病</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield svg-24 text-secondary">
+                                                        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+                                                    </svg>
+                                                </div>
+                                                <h3>健康管理與預防</h3>
+                                            </div>
+                                            <div class="list-box">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>心血管疾病高風險族群</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>改善末梢循環</span>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="list-dotted bg-secondary"></div>
+                                                        <span>想提前預防的亞健康族群</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert-memo">
+                                <div class="card"><span>特別適合：</span>藥物治療效果不佳者，或不適合、不願接受侵入性手術者</div>
+                            </div>
+                            <div class="section-eecp-assessment">
+                                <div class="eecp-assessment-header">
+                                    <h3 class="eecp-assessment-title">快速評估您是否適合 EECP</h3>
+                                    <p class="eecp-assessment-desc">回答以下 8 個簡單問題，只需 2-3 分鐘，即可了解您是否適合接受 EECP 治療</p>
+                                </div>
+
+                                <div class="eecp-test">
+                                    <!-- 進度條 -->
+                                    <div class="quiz-progress">
+                                        <div class="quiz-progress-header">
+                                            <div class="quiz-progress-title">EECP 適合度評估測驗</div>
+                                            <div class="quiz-progress-text">第 <span id="currentQuestion">1</span> / 8 題</div>
+                                        </div>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-fill" id="progressBar"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 1 -->
+                                    <div class="quiz-question active" data-question="1">
+                                        <h4 class="question-title">您是否經常感到胸悶或胸痛？</h4>
+                                        <p class="question-description">尤其是在運動或勞累時</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q1" id="q1a1" value="0">
+                                                <label for="q1a1">沒有，很少感到</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q1" id="q1a2" value="1">
+                                                <label for="q1a2">偶爾會，但不嚴重</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q1" id="q1a3" value="2">
+                                                <label for="q1a3">經常感到，影響日常生活</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q1" id="q1a4" value="3">
+                                                <label for="q1a4">非常頻繁，需要經常休息</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" disabled onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn1" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 2 -->
+                                    <div class="quiz-question" data-question="2">
+                                        <h4 class="question-title">您是否容易感到氣喘或呼吸困難？</h4>
+                                        <p class="question-description">走路或爬樓梯時</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q2" id="q2a1" value="0">
+                                                <label for="q2a1">沒有，體力很好</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q2" id="q2a2" value="1">
+                                                <label for="q2a2">輕微，但不影響日常活動</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q2" id="q2a3" value="2">
+                                                <label for="q2a3">中等程度，需要停下來休息</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q2" id="q2a4" value="3">
+                                                <label for="q2a4">嚴重，經常無法完成日常活動</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn2" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 3 -->
+                                    <div class="quiz-question" data-question="3">
+                                        <h4 class="question-title">您的手腳是否經常感到冰冷？</h4>
+                                        <p class="question-description">即使在溫暖的環境中</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q3" id="q3a1" value="0">
+                                                <label for="q3a1">沒有，手腳溫暖</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q3" id="q3a2" value="1">
+                                                <label for="q3a2">偶爾冰冷</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q3" id="q3a3" value="2">
+                                                <label for="q3a3">經常冰冷，影響生活</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q3" id="q3a4" value="3">
+                                                <label for="q3a4">非常冰冷，嚴重影響生活</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn3" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 4 -->
+                                    <div class="quiz-question" data-question="4">
+                                        <h4 class="question-title">您的睡眠品質如何？</h4>
+                                        <p class="question-description">是否容易入睡和保持睡眠</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q4" id="q4a1" value="0">
+                                                <label for="q4a1">很好，睡眠充足</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q4" id="q4a2" value="1">
+                                                <label for="q4a2">還可以，偶爾有睡眠問題</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q4" id="q4a3" value="2">
+                                                <label for="q4a3">不好，經常失眠</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q4" id="q4a4" value="3">
+                                                <label for="q4a4">很差，嚴重失眠</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn4" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 5 -->
+                                    <div class="quiz-question" data-question="5">
+                                        <h4 class="question-title">您是否有心血管疾病的病史？</h4>
+                                        <p class="question-description">如心臟病、高血壓、中風等</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q5" id="q5a1" value="0">
+                                                <label for="q5a1">沒有</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q5" id="q5a2" value="1">
+                                                <label for="q5a2">有輕微症狀或家族史</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q5" id="q5a3" value="2">
+                                                <label for="q5a3">有診斷的心血管疾病</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q5" id="q5a4" value="3">
+                                                <label for="q5a4">有多種心血管相關疾病</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn5" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 6 -->
+                                    <div class="quiz-question" data-question="6">
+                                        <h4 class="question-title">您的運動耐受度如何？</h4>
+                                        <p class="question-description">能否進行日常運動而不感到疲勞</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q6" id="q6a1" value="0">
+                                                <label for="q6a1">很好，可以進行劇烈運動</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q6" id="q6a2" value="1">
+                                                <label for="q6a2">中等，可以進行適度運動</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q6" id="q6a3" value="2">
+                                                <label for="q6a3">較差，只能進行輕度運動</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q6" id="q6a4" value="3">
+                                                <label for="q6a4">很差，運動能力有限</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn6" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 7 -->
+                                    <div class="quiz-question" data-question="7">
+                                        <h4 class="question-title">您的年齡和整體健康狀況？</h4>
+                                        <p class="question-description">考慮年齡和其他健康因素</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q7" id="q7a1" value="0">
+                                                <label for="q7a1">年輕且健康</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q7" id="q7a2" value="1">
+                                                <label for="q7a2">中年，有輕微健康問題</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q7" id="q7a3" value="2">
+                                                <label for="q7a3">年長或有多個健康問題</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q7" id="q7a4" value="3">
+                                                <label for="q7a4">年長且有多個慢性疾病</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-next" id="nextBtn7" disabled onclick="nextQuestion()">下一題</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 問題 8 -->
+                                    <div class="quiz-question" data-question="8">
+                                        <h4 class="question-title">您對接受 EECP 治療的意願？</h4>
+                                        <p class="question-description">是否願意嘗試非侵入性治療</p>
+                                        <div class="quiz-options">
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q8" id="q8a1" value="0">
+                                                <label for="q8a1">非常願意，已準備好開始</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q8" id="q8a2" value="1">
+                                                <label for="q8a2">願意，想了解更多</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q8" id="q8a3" value="2">
+                                                <label for="q8a3">不確定，需要更多資訊</label>
+                                            </div>
+                                            <div class="quiz-option">
+                                                <input type="radio" name="q8" id="q8a4" value="3">
+                                                <label for="q8a4">不太願意或有疑慮</label>
+                                            </div>
+                                        </div>
+                                        <div class="quiz-navigation">
+                                            <button class="quiz-btn quiz-btn-prev" onclick="previousQuestion()">上一題</button>
+                                            <button class="quiz-btn quiz-btn-result" id="resultBtn8" disabled onclick="showResult()">查看結果</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 結果頁面 -->
+                                    <div class="quiz-result">
+                                        <h3 class="result-title">您的評估結果</h3>
+                                        <div class="result-status" id="resultStatus"></div>
+                                        <p class="result-description" id="resultDescription"></p>
+                                        <div class="result-score">
+                                            您的評估分數：<strong id="resultScore"></strong> / 24
+                                        </div>
+                                        
+                                        <div class="result-recommendation">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb svg-20 text-primary flex-shrink-0" data-loc="client/src/components/AssessmentQuiz.tsx:338"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+                                            <div>
+                                                <h4>建議</h4>
+                                                <p id="resultRecommendation"></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-actions">
+                                            <div class="result-action-card">
+                                                <div class="result-action-content">
+                                                    <h5>下一步</h5>
+                                                    <p>與我們的醫療團隊聯繫，進行完整的治療評估</p>
+                                                </div>
+                                            </div>
+                                            <div class="result-action-card">
+                                                <div class="result-action-content">
+                                                    <h5>立即行動</h5>
+                                                    <p>點擊下方按鈕保存結果，開始您的健康之旅</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-buttons">
+                                            <button class="quiz-btn quiz-btn-secondary" onclick="resetQuiz()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+                                                    <path d="M21 3v5h-5"></path>
+                                                </svg>
+                                                重新測驗
+                                            </button>
+                                            <button class="quiz-btn quiz-btn-primary" onclick="showForm()">保存結果並諮詢</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 表單頁面 -->
+                                    <div class="quiz-form">
+                                        <h3 class="form-title">保存您的測驗結果</h3>
+                                        <p class="form-description">請提供您的聯繫方式，我們會根據您的評估結果與您聯繫</p>
+                                        
+                                        <form id="quizContactForm">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="userName">請輸入您的姓名</label>
+                                                <input type="text" id="userName" name="userName" required>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="userPhone">請輸入您的電話</label>
+                                                <input type="tel" id="userPhone" name="userPhone" pattern="^\+?\d{8,15}$" title="請輸入 8~15 碼數字，國際格式可加 + 號於開頭" maxlength="16" required>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="userEmail">請輸入您的 Email</label>
+                                                <input type="email" id="userEmail" name="userEmail" required>
+                                            </div>
+                                            
+                                            <div class="form-result-display">
+                                                <p>您的評估結果：<strong id="formResultStatus" class="result-badge"></strong></p>
+                                            </div>
+                                            
+                                            <!-- 驗證碼 -->
+                                            <div class="form-group">
+                                                <label for="quizCaptcha">驗證碼</label>
+                                                <div class="captcha-container">
+                                                    <input type="text" id="quizCaptcha" name="captcha" placeholder="請輸入5位數字驗證碼" maxlength="5" autocomplete="off" required>
+                                                    <img id="quiz-captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
+                                                    <button type="button" id="quiz-refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
+                                                        <i class="fas fa-sync-alt"></i>
+                                                    </button>
+                                                    <small id="quiz-captcha-timer" class="form-text text-muted">驗證碼將於 <span id="quiz-countdown">1:00</span> 後失效</small>
+                                                </div>
+                                                <div class="errorlist" id="quiz-captcha-error"></div>
+                                            </div>
+                                            
+                                            <div class="form-buttons">
+                                                <button type="button" class="quiz-btn quiz-btn-secondary" onclick="backToResult()">返回結果</button>
+                                                <button type="submit" class="quiz-btn quiz-btn-primary" id="quiz-submit-btn">送出</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 治療流程 ----- -->
+            <section class="section-class" id="care-steps">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">治療流程</h2>
+                        <p class="content-description">專人服務，舒適安全</p>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="grid-width-900px">
+                        <div class="item-card">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">1</div>
+                                                <h3>治療前評估</h3>
+                                            </div>
+                                            <div>
+                                                <p>醫師會進行詳細檢查，完整的治療評估，確認您適合接受 EECP 治療</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">2</div>
+                                                <h3>準備階段</h3>
+                                            </div>
+                                            <div>
+                                                <p>穿著舒適的棉質長褲，躺臥在專用治療床上</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">3</div>
+                                                <h3>設備連接</h3>
+                                            </div>
+                                            <div>
+                                                <p>醫護人員會在您的腿部和臀部綁上壓力袖帶，並連接心電圖監測儀</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="item-box">
+                                            <div>
+                                                <div class="svg-box">4</div>
+                                                <h3>治療進行</h3>
+                                            </div>
+                                            <div>
+                                                <p>治療過程中放鬆休息，全程約 1 小時，類似按摩，感覺很舒服</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="card gradient-card">
+                            <div class="svg-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock svg-md"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <h3>完整療程</h3>
+                            <p>完整療程為 <strong class="text-primary">35 個小時</strong>， 每次 1 小時，每週 5 次，連續 7 週</p>
+                            <p>做 10 次會有顯著效果，完整 35 次療程效果可持續 3 年以上</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+            <!-- ----- 治療中心 ----- -->
+            <section class="section-class" id="care-center">
+                <div class="container">
+                    <div class="max-w-1024">
+                        <!-- 標題 -->
+                        <div class="one-div">
+                            <h2 class="content-title">治療中心</h2>
+                            <p class="content-description">四家專業醫療機構，就近選擇最方便的地點</p>
+                        </div>
+                        <!-- 內容區塊 -->
+                        <div class="item-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div>
+                                            <h3>長安醫院</h3>
+                                            <div class="info-text">專業心血管治療中心，提供完整 EECP 療程服務</div>
+                                        </div>
+                                        <div>
+                                            <div class="c-address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
+                                                </svg>
+                                                <span class="info-text">台中市太平區永平路一段9號</span>
+                                            </div>
+                                            <div class="c-tel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                                </svg>
+                                                <a href="tel:0909264006">0909-264-006</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div>
+                                            <h3>勝美醫院</h3>
+                                            <div class="info-text">專業醫療團隊，溫馨舒適的治療環境</div>
+                                        </div>
+                                        <div>
+                                            <div class="c-address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
+                                                </svg>
+                                                <span class="info-text">台中市北區五權路482號</span>
+                                            </div>
+                                            <div class="c-tel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                                </svg>
+                                                <a href="tel:0972210731">0972-210-731</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div>
+                                            <h3>第一醫院</h3>
+                                            <div class="info-text">先進醫療設備，貼心的個人化照護</div>
+                                        </div>
+                                        <div>
+                                            <div class="c-address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
+                                                </svg>
+                                                <span class="info-text">台中市中區民族路182號</span>
+                                            </div>
+                                            <div class="c-tel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                                </svg>
+                                                <a href="tel:0972210731">0972-210-731</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div>
+                                            <h3>祥恩醫院</h3>
+                                            <div class="info-text">先進醫療設備，貼心的個人化照護</div>
+                                        </div>
+                                        <div>
+                                            <div class="c-address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-primary svg-20"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>
+                                                </svg>
+                                                <span class="info-text">台中市豐原區中興路35號</span>
+                                            </div>
+                                            <div class="c-tel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary svg-20">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                                </svg>
+                                                <a href="tel:0911386659">0911-386-659</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ----- 常見問題 ----- -->
+            <section class="section-class" id="faq-section">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">常見問題</h2>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="grid-width-900px">
+                        <div class="item-card">
+                            <div class="row">
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">EECP 療程要做多久？</div>
+                                        <div class="info-text">完整療程為 35 個小時，每次一個小時，每週五次，連續做到七週。</div>
+                                    </div>
+                                </div>
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">做治療後可能會有哪些不舒服、副作用？</div>
+                                        <div class="info-text">少數患者可能在初期感到身體乏力或肌肉痠痛、皮膚搔癢、瘀傷等輕微不適，但通常在幾次治療後就能適應。</div>
+                                    </div>
+                                </div>
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">治療前需要禁食嗎？</div>
+                                        <div class="info-text">不用空腹，最好進食後一小時之後再做（建議不要吃太飽）。</div>
+                                    </div>
+                                </div>
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">EECP 做起來的感覺是什麼？</div>
+                                        <div class="info-text">因為是平躺在床上進行治療，類似按摩，感覺很舒服，有些人還會睡著！</div>
+                                    </div>
+                                </div>
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">有年齡限制嗎？</div>
+                                        <div class="info-text">沒有。在美國曾經成功治療的年紀，最老是 97 歲。</div>
+                                    </div>
+                                </div>
+                                <div class="card col-12">
+                                    <div class="item-box">
+                                        <div class="q-title">療程全部結束後，可以再次進行治療嗎？</div>
+                                        <div class="info-text">可以。由於心臟病是慢性病，且在未來任一時間都可以發作，故經醫師診斷後，可再次進行療程。</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ----- 立即預約諮詢 ----- -->
+            <section class="hero-section" id="contact-area">
+                <div class="container">
+                    <!-- 標題 -->
+                    <div class="one-div">
+                        <h2 class="content-title">立即預約諮詢</h2>
+                        <p class="content-description">填寫表單或直接聯繫我們，專人為您服務</p>
+                    </div>
+                    <!-- 內容區塊 -->
+                    <div class="grid-width-900px">
+                        <div class="row">
+                            <div class="col-md-6" class="contact-area-form">
+                                <div class="card">
+                                    <div class="info-title-box">
+                                        <div class="info-title">預約諮詢表單</div>
+                                        <div class="info-text">請留下您的聯絡資訊，我們會盡快與您聯繫</div>
+                                    </div>
+                                    <div class="contact-form-list">
+                                        <!-- 使用 Django 表單套件 -->
+                                        <form method="post" action="" class="row" id="contactForm">
+                                            {% csrf_token %}
+                                            <div class="form-group col-12">
+                                                {{ form.name.label_tag }} {{ form.name }}
+                                                {{ form.name.errors }}
+                                            </div>
+                                            <div class="form-group col-12">
+                                                {{ form.phone.label_tag }} {{ form.phone }}
+                                                {{ form.phone.errors }}
+                                            </div>
+                                            <div class="form-group col-12">
+                                                {{ form.email.label_tag }} {{ form.email }}
+                                                {{ form.email.errors }}
+                                            </div>                                            
+                                            <div class="form-group col-12">
+                                                {{ form.appointment_date.label_tag }} {{ form.appointment_date }}
+                                                {{ form.appointment_date.errors }}
+                                            </div>
+                                            <div class="form-group col-12">
+                                                {{ form.message.label_tag }} {{ form.message }}
+                                                {{ form.message.errors }}
+                                            </div>
+
+                                            <!-- 驗證碼 -->
+                                            <div class="form-group col-12">
+                                                <label for="captcha">驗證碼</label>
+                                                <div class="d-flex align-items-center flex-wrap">
+                                                    {{ form.captcha }}
+                                                    <div class="captcha-container">
+                                                        <img id="captcha-image" src="{% url 'captcha_image' %}?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
+                                                        <button type="button" id="refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
+                                                            <i class="fas fa-sync-alt"></i>
+                                                        </button>
+                                                        <small id="captcha-timer" class="form-text text-muted">驗證碼將於 <span id="countdown">1:00</span> 後失效</small>
+                                                    </div>
+                                                </div>     
+                                                {{ form.captcha.errors }}
+                                                <div class="errorlist" id="contact-captcha-error"></div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" id="contact-submit-btn" title="送出諮詢" class="red">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send svg-xs"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>送出諮詢</button>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">                                
+                                <div class="grid-rows-2-1">
+                                            
+                                    <div class="card contact-area-methods">
+                                        <div class="info-title-box">
+                                            <div class="info-title">其他聯繫方式</div>
+                                            <div class="info-text">選擇最方便的方式與我們聯繫</div>
+                                        </div>
+                                        <div class="info-contact-box">
+                                            <a href="tel:0909264006" class="contact-item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                                </svg>
+                                                <div>
+                                                    <div class="info-title">電話諮詢</div>
+                                                    <div class="info-text">0909-264-006</div>
+                                                </div>
+                                            </a>
+                                            <a href="https://line.me/R/ti/p/@833vtjkr" target="_blank" rel="noopener noreferrer" class="contact-item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle">
+                                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                                                </svg>
+                                                <div>
+                                                    <div class="info-title">LINE 客服</div>
+                                                    <div class="info-text">即時線上諮詢</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card contact-area-service">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+                                            </svg>
+                                            <h3 class="info-title">服務時間</h3>
+                                            <p class="info-text">週一至週五 09:00 - 18:00<br / >週六 09:00 - 12:00</p>
+                                            <div class="info-text">我們會在 24 小時內回覆您的諮詢</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+    
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    <footer class="footer">
+        <div class="container">
+
+            <div class="text-center">
+                <div class="svg-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart svg-sm text-primary"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                    <span>EECP 體外反搏治療</span>
+
+                </div>
+                <p class="info-text">守護您的心血管健康，讓生活更有活力</p>
+                <div class="info-text">
+                    <span>長安醫院</span>
+                    <span>勝美醫院</span>
+                    <span>第一醫院</span>
+                    <span>祥恩醫院</span>
+                </div>
+                <div class="info-text copyright">© {% now "Y" %} EECP 體外反搏治療中心. All rights reserved.</div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script src="{% static 'apps/EECP/js/eecp-contact.js' %}"></script>
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

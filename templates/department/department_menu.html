@@ -1,34 +1,47 @@
-<!doctype html>
-<html lang="zh-TW">
-	<!-- ======= main-content ======= -->
-	<div class="">			
-		<div class="text-white">
-			<div class="title-bg">
-				<div class="px-3 py-4">
-					<h3 class="mb-0">醫療科室介紹</h3>
-					<div class="font-14 opacity-60">Department Introduction</div>
-				</div>	
-				<div class="d-block d-lg-none beige-bg cofe-word p-2 border-2px">
-					<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-						<span><i class="fas fa-caret-right"></i></span>
-					</div>	
-				</div>				
-			</div>
-		</div>		
-		<!-- 下拉選單 -->			
-		<div id="vn-info" class="vn-info">				
-			<div class="side_menu_div beige-bg">
-				<li class="item text-left">
-					<a class="s_btn font-20" href="/A001_department_overview/">科室總覽</a>
-				</li>
-				<li class="item text-left">
-					<!-- <a class="s_btn font-20" href="http://192.168.66.146:818/MedicalSupport/er/ER-index.html">急診醫學科</a> -->
-					<a class="s_btn font-20" href="/A003_ER/">急診醫學科</a>
-				</li>
-				<li class="item text-left">
-					<a class="s_btn font-20" href="/A001_dr_search/">醫師查詢</a>
-				</li>
-			</div>
-		</div>
-	</div>
-</html>
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">Departments</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>醫療科室</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Care & Support</p>
+	</div>		
+
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院科室總覽導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A001_department_overview/' %}is-active{% endif %}" href="/A001_department_overview/" title="台中長安醫院-科室總覽" itemprop="url" {% if request.path == '/A001_department_overview/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">科室總覽</span>
+						<span class="c-sidebar-trust__en">Medical Departments</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院-急診醫學科" itemprop="url" {% if '/A003_ER/' in request.path %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">急診醫學科</span>
+						<span class="c-sidebar-trust__en">Emergency Medicine</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>	
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A001_dr_search/' %}is-active{% endif %}" href="/A001_dr_search/" title="台中長安醫院-醫師查詢" itemprop="url" {% if '/A001_dr_search/' in request.path %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">醫師查詢</span>
+						<span class="c-sidebar-trust__en">Traffic Information</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
+</div>
+

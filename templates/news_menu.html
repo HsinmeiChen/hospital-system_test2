@@ -1,35 +1,56 @@
-<div class="">
-	<div class="text-white">
-		<div class="title-bg">
-			<div class="px-3 py-4">
-				<h3 class="mb-0">動態消息</h3>
-				<div class="font-14 opacity-60">News & Message</div>
-			</div>	
-			<div class="d-block d-lg-none beige-bg cofe-word p-2 border-2px">
-				<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-					<span><i class="fas fa-caret-right"></i></span>
-				</div>
-			</div>
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">INFO</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>動態消息</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
 		</div>
-	</div>
-	<!-- 下拉選單 -->
-	<div id="vn-info" class="vn-info">
-		<div class="side_menu_div beige-bg">
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A000_closed_clinic/">停休診公告</a>
-			</li>				
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A000_news/">最新消息</a>
+		<p>News & Media</p>
+	</div>		
+
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院動態消息導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A000_closed_clinic/' %}is-active{% endif %}" href="/A000_closed_clinic/" title="台中長安醫院-停休診公告" itemprop="url" {% if request.path == '/A000_closed_clinic/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">停休診公告</span>
+						<span class="c-sidebar-trust__en">Clinic Notices</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
 			</li>
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A000_reports/">媒體報導</a>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A000_news/' %}is-active{% endif %}" href="/A000_news/" title="台中長安醫院-最新消息" itemprop="url" {% if request.path == '/A000_news/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">最新消息</span>
+						<span class="c-sidebar-trust__en">News</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
 			</li>
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A000_video_message/">影音消息</a>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A000_reports/' %}is-active{% endif %}" href="/A000_reports/" title="台中長安醫院-媒體報導" itemprop="url" {% if request.path == '/A000_reports/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">媒體報導</span>
+						<span class="c-sidebar-trust__en">Media Reports</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
 			</li>
-			<!-- <li class="item text-left">
-				<a class="s_btn font-20" href="/A000_medical_info/">醫療資訊</a>
-			</li> -->
-		</div>
-	</div>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A000_video_message/' %}is-active{% endif %}" href="/A000_video_message/" title="台中長安醫院-影音消息" itemprop="url" {% if request.path == '/A000_video_message/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">影音消息</span>
+						<span class="c-sidebar-trust__en">Videos</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
 </div>

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Safe_ISMS Page Specific Styles (page-safe-isms.css)
+   ========================================================================== */
+
+.p-safe-isms__content {
+    line-height: 30px;
+    text-align: justify;
+    letter-spacing: 1px;
+    color: var(--color-text-light);
+    padding: 0 0.5rem;
+}
+.p-safe-isms__slogan-group{
+    text-align: center;
+    font-weight: bold;
+    margin: 3rem 0;
+    font-size: 1.1rem;
+}
+.p-safe-isms__slogan-group > p{
+    margin-bottom: .9rem;
+}
+.p-safe-isms__content h4{
+    font-weight: bold;
+    margin-top: 1.5rem;
+}
+@media (min-width: 768px) {
+    .p-safe-isms__slogan-group{
+        font-size: 1.5rem;
+    }
+}

@@ -29,7 +29,7 @@ urlpatterns = [
     re_path('A000_reports/', pomelo_views.new_medias),
     re_path('A000_closed_clinic/', pomelo_views.new_stop_show),
     re_path('A000_video_message/', pomelo_views.new_video),
-    re_path('A000_medical_info/', pomelo_views.medical_info),
+    re_path('A000_medical_info/', pomelo_views.medical_info), # 未開放
     re_path('A000_medical_pages/', pomelo_views.medical_pages),
     re_path('A001_department_overview/', pomelo_views.A001_department_overview),
     re_path('A001_department_part/', pomelo_views.A001_department_part),
@@ -39,7 +39,7 @@ urlpatterns = [
     re_path('A002_registration_notice/', pomelo_views.A002_registration_notice),
     re_path('A002_which_disease/', pomelo_views.A002_which_disease),
     re_path('A002_clinic_time/', pomelo_views.A002_clinic_time),
-    re_path('A002_payment_machine/', pomelo_views.A002_payment_machine),
+    re_path('A002_payment_machine/', pomelo_views.A002_payment_machine), # 未開放
     re_path('A002_self_service/', pomelo_views.A002_self_service),
     re_path('A002_data_apply/', pomelo_views.A002_data_apply),
     re_path('A003_Medical_Support/', pomelo_views.A003_Medical_Support),
@@ -51,9 +51,9 @@ urlpatterns = [
     re_path('A003_Story_1/', pomelo_views.A003_Story_1),
     re_path('A003_Story_2/', pomelo_views.A003_Story_2),
     re_path('A003_Laboratory/', pomelo_views.A003_Laboratory),
-    re_path('A003_Laboratory_1/', pomelo_views.A003_Laboratory_1),
+    re_path('A003_Laboratory_1/', pomelo_views.A003_Laboratory_1), # 未開放-最新公告
     re_path('A003_Laboratory_2/', pomelo_views.A003_Laboratory_2),
-    # re_path('A003_Laboratory_3/', pomelo_views.A003_Laboratory_3),
+    # re_path('A003_Laboratory_3/', pomelo_views.A003_Laboratory_3), # 未開放-抱怨程序
     re_path('A003_Laboratory_4/', pomelo_views.A003_Laboratory_4),
     re_path('A003_labor_blood/', pomelo_views.A003_labor_blood),
     re_path('A003_labor_blood_2/', pomelo_views.A003_labor_blood_2),
@@ -70,7 +70,7 @@ urlpatterns = [
     re_path('A003_labor_clinical_3_csf/', pomelo_views.A003_labor_clinical_3_csf),
     re_path('A003_labor_clinical_3_dung/', pomelo_views.A003_labor_clinical_3_dung),
     re_path('A003_labor_clinical_3_ra/', pomelo_views.A003_labor_clinical_3_ra),
-    re_path('A003_labor_clinical_3_phlegm/', pomelo_views.A003_labor_clinical_3_phlegm),
+    re_path('A003_labor_clinical_3_phlegm/', pomelo_views.A003_labor_clinical_3_phlegm),  # 內容不對
     re_path('A003_labor_clinical_3_prepare/', pomelo_views.A003_labor_clinical_3_prepare),
     re_path('A003_labor_clinical_3_respiratory/', pomelo_views.A003_labor_clinical_3_respiratory),
     re_path('A003_labor_clinical_3_semen/', pomelo_views.A003_labor_clinical_3_semen),
@@ -90,10 +90,10 @@ urlpatterns = [
     re_path('A003_labor_clinical_4_respiratory/', pomelo_views.A003_labor_clinical_4_respiratory),
     re_path('A003_labor_clinical_4_urine/', pomelo_views.A003_labor_clinical_4_urine),
     re_path('A003_labor_clinical_5/', pomelo_views.A003_labor_clinical_5),
-    re_path('A003_labor_clinical_6/', pomelo_views.A003_labor_clinical_6),
+    re_path('A003_labor_clinical_6/', pomelo_views.A003_labor_clinical_6), # 檢驗服務項目 (asp)
     re_path('A003_labor_clinical_7/', pomelo_views.A003_labor_clinical_7),
     re_path('A003_labor_clinical_8/', pomelo_views.A003_labor_clinical_8),
-    re_path('A003_labor_clinical_9/', pomelo_views.A003_labor_clinical_9),
+    re_path('A003_labor_clinical_9/', pomelo_views.A003_labor_clinical_9), # 報告單位換算 (asp)
     re_path('A003_labor_clinical_in_b/', pomelo_views.A003_labor_clinical_in_b),
     re_path('A003_labor_clinical_in_du/', pomelo_views.A003_labor_clinical_in_du),
     re_path('A003_labor_clinical_in_glu/', pomelo_views.A003_labor_clinical_in_glu),
@@ -126,13 +126,13 @@ urlpatterns = [
     # re_path('A006_Online_Booking_0/<url>/', pomelo_views.A006_Online_Booking_0),
     re_path('A006_Online_Booking_0_0/', pomelo_views.A006_Online_Booking_0_0),
     re_path('A006_Online_Booking_login/', pomelo_views.A006_Online_Booking_login),
-    re_path('A006_Online_Booking_first/', pomelo_views.A006_Online_Booking_first),
-    re_path('A006_Online_Booking_data/', pomelo_views.A006_Online_Booking_data),
+    re_path('A006_Online_Booking_first/', pomelo_views.A006_Online_Booking_first), # 初診資料填寫
+    re_path('A006_Online_Booking_data/', pomelo_views.A006_Online_Booking_data), # 預約資料記錄
     re_path('A006_Online_Booking_check/', pomelo_views.A006_Online_Booking_check),
     re_path('A006_Online_Booking_1/', pomelo_views.A006_Online_Booking_1),
-    re_path('A006_Online_Booking_1_part/', pomelo_views.A006_Online_Booking_1_part),
+    re_path('A006_Online_Booking_1_part/', pomelo_views.A006_Online_Booking_1_part), # 科別預約頁
     re_path('A006_Online_Booking_2/', pomelo_views.A006_Online_Booking_2),
-    re_path('A006_Online_Booking_2_1/', pomelo_views.A006_Online_Booking_2_1),
+    re_path('A006_Online_Booking_2_1/', pomelo_views.A006_Online_Booking_2_1), # 醫師預約頁
     re_path('A006_sign_out/', pomelo_views.A006_sign_out),
     re_path('A006_register/', pomelo_views.A006_register),
     re_path('A006_find_register/', pomelo_views.A006_find_register),
@@ -141,7 +141,6 @@ urlpatterns = [
     re_path('A100_search_sename/', pomelo_views.A100_search_sename),
     re_path('A101_search_bed/', pomelo_views.A101_search_bed),
     re_path('A102_Safe_ISMS/', pomelo_views.A102_Safe_ISMS),
-    re_path('A103_bread_pencil/', pomelo_views.A103_bread_pencil),  # 麵包屑導航
     # re_path(r'^web_speech/',include('web_speech.urls')),
     re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
     re_path('EECP/', include('EECP.urls')),

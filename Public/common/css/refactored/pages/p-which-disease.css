@@ -1,0 +1,24 @@
+/* ==========================================================================
+   我要看哪一科 - page-which-disease.css 
+   ========================================================================== */
+
+.thh-title{
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+.which_class h3{
+    margin-bottom: 15px;
+}
+.which_class table{
+    margin-bottom: 0px !important;
+}
+.which_class table tbody th{
+    width: 30%;
+}
+.which_class table tbody th{
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding: 5px;
+}

@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" prefix="og: http://ogp.me/ns#">
+<head>
+    <!-- Basic ====================== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO ======================== -->
+    <title>{% block title %}長安醫院{% endblock %}</title>
+    <meta name="keywords" content="{% block keywords %}長安醫院、太平醫院、急診、骨科、眼科、復健、體檢、健康檢查、假日門診{% endblock %}">
+    <meta name="description" content="{% block meta_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+    <link rel="canonical" href="{{ SITE_DOMAIN }}{{ request.path }}">
+    <meta name="robots" content="index, follow">
+
+    <!-- 語系 ======================== -->
+    <meta property="og:locale" content="zh_TW">
+
+    <!-- Open Graph (Facebook Share) ======== -->
+    <!-- 首頁要改成 website -->
+    <meta property="og:type" content="{% block og_type %}article{% endblock %}">
+    <meta property="og:site_name" content="長安醫院">
+    <meta property="og:title" content="{% block og_title %}長安醫院{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+    <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
+    <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+
+    <!-- Twitter Card (ChatGPT / Perplexity / line / DC) ====== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}長安醫院{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+
+    <meta name="twitter:image" content="{% block twitter_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+
+    <!-- Google 網站驗證（Google Site Verification）用的標記 === -->
+    <meta name="google-site-verification" content="cxRGjKaWmPVHZpRnEEhMaxvpAhqe3tqxOjwtAKkd5TA" />    
+
+    <!-- Web-icon =========================== -->
+    <link rel="icon" href="{% static 'common/img/favicon.ico' %}" type="image/x-icon">
+
+    <!-- BS-CSS ================================ -->
+    <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
+
+    <!-- 外部套件 CSS ======================= -->
+    <!-- Fancy Box -->
+    <link rel="stylesheet" href="{% static 'common/css/fancybox.css' %}">    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'common/css/sweetalert2.min.css' %}">
+
+    <!-- 導航列 css ======================= -->
+    <link rel="stylesheet" type="text/css" href="{% static 'common/css/reset.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'common/css/style.min.css' %}">
+
+    <!-- 模組化 CSS ======================= -->
+    <link rel="stylesheet" href="{% static 'common/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/sub-style.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/base.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/header.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/components.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/utilities.css' %}">
+
+    <!-- ※※※ 子頁面可額外加 CSS Start ※※※ -->
+    {% block extra_css %}{% endblock %}
+    <!-- ※※※ 子頁面可額外加 CSS End ※※※ -->
+
+    <!-- js ================================= -->
+    <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- 共同引用 nav.footer.menu 對應內容 套件 -->
+    <script src="{% static 'common/js/ajax_share_kit.js' %}"></script>
+    <script src="{% static 'common/js/main-loading.js' %}"></script>
+
+    <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
+    {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
+        {% if final_gtm_id %}
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', '{{ final_gtm_id }}');
+        </script>
+        {% endif %}
+    {% endwith %}
+
+<!-- 網站資料結構 Schema.org -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": ["Hospital","MedicalOrganization"],
+        "@id": "{{ SITE_DOMAIN }}/#hospital",
+        "name": "長安醫院",
+        "alternateName": "Everan Hospital",
+        "identifier": "everan-hospital-tw",
+        "url": "{{ SITE_DOMAIN }}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ SITE_DOMAIN }}/static/common/img/single-logo.png"
+        },
+        "image": "{{ SITE_DOMAIN }}/static/common/img/everan2.png",
+        "telephone": "+886-4-36113611",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "臺中市太平區永平路一段9號",
+            "addressLocality": "太平區",
+            "addressRegion": "台中市",
+            "postalCode": "411",
+            "addressCountry": "TW"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 24.131351242611057,
+            "longitude": 120.71968279325328
+        },
+        "hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJZ2uZpskiaTQR5iM4FHKy8Kk",
+
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ SITE_DOMAIN }}"
+        },
+        "isAccessibleForFree": true,
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "opens": "08:30",
+                "closes": "12:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "opens": "13:30",
+                "closes": "17:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "opens": "17:30",
+                "closes": "21:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Saturday","Sunday"],
+                "opens": "08:30",
+                "closes": "12:00"
+            }
+        ],
+        "areaServed": {
+            "@type": "AdministrativeArea",
+            "name": "台中市"
+        },
+        "medicalSpecialty": [
+            "Orthopedic",
+            "PreventiveMedicine",
+            "Neurology",
+            "Neurosurgery",
+            "CardiovascularMedicine",
+            "BreastSurgery",
+            "EmergencyMedicine"
+        ],
+        "department": [
+            {
+                "@type": "MedicalOrganization",
+                "name": "骨科",
+                "medicalSpecialty": "Orthopedic"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "乳房外科",
+                "medicalSpecialty": "BreastSurgery"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "婦科",
+                "medicalSpecialty": "Gynecology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "神經外科",
+                "medicalSpecialty": "Neurosurgery"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "神經內科",
+                "medicalSpecialty": "Neurology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "眼科",
+                "medicalSpecialty": "Ophthalmology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "新陳代謝科",
+                "medicalSpecialty": "Endocrinology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "泌尿科",
+                "medicalSpecialty": "Urology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "心臟血管內科",
+                "medicalSpecialty": "CardiovascularMedicine"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "胸腔內科",
+                "medicalSpecialty": "Pulmonology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "腎臟內科",
+                "medicalSpecialty": "Nephrology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "肝膽腸胃科",
+                "medicalSpecialty": "Gastroenterology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "家醫科",
+                "medicalSpecialty": "FamilyMedicine"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "復健科",
+                "medicalSpecialty": "Rehabilitation"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "耳鼻喉科",
+                "medicalSpecialty": "Otolaryngology"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "兒科",
+                "medicalSpecialty": "Pediatrics"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "一般外科",
+                "medicalSpecialty": "GeneralSurgery"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "大腸直腸外科",
+                "medicalSpecialty": "ColorectalSurgery"
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "神經醫學中心",
+                "medicalSpecialty": ["Neurology","Neurosurgery"]
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "心血管中心",
+                "medicalSpecialty": ["CardiovascularMedicine"]
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "乳房中心",
+                "medicalSpecialty": ["BreastSurgery"]
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "健康管理中心",
+                "medicalSpecialty": ["PreventiveMedicine"]
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "骨科微創手術中心",
+                "medicalSpecialty": ["Orthopedic"]
+            },
+            {
+                "@type": "MedicalOrganization",
+                "name": "EECP 體外反博治療中心",
+                "medicalSpecialty": ["CardiovascularMedicine"]
+            }
+        ],
+        "sameAs": [
+            "https://www.facebook.com/everanhospital",
+            "https://line.me/R/ti/p/%40jgc1441j",
+            "https://www.youtube.com/channel/UC_-FuU3FcVfNzmQDwlaeT5g",
+            "https://www.instagram.com/everanhospital/",
+            "https://www.google.com/maps/place/?q=place_id:ChIJZ2uZpskiaTQR5iM4FHKy8Kk"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+886-4-36113611",
+            "contactType": "customer service",
+            "availableLanguage": ["zh-TW"]
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ SITE_DOMAIN }}/search/?q={query}",
+            "query-input": "required name=query"
+        }
+    }
+</script>
+</head>
+<body>
+    <!-- ▼▼▼ Google Tag Manager (noscript) ▼▼▼ -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TMHQ84N" height="0" width="0" style="display:none;visibility:hidden" sandbox="allow-same-origin allow-scripts"></iframe>
+    </noscript>
+    <!-- ▲▲▲ Google Tag Manager (noscript) End ▲▲▲ -->
+
+    <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+    {% include 'main_loading.html' %}
+    <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+
+    <!-- ■■■ Go To Top (Web Only) ■■■ -->
+    <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" class="c-back-to-top" title="回到最上方" role="button" aria-label="回到最上方">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- ※※※ Web Content ※※※ -->
+    {% spaceless %}
+       {% block content %}{% endblock %}
+    {% endspaceless %}
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+
+    <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
+    <!-- <nav id="bottomNav" class="bottom-nav">
+        <a href="http://m.me/everanhospital" class="bottom-nav-item" title="FB 客服">
+            <i class="fab fa-facebook"></i>
+            <span>FB 客服</span>
+        </a>
+        <a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="LINE 客服" target="_blank">
+            <i class="fab fa-line"></i>
+            <span>LINE 客服</span>
+        </a>
+        <a href="{% url 'breast_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
+            <i class="fas fa-envelope"></i>
+            <span>聯絡我們</span>
+        </a>
+        <a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
+            <i class="fas fa-arrow-up"></i>
+            <span>回到最上方</span>
+        </a>
+    </nav> -->
+
+    <!-- ※※※ 共用 JS Tool Start ※※※ -->
+    
+    <!-- ════ 全站核心工具 (整合 Gotop, Sidebar, PDF工具) ════ -->
+    <script src="{% static 'common/js/site-main.js' %}" defer></script>
+
+    <!-- ※※※ 共用 JS Tool End ※※※ -->
+    
+    <!-- ※※※ 子頁面可額外加 JS ※※※ -->
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

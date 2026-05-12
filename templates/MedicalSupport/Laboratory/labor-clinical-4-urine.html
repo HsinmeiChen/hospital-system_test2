@@ -1,110 +1,95 @@
+{% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
 
-<head>
-	{% include 'Public_head.html' %}
-	<title>尿液培養檢體採集_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}	
-</head>
+{% block title %}尿液培養檢體採集｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}尿液培養檢體採集｜檢驗科｜長安醫院{% endblock %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
+{% block guide_content %}
+<!-- 標題 -->
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item pencil_4"></li>
-											<li class="breadcrumb-item active" aria-current="page">尿液培養檢體採集</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
 									<section id="content_h">
+
 										<div class="onsale_heading">尿液培養檢體採集</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">	                        
+
 											<div class="col-12">
+
 												<div class="select_4"></div>
+
 											</div>
+
 											<div class="col-12">
+
 												
+
 												<div class="px-2 pb-2 ml-md-4">
+
 													<ul class="list-bullets mb-0">
+
 														<li class="mb-1 pt-1">儘量採集清晨第一次的尿液，或至少讓尿液留在膀胱裡過夜或留四小時以上，以避免尿液培養的偽陰性結果。避免為了讓病人解尿而給病人太多水份，這樣會造成尿液稀釋而使菌落數小於 105CFU/mL。</li>        
+
 														<li class="mb-1 pt-1">
+
 															<div class="row">
+
 																<div class="col-12">
+
 																	<div class="font-18"><strong>自然解的中段尿（voided midstream urine）：</strong></div>
+
 																	<div>
+
 																		<p class="mb-0">A、女性：先用水和中性肥皂清潔陰部及手部，並以無菌紗布或滅菌後棉枝前後擦拭乾淨；將陰唇用手指向兩旁撥開，先打開無菌試管之管蓋，排掉前段之尿液後，以無菌試管留取中段尿液約1/3滿後，迅速蓋上蓋子並鎖緊。</p>
+
 																		<p class="mb-0">B、男性：將清洗擦拭尿道口後；打開無菌試管之管蓋，排掉前段之尿液後，以無菌試管留取中段尿液約1/3滿後，迅速蓋上蓋子並鎖緊。</p>
+
 																		<p class="mb-0">C、若為幼兒，可用尿袋，但以收集一次小便為限，不可用儲尿；先在嬰幼兒之陰唇或尿道口作消毒後，貼上尿袋，收集適量後（＞1 mL），將尿倒入無菌離心管中，蓋上蓋子並鎖緊。</p>
+
 																		<p class="mb-0">D、若病人無法採用正常方式收集檢體時，可採用導尿或膀胱穿刺。</p>
+
 																	</div>
+
 																</div>
+
 															</div>
+
 														</li>
+
 														<li class="mb-1 pt-1">導尿採檢：讓病人平躺於檢查床上，導尿人員戴上消毒手套後，消毒男性病人的尿道口與龜頭或女性病人的尿道口與外陰部，以潤滑膠液潤滑病人尿道及導管外部，將導管慢慢放入病人尿道中，直至尿液順利導出，直接以無菌收集盒留取尿液約1/3滿後，迅速蓋上蓋子並鎖緊。</li> 
+
 														<li class="mb-1 pt-1">膀胱穿刺採檢：先以消毒劑（如hibiscrub）洗手，受檢者雙腿彎曲呈蛙腿般姿勢，定出欲下針處，約在恥骨聯合上方0.5公分，下腹中線處，戴上無菌手套，並消毒下針處附近的皮膚，觸摸恥骨聯合，以垂直角度在前者上方0.5公分處下針，需一面反抽針筒一面將針深入。一旦有尿抽出時，就不用再深入，抽出針以無菌紗布墊壓迫下針處，將尿液打入無菌試管中或原針筒送檢。</li>
+
 														<li class="mb-1 pt-1">收集尿液過程中，請勿將手伸入容器內，且尿液勿過滿溢出容器外，以免污染。</li> 
+
 														<li class="mb-1 pt-1">尿液收集後，需在兩小時內送達，若無法在兩小時內送達，需馬上冷藏，運送過程中也要冷藏，但不可以冷凍。</li>  
+
 														
+
 													</ul> 
+
 												</div>
+
 	
+
 											</div>
+
 										</div>
+
 									</section>	
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
-</body>
+								
+{% endblock %}
 
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="尿液培養檢體採集｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

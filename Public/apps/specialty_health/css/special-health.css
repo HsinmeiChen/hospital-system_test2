@@ -305,9 +305,9 @@ footer{
     border-top: 1px solid var(--brown1);
     padding: 30px 10px 10px 10px;
 }
-/*.footer{
-    padding-bottom: 65px;
-}*/
+.footer{
+    padding-bottom: 60px;
+}
 .footer-box{
     width: 98%;
     margin: 0 auto;
@@ -496,7 +496,8 @@ nav.bottom-nav::before{
     font-size: 24px;
     margin-bottom: 4px;
 }
-.bottom-nav-item .fa-facebook{
+.bottom-nav-item .fa-facebook,
+.bottom-nav-item .fa-calendar-alt{
     color: var(--facebook);
 }
 .bottom-nav-item .fa-envelope{
@@ -523,12 +524,14 @@ nav.bottom-nav::before{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    z-index: 99999;
+    transition: 
+        opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+        visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
     visibility: visible;
     /* ✅ 保險機制：5秒後自動隱藏 */
@@ -542,38 +545,68 @@ nav.bottom-nav::before{
     animation: none;
 }
 
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+.loading-content {
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.loading-logo {
+    width: 85%;
+    margin: 0 auto 15px;
+    animation: pulse-logo 2s ease-in-out infinite;
+    will-change: transform; /* 強制啟動 GPU 加速 */
+}
+
+.loading-logo img {
+    width: 100%;
+    height: auto;
+}
+
+.loading-progress-container {
+    width: 200px;
+    margin: 0 auto 20px;
+    height: 4px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.loading-progress-bar {
+    width: 80%;
+    height: 100%;
+    background-color: var(--orange1);
+    border-radius: 10px;
+    animation: progress-move 2s linear infinite; /* 改為等速線性，解決卡頓感 */
+    will-change: transform; /* 強制啟動 GPU 加速 */
 }
 
 .loading-text {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #555;
-    text-align: center;
+    font-size: 1rem;
+    color: var(--main-color);
+    letter-spacing: 2px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+@keyframes progress-move {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(120%); } /* 簡化關鍵幀，移動更順滑 */
+}
+
+@keyframes pulse-logo {
+    0% { transform: scale(0.98); opacity: 0.85; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(0.98); opacity: 0.85; }
 }
 
 /* ✅ 保險機制動畫：5秒後自動隱藏（僅在 JS 失效時使用） */
 @keyframes auto-hide-fallback {
-    0%, 95% { 
-        opacity: 1; 
-        visibility: visible;
-    }
-    100% { 
-        opacity: 0; 
-        visibility: hidden;
-    }
+    0%, 95% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
 }
+
+
 /* ---------------------------------------------------
     UI 共用排版間距
 ----------------------------------------------------- */
@@ -716,7 +749,7 @@ h5 a:hover, h6 a:hover{
     font-weight: 700;
     line-height: 1;
     color: var(--brown1);
-    margin: 2rem 0 1rem 0;
+    margin: 1rem 0;
 }
 .title-02::before {
     content: "";
@@ -1127,6 +1160,25 @@ h5 a:hover, h6 a:hover{
     background-color: var(--white);
     opacity: 1;
 }
+
+/* 【----- 子專案按鈕 -----】 */
+.btn-outline-brown {
+    color: var(--brown1);
+    border-color: var(--brown1);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn-outline-brown:hover {
+    background-color: var(--brown1);
+    color: var(--white) !important;
+    transform: translateX(5px);
+}
+.btn-outline-brown { margin-right: 10px; margin-bottom: 10px; }
 
 /* 【----- 我要預約按鈕 -----】 */
 .booking-btn{
@@ -1572,43 +1624,63 @@ nav.sidenav::before{
     list-style: none;
 }
 .circle-items > li{
-    /* width: calc(25% - 20px); */
     margin: 0;
-    padding: 0;
+    padding: 12px;
     font-size: 100%;
     line-height: inherit;
     box-sizing: border-box;
-    margin-bottom: 20px;
 }
 .circle-items > li .circle-item-inner{
     position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--white);
+    padding: 15px;
+    border-radius: var(--sm-corner);
+    border: 1px solid var(--grey10);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.circle-items > li .circle-item-inner:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-color: var(--orange1);
+}
+.circle-items > li .circle-item-inner:hover .circle-image div{
+    transform: scale(1.1);
+}
+.circle-items > li .circle-item-inner:hover .treat-title{
+    color: var(--orange1);
+}
+.circle-items > li .circle-item-inner:hover .btn-more{
+    color: var(--orange2);
+    border-bottom: 1px solid var(--orange2);
+    padding-left: 5px;
 }
 .circle-items > li .circle-image{
-    width: 180px;
-    height: 180px;
-    margin: 0 auto;
-}
-.circle-image a{
-    width: 180px;
-    height: 180px;
-    display: block;
-    border: 3px solid #57c2e7;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    margin: 0;
+    border: 2px solid var(--grey5);
     position: relative;
-    border-radius: 50%;
+    border-radius: 12px;
     overflow: hidden;
     transition-duration: 0.2s;
 }
-.circle-image a > div{
+.circle-image div{
     background-repeat: no-repeat;
-    background-position: left top;
+    background-position: center;
     background-size: cover;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    transition: transform 0.5s ease;
 }
-.circle-image a > div:before{
+.circle-image div:before{
     transition-duration: 0.2s;
     opacity: 0;
     content: "";
@@ -1618,36 +1690,51 @@ nav.sidenav::before{
     right: 0;
     left: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.6);
 }
-.circle-image a > div:after{
-    transition-duration: 0.2s;
-    opacity: 0;
-    content: "詳細介紹";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--carbon-black);
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 1.15;
-    text-align: center;
-}
-.circle-image a > div:hover:before,
-.circle-image a > div:hover:after{
+.circle-image div:hover:before{
     opacity: 1;
 }
 .circle-items > li .circle-texts{
     position: relative;
-    text-align: center;
+    text-align: left;
+    padding: 5px 0 5px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: flex-start;
 }
-.circle-items > li .circle-texts a{
+.circle-items > li .circle-texts .treat-title{
     transition-duration: 0.2s;
-    margin: 0 0 5px;
-    text-align: center;
+    margin: 15px 0 0 0;
+    text-align: justify;
     line-height: 1.4;
-    padding: 10px;
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    color: var(--brown1);
+}
+.circle-items > li .circle-texts .btn-more{
+    display: inline-block;
+    font-size: 0.95rem;
+    color: var(--orange1);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+.circle-items > li .circle-texts .btn-more:hover{
+    color: var(--orange2);
+    border-bottom: 1px solid var(--orange2);
+    padding-left: 5px;
+}
+.circle-items > li .circle-texts .treat-btn-wrap{
+    margin-top: auto;
+    align-self: flex-end;
+}
+.circle-items > li .circle-texts .btn-more i{
+    font-size: 0.8rem;
+    margin-left: 4px;
     font-size: 1.1rem;
     display: inline-block;
     color: var(--brown1);
@@ -1657,7 +1744,7 @@ nav.sidenav::before{
     content: "";
     position: absolute;
     top: -15px;
-    left: 30px;
+    left: -7px;
     display: block;
     background-image: url(/media/specialty_health/icon_attention.png);
     background-size: 40px 33px;
@@ -1671,7 +1758,7 @@ nav.sidenav::before{
     opacity: 1;
     transform: translate(0, 0);
 }
-.circle-items > li .circle-item-inner:hover .circle-texts a{
+.circle-items > li .circle-item-inner:hover .circle-texts .treat-title{
     color: var(--orange1);
 }
 
@@ -1725,8 +1812,10 @@ nav.sidenav::before{
     color: var(--brown-black);
     margin: 1.2rem 0.5rem;
     text-align: justify;
-    line-height: 1.6;
     letter-spacing: 2px;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
 }
 .a-paragraph .btnn,
 .a-paragraph .a-btn{
@@ -1815,14 +1904,6 @@ li.list-answer {
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.a-paragraph {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    color: #333;
-    margin-bottom: 1.25rem;
-    text-align: justify;
-}
 .a-img {
     text-align: center;
     margin: 0.5rem 0;
@@ -1830,8 +1911,11 @@ li.list-answer {
 .a-img img {
     max-width: 100%;
     height: auto;
-    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease; */
+}
+.download-section > a{
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left;
 }
 .news-links {
     margin: 1.5rem 0;
@@ -2036,6 +2120,14 @@ table{
     color: var(--orange1);
     background-color: var(--off-white);
 }
+/* 父層 active collapse */
+a.list-group-item.list-group-item-action[data-toggle="collapse"] {
+    border-bottom: 0;
+}
+/* 子選單最後一個 */
+.collapse a.sub-item:last-of-type {
+    border-bottom: 0;
+}
 
 /* 【----- BS-page -----】 */
 .page-link{
@@ -2184,6 +2276,9 @@ table{
 }
 
 /* 首頁-最新消息 */
+#news{
+    padding: 3rem 0;
+}
 .a_tit_1{
     background: var(--soft-beige);
     border: 1px solid var(--brown1);
@@ -2231,16 +2326,22 @@ table{
 }
 
 /* 首頁-健檢專案 */
+/* 讓 .stretched-link 讓一個連結透明地覆蓋整個父層區域 */
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
 #treatment{
     padding: 3rem 0;
     /* background-image: url(/media/specialty_health/bullseye-gradient.webp);
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: bottom; */
-}
-#treatment > div{
-    border-radius: var(--lg-corner);
-    padding: 30px;
 }
 #treatment > div > div > h2{
     font-weight: bold;
@@ -2828,7 +2929,7 @@ table{
 .treat-article-detail .bc-nav{
     text-align: right;
     max-width: 100%;
-    margin: 0 0 15px 0;
+    margin: 15px 0;
 }
 .treat-article-detail .section-grid.shadow-4{
     background-color: var(--white);
@@ -3391,6 +3492,10 @@ table{
     .article-detail .page-banner .page-banner-inner{
         padding: .8rem 5.5%;
     }
+    /* 【-- 最新消息-文章 --】 */
+    .treat-article-detail .bc-nav{
+        margin: 0 0 15px 0;
+    }
     /* 【-- 聯絡我們 --】 */
     #id_captcha{
         width: 30%;
@@ -3716,6 +3821,4 @@ table{
         width: 80%;
     }
 }
-
-
 

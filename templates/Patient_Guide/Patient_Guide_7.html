@@ -1,135 +1,65 @@
+{% extends "Patient_Guide/Patient_Guide_base.html" %}
+
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
-<head>
-	{% include 'Public_head.html' %}
-	<title>我該看哪一科_長安醫院</title>
-	{% include 'GA_head.html' %}
+<!-- === Meta ================================== -->
+{% block title %}我該看哪一科｜{{ block.super }}{% endblock %}
+{% block og_title %}我該看哪一科｜{{ block.super }}{% endblock %}
 
-	<style>
-		.table-bordered td, .table-bordered th{
-			border: 1px solid #c2bdbd;
-		}
-		.search_box{
-			width: 100%;
-			max-width: 300px;
-		}
-	</style>
-</head>
 
-<body>
-	{% include 'GA_noscript.html' %}
-
-    <div class="wrapper L_sub_main_bg">
-
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-
-		<!-- ======= navbar ======= -->
-		{% include 'header.html' %}
-		<!-- ======= navbar End ======= -->
-
-		<!-- ======= main-content ======= -->
-		<main class="pb-3">
-			<div class="container py-1">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'Patient_Guide/Patient_Guide_menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
-
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<!-- <li class="breadcrumb-item"><a href="about_cg.html"></a></li> -->
-											<li class="breadcrumb-item active" aria-current="page">我該看哪一科</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->									
-									<section id="content_h">
-										<div class="onsale_heading">我該看哪一科</div>
-										<hr class="my-2">
-									</section>
-									<!-- 細節 -->
-									<section id="content_body">
-										<div class="row">
-											<div class="col-12">
-												<!-- 搜尋列 -->
-												<!-- <div class="mb-3 float-right">
-													<div class="search_box mt-2 justify-content-end">
-														<div class="input-group">
-															<div class="search_input_div d-flex">
-																<div class="input_clear search_input_div2">
-																	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-																				×
-																	</button>
-																</div> 
-																<input type="text" class="form-control" placeholder="請輸入症狀相關文字" aria-label="請輸入症狀相關文字" aria-describedby="button-addon2" name="ShowQuery_String" id="search_box">
-															</div>
-															<div class="input-group-append ml-0">
-																<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-															</div>
-														</div>
-													</div>
-												</div> -->
-												{% for subject,departments in datas %}
-													<div class="which_class cofe-word">
-														<table class="table table-striped table-bordered">
-															<thead>
-																<tr>
-																	<th colspan="2" class="text-center title-bg thh-title">{{ subject }}</th>
-																</tr>
-															</thead>
-															<tbody>
-																{% for department,text,path in departments %}
-																	<tr>
-																		<th>
-																			<a href="/A006_Online_Booking_1_part/?A006_sename={{ department }}">{{ department }}</a>
-																			<!-- {{ department }} -->
-																		</th>
-																		<td class="text-justify">{{ text }}</td>
-																	</tr>
-																{% endfor %}
-															</tbody>
-														</table>
-													</div>
-												{% endfor %}
-											</div>
-										</div>
-									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>	
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">我該看哪一科</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		<div class="col-12">
+			{% for subject,departments in datas %}
+				<div class="which_class cofe-word">
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th colspan="2" class="text-center title-bg thh-title">{{ subject }}</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for department,text,path in departments %}
+							<tr>
+								<th>
+									<a href="/A006_Online_Booking_1_part/?A006_sename={{ department }}">{{ department }}</a>
+									<!-- {{ department }} -->
+								</th>
+								<td class="text-justify">{{ text }}</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
 				</div>
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
+			{% endfor %}
+		</div>
 	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ※※ 輸入框清除 / 搜尋關鍵字 ※※ -->
-	<script src="{% static 'common/js/input_xfilter.js' %}"></script>
-	<!-- ======= js 套件區 End ======= -->
-</body>
 
-</html>
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="我該看哪一科" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+	.table-bordered td, .table-bordered th{
+		border: 1px solid #c2bdbd;
+	}
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,99 +1,87 @@
-<div class="">			
-	<div class="text-white">
-		<div class="title-bg">
-			<div class="px-3 py-4">
-				<h3 class="mb-0">急診醫學科</h3>
-				<div class="font-14 opacity-60">Department of Laboratory Medicine</div>
-			</div>	
-			<div class="d-block d-lg-none beige-bg cofe-word p-2 border-2px">
-				<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-					<span><i class="fas fa-caret-right"></i></span>
-				</div>	
-			</div>				
-		</div>
-	</div>		
-	<!-- 下拉選單 -->			
-	<div id="vn-info" class="vn-info">				
-		<div class="side_menu_div beige-bg">
-			<ul class="mb-0">
-				<li class="text-left">		
-					<!-- <a class="s_btn font-20" href="contact_us_index.html">獨立科別</a>-->
-					<div class="flex flex-column faq-section">
-						<div class="row">
-							<div class="col-md-12">
-								<div id="accordion">
-									<div>
-										<a class="s_btn" href="/A003_ER/">本科介紹</a>
-									</div>
-									<div>
-										<a class="s_btn" href="/A003_ER_1/">醫師陣容</a>
-									</div>
-									<div>
-										<div class="s_btn" id="collection-3">
-											<a class="collapsed" role="button" data-toggle="collapse" href="#collection-specimen" aria-expanded="false" aria-controls="collapse-3">醫療服務</a>
-										</div>
-										<div id="collection-specimen" class="collapse" data-parent="#accordion" aria-labelledby="collection-3">
-											<div class="sidemenu-items">
-												<!-- <a class="s_btn" href="ER-Service-index.html">服務項目</a> -->
-												<!-- <a class="s_btn" href="ER-Service-1.html">自費採檢</a> -->
-												<a class="s_btn" href="/A003_ER_2/">檢傷流程</a>
-											</div>
-										</div>
-									</div>
-									<div>
-										<div class="s_btn" id="collection-4">
-											<a class="collapsed" role="button" data-toggle="collapse" href="#hearding_AED" aria-expanded="false" aria-controls="collapse-4">聽見 AED</a>
-										</div>
-										<div id="hearding_AED" class="collapse" data-parent="#accordion" aria-labelledby="collection-4">
-											<div class="sidemenu-items">
-												<a class="s_btn" href="/A003_AED/">AED 介紹</a>
-												<a class="s_btn" href="/A003_AED_1/">新聞媒體</a>
-											</div>
-										</div>
-									</div>
-									<div>
-										<a class="s_btn" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html">急診即時資訊</a>
-									</div>
-									<!-- <div>
-										<a class="s_btn" href="ER-Story-index.html">媒體報導</a>
-									</div> -->
-									<div>
-										<a class="s_btn" href="/A003_Story_1/">民眾感謝</a>
-									</div>
-									<div>
-										<a class="s_btn" href="/A003_Story_2/">定期訓練</a>
-									</div>
-									<!-- <div>
-										<div class="s_btn" id="collection-5">
-											<a class="collapsed" role="button" data-toggle="collapse" href="#ER-Story" aria-expanded="false" aria-controls="collapse-4">媒體報導、急診故事</a>
-										</div>
-										<div id="ER-Story" class="collapse" data-parent="#accordion" aria-labelledby="collection-5">
-											<div class="sidemenu-items">
-												<a class="s_btn" href="ER-Story-index.html">媒體報導</a>
-												<a class="s_btn" href="ER-Story-1.html">民眾感謝</a>
-												<a class="s_btn" href="ER-Story-2.html">定期訓練</a>
-											</div>
-										</div>
-									</div> -->
-									<div>
-										<div class="s_btn" id="collection-6">
-											<a class="collapsed" role="button" data-toggle="collapse" href="#ER-QA" aria-expanded="false" aria-controls="collapse-4">回饋我們</a>
-										</div>
-										<div id="ER-QA" class="collapse" data-parent="#accordion" aria-labelledby="collection-6">
-											<div class="sidemenu-items">
-												<a class="s_btn" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp">急診滿意度調查</a>
-												<!-- <a class="s_btn" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-Emp.asp">內部顧客滿意度調查</a>
-												<a class="s_btn" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-EMT.asp">EMT 滿意度調查</a> -->
-												<!-- <a class="s_btn" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-Ref.asp">急診轉診(院)滿意度調查</a> -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>								
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-</div>
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">ER</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>急診醫學科</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Emergency Medicine</p>
+	</div>		
+
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院急診醫學科選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院-急診-本科介紹" itemprop="url" {% if request.path == '/A003_ER/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">本科介紹</span>
+						<span class="c-sidebar-trust__en">About ER</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_1/' %}is-active{% endif %}" href="/A003_ER_1/" title="台中長安醫院-急診-醫師陣容" itemprop="url" {% if request.path == '/A003_ER_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">醫師陣容</span>
+						<span class="c-sidebar-trust__en">Doctors</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>	
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_2/' %}is-active{% endif %}" href="/A003_ER_2/" title="台中長安醫院-急診-檢傷流程" itemprop="url" {% if request.path == '/A003_ER_2/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">檢傷流程</span>
+						<span class="c-sidebar-trust__en">Triage Process</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html" title="台中長安醫院-急診-即時資訊" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">急診即時資訊</span>
+						<span class="c-sidebar-trust__en">Live Emergency Updates</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_1/' %}is-active{% endif %}" href="/A003_Story_1/" title="台中長安醫院-急診-民眾感謝" itemprop="url" {% if request.path == '/A003_Story_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">民眾感謝</span>
+						<span class="c-sidebar-trust__en">Thanks</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_2/' %}is-active{% endif %}" href="/A003_Story_2/" title="台中長安醫院-急診-定期訓練" itemprop="url" {% if request.path == '/A003_Story_2/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">定期訓練</span>
+						<span class="c-sidebar-trust__en">Training</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp" title="台中長安醫院-急診-回饋我們" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">回饋我們</span>
+						<span class="c-sidebar-trust__en">Feedback</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
+</div>
+

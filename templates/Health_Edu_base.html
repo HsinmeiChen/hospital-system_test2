@@ -1,0 +1,55 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="l-wrapper l-sub-layout">
+    <header>{% include 'header.html' %}</header>
+    <main class="l-sub-layout__main l-sub__bg" role="main">
+        <!-- ■■■ 共用 Hero Header ■■■ -->
+        <section class="u-hero-header">
+            <div class="container">
+                <div class="u-hero-header__content">
+                    <span class="u-tag-primary">HEALTH EDUCATION</span>
+                    <h1 class="u-hero-title">衛教園地 ‧ 健康陪伴</h1>
+                    <p class="u-hero-desc">透過淺顯易懂的健康知識與照護說明，本院陪伴您了解疾病預防與日常保健方法，讓健康管理更安心、更有方向。</p>
+                </div>
+            </div>
+        </section>
+        <div class="container l-container-panel">
+            <div class="row g-lg-5">
+                <aside class="col-lg-3">
+                    <div class="l-sidebar">
+                        {% include 'Health_Edu_menu.html' %}
+                    </div>
+                </aside>
+                <article class="col-lg-9">
+                    {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                    <div class="l-main-content u-panel-pure">
+                        {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}{% endblock %}
+<!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+
+{% endblock %}
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+    {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+    {% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

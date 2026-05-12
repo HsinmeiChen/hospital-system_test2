@@ -1,0 +1,30 @@
+<!-- ■■■ 麵包屑模組 ■■■ -->
+{% if breadcrumbs|length > 1 %}  <!-- 只有一層時，不顯示麵包屑 -->
+<nav aria-label="breadcrumb" role="navigation" class="font-16">
+    <ol class="breadcrumb justify-content-end"
+        itemscope
+        itemtype="https://schema.org/BreadcrumbList">
+        {% for item in breadcrumbs %}
+        <li class="breadcrumb-item"
+            itemprop="itemListElement"
+            itemscope
+            itemtype="https://schema.org/ListItem">
+
+            {% if not forloop.last %}
+            <!-- 如果不是最後一層，顯示「帶有連結的文字」 -->
+            <a href="{{ item.url }}" itemprop="item">
+                <span itemprop="name" class="font-weight-bold">
+                    {% if forloop.first %}<i class="fas fa-home" aria-hidden="true"></i> {% endif %}{{ item.name }}
+                </span>
+            </a>
+            {% else %}
+            <!-- 如果是最後一層，顯示「純文字」 -->
+            <span itemprop="name">{{ item.name }}</span>
+            {% endif %}
+
+            <meta itemprop="position" content="{{ forloop.counter }}">
+        </li>
+        {% endfor %}
+    </ol>
+</nav>
+{% endif %}

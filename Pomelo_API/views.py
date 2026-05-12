@@ -90,7 +90,7 @@ def error_update_send_mail(e):
 		if settings.EMAIL_USE_TLS:
 			smtpObj.starttls()
 		smtpObj.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		smtpObj.sendmail(settings.EMAIL_HOST_USER, "ha01540@everanhospital.com.tw", message.as_string())
+		smtpObj.sendmail(settings.EMAIL_HOST_USER, "evanitdept@gmail.com", message.as_string())
 	except smtplib.SMTPException:
 		pass
 
@@ -1537,23 +1537,6 @@ def error_404(request, exception):
 # def error_500(request, exception):
 # 	return redirect("index")
 
-# 功能(其他)、檔案上傳
-# @csrf_exempt
-# def file_upload(request):
-# 	# 判斷是否使用POST
-# 	if request.method=="POST":
-# 		# 收取網頁回應的FILE檔案
-# 		uploaded_file = request.FILES['file']
-# 		# 建立django儲存器，並且設定上傳檔案位置 (可不在意檔案類型，會自動儲存)
-# 		fss = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'test20230307'))
-# 		# 儲存
-# 		file = fss.save(uploaded_file.name, uploaded_file)
-# 		# 重新導向網址
-# 		return redirect("/Pomelo_file_upload/")
-# 		# 查詢資料夾清單
-# 		# mediafiles = os.listdir(settings.MEDIA_ROOT) 原本會存到 MEDIA_ROOT(可看settings.py是存到哪個路徑),可以改成指定資料夾
-# 		mediafiles = os.listdir(os.path.join(settings.MEDIA_ROOT, 'test20230307'))
-# 		return render(request, "File_upload.html", locals()) # 單純秀網頁的語法
 
 # =========================================新官網=========================================
 class MyPaginator(Paginator):
@@ -3161,7 +3144,7 @@ def A002_consultation_progress(request):
 	now_display = datetime.datetime.now()
 	now_display = datetime.datetime.strftime(now_display, "%Y-%m-%d %H:%M:%S")
 	
-	return render(request, "consultation_progress_v3.html", {
+	return render(request, "consultation_progress.html", {
 		'modals': modals,
 		'number_lists': number_lists,
 		'now_status': now_status,
@@ -3174,7 +3157,7 @@ def A002_registration_notice(request):
 	data = open(os.path.join(settings.MEDIA_ROOT, 'A002', 'registration_notice', 'main.txt'), "r", encoding="utf-8")
 	data_lines = data.readlines()
 
-	return render(request, "Patient_Guide/Patient_Guide_index_v2.html", {
+	return render(request, "Patient_Guide/Patient_Guide_index.html", {
 		'data_lines': data_lines,
 		'A006_True': A006_True,
 	})
@@ -3239,7 +3222,7 @@ def A002_data_apply(request):
 # 醫療支援-科室總覽
 def A003_Medical_Support(request):
 
-	return render(request, "MedicalSupport/d-support_index.html", {})
+	return render(request, "MedicalSupport/d_support_index.html", {})
 
 # 急診醫學科
 def A003_ER(request):
@@ -3484,7 +3467,7 @@ def A003_labor_pathology_5(request):
 		if ((search_keywords in str(d[1]).lower()) or (search_keywords in str(d[3]).lower()) or (search_keywords in str(d[4]).lower()) or (search_keywords in str(d[12]).lower())):
 			data2.append(d)
 
-	return render(request, "MedicalSupport/Laboratory/labor-pathology-5_v3.html", {
+	return render(request, "MedicalSupport/Laboratory/labor-pathology-5.html", {
 		'data2': data2,
 		'search_keywords': search_keywords,
 	})
@@ -3902,7 +3885,7 @@ def A006_Online_Booking_login(request):
 			if 'user_pwd' in locals() and user_pwd is not None:
 				template_vars['user_pwd'] = user_pwd
 		
-		return render(request, "Patient_Guide/Patient_Guide_2_4_v8.html", template_vars)
+		return render(request, "Patient_Guide/Patient_Guide_2_4.html", template_vars)
 
 # 網路掛號_初診資料建立
 @csrf_exempt
@@ -3941,7 +3924,7 @@ def A006_Online_Booking_first(request):
 	if ("pat_sex" in request.session):
 		return redirect("/A006_Online_Booking_0_0/")
 
-	return render(request, "Patient_Guide/Patient_Guide_2_5_v8.html", {
+	return render(request, "Patient_Guide/Patient_Guide_2_5.html", {
 		'A006_True': A006_True,
 		'showalert': showalert if 'showalert' in locals() else None,
 		'showalert_error': showalert_error if 'showalert_error' in locals() else None,
@@ -4040,7 +4023,7 @@ def A006_Online_Booking_check(request):
 		elif (request.session["A006_user_sectno"] in ["09"]) and (age < 120000):
 			stop_reserve_on = True
 
-	return render(request, "Patient_Guide/Patient_Guide_2_6_v3.html", {
+	return render(request, "Patient_Guide/Patient_Guide_2_6.html", {
 		'A006_True': A006_True,
 		'stop_reserve_on': stop_reserve_on,
 		'repeat_data_on': repeat_data_on,
@@ -4131,7 +4114,7 @@ def A006_Online_Booking_data(request):
 		visitno = locals().get('visitno')
 	if 'showfancybox' in locals():
 		showfancybox = locals().get('showfancybox')
-	return render(request, "Patient_Guide/Patient_Guide_2_3_v2.html", {
+	return render(request, "Patient_Guide/Patient_Guide_2_3.html", {
 		'A006_True': A006_True,
 		'showalert': showalert,
 		'visitno': visitno,
@@ -4896,8 +4879,3 @@ def A101_search_bed(request):
 # =========================================A102(資通安全政策聲明)=============================================
 def A102_Safe_ISMS(request):
 	return render(request, "Safe_ISMS.html", {})
-
-# =========================================A103(麵包屑導航)=============================================
-def A103_bread_pencil(request):
-	'''提供麵包屑導航 HTML 片段，供 JavaScript 動態載入使用'''
-	return render(request, "bread_pencil.html", {})

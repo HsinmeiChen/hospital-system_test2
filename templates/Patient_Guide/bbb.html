@@ -1,238 +1,238 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-	<div id="bk_all_div">
-		<!-- ▼▼▼▼▼ 選擇初診、複診 ▼▼▼▼▼ -->
-		<div id="choose_1">
-			<div class="login_title">請選擇</div>
-			<div class="row">
-				<div class="col-lg-6 reg_bg">
-					<div class="trasition_site d_intro animate-from-bottom__0" style="cursor: pointer;" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='';document.getElementById('login_fair_to_first').style.display ='none';">
-						<div class="in_icon">
-							<i class="fas fa-notes-medical"></i>
-						</div>
-						<div class="in_content"> 
-							<div class="in_title">初診</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 reg_bg">
-					<div class="trasition_site d_intro animate-from-bottom__0" style="cursor: pointer;" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';">
-						<div class="in_icon">
-							<i class="fas fa-user-md"></i>
-						</div>
-						<div class="in_content"> 
-							<div class="in_title">複診</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- ▼▼▼▼▼▼▼▼ 登入功能 ▼▼▼▼▼▼▼▼ -->
-		<div id="booking_login" style="display: none;">
-			<div class="login_title">登入</div>
-			<div>
-				<form action="/action_page.php">
-					<div class="form-group">
-						<label for="ID_card" class="cofe-word mark_arrow_title">
-							<h5 class="font-weight-bold mb-0">身分證字號:</h5>
-						</label>
-						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required>
-					</div>
-					<div class="form-group">
-						<label for="Birthday" class="cofe-word mark_arrow_title">
-						<h5 class="font-weight-bold mb-0">出生日期：</h5>
-						</label>
-						<input type="number" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 88 年 8 月 8 號，請輸入 0880808" name="Birthday" required>
-					</div>
-					<div class="form-inline">
-						<label for="vcode" class="cofe-word mark_arrow_title">
-						<h5 class="font-weight-bold mb-0">驗證碼：</h5>
-						</label>
-						<input type="text" name="verifycode" class="form-control border-coco rounded-0 input2" id="verifycode" placeholder="請輸入驗證碼" style="width: 120px;" required>
-						<a href="javascript:refreshcode();">
-							<img src="CheckCodeServlet" title="看不清點擊刷新" id="vcode" />
-						</a>
-					</div>
-					<hr />
-					<!-- 效果：登入成功 -->
-					<div class="Confirm_btn_50">
-						<input type="submit" class="btn btn-success" value="登入" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';">
-						<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
-					</div>
-					<!-- 效果：登入失敗 -->
-					<div class="Confirm_btn_50 mt-1">
-						<input type="submit" class="btn btn-success" value="登入失敗" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';document.getElementById('login_fair_to_first').style.display ='';">
-						<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
-					</div>
-				</form>
-			</div>
-		</div>
-		<!-- 登入成功：確認預約/個人資料 -->
-		<div id="booking_sure_1" class="make_sure_1" style="display: none;">
-			<div class="login_title">確認資料</div>
-			<hr class="hr_line" />
-			<div>
-				<div class="Order_title">預約核對</div>
-				<div class="css_table">
-					<div class="css_tr">
-						<div class="css_th">預約日期</div>
-						<div class="css_td">2023-12-29</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">預約時段</div>
-						<div class="css_td">下午</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">科別</div>
-						<div class="css_td">肝膽腸胃科</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">醫師</div>
-						<div class="css_td">蔡松茂</div>
-					</div>							
-				</div>
-				
-				<hr class="hr_line" />
-	
-				<div class="Order_title">個資核對</div>
-				<div class="css_table">
-					<div class="css_tr">
-						<div class="css_th">身分證字號</div>
-						<div class="css_td">N123456789</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">出生日期</div>
-						<div class="css_td">1990-01-01</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">姓名</div>
-						<div class="css_td">王長安</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">性別</div>
-						<div class="css_td">女</div>
-					</div>
-					<div class="css_tr">
-						<div class="css_th">地址</div>
-						<div class="css_td">台中市太平區永平路一段9號</div>
-					</div>						
-				</div>
-				<hr />
-				<!-- 效果：登入結果 (有分"成功"與"失敗") -->
-				<div class="Confirm_btn_50">
-					<input type="submit" class="btn btn-success" value="確認預約" data-fancybox data-src="#make_sure_again">
-					<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
-				</div>					
-			</div>
-		</div>
-		<!-- 登入成功：再次確認預約資料(取診號) -->
-		<div id="make_sure_again" class="Booking_login make_sure_again">
-			<div class="login_title">請再次確認</div>
-			<hr />
-			<div class="css_table">
-				<div class="css_tr">
-					<div class="css_th">姓名</div>
-					<div class="css_td">王長安</div>
-				</div>
-				<div class="css_tr">
-					<div class="css_th">科別</div>
-					<div class="css_td">肝膽腸胃科</div>
-				</div>
-				<div class="css_tr">
-					<div class="css_th">醫師</div>
-					<div class="css_td">蔡松茂</div>
-				</div>
-				<div class="css_tr">
-					<div class="css_th">日期</div>
-					<div class="css_td">2023-12-29</div>
-				</div>									
-			</div>			
-			<div class="alert alert-info text-center">
-				<div class="h4 font-weight-bold">目前最新預約診號為</div>
-				<div class="h3 font-weight-bold text-danger">33號</div>
-				<div>(最新預約診號僅供參考)</div>
-			</div>
-			<hr />
-			<!-- 效果：預約作業結果 (有分"成功"與"失敗") -->
-			<div class="Confirm_btn_50">
-				<input type="submit" class="btn btn-success" value="確定預約" onclick="sure_ok()">
-				<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
-			</div>
-		</div>
-		<!-- ▼▼▼▼▼ 初診單填寫區塊 ▼▼▼▼▼ -->
-		<div id="First_Visit" style="display: none;">
-			<div class="login_title">初診資料填寫</div>
-			<div>
-				<form action="/action_page.php">
-					<div class="form-group">
-						<label for="ID_name" class="cofe-word mark_arrow_title">
-							<h5 class="font-weight-bold mb-0">姓名:</h5>
-						</label>
-						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_name" placeholder="" name="ID_name" required>
-					</div>
-					<div class="form-group">
-						<label for="ID_card" class="cofe-word mark_arrow_title">
-							<h5 class="font-weight-bold mb-0">身分證字號:</h5>
-						</label>
-						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required>
-					</div>
-					<div class="form-group">
-						<label for="Contact_phone" class="cofe-word mark_arrow_title">
-							<h5 class="font-weight-bold mb-0">聯絡電話:</h5>
-						</label>
-						<input type="text" class="form-control border-coco rounded-0 input2" id="Contact_phone" placeholder="" name="Contact_phone" required>
-					</div>
-					<div class="form-group">
-						<label for="Birthday" class="cofe-word mark_arrow_title">
-						<h5 class="font-weight-bold mb-0">出生日期：</h5>
-						</label>
-						<input type="number" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 88 年 8 月 8 號，請輸入 0880808" name="Birthday" required>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-lg-3">
-								<label class="cofe-word mark_arrow_title">
-									<h5 class="font-weight-bold mb-0">性別：</h5>
-								</label>
-							</div>
-							<div class="col-lg-9">
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-									<label class="custom-control-label" for="customRadioInline1">男</label>
-								</div>
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-									<label class="custom-control-label" for="customRadioInline2">女</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="Contact_add" class="cofe-word mark_arrow_title">
-							<h5 class="font-weight-bold mb-0">通訊地址：</h5>
-						</label>
-						<input type="text" class="form-control border-coco rounded-0 input2" id="Contact_add" name="Contact_add" required>
-					</div>
-					<hr />
-					<!-- 效果：初診資料建立 (有分"成功"與"失敗") -->
-					<div class="Confirm_btn_50">
-						<input type="submit" class="btn btn-success btn-lg rounded-0" value="資料確認" onclick="sure_ok()">
-						<input type="button" class="btn btn-light btn-lg rounded-0 w-50" value="取消" data-fancybox-close="">
-					</div>
-				</form>
-			</div>
-		</div>
-		<!-- 登入失敗：是否要填初診資料進行預約 -->
-		<div id="login_fair_to_first" style="display: none;">
-			<div class="message-icon message-warning message-icon-show">
-				<div class="message-icon-content">!</div>
-			</div>
-			<div class="mb-2" style="padding: 0em 1em 0;font-weight: 600;text-align: center;margin: 0;word-wrap: break-word;max-width: 100%;color: inherit;font-size: 1.875em;">登入失敗！</div>
-			<div class="mb-2" style="font-size: 1.125em;text-align: center;">資料不存在，您是否要填寫初診資料進行預約?</div>
-			<div class="Confirm_btn_50 mt-4">
-				<input type="submit" class="btn btn-success" value="確定" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='';document.getElementById('login_fair_to_first').style.display ='none';">
-				<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
-			</div>
-		</div>
-	</div>
-</html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+	<div id="bk_all_div">
+		<!-- ▼▼▼▼▼ 選擇初診、複診 ▼▼▼▼▼ -->
+		<div id="choose_1">
+			<div class="login_title">請選擇</div>
+			<div class="row">
+				<div class="col-lg-6 reg_bg">
+					<div class="trasition_site d_intro animate-from-bottom__0" style="cursor: pointer;" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='';document.getElementById('login_fair_to_first').style.display ='none';">
+						<div class="in_icon">
+							<i class="fas fa-notes-medical"></i>
+						</div>
+						<div class="in_content"> 
+							<div class="in_title">初診</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 reg_bg">
+					<div class="trasition_site d_intro animate-from-bottom__0" style="cursor: pointer;" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';">
+						<div class="in_icon">
+							<i class="fas fa-user-md"></i>
+						</div>
+						<div class="in_content"> 
+							<div class="in_title">複診</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ▼▼▼▼▼▼▼▼ 登入功能 ▼▼▼▼▼▼▼▼ -->
+		<div id="booking_login" style="display: none;">
+			<div class="login_title">登入</div>
+			<div>
+				<form action="/action_page.php">
+					<div class="form-group">
+						<label for="ID_card" class="cofe-word mark_arrow_title">
+							<h5 class="font-weight-bold mb-0">身分證字號:</h5>
+						</label>
+						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required>
+					</div>
+					<div class="form-group">
+						<label for="Birthday" class="cofe-word mark_arrow_title">
+						<h5 class="font-weight-bold mb-0">出生日期：</h5>
+						</label>
+						<input type="number" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 88 年 8 月 8 號，請輸入 0880808" name="Birthday" required>
+					</div>
+					<div class="form-inline">
+						<label for="vcode" class="cofe-word mark_arrow_title">
+						<h5 class="font-weight-bold mb-0">驗證碼：</h5>
+						</label>
+						<input type="text" name="verifycode" class="form-control border-coco rounded-0 input2" id="verifycode" placeholder="請輸入驗證碼" style="width: 120px;" required>
+						<a href="javascript:refreshcode();">
+							<img src="CheckCodeServlet" title="看不清點擊刷新" id="vcode" />
+						</a>
+					</div>
+					<hr />
+					<!-- 效果：登入成功 -->
+					<div class="Confirm_btn_50">
+						<input type="submit" class="btn btn-success" value="登入" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';">
+						<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
+					</div>
+					<!-- 效果：登入失敗 -->
+					<div class="Confirm_btn_50 mt-1">
+						<input type="submit" class="btn btn-success" value="登入失敗" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='none';document.getElementById('login_fair_to_first').style.display ='';">
+						<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 登入成功：確認預約/個人資料 -->
+		<div id="booking_sure_1" class="make_sure_1" style="display: none;">
+			<div class="login_title">確認資料</div>
+			<hr class="hr_line" />
+			<div>
+				<div class="Order_title">預約核對</div>
+				<div class="css_table">
+					<div class="css_tr">
+						<div class="css_th">預約日期</div>
+						<div class="css_td">2023-12-29</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">預約時段</div>
+						<div class="css_td">下午</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">科別</div>
+						<div class="css_td">肝膽腸胃科</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">醫師</div>
+						<div class="css_td">蔡松茂</div>
+					</div>							
+				</div>
+				
+				<hr class="hr_line" />
+	
+				<div class="Order_title">個資核對</div>
+				<div class="css_table">
+					<div class="css_tr">
+						<div class="css_th">身分證字號</div>
+						<div class="css_td">N123456789</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">出生日期</div>
+						<div class="css_td">1990-01-01</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">姓名</div>
+						<div class="css_td">王長安</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">性別</div>
+						<div class="css_td">女</div>
+					</div>
+					<div class="css_tr">
+						<div class="css_th">地址</div>
+						<div class="css_td">台中市太平區永平路一段9號</div>
+					</div>						
+				</div>
+				<hr />
+				<!-- 效果：登入結果 (有分"成功"與"失敗") -->
+				<div class="Confirm_btn_50">
+					<input type="submit" class="btn btn-success" value="確認預約" data-fancybox data-src="#make_sure_again">
+					<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
+				</div>					
+			</div>
+		</div>
+		<!-- 登入成功：再次確認預約資料(取診號) -->
+		<div id="make_sure_again" class="Booking_login make_sure_again">
+			<div class="login_title">請再次確認</div>
+			<hr />
+			<div class="css_table">
+				<div class="css_tr">
+					<div class="css_th">姓名</div>
+					<div class="css_td">王長安</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">科別</div>
+					<div class="css_td">肝膽腸胃科</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">醫師</div>
+					<div class="css_td">蔡松茂</div>
+				</div>
+				<div class="css_tr">
+					<div class="css_th">日期</div>
+					<div class="css_td">2023-12-29</div>
+				</div>									
+			</div>			
+			<div class="alert alert-info text-center">
+				<div class="h4 font-weight-bold">目前最新預約診號為</div>
+				<div class="h3 font-weight-bold text-danger">33號</div>
+				<div>(最新預約診號僅供參考)</div>
+			</div>
+			<hr />
+			<!-- 效果：預約作業結果 (有分"成功"與"失敗") -->
+			<div class="Confirm_btn_50">
+				<input type="submit" class="btn btn-success" value="確定預約" onclick="sure_ok()">
+				<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
+			</div>
+		</div>
+		<!-- ▼▼▼▼▼ 初診單填寫區塊 ▼▼▼▼▼ -->
+		<div id="First_Visit" style="display: none;">
+			<div class="login_title">初診資料填寫</div>
+			<div>
+				<form action="/action_page.php">
+					<div class="form-group">
+						<label for="ID_name" class="cofe-word mark_arrow_title">
+							<h5 class="font-weight-bold mb-0">姓名:</h5>
+						</label>
+						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_name" placeholder="" name="ID_name" required>
+					</div>
+					<div class="form-group">
+						<label for="ID_card" class="cofe-word mark_arrow_title">
+							<h5 class="font-weight-bold mb-0">身分證字號:</h5>
+						</label>
+						<input type="text" class="form-control border-coco rounded-0 input2" id="ID_card" placeholder="" name="ID_card" required>
+					</div>
+					<div class="form-group">
+						<label for="Contact_phone" class="cofe-word mark_arrow_title">
+							<h5 class="font-weight-bold mb-0">聯絡電話:</h5>
+						</label>
+						<input type="text" class="form-control border-coco rounded-0 input2" id="Contact_phone" placeholder="" name="Contact_phone" required>
+					</div>
+					<div class="form-group">
+						<label for="Birthday" class="cofe-word mark_arrow_title">
+						<h5 class="font-weight-bold mb-0">出生日期：</h5>
+						</label>
+						<input type="number" class="form-control border-coco rounded-0 input2" id="Birthday" placeholder="民國 88 年 8 月 8 號，請輸入 0880808" name="Birthday" required>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-lg-3">
+								<label class="cofe-word mark_arrow_title">
+									<h5 class="font-weight-bold mb-0">性別：</h5>
+								</label>
+							</div>
+							<div class="col-lg-9">
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline1">男</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline2">女</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="Contact_add" class="cofe-word mark_arrow_title">
+							<h5 class="font-weight-bold mb-0">通訊地址：</h5>
+						</label>
+						<input type="text" class="form-control border-coco rounded-0 input2" id="Contact_add" name="Contact_add" required>
+					</div>
+					<hr />
+					<!-- 效果：初診資料建立 (有分"成功"與"失敗") -->
+					<div class="Confirm_btn_50">
+						<input type="submit" class="btn btn-success btn-lg rounded-0" value="資料確認" onclick="sure_ok()">
+						<input type="button" class="btn btn-light btn-lg rounded-0 w-50" value="取消" data-fancybox-close="">
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 登入失敗：是否要填初診資料進行預約 -->
+		<div id="login_fair_to_first" style="display: none;">
+			<div class="message-icon message-warning message-icon-show">
+				<div class="message-icon-content">!</div>
+			</div>
+			<div class="mb-2" style="padding: 0em 1em 0;font-weight: 600;text-align: center;margin: 0;word-wrap: break-word;max-width: 100%;color: inherit;font-size: 1.875em;">登入失敗！</div>
+			<div class="mb-2" style="font-size: 1.125em;text-align: center;">資料不存在，您是否要填寫初診資料進行預約?</div>
+			<div class="Confirm_btn_50 mt-4">
+				<input type="submit" class="btn btn-success" value="確定" onclick="document.getElementById('choose_1').style.display ='none';document.getElementById('booking_login').style.display ='none';document.getElementById('booking_sure_1').style.display ='none';document.getElementById('make_sure_again').style.display ='none';document.getElementById('First_Visit').style.display ='';document.getElementById('login_fair_to_first').style.display ='none';">
+				<input type="button" class="btn btn-light" value="取消" data-fancybox-close="">
+			</div>
+		</div>
+	</div>
+</html>

@@ -1,0 +1,62 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+{% block og_type %}website{% endblock %}
+
+{% block keywords %}長安醫院, 太平醫院, 急診, 骨科, 眼科, 復健, 體檢, 健康檢查, 假日門診, 預約慢性病處方箋{% endblock %}
+
+{% block meta_description %}長安醫院提供『預約慢性病處方箋』線上服務，免排隊、免現場等候，輕鬆預約續藥領取時間，照顧您的健康更便利！{% endblock %}
+
+{% block og_description %}長安醫院提供『預約慢性病處方箋』線上服務，免排隊、免現場等候，輕鬆預約續藥領取時間，照顧您的健康更便利！{% endblock %}
+
+{% block twitter_description %}長安醫院提供『預約慢性病處方箋』線上服務，免排隊、免現場等候，輕鬆預約續藥領取時間，照顧您的健康更便利！{% endblock %}
+
+{% block og_image %}{{ SITE_DOMAIN }}{% static 'common/img/drug-reservation.jpg' %}{% endblock %}
+{% block twitter_image %}{{ SITE_DOMAIN }}{% static 'common/img/drug-reservation.jpg' %}{% endblock %}
+
+{% block content %}
+
+    {% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+
+    <div class="l-wrapper l-sub__bg">
+        <header>{% include 'header.html' %}{% include 'Online_nav_drug.html' %}</header>
+        <main class="l-sub-layout__main" role="main">
+            <div class="l-container-panel pt-2">
+                <article>
+                    <!-- 讓子頁面決定是否要用預設的麵包屑 -->
+                    {% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %} <!-- 麵包屑自動化 -->
+                    <div class="l-main-content u-panel-pure" style="background-color: transparent;">
+                        {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+    <!-- ▼▼▼ SEO/GEO ▼▼▼-->
+    {% block guide_seo %}{% endblock %}
+    <!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+     
+{% endblock %}
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/Reserve_pre.css' %}">
+    {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+    <!-- ════ Fancy Box ════ -->
+    <script src="{% static 'common/js/fancybox.umd.js' %}" defer></script>
+    <!-- ════ Sweet alert2 ════ -->
+    <script src="{% static 'common/js/sweetalert2.all.min.js' %}" defer></script>
+    <!-- ════ Fancy alert2 ════ -->
+    <script src="{% static 'common/js/fancy_alert_mes_set.js' %}" defer></script>
+    {% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

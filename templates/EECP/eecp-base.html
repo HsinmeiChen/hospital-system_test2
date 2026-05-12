@@ -1,302 +1,302 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- SEO Basic ======================== -->
-        <title>{% block title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}</title>
-        <meta name="title" content="{% block title_1 %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
-        <meta name="keywords" content="{% block keywords %}EECP,體外反搏,心血管治療,心絞痛治療,非侵入治療,血液循環改善,心臟保健,台中EECP,長安醫院,勝美醫院,第一醫院,祥恩醫院,心血管疾病,冠心病,心臟復健{% endblock %}">
-        <meta name="description" content="{% block meta_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務，立即預約諮詢 0909-264-006{% endblock %}">
-        <meta name="author" content="EECP 體外反搏治療中心">
-        <!-- 告訴搜尋引擎這個頁面的「正規網址」，防止重複內容問題 -->
-        <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
-
-        <!-- Open Graph (Facebook Share) ======== -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="{% block og_title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
-        <meta property="og:description" content="{% block og_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務。{% endblock %}">
-        <meta property="og:url" content="{{ request.build_absolute_uri }}">
-        <meta property="og:image" content="{% block og_image %}{{ og_image }}{% endblock %}">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630">
-        <meta property="og:locale" content="zh_TW">
-        <meta property="og:site_name" content="EECP 體外反搏治療中心">
-        
-        <!-- Twitter Card ======================== -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{% block twitter_title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
-        <meta name="twitter:description" content="{% block twitter_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛。{% endblock %}">
-        <meta name="twitter:image" content="{% block twitter_image %}{{ og_image }}{% endblock %}">
-
-        <!-- Web-icon =========================== -->
-        <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
-        
-        <!-- Schema.org JSON-LD (Structured Data)--Google 可顯示豐富摘要，AI 搜尋引擎友善 -->
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@graph": [
-                {
-                    "@type": "MedicalWebPage",
-                    "@id": "{{ request.build_absolute_uri }}#webpage",
-                    "url": "{{ request.build_absolute_uri }}",
-                    "name": "EECP 體外反搏治療 - 守護您的心血管健康",
-                    "description": "EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務。",
-                    "inLanguage": "zh-TW",
-                    "about": {
-                        "@type": "MedicalProcedure",
-                        "name": "EECP 體外反搏療法",
-                        "alternateName": "Enhanced External Counter-Pulsation",
-                        "procedureType": "非侵入性心血管治療",
-                        "bodyLocation": {
-                            "@type": "AnatomicalStructure",
-                            "name": "心血管系統"
-                        }
-                    },
-                    "specialty": {
-                        "@type": "MedicalSpecialty",
-                        "name": "心臟科"
-                    }
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "@id": "{{ request.build_absolute_uri }}#eecp-procedure",
-                    "name": "EECP 體外反搏治療",
-                    "alternateName": ["Enhanced External Counter-Pulsation", "體外反搏療法"],
-                    "description": "EECP 是一種非侵入性的心血管治療裝置，經美國 FDA 認證，無侵入性、免麻醉、免開刀、免住院，已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。",
-                    "procedureType": "非侵入性心血管治療",
-                    "preparation": "治療前進行專業評估，確認適合接受治療",
-                    "howPerformed": "患者平躺，透過外部壓力有節奏地按摩腿部血管，促進血液循環",
-                    "followup": "完整療程為 35 個小時，每次 1 小時，每週 5 次，連續 7 週",
-                    "medicineSystem": "https://www.fda.gov/",
-                    "recognizingAuthority": {
-                        "@type": "Organization",
-                        "name": "美國 FDA"
-                    },
-                    "relevantSpecialty": {
-                        "@type": "MedicalSpecialty",
-                        "name": "心臟科"
-                    },
-                    "contraindication": [
-                        "嚴重主動脈瓣膜逆流",
-                        "主動脈瘤",
-                        "嚴重周邊血管疾病",
-                        "孕婦"
-                    ],
-                    "possibleTreatment": [
-                        {
-                            "@type": "MedicalCondition",
-                            "name": "心絞痛"
-                        },
-                        {
-                            "@type": "MedicalCondition",
-                            "name": "冠心病"
-                        },
-                        {
-                            "@type": "MedicalCondition",
-                            "name": "心臟衰竭"
-                        },
-                        {
-                            "@type": "MedicalCondition",
-                            "name": "高血壓"
-                        }
-                    ]
-                },
-                {
-                    "@type": "Organization",
-                    "@id": "{{ request.build_absolute_uri }}#organization",
-                    "name": "EECP 體外反搏治療中心",
-                    "description": "提供專業 EECP 體外反搏治療服務的醫療機構聯盟",
-                    "url": "{{ request.build_absolute_uri }}",
-                    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'apps/EECP/img/EECP.png' %}",
-                    "contactPoint": {
-                        "@type": "ContactPoint",
-                        "telephone": "+886-909-264-006",
-                        "contactType": "預約諮詢",
-                        "areaServed": "TW",
-                        "availableLanguage": ["zh-TW", "Chinese"]
-                    },
-                    "areaServed": {
-                        "@type": "City",
-                        "name": "台中市"
-                    }
-                },
-                {
-                    "@type": "MedicalOrganization",
-                    "name": "長安醫院",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "台中市",
-                        "addressRegion": "太平區",
-                        "addressCountry": "TW"
-                    },
-                    "telephone": "+886-4-3611-1999"
-                },
-                {
-                    "@type": "MedicalOrganization",
-                    "name": "勝美醫院",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "台中市",
-                        "addressRegion": "北區",
-                        "addressCountry": "TW"
-                    },
-                    "telephone": "+886-4-2203-5800"
-                },
-                {
-                    "@type": "MedicalOrganization",
-                    "name": "第一醫院",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "台中市",
-                        "addressRegion": "南屯區",
-                        "addressCountry": "TW"
-                    }
-                },
-                {
-                    "@type": "MedicalOrganization",
-                    "name": "祥恩醫院",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "台中市",
-                        "addressRegion": "大雅區",
-                        "addressCountry": "TW"
-                    }
-                },
-                {
-                    "@type": "FAQPage",
-                    "@id": "{{ request.build_absolute_uri }}#faq",
-                    "mainEntity": [
-                        {
-                            "@type": "Question",
-                            "name": "EECP 療程要做多久？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "完整療程為 35 個小時，每次一個小時，每週五次，連續做到七週。做 10 次會有顯著效果，完整 35 次療程效果可持續 3 年以上。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "做治療後可能會有哪些不舒服、副作用？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "少數患者可能在初期感到身體乏力或肌肉痠痛、皮膚搔癢、瘀傷等輕微不適，但通常在幾次治療後就能適應。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "治療前需要禁食嗎？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "不用空腹，最好進食後一小時之後再做（建議不要吃太飽）。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "EECP 做起來的感覺是什麼？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "因為是平躺在床上進行治療，類似按摩，感覺很舒服，有些人還會睡著！"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "有年齡限制嗎？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "沒有。在美國曾經成功治療的年紀，最老是 97 歲。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "療程全部結束後，可以再次進行治療嗎？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "可以。由於心臟病是慢性病，且在未來任一時間都可以發作，故經醫師診斷後，可再次進行療程。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "什麼是 EECP 體外反搏療法？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "EECP（Enhanced External Counter-Pulsation）是一種非侵入性的心血管治療裝置，經美國 FDA 認證，無侵入性、免麻醉、免開刀、免住院，已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。"
-                            }
-                        },
-                        {
-                            "@type": "Question",
-                            "name": "誰適合 EECP 治療？",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "適合心絞痛患者、心臟衰竭患者、心血管疾病預防者，以及藥物治療效果不佳者、不適合或不願接受侵入性手術者。"
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-        </script>
-        
-        <!-- CSS ================================ -->
-        <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
-        <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
-        <!-- style -->
-        <link rel="stylesheet" href="{% static 'apps/EECP/css/eecp.css' %}">
-        <!-- js ================================= -->
-        <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
-        <script src="{% static 'common/js/popper.min.js' %}"></script>
-        <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
-
-
-        <!-- GA (fallback to settings.DEFAULT_GA_ID) -->
-        {% with ga_id|default:DEFAULT_GA_ID as final_ga_id %}
-            {% if final_ga_id %}
-                <script async src="https://www.googletagmanager.com/gtag/js?id={{ final_ga_id }}"></script>
-                <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '{{ final_ga_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-        <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
-        {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
-            {% if final_gtm_id %}
-                <script>
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','{{ final_gtm_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-    </head>
-    <body>
-        <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
-        {% include 'EECP/loading.html' %}
-        <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
-        
-        <!-- ※※※ Web Content ※※※ -->
-        {% block content %}
-        {% endblock %}
-
-        <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
-
-        <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
-        {% block extra_css %}{% endblock %}
-
-        <!-- ※※※ 共用 JS Tool Start ※※※ -->
-        <script src="{% static 'apps/EECP/js/page-loading.js' %}"></script>
-
-        <!-- ※※※ 子頁面可額外加 JS ※※※ -->
-        {% block extra_js %}{% endblock %}
-        
-    </body>
-</html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- SEO Basic ======================== -->
+        <title>{% block title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}</title>
+        <meta name="title" content="{% block title_1 %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
+        <meta name="keywords" content="{% block keywords %}EECP,體外反搏,心血管治療,心絞痛治療,非侵入治療,血液循環改善,心臟保健,台中EECP,長安醫院,勝美醫院,第一醫院,祥恩醫院,心血管疾病,冠心病,心臟復健{% endblock %}">
+        <meta name="description" content="{% block meta_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務，立即預約諮詢 0909-264-006{% endblock %}">
+        <meta name="author" content="EECP 體外反搏治療中心">
+        <!-- 告訴搜尋引擎這個頁面的「正規網址」，防止重複內容問題 -->
+        <link rel="canonical" href="{% block canonical_url %}{{ SITE_DOMAIN }}{{ request.get_full_path }}{% endblock %}">
+
+        <!-- Open Graph (Facebook Share) ======== -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{% block og_title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務。{% endblock %}">
+        <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
+        <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="zh_TW">
+        <meta property="og:site_name" content="EECP 體外反搏治療中心">
+        
+        <!-- Twitter Card ======================== -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{% block twitter_title %}EECP 體外反搏治療 - 守護您的心血管健康{% endblock %}">
+        <meta name="twitter:description" content="{% block twitter_description %}EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛。{% endblock %}">
+        <meta name="twitter:image" content="{% block twitter_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+
+        <!-- Web-icon =========================== -->
+        <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
+        
+        <!-- Schema.org JSON-LD (Structured Data)--Google 可顯示豐富摘要，AI 搜尋引擎友善 -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "MedicalWebPage",
+                    "@id": "{{ request.build_absolute_uri }}#webpage",
+                    "url": "{{ request.build_absolute_uri }}",
+                    "name": "EECP 體外反搏治療 - 守護您的心血管健康",
+                    "description": "EECP體外反搏治療，非侵入性心血管療法，無需開刀、免麻醉，有效改善心絞痛、提升血液循環。台中四家專業醫療機構提供服務。",
+                    "inLanguage": "zh-TW",
+                    "about": {
+                        "@type": "MedicalProcedure",
+                        "name": "EECP 體外反搏療法",
+                        "alternateName": "Enhanced External Counter-Pulsation",
+                        "procedureType": "非侵入性心血管治療",
+                        "bodyLocation": {
+                            "@type": "AnatomicalStructure",
+                            "name": "心血管系統"
+                        }
+                    },
+                    "specialty": {
+                        "@type": "MedicalSpecialty",
+                        "name": "心臟科"
+                    }
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "@id": "{{ request.build_absolute_uri }}#eecp-procedure",
+                    "name": "EECP 體外反搏治療",
+                    "alternateName": ["Enhanced External Counter-Pulsation", "體外反搏療法"],
+                    "description": "EECP 是一種非侵入性的心血管治療裝置，經美國 FDA 認證，無侵入性、免麻醉、免開刀、免住院，已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。",
+                    "procedureType": "非侵入性心血管治療",
+                    "preparation": "治療前進行專業評估，確認適合接受治療",
+                    "howPerformed": "患者平躺，透過外部壓力有節奏地按摩腿部血管，促進血液循環",
+                    "followup": "完整療程為 35 個小時，每次 1 小時，每週 5 次，連續 7 週",
+                    "medicineSystem": "https://www.fda.gov/",
+                    "recognizingAuthority": {
+                        "@type": "Organization",
+                        "name": "美國 FDA"
+                    },
+                    "relevantSpecialty": {
+                        "@type": "MedicalSpecialty",
+                        "name": "心臟科"
+                    },
+                    "contraindication": [
+                        "嚴重主動脈瓣膜逆流",
+                        "主動脈瘤",
+                        "嚴重周邊血管疾病",
+                        "孕婦"
+                    ],
+                    "possibleTreatment": [
+                        {
+                            "@type": "MedicalCondition",
+                            "name": "心絞痛"
+                        },
+                        {
+                            "@type": "MedicalCondition",
+                            "name": "冠心病"
+                        },
+                        {
+                            "@type": "MedicalCondition",
+                            "name": "心臟衰竭"
+                        },
+                        {
+                            "@type": "MedicalCondition",
+                            "name": "高血壓"
+                        }
+                    ]
+                },
+                {
+                    "@type": "Organization",
+                    "@id": "{{ request.build_absolute_uri }}#organization",
+                    "name": "EECP 體外反搏治療中心",
+                    "description": "提供專業 EECP 體外反搏治療服務的醫療機構聯盟",
+                    "url": "{{ request.build_absolute_uri }}",
+                    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'apps/EECP/img/EECP.png' %}",
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "telephone": "+886-909-264-006",
+                        "contactType": "預約諮詢",
+                        "areaServed": "TW",
+                        "availableLanguage": ["zh-TW", "Chinese"]
+                    },
+                    "areaServed": {
+                        "@type": "City",
+                        "name": "台中市"
+                    }
+                },
+                {
+                    "@type": "MedicalOrganization",
+                    "name": "長安醫院",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "台中市",
+                        "addressRegion": "太平區",
+                        "addressCountry": "TW"
+                    },
+                    "telephone": "+886-4-3611-1999"
+                },
+                {
+                    "@type": "MedicalOrganization",
+                    "name": "勝美醫院",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "台中市",
+                        "addressRegion": "北區",
+                        "addressCountry": "TW"
+                    },
+                    "telephone": "+886-4-2203-5800"
+                },
+                {
+                    "@type": "MedicalOrganization",
+                    "name": "第一醫院",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "台中市",
+                        "addressRegion": "南屯區",
+                        "addressCountry": "TW"
+                    }
+                },
+                {
+                    "@type": "MedicalOrganization",
+                    "name": "祥恩醫院",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "台中市",
+                        "addressRegion": "大雅區",
+                        "addressCountry": "TW"
+                    }
+                },
+                {
+                    "@type": "FAQPage",
+                    "@id": "{{ request.build_absolute_uri }}#faq",
+                    "mainEntity": [
+                        {
+                            "@type": "Question",
+                            "name": "EECP 療程要做多久？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "完整療程為 35 個小時，每次一個小時，每週五次，連續做到七週。做 10 次會有顯著效果，完整 35 次療程效果可持續 3 年以上。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "做治療後可能會有哪些不舒服、副作用？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "少數患者可能在初期感到身體乏力或肌肉痠痛、皮膚搔癢、瘀傷等輕微不適，但通常在幾次治療後就能適應。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "治療前需要禁食嗎？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "不用空腹，最好進食後一小時之後再做（建議不要吃太飽）。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "EECP 做起來的感覺是什麼？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "因為是平躺在床上進行治療，類似按摩，感覺很舒服，有些人還會睡著！"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "有年齡限制嗎？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "沒有。在美國曾經成功治療的年紀，最老是 97 歲。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "療程全部結束後，可以再次進行治療嗎？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "可以。由於心臟病是慢性病，且在未來任一時間都可以發作，故經醫師診斷後，可再次進行療程。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "什麼是 EECP 體外反搏療法？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "EECP（Enhanced External Counter-Pulsation）是一種非侵入性的心血管治療裝置，經美國 FDA 認證，無侵入性、免麻醉、免開刀、免住院，已廣泛用於全球臨床，幫助改善血液循環及緩解心血管相關症狀。"
+                            }
+                        },
+                        {
+                            "@type": "Question",
+                            "name": "誰適合 EECP 治療？",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "適合心絞痛患者、心臟衰竭患者、心血管疾病預防者，以及藥物治療效果不佳者、不適合或不願接受侵入性手術者。"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        </script>
+        
+        <!-- CSS ================================ -->
+        <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
+        <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
+        <!-- style -->
+        <link rel="stylesheet" href="{% static 'apps/EECP/css/eecp.css' %}">
+        <!-- js ================================= -->
+        <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'common/js/popper.min.js' %}"></script>
+        <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
+
+
+        <!-- GA (fallback to settings.DEFAULT_GA_ID) -->
+        {% with ga_id|default:DEFAULT_GA_ID as final_ga_id %}
+            {% if final_ga_id %}
+                <script async src="https://www.googletagmanager.com/gtag/js?id={{ final_ga_id }}"></script>
+                <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '{{ final_ga_id }}');
+                </script>
+            {% endif %}
+        {% endwith %}
+
+        <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
+        {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
+            {% if final_gtm_id %}
+                <script>
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','{{ final_gtm_id }}');
+                </script>
+            {% endif %}
+        {% endwith %}
+
+    </head>
+    <body>
+        <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+        {% include 'EECP/loading.html' %}
+        <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+        
+        <!-- ※※※ Web Content ※※※ -->
+        {% block content %}
+        {% endblock %}
+
+        <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
+
+        <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
+        {% block extra_css %}{% endblock %}
+
+        <!-- ※※※ 共用 JS Tool Start ※※※ -->
+        <script src="{% static 'apps/EECP/js/page-loading.js' %}"></script>
+
+        <!-- ※※※ 子頁面可額外加 JS ※※※ -->
+        {% block extra_js %}{% endblock %}
+        
+    </body>
+</html>

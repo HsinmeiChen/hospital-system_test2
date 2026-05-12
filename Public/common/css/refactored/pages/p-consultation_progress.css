@@ -1,0 +1,455 @@
+/* ==========================================================================
+   看診進度 - page-consultation_progress.css 
+   ========================================================================== */
+
+.see_memo .media{
+    flex-direction: column;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: .5rem;
+}
+.see_memo .media > div:first-child{
+    width: 100%;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+}
+									
+.tab-content .morning_which_doc .Div_box,
+.tab-content .noon_which_doc .Div_box,
+.tab-content .night_which_doc .Div_box{
+    width: calc(100% - 1%);
+}
+.tab-content .morning_which_doc .Div_body,
+.tab-content .noon_which_doc .Div_body,
+.tab-content .night_which_doc .Div_body{
+    padding: 0;
+}
+.tab-content .morning_which_doc .card,
+.tab-content .noon_which_doc .card,
+.tab-content .night_which_doc .card{
+    margin-top: 0;
+    border: 1px solid #a89e9e;
+}
+.see_data{
+    width: 70%;
+    align-self: center;
+}
+.see_title{
+    padding: 8px;
+}
+.see_title h5{
+    margin-bottom: 0px;
+    font-weight: bold;
+}
+.see_num{
+    text-align: center;
+    border-left: 1px solid #dee2e6!important;
+    width: 30%;											
+}
+.see_num h3{
+    font-weight: bold;
+    margin-bottom: 0px;
+    font-size: 1.1rem;
+}
+.see_room_no{
+    color: #009688;
+}
+.see_num_no{
+    color: #f05a2b;
+}
+.see_num span{
+    font-size: 13px;
+}
+.see_detail{
+    border-radius: 0px;
+    font-weight: bold;
+    width: 100%;	
+}
+.see_time{
+    line-height: 30px;
+}											
+/* 顏色-早診 */
+.mor_a input,
+.noon_a input,
+.night_a input{
+    border: 0px;
+}
+.mor_a,
+.mor_a input{
+    /* background-color: #dcf3ff !important; */
+    background-color: #ebf4f9 !important;
+    color: #1151B3 !important;
+}
+.mor_a input:hover,
+.mor_a input .active{
+    background-color: #1151B3 !important;
+    color: #dcf3ff !important;
+}
+.mor_c{
+    color: #295e89;											
+}
+.mor_c:hover{
+    color: #1f6ee6;
+    background-color: rgba(228, 243, 250, 0.55);
+    border-color: rgba(228, 243, 250, 0.55);
+}
+/* 顏色-午診 */
+.noon_a,
+.noon_a input{
+    /* background-color: #faf3d7 !important; */
+    background-color: #fcf9ef !important;
+    color: #905911 !important;
+}
+.noon_a input:hover,
+.noon_a input .active{
+    background-color: #905911 !important;
+    color: #faf3d7 !important;
+}
+.noon_c{
+    color: #905911;
+}
+.noon_c:hover{
+    color: #f05a2b;
+    background-color: rgba(255, 241, 184, 0.65);
+    border-color: rgba(255, 241, 184, 0.65);
+}
+/* 顏色-晚診 */
+.night_a,
+.night_a input{
+    /* background-color: #f2eaf8 !important; */
+    background-color: #f5effb !important;
+    color: #552F97 !important;
+}
+.night_a input:hover,
+.night_a input .active{
+    background-color: #552F97 !important;
+    color: #f2eaf8 !important;
+}
+.night_c{
+    color: #270f51;
+}
+.night_c:hover{
+    color: #5e0bee;
+    background-color: #f3ecfa;
+    border-color: #f3ecfa;
+}
+.morning{
+    background-color: #BAE7FF;
+    color:#1151B3;
+    padding: 3px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+.morning::before{
+    content: '早';
+}
+.evening{
+    background-color: #EFDBFF;
+    color: #552F97;
+    padding: 3px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+.evening::before{
+    content: '晚';
+}
+.afteroon{
+    background-color: #FFF1B8;
+    color: #905911;
+    padding: 3px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+.afteroon::before{
+    content: '午';
+}
+.nav-pills .nav-link{
+    border-radius: 0px;
+}
+.nav-pills .mor_a .nav-link:hover, .nav-pills .mor_a .nav-link.active{
+    background-color: #1151B3 !important;
+    color: #fff !important;
+}
+.nav-pills .noon_a .nav-link:hover, .nav-pills .noon_a .nav-link.active{
+    background-color: #FF9800 !important;
+}
+.nav-pills .night_a .nav-link:hover, .nav-pills .night_a .nav-link.active{
+    background-color: #552F97 !important;
+}
+.text_memo{
+    color: #6c757d;
+    font-size: .85rem;
+    margin-top: .5rem;
+    text-align: center;
+}
+.searchbox_div{
+    max-width: 400px;
+    width: 100%;
+}
+.see_memo .media-body{
+    line-height: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+/* 詳細資料 */
+.Kir_bei::before{
+    content: '科別：';
+}
+.clinic_room::before{
+    content: '診間位置：';
+}
+.clinic_doc::before{
+    content: '看診醫師：';
+}
+.clinic_num::before{
+    content: '目前看診號碼：';
+}
+.card-counter{
+    box-shadow: 2px 2px 10px #DADADA;
+    margin: 5px;
+    padding: 20px 10px;
+    background-color: #fff;
+    height: 100px;
+    border-radius: 5px;
+    transition: .3s linear all;
+}
+.card-counter:hover{
+    box-shadow: 4px 4px 20px #DADADA;
+    transition: .3s linear all;
+}
+.card-counter.primary{
+    background-color: #7b5237;
+    color: #FFF;
+}
+.card-counter.danger{
+    background-color: #ef5350;
+    color: #FFF;
+}  
+.card-counter.success{
+    background-color: #66bb6a;
+    color: #FFF;
+}  
+.card-counter.info{
+    background-color: #17a2b8;
+    color: #FFF;
+}  
+.card-counter i{
+    font-size: 4.5em;
+    opacity: 0.2;
+}
+.card-counter .count-numbers{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    font-size: 32px;
+    display: block;
+}
+.card-counter .count-name{
+    position: absolute;
+    right: 35px;
+    top: 65px;
+    font-style: italic;
+    text-transform: capitalize;
+    opacity: 1;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+.grid_out{
+    width: 20%;
+    position: relative;
+    border: 1px solid #f1f1f1;
+    padding: 0 .5rem;
+    height: 50px;
+    box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+}
+.grid_out span:nth-child(2){
+    position: absolute;
+    font-size: 14px;
+    font-weight: bold !important;
+    bottom: 0;
+    right: 3px;
+}
+.no_Checked_in{
+    background-color: #fff;
+}
+.no_Checked_in span:nth-child(2)::after{
+    content: '未報到';
+}
+.doc_seeing{
+    background-color: #28a745;
+    color: #fff;
+}
+.doc_seeing span:nth-child(2)::after{
+    content: '看診中';
+}
+.check_num span:nth-child(2)::after{
+    /* content: '檢查中'; */
+    content: '已報到';
+}
+.Checked_in_num, .check_num{
+    background-color: rgba(255, 87, 34, .18);
+}
+.Checked_in_num span:nth-child(2)::after{
+    content: '已報到';
+}
+.completed_num{
+    background-color: #d7f3d8;
+    color: #28a745;
+}
+.completed_num span:nth-child(2)::after{
+    content: '已完成';
+}
+.cancel_num{
+    background-color: #eee;
+    color: #949ca3;
+}
+.cancel_num span:nth-child(2)::after{
+    content: ' 取消';
+}
+.spinner {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    border-radius: 30px;
+    border: 2px solid #fff;
+    margin: 0 auto;
+    top: -15px;
+}
+.spinner:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background: #fff;
+    top: 10px;
+    left: 10px;  
+    transform-origin: 1px 1px;
+    animation: spin 2.5s infinite linear;
+}
+.spinner:before {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 9px;
+    height: 4px;
+    width: 4px;
+    background: #fff;
+    border-radius: 4px;
+    animation: expand .5s infinite linear alternate;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+    }
+    @keyframes expand {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.5);
+    }
+}
+
+.Number_persons_list{
+    background-color: #fef4d4;
+}
+.Number_persons_list .card-body{
+    padding: 0.25rem 1.25rem;
+    text-align: left;
+}
+.Number_persons_list .row{
+    color: #6c757d;
+    font-size: 20px;
+    font-weight: bold;
+}
+.Number_persons::before{
+    content:'掛號人數：';
+}
+.Done_persons::before{
+    content:'已完診：';
+}
+.Not_finished_persons::before{
+    content:'未看診：';
+    font-family: "Font Awesome 5 Free";
+}
+.Number_persons::after, .Done_persons::after, .Not_finished_persons::after{
+    content:'人';
+    font-size: 14px;
+    padding-left: 5px;
+}
+
+@media (min-width: 576px) {
+    .tab-content .morning_which_doc .Div_box,
+    .tab-content .noon_which_doc .Div_box,
+    .tab-content .night_which_doc .Div_box{
+        width: calc(50% - 1%);
+    }
+    .see_num h3{
+        font-size: 1.1rem;
+    }										
+    .see_num span{
+        font-size: 13px;
+    }
+}
+
+@media (min-width: 768px) {
+    .see_memo .media{
+        flex-direction: row;
+    }
+    .see_memo .media > div:first-child{
+        width: auto;
+        border-bottom: 0px solid #dee2e6;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-right: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-right: 1px solid #dee2e6;
+    }
+    .see_memo .media-body{
+        text-align: left;
+    }
+    .tab-content .morning_which_doc .Div_box,
+    .tab-content .noon_which_doc .Div_box,
+    .tab-content .night_which_doc .Div_box{
+        width: calc(33.3% - 1%);
+    }
+    .stop_date{
+        padding: 3px 3px 3px 20px;
+    }
+    .mor_date::after,
+    .eve_date::after,
+    .noon_date::after{
+        top: 1px;
+        white-space: pre-line;
+    }
+}
+
+@media (min-width: 1400px) {
+    .tab-content .morning_which_doc .Div_box,
+    .tab-content .noon_which_doc .Div_box,
+    .tab-content .night_which_doc .Div_box{
+        width: calc(30% - 6%);
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .grid_out{
+        height: 60px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .grid_out{
+        height: 70px;
+    }
+    .spinner{
+        top: -5px;
+    }
+}

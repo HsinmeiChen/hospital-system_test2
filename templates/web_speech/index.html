@@ -1,37 +1,37 @@
-﻿<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <title>speech</title>
-</head>
-<body>
-  <select id="select"></select>
-  <button onclick="start()">Click to Speak</button>
-  <button onclick="stop()">Stop to Speak</button>
-
-  <script type="text/javascript">
-    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-    var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList
-    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
-
-    var recognition = new SpeechRecognition();
-    recognition.maxAlternatives = 10;
-    recognition.onresult = function(event) {
-      if (event.results.length > 0) {
-        var result = event.results[0];
-        for (var i = 0; i < result.length; ++i) {
-          var text = result[i].transcript;
-          select.options[i] = new Option(text, text);
-        }
-      }
-    }
-
-    function start() {
-      select.options.length = 0;
-      recognition.start();
-    }
-
-    function stop() {
-      recognition.stop();
-    }
-  </script>
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <title>speech</title>
+</head>
+<body>
+  <select id="select"></select>
+  <button onclick="start()">Click to Speak</button>
+  <button onclick="stop()">Stop to Speak</button>
+
+  <script type="text/javascript">
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
+    var recognition = new SpeechRecognition();
+    recognition.maxAlternatives = 10;
+    recognition.onresult = function(event) {
+      if (event.results.length > 0) {
+        var result = event.results[0];
+        for (var i = 0; i < result.length; ++i) {
+          var text = result[i].transcript;
+          select.options[i] = new Option(text, text);
+        }
+      }
+    }
+
+    function start() {
+      select.options.length = 0;
+      recognition.start();
+    }
+
+    function stop() {
+      recognition.stop();
+    }
+  </script>
 </body>

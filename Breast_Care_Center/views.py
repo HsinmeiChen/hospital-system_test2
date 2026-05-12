@@ -426,21 +426,13 @@ def parse_article_txt(filepath):
 			
 			content_blocks.append({
 				'type': 'img',
+				'semantic': 'image',
 				'class': 'a-img',
 				'src': card_image,
 				'article_src': article_image,
 				'news_src': news_image,
 				'treat_article_src': treat_article_image,
 				'edu_article_src': edu_article_image
-			})
-
-		elif line.startswith('<yt>'):
-			yt_url = line.replace('<yt>', '').strip()
-			iframe_html = f'<iframe class="embed-responsive-item" src="{yt_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>'			
-			content_blocks.append({
-				'type': 'p',
-				'class': 'embed-responsive embed-responsive-16by9',
-				'text': iframe_html
 			})
 
 		elif line.startswith('<h01>'):
@@ -452,54 +444,81 @@ def parse_article_txt(filepath):
 				'class': 'posted-date',
 				'text': line.replace('<posted>', '').strip()
 			})
+
 		elif line.startswith('<cap>'):
 			content_blocks.append({
 				'type': 'h3',
+				'semantic': 'section_title',
 				'class': 'title-02',
 				'text': line.replace('<cap>', '').strip()
 			})
+		
+		elif line.startswith('<li-t>'):
+			content_blocks.append({
+				'type': 'h4',
+				'semantic': 'sub_title',
+				'class': 'list-title',
+				'text': line.replace('<li-t>', '').strip()
+			})
+		
+		elif line.startswith('<li-q>'):
+			content_blocks.append({
+				'type': 'h4',
+				'semantic': 'faq_question',
+				'class': 'list-question',
+				'text': line.replace('<li-q>', '').strip()
+			})
+	
+		elif line.startswith('<quo>'):
+			content_blocks.append({
+				'type': 'blockquote',
+				'semantic': 'quote',
+				'class': 'quote-box',
+				'text': line.replace('<quo>', '').strip()
+			})
+
+		elif line.startswith('<li-p>'):
+			content_blocks.append({
+				'type': 'li',
+				'semantic': 'keypoint',
+				'class': 'list-text',
+				'text': line.replace('<li-p>', '').strip()
+			})
+		
+		elif line.startswith('<li-o>'):
+			content_blocks.append({
+				'type': 'li',
+				'semantic': 'ordered_keypoint',
+				'class': 'list-num',
+				'text': line.replace('<li-o>', '').strip()
+			})
+		
+		
+		elif line.startswith('<li-a>'):
+			content_blocks.append({
+				'type': 'div',
+				'semantic': 'faq_answer',
+				'class': 'list-answer',
+				'text': line.replace('<li-a>', '').strip()
+			})
+		
 		elif line.startswith('<t-note>'):
 			content_blocks.append({
 				'type': 'div',
 				'class': 'text-note',
 				'text': line.replace('<t-note>', '').strip()
 			})
-		elif line.startswith('<quo>'):
+		
+		elif line.startswith('<yt>'):
+			yt_url = line.replace('<yt>', '').strip()
+			iframe_html = f'<iframe class="embed-responsive-item" src="{yt_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>'			
 			content_blocks.append({
-				'type': 'blockquote',
-				'class': 'quote-box',
-				'text': line.replace('<quo>', '').strip()
+				'type': 'video',
+				'semantic': 'video',
+				'class': 'embed-responsive embed-responsive-16by9',
+				'text': iframe_html
 			})
-		elif line.startswith('<li-t>'):
-			content_blocks.append({
-				'type': 'ul',
-				'class': 'list-title',
-				'text': line.replace('<li-t>', '').strip()
-			})
-		elif line.startswith('<li-p>'):
-			content_blocks.append({
-				'type': 'li',
-				'class': 'list-text',
-				'text': line.replace('<li-p>', '').strip()
-			})
-		elif line.startswith('<li-q>'):
-			content_blocks.append({
-				'type': 'div',
-				'class': 'list-question',
-				'text': line.replace('<li-q>', '').strip()
-			})
-		elif line.startswith('<li-a>'):
-			content_blocks.append({
-				'type': 'div',
-				'class': 'list-answer',
-				'text': line.replace('<li-a>', '').strip()
-			})
-		elif line.startswith('<li-w-txt>'):
-			content_blocks.append({
-				'type': 'div',
-				'class': 'list-w-text',
-				'text': line.replace('<li-w-txt>', '').strip()
-			})
+
 		elif line.startswith('<t>'):
 			# 過濾整段含有「含有<a>的預約掛號」的 <t> 標籤
 			if 'news_2' in filepath:  # 指定檔案來源是 news_2 才進行不顯示的程式
@@ -524,6 +543,7 @@ def parse_article_txt(filepath):
 			else:
 				content_blocks.append({
 					'type': 'p',
+					'semantic': 'paragraph',
 					'class': 'a-paragraph',
 					'text': text
 				})
@@ -535,6 +555,28 @@ def parse_article_txt(filepath):
 			summary = block['text'][:50]
 			break
 
+	# 後處理：將連續的列表項目 (ul 或 ol) 合併成同一個 block，方便 Template 渲染
+	grouped_blocks = []
+	current_list = None
+
+	for block in content_blocks:
+		sem = block.get('semantic') # 同時處理重點 (keypoint) 與 數字列表 (ordered_keypoint)
+		if sem in ['keypoint', 'ordered_keypoint']: # 如果當前群組存在且類型相同，就繼續加入
+			if current_list and current_list['semantic'] == sem: # 如果已經在列表群組中，就加入 items
+				current_list['items'].append(block)
+			else: # 否則建立新群組，並根據 semantic 決定 type 是 'ol' 還是 'ul'
+				current_list = {
+					'type': 'ol' if sem == 'ordered_keypoint' else 'ul',
+					'semantic': sem,
+					'items': [block],
+					'class': 'mb-0'
+				}
+				grouped_blocks.append(current_list)
+		else:
+			# 遇到非列表項目，中斷群組
+			current_list = None
+			grouped_blocks.append(block)
+
 	return {
 		'thumb_img': thumb_img,
 		'og_img_treat': org_thumb_img,
@@ -542,7 +584,7 @@ def parse_article_txt(filepath):
 		'image': card_image,
 		'treat_a_title': treat_a_title,
 		'summary': summary,
-		'blocks': content_blocks,
+		'blocks': grouped_blocks, # 回傳合併後的區塊
 	}
 
 
@@ -1275,7 +1317,6 @@ def article_share_view(request, get_filename):
 		'image': parsed['image'],
 		'summary': parsed['summary'],
 		'tags': extract_tags_from_blocks(parsed['blocks']),
-		# 'og_image': request.build_absolute_uri(f"/media/news_2/img/{parsed['og_img']}")
 		'og_image': f"{settings.SITE_DOMAIN}/media/news_2/img/{parsed['og_img']}",
 	}
 	return render(request, 'Breast_Care_Center/breast-article-detail.html', context)

@@ -1,0 +1,25 @@
+/* ==========================================================================
+   衛教園地 - page-health-edu.css 
+   ========================================================================== */
+
+.health_list .card-body{
+    padding: .8rem;
+}
+.health_list .card-title{
+    transition: .3s;
+    width: 85%;
+}
+.health_list .card-title h5{
+    font-weight: bold;
+}	
+.health_list .card-subtitle{
+    width: 15%;
+    padding: 5px;
+    margin-top: 5px;
+}											
+.health_list .card:hover{
+    background-color: #f8f9fa;
+}
+.health_list .card:hover .card-title{
+    color: #f5961d;    
+}

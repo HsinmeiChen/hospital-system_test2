@@ -1,77 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <style>
-            body { 
-                font-family: Arial, sans-serif;
-                color: #333;
-            }
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                border: 1px solid #ddd;
-                padding: 20px;
-                border-radius: 8px;
-            }
-            .header {
-                color: #d37079;
-                border-bottom: 2px solid #d37079;
-                padding-bottom: 10px;
-                margin-top: 0;
-            }
-            .info-box {
-                margin: 20px 0;
-            }
-            .info-box p {
-                margin: 10px 0;
-            }
-            .message-box {
-                background-color: #f5f5f5;
-                padding: 15px;
-                border-left: 4px solid #d37079;
-                margin: 10px 0 20px 0;
-            }
-            .message-box h3{
-                margin: 0 0 5px 0;
-            }
-            .message-box p{
-                white-space: pre-wrap;
-                word-wrap: break-word;
-            }
-            .footer {
-                font-size: 16px;
-                color: #666;
-                margin-top: 10px;
-                padding-top: 10px;
-                border-top: 1px solid #ddd;
-                text-align: center;
-            }
-            .footer p{
-                margin: 0;
-            }
-        </style>
-        <div class="container">
-            <h2 class="header">[客服通知] 您有新的訊息</h2>
-            
-            <div class="info-box">
-                <p><strong>姓名：</strong> {{ name }}</p>
-                <p><strong>信箱：</strong> <a href="mailto:{{ email }}">{{ email }}</a></p>
-                <p><strong>電話：</strong> {{ phone|default:"未提供" }}</p>
-                <p><strong>主旨：</strong> {{ subject }}</p>
-            </div>
-            
-            <div class="message-box">
-                <h3>內容：</h3>
-                <p>{{ message }}</p>
-            </div>
-            
-            <div class="footer">
-                <p>此信件由『長安醫院-全方位乳房中心』官網自動發送，請勿直接回覆此郵件。</p>
-            </div>
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <style>
+            body { 
+                font-family: Arial, sans-serif;
+                color: #333;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                padding: 20px;
+                border-radius: 8px;
+            }
+            .header {
+                color: #d37079;
+                border-bottom: 2px solid #d37079;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+            .info-box {
+                margin: 20px 0;
+            }
+            .info-box p {
+                margin: 10px 0;
+            }
+            .message-box {
+                background-color: #f5f5f5;
+                padding: 15px;
+                border-left: 4px solid #d37079;
+                margin: 10px 0 20px 0;
+            }
+            .message-box h3{
+                margin: 0 0 5px 0;
+            }
+            .message-box p{
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            .footer {
+                font-size: 16px;
+                color: #666;
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid #ddd;
+                text-align: center;
+            }
+            .footer p{
+                margin: 0;
+            }
+        </style>
+        <div class="container">
+            <h2 class="header">[客服通知] 您有新的訊息</h2>
+            
+            <div class="info-box">
+                <p><strong>姓名：</strong> {{ name }}</p>
+                <p><strong>信箱：</strong> <a href="mailto:{{ email }}">{{ email }}</a></p>
+                <p><strong>電話：</strong> {{ phone|default:"未提供" }}</p>
+                <p><strong>主旨：</strong> {{ subject }}</p>
+            </div>
+            
+            <div class="message-box">
+                <h3>內容：</h3>
+                <p>{{ message }}</p>
+            </div>
+            
+            <div class="footer">
+                <p>此信件由『長安醫院-全方位乳房中心』官網自動發送，請勿直接回覆此郵件。</p>
+            </div>
+        </div>
+    </body>
 </html>

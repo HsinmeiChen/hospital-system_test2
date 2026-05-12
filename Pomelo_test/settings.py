@@ -138,8 +138,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
-                'specialty_medical.context_processors.default_tracking_ids', # 共用 GA, GTM 設定於 context_processors.py
-                'specialty_health.context_processors.default_tracking_ids',
+                # 共用 GA, GTM, og-image, breadcrumb 設定於 context_processors.py
+                'Pomelo_test.context_processors.default_tracking_ids',
+                'Pomelo_test.context_processors.breadcrumb_processor'
             ],
         },
     },
@@ -227,6 +228,7 @@ else:
         os.path.join(BASE_DIR, 'Public'),
     ]
 
+# 針對靜態檔案做壓縮、打包（Brotli/Gzip）與雜湊值機制(效能優化)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   設計系統變數 (Design System Variables)
+   ========================================================================== */
+
+:root {
+    /* --- 品牌與功能顏色 (Colors) --- */
+    --color-primary: #754826;       /* 品牌主色，深咖啡色 */
+    --color-primary-hover: #593823; /* 深咖啡色 hover */
+    --color-accent: #f5961d;        /* 強調色/輔助色，橘色 */
+    --color-accent-hover: #fda634;  /* 強調色 hover */
+    --color-bg-light: #f6f0e9;      /* 淺米色背景 */
+    --color-text-dark: #1e130c;     /* 主要深色文字 */
+    --color-border: #dbd5d5;        /* 通用灰邊框 */
+    --color-white: #ffffff;
+    --color-danger: #e9594c;
+    --color-danger-bg: #ffd0cb;
+
+    /* --- 彈性字級 (Typography - 以 16px 為基準) --- */
+    --font-size-xs: 0.75rem;        /* 12px */
+    --font-size-sm: 0.875rem;       /* 14px */
+    --font-size-base: 1rem;         /* 16px */
+    --font-size-md: 1.125rem;       /* 18px */
+    --font-size-lg: 1.25rem;        /* 20px */
+    --font-size-xl: 1.5rem;         /* 24px */
+    --font-size-xxl: 2.1875rem;     /* 35px */
+    --font-size-giant: 4.375rem;    /* 70px */
+
+    /* --- 間距 (Spacing) --- */
+    --spacing-xs: 0.25rem;          /* 4px */
+    --spacing-sm: 0.5rem;           /* 8px */
+    --spacing-md: 1rem;             /* 16px */
+    --spacing-lg: 1.5rem;           /* 24px */
+    --spacing-xl: 2rem;             /* 32px */
+}
+
+/* RWD 行動裝置字級微調 */
+@media (max-width: 768px) {
+    :root {
+        --font-size-xxl: 1.75rem;
+        --font-size-xl: 1.25rem;
+        --font-size-lg: 1.125rem;
+    }
+}

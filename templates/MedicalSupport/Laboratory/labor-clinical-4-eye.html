@@ -1,97 +1,67 @@
+{% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
 
-<head>
-	{% include 'Public_head.html' %}
-	<title>眼睛檢體採集_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}
-</head>
+{% block title %}眼睛檢體採集｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}眼睛檢體採集｜檢驗科｜長安醫院{% endblock %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
+{% block guide_content %}
+<!-- 標題 -->
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item pencil_4"></li>
-											<li class="breadcrumb-item active" aria-current="page">眼睛檢體採集</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
 									<section id="content_h">
+
 										<div class="onsale_heading">眼睛檢體採集</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">	                        
+
 											<div class="col-12">
+
 												<div class="select_4"></div>
+
 											</div>
+
 											<div class="col-12">
+
 												<div class="px-2 pb-2 ml-md-4">
+
 													<ol class="custom-numbers mb-0">
+
 														<li class="mb-1 pt-1">不可以採取使用局部麻醉藥或消毒液沖洗後的眼部檢體。因眼部治療劑與局部麻醉劑，成份都含有防腐劑，除了對微生物有抑制外，也會將結膜囊內的病原微生物沖洗掉。</li>
+
 														<li class="mb-1 pt-1">若使用局部麻醉後再採取檢體，則採取角膜刮取物做抹片，置於無菌容器。</li>
+
 														<li class="mb-1 pt-1">使用溫和的殺菌劑清潔眼部周圍，眼部如有化妝或擦藥，利用無菌棉棒沾無菌0.9%食鹽水將化妝品及藥膏除去。</li>   
+
 														<li class="mb-1 pt-1">刮取眼部檢體需由眼科醫師執行。(注意：採取的檢體需註明左眼(OS)或右眼(OD)，置於無菌試管內。) </li> 
+
 														<li class="mb-1 pt-1">膿瘍檢體採集用兩支無菌棉棒或一支白金圈環採取，若利用白金材質眼科小鏟(platinum spatula)刮取眼部檢體，分離病原菌效果更佳，但要注意避免睫毛和眼瞼邊緣的污染。若有結膜炎以外之眼部感染，可由前房、後房或玻璃體液取得檢體進行培養。</li>   
+
 														<li class="mb-1 pt-1">角膜檢體若需要觀察原蟲類之感染，則需將檢體置於載玻片上加上些許0.9%食鹽水並蓋上蓋玻片或置於含0.9%食鹽水的容器中儘速送檢。</li> 
+
 													</ol> 
+
 												</div>
+
 	
+
 											</div>
+
 										</div>
+
 									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
+								
+{% endblock %}
 
-</body>
-
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="眼睛檢體採集｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

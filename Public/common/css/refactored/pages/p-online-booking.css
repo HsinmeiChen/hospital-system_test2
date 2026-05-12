@@ -1,0 +1,825 @@
+/* ==========================================================================
+   網路掛號 - p-online-booking.css
+   ========================================================================== */
+.online_main{
+    margin-top: 100px; 
+	margin-bottom: 20px;
+}
+.items_div_w{
+    width: 100%;
+    max-width: 100%;
+    margin: 10px auto 0 auto;
+}
+.items_div{
+    /* height: 100%; */
+    margin-top: 5%;
+}
+.online_main .css_td{
+	padding: 5px 6px;
+}
+/* 網掛_初診、複診/首頁btn */
+.A_card{
+    max-width: 380px;
+    width: 100%;
+    line-height: 40px;
+    background: #795548;
+    background: -webkit-linear-gradient(to bottom, #cebda6, #795548);
+    background: linear-gradient(to bottom, #cebda6, #795548);
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 4px 14px 0 rgba(0,0,0,.1);
+    cursor: pointer;
+    position: relative;
+    color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-self: center;
+}
+.A_card:hover{
+    box-shadow: 0 5px 40px 0 rgba(0,0,0,.2);
+    opacity: 1;
+    background: #307233;
+    background: -webkit-linear-gradient(to bottom, #b4d48f, #307233);
+    background: linear-gradient(to bottom, #b4d48f, #307233);
+}
+.A_card:hover .fa-child,
+.A_card:hover .fa-chalkboard-teacher,
+.A_card:hover .fa-notes-medical,
+.A_card:hover .fa-user-md,
+.A_card:hover .fa-file-alt {
+    animation: lock 1.2s cubic-bezier(.36,.07,.57,.99) infinite;
+}
+    @keyframes lock {
+    0% {
+        transform: scale(1.1) translateY(0);
+    }
+    20% {
+        transform: scale(1.1) translateY(-5px);
+    }
+    30% {
+        transform: scale(1.1) translateY(5px);
+    }
+    50% {
+        transform: scale(1.1) translateY(-5px);
+    }
+    60% {
+        transform: scale(1.1) translateY(5px);
+    }
+    100% {
+        transform: scale(1.1) translateY(0);
+    }
+}
+.info{
+    font-family: sans-serif;
+    color: #fff;
+    font-size: 60px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 auto;
+}
+.info .title{
+    font-size: 40px;
+    line-height: 40px;
+}
+.info .descricao{
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+	font-weight: 400;
+    padding: 10px 0px;
+}
+.items_div_w .descricao{
+   text-align: left;
+}
+.A_card:hover .descricao,
+.A_card:hover .info{
+    color: #ffffff;
+}
+.A_card:active{
+    opacity: 0.9;
+}
+.A_card .icon_1,
+.A_card .icon_2{
+    padding-top: 0rem;
+    padding-bottom: .8rem;
+    font-size: 4.2rem;
+}
+/* 網掛_導航列 */
+.online_nav_bg{
+    background: url(../img/footer_bg.png) no-repeat;
+    background-size: cover;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    padding: 1px 17px 17px 17px;
+}
+.online_nav{
+    display: flex;
+    color: white;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+}
+.online_nav_title{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    white-space: nowrap;
+}
+.online_nav_title span,
+.Drug_One_Title{
+    font-weight: bold;
+    letter-spacing: 6px;
+    font-size: 2rem;
+}
+.online_nav_btn{
+    width: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* background-color: #fff; */
+    background-color: transparent;
+    font-weight: 700;
+}
+.online_nav_btn div{
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+    background-color: #fff;
+}
+.online_nav_btn div a{
+    transition: color 0.3s ,opacity 0.3s ,
+    background-color 0.3s ease-in-out;
+    letter-spacing: 2px;
+    font-size: 16px;
+    line-height: 1.2;
+    padding: 10px 0;
+}
+.online_nav_btn a.active{
+    color: #f29305 !important;
+    background-color: transparent !important;
+}
+.online_nav_btn div:not(:last-child){
+    border-right: 2px solid #9d7861;
+}
+.user_icon::before{
+    content: "\f406";
+    font-family: "Font Awesome 5 Free";
+    margin-right: 5px;
+}
+.user_icon{
+    display: flex;
+    white-space: nowrap;
+    justify-content: center;
+	font-size: 18px;
+    flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    border-left: 1px solid #dee2e6;
+    margin: 0 .25rem;
+    padding-left: 0.5rem;
+}
+.user_icon div{
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 90px;
+}
+
+/* 網掛_首頁 */
+.serviceBox{text-align: center;margin-top: 60px;position: relative;z-index: 1; margin-bottom: 21px;}
+.serviceBox .service-icon{width: 78px;height: 78px;border-radius:3px;background: #f1f1f1;margin: 0 auto;position: absolute;top: -34px;left: 0;right: 0;z-index: 1;transition: all 0.3s ease-out 0s;}
+.serviceBox:hover .service-icon{transform: rotate(45deg);}
+.serviceBox .service-icon span{display: inline-block;width: 60px;height: 60px;line-height: 60px;border-radius:3px;background: #727cb6;font-size: 30px;color: #fff;margin: auto;position: absolute;top: 0;left: 0;bottom: 0;right: 0;transition: all 0.3s ease-out 0s;}
+.serviceBox .service-icon span i{transition: all 0.3s ease-out 0s;}
+.serviceBox:hover .service-icon span i{transform: rotate(-45deg);}
+.serviceBox .service-content{background: #f1f1f1;border: 1px solid #e7e7e7;border-radius: 3px;padding: 55px 15px 15px 15px;position: relative;}
+.serviceBox .service-content:before{content: "";display: block;width: 80px;height: 80px;border: 1px solid #e7e7e7;border-radius: 3px;margin: 0 auto;position: absolute;top: -37px;left: 0;right: 0;z-index: -1;transition: all 0.3s ease-out 0s;}
+.serviceBox:hover .service-content:before{transform: rotate(45deg);}
+.serviceBox .title{font-size: 17px;font-weight: 500;color: #324545;text-transform: uppercase;margin: 0;position: relative;transition: all 0.3s ease-out 0s;}
+.serviceBox:hover .title{color: #727cb6;}
+.serviceBox.green .service-icon span{ background: #008b8b; }
+.serviceBox.blue .service-icon span{ background: #3498db; }
+.serviceBox.orange .service-icon span{ background: #e67e22; }
+.serviceBox.green:hover .title{ color: #008b8b; }
+.serviceBox.blue:hover .title{ color: #3498db; }
+.serviceBox.orange:hover .title{ color: #e67e22; }
+
+/* 網掛_登入預約 */
+.keyin_data_div{
+	max-width: 500px;
+	width: 100%;
+	margin: 30px auto 10px auto;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+	border: 1px solid #896750;
+	padding: 1rem;
+	border-radius: .25rem;
+}
+.reg_bg{
+    background-color: #f5e5d1;
+    color: #75482b;
+    padding: 10px;
+}
+.reg_50{
+    width: calc(50% - 3%);
+    margin: 1.5%;
+}
+.reg_bg .d_intro{
+    background-color: #8b6d5a;
+    min-height: 150px;
+    display: flex;
+    border-radius: .25rem;
+    position: relative;
+}
+.reg_bg .d_intro .in_content{
+    position: relative;
+}
+.reg_bg .d_intro .in_content .in_title{
+    font-size: 40px;
+    color: #fff;
+    line-height: 45px;
+}
+.reg_bg .d_intro .in_icon{
+    position: absolute;
+}
+.reg_bg .d_intro .in_icon i{
+    font-size: 90px;
+    color: rgba(255, 255, 255, 0.36);
+}
+.reg_bg a .d_intro:hover{
+    background-color: #75482b;
+}
+.this_month{
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+}
+.booking{
+	font-size: 16px;
+	color: blue;
+	white-space: nowrap;
+    text-align: center;
+}
+.booking::after{
+	content: '人';
+}
+.booking div{
+	font-size: 14px;
+}
+.booking_full{
+    /* background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 1px 6px; */
+    font-size: 20px;
+    font-weight:bold;    
+    color: red;    
+}
+.Div_box_3pic{
+    border-right: 0px solid #c3a18a;
+    width: calc(100% - 1%);
+}
+.Div_box_3pic:not(:last-child){
+    border-bottom: 1px solid #c3a18a;
+}
+.Div_box_3pic .Div_body{
+    position: initial;
+}
+.booking_btn{
+	background-color: #75482b;
+	color: #fff;
+	font-weight: bold;
+	border-radius: 0px;
+	padding: 5px 10px;
+	border: 0px solid #17a2b8;
+	font-size: 20px;
+}
+.booking_btn:hover{
+	background-color:#3e9e54;
+	color: #fff;
+}
+.Booking_login, 
+.Cancel_data, 
+.visit-info-div{
+    display:none;
+    max-width:500px;
+    width: 100%;
+}
+.visit-info-div{
+    max-width: 650px;
+}
+.login_title{
+    text-align: center;
+    font-size: 2.5rem;
+    color: #75482b;
+    font-weight: bold;
+    margin-bottom: 25px;
+    background-color: antiquewhite;
+}
+.Booking_login .reg_bg{
+    background-color: transparent;
+}
+.Booking_login .reg_bg .d_intro{
+    min-height: 200px;
+}
+.Booking_login .reg_bg .d_intro .in_icon i{
+    font-size: 150px;
+}
+.Booking_login .reg_bg .d_intro .in_content .in_title{
+    font-size: 60px;
+    line-height: 60px;
+}
+.Booking_login .hr_line,
+#booking_sure_1 .hr_line{
+    margin-bottom: -15px;
+    margin-top: 50px;
+    border-top: 1px dashed #999;
+    background-color: transparent;
+}
+.Order_title{
+    font-size: 25px;
+    line-height: 25px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: middle;
+    align-self: center;
+    padding: 10px;
+    display: inline;
+    background-color: #e2e6ea;
+}
+.Confirm_btn_100,
+.Confirm_btn_50{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.Confirm_btn_100 input,
+.Confirm_btn_50 input{
+    border-radius: 0px;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    font-weight: bold;
+}
+.Confirm_btn_100 input{
+    width: 100%;
+}
+.Confirm_btn_50 input{
+    width: 49%;
+}
+/* 網掛_確認預約/個人資料 */
+.make_sure_1 .css_table{
+    width: 96%;
+    margin-top: 20px;
+}
+.make_sure_1 .css_th{
+    padding: 5px 15px 5px 0;
+    width: 140px;
+    text-align: justify;
+    text-justify: distribute-all-lines;
+    text-align-last: justify;
+    background-color: transparent;
+    border-right: 0 solid;
+    height: auto;
+}
+.make_sure_1 .css_th::after{
+    content: ":";
+}
+.make_sure_again .css_table{
+    height: auto;
+}
+.make_sure_again .css_th{
+    padding: 5px 15px 5px 0;
+    width: 140px;
+    text-align: justify;
+    text-justify: distribute-all-lines;
+    text-align-last: justify;
+    background-color: transparent;
+    border-right: 0 solid;
+    height: auto;
+}
+
+/* 網掛_選擇科別 */
+.badge-promo {
+    position: relative;
+    overflow: hidden;
+    max-height: 60px;
+    margin-bottom: -8px;
+    z-index: 1;
+    padding: 12px 14px;
+    border-radius: 2px 2px 0 0;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-top: 5px;
+}
+.badge-promo:before,
+.badge-promo:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.badge-promo:before {
+    background: rgba(255, 152, 0, 0.35);
+    height: 100%;
+    width: 110%;
+    transform-origin: bottom right;
+    transform: rotate(1deg);
+}
+.badge-promo:after {
+    background: #FF9800;
+    transform: rotate(-3deg);
+    transform-origin: bottom left;
+    height: 100%;
+    width: 110%;
+}
+.badge-promo-content {
+    position: relative;
+    z-index: 1;
+    font-family: sans-serif;
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* 網掛_表格細節設計 */
+.booking_date_col{
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
+}
+.booking_date_col > div{
+    margin-right: 0px;
+	font-size: 16px;
+}
+/* 網掛_退掛資料 */
+.Cancel_data .css_table{
+    background-color: #f9eeee;
+    min-height: auto;
+    height: auto;
+}
+.Cancel_data .css_th{
+    background-color: transparent;
+    padding: 5px;
+    width: 90px;
+    border-right: 0 solid;
+}
+.Cancel_data .login_title{
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+/* 網掛_選月份/選週按鈕 */
+.booking_sys .form-control{
+    border-radius: 0 !important;
+    background-color: #e4e4e4;
+    font-size: 1.3rem !important;
+}
+.booking_sys .tabs_a{
+    padding: 0;
+}
+.switch-field {
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+}
+.switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+.switch-field label {
+    background-color: #e4e4e4;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 22px;
+    line-height: 1;
+    text-align: center;
+    padding: 8px 16px;
+    margin-right: -1px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.1s ease-in-out;
+    font-weight: bold;
+}
+.switch-field label:hover {
+    cursor: pointer;
+}
+.switch-field input:checked + label {
+    background-color: #4CAF50;
+    box-shadow: none;
+    color: #fff;
+}
+.switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+.switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+.week_btn{
+    white-space: nowrap;
+    padding: 2px 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #754826;
+    background-color: #f3eaea;
+    border-radius: 0;
+}
+.week_btn:hover{
+    text-decoration: none;
+    background-color: #754826;
+    color: #fff;
+}
+/* 網掛_前後綴詞設定 */
+.booking::before{
+	content: '已掛號 ';
+}
+/* disable 樣式 */
+.disable_click{
+    cursor: not-allowed;
+}
+.disable_click a{
+    text-decoration: none;
+}
+.disable_click:hover .booking_disable,
+.disable_click:hover .booking_full{
+    pointer-events: none;
+}
+.booking_disable{
+    color:#999 !important;
+	background-color: transparent;
+    border: solid 0px #CCC;
+}
+.booking_disable:hover{
+    cursor: not-allowed;
+	background-color: transparent;
+	color:#999;
+}
+
+/* 網掛_訊息樣式-warning */
+.message-icon{
+    position: relative;
+    box-sizing: content-box;
+    justify-content: center;
+    width: 5em;
+    height: 5em;
+    margin: 1.5em auto;
+    border: 0.25em solid rgba(0,0,0,0);
+    border-radius: 50%;
+    border-color: #000;
+    line-height: 5em;
+    cursor: default;
+    user-select: none;
+    font-family: inherit;
+    display: flex;
+}
+.message-icon.message-warning{
+    border-color: #facea8;
+    color: #f8bb86;
+}
+.message-icon.message-warning.message-icon-show{
+    animation: message-animate-error-icon .5s;					
+}
+@keyframes message-animate-error-icon {
+    0%{
+        transform: rotateX(100deg);
+        opacity: 0;
+    }
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+.message-icon .message-icon-content{
+    display: flex;
+    align-items: center;
+    font-size: 3.75em;
+}
+.message-icon.message-warning.message-icon-show .message-icon-content{
+    animation: message-animate-i-mark .5s;
+}
+@keyframes message-animate-i-mark {
+    0%{
+        transform: rotateZ(45deg);
+        opacity: 0;
+    }
+    25% {
+        transform: rotateZ(-25deg);
+        opacity: .4;
+    }
+    50% {
+        transform: rotateZ(15deg);
+        opacity: .8;
+    }
+    75% {
+        transform: rotateZ(-5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotateX(0);
+        opacity: 1;
+    }
+}
+
+/* 網掛_訊息樣式-success */
+.alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circle,
+.circle-border {
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+}
+.circle {
+    z-index: 1;
+    position: relative;
+    background: white;
+    transform: scale(1);
+    animation: success-anim 700ms ease;
+}
+.circle-border {
+    z-index: 0;
+    position: absolute;
+    background: #28a745;
+    transform: scale(1.1);
+    animation: circle-anim 400ms ease;
+}
+
+@keyframes success-anim {
+    0% {
+        transform: scale(0);
+    }
+    30% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes circle-anim {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.success::before,
+.success::after {
+    content: "";
+    display: block;
+    height: 4px;
+    background: #28a745;
+    position: absolute;
+}
+
+.success::before {
+    width: 22px;
+    top: 58%;
+    left: 23%;
+    transform: rotateZ(50deg);
+}
+
+.success::after {
+    width: 40px;
+    top: 50%;
+    left: 35%;
+    transform: rotateZ(-50deg);
+}
+
+
+/* 網掛_初診注意事項 */
+.visit-info{
+    border-radius: 0;
+    margin-top: 1rem;
+    font-size: 20px;
+    text-align: justify;
+}
+
+
+/*有流程圖的初診注意事項*/
+.alert-text{
+    text-align: center;
+    margin: 1em 0;
+}
+.alert-text h3{
+    font-weight: bold; 
+    color: #28a745;
+    margin-bottom: 0 !important;
+}
+
+.res-num{
+    padding: 3px 5px;
+    font-size: 1.25rem;
+    line-height: normal;
+    margin: 0 5px;
+    border-radius: 0px;
+    letter-spacing: 2px;
+    text-align: center;
+    display: inline-block;
+    color: #fff;
+    background-color: #28a745;
+}
+
+.visit-info hr{
+    margin: 8px 0px;
+    border-top-color: #e3b99d;
+}
+.step-guide{
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 15px 0px;
+}
+.step-guide strong{
+    border-bottom: 1px solid #333;
+}
+.flow_info{
+    font-size: 16px;
+}
+
+
+@media (min-width: 768px) {
+    .online_main{
+        margin-top: 65px;
+    }
+    .items_div{
+        margin-top: 3%;
+    }
+	.info .title{
+		font-size: 45px;
+		line-height: 45px;
+	}
+	.items_div_w .descricao{
+	    text-align: center;
+	}
+    .online_nav_bg{
+        padding: 10px 22px 10px 17px;
+    }
+    .online_nav{						
+        max-width: 80rem;
+        padding: 0 2rem;
+    }
+    .online_nav_title{
+        width: 30%;
+        margin-bottom: 0px;
+    }
+    .online_nav_btn{
+        width: 70%;
+        justify-content: right;
+    }
+    .online_nav_btn div{
+        padding: 10px;
+    }
+    .online_nav_btn div a{
+        font-size: 1.25rem;
+    }
+    .A_card .icon_1,
+    .A_card .icon_2{
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        font-size: 6rem;
+    }
+    .this_month{
+        font-size: 1.75rem;
+    }
+    .Div_box_3pic{
+        width: 33.3%;
+        margin: 0;
+        box-shadow: none;
+        border: 0px solid #ddd;
+        background-color: transparent;
+    }
+    .Div_box_3pic:not(:last-child){
+        border-right: 1px solid #c3a18a;
+        border-bottom: 0px solid #c3a18a;
+    }
+    .booking_date_col{
+        flex-direction: initial;
+    }
+    .booking_date_col > div{
+        margin-right: 5px;
+		font-size: 20px;
+    }
+	.booking{
+		font-size: 20px;
+	}
+	.booking_btn{
+		font-size: 24px;
+	}
+}

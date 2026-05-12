@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Base Styles & Variables
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #75482b;
+  --color-primary-hover: #593823;
+  --color-secondary: #f5961d;
+  --color-secondary-hover: #fda634;
+  --color-bg-light: #f6f0e9;
+  --color-bg-white: #ffffff;
+  --color-text-dark: #444;
+  --color-text-light: #6c757d;
+  --color-border: #dbd5d5;
+  --color-text: #121212;
+  
+  /* Layout Sizes */
+  --header-height: 70px;
+
+  /* Background Images */
+  --bg-sub-page: url(../../img/everan5.webp);
+  --bg-footer: url(../../img/footer_bg.webp);
+  
+  /* Additional Semantic Colors */
+  --color-selection-bg: #ac8c36;
+  --color-selection-bg-moz: #442916;
+  --color-border-dark: #bbb;
+  --color-border-light: #f2f2f2;
+  --color-accent-peach: #f6c689;
+  --color-neutral-brown: #876b61;
+  --color-bg-offwhite: #f5f4f0;
+  --color-bg-cream: #fcf9ef;
+  --color-accent-brown: #905911;
+  --color-accent-light: #fbe6d0;
+  --color-success: #009688;
+  --color-danger: #f05a2b;
+  --color-primary-light: #b69d75;
+  --color-amber: #fea815;
+  --color-amber-hover: #ffca2c;
+  --color-amber-active: #ffc720;
+  --color-dark-gray: #212529;
+
+  
+  /* Fonts */
+  --font-family-base: Arial, 'Microsoft JhengHei', '微軟正黑體', sans-serif;
+  --font-size-lg: 1.25rem;  /* 約 20px - 22.5px */
+  --font-size-sm: 0.875rem; /* 約 14px - 15.75px */
+  
+  /* Spacing (已轉換為 rem 以利同步縮放) */
+  --spacing-xs: 0.3125rem; /* 5px */
+  --spacing-sm: 0.625rem;  /* 10px */
+  --spacing-md: 0.9375rem; /* 15px */
+  --spacing-lg: 1.25rem;   /* 20px */
+  --spacing-xl: 1.875rem;  /* 30px */
+
+}
+
+/* Base Elements & Root Scaling - 各大瀏覽器網頁根元素的預設字級設定為 16px */
+html {
+  font-size: 100%; /* 手機版預設 16px (100% 尊重使用者設定) */
+  transition: font-size 0.2s ease-in-out;
+}
+
+@media (min-width: 576px) {
+  html { font-size: 106.25%; } /* 平板版約 17px = 17 / 16 * 100% */
+}
+
+@media (min-width: 992px) {
+  html { font-size: 112.5%; } /* 桌機版調升為 18px = 18 / 16 * 100% */
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  padding-top: var(--header-height);
+  font-size: 1rem; /* Inherits from scaled root */
+  font-family: var(--font-family-base);
+  background-color: var(--color-bg-white);
+  color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+
+/* Selection */
+::selection {
+  background: var(--color-selection-bg);
+  color: var(--color-bg-white);
+}
+
+::-moz-selection {
+  background: var(--color-selection-bg-moz);
+  color: var(--color-bg-white);
+}
+
+/* SweetAlert2 Fix */
+body.swal2-height-auto {
+  height: 100% !important;
+}
+
+

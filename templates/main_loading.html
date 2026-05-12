@@ -1,0 +1,176 @@
+{% load static %}
+<div id="page-loading">
+    <div class="loading-overlay">
+        <!-- Aura Background (Ethereal Guardian Atmosphere) -->
+        <div class="aura-background">
+            <div class="aura-blob aura-1"></div>
+            <div class="aura-blob aura-2"></div>
+            <div class="aura-blob aura-3"></div>
+        </div>
+
+        <div class="loading-main">
+            <!-- Central Brand Identity -->
+            <div class="logo-container">
+                <img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院logo" class="brand-logo" title="長安醫院">
+            </div>
+
+            <div class="text-container">
+                <!-- Loading Indicator -->
+                <div class="progress-minimal">
+                    <div class="progress-fill"></div>
+                </div>
+                <!-- Brand Philosophy -->
+                <div class="philosophy-text">長者平安 · 長久平安</div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Main Container: Full screen overlay */
+        #page-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* Professional Exit Transition */
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+            transform: scale(1);
+        }
+
+        #page-loading.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.05); /* Spatial zoom-out effect */
+        }
+
+        .loading-overlay {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Aura Background: Moving soft light blobs */
+        .aura-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .aura-blob {
+            position: absolute;
+            border-radius: 50%;
+            animation: auraProtect 25s infinite ease-in-out;
+        }
+
+        .aura-1 { width: 600px; height: 600px; top: -150px; right: -50px; background: var(--color-primary); animation-duration: 20s; }
+        .aura-2 { width: 500px; height: 500px; bottom: -150px; left: -50px; background: var(--color-secondary); animation-duration: 28s; animation-delay: -5s; }
+        .aura-3 { width: 450px; height: 450px; top: 50%; left: 50%; background: #ffffff; opacity: 0.5; animation: auraPulseCenter 15s infinite ease-in-out; }
+
+        @keyframes auraProtect {
+            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            33% { transform: translate(100px, 50px) rotate(120deg) scale(1.1); }
+            66% { transform: translate(-80px, 120px) rotate(240deg) scale(0.9); }
+        }
+
+        @keyframes auraPulseCenter {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.6; }
+        }
+
+        /* Layout Structure */
+        .loading-main {
+            position: relative;
+            z-index: 10;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 40%, rgba(255,255,255,0) 70%);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-container {
+            width: 300px;
+            margin-left: -15px; /* Visual balance adjustment */
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brand-logo {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress-minimal {
+            width: 280px;
+            height: 2px;
+            background: rgba(117, 72, 43, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--color-secondary);
+            border-radius: 10px;
+            transition: width 0.4s ease-out;
+        }
+
+        .philosophy-text {
+            font-size: 1.1rem;
+            color: #64748B;
+            letter-spacing: 8px;
+            text-indent: 8px;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo-container { width: 280px; }
+            .philosophy-text { font-size: 0.9rem; letter-spacing: 4px; text-indent: 4px; }
+            .progress-minimal { width: 240px; }
+            .aura-1 { width: 300px; height: 300px; top: -100px; right: -80px; }
+            .aura-2 { width: 250px; height: 250px; bottom: -80px; left: -80px; }
+            .aura-3 { width: 200px; height: 200px; }
+            .aura-background { opacity: 0.3; filter: blur(60px); }
+        }
+
+        @media (max-width: 480px) {
+            .logo-container { width: 220px; }
+        }
+    </style>
+
+    <script>
+        /* Progress control: sync with page load state */
+        window.addEventListener('load', function() {
+            const fill = document.querySelector('.progress-fill');
+            if (fill) fill.style.width = '100%';
+        });
+    </script>
+</div>

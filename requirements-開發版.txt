@@ -1,0 +1,33 @@
+Django==4.1.5
+python-dotenv==1.0.1
+django-sslserver==0.22
+oracledb==3.0.0
+whitenoise==6.7.0
+waitress==3.0.0
+
+# Conditional dependencies (Legacy support)
+pandas==1.5.2; python_version < "3.9"
+pandas; python_version >= "3.9"
+
+numpy==1.24.1; python_version < "3.9"
+numpy; python_version >= "3.9"
+
+openpyxl==3.1.0; python_version < "3.9"
+openpyxl; python_version >= "3.9"
+
+xlrd==2.0.2
+
+Pillow==9.4.0; python_version < "3.9"
+Pillow; python_version >= "3.9"
+
+filelock==3.16.1
+
+pymssql==2.2.7; python_version < "3.9"
+pymssql; python_version >= "3.9"
+
+requests==2.28.1
+urllib3==1.26.13
+
+beautifulsoup4==4.14.3
+lxml==6.0.2
+python-dateutil==2.8.2

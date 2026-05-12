@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     window.loadSidenav({
-        apiUrl: '/specialty_health/api/treatment/sidenav/',
+        apiUrl: '/specialty_health/api/health-treatment/sidenav/',
         containerId: 'treatment-sidenav',
         isActiveFn: item => currentUrlName.toLowerCase() === item.url_name.toLowerCase(), // 準確判斷目前網址對應哪個項目
         // isActiveFn: item => currentUrlName.includes(item.url_name), // inclides 方法可能會導致錯誤匹配，會有多個 active 的情況
-        buildHrefFn: item => `/specialty_health/treatment/${item.url_name}`,
+        buildHrefFn: item => `/specialty_health/health-treatment/${item.url_name}`,
         renderTextFn: item => `${item.title}`
     });
 });

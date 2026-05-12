@@ -19,7 +19,7 @@
             loadingElement.classList.add('fade-out');
             setTimeout(function() {
                 loadingElement.style.display = 'none';
-            }, 300);
+            }, 800);
         }, remainingTime);
     }
 

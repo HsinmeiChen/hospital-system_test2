@@ -1,146 +1,171 @@
+{% extends "MedicalSupport/Laboratory/labor-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
-<head>
-	{% include 'Public_head.html' %}
-	<title>聯絡我們_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}
-</head>
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">											
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item active" aria-current="page">檢驗科各組服務時間及聯絡方式</li>
-										</ol>
-									</nav>		
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
+{% block title %}聯絡我們｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}聯絡我們｜檢驗科｜長安醫院{% endblock %}
+
+{% block guide_content %}
+<!-- 標題 -->
+
 									<section id="content_h">
+
 										<div class="onsale_heading">檢驗科各組服務時間及聯絡方式</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">
+
 											<div class="col-12">
+
 												<table class="table table-striped table-bordered">
+
 													<thead>
+
 														<tr>
+
 															<th scope="col" class="title-bg text-center text-nowrap">單位</th>
+
 															<th scope="col" class="title-bg text-center text-nowrap w-50">諮詢專線</th>
+
 														</tr>
+
 													</thead>
+
 													<tbody>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">總機</th>
+
 															<td class="text-center align-middle">04-3611-3611</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">科主任</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3135</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">組長/品質主管</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3136</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">生化/免疫/血液</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3131</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">鏡檢</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3130</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">血庫</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3133</td>
+
 														</tr>
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">抽血櫃台</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3132</td>
+
 														</tr>
+
 														<!-- <tr>
+
 															<th scope="row" class="text-center align-middle">分子實驗室</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3138</td>
+
 														</tr> -->
+
 														<tr>
+
 															<th scope="row" class="text-center align-middle">行政庶務</th>
+
 															<td class="text-center align-middle">04-3611-3611 # 3134</td>
+
 														</tr>
+
 													</tbody>
+
 												</table>
+
 											</div>
+
 											<!-- <div class="col-12 mt-4">
+
 												<div class="p-2 title-bg d-inline-flex mb-2">
+
 													<h4 class="cofe-word mb-0">門診檢驗服務時間</h4>
+
 												</div>
+
 												<ul class="list-bullets">
+
 													<li class="mb-1">門診檢驗室-抽血/尿液/糞便/痰液/心電圖服務時間</li>
+
 													<li class="mb-1">週一至週五: 08:00-17:00</li>
+
 													<li class="mb-1">週六: 08:00-12:00</li>
+
 												</ul>
+
 											</div>
+
 											<div class="col-12 mt-4">
+
 												<div class="p-2 title-bg d-inline-flex mb-2">
+
 													<h4 class="cofe-word mb-0">各科室介紹</h4>
+
 												</div>
+
 												<ul class="list-bullets">
+
 													<li class="mb-1">檢驗科主任：</li>
+
 													<li class="mb-1">檢驗科品質組長：</li>
+
 													<li class="mb-1">檢驗科技術組長：</li>
+
 												</ul>
+
 											</div> -->
+
 										</div>
+
 									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
+								
+{% endblock %}
 
-</body>
-
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="聯絡我們｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

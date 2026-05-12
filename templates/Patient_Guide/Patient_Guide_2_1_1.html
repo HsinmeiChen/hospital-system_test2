@@ -1,251 +1,224 @@
-<!doctype html>
-<html lang="zh-TW">
-<head>
-	{% include 'Public_head.html' %}
-	<title>{{ sename }}_網路掛號_長安醫院</title>
-	{% include 'GA_head.html' %}
-</head>
+{% extends "Patient_Guide/Patient_Guide_2_Base.html" %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<div id="dialog-content" class="Booking_login"></div>
-		<!-- ======= 本頁 Modal Area End ======= -->
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ sename }}｜網路掛號｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ sename }}｜網路掛號｜{{ block.super }}{% endblock %}
 
-		<!-- ======= navbar ======= -->		
-		{% include 'header.html' %}
-		<!-- ======= navbar End ======= -->
 
-		<!-- ======= main-content ======= -->
-		<main class="online_main">
-			<div class="container py-1">
-				<div class="row">
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-12">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil font-weight-bold"></li>
-											<li class="breadcrumb-item Online_Appointment font-weight-bold"></li>
-											<li class="breadcrumb-item Online_Appointment_part font-weight-bold"></li>
-											<li class="breadcrumb-item active" aria-current="page">{{ sename }}</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="p-3 bg-white rounded panel-shadow">
-									<!-- 細節 -->
-									<section id="content_body">
-										<div class="">
-											<div class="d_intro animate-from-bottom__0 mb-3">
-												<div class="w-100 position-relative">
-													<div class="badge-promo">
-														<span class="badge-promo-content">{{ sename }}</span>
-													</div>
-													<div class="in_icon position-absolute">
-														<i class="fas fa-notes-medical lightco-word"></i>
-													</div>
-													<div class="in_content position-relative">
-														{% for A006_I000 in A006_I000_list %}
-															{% if "<h>" in A006_I000 %}
-																<div class="in_title">
-																	<span class="title_line_org">{{ A006_I000|cut:"<h>" }}</span>
-																</div>
-															{% endif %}
-															{% if "<t>" in A006_I000 %}
-																<div class="in_subtitle text-justify">
-																	{{ A006_I000|cut:"<t>" }}
-																</div>
-															{% endif %}
-														{% endfor %}
-													</div>
-												</div>
-											</div>
-											<div class="booking_sys">
-												<form action="" method="GET">
-													<input type="hidden" name="A006_userid" value="{{ userid }}">
-													<input type="hidden" name="A006_sename" value="{{ sename }}">
-													<input type="hidden" name="A006_width" id="A006_width">
-													<div class="tab-button-outer">
-														<div id="tab-button_a">
-															<div class="switch-field">
-																<input type="radio" onchange="this.form.submit();" id="radio-one" name="switch_day" value="1" {% if switch_day == 1 %} checked {% endif %}/>
-																<label for="radio-one">{{ A006_radio_day_1 }}月</label>
-																<input type="radio" onchange="this.form.submit();" id="radio-two" name="switch_day" value="2" {% if switch_day == 2 %} checked {% endif %}/>
-																<label for="radio-two">{{ A006_radio_day_2 }}月</label>
-																<input type="radio" onchange="this.form.submit();" id="radio-three" name="switch_day" value="3" {% if switch_day == 3 %} checked {% endif %}/>
-																<label for="radio-three">{{ A006_radio_day_3 }}月</label>
-																<!-- <input type="radio" onchange="this.form.submit();" id="radio-four" name="switch_day" value="4" {% if switch_day == 4 %} checked {% endif %}/> -->
-																<!-- <label for="radio-four">測試用</label> -->
-															</div>
-														</div>
-													</div>
-													<div class="tab-select-outer mb-2">
-														<select onchange="this.form.submit();" name="switch_day2" class="form-control form-control-lg">
-															<option value="1" {% if switch_day2 == 1 %} selected {% endif %}>{{ A006_radio_day_1 }}月</option>
-															<option value="2" {% if switch_day2 == 2 %} selected {% endif %}>{{ A006_radio_day_2 }}月</option>
-															<option value="3" {% if switch_day2 == 3 %} selected {% endif %}>{{ A006_radio_day_3 }}月</option>
-															<!-- <option value="4" {% if switch_day2 == 4 %} selected {% endif %}>測試用</option> -->
-														</select>
-													</div>
-													<script type="text/javascript">
-														const pageWidth  = document.documentElement.scrollWidth;
-														var width = document.getElementById("A006_width");
-														width.value = pageWidth;
-													</script>
-												</form>
-												<form action="" method="GET" class="d-flex justify-content-between align-items-center mb-2">
-													<input type="hidden" name="A006_date_check" value="{{ I000_day_list.0 }}">
-													<input type="hidden" name="A006_sename" value="{{ sename }}">
-													<div>
-														{% if c_startdt <= A006_today %}
-														{% else %}
-															<button type="submit" class="btn btn-link week_btn" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
-														{% endif %}
-													</div>
-													<div>
-														{% if I000_days_limit_start %}
-														{% else %}
-															<button type="submit" class="btn btn-link week_btn" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
-														{% endif %}
-													</div>
-												</form>
-											</div>
-											<div>
-												<table class="table table-bordered table-hover">
-													<thead>
-														<tr>
-															<th class="font-weight-bold title-bg text-center beige-word text-nowrap" style="width: 20%;">日期</th>
-															<th class="font-weight-bold title-bg text-center beige-word text-nowrap">門診醫師列表</th>
-														</tr>
-													</thead>
-													<tbody>
-														{% for day,weekday,lookday_list_s,lookday_list_a,lookday_list_n in datas %}
-														<tr>
-															<td>
-																<div class="booking_date_col">
-																	<div>{{ day }}</div>
-																	<div>{{ weekday }}</div>
-																</div>
-															</td>
-															<td class="p-0">
-																<div class="Div_out">
-																	<div class="Div_box_3pic d-flex 
-																	align-items-stretch">
-																		<div class="Div_body p-0">
-																			<div class="css_table">
-																				<div class="css_tr">
-																					<div class="css_th mor_a">早</div>
-																					<div class="css_td">
-																						{% for lookday_lists in lookday_list_s %}
-																							{% if lookday_lists.1 == 'Q' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_disable">{{ lookday_lists.2 }} (停約)</a>
-																								</div>
-																							{% elif lookday_lists.6 == 'M' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_full">{{ lookday_lists.1 }} (約滿)</a>
-																								</div>
-																							{% elif lookday_lists.1 != 'Q' %}
-																								<div>
-																									<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_lists.3 }}&A006_date_select={{ lookday_lists.0 }}">
-																										{{ lookday_lists.1 }} {% if lookday_lists.4 == 'R' %}<span>{{ lookday_lists.5 }}</span>{% endif %} ({{ lookday_lists.2 }})
-																									</a>
-																								</div>
-																							{% endif %}
-																						{% endfor %}
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="Div_box_3pic d-flex align-items-stretch">
-																		<div class="Div_body p-0">
-																			<div class="css_table">
-																				<div class="css_tr">
-																					<div class="css_th noon_a">午</div>
-																					<div class="css_td">
-																						{% for lookday_lista in lookday_list_a %}
-																							{% if lookday_lista.1 == 'Q' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_disable">{{ lookday_lista.2 }} (停約)</a>
-																								</div>
-																							{% elif lookday_lista.6 == 'M' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_full">{{ lookday_lista.1 }} (約滿)</a>
-																								</div>
-																							{% elif lookday_lista.1 != 'Q' %}
-																								<div>
-																									<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_lista.3 }}&A006_date_select={{ lookday_lista.0 }}">
-																										{{ lookday_lista.1 }} {% if lookday_lista.4 == 'R' %}<span>{{ lookday_lista.5 }}</span>{% endif %} ({{ lookday_lista.2 }})
-																									</a>
-																								</div>
-																							{% endif %}
-																						{% endfor %}
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="Div_box_3pic d-flex align-items-stretch">
-																		<div class="Div_body p-0">
-																			<div class="css_table">
-																				<div class="css_tr">
-																					<div class="css_th night_a">晚</div>
-																					<div class="css_td">
-																						{% for lookday_listn in lookday_list_n %}
-																							{% if lookday_listn.1 == 'Q' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_disable">{{ lookday_listn.2 }} (停約)</a>
-																								</div>
-																							{% elif lookday_listn.6 == 'M' %}
-																								<div class="disable_click">
-																									<a href="#" class="booking_full">{{ lookday_listn.1 }} (約滿)</a>
-																								</div>
-																							{% elif lookday_listn.1 != 'Q' %}
-																								<div>
-																									<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_listn.3 }}&A006_date_select={{ lookday_listn.0 }}">
-																										{{ lookday_listn.1 }} {% if lookday_listn.4 == 'R' %}<span>{{ lookday_listn.5 }}</span>{% endif %} ({{ lookday_listn.2 }})
-																									</a>
-																								</div>
-																							{% endif %}
-																						{% endfor %}
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</td>
-														</tr>
-														{% endfor %}
-													</tbody>
-												</table>
-											</div>
-											<div class="py-3 text-center border-top">
-												<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A006_Online_Booking_1/';">回科別查詢</button>
-												<!-- <button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A001_dr_search/';">回醫師查詢</button> -->
-											</div>
-										</div>
-									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>	
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">{{ sename }}</h2>
+</header>
+<div class="l-main-content__body">
+	<div class="d_intro animate-from-bottom__0 mb-3">
+		<div class="w-100 position-relative">
+			<div class="badge-promo">
+				<span class="badge-promo-content">{{ sename }}</span>
+			</div>
+			<div class="in_icon position-absolute">
+				<i class="fas fa-notes-medical lightco-word"></i>
+			</div>
+			<div class="in_content position-relative">
+				{% for A006_I000 in A006_I000_list %}
+					{% if "<h>" in A006_I000 %}
+						<div class="in_title">
+							<span class="title_line_org">{{ A006_I000|cut:"<h>" }}</span>
+						</div>
+					{% endif %}
+					{% if "<t>" in A006_I000 %}
+						<div class="in_subtitle text-justify">
+							{{ A006_I000|cut:"<t>" }}
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="booking_sys">
+		<form action="" method="GET">
+			<input type="hidden" name="A006_userid" value="{{ userid }}">
+			<input type="hidden" name="A006_sename" value="{{ sename }}">
+			<input type="hidden" name="A006_width" id="A006_width">
+			<div class="tab-button-outer">
+				<div id="tab-button_a">
+					<div class="switch-field">
+						<input type="radio" onchange="this.form.submit();" id="radio-one" name="switch_day" value="1" {% if switch_day == 1 %} checked {% endif %}/>
+						<label for="radio-one">{{ A006_radio_day_1 }}月</label>
+						<input type="radio" onchange="this.form.submit();" id="radio-two" name="switch_day" value="2" {% if switch_day == 2 %} checked {% endif %}/>
+						<label for="radio-two">{{ A006_radio_day_2 }}月</label>
+						<input type="radio" onchange="this.form.submit();" id="radio-three" name="switch_day" value="3" {% if switch_day == 3 %} checked {% endif %}/>
+						<label for="radio-three">{{ A006_radio_day_3 }}月</label>
+						<!-- <input type="radio" onchange="this.form.submit();" id="radio-four" name="switch_day" value="4" {% if switch_day == 4 %} checked {% endif %}/> -->
+						<!-- <label for="radio-four">測試用</label> -->
 					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
 				</div>
 			</div>
-		</main>
-		<!-- ======= main End ======= -->
+			<div class="tab-select-outer mb-2">
+				<select onchange="this.form.submit();" name="switch_day2" class="form-control form-control-lg">
+					<option value="1" {% if switch_day2 == 1 %} selected {% endif %}>{{ A006_radio_day_1 }}月</option>
+					<option value="2" {% if switch_day2 == 2 %} selected {% endif %}>{{ A006_radio_day_2 }}月</option>
+					<option value="3" {% if switch_day2 == 3 %} selected {% endif %}>{{ A006_radio_day_3 }}月</option>
+					<!-- <option value="4" {% if switch_day2 == 4 %} selected {% endif %}>測試用</option> -->
+				</select>
+			</div>
+			<script type="text/javascript">
+				const pageWidth  = document.documentElement.scrollWidth;
+				var width = document.getElementById("A006_width");
+				width.value = pageWidth;
+			</script>
+		</form>
+		<form action="" method="GET" class="d-flex justify-content-between align-items-center mb-2">
+			<input type="hidden" name="A006_date_check" value="{{ I000_day_list.0 }}">
+			<input type="hidden" name="A006_sename" value="{{ sename }}">
+			<div>
+			{% if c_startdt <= A006_today %}
+				{% else %}
+					<button type="submit" class="btn btn-link week_btn" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+				{% endif %}
+			</div>
+			<div>
+			{% if I000_days_limit_start %}
+				{% else %}
+					<button type="submit" class="btn btn-link week_btn" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+				{% endif %}
+			</div>
+		</form>
 	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
-</body>
 
-</html>
+	<div>
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th class="font-weight-bold title-bg text-center beige-word text-nowrap" style="width: 20%;">日期</th>
+					<th class="font-weight-bold title-bg text-center beige-word text-nowrap">門診醫師列表</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for day,weekday,lookday_list_s,lookday_list_a,lookday_list_n in datas %}
+				<tr>
+					<td>
+						<div class="booking_date_col">
+							<div>{{ day }}</div>
+							<div>{{ weekday }}</div>
+						</div>
+					</td>
+					<td class="p-0">
+						<div class="Div_out">
+							<div class="Div_box_3pic d-flex align-items-stretch">
+								<div class="Div_body p-0">
+									<div class="css_table">
+										<div class="css_tr">
+											<div class="css_th mor_a">早</div>
+											<div class="css_td">
+												{% for lookday_lists in lookday_list_s %}
+													{% if lookday_lists.1 == 'Q' %}
+														<div class="disable_click">
+															<a href="#" class="booking_disable">{{ lookday_lists.2 }} (停約)</a>
+														</div>
+													{% elif lookday_lists.6 == 'M' %}
+														<div class="disable_click">
+															<a href="#" class="booking_full">{{ lookday_lists.1 }} (約滿)</a>
+														</div>
+													{% elif lookday_lists.1 != 'Q' %}
+														<div>
+															<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_lists.3 }}&A006_date_select={{ lookday_lists.0 }}">
+																{{ lookday_lists.1 }} {% if lookday_lists.4 == 'R' %}<span>{{ lookday_lists.5 }}</span>{% endif %} ({{ lookday_lists.2 }})
+															</a>
+														</div>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="Div_box_3pic d-flex align-items-stretch">
+								<div class="Div_body p-0">
+									<div class="css_table">
+										<div class="css_tr">
+											<div class="css_th noon_a">午</div>
+											<div class="css_td">
+												{% for lookday_lista in lookday_list_a %}
+													{% if lookday_lista.1 == 'Q' %}
+														<div class="disable_click">
+															<a href="#" class="booking_disable">{{ lookday_lista.2 }} (停約)</a>
+														</div>
+													{% elif lookday_lista.6 == 'M' %}
+														<div class="disable_click">
+															<a href="#" class="booking_full">{{ lookday_lista.1 }} (約滿)</a>
+														</div>
+													{% elif lookday_lista.1 != 'Q' %}
+														<div>
+															<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_lista.3 }}&A006_date_select={{ lookday_lista.0 }}">
+																{{ lookday_lista.1 }} {% if lookday_lista.4 == 'R' %}<span>{{ lookday_lista.5 }}</span>{% endif %} ({{ lookday_lista.2 }})
+															</a>
+														</div>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="Div_box_3pic d-flex align-items-stretch">
+								<div class="Div_body p-0">
+									<div class="css_table">
+										<div class="css_tr">
+											<div class="css_th night_a">晚</div>
+											<div class="css_td">
+												{% for lookday_listn in lookday_list_n %}
+													{% if lookday_listn.1 == 'Q' %}
+														<div class="disable_click">
+															<a href="#" class="booking_disable">{{ lookday_listn.2 }} (停約)</a>
+														</div>
+													{% elif lookday_listn.6 == 'M' %}
+														<div class="disable_click">
+															<a href="#" class="booking_full">{{ lookday_listn.1 }} (約滿)</a>
+														</div>
+													{% elif lookday_listn.1 != 'Q' %}
+														<div>
+															<a href="/A006_Online_Booking_2_1?A006_sename={{ sename }}&A006_userid={{ lookday_listn.3 }}&A006_date_select={{ lookday_listn.0 }}">
+																{{ lookday_listn.1 }} {% if lookday_listn.4 == 'R' %}<span>{{ lookday_listn.5 }}</span>{% endif %} ({{ lookday_listn.2 }})
+															</a>
+														</div>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="py-3 text-center border-top">
+		<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A006_Online_Booking_1/';">回科別查詢</button>
+		<!-- <button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A001_dr_search/';">回醫師查詢</button> -->
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="{{ sename }}｜網路掛號" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

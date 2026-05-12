@@ -1,93 +1,61 @@
+{% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
-<head>
-	{% include 'Public_head.html' %}
-	<title>腦脊髓液(CSF)檢體採集_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}
-</head>
-<body>
 
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
+{% block title %}腦脊髓液(CSF)檢體採集｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}腦脊髓液(CSF)檢體採集｜檢驗科｜長安醫院{% endblock %}
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item pencil_3"></li>
-											<li class="breadcrumb-item active" aria-current="page">腦脊髓液 (CSF) 檢體採集</li>
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
+{% block guide_content %}
+<!-- 標題 -->
+
 									<section id="content_h">
+
 										<div class="onsale_heading">腦脊髓液 (CSF) 檢體採集</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">	                        
+
 											<div class="col-12">
+
 												<div class="select_3"></div>
+
 											</div>	
+
 											<div class="col-12">
+
 												<div class="px-2 pb-2">
+
 													<ol class="custom-numbers mb-0">
+
 														<li class="mb-1 pt-1">腦脊髓液是由醫師執行採集，經由腰椎穿刺術 (lumbar puncture)，再以導管引流，使用無菌之15mL具螺紋蓋聚苯乙烯塑膠尖底管3-4支，標定(labeling) 採集順序後依序盛接送驗。一次總採集量約為20 mL，每一支檢體管的檢體量約為2-3 mL。</li>
+
 														<li class="mb-1 pt-1">因為腰椎穿刺有經過皮膚、組織、微血管腦脊液檢體分裝及適當執行之檢驗與關節腔，因此第一支檢體適用於生化學與血清學檢驗，第二支檢體適用於微生物檢驗，第三支檢體適用於體液鏡檢，第四支檢體可用於細胞學檢查或其他檢驗。</li>	
+
 														<li class="mb-1 pt-1">如果第一支檢體不是澄清透明的液體且有些出血狀(淡粉或紅色)，表示採檢程序有造成出血狀態(traumatic puncture)。</li>
+
 														<li class="mb-1 pt-1">此時，第一支檢體不適用於細胞學檢驗，因為檢體已受到血液的汙染，可以改用由採集順序中，開始澄清之檢體管，依序分送去生化學與血清學、微生物學、鏡檢學與細胞學之檢驗。</li>
+
 													</ol> 
+
 												</div>
+
 											</div>
+
 										</div>
+
 									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
+								
+{% endblock %}
 
-</body>
-
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="腦脊髓液(CSF)檢體採集｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

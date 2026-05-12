@@ -1,0 +1,23 @@
+<!-- [SEO/GEO 整合] Article 專用結構化資料模組 -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{% if headline %}{{ headline }}｜{% endif %}長安醫院",
+    "inLanguage": "zh-TW",
+    "datePublished": "{{ date_published|default:'2022-02-22' }}",
+    "dateModified": "{{ date_modified|default:'2026-05-01' }}",
+    "author": {
+        "@type": "Organization",
+        "name": "長安醫院"
+    },
+    "publisher": {
+        "@id": "{{ SITE_DOMAIN }}/#hospital"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+    },
+    "image": "{{ og_image|default:DEFAULT_OG_IMAGE }}"
+}
+</script>

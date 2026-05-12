@@ -1,0 +1,53 @@
+{% extends "MedicalSupport/d_support_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}支援單位總覽 | {{ block.super }}{% endblock %}
+{% block og_title %}支援單位總覽 | {{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">支援單位總覽</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		<div class="col-12 col-md-4">
+			<a href="/A003_Laboratory/">
+				<div class="trasition_site d_intro animate-from-bottom__0 mb-2 rounded">
+					<div class="w-100 position-relative">
+						<div class="in_icon position-absolute">
+							<i class="fas fa-notes-medical darkcoco-word font-70" aria-hidden="true"></i>
+						</div>
+						<div class="in_content position-relative"> 
+							<div class="in_title">
+								<span class="title_line_org">檢驗科</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="支援單位總覽" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

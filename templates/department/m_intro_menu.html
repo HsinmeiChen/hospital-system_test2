@@ -1,26 +1,36 @@
-<div class="">			
-	<div class="text-white">
-		<div class="title-bg">
-			<div class="px-3 py-4">
-				<h3 class="mb-0">關於長安</h3>
-				<div class="font-14 opacity-60">About us</div>
-			</div>	
-			<div class="d-block d-lg-none beige-bg cofe-word p-2 border-2px">
-				<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-					<span><i class="fas fa-caret-right"></i></span>
-				</div>	
-			</div>				
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">About us</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>關於長安</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
 		</div>
+		<p>About Our Hospital</p>
 	</div>		
-	<!-- 下拉選單 -->			
-	<div id="vn-info" class="vn-info">				
-		<div class="side_menu_div beige-bg">
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A004_hos_intro/">長安簡介</a>
-			</li>				
-			<li class="item text-left">
-				<a class="s_btn font-20" href="/A004_hos_traffic_info/">交通資訊</a>
+
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院簡介導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A004_hos_intro/' %}is-active{% endif %}" href="/A004_hos_intro/" title="台中長安醫院-醫院簡介" itemprop="url" {% if request.path == '/A004_hos_intro/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">長安簡介</span>
+						<span class="c-sidebar-trust__en">Hospital Overview</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
 			</li>
-		</div>
-	</div>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A004_hos_traffic_info/' %}is-active{% endif %}" href="/A004_hos_traffic_info/" title="台中長安醫院-交通資訊與地圖" itemprop="url" {% if request.path == '/A004_hos_traffic_info/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">交通資訊</span>
+						<span class="c-sidebar-trust__en">Traffic Information</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>	
+
+		</ul>
+	</nav>
 </div>

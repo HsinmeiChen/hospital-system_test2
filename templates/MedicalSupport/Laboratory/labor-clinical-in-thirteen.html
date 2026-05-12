@@ -1,111 +1,95 @@
+{% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
 
-<head>
-	{% include 'Public_head.html' %}
-	<title>碳十三呼氣檢查採檢須知_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}
-</head>
+{% block title %}碳十三呼氣檢查採檢須知｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}碳十三呼氣檢查採檢須知｜檢驗科｜長安醫院{% endblock %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
+{% block guide_content %}
+<!-- 標題 -->
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item pencil_in"></li>
-											<li class="breadcrumb-item active" aria-current="page">碳十三呼氣檢查採檢須知</li>											
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
 									<section id="content_h">
+
 										<div class="onsale_heading">碳十三呼氣檢查採檢須知</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">	                        
+
 											<div class="col-12">
+
 												<div class="select_in"></div>											
+
 											</div>
+
 	
+
 											<div class="col-12">
+
 												<div class="p-2 title-bg d-inline-flex mb-2">
+
 													<h4 class="cofe-word mb-0">檢體受理時間：週一至週五早上9點30分以前</h4>
+
 												</div>
+
 												
+
 												<h4><span class="main_title ml-md-4">受試者準備事項：</span></h4>
+
 												<div class="px-2 pb-2 ml-md-4">
+
 													<ol class="custom-numbers mb-0">
+
 														<li class="mb-1 pt-1">需禁食四小時以上。</li>
+
 														<li class="mb-1 pt-1">若有服用抗生素、鉍鹽、PPI、H2 blocker等藥，請於停藥後一個月再進行檢測。</li>                          
+
 													</ol> 
+
 												</div>
+
 												<h4><span class="main_title ml-md-4">檢體採集步驟：</span></h4>
+
 												<div class="px-2 pb-2 ml-md-4">
+
 													<ol class="custom-numbers mb-0">
+
 														<li class="mb-1 pt-1">空腹時，請先至檢驗科櫃檯執行第一次吹氣，打開編號1氣袋蓋子插入吸管後憋氣5秒後吹飽氣袋，檢驗科人員捏緊白色軟管後拔出吸管並蓋回蓋子。</li>
+
 														<li class="mb-1 pt-1">維持正常呼吸先呼氣入取集袋內(不要做深呼吸因會稀釋呼氣中之二氧化碳，可能會降低測試靈敏度。</li>
+
 														<li class="mb-1 pt-1">加入75毫升(約8分滿)的飲用水於塑膠瓶內。</li>
+
 														<li class="mb-1 pt-1">將含碳-13尿素試劑瓶瓶充分搖勻後，受試者慢慢喝下試劑。</li>
+
 														<li class="mb-1 pt-1">喝下試劑30分鐘後，期間勿進食及飲水。</li>
+
 														<li class="mb-1 pt-1">到檢驗科櫃檯執行第二次吹氣，打開編號2氣袋蓋子插入吸管後憋氣5秒後吹飽氣袋，檢驗科人員捏緊白色軟管後拔出吸管並蓋回蓋子即完成。</li>
+
 														<li class="mb-1 pt-1">檢體完成採集後，於當日10:00前送抵實驗室最佳；無法於採檢當日10:00前送檢者，最遲於採檢隔日9:30以前送到實驗室。</li>                         
+
 													</ol> 
+
 												</div>
+
 	
+
 											</div>
+
 										</div>
+
 									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
-	
-</body>
+								
+{% endblock %}
 
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="碳十三呼氣檢查採檢須知｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

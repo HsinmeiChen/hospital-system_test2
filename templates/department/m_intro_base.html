@@ -1,0 +1,57 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="l-wrapper l-sub__bg">
+    <header>{% include 'header.html' %}</header>
+    <main class="l-sub-layout__main" role="main">
+        <!-- ■■■ 共用 Hero Header ■■■ -->
+        <section class="u-hero-header">
+            <div>
+                <div class="u-hero-header__content">
+                    <span class="u-tag-primary">ABOUT US</span>
+                    <h1 class="u-hero-title">長者平安 ‧ 長久平安</h1>
+                    <p class="u-hero-desc">長安醫院以守護社區健康為核心，提供完整醫療照護服務，與在地居民同行。
+持續精進專業醫療，打造安心可信賴的全人照護醫院。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="l-container-panel">
+            <div class="row">
+                <aside class="col-lg-3">
+                    <div class="l-sidebar">
+                        {% include 'department/m_intro_menu.html' %}
+                    </div>
+                </aside>
+
+                <article class="col-lg-9">
+                    {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                    <div class="l-main-content u-panel-pure">
+                        {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}{% endblock %}
+<!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+{% endblock %}
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+    {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+    {% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

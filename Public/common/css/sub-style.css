@@ -453,11 +453,7 @@ a .d_intro:hover{
 .doc_list > div:last-child{
     border-bottom: 0px solid #eee !important;
 }
-.about-text h4 {
-    font-size: 35px;
-    font-weight: 700;
-    margin: 0 0 6px;
-}
+
 .d_img_div{
     position: relative;
     width: 100%;

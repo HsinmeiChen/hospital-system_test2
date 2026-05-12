@@ -1,0 +1,531 @@
+/* ==========================================================================
+   Modern UI Header Component (Full Advanced Version)
+========================================================================== s*/
+
+    /* --- 核心設計系統 --- */
+    :root {
+        --header-height: 70px;
+        --text-muted: #555555;
+        --border-color: #f0f0f0;
+        --border-muted: #cccccc;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* --- 導覽列基礎 --- */
+    .m-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--header-height);
+        background: var(--color-bg-light);
+        box-shadow: none;
+        z-index: 10;
+        font-family: Arial, 'Microsoft JhengHei', sans-serif;
+        transition: var(--transition);
+        border-bottom: 1px solid var(--color-primary-light);
+        margin: 0;
+    }
+
+    .m-header.is-scrolled {
+        box-shadow: var(--shadow);
+        border-bottom: 1px solid var(--color-primary-light);
+    }
+
+    .m-header__container {
+        max-width: 1450px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+
+    /* Logo */
+    .m-header__logo img,
+	.m-mobile-logo img {
+        height: 70px;
+        transition: var(--transition);
+		margin-left: -10px;
+    }
+
+    /* 桌機導覽清單 */
+    .m-nav { height: 100%; display: none; }
+    .m-nav__list { display: flex; list-style: none; margin: 0; padding: 0; height: 100%; }
+    .m-nav__item { height: 100%; display: flex; align-items: center; }
+    
+    .m-nav__link {
+        padding: 0 24px;
+        font-weight: 600;
+        text-decoration: none;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+        position: relative;
+        font-size: 1.05rem;
+    }
+
+    .m-nav__link:hover { color: var(--color-primary); }
+    .m-nav__link::after {
+        content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: 0;
+		height: 3px;
+        background: var(--color-secondary);
+		transition: var(--transition);
+		transform: translateX(-50%);
+    }
+    .m-nav__item:hover .m-nav__link::after { width: 40px; }
+
+    /* --- Mega Menu 現代化排版 --- */
+    .m-mega {
+        position: absolute; top: var(--header-height); left: 0; width: 100%;
+        background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px);
+        opacity: 0; visibility: hidden; transform: translateY(15px);
+        transition: var(--transition); box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .m-nav__item:hover .m-mega,
+    .m-nav__item.is-active .m-mega { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    .m-mega__container {
+        max-width: 1300px; margin: 0 auto; display: flex;
+    }
+
+    /* 導覽區域 (左側) */
+    .m-mega__nav-side {
+        flex: 3;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+		padding: 40px;
+		background: var(--color-bg-white);
+    }
+
+    /* 行銷曝光區 (右側) */
+    .m-mega__promo-side {
+        flex: 1.5;
+        background: #fcfcfc;
+        display: flex;
+        overflow: hidden;
+        padding: 10px;
+		align-items: center;
+        border-left: 1px solid var(--border-color);
+    }
+
+    .m-mega__promo-img {
+        width: 100%;
+        height: 100%;
+		max-height: 200px;
+        display: block;
+    }
+    
+    /* 子選單標題與清單 */
+    .m-mega__title {
+        color: var(--color-primary); font-size: 1.15rem; font-weight: 800; margin-bottom: 24px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .m-mega__title::before {
+		content: '';
+		width: 4px;
+		height: 18px;
+		background: var(--color-secondary);
+		border-radius: 2px;
+	}
+
+    .m-mega__list { list-style: none; padding: 0; margin: 0; }
+    .m-mega__list li { margin-bottom: 14px; }
+    .m-mega__list a {
+        color: var(--text-muted);
+		text-decoration: none;
+		font-size: 0.98rem;
+		font-weight: 500;
+        transition: var(--transition);
+		display: flex;
+		align-items: center;
+		gap: 8px;
+    }
+    .m-mega__list a::before {
+		content: '•';
+		color: var(--color-secondary);
+		opacity: 0;
+		transition: var(--transition);
+		transform: translateX(-5px);
+	}
+    .m-mega__list a:hover {
+		color: var(--color-secondary);
+		transform: translateX(5px);
+		font-weight: 700;
+	}
+    .m-mega__list a:hover::before {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+    /* 嵌套子選單樣式 (Mega Menu Sub-list) - 支援折疊 */
+    .m-mega__sub-list {
+        list-style: none;
+        padding: 0 0 0 1.25rem;
+        margin: 5px 0 10px 0.5rem;
+        border-left: 1px solid var(--border-color);
+        display: none; /* 預設改為隱藏，支援折疊 */
+        flex-direction: column;
+        gap: 2px;
+        transition: var(--transition);
+    }
+
+    .m-mega__sub-list.is-active {
+        display: flex;
+    }
+
+    .m-mega__sub-list li {
+        margin-bottom: 0 !important; /* 強制覆蓋全域 li 間距 */
+    }
+
+    .m-mega__sub-list a {
+        font-size: 0.88rem;
+        opacity: 0.8;
+        padding: 6px 0;
+    }
+
+    .m-mega__sub-list a:hover {
+        opacity: 1;
+        color: var(--color-primary);
+    }
+
+    .m-mega__sub-list a::before {
+        content: '↳';
+        font-size: 0.8rem;
+        margin-right: 6px;
+        opacity: 0.5;
+        transition: var(--transition);
+    }
+    
+    .m-mega__sub-list a:hover::before {
+        opacity: 1;
+        color: var(--color-secondary);
+        transform: translateX(3px);
+    }
+
+    /* 折疊觸發器圖示 */
+    .js-mega-sub-toggle {
+        cursor: pointer;
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-start !important; /* 改為靠左對齊 */
+        gap: 8px; /* 標題與箭頭的間距 */
+        width: fit-content !important; /* 寬度根據內容調整 */
+    }
+
+    .js-mega-sub-toggle::after {
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 0.7rem;
+        margin-left: 8px;
+        transition: transform 0.3s;
+        opacity: 0.6;
+    }
+
+    .js-mega-sub-toggle.is-active::after {
+        transform: rotate(180deg);
+        color: var(--color-primary);
+        opacity: 1;
+    }
+    /* 特別：重點醫療卡片佈局 */
+    .m-medical-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .m-medical-card {
+        background: var(--color-bg-white);
+        overflow: hidden;
+        transition: var(--transition);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-muted);
+    }
+
+    .m-medical-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        border-color: var(--color-secondary);
+    }
+
+    .m-medical-card__img-box {
+        width: 100%;
+        overflow: hidden;
+		flex: 2.5;
+    }
+
+    .m-medical-card__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .m-medical-card:hover .m-medical-card__img {
+        transform: scale(1.05);
+    }
+
+    .m-medical-card__title {
+        padding: 10px;
+        text-align: center;
+        color: var(--color-primary);
+        font-weight: 800;
+        font-size: 1.05rem;
+        background: var(--color-bg-white);
+        transition: var(--transition);
+		flex: 1.5;
+    }
+
+    .m-medical-card:hover .m-medical-card__title {
+        color: var(--color-secondary);
+    }
+
+    /* 行動版漢堡按鈕與側邊欄 */
+    .m-hamburger {
+		display: block;
+		cursor: pointer;
+		padding: 10px;
+		border: none;
+		background: transparent;
+	}
+    .m-hamburger span {
+		width: 26px;
+		height: 3px;
+		background: var(--color-primary);
+		display: block;
+		margin: 5px 0;
+		transition: 0.3s;
+	}
+    
+    .m-mobile-sidebar {
+		position: fixed;
+		top: 0;
+		right: -320px;
+		width: 300px;
+		height: 100vh;
+		background: var(--color-bg-white);
+		z-index: 10001;
+		transition: 0.4s;
+		box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+	}
+    .m-mobile-sidebar.active {
+		right: 0;
+	}
+    .m-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		z-index: 10000;
+		opacity: 0;
+		visibility: hidden;
+		transition: 0.3s;
+	}
+    .m-overlay.active {
+		opacity: 1;
+		visibility: visible;
+	}
+
+    @media (min-width: 992px) {
+        .m-nav { display: flex; }
+        .m-hamburger { display: none; }
+    }
+
+    /* 特別：就醫指南三欄排版 */
+    .m-grid-guideline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 25px; }
+    .m-mega--subtle-bg {
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+            url('../../img/ever_bg.webp') !important;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* --- 行動版鑽取式選單系統 --- */
+    .m-mobile-sidebar { 
+        position: fixed;
+		top: 0;
+		right: -100%;
+		width: 100%;
+		height: 100vh; 
+        background-color: var(--color-bg-white);
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
+            url('../../img/everan5.webp');
+        background-size: cover;
+        background-position: 10% 50%;
+        z-index: 10001;
+		transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+    .m-mobile-sidebar.active {
+		right: 0;
+	}
+    
+    .m-mobile-container {
+        display: flex;
+		width: 200%;
+		height: 100%;
+		transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .m-mobile-container.is-sub-active {
+		transform: translateX(-50%);
+	}
+
+    .m-mobile-layer {
+		width: 50%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+    
+    .m-sub-layer {
+		display: none;
+	}
+    .m-sub-layer.is-active {
+		display: flex;
+	}
+    
+    .m-mobile-header {
+        height: 75px;
+		padding: 0 20px;
+		display: flex;
+		align-items: center;
+        justify-content: space-between;
+		border-bottom: 1px solid var(--border-color);
+        background: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(10px);
+        flex-shrink: 0;
+    }
+    .m-mobile-header__title {
+		font-weight: 800;
+		font-size: 1.25rem;
+		color: var(--color-primary);
+		letter-spacing: 1px;
+	}
+    
+    .m-mobile-btn { 
+        border: none;
+		background: transparent;
+		cursor: pointer;
+		width: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+        transition: var(--transition);
+    }
+    .m-mobile-btn svg {
+		width: 24px;
+		height: 24px;
+		fill: none;
+		stroke: var(--color-primary);
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+    .m-mobile-body { 
+        flex-grow: 1; overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .m-mobile-body::-webkit-scrollbar { display: none; }
+
+    .m-mobile-list { list-style: none; padding: 0; margin: 0; }
+    .m-mobile-item { border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .m-mobile-link {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 24px 28px; text-decoration: none;
+        font-weight: 600; font-size: 1.15rem;
+    }
+    .m-mobile-link svg {
+		width: 25px; 
+		height: 25px;
+		stroke: var(--color-primary);
+		fill: none;
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+    .m-mobile-group {
+		padding: 20px 28px 10px;
+	}
+    .m-mobile-group__title { 
+        font-size: 1.4rem;
+		font-weight: 900;
+		color: var(--color-primary); 
+        margin-bottom: 15px;
+		padding-bottom: 10px;
+		border-bottom: 2px solid var(--color-secondary);
+        display: block;
+		letter-spacing: 1px;
+    }
+    .m-mobile-sub-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+    .m-mobile-sub-link { 
+        text-decoration: none;
+		color: var(--text-muted);
+		font-size: 1.1rem; 
+        display: block;
+		padding: 10px 0;
+		font-weight: 500;
+    }
+
+    /* 行動版醫療中心卡片網格：1 欄強效排版 */
+    .m-mobile-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 24px 40px;
+    }
+    .m-mobile-card {
+        text-decoration: none;
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        background: var(--color-bg-white);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+    }
+    .m-mobile-card__img-box {
+        width: 100%;
+        overflow: hidden;
+    }
+    .m-mobile-card__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .m-mobile-card__title {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--color-primary);
+        text-align: center;
+        line-height: 1.4;
+    }

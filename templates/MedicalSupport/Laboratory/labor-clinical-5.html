@@ -1,101 +1,77 @@
+{% extends "MedicalSupport/Laboratory/labor-base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="zh-TW">
 
-<head>
-	{% include 'Public_head.html' %}
-	<title>檢體共通退件原則_長安醫院檢驗科</title>
-	<link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
-	{% include 'GA_head.html' %}
-</head>
+{% block title %}檢體共通退件原則｜檢驗科｜長安醫院{% endblock %}
+{% block og_title %}檢體共通退件原則｜檢驗科｜長安醫院{% endblock %}
 
-<body>
-	{% include 'GA_noscript.html' %}
-	<div class="wrapper L_sub_main_bg">
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
-		<!-- ======= navbar ======= -->
-		{% include 'MedicalSupport/Laboratory/header_labor.html' %}
-		<!-- ======= navbar End ======= -->
-		<!-- ======= main-content ======= -->
-		<main class="pt-5 pb-3">
-			<div class="container py-3">
-				<div class="row">
-					<!-- ※※※ 側邊選單 ※※※ -->
-					<div class="col-lg-3 mb-2">
-						<div class="menu_sidebar">
-							<aside>
-								{% include 'MedicalSupport/Laboratory/labor-clinical-menu.html' %}
-							</aside>
-						</div>
-					</div>
-					<!-- ※※※ 側邊選單 End ※※※ -->
+{% block guide_content %}
+<!-- 標題 -->
 
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-lg-9">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item labor_pencil"></li>
-											<li class="breadcrumb-item active" aria-current="page">檢體共通退件原則</li>											
-										</ol>
-									</nav>
-								</div>
-								<!-- 內容區 -->
-								<div class="bg-white rounded panel-shadow title_wrap">
-									<!-- 標題 -->
 									<section id="content_h">
+
 										<div class="onsale_heading">檢體共通退件原則</div>
+
 										<hr class="my-2">
+
 									</section>
+
 									<!-- 細節 -->
+
 									<section id="content_body">
+
 										<div class="row">	
+
 											<div class="col-12">
+
 												<div class="px-2 pb-2">
+
 													<ol class="custom-numbers mb-0">
+
 														<li class="mb-1 pt-1">檢體無標示、標示不清或標示不全以致無法辨識。</li>
+
 														<li class="mb-1 pt-1">檢體無條碼標籤且無檢驗單，以致無法獲知檢驗項目內容。</li>
+
 														<li class="mb-1 pt-1">檢驗單與檢體不符。</li>
+
 														<li class="mb-1 pt-1">檢體破損外漏。</li>
+
 														<li class="mb-1 pt-1">檢體運送條件不符。（如：未冰浴送檢或溫浴送檢）</li>
+
 														<li class="mb-1 pt-1">超過有效處理時限的檢體。</li>
+
 														<li class="mb-1 pt-1">檢體量不符。（過多或不足）</li>
+
 														<li class="mb-1 pt-1">採檢容器不符。</li>
+
 														<li class="mb-1 pt-1">檢體種類不符。（如：尿液檢驗送血液檢體）</li>
+
 														<li class="mb-1 pt-1">含抗凝劑之血漿類檢體，出現凝固（clot）現象。（如：CBC管；PT、PTT管）</li>
+
 														<li class="mb-1 pt-1">用於細胞計數與分類之體液檢體，出現凝固（clot）現象。（如：鏡檢之體液檢體）</li>
+
 														<li class="mb-1 pt-1">檢體過於黏稠以致無法檢驗。</li>
+
 														<li class="mb-1 pt-1">備血檢體無雙核章或無雙人簽章紀錄。</li>
+
 														<li class="mb-1 pt-1">不符合本部之採集送檢須知要求。</li>
+
 														<li class="mb-1 pt-1">院外代檢檢體，無委託申請單、委託申請單內容不全或申請單與檢體不符。</li>
+
 													</ol> 
+
 												</div>
+
 											</div>
+
 										</div>						
+
 									</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>
-					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
-				</div>		  
-			</div>
-		</main>
-		<!-- ======= main End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
 
-	<!-- ======= js 套件區 ======= -->
-	<!-- ======= js 套件區 End ======= -->
+								
+{% endblock %}
 
-</body>
-
-</html>
+<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="檢體共通退件原則｜檢驗科" %}
+{% endblock %}
+<!-- ▲▲▲ SEO/GEO ▲▲▲-->

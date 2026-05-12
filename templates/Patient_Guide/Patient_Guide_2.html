@@ -1,106 +1,86 @@
-<!doctype html>
-<html lang="zh-TW">
-<head>
-	{% include 'Public_head.html' %}
-	<title>網路掛號_長安醫院</title>
-	{% include 'GA_head.html' %}
-</head>
+{% extends "Patient_Guide/Patient_Guide_2_Base.html" %}
 
-<body {% if A006_Stop %} onload="show_stop_text();" {% endif %}>
-	{% include 'GA_noscript.html' %}
-    <div class="wrapper L_sub_main_bg d-flex justify-content-center align-items-center">
+{% load static %}
 
-		<!-- ======= 本頁 Modal Area ======= -->
-		<!-- ======= 本頁 Modal Area End ======= -->
+<!-- === Meta ================================== -->
+{% block title %}網路掛號｜{{ block.super }}{% endblock %}
+{% block og_title %}網路掛號｜{{ block.super }}{% endblock %}
 
-		<!-- ======= navbar ======= -->
-		{% include 'header.html' %}
-		<!-- ======= navbar End ======= -->
 
-		<!-- ======= main-content ======= -->
-		<main class="online_main">
-			<div class="container py-1">
-				<div class="row">
-					<!-- ※※※ 功能內容 ※※※ -->
-					<div class="col-12">
-						<article>
-							<div class="content">
-								<!-- 麵包屑 -->
-								<!-- <div class="text-right font-16">
-									<nav aria-label="breadcrumb">
-										<ol class="breadcrumb justify-content-end">
-											<li class="breadcrumb-item main_pencil"></li>
-											<li class="breadcrumb-item active" aria-current="page">網路掛號</li>
-										</ol>
-									</nav>
-								</div> -->
-								<!-- 內容區 -->
-								<div>
-									<!-- 標題 -->
-									<!-- <section id="content_h">
-										<div class="onsale_heading">網路掛號</div>
-										<hr class="my-2">
-									</section> -->
-										<!-- 細節 -->
-										<section id="content_body">
-											<div class="row items_div items_div_w mt-5">
+<!-- === 子頁細節內容 =========================== -->
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
-												{% autoescape off %}
-												<form action="" method="GET" id="first1" class="col-lg-6 d-flex justify-content-center">
-													<input type="hidden" name="first" value="1">
-													{% if referrer %}
-														<input type="hidden" name="referrer" value="{{ referrer }}">
-													{% endif %}
-													<div class="A_card trasition_site" onclick="document.getElementById('first1').submit();">
-														<div class="info row align-items-center">
-															<div class="icon_1 col-4 col-lg-12">
-																<span class="livicon livicon-processed">
-																	<i class="fas fa-child"></i>
-																</span>
-															</div>
-															<div class="title col-8 col-lg-12">初診</div>
-															<div class="descricao col-12">
-															若您未曾來過本院就醫者，請先填寫初診資料，再進行網路預約掛號，謝謝。
-															</div>
-														</div>
-													</div>
-												</form>
-												<form action="" method="GET" id="first2" class="col-lg-6 d-flex justify-content-center">
-													<input type="hidden" name="first" value="0">
-													{% if referrer %}
-														<input type="hidden" name="referrer" value="{{ referrer }}">
-													{% endif %}
-													<div class="A_card trasition_site" onclick="document.getElementById('first2').submit();">
-														<div class="info row align-items-center">
-															<div class="icon_2 col-4 col-lg-12">
-																<span class="livicon livicon-processed">
-																	<i class="fas fa-chalkboard-teacher"></i>
-																</span>
-															</div>
-															<div class="title col-8 col-lg-12">複診</div>
-															<div class="descricao col-12">
-															曾來過本院就醫者，請先完成登入，再進行網路預約掛號，謝謝。
-															</div>
-														</div>
-													</div>
-												</form>
-												{% endautoescape %}
-											</div>
-										</section>
-								</div>
-								<!-- 內容區 End -->
-							</div>
-						</article>	
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<div {% if A006_Stop %} onload="show_stop_text();" {% endif %}>	
+<div class="l-main-content__body">
+	<div class="row items_div items_div_w mt-5">
+		{% autoescape off %}
+		<form action="" method="GET" id="first1" class="col-lg-6 d-flex justify-content-center">
+			<input type="hidden" name="first" value="1">
+			{% if referrer %}
+				<input type="hidden" name="referrer" value="{{ referrer }}">
+			{% endif %}
+			<div class="A_card trasition_site" onclick="document.getElementById('first1').submit();">
+				<div class="info row align-items-center">
+					<div class="icon_1 col-4 col-lg-12">
+						<span class="livicon livicon-processed">
+							<i class="fas fa-child"></i>
+						</span>
 					</div>
-					<!-- ※※※ 功能內容 End ※※※ -->
+					<div class="title col-8 col-lg-12">初診</div>
+					<div class="descricao col-12">
+						若您未曾來過本院就醫者，請先填寫初診資料，再進行網路預約掛號，謝謝。
+					</div>
 				</div>
 			</div>
-		</main>
-		<!-- ======= main End ======= -->
+		</form>
+		<form action="" method="GET" id="first2" class="col-lg-6 d-flex justify-content-center">
+			<input type="hidden" name="first" value="0">
+			{% if referrer %}
+				<input type="hidden" name="referrer" value="{{ referrer }}">
+			{% endif %}
+			<div class="A_card trasition_site" onclick="document.getElementById('first2').submit();">
+				<div class="info row align-items-center">
+					<div class="icon_2 col-4 col-lg-12">
+						<span class="livicon livicon-processed">
+							<i class="fas fa-chalkboard-teacher"></i>
+						</span>
+					</div>
+					<div class="title col-8 col-lg-12">複診</div>
+					<div class="descricao col-12">
+						曾來過本院就醫者，請先完成登入，再進行網路預約掛號，謝謝。
+					</div>
+				</div>
+			</div>
+		</form>
+		{% endautoescape %}
 	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
-</body>
+</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
 
-</html>
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="網路掛號" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+	<style>
+		.swal2-html-container{
+			margin: 0.3em 1.6em 0em !important;
+			font-size: 1em !important;
+		}
+	</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

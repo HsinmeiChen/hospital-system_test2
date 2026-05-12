@@ -1,0 +1,23 @@
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">SUPPORT</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>支援單位</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Medical Support</p>
+	</div>
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院檢驗科 - 醫療支援單位總覽" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_Medical_Support/' %}is-active{% endif %}" href="/A003_Medical_Support/" title="台中長安醫院-醫療支援部門科室總覽" itemprop="url" {% if request.path == '/A003_Medical_Support/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">單位總覽</span>
+						<span class="c-sidebar-trust__en">Support Units</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>

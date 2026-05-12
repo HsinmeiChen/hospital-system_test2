@@ -1,170 +1,163 @@
-
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "specialty_health/h-base.html" %}
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_health/h-health-header.html' %}
-        </header>
-        {% spaceless %}
-        <main>
-            <!-- ■■■ Banner ■■■ -->
-            <section id="banner">
-                <!-- 圖片輪播區 -->
-                <div class="banner-carousel" id="banner-carousel">
-                    <!-- 圖片們 -->
-                    <!-- 左右箭頭 -->
-                    <button id="prevBanner" class="banner-arrow left" aria-label="上一張">&#10094;</button>
-                    <button id="nextBanner" class="banner-arrow right" aria-label="下一張">&#10095;</button>
-                </div>
-                
-                <!-- 導覽圓點 -->
-                <div id="banner-dots" class="banner-dots"></div>
-            </section>
-
-            <!-- ■■■ News / Single-Film ■■■ -->
-            <section id="news">
-                <div class="section-grid-sm">
-                    <div class="news-box mb-5"></div>
-                    <div class="read-more">
-                        <a href="{% url 'health_news' %}" class="btnn brown" title="查看更多">查看更多 <i class="fas fa-arrow-right ml-2"></i></a>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- ■■■ Treatment ■■■ -->
-            <section id="treatment">
-                <div class="fade-in-card section-grid-sm dot-bg">
-                    <div class="fade-in-card text-center mb-4">
-                        <h2>健檢專案</h2>
-                        <p>Wellness Health Packages</p>
-                    </div>
-                    <div>
-                        <ul class="circle-items row" style="justify-content: space-around;">
-                            {% for treat in treatments %}
-                            <li class="circle-item col-md-6 col-lg-2">
-                                <div class="circle-item-inner">
-                                    <div class="circle-image">
-                                        {% if treat.pdf_url %}
-                                            <a href="{{ treat.pdf_url }}" rel="noopener noreferrer">
-                                                <div style="background-image: url('/media/{{ treat.thumb_img }}');"></div>
-                                            </a>
-                                        {% else %}
-                                            <a href="{% url 'treatment_article' treat.url_name %}">
-                                                <div style="background-image: url('/media/{{ treat.thumb_img }}');"></div>
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="circle-texts">
-                                        {% if treat.pdf_url %}
-                                            <a href="{{ treat.pdf_url }}" rel="noopener noreferrer">{{ treat.title }}</a>
-                                        {% else %}
-                                            <a href="{% url 'treatment_article' treat.url_name %}">{{ treat.title }}</a>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ■■■ Health-Reports ■■■ -->
-            <section id="health-reports" class="dot-bg">
-                <div class="corner-banner">
-                    <h2>媒體報導</h2>
-                    <p>Media Reports</p>
-                </div>
-                <div class="article-area">
-                    <div class="article-area-Inner">
-                        <div class="secInr">
-                            <div class="row" id="media-articles-home"></div>
-                            <div class="read-more">
-                                <a href="{% url 'health_media' %}" class="btnn brown" title="查看更多">查看更多 <i class="fas fa-arrow-right ml-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- ■■■ Health Film ■■■ -->
-            <section id="health-film" class="dot-bg">
-                <div class="corner-banner"></div>
-                <div class="article-area">
-                    <div class="article-area-Inner row">
-                        <div class="fade-in-card col-xl-3">
-                            <div>
-                                <h2>衛教資訊</h2>
-                                <p>Health Education</p>
-                                <div class="c-btnn-wrap">
-                                    <a href="{% url 'health_film' %}" class="c-btnn" title="查看更多">
-                                        <span class="c-btnn-text">查看更多</span>
-                                        <span class="c-btnn-arrow"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="secInr col-xl-9">
-                            <div class="row" id="video-list-home"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ■■■ Map ■■■ -->
-            <section id="mapwithcontact">
-                <div class="section-grid">
-                    <div class="row">
-                        <section id="map" class="col-xl-7 fade-in-card order-2 order-xl-1">
-                            <div class="card shadow-sm">
-                                <div class="card-body p-1">
-                                    <div class="map-container" data-map-loaded="false">
-                                        <div class="map-placeholder text-center text-muted py-5">地圖載入中...</div>
-                                    </div>
-                                </div>
-                            </div>                            
-                        </section>
-                        <section class="col-xl-5 fade-in-card order-1 order-xl-2">
-                            <h2 data-en="Location" class="vertical-title-01">
-                                <i class="fas fa-map-marker-alt"></i> 交通位置
-                            </h2>
-                        </section>                        
-                    </div>
-                </div>
-            </section>
-            
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script src="{% static 'apps/specialty_health/js/film-modal.js' %}"></script>
-<script src="{% static 'apps/specialty_health/js/special-index.js' %}"></script>
-{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "specialty_health/h-base.html" %}
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_health/h-health-header.html' %}
+        </header>
+        {% spaceless %}
+        <main>
+            <!-- ■■■ Banner ■■■ -->
+            <section id="banner">
+                <!-- 圖片輪播區 -->
+                <div class="banner-carousel" id="banner-carousel">
+                    <!-- 圖片們 -->
+                    <!-- 左右箭頭 -->
+                    <button id="prevBanner" class="banner-arrow left" aria-label="上一張">&#10094;</button>
+                    <button id="nextBanner" class="banner-arrow right" aria-label="下一張">&#10095;</button>
+                </div>
+                
+                <!-- 導覽圓點 -->
+                <div id="banner-dots" class="banner-dots"></div>
+            </section>
+
+            <!-- ■■■ News / Single-Film ■■■ -->
+            <section id="news">
+                <div class="section-grid-sm">
+                    <div class="news-box mb-5"></div>
+                    <div class="read-more">
+                        <a href="{% url 'health_news' %}" class="btnn brown" title="查看更多">查看更多 <i class="fas fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ■■■ Treatment ■■■ -->
+            <section id="treatment" class="dot-bg">
+                <div class="fade-in-card section-grid-sm">
+                    <div class="fade-in-card text-center mb-4">
+                        <h2>健檢專案</h2>
+                        <p>Wellness Health Packages</p>
+                    </div>
+                    <div>
+                        <ul class="circle-items row justify-content-start">
+                            {% for treat in treatments %}
+                            <li class="circle-item col-lg-6 fade-in-card">
+                                <div class="circle-item-inner">
+                                    <div class="circle-image">
+                                        <div style="background-image: url('/media/{{ treat.thumb_img }}');"></div>
+                                    </div>
+                                    <div class="circle-texts">
+                                        <div class="treat-title">
+                                            {{ treat.title }}
+                                        </div>
+                                        <div class="treat-btn-wrap">
+                                            <a href="{% url 'health_treatment_article' treat.url_name %}" class="btn-more stretched-link">查看詳情 <i class="fas fa-angle-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ■■■ Health-Reports ■■■ -->
+            <section id="health-reports" class="dot-bg">
+                <div class="corner-banner">
+                    <h2>媒體報導</h2>
+                    <p>Media Reports</p>
+                </div>
+                <div class="article-area">
+                    <div class="article-area-Inner">
+                        <div class="section-grid-sm">
+                            <div class="row" id="media-articles-home"></div>
+                            <div class="read-more">
+                                <a href="{% url 'health_media' %}" class="btnn brown" title="查看更多">查看更多 <i class="fas fa-arrow-right ml-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ■■■ Health Film ■■■ -->
+            <section id="health-film" class="dot-bg">
+                <div class="corner-banner"></div>
+                <div class="article-area">
+                    <div class="article-area-Inner row">
+                        <div class="fade-in-card col-xl-3">
+                            <div>
+                                <h2>衛教資訊</h2>
+                                <p>Health Education</p>
+                                <div class="c-btnn-wrap">
+                                    <a href="{% url 'health_film' %}" class="c-btnn" title="查看更多">
+                                        <span class="c-btnn-text">查看更多</span>
+                                        <span class="c-btnn-arrow"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="secInr col-xl-9">
+                            <div class="row" id="video-list-home"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ■■■ Map ■■■ -->
+            <section id="mapwithcontact">
+                <div class="section-grid">
+                    <div class="row">
+                        <section id="map" class="col-xl-7 fade-in-card order-2 order-xl-1">
+                            <div class="card shadow-sm">
+                                <div class="card-body p-1">
+                                    <div class="map-container" data-map-loaded="false">
+                                        <div class="map-placeholder text-center text-muted py-5">地圖載入中...</div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </section>
+                        <section class="col-xl-5 fade-in-card order-1 order-xl-2">
+                            <h2 data-en="Location" class="vertical-title-01">
+                                <i class="fas fa-map-marker-alt"></i> 交通位置
+                            </h2>
+                        </section>                        
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script src="{% static 'apps/specialty_health/js/film-modal.js' %}"></script>
+<script src="{% static 'apps/specialty_health/js/special-index.js' %}"></script>
+{% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

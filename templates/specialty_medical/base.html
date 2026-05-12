@@ -1,87 +1,87 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- SEO Basic ======================== -->
-        <title>{% block title %}長安骨科微創手術中心 - 退化性關節炎治療 | 長安醫院 -骨科{% endblock %}</title>
-        <meta name="title" content="{% block title_1 %}長安骨科微創手術中心 - 退化性關節炎治療 | 長安醫院 -骨科{% endblock %}">
-        <meta name="keywords" content="{% block keywords %}Mako機器人關節置換手術, MIS微創關節置換手術, PRP關節注射療法, 微創關節鏡手術{% endblock %}">
-        <meta name="description" content="{% block meta_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}">
-
-        <!-- Open Graph (Facebook Share) ======== -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="{% block og_title %}長安骨科微創手術中心 - 退化性關節炎治療 | 長安醫院 -骨科{% endblock %}">
-        <meta property="og:description" content="{% block og_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}">
-        <meta property="og:url" content="https://web.everanhospital.com.tw{{ request.get_full_path }}">
-        <meta property="og:image" content="{% block og_image %}{{ og_image }}{% endblock %}">
-
-        <!-- Web-icon =========================== -->
-        <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
-        <!-- CSS ================================ -->
-        <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
-        <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
-        <!-- style -->
-        <link rel="stylesheet" href="{% static 'apps/specialty_medical/css/special-main.css' %}">
-        <!-- js ================================= -->
-        <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
-        <script src="{% static 'common/js/popper.min.js' %}"></script>
-        <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
-
-
-        <!-- GA (fallback to settings.DEFAULT_GA_ID) -->
-        {% with ga_id|default:DEFAULT_GA_ID as final_ga_id %}
-            {% if final_ga_id %}
-                <script async src="https://www.googletagmanager.com/gtag/js?id={{ final_ga_id }}"></script>
-                <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '{{ final_ga_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-        <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
-        {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
-            {% if final_gtm_id %}
-                <script>
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','{{ final_gtm_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-    </head>
-    <body>
-        <!-- ■■■ Contact Us ■■■ -->
-        <a href="mailto:everanhealth@gmail.com?subject=我要洽詢&body=您好，我想了解更多資訊。" id="emailBtn" title="聯繫我們">
-            <i class="fas fa-envelope"></i>
-            <!-- <div>與我聯繫</div> -->
-        </a>
-        <!-- ■■■ Go To Top ■■■ -->
-        <button onclick="topFunction()" id="myBtn" title="回到最上方" style="display: block;">
-            <i class="fas fa-chevron-up"></i>
-        </button>
-        
-        <!-- ※※※ Web Content ※※※ -->
-        {% block content %}
-        {% endblock %}
-
-        <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
-        {% block extra_css %}{% endblock %}
-
-        <!-- ※※※ 共用 JS Tool Start ※※※ -->
-        <script src="{% static 'apps/specialty_medical/js/nav-bar.js' %}"></script>
-        <script src="{% static 'common/js/gotop.js' %}"></script>
-
-        <!-- ※※※ 子頁面可額外加 JS ※※※ -->
-        {% block extra_js %}{% endblock %}
-        
-    </body>
-</html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- SEO Basic ======================== -->
+        <title>{% block title %}長安骨科微創手術中心 - 退化性關節炎治療 -骨科 | {{ block.super }}{% endblock %}</title>
+        <meta name="title" content="{% block title_1 %}長安骨科微創手術中心 - 退化性關節炎治療 -骨科{% endblock %}">
+        <meta name="keywords" content="{% block keywords %}Mako機器人關節置換手術, MIS微創關節置換手術, PRP關節注射療法, 微創關節鏡手術{% endblock %}">
+        <meta name="description" content="{% block meta_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}">
+
+        <!-- Open Graph (Facebook Share) ======== -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{% block og_title %}長安骨科微創手術中心 - 退化性關節炎治療 -骨科 | {{ block.super }}{% endblock %}">
+        <meta property="og:description" content="{% block og_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}">
+        <meta property="og:url" content="https://web.everanhospital.com.tw{{ request.get_full_path }}">
+        <meta property="og:image" content="{% block og_image %}{{ og_image }}{% endblock %}">
+
+        <!-- Web-icon =========================== -->
+        <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
+        <!-- CSS ================================ -->
+        <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
+        <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
+        <!-- style -->
+        <link rel="stylesheet" href="{% static 'apps/specialty_medical/css/special-main.css' %}">
+        <!-- js ================================= -->
+        <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
+        <script src="{% static 'common/js/popper.min.js' %}"></script>
+        <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
+
+
+        <!-- GA (fallback to settings.DEFAULT_GA_ID) -->
+        {% with ga_id|default:DEFAULT_GA_ID as final_ga_id %}
+            {% if final_ga_id %}
+                <script async src="https://www.googletagmanager.com/gtag/js?id={{ final_ga_id }}"></script>
+                <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '{{ final_ga_id }}');
+                </script>
+            {% endif %}
+        {% endwith %}
+
+        <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
+        {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
+            {% if final_gtm_id %}
+                <script>
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','{{ final_gtm_id }}');
+                </script>
+            {% endif %}
+        {% endwith %}
+
+    </head>
+    <body>
+        <!-- ■■■ Contact Us ■■■ -->
+        <a href="mailto:everanhealth@gmail.com?subject=我要洽詢&body=您好，我想了解更多資訊。" id="emailBtn" title="聯繫我們">
+            <i class="fas fa-envelope"></i>
+            <!-- <div>與我聯繫</div> -->
+        </a>
+        <!-- ■■■ Go To Top ■■■ -->
+        <button onclick="topFunction()" id="myBtn" title="回到最上方" style="display: block;">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        
+        <!-- ※※※ Web Content ※※※ -->
+        {% block content %}
+        {% endblock %}
+
+        <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
+        {% block extra_css %}{% endblock %}
+
+        <!-- ※※※ 共用 JS Tool Start ※※※ -->
+        <script src="{% static 'apps/specialty_medical/js/nav-bar.js' %}"></script>
+        <script src="{% static 'common/js/gotop.js' %}"></script>
+
+        <!-- ※※※ 子頁面可額外加 JS ※※※ -->
+        {% block extra_js %}{% endblock %}
+        
+    </body>
+</html>
