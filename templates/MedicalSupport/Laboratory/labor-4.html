@@ -1,171 +1,106 @@
 {% extends "MedicalSupport/Laboratory/labor-base.html" %}
+
 {% load static %}
 
-{% block title %}聯絡我們｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}聯絡我們｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}聯絡我們｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}聯絡我們｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">檢驗科各組服務時間及聯絡方式</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">
-
-											<div class="col-12">
-
-												<table class="table table-striped table-bordered">
-
-													<thead>
-
-														<tr>
-
-															<th scope="col" class="title-bg text-center text-nowrap">單位</th>
-
-															<th scope="col" class="title-bg text-center text-nowrap w-50">諮詢專線</th>
-
-														</tr>
-
-													</thead>
-
-													<tbody>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">總機</th>
-
-															<td class="text-center align-middle">04-3611-3611</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">科主任</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3135</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">組長/品質主管</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3136</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">生化/免疫/血液</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3131</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">鏡檢</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3130</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">血庫</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3133</td>
-
-														</tr>
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">抽血櫃台</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3132</td>
-
-														</tr>
-
-														<!-- <tr>
-
-															<th scope="row" class="text-center align-middle">分子實驗室</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3138</td>
-
-														</tr> -->
-
-														<tr>
-
-															<th scope="row" class="text-center align-middle">行政庶務</th>
-
-															<td class="text-center align-middle">04-3611-3611 # 3134</td>
-
-														</tr>
-
-													</tbody>
-
-												</table>
-
-											</div>
-
-											<!-- <div class="col-12 mt-4">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">門診檢驗服務時間</h4>
-
-												</div>
-
-												<ul class="list-bullets">
-
-													<li class="mb-1">門診檢驗室-抽血/尿液/糞便/痰液/心電圖服務時間</li>
-
-													<li class="mb-1">週一至週五: 08:00-17:00</li>
-
-													<li class="mb-1">週六: 08:00-12:00</li>
-
-												</ul>
-
-											</div>
-
-											<div class="col-12 mt-4">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">各科室介紹</h4>
-
-												</div>
-
-												<ul class="list-bullets">
-
-													<li class="mb-1">檢驗科主任：</li>
-
-													<li class="mb-1">檢驗科品質組長：</li>
-
-													<li class="mb-1">檢驗科技術組長：</li>
-
-												</ul>
-
-											</div> -->
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">檢驗科各組服務時間及聯絡方式</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th scope="col" class="title-bg text-center text-nowrap">單位</th>
+						<th scope="col" class="title-bg text-center text-nowrap w-50">諮詢專線</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row" class="text-center align-middle">總機</th>
+						<td class="text-center align-middle">04-3611-3611</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">科主任</th>
+						<td class="text-center align-middle">04-3611-3611 # 3135</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">組長/品質主管</th>
+						<td class="text-center align-middle">04-3611-3611 # 3136</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">生化/免疫/血液</th>
+						<td class="text-center align-middle">04-3611-3611 # 3131</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">鏡檢</th>
+						<td class="text-center align-middle">04-3611-3611 # 3130</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">血庫</th>
+						<td class="text-center align-middle">04-3611-3611 # 3133</td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-center align-middle">抽血櫃台</th>
+						<td class="text-center align-middle">04-3611-3611 # 3132</td>
+					</tr>
+					<!-- <tr>
+						<th scope="row" class="text-center align-middle">分子實驗室</th>
+						<td class="text-center align-middle">04-3611-3611 # 3138</td>
+					</tr> -->
+					<tr>
+						<th scope="row" class="text-center align-middle">行政庶務</th>
+						<td class="text-center align-middle">04-3611-3611 # 3134</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- <div class="col-12 mt-4">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">門診檢驗服務時間</h4>
+			</div>
+			<ul class="list-bullets">
+				<li class="mb-1">門診檢驗室-抽血/尿液/糞便/痰液/心電圖服務時間</li>
+				<li class="mb-1">週一至週五: 08:00-17:00</li>
+				<li class="mb-1">週六: 08:00-12:00</li>
+			</ul>
+		</div>
+		<div class="col-12 mt-4">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">各科室介紹</h4>
+			</div>
+			<ul class="list-bullets">
+				<li class="mb-1">檢驗科主任：</li>
+				<li class="mb-1">檢驗科品質組長：</li>
+				<li class="mb-1">檢驗科技術組長：</li>
+			</ul>
+		</div> -->
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="聯絡我們｜檢驗科" %}
+    {% include 'schema_article.html' with headline="聯絡我們｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

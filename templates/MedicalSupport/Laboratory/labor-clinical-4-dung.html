@@ -1,65 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}糞便培養檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}糞便培養檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}糞便培養檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}糞便培養檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">糞便培養檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>
-
-											<div class="col-12">												
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">準備一乾淨及乾燥的容器，將糞便直接排入容器中後，以糞便培養容器內附的棉棒拭子沾取似拇指頭大小且含黏液、血液、或膿之糞便。</li>     
-
-														<li class="mb-1 pt-1">去除含有培養基管子之白色上蓋後，將已沾取糞便的棉棒拭子插入培養基管子中，並確實使其密合。</li>
-
-														<li class="mb-1 pt-1">如採用直腸拭子採集時，以培養拭子，插入肛門約3公分 處輕輕旋轉，使拭子與直腸黏膜表層接觸，取出後插入培養基管子中，並確實使其密合。</li>
-
-														<li class="mb-1 pt-1">若疑似E. coli O157感染，同上採集法。</li>
-
-														<li class="mb-1 pt-1">若疑似Campylobacter感染，需使用Campylobacter專用拭子採檢。若有其他懷疑之感染請先聯絡檢驗科再送檢。</li>
-
-														<li class="mb-1 pt-1">Clostridium difficile培養：以厭氧培養專送棉棒沾取有濃或有組織碎片之糞便送檢。</li>														
-
-													</ol> 
-
-												</div>	
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">糞便培養檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">												
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">準備一乾淨及乾燥的容器，將糞便直接排入容器中後，以糞便培養容器內附的棉棒拭子沾取似拇指頭大小且含黏液、血液、或膿之糞便。</li>     
+					<li class="mb-1 pt-1">去除含有培養基管子之白色上蓋後，將已沾取糞便的棉棒拭子插入培養基管子中，並確實使其密合。</li>
+					<li class="mb-1 pt-1">如採用直腸拭子採集時，以培養拭子，插入肛門約3公分 處輕輕旋轉，使拭子與直腸黏膜表層接觸，取出後插入培養基管子中，並確實使其密合。</li>
+					<li class="mb-1 pt-1">若疑似E. coli O157感染，同上採集法。</li>
+					<li class="mb-1 pt-1">若疑似Campylobacter感染，需使用Campylobacter專用拭子採檢。若有其他懷疑之感染請先聯絡檢驗科再送檢。</li>
+					<li class="mb-1 pt-1">Clostridium difficile培養：以厭氧培養專送棉棒沾取有濃或有組織碎片之糞便送檢。</li>														
+				</ol> 
+			</div>	
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="糞便培養檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="糞便培養檢體採集｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

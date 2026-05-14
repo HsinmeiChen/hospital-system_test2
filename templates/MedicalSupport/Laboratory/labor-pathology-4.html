@@ -1,41 +1,39 @@
 {% extends "MedicalSupport/Laboratory/labor-pathology-base.html" %}
+
 {% load static %}
 
-{% block title %}細胞學檢體容器說明｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}細胞學檢體容器說明｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}細胞學檢體容器說明｜檢驗科｜{{ block.super }}{% endblock %}
+{% block og_title %}細胞學檢體容器說明｜檢驗科｜{{ block.super }}{% endblock %}
 
+
+<!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
 
-										<div class="onsale_heading">細胞學檢體容器說明</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">
-
-											<div class="col-12">
-
-												
-
-											</div>
-
-										</div>							
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">細胞學檢體容器說明</h1>
+</header>
+<div class="l-main-content__body"></div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="細胞學檢體容器說明｜檢驗科" %}
+    {% include 'schema_article.html' with headline="細胞學檢體容器說明｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

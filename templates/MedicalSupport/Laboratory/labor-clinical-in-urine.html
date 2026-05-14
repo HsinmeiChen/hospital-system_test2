@@ -1,157 +1,96 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體採集衛教、尿液採檢注意事項｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體採集衛教、尿液採檢注意事項｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}尿液採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}尿液採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">尿液採檢注意事項</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">一般尿液檢查</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">前段尿液請先排掉，再以尿杯接取中段尿液。</li>
-
-														<li class="mb-1 pt-1">將收集好的尿液倒10 c.c入尿液收集管(約八分滿)。</li>
-
-														<li class="mb-1 pt-1">尿液收集後，請將尿管儘速送交檢驗科。(勿超過一小時，避免尿液成份改變與孳生細菌)</li>
-
-													</ol> 
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">尿液培養檢查</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers">
-
-														<li class="mb-1 pt-1">先旋開無菌容器上之蓋子，排掉前段尿液後，再以無菌盒接取中段尿液約1/3滿後，立即將蓋子蓋上並鎖緊。(不可先排尿於其他容器後再倒入無菌尿杯)。</li>
-
-														<li class="mb-1 pt-1">若為嬰幼兒可用尿袋，但以收集一次小便為限，不可用儲尿。尿袋貼上前須先清潔陰唇或尿道口，收集後再將尿液放入無菌盒中，確定蓋子鎖緊後儘速送至檢驗科。</li>
-
-														<li class="mb-1 pt-1">尿液收集後，請將尿管儘速送交檢驗科。(勿超過一小時，避免尿液成份改變與孳生細菌)</li>
-
-													</ol>
-
-													<div class="alert alert-warning">
-
-														<ul class="list-bullets mb-0">
-
-															<li class="mb-1">
-
-																若病人無法以正常方式收集檢體時，可使用導尿或膀胱穿刺之方法採檢。
-
-															</li>
-
-															<li class="mb-1">
-
-																婦女正值月經期間，原則上應避免做尿液檢驗。
-
-															</li>
-
-														</ul>                                
-
-													</div>
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">24小時尿液採檢注意事項</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">需完整收集24小時內的每次尿液。(例如:第一天早上8點開始收集，請先將8點前尿液排光，之後的每次尿液都要收集入袋內，直到隔日早上8點需留最後一次尿)。</li>
-
-														<li class="mb-1 pt-1">收集完後，請在本衛教單上記錄24小時的尿液總量。</li>
-
-														<li class="mb-1 pt-1">充分搖勻集尿袋，用所附的滴管吸取尿液至尿管內，約8分滿。</li>
-
-														<li class="mb-1 pt-1">完成上述步驟後請將本衛教單與尿管送回檢驗科，待檢驗科人員確定檢體正確無誤後，回家再將尿袋內尿液丟棄。</li>
-
-														<li class="mb-1 pt-1">如果尿量超過收集袋 (收集袋容量約3500 mL)，請您搖勻收集袋內的尿液，先倒掉1000 mL的尿液，再繼續收集直到24小時。倒掉的1000 mL請務必記錄下來。</li>
-
-													</ol> 
-
-													<div class="alert alert-warning"><strong>尿液總量=收集袋內的尿量+倒掉的尿量</strong></div>
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">其他注意事項</h4>
-
-												</div>
-
-												<div class="px-2">
-
-													<ul class="list-bullets">
-
-														<li class="mb-1">若尿袋內已倒入保存劑，請受檢者不可倒掉。</li>
-
-														<li class="mb-1">收集期間檢體須存放在冰箱冷藏或置於陰涼處。</li>
-
-														<li class="mb-1">女性月經期間請勿採檢。</li>
-
-														<li class="mb-1">如情況允許，檢驗前3天請禁食巧克力、咖啡、香蕉、柑橘類水果、Aspirin及抗血壓藥以免引起假性增高。</li>
-
-														<li class="mb-1">★ 尿液總量: ____________ mL</li>
-
-													</ul>
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">尿液採檢注意事項</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">											
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">一般尿液檢查</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">前段尿液請先排掉，再以尿杯接取中段尿液。</li>
+					<li class="mb-1 pt-1">將收集好的尿液倒10 c.c入尿液收集管(約八分滿)。</li>
+					<li class="mb-1 pt-1">尿液收集後，請將尿管儘速送交檢驗科。(勿超過一小時，避免尿液成份改變與孳生細菌)</li>
+				</ol> 
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">尿液培養檢查</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers">
+					<li class="mb-1 pt-1">先旋開無菌容器上之蓋子，排掉前段尿液後，再以無菌盒接取中段尿液約1/3滿後，立即將蓋子蓋上並鎖緊。(不可先排尿於其他容器後再倒入無菌尿杯)。</li>
+					<li class="mb-1 pt-1">若為嬰幼兒可用尿袋，但以收集一次小便為限，不可用儲尿。尿袋貼上前須先清潔陰唇或尿道口，收集後再將尿液放入無菌盒中，確定蓋子鎖緊後儘速送至檢驗科。</li>
+					<li class="mb-1 pt-1">尿液收集後，請將尿管儘速送交檢驗科。(勿超過一小時，避免尿液成份改變與孳生細菌)</li>
+				</ol>
+				<div class="alert alert-warning">
+					<ul class="list-bullets mb-0">
+						<li class="mb-1">
+							若病人無法以正常方式收集檢體時，可使用導尿或膀胱穿刺之方法採檢。
+						</li>
+						<li class="mb-1">
+							婦女正值月經期間，原則上應避免做尿液檢驗。
+						</li>
+					</ul>                                
+				</div>
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">24小時尿液採檢注意事項</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">需完整收集24小時內的每次尿液。(例如:第一天早上8點開始收集，請先將8點前尿液排光，之後的每次尿液都要收集入袋內，直到隔日早上8點需留最後一次尿)。</li>
+					<li class="mb-1 pt-1">收集完後，請在本衛教單上記錄24小時的尿液總量。</li>
+					<li class="mb-1 pt-1">充分搖勻集尿袋，用所附的滴管吸取尿液至尿管內，約8分滿。</li>
+					<li class="mb-1 pt-1">完成上述步驟後請將本衛教單與尿管送回檢驗科，待檢驗科人員確定檢體正確無誤後，回家再將尿袋內尿液丟棄。</li>
+					<li class="mb-1 pt-1">如果尿量超過收集袋 (收集袋容量約3500 mL)，請您搖勻收集袋內的尿液，先倒掉1000 mL的尿液，再繼續收集直到24小時。倒掉的1000 mL請務必記錄下來。</li>
+				</ol> 
+				<div class="alert alert-warning"><strong>尿液總量=收集袋內的尿量+倒掉的尿量</strong></div>
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">其他注意事項</h4>
+			</div>
+			<div class="px-2">
+				<ul class="list-bullets">
+					<li class="mb-1">若尿袋內已倒入保存劑，請受檢者不可倒掉。</li>
+					<li class="mb-1">收集期間檢體須存放在冰箱冷藏或置於陰涼處。</li>
+					<li class="mb-1">女性月經期間請勿採檢。</li>
+					<li class="mb-1">如情況允許，檢驗前3天請禁食巧克力、咖啡、香蕉、柑橘類水果、Aspirin及抗血壓藥以免引起假性增高。</li>
+					<li class="mb-1">★ 尿液總量: ____________ mL</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體採集衛教、尿液採檢注意事項｜檢驗科" %}
+    {% include 'schema_article.html' with headline="尿液採檢注意事項｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

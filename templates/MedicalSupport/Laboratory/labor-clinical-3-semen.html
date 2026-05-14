@@ -1,59 +1,48 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}精液檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}精液檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}精液檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}精液檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">精液檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">採檢前至少應禁慾2天。</li>
-
-														<li class="mb-1 pt-1">需以手淫的方式留取精液檢體。首先使陰莖勃起，用手反複刺激陰莖體，當即將射精時立即用容器對準尿道口，使得全部精液完全排入到容器內，將容器蓋好，並註明收集時間，請於30分鐘內送到檢驗科檢驗。檢體保存及傳送於接近體溫條件下送檢。</li>	
-
-														<li class="mb-1 pt-1">不可用保險套收集精液，因套內的粉末及乳膠薄膜的化學作用可影響精力。而且精液易粘附在套內。</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>									
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">精液檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">採檢前至少應禁慾2天。</li>
+					<li class="mb-1 pt-1">需以手淫的方式留取精液檢體。首先使陰莖勃起，用手反複刺激陰莖體，當即將射精時立即用容器對準尿道口，使得全部精液完全排入到容器內，將容器蓋好，並註明收集時間，請於30分鐘內送到檢驗科檢驗。檢體保存及傳送於接近體溫條件下送檢。</li>	
+					<li class="mb-1 pt-1">不可用保險套收集精液，因套內的粉末及乳膠薄膜的化學作用可影響精力。而且精液易粘附在套內。</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="精液檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="精液檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

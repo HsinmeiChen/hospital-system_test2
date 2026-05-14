@@ -1,123 +1,80 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}一般細菌培養-呼吸道檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}一般細菌培養-呼吸道檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}一般細菌培養(呼吸道檢體採集)｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}一般細菌培養(呼吸道檢體採集)｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">一般細菌培養-呼吸道檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體採集：</h4>
-
-												</div>
-
-												<h4><span class="main_title ml-md-4">自然咳痰法：</span></h4>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">清晨使用溫開水漱口。</li>
-
-														<li class="mb-1 pt-1">咳出深部痰液，將檢體收集於無菌罐中。</li> 
-
-														<li class="mb-1 pt-1">將容器旋緊，清楚標示病患資料後儘速送檢。</li>  
-
-														<li class="mb-1 pt-1">氣管鏡下採集：由醫師採檢，檢體包括支氣管沖洗液,BAL (支氣管檢體)及 PBS (氣管刷檢體) 。</li>                           
-
-													</ol> 
-
-												</div>
-
-												<h4><span class="main_title ml-md-4">採集咽分泌物：</span></h4>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">先用溫開水漱口，用壓舌板將舌向下向外壓，將咽拭子在咽後壁或懸雍垂後側塗抹數次，切勿接觸口腔和舌粘膜。</li>
-
-														<li class="mb-1 pt-1">採集耳、鼻或鼻咽分泌物：直接用拭於塗抹病灶部位，切勿接觸周圍粘膜或皮膚。以上標本均需立即送檢。</li>                         
-
-													</ol> 
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體運送：</h4>
-
-												</div>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">檢體上要標明病人的資料及採集的時間，檢體採集要立即送到實驗室。</li>
-
-														<li class="mb-1 pt-1">檢體無法馬上送至實驗室時保存在 2-8℃。</li>    
-
-														<li class="mb-1 pt-1">痰檢體運送時需用檢體傳送袋包裝避免造成生物污染。</li>                        
-
-													</ol> 
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體退件：</h4>
-
-												</div>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">檢體同一天重覆送。</li>
-
-														<li class="mb-1 pt-1">水狀且很明顯是口水。</li>    
-
-														<li class="mb-1 pt-1">檢體明顯牙膏或其他物質污染。</li>                        
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">一般細菌培養 (呼吸道檢體採集)</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體採集：</h4>
+			</div>
+			<h4><span class="main_title ml-md-4">自然咳痰法：</span></h4>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">清晨使用溫開水漱口。</li>
+					<li class="mb-1 pt-1">咳出深部痰液，將檢體收集於無菌罐中。</li> 
+					<li class="mb-1 pt-1">將容器旋緊，清楚標示病患資料後儘速送檢。</li>  
+					<li class="mb-1 pt-1">氣管鏡下採集：由醫師採檢，檢體包括支氣管沖洗液,BAL (支氣管檢體)及 PBS (氣管刷檢體) 。</li>                           
+				</ol> 
+			</div>
+			<h4><span class="main_title ml-md-4">採集咽分泌物：</span></h4>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">先用溫開水漱口，用壓舌板將舌向下向外壓，將咽拭子在咽後壁或懸雍垂後側塗抹數次，切勿接觸口腔和舌粘膜。</li>
+					<li class="mb-1 pt-1">採集耳、鼻或鼻咽分泌物：直接用拭於塗抹病灶部位，切勿接觸周圍粘膜或皮膚。以上標本均需立即送檢。</li>                         
+				</ol> 
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體運送：</h4>
+			</div>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">檢體上要標明病人的資料及採集的時間，檢體採集要立即送到實驗室。</li>
+					<li class="mb-1 pt-1">檢體無法馬上送至實驗室時保存在 2-8℃。</li>    
+					<li class="mb-1 pt-1">痰檢體運送時需用檢體傳送袋包裝避免造成生物污染。</li>                        
+				</ol> 
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體退件：</h4>
+			</div>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">檢體同一天重覆送。</li>
+					<li class="mb-1 pt-1">水狀且很明顯是口水。</li>    
+					<li class="mb-1 pt-1">檢體明顯牙膏或其他物質污染。</li>                        
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="一般細菌培養-呼吸道檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="一般細菌培養(呼吸道檢體採集)｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

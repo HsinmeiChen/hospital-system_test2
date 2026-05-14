@@ -1,75 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體採集衛教、蟯蟲檢測採檢注意事項｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體採集衛教、蟯蟲檢測採檢注意事項｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}蟯蟲檢測採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}蟯蟲檢測採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
 
+
+<!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">蟯蟲檢測採檢注意事項</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											<div class="col-12">
-
-												
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">打開蟯蟲貼片浮膠，以上膠面(藍色圈圈處)對準肛門，以手指用力壓貼5-6下，並蓋回玻璃紙，即完成第一日採檢。</li>
-
-														<li class="mb-1 pt-1">第二日採檢方式相同，採集完撕掉透明塑膠紙。將第一日與第二日膠面相對，圈圈中心對齊，對折貼齊。</li>
-
-														<li class="mb-1 pt-1">將貼片放進信封袋，連同檢驗單交回檢驗科。</li>
-
-													</ol> 
-
-												</div>
-
-												<div class="alert alert-warning mb-0">
-
-													<ul class="list-bullets mb-0">
-
-														<li class="mb-1">蟯蟲貼片檢查請在晨起沐浴及排便前採檢。需取連續兩個清晨沾黏肛門口之貼片送檢，未符合一律退件為避免寄生蟲活動體無法觀察。</li>
-
-														<li class="mb-1">糞便檢體採集後，請於室溫下2小時內儘速送檢。</li>
-
-													</ul>                             
-
-												</div>
-
-												
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">蟯蟲檢測採檢注意事項</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">打開蟯蟲貼片浮膠，以上膠面(藍色圈圈處)對準肛門，以手指用力壓貼5-6下，並蓋回玻璃紙，即完成第一日採檢。</li>
+					<li class="mb-1 pt-1">第二日採檢方式相同，採集完撕掉透明塑膠紙。將第一日與第二日膠面相對，圈圈中心對齊，對折貼齊。</li>
+					<li class="mb-1 pt-1">將貼片放進信封袋，連同檢驗單交回檢驗科。</li>
+				</ol> 
+			</div>
+			<div class="alert alert-warning mb-0">
+				<ul class="list-bullets mb-0">
+					<li class="mb-1">蟯蟲貼片檢查請在晨起沐浴及排便前採檢。需取連續兩個清晨沾黏肛門口之貼片送檢，未符合一律退件為避免寄生蟲活動體無法觀察。</li>
+					<li class="mb-1">糞便檢體採集後，請於室溫下2小時內儘速送檢。</li>
+				</ul>                             
+			</div>			
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體採集衛教、蟯蟲檢測採檢注意事項｜檢驗科" %}
+    {% include 'schema_article.html' with headline="蟯蟲檢測採檢注意事項｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,227 +1,147 @@
-{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+{% extends "MedicalSupport/Laboratory/labor-clinical-base.html" %}
+
 {% load static %}
 
-{% block title %}臨床檢驗資訊｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}臨床檢驗資訊｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}臨床檢驗採集衛教{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">檢體採集衛教</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	
-
-											<div class="col-12">
-
-												<div class="categories categories-view1">
-
-													<ul class="row mb-0">                            
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_b/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-tint og-word"></i>
-
-																	抽血注意事項
-
-																	<!-- <small>(3 Open Vacancies)</small> -->
-
-																	<!-- <span>01</span> -->
-
-																</div>
-
-															</a>
-
-														</li>                                
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_urine/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-vial og-word"></i>
-
-																	尿液採檢注意事項
-
-																	<!-- <small>(2 Open Vacancies)</small> -->
-
-																	<!-- <span>02</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_du/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-prescription-bottle og-word"></i>
-
-																	糞便採檢注意事項
-
-																	<!-- <small>(13 Open Vacancies)</small> -->
-
-																	<!-- <span>03</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_pin/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-bacterium og-word"></i>
-
-																	蟯蟲檢測採檢注意事項
-
-																	<!-- <small>(22 Open Vacancies)</small> -->
-
-																	<!-- <span>04</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_sem/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-microscope og-word"></i>
-
-																	精液分析採檢注意事項
-
-																	<!-- <small>(18 Open Vacancies)</small> -->
-
-																	<!-- <span>05</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_spu/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-head-side-cough og-word"></i>
-
-																	痰液培養採檢注意事項
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>06</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_glu/">
-
-																<div class="categories-view1-wrap">                                                
-
-																	<i class="fab fa-hubspot og-word"></i>
-
-																	口服葡萄糖耐受性檢驗試驗
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>07</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_third/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-wind og-word"></i>
-
-																	碳十三呼氣檢查採檢須知
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>08</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_in_ig/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-flask og-word"></i>
-
-																	IGRA 採檢及檢體前處理須知
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>08</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-													</ul>
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">臨床檢驗採集衛教</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="categories categories-view1">
+				<ul class="row mb-0">                            
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_b/" aria-label="抽血注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-tint og-word" aria-hidden="true"></i>
+								抽血注意事項
+								<!-- <small>(3 Open Vacancies)</small> -->
+								<!-- <span>01</span> -->
+							</div>
+						</a>
+					</li>                                
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_urine/" aria-label="尿液採檢注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-vial og-word" aria-hidden="true"></i>
+								尿液採檢注意事項
+								<!-- <small>(2 Open Vacancies)</small> -->
+								<!-- <span>02</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_du/" aria-label="糞便採檢注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-prescription-bottle og-word" aria-hidden="true"></i>
+								糞便採檢注意事項
+								<!-- <small>(13 Open Vacancies)</small> -->
+								<!-- <span>03</span> -->
+							</div>
+						</a>
+					</li>
+
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_occ/" aria-label="免疫糞便定量潛血檢查">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-bacterium og-word" aria-hidden="true"></i>
+								免疫糞便定量潛血檢查
+								<!-- <small>(22 Open Vacancies)</small> -->
+								<!-- <span>04</span> -->
+							</div>
+						</a>
+					</li>
+
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_pin/" aria-label="蟯蟲檢測採檢注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-bacterium og-word" aria-hidden="true"></i>
+								蟯蟲檢測採檢注意事項
+								<!-- <small>(22 Open Vacancies)</small> -->
+								<!-- <span>04</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_sem/" aria-label="精液分析採檢注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-microscope og-word" aria-hidden="true"></i>
+								精液分析採檢注意事項
+								<!-- <small>(18 Open Vacancies)</small> -->
+								<!-- <span>05</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_spu/" aria-label="痰液培養採檢注意事項">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-head-side-cough og-word" aria-hidden="true"></i>
+								痰液培養採檢注意事項
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>06</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_glu/" aria-label="口服葡萄糖耐受性檢驗試驗">
+							<div class="categories-view1-wrap">                                                
+								<i class="fab fa-hubspot og-word" aria-hidden="true"></i>
+								口服葡萄糖耐受性檢驗試驗
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>07</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_third/" aria-label="碳十三呼氣檢查採檢須知">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-wind og-word" aria-hidden="true"></i>
+								碳十三呼氣檢查採檢須知
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>08</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_in_ig/" aria-label="IGRA 採檢及檢體前處理須知">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-flask og-word" aria-hidden="true"></i>
+								IGRA 採檢及檢體前處理須知
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>08</span> -->
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="臨床檢驗資訊｜檢驗科" %}
+    {% include 'schema_article.html' with headline="臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

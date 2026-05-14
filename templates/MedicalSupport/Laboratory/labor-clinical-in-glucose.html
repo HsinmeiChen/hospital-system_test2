@@ -1,85 +1,61 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}口服葡萄糖耐受性檢驗試驗採檢須知｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}口服葡萄糖耐受性檢驗試驗採檢須知｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}口服葡萄糖耐受性檢驗試驗採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}口服葡萄糖耐受性檢驗試驗採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">口服葡萄糖耐受性檢驗試驗採檢須知</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢測項目：75公克口服葡萄糖耐受性檢驗</h4>
-
-												</div>
-
-												<h4><span class="main_title ml-md-4">試驗前病人準備：</span></h4>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">檢測當天須空腹8~10 小時。</li>
-
-														<li class="mb-1 pt-1">此檢驗項目約需花費 2小時。 </li>
-
-													</ol> 
-
-												</div>
-
-												<h4><span class="main_title ml-md-4">測試步驟：</span></h4>
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">空腹時，請先至檢驗科抽血處抽第一次血液。並領取糖粉、杯子及吸管。</li>
-
-														<li class="mb-1 pt-1">泡製糖水：取約 300 mL 溫開水加入糖粉，攪拌至糖粉完全溶解。</li>
-
-														<li class="mb-1 pt-1">喝下糖水：慢慢將糖水喝下，請於10 分鐘內將糖水喝完。</li>
-
-														<li class="mb-1 pt-1">喝下第一口開始計時，30分鐘、60分鐘、90分鐘及120分鐘需進行第2次第5次抽血，共需抽血5次。</li>  
-
-														<li class="mb-1 pt-1">等待抽血期間請安靜休息，勿抽菸及過度運動，可以喝少許水。 </li>                           
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">口服葡萄糖耐受性檢驗試驗採檢須知</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢測項目：75公克口服葡萄糖耐受性檢驗</h4>
+			</div>
+			<h4><span class="main_title ml-md-4">試驗前病人準備：</span></h4>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">檢測當天須空腹8~10 小時。</li>
+					<li class="mb-1 pt-1">此檢驗項目約需花費 2小時。 </li>
+				</ol> 
+			</div>
+			<h4><span class="main_title ml-md-4">測試步驟：</span></h4>
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">空腹時，請先至檢驗科抽血處抽第一次血液。並領取糖粉、杯子及吸管。</li>
+					<li class="mb-1 pt-1">泡製糖水：取約 300 mL 溫開水加入糖粉，攪拌至糖粉完全溶解。</li>
+					<li class="mb-1 pt-1">喝下糖水：慢慢將糖水喝下，請於10 分鐘內將糖水喝完。</li>
+					<li class="mb-1 pt-1">喝下第一口開始計時，30分鐘、60分鐘、90分鐘及120分鐘需進行第2次第5次抽血，共需抽血5次。</li>  
+					<li class="mb-1 pt-1">等待抽血期間請安靜休息，勿抽菸及過度運動，可以喝少許水。 </li>                           
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="口服葡萄糖耐受性檢驗試驗採檢須知｜檢驗科" %}
+    {% include 'schema_article.html' with headline="口服葡萄糖耐受性檢驗試驗採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,41 +1,42 @@
-{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+{% extends "MedicalSupport/Laboratory/labor-clinical-base.html" %}
+
 {% load static %}
 
-{% block title %}危險值及重要異常值通報｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}危險值及重要異常值通報｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}危險值及重要異常值通報｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}危險值及重要異常值通報｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">危險值及重要異常值通報</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">											
-
-											<div class="col-12">
-
-												<img class="w-100" src="{% static 'common/img/Lab/危險異常值通報.webp' %}" alt="危險值及重要異常值通報">
-
-											</div>
-
-										</div>						
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">危險值及重要異常值通報</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">											
+		<div class="col-12">
+			<img class="w-100" src="{% static 'common/img/Lab/危險異常值通報.webp' %}" alt="危險值及重要異常值通報" title="危險值及重要異常值通報">
+		</div>
+	</div>	
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="危險值及重要異常值通報｜檢驗科" %}
+    {% include 'schema_article.html' with headline="危險值及重要異常值通報｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

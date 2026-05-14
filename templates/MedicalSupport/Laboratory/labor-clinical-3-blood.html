@@ -1,79 +1,57 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}血液檢體採集前評估｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}血液檢體採集前評估｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}血液檢體採集前評估｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}血液檢體採集前評估｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">血液檢體採集前評估</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">評估(詢問)是否有使用抗凝藥物或為凝血功能異常。</li>
-
-														<li class="mb-1 pt-1">評估(詢問)是否對酒精及乳膠過敏。</li>
-
-														<li class="mb-1 pt-1">檢驗項目有飲食限定需求者，如glucose(AC)、glucose(PC)、TG…等，須對病人進行飲食狀況評估。</li>
-
-														<li class="mb-1 pt-1">檢驗項目有時間點限定需求者，如cortisol AM、cortisol PM、GH…等，須對病人進行採血時間點之合適性評估。</li>
-
-														<li class="mb-1 pt-1">檢驗項目為血中藥物濃度者，如Theophylline、Digoxin、Phenytoin…等，須對病人用藥狀況進行評估。</li>
-
-														<li class="mb-1 pt-1">檢驗項目為特殊凝固學檢查者，如Platelet function test、Platelet aggregation time…等，須對病人過去出血狀況、服用藥及飲食物狀況與血小板數量等進行評估。</li>
-
-														<li class="mb-1 pt-1">請病人放鬆心情、不要緊張，且隨時觀察及注意病人狀況。協助病人調整適當的採血姿勢，並露出合宜之採血部位，以便於採血。</li>
-
-														<li class="mb-1 pt-1">小於一歲的嬰兒如果仍在睡覺，應輕拍將他喚醒，以免於採血時受到驚嚇。</li>
-
-														<li class="mb-1 pt-1">評估可能躁動之病人或兒童，應取得病人或家屬同意，予以適當之保護性束縛，以便於採血。</li>
-
-														<li class="mb-1 pt-1">告知病人於採血過程中會有些微疼痛感，可於短時間完成；切勿告訴病人不會痛。</li>
-
-														<li class="mb-1 pt-1">採血人員務必穿著本院制式實驗衣、佩戴識別證及執業執照、戴口罩及手套，必要時應戴防護面罩或穿著隔離衣。</li>
-
-														<li class="mb-1 pt-1">採血前應備妥所有採血相關工具（包括：所需採血試管種類及數量、75%酒精棉球或消毒用酒精棉片、Providine-Iodine、無菌乾棉球、連續真空採血針或一般空針、Holder、止血帶等），避免採血時手忙腳亂。</li>
-
-														<li class="mb-1 pt-1">採血前應確實對採血部位以75%酒精棉球或消毒用酒精棉片進行消毒；若病人對酒精過敏，請改用Providine-Iodine消毒。消毒後，若採血人員需再次以手觸摸欲採血部位，則需再重新進行消毒動作。</li>
-
-													</ol> 
-
-												</div>	
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">血液檢體採集前評估</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">評估(詢問)是否有使用抗凝藥物或為凝血功能異常。</li>
+					<li class="mb-1 pt-1">評估(詢問)是否對酒精及乳膠過敏。</li>
+					<li class="mb-1 pt-1">檢驗項目有飲食限定需求者，如glucose(AC)、glucose(PC)、TG…等，須對病人進行飲食狀況評估。</li>
+					<li class="mb-1 pt-1">檢驗項目有時間點限定需求者，如cortisol AM、cortisol PM、GH…等，須對病人進行採血時間點之合適性評估。</li>
+					<li class="mb-1 pt-1">檢驗項目為血中藥物濃度者，如Theophylline、Digoxin、Phenytoin…等，須對病人用藥狀況進行評估。</li>
+					<li class="mb-1 pt-1">檢驗項目為特殊凝固學檢查者，如Platelet function test、Platelet aggregation time…等，須對病人過去出血狀況、服用藥及飲食物狀況與血小板數量等進行評估。</li>
+					<li class="mb-1 pt-1">請病人放鬆心情、不要緊張，且隨時觀察及注意病人狀況。協助病人調整適當的採血姿勢，並露出合宜之採血部位，以便於採血。</li>
+					<li class="mb-1 pt-1">小於一歲的嬰兒如果仍在睡覺，應輕拍將他喚醒，以免於採血時受到驚嚇。</li>
+					<li class="mb-1 pt-1">評估可能躁動之病人或兒童，應取得病人或家屬同意，予以適當之保護性束縛，以便於採血。</li>
+					<li class="mb-1 pt-1">告知病人於採血過程中會有些微疼痛感，可於短時間完成；切勿告訴病人不會痛。</li>
+					<li class="mb-1 pt-1">採血人員務必穿著本院制式實驗衣、佩戴識別證及執業執照、戴口罩及手套，必要時應戴防護面罩或穿著隔離衣。</li>
+					<li class="mb-1 pt-1">採血前應備妥所有採血相關工具（包括：所需採血試管種類及數量、75%酒精棉球或消毒用酒精棉片、Providine-Iodine、無菌乾棉球、連續真空採血針或一般空針、Holder、止血帶等），避免採血時手忙腳亂。</li>
+					<li class="mb-1 pt-1">採血前應確實對採血部位以75%酒精棉球或消毒用酒精棉片進行消毒；若病人對酒精過敏，請改用Providine-Iodine消毒。消毒後，若採血人員需再次以手觸摸欲採血部位，則需再重新進行消毒動作。</li>
+				</ol> 
+			</div>	
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="血液檢體採集前評估｜檢驗科" %}
+    {% include 'schema_article.html' with headline="血液檢體採集前評估｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

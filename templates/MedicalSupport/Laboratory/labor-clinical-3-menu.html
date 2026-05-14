@@ -1,45 +1,195 @@
-
-<style>
-	.side_menu_div a:hover, .side-lili label:hover, .side-lili.menu-items li a:hover {
-		font-size: 19px !important;
-	}
-</style>
-<!-- ======= main-content ======= -->
-<div class="">			
-	<div class="text-white">
-		<div class="title-bg">
-			<div class="px-3 py-4">
-				<h3 class="mb-0">檢體採集原則</h3>
-				<div class="font-14 opacity-60">Specimen Collection Principles</div>
-			</div>	
-			<div class="d-block d-md-none beige-bg cofe-word p-2 border-2px">
-				<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-					<span><i class="fas fa-caret-right"></i></span>
-				</div>	
-			</div>				
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">LAB SERVICE</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>檢體採集原則</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down" aria-hidden="true"></i></span>
 		</div>
-	</div>		
-	<!-- 下拉選單 -->			
-	<div id="vn-info" class="vn-info">				
-		<div class="side_menu_div beige-bg">
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_vein/">靜脈血檢體採集</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_art/">動脈血檢體採集</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_urine/">一般尿液及24小時尿液採集</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_dung/">糞便檢體採集</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_sputum/">痰液檢體採集</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3_semen/">精液檢體採集</a>
-			</li>
-		</div>
+		<p>Collection Guidelines</p>
 	</div>
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院檢驗科 - 檢體採集原則" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_blood/' %}is-active{% endif %}" href="/A003_labor_clinical_3_blood/" title="台中長安醫院檢驗科-血液檢體採集前評估" itemprop="url" {% if request.path == '/A003_labor_clinical_3_blood/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">血液檢體採集前評估</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_solid/' %}is-active{% endif %}" href="/A003_labor_clinical_3_solid/" title="台中長安醫院檢驗科-血液凝固檢驗檢體採檢" itemprop="url" {% if request.path == '/A003_labor_clinical_3_solid/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">血液凝固檢驗檢體採檢</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_vein/' %}is-active{% endif %}" href="/A003_labor_clinical_3_vein/" title="台中長安醫院檢驗科-靜脈血檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_vein/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">靜脈血檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_art/' %}is-active{% endif %}" href="/A003_labor_clinical_3_art/" title="台中長安醫院檢驗科-動脈血檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_art/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">動脈血檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_baby/' %}is-active{% endif %}" href="/A003_labor_clinical_3_baby/" title="台中長安醫院檢驗科-新生兒腳跟血毛細管採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_baby/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">新生兒腳跟血毛細管採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_sugar/' %}is-active{% endif %}" href="/A003_labor_clinical_3_sugar/" title="台中長安醫院檢驗科-快速血糖檢驗指尖血採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_sugar/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">快速血糖檢驗指尖血採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_ra/' %}is-active{% endif %}" href="/A003_labor_clinical_3_ra/" title="台中長安醫院檢驗科-QuantiFERON (IGRA) 檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_ra/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">QuantiFERON (IGRA) 檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_wine/' %}is-active{% endif %}" href="/A003_labor_clinical_3_wine/" title="台中長安醫院檢驗科-酒精濃度(Alcohol)檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_wine/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">酒精濃度(Alcohol)檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_csf/' %}is-active{% endif %}" href="/A003_labor_clinical_3_csf/" title="台中長安醫院檢驗科-腦脊髓液 (CSF) 檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_csf/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">腦脊髓液 (CSF) 檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_cav/' %}is-active{% endif %}" href="/A003_labor_clinical_3_cav/" title="台中長安醫院檢驗科-體腔積液採集（胸水、腹水等）" itemprop="url" {% if request.path == '/A003_labor_clinical_3_cav/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">體腔積液採集（胸水、腹水等）</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_tract/' %}is-active{% endif %}" href="/A003_labor_clinical_3_tract/" title="台中長安醫院檢驗科-胃腸道檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_tract/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">胃腸道檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_urine/' %}is-active{% endif %}" href="/A003_labor_clinical_3_urine/" title="台中長安醫院檢驗科-尿液檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_urine/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">尿液檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_semen/' %}is-active{% endif %}" href="/A003_labor_clinical_3_semen/" title="台中長安醫院檢驗科-精液檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_semen/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">精液檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_dung/' %}is-active{% endif %}" href="/A003_labor_clinical_3_dung/" title="台中長安醫院檢驗科-糞便檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_dung/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">糞便檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_phlegm/' %}is-active{% endif %}" href="/A003_labor_clinical_3_phlegm/" title="台中長安醫院檢驗科-痰液檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_phlegm/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">痰液檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_respiratory/' %}is-active{% endif %}" href="/A003_labor_clinical_3_respiratory/" title="台中長安醫院檢驗科-呼吸道檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_respiratory/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">呼吸道檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_prepare/' %}is-active{% endif %}" href="/A003_labor_clinical_3_prepare/" title="台中長安醫院檢驗科-輸備血檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_prepare/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">輸備血檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3_3c/' %}is-active{% endif %}" href="/A003_labor_clinical_3_3c/" title="台中長安醫院檢驗科-Cryoglobulin 檢體採集" itemprop="url" {% if request.path == '/A003_labor_clinical_3_3c/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">Cryoglobulin 檢體採集</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
 </div>

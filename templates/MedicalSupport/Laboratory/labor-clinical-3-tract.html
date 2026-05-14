@@ -1,61 +1,49 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}胃腸道檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}胃腸道檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}胃腸道檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}胃腸道檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">胃腸道檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">胃液抽取術</li>
-
-														<li class="mb-1 pt-1">採集前禁飲食、禁藥、禁菸 8 小時以上，一般多在晨間進行。</li>	
-
-														<li class="mb-1 pt-1">抽取後，取下針筒，將液體注入 50 mL 無菌試管或原無菌針筒 (針頭須卸下並以專用塞子塞住針筒前端) 迅速送至檢驗科。</li>
-
-														<li class="mb-1 pt-1">胃活體切片利用胃鏡或手術方式取得感染之標本，置入 50 mL 無菌試管或欲進行 urease test 直接接種於 CLO 容器，迅速送至檢驗科。</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>								
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">胃腸道檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">胃液抽取術</li>
+					<li class="mb-1 pt-1">採集前禁飲食、禁藥、禁菸 8 小時以上，一般多在晨間進行。</li>	
+					<li class="mb-1 pt-1">抽取後，取下針筒，將液體注入 50 mL 無菌試管或原無菌針筒 (針頭須卸下並以專用塞子塞住針筒前端) 迅速送至檢驗科。</li>
+					<li class="mb-1 pt-1">胃活體切片利用胃鏡或手術方式取得感染之標本，置入 50 mL 無菌試管或欲進行 urease test 直接接種於 CLO 容器，迅速送至檢驗科。</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="胃腸道檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="胃腸道檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

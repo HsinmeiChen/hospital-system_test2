@@ -1,209 +1,126 @@
-{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+{% extends "MedicalSupport/Laboratory/labor-clinical-base.html" %}
+
 {% load static %}
 
-{% block title %}微生物培養檢體採集方法須知｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}微生物培養檢體採集方法須知｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}微生物培養檢體採集方法須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}微生物培養檢體採集方法須知｜{{ block.super }檢驗科}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">微生物培養檢體採集方法須知</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	
-
-											<div class="col-12">
-
-												<div class="categories categories-view1">
-
-													<ul class="row mb-0">                            
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_collection/">
-
-																<div class="categories-view1-wrap">                                            
-
-																	<i class="fas fa-ring og-word"></i>
-
-																	細菌培養檢體採集方法須知
-
-																	<!-- <small>(3 Open Vacancies)</small> -->
-
-																	<!-- <span>01</span> -->
-
-																</div>
-
-															</a>
-
-														</li>                                
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_bottle/">
-
-																<div class="categories-view1-wrap">                                            
-
-																	<i class="fas fa-tint og-word"></i>
-
-																	血瓶檢體採集
-
-																	<!-- <small>(2 Open Vacancies)</small> -->
-
-																	<!-- <span>02</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_bf/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-ring og-word"></i>
-
-																	一般細菌培養_體液檢體採集
-
-																	<!-- <small>(13 Open Vacancies)</small> -->
-
-																	<!-- <span>03</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_urine/">
-
-																<div class="categories-view1-wrap">                                            
-
-																	<i class="fas fa-vial og-word"></i>
-
-																	尿液培養檢體採集
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>07</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_respiratory/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-ring og-word"></i>
-
-																	一般細菌培養_呼吸道檢體採集
-
-																	<!-- <small>(18 Open Vacancies)</small> -->
-
-																	<!-- <span>05</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_eye/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-eye og-word"></i>
-
-																	眼睛檢體採集
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>06</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_abscess/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-ring og-word"></i>
-
-																	一般細菌培養_膿瘍檢體採集
-
-																	<!-- <small>(22 Open Vacancies)</small> -->
-
-																	<!-- <span>04</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-														<li class="col-12 col-md-6">
-
-															<a href="/A003_labor_clinical_4_dung/">
-
-																<div class="categories-view1-wrap">
-
-																	<i class="fas fa-prescription-bottle og-word"></i>
-
-																	糞便培養檢體採集
-
-																	<!-- <small>(4 Open Vacancies)</small> -->
-
-																	<!-- <span>08</span> -->
-
-																</div>
-
-															</a>
-
-														</li>
-
-													</ul>
-
-												</div>
-
-											</div>
-
-										</div>							
-
-									</section>									
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">微生物培養檢體採集方法須知</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="categories categories-view1">
+				<ul class="row mb-0">                            
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_collection/">
+							<div class="categories-view1-wrap">                                            
+								<i class="fas fa-ring og-word"></i>
+								細菌培養檢體採集方法須知
+								<!-- <small>(3 Open Vacancies)</small> -->
+								<!-- <span>01</span> -->
+							</div>
+						</a>
+					</li>                                
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_bottle/">
+							<div class="categories-view1-wrap">                                            
+								<i class="fas fa-tint og-word"></i>
+								血瓶檢體採集
+								<!-- <small>(2 Open Vacancies)</small> -->
+								<!-- <span>02</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_bf/">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-ring og-word"></i>
+								一般細菌培養_體液檢體採集
+								<!-- <small>(13 Open Vacancies)</small> -->
+								<!-- <span>03</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_urine/">
+							<div class="categories-view1-wrap">                                            
+								<i class="fas fa-vial og-word"></i>
+								尿液培養檢體採集
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>07</span> -->
+							</div>
+						</a>
+					</li>
+					
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_respiratory/">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-ring og-word"></i>
+								一般細菌培養_呼吸道檢體採集
+								<!-- <small>(18 Open Vacancies)</small> -->
+								<!-- <span>05</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_eye/">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-eye og-word"></i>
+								眼睛檢體採集
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>06</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_abscess/">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-ring og-word"></i>
+								一般細菌培養_膿瘍檢體採集
+								<!-- <small>(22 Open Vacancies)</small> -->
+								<!-- <span>04</span> -->
+							</div>
+						</a>
+					</li>
+					<li class="col-12 col-md-6">
+						<a href="/A003_labor_clinical_4_dung/">
+							<div class="categories-view1-wrap">
+								<i class="fas fa-prescription-bottle og-word"></i>
+								糞便培養檢體採集
+								<!-- <small>(4 Open Vacancies)</small> -->
+								<!-- <span>08</span> -->
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="微生物培養檢體採集方法須知｜檢驗科" %}
+    {% include 'schema_article.html' with headline="微生物培養檢體採集方法須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,83 +1,60 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體採集衛教、抽血注意事項｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體採集衛教、抽血注意事項｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}抽血注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}抽血注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">抽血注意事項</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											<div class="col-12">											
-
-												<div class="px-2">
-
-													<ul class="list-bullets">
-
-														<li class="mb-1">如有特殊情況：如對酒精過敏、裝有靜脈導管或服用抗凝血藥物者以及曾有暈針現象者請主動告知採血人員。</li>
-
-														<li class="mb-1">對於醫師囑咐「禁食」後方可抽血之檢驗項目，病患需在空腹至少8-12小時後方可進行抽血。</li>
-
-														<li class="mb-1">飯後血糖：從吃第一口開始算起，第二小時準時抽血。(請提早5～10分鐘至檢驗科插卡，等候叫號抽血)。</li>
-
-														<li class="mb-1">抽血完畢後，病患須以手指緊壓抽血部位上之棉球5分鐘，不可揉搓，以免造成血腫淤青現象。若抽血部位發生血腫或淤青現象，大部分原因是由於壓迫時間不夠或壓迫位置不對所致，若有此種現象，請於24小時內冰敷，24小時後熱敷。</li>
-
-														<li class="mb-1">特殊約定時間採血之檢查，請確實遵守約定採血時間，以避免檢驗結果之誤差。</li>
-
-													</ul>
-
-												</div>
-
-												<div class="alert alert-warning">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1">
-
-															<strong>抽血時需出示健保卡 (或其他有照片之身分證件)。</strong>
-
-														</li>
-
-														<li class="mb-1">
-
-															<strong>如插卡報到時顯示無資料或未帶健保卡，煩請至檢驗科抽血櫃檯詢問。</strong>
-
-														</li>
-
-													</ol>                                
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">抽血注意事項</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">											
+			<div class="px-2">
+				<ul class="list-bullets">
+					<li class="mb-1">如有特殊情況：如對酒精過敏、裝有靜脈導管或服用抗凝血藥物者以及曾有暈針現象者請主動告知採血人員。</li>
+					<li class="mb-1">對於醫師囑咐「禁食」後方可抽血之檢驗項目，病患需在空腹至少8-12小時後方可進行抽血。</li>
+					<li class="mb-1">飯後血糖：從吃第一口開始算起，第二小時準時抽血。(請提早5～10分鐘至檢驗科插卡，等候叫號抽血)。</li>
+					<li class="mb-1">抽血完畢後，病患須以手指緊壓抽血部位上之棉球5分鐘，不可揉搓，以免造成血腫淤青現象。若抽血部位發生血腫或淤青現象，大部分原因是由於壓迫時間不夠或壓迫位置不對所致，若有此種現象，請於24小時內冰敷，24小時後熱敷。</li>
+					<li class="mb-1">特殊約定時間採血之檢查，請確實遵守約定採血時間，以避免檢驗結果之誤差。</li>
+				</ul>
+			</div>
+			<div class="alert alert-warning">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1">
+						<strong>抽血時需出示健保卡 (或其他有照片之身分證件)。</strong>
+					</li>
+					<li class="mb-1">
+						<strong>如插卡報到時顯示無資料或未帶健保卡，煩請至檢驗科抽血櫃檯詢問。</strong>
+					</li>
+				</ol>                                
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體採集衛教、抽血注意事項｜檢驗科" %}
+    {% include 'schema_article.html' with headline="抽血注意事項｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,77 +1,51 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體採集衛教、痰液培養採檢注意事項｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體採集衛教、痰液培養採檢注意事項｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}痰液培養採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}痰液培養採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">痰液培養採檢注意事項</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											
-
-											<div class="col-12">
-
-												
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">最佳的檢體為早晨第一口痰，避免收集到唾液 (以利咳出肺部深處的痰)。</li>
-
-														<li class="mb-1 pt-1">咳痰前，請先以開水漱洗口腔，以免口腔內物質影響檢查結果。</li>
-
-														<li class="mb-1 pt-1">以下唇靠菌容器邊緣，深呼吸並用力深咳，將痰液直接咳入無菌容器內，蓋緊蓋子裝入夾鏈袋後即可送檢。</li>
-
-														<li class="mb-1 pt-1">如醫師開立三套檢驗，請分三天收集檢體。</li>
-
-													</ol> 
-
-												</div>
-
-	
-
-												<div class="px-2">												
-
-													<div class="alert alert-warning"><strong>【注意事項】</strong>採集後，請盡快將檢驗單與檢體送至檢驗科，若無法立即送檢，可暫放4℃冰箱冷藏。</div>
-
-												</div>
-
-												
-
-											</div>
-
-	
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">痰液培養採檢注意事項</h1>
+</header>
+<div class="l-main-content__body">
+    <div class="row">			
+		<div class="col-12">				
+		    <div class="px-2 pb-2">
+			    <ol class="custom-numbers mb-0">
+				    <li class="mb-1 pt-1">最佳的檢體為早晨第一口痰，避免收集到唾液 (以利咳出肺部深處的痰)。</li>
+				    <li class="mb-1 pt-1">咳痰前，請先以開水漱洗口腔，以免口腔內物質影響檢查結果。</li>
+				    <li class="mb-1 pt-1">以下唇靠菌容器邊緣，深呼吸並用力深咳，將痰液直接咳入無菌容器內，蓋緊蓋子裝入夾鏈袋後即可送檢。</li>
+				<li class="mb-1 pt-1">如醫師開立三套檢驗，請分三天收集檢體。</li>
+			</ol> 
+		</div>
+		<div class="px-2">												
+				<div class="alert alert-warning"><strong>【注意事項】</strong>採集後，請盡快將檢驗單與檢體送至檢驗科，若無法立即送檢，可暫放4℃冰箱冷藏。</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體採集衛教、痰液培養採檢注意事項｜檢驗科" %}
+    {% include 'schema_article.html' with headline="痰液培養採檢注意事項｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

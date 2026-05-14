@@ -1,107 +1,73 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}一般細菌培養-膿瘍檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}一般細菌培養-膿瘍檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}一般細菌培養(膿瘍檢體採集)｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}一般細菌培養(膿瘍檢體採集)｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">一般細菌培養-膿瘍檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體採集：</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">建議在執行治療前採取檢體，且檢體限於感染處、惡化中或長時間無法癒合的部位。</li>
-
-														<li class="mb-1 pt-1">針對封閉性傷口和抽出液，先以70%酒精清潔欲穿刺部位，再以優碘消毒以避免皮膚表面細菌污染檢體，再用酒精將優碘擦乾淨。</li>
-
-														<li class="mb-1 pt-1">開放性傷口用生理食鹽水沖洗乾淨再採集檢體。</li>
-
-														<li class="mb-1 pt-1">以穿刺針抽取出欲做細菌檢查之膿瘍檢體。</li>
-
-														<li class="mb-1 pt-1">膿瘍檢體取得後，放入無菌管中送檢。</li>
-
-													</ol> 
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體運送：</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">保持抽出液及組織檢體濕潤，並在 30 分鐘內送達實驗室能得到最佳檢出率。</li>
-
-														<li class="mb-1 pt-1">若要延後送達實驗室，保持檢體在室溫即可，避免在運送過程前及過程中放入冰箱或溫箱，以避免厭氧菌死亡。</li>
-
-													</ol> 	
-
-												</div>
-
-												<div class="alert alert-warning">此類別之檢驗醫令須包含<strong>嗜氧醫令</strong>與<strong>厭氧醫令</strong>。
-
-												</div>
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">檢體退件：</h4>
-
-												</div>
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">不接受檢體中含福馬林</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">一般細菌培養 (膿瘍檢體採集)</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體採集：</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">建議在執行治療前採取檢體，且檢體限於感染處、惡化中或長時間無法癒合的部位。</li>
+					<li class="mb-1 pt-1">針對封閉性傷口和抽出液，先以70%酒精清潔欲穿刺部位，再以優碘消毒以避免皮膚表面細菌污染檢體，再用酒精將優碘擦乾淨。</li>
+					<li class="mb-1 pt-1">開放性傷口用生理食鹽水沖洗乾淨再採集檢體。</li>
+					<li class="mb-1 pt-1">以穿刺針抽取出欲做細菌檢查之膿瘍檢體。</li>
+					<li class="mb-1 pt-1">膿瘍檢體取得後，放入無菌管中送檢。</li>
+				</ol> 
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體運送：</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">保持抽出液及組織檢體濕潤，並在 30 分鐘內送達實驗室能得到最佳檢出率。</li>
+					<li class="mb-1 pt-1">若要延後送達實驗室，保持檢體在室溫即可，避免在運送過程前及過程中放入冰箱或溫箱，以避免厭氧菌死亡。</li>
+				</ol> 	
+			</div>
+			<div class="alert alert-warning">此類別之檢驗醫令須包含<strong>嗜氧醫令</strong>與<strong>厭氧醫令</strong>。
+			</div>
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">檢體退件：</h4>
+			</div>
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">不接受檢體中含福馬林</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="一般細菌培養-膿瘍檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="一般細菌培養(膿瘍檢體採集)｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

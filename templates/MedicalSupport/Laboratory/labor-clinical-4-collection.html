@@ -1,73 +1,55 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}細菌培養檢體採集方法須知｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}細菌培養檢體採集方法須知｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}細菌培養檢體採集方法須知｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}細菌培養檢體採集方法須知｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">細菌培養檢體採集方法須知</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>
-
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">細菌培養檢體採集方法須知</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">含需氧及厭氧培養。</li>
+					<li class="mb-1 pt-1">採集時先將培養拭子外包裝撕開。</li>
+					<li class="mb-1 pt-1">取出檢體採集棉棒，以棉棒沾取檢體。</li>
+					<li class="mb-1 pt-1">將容器上蓋打開，放入棉棒。</li>
+					<li class="mb-1 pt-1">將棉棒折斷(斷點為紅點處)。</li>
+					<li class="mb-1 pt-1">蓋回上蓋，將檢體混合均勻。</li>
+					<li class="mb-1 pt-1">貼上檢體標籤，確認姓名資料，請儘速送檢。</li>
+					<li class="mb-1 pt-1">檢體若無法立刻送檢時，必須放在 2-8 ℃冰箱，24 小時內送檢。</li>
+				</ol> 
+			</div>
 	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">含需氧及厭氧培養。</li>
-
-														<li class="mb-1 pt-1">採集時先將培養拭子外包裝撕開。</li>
-
-														<li class="mb-1 pt-1">取出檢體採集棉棒，以棉棒沾取檢體。</li>
-
-														<li class="mb-1 pt-1">將容器上蓋打開，放入棉棒。</li>
-
-														<li class="mb-1 pt-1">將棉棒折斷(斷點為紅點處)。</li>
-
-														<li class="mb-1 pt-1">蓋回上蓋，將檢體混合均勻。</li>
-
-														<li class="mb-1 pt-1">貼上檢體標籤，確認姓名資料，請儘速送檢。</li>
-
-														<li class="mb-1 pt-1">檢體若無法立刻送檢時，必須放在 2-8 ℃冰箱，24 小時內送檢。</li>
-
-													</ol> 
-
-												</div>
-
-	
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="細菌培養檢體採集方法須知｜檢驗科" %}
+    {% include 'schema_article.html' with headline="細菌培養檢體採集方法須知｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

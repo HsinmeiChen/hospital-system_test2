@@ -1,271 +1,154 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}血瓶檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}血瓶檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}血瓶檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}血瓶檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">血瓶檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">依醫囑準備需用之血瓶，尋找到合適之血管後，進行消毒。</li>
-
-														<li class="mb-1 pt-1">血液培養瓶口消毒：去除血瓶瓶蓋，分別以75%酒精棉枝或酒精棉片，由內往外消毒血瓶口。</li>
-
-														<li class="mb-1 pt-1">皮膚清潔及消毒：採檢前須先清潔皮膚，以75%酒精棉枝或酒精棉片清潔採檢部位，須待酒精自然風乾。消毒步驟為兩道或三道消毒步驟。</li>
-
-														<li class="mb-1 pt-1">
-
-															<div class="row">
-
-																<div class="col-12">
-
-																	<strong>第一道消毒</strong> 以 75% 酒精棉枝或酒精棉片來回用力擦拭欲抽血部位，待自然風乾後
-
-																</div>
-
-																<div class="col-12">
-
-																	<strong>第二道消毒</strong> 以 10% 酒精性碘液，來回用力擦拭欲抽血部位，停留至少 30 秒 (若使用 10% 水溶性碘液消毒至少需停留 90 秒)
-
-																</div>
-
-																<div class="col-12">
-
-																	<strong>第三道消毒</strong> 以 75% 酒精棉枝或酒精棉片來回用力擦拭欲抽血部位，若使用 2% chlorhexidine 則不須第三道消毒步驟，待自然風乾。若抽血者可能會觸摸到病人採血位置時，其該觸摸部位亦需進行三道步驟消毒。
-
-																	<div class="alert alert-warning mt-2"><strong>【說明】</strong>第三道消毒步驟主要為去除碘之成分；2% chlorhexidine不可使用於2歲以下之新生嬰兒。</div>
-
-																</div>
-
-															</div>
-
-														</li>													
-
-														<li class="mb-1 pt-1">採檢時機：於病人畏寒、寒顫或發熱期間，二至四小時內送檢二至三次，每次間隔一樣，最好為一小時。盡量於病人未經抗生素治療前採檢，若需立即給予抗生素治療或非常急迫的狀況下，可於治療前連續在不同部位採集兩套血液培養或間隔20-30分鐘採集第二套血瓶，共採集2~3套。</li>
-
-														<li class="mb-1 pt-1">
-
-															<div class="row">
-
-																<div class="col-12">
-
-																	<div class="font-18"><strong>血液分裝</strong></div>
-
-																	<div class="pl-2">
-
-																		<p class="mb-0">A、血液培養瓶為第一優先分裝之容器。。</p>
-
-																		<p class="mb-0">B、空針採血：先注入厭氧培養瓶，再注入需氧培養瓶。</p>
-
-																		<p class="mb-0">C、蝴蝶針採血：先注入需氧培養瓶，再注入厭氧培養瓶。</p>
-
-																	</div>
-
-																</div>
-
-															</div>
-
-														</li>
-
-														<li class="mb-1 pt-1 font-18"><strong>血液培養瓶檢體標示</strong></li>
-
-														<img src="{% static 'common/img/Lab/血液培養瓶檢體標示.jpg' %}" class="img-fluid" alt="呼吸道檢體採集">
-
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">血瓶檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">依醫囑準備需用之血瓶，尋找到合適之血管後，進行消毒。</li>
+					<li class="mb-1 pt-1">血液培養瓶口消毒：去除血瓶瓶蓋，分別以75%酒精棉枝或酒精棉片，由內往外消毒血瓶口。</li>
+					<li class="mb-1 pt-1">皮膚清潔及消毒：採檢前須先清潔皮膚，以75%酒精棉枝或酒精棉片清潔採檢部位，須待酒精自然風乾。消毒步驟為兩道或三道消毒步驟。</li>
+					<li class="mb-1 pt-1">
+						<div class="row">
+							<div class="col-12">
+								<strong>第一道消毒</strong> 以 75% 酒精棉枝或酒精棉片來回用力擦拭欲抽血部位，待自然風乾後
+							</div>
+							<div class="col-12">
+								<strong>第二道消毒</strong> 以 10% 酒精性碘液，來回用力擦拭欲抽血部位，停留至少 30 秒 (若使用 10% 水溶性碘液消毒至少需停留 90 秒)
+							</div>
+							<div class="col-12">
+								<strong>第三道消毒</strong> 以 75% 酒精棉枝或酒精棉片來回用力擦拭欲抽血部位，若使用 2% chlorhexidine 則不須第三道消毒步驟，待自然風乾。若抽血者可能會觸摸到病人採血位置時，其該觸摸部位亦需進行三道步驟消毒。
+								<div class="alert alert-warning mt-2"><strong>【說明】</strong>第三道消毒步驟主要為去除碘之成分；2% chlorhexidine不可使用於2歲以下之新生嬰兒。</div>
+							</div>
+						</div>
+					</li>													
+					<li class="mb-1 pt-1">採檢時機：於病人畏寒、寒顫或發熱期間，二至四小時內送檢二至三次，每次間隔一樣，最好為一小時。盡量於病人未經抗生素治療前採檢，若需立即給予抗生素治療或非常急迫的狀況下，可於治療前連續在不同部位採集兩套血液培養或間隔20-30分鐘採集第二套血瓶，共採集2~3套。</li>
+					<li class="mb-1 pt-1">
+						<div class="row">
+							<div class="col-12">
+								<div class="font-18"><strong>血液分裝</strong></div>
+								<div class="pl-2">
+									<p class="mb-0">A、血液培養瓶為第一優先分裝之容器。。</p>
+									<p class="mb-0">B、空針採血：先注入厭氧培養瓶，再注入需氧培養瓶。</p>
+									<p class="mb-0">C、蝴蝶針採血：先注入需氧培養瓶，再注入厭氧培養瓶。</p>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="mb-1 pt-1 font-18"><strong>血液培養瓶檢體標示</strong></li>
+					<img src="{% static 'common/img/Lab/血液培養瓶檢體標示.jpg' %}" class="img-fluid" alt="血液培養瓶檢體標示" title="血液培養瓶檢體標示">
 	
-
-														<li class="mb-1 pt-1 font-18"><strong>血液培養採集與受理</strong></li>
-
-														<table class="table table-striped table-bordered">
-
-															<thead>
-
-																<tr>
-
-																	<th scope="col" class="title-bg text-center">類別</th>
-
-																	<th scope="col" class="title-bg text-center" colspan="2">一般血瓶</th>
-
-																	<th scope="col" class="title-bg text-center" colspan="2">去抗生素血瓶(含樹脂)</th>
-
-																	<th scope="col" class="title-bg text-center">小兒血瓶(含樹脂)</th>
-
-																</tr>
-
-															</thead>
-
-															<tbody>
-
-																<tr>
-
-																	<th scope="row" class="text-center">適用範圍</th>
-
-																	<td class="text-center" colspan="2">一般患者</td>
-
-																	<td class="text-center" colspan="2">使用抗生素治療患者</td>
-
-																	<td class="text-center">小兒專用</td>
-
-																</tr>
-
-																<tr>
-
-																	<th scope="row" class="text-center">採血量</th>
-
-																	<td class="text-center">8-10 mL</td>
-
-																	<td class="text-center">8-10 mL</td>
-
-																	<td class="text-center">8-10 mL</td>
-
-																	<td class="text-center">8-10 mL</td>
-
-																	<td class="text-center">1-3 mL</td>
-
-																</tr>
-
-																<tr>
-
-																	<th scope="row" class="text-center">血瓶圖片</th>
-
-																	<td class="text-center">
-
-																		<div class="">
-
-																			<div class="b_td_img d-flex justify-content-center">
-
-																				<img src="{% static 'common/img/Lab/需氧瓶-藍蓋藍頭.png' %}" alt="需氧瓶-藍蓋藍頭" class="img-thumbnail">
-
-																			</div>
-
-																			<div class="">需氧瓶</div>
-
-																			<div class="">(藍蓋藍頭)</div>
-
-																		</div>
-
-																	</td>
-
-																	<td class="text-center">
-
-																		<div class="">
-
-																			<div class="b_td_img d-flex justify-content-center">
-
-																				<img src="{% static 'common/img/Lab/厭氧瓶-紫蓋紫頭.png' %}" alt="厭氧瓶-紫蓋紫頭" class="img-thumbnail">
-
-																			</div>
-
-																			<div class="">厭氧瓶</div>
-
-																			<div class="">(紫蓋紫頭)</div>
-
-																		</div>
-
-																	</td>
-
-																	<td class="text-center">
-
-																		<div class="">
-
-																			<div class="b_td_img d-flex justify-content-center">
-
-																				<img src="{% static 'common/img/Lab/需氧瓶-灰蓋藍標.png' %}" alt="需氧瓶-灰蓋藍標" class="img-thumbnail">
-
-																			</div>
-
-																			<div class="">需氧瓶</div>
-
-																			<div class="">(灰蓋藍標)</div>
-
-																		</div>
-
-																	</td>
-
-																	<td class="text-center">
-
-																		<div class="">
-
-																			<div class="b_td_img d-flex justify-content-center">
-
-																				<img src="{% static 'common/img/Lab/厭氧瓶-橘蓋金標.png' %}" alt="厭氧瓶-橘蓋金標" class="img-thumbnail">
-
-																			</div>
-
-																			<div class="">厭氧瓶</div>
-
-																			<div class="">(橘蓋金標)</div>
-
-																		</div>
-
-																	</td>
-
-																	<td class="text-center">
-
-																		<div class="">
-
-																			<div class="b_td_img d-flex justify-content-center">
-
-																				<img src="{% static 'common/img/Lab/需氧瓶-粉蓋粉頭.png' %}" alt="需氧瓶-粉蓋粉頭" class="img-thumbnail">
-
-																			</div>
-
-																			<div class="">需氧瓶</div>
-
-																			<div class="">(藍蓋藍頭)</div>
-
-																		</div>
-
-																	</td>
-
-																</tr>
-
-															</tbody>
-
-														</table>
-
-													</ol> 
-
-												</div>
-
-	
-
-											</div>
-
+					<li class="mb-1 pt-1 font-18"><strong>血液培養採集與受理</strong></li>
+					<table class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th scope="col" class="title-bg text-center">類別</th>
+								<th scope="col" class="title-bg text-center" colspan="2">一般血瓶</th>
+								<th scope="col" class="title-bg text-center" colspan="2">去抗生素血瓶(含樹脂)</th>
+								<th scope="col" class="title-bg text-center">小兒血瓶(含樹脂)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row" class="text-center">適用範圍</th>
+								<td class="text-center" colspan="2">一般患者</td>
+								<td class="text-center" colspan="2">使用抗生素治療患者</td>
+								<td class="text-center">小兒專用</td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-center">採血量</th>
+								<td class="text-center">8-10 mL</td>
+								<td class="text-center">8-10 mL</td>
+								<td class="text-center">8-10 mL</td>
+								<td class="text-center">8-10 mL</td>
+								<td class="text-center">1-3 mL</td>
+							</tr>
+							<tr>
+								<th scope="row" class="text-center">血瓶圖片</th>
+								<td class="text-center">
+									<div class="">
+										<div class="b_td_img d-flex justify-content-center">
+											<img src="{% static 'common/img/Lab/需氧瓶-藍蓋藍頭.png' %}" alt="需氧瓶-藍蓋藍頭" class="img-thumbnail" title="需氧瓶-藍蓋藍頭">
 										</div>
-
-									</section>
-
-								
+										<div class="">需氧瓶</div>
+										<div class="">(藍蓋藍頭)</div>
+									</div>
+								</td>
+								<td class="text-center">
+									<div class="">
+										<div class="b_td_img d-flex justify-content-center">
+											<img src="{% static 'common/img/Lab/厭氧瓶-紫蓋紫頭.png' %}" alt="厭氧瓶-紫蓋紫頭" class="img-thumbnail" title="厭氧瓶-紫蓋紫頭">
+										</div>
+										<div class="">厭氧瓶</div>
+										<div class="">(紫蓋紫頭)</div>
+									</div>
+								</td>
+								<td class="text-center">
+									<div class="">
+										<div class="b_td_img d-flex justify-content-center">
+											<img src="{% static 'common/img/Lab/需氧瓶-灰蓋藍標.png' %}" alt="需氧瓶-灰蓋藍標" class="img-thumbnail" title="需氧瓶-灰蓋藍標">
+										</div>
+										<div class="">需氧瓶</div>
+										<div class="">(灰蓋藍標)</div>
+									</div>
+								</td>
+								<td class="text-center">
+									<div class="">
+										<div class="b_td_img d-flex justify-content-center">
+											<img src="{% static 'common/img/Lab/厭氧瓶-橘蓋金標.png' %}" alt="厭氧瓶-橘蓋金標" class="img-thumbnail" title="厭氧瓶-橘蓋金標">
+										</div>
+										<div class="">厭氧瓶</div>
+										<div class="">(橘蓋金標)</div>
+									</div>
+								</td>
+								<td class="text-center">
+									<div class="">
+										<div class="b_td_img d-flex justify-content-center">
+											<img src="{% static 'common/img/Lab/需氧瓶-粉蓋粉頭.png' %}" alt="需氧瓶-粉蓋粉頭" class="img-thumbnail" title="需氧瓶-粉蓋粉頭">
+										</div>
+										<div class="">需氧瓶</div>
+										<div class="">(藍蓋藍頭)</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</ol> 
+			</div>	
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="血瓶檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="血瓶檢體採集｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,51 +1,47 @@
 {% extends "MedicalSupport/Laboratory/labor-pathology-base.html" %}
+
 {% load static %}
 
-{% block title %}病人辨識｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}病人辨識｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}病人辨識｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}病人辨識｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">病人辨識</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1" style="display: inline-block;">採檢人員於採檢前必須確實核對病人身份。</li>
-
-														<li class="mb-1 pt-1" style="display: inline-block;">檢體採集容器上標示內容請參閱<a href="/A003_labor_pathology/"><strong>【病理檢體採集及包裝注意事項】</strong></a>，所有欄位需填寫完整。</li>
-
-													</ol> 
-
-												</div>								
-
-											</div>
-
-										</div>								
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">病人辨識</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1" style="display: inline-block;">採檢人員於採檢前必須確實核對病人身份。</li>
+					<li class="mb-1 pt-1" style="display: inline-block;">檢體採集容器上標示內容請參閱<a href="/A003_labor_pathology/"><strong>【病理檢體採集及包裝注意事項】</strong></a>，所有欄位需填寫完整。</li>
+				</ol> 
+			</div>								
+		</div>
+	</div>	
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="病人辨識｜檢驗科" %}
+    {% include 'schema_article.html' with headline="病人辨識｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

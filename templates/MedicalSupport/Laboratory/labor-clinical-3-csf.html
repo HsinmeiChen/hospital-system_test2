@@ -1,61 +1,49 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}腦脊髓液(CSF)檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}腦脊髓液(CSF)檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}腦脊髓液(CSF)檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}腦脊髓液(CSF)檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">腦脊髓液 (CSF) 檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">腦脊髓液是由醫師執行採集，經由腰椎穿刺術 (lumbar puncture)，再以導管引流，使用無菌之15mL具螺紋蓋聚苯乙烯塑膠尖底管3-4支，標定(labeling) 採集順序後依序盛接送驗。一次總採集量約為20 mL，每一支檢體管的檢體量約為2-3 mL。</li>
-
-														<li class="mb-1 pt-1">因為腰椎穿刺有經過皮膚、組織、微血管腦脊液檢體分裝及適當執行之檢驗與關節腔，因此第一支檢體適用於生化學與血清學檢驗，第二支檢體適用於微生物檢驗，第三支檢體適用於體液鏡檢，第四支檢體可用於細胞學檢查或其他檢驗。</li>	
-
-														<li class="mb-1 pt-1">如果第一支檢體不是澄清透明的液體且有些出血狀(淡粉或紅色)，表示採檢程序有造成出血狀態(traumatic puncture)。</li>
-
-														<li class="mb-1 pt-1">此時，第一支檢體不適用於細胞學檢驗，因為檢體已受到血液的汙染，可以改用由採集順序中，開始澄清之檢體管，依序分送去生化學與血清學、微生物學、鏡檢學與細胞學之檢驗。</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">腦脊髓液(CSF)檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">腦脊髓液是由醫師執行採集，經由腰椎穿刺術 (lumbar puncture)，再以導管引流，使用無菌之15mL具螺紋蓋聚苯乙烯塑膠尖底管3-4支，標定(labeling) 採集順序後依序盛接送驗。一次總採集量約為20 mL，每一支檢體管的檢體量約為2-3 mL。</li>
+					<li class="mb-1 pt-1">因為腰椎穿刺有經過皮膚、組織、微血管腦脊液檢體分裝及適當執行之檢驗與關節腔，因此第一支檢體適用於生化學與血清學檢驗，第二支檢體適用於微生物檢驗，第三支檢體適用於體液鏡檢，第四支檢體可用於細胞學檢查或其他檢驗。</li>	
+					<li class="mb-1 pt-1">如果第一支檢體不是澄清透明的液體且有些出血狀(淡粉或紅色)，表示採檢程序有造成出血狀態(traumatic puncture)。</li>
+					<li class="mb-1 pt-1">此時，第一支檢體不適用於細胞學檢驗，因為檢體已受到血液的汙染，可以改用由採集順序中，開始澄清之檢體管，依序分送去生化學與血清學、微生物學、鏡檢學與細胞學之檢驗。</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="腦脊髓液(CSF)檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="腦脊髓液(CSF)檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

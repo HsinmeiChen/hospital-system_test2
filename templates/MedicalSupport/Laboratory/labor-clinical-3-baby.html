@@ -1,81 +1,58 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}新生兒腳跟血毛細管採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}新生兒腳跟血毛細管採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}新生兒腳跟血毛細管採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}新生兒腳跟血毛細管採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">新生兒腳跟血毛細管採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">穿刺位置取大腳趾中線延伸到腳跟部，取切線外側部份，或取第四、五趾間中線至腳跟的切線外側。(說明：此部分肌肉多且血管分佈較密，穿刺針不致於扎到腳跟骨引發骨髓炎。)</li>
-
-														<li class="mb-1 pt-1">皮膚消毒前，先輕度按摩一下穿刺位置約5~10秒使其充血，取酒精棉片或酒精棉棒於下針處來回用力擦拭消毒，待皮膚消毒酒精自然風乾。</li>
-
-														<li class="mb-1 pt-1">穿刺時，以中指扣壓腳背，食指夾住腳掌，拇指扣住欲穿刺位置的下方腳踝處，穿刺針以垂直方向刺入；穿刺後的第一滴血液可能含有體液或皮膚碎片，故用消毒後的乾棉球拭除。
-
-															
-
-														</li>
-
-														<div class="row">
-
-															<div class="col-12 mx-4">
-
-																<img src="{% static 'common/img/Lab/新生兒腳採集.png' %}" alt="新生兒腳跟血毛細管採集" class="img-thumbnail">
-
-															</div>
-
-														</div>
-
-														<li class="mb-1 pt-1">腳部適度的施壓並採間歇鬆放方式以保持血液的流出，勿把腳跟抬得太高，並應將穿刺部位向下，使流出的血容易成滴，以便採集。血液流速減慢時，可用乾棉球將餘血拭去再繼續收集，以免血液凝固；如血量不足時，可再做一次穿刺，但應避免過度的擠壓，會導致溶血及改變血中物質的濃度。</li>
-
-														<li class="mb-1 pt-1">取預先準備含 Heparin 抗凝劑的毛細管接取血液，毛細管由有「紅色標記」端取血，讓血液自然吸入毛細管內，勿接觸傷口。採血過程，盡量保持腳部與身體水平，毛細管最好保持水平，以利吸取，且一支毛細管只能用一次，不可重複使用。</li>
-
-														<li class="mb-1 pt-1">採血後，即放鬆小腳，用消毒過的乾棉球壓住穿刺孔止血，或以止血貼布止血。止血時應將小腳墊高於心臟水平位置，有助止血的加速。收集血完成的毛細管，以食指壓住ㄧ端，另ㄧ端旋轉垂直插入粘土，以阻止管中血液流失。</li>
-
-														
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">新生兒腳跟血毛細管採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">穿刺位置取大腳趾中線延伸到腳跟部，取切線外側部份，或取第四、五趾間中線至腳跟的切線外側。(說明：此部分肌肉多且血管分佈較密，穿刺針不致於扎到腳跟骨引發骨髓炎。)</li>
+					<li class="mb-1 pt-1">皮膚消毒前，先輕度按摩一下穿刺位置約5~10秒使其充血，取酒精棉片或酒精棉棒於下針處來回用力擦拭消毒，待皮膚消毒酒精自然風乾。</li>
+					<li class="mb-1 pt-1">穿刺時，以中指扣壓腳背，食指夾住腳掌，拇指扣住欲穿刺位置的下方腳踝處，穿刺針以垂直方向刺入；穿刺後的第一滴血液可能含有體液或皮膚碎片，故用消毒後的乾棉球拭除。
+						
+					</li>
+					<div class="row">
+						<div class="col-12 mx-4">
+							<img src="{% static 'common/img/Lab/新生兒腳採集.png' %}" alt="新生兒腳跟血毛細管採集" class="img-thumbnail" title="新生兒腳跟血毛細管採集">
+						</div>
+					</div>
+					<li class="mb-1 pt-1">腳部適度的施壓並採間歇鬆放方式以保持血液的流出，勿把腳跟抬得太高，並應將穿刺部位向下，使流出的血容易成滴，以便採集。血液流速減慢時，可用乾棉球將餘血拭去再繼續收集，以免血液凝固；如血量不足時，可再做一次穿刺，但應避免過度的擠壓，會導致溶血及改變血中物質的濃度。</li>
+					<li class="mb-1 pt-1">取預先準備含 Heparin 抗凝劑的毛細管接取血液，毛細管由有「紅色標記」端取血，讓血液自然吸入毛細管內，勿接觸傷口。採血過程，盡量保持腳部與身體水平，毛細管最好保持水平，以利吸取，且一支毛細管只能用一次，不可重複使用。</li>
+					<li class="mb-1 pt-1">採血後，即放鬆小腳，用消毒過的乾棉球壓住穿刺孔止血，或以止血貼布止血。止血時應將小腳墊高於心臟水平位置，有助止血的加速。收集血完成的毛細管，以食指壓住ㄧ端，另ㄧ端旋轉垂直插入粘土，以阻止管中血液流失。</li>
+					
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="新生兒腳跟血毛細管採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="新生兒腳跟血毛細管採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

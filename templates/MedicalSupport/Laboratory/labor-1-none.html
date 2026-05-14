@@ -1,0 +1,51 @@
+{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}最新公告｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}最新公告｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+{% block guide_content %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">最新公告</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">																			
+		<div class="col-12">		
+			<!-- <span class="content_labor_news"></span> -->	
+			<div class="iframe-container">
+				<iframe class="border-0" id="myiframe" name="myiframe" src="http://web.everanhospital.com.tw/MedicalSupport/Laboratory/bulletinboard.asp" scrolling="yes" allowfullscreen="true"></iframe>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="最新公告｜檢驗科" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<!-- <script>
+	$(function () { 
+    	$(".content_labor_news").load("../../../MedicalSupport/Laboratory/bulletinboard.asp");
+	});
+</script> -->
+{% endblock %}

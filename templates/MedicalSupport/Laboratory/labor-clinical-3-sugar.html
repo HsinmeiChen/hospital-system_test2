@@ -1,61 +1,48 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}快速血糖檢驗指尖血採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}快速血糖檢驗指尖血採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}快速血糖檢驗指尖血採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}快速血糖檢驗指尖血採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">快速血糖檢驗指尖血採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>
-
-	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">採血部位選擇手部指尖，建議食指指尖為優先選擇部位。</li>
-
-														<li class="mb-1 pt-1">皮膚消毒前，先輕度按摩一下穿刺位置約3~5秒使其充血，取酒精棉片或酒精棉棒於下針處來回用力擦拭消毒，待皮膚消毒酒精自然風乾。</li>
-
-														<li class="mb-1 pt-1">取專用拋棄式針具，拔除前端之安全套，於採檢部位直接按壓穿刺。</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>							
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">快速血糖檢驗指尖血採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">採血部位選擇手部指尖，建議食指指尖為優先選擇部位。</li>
+					<li class="mb-1 pt-1">皮膚消毒前，先輕度按摩一下穿刺位置約3~5秒使其充血，取酒精棉片或酒精棉棒於下針處來回用力擦拭消毒，待皮膚消毒酒精自然風乾。</li>
+					<li class="mb-1 pt-1">取專用拋棄式針具，拔除前端之安全套，於採檢部位直接按壓穿刺。</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="快速血糖檢驗指尖血採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="快速血糖檢驗指尖血採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,79 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體採集衛教、精液分析採檢注意事項｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體採集衛教、精液分析採檢注意事項｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}精液分析採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}精液分析採檢注意事項｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
 
+
+<!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">精液分析採檢注意事項</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											
-
-											<div class="col-12">
-
-												
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">採檢前須禁慾3天以上，不能超過7天。</li>
-
-														<li class="mb-1 pt-1">以手淫方式將全部的精液檢體收集至無菌容器內(不能使用保險套)。</li>
-
-														<li class="mb-1 pt-1">採集完成後應於30分鐘內，以室溫送達檢驗科，不可冷藏或置於高溫環境中。</li>
-
-														<li class="mb-1 pt-1">採檢完成後，請於本衛教單上註明採檢時間與禁慾天數，繳交檢體時請一併交回此衛教單。</li>
-
-													</ol> 
-
-												</div>
-
-												<div class="container mx-2">
-
-													<div>★ 檢體是否為已結紮檢體：□ 已結紮 □ 未結紮</div>
-
-													<div>★ 禁欲天數: ______ 天</div>
-
-													<div>★ 採檢時間: ______ 月 ______ 日 ______ 時 ______ 分</div>
-
-												</div>
-
-												
-
-											</div>
-
-	
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">精液分析採檢注意事項</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">			
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">採檢前須禁慾3天以上，不能超過7天。</li>
+					<li class="mb-1 pt-1">以手淫方式將全部的精液檢體收集至無菌容器內(不能使用保險套)。</li>
+					<li class="mb-1 pt-1">採集完成後應於30分鐘內，以室溫送達檢驗科，不可冷藏或置於高溫環境中。</li>
+					<li class="mb-1 pt-1">採檢完成後，請於本衛教單上註明採檢時間與禁慾天數，繳交檢體時請一併交回此衛教單。</li>
+				</ol> 
+			</div>
+			<div class="container mx-2">
+				<div>★ 檢體是否為已結紮檢體：□ 已結紮 □ 未結紮</div>
+				<div>★ 禁欲天數: ______ 天</div>
+				<div>★ 採檢時間: ______ 月 ______ 日 ______ 時 ______ 分</div>
+			</div>			
+		</div>	
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體採集衛教、精液分析採檢注意事項｜檢驗科" %}
+    {% include 'schema_article.html' with headline="精液分析採檢注意事項｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

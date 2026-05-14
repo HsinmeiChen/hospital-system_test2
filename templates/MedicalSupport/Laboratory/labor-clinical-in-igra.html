@@ -1,105 +1,69 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-in-base.html" %}
+
 {% load static %}
 
-{% block title %}IGRA採檢及檢體前處理須知｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}IGRA採檢及檢體前處理須知｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}IGRA 採檢及檢體前處理須知｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}IGRA 採檢及檢體前處理須知｜臨床檢驗採集衛教｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">IGRA 採檢及檢體前處理須知
-
-											<small class="font-14 text-secondary">Interferon gamma releasing assay</small>
-
-										</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_in"></div>											
-
-											</div>
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">此項檢驗需要新鮮採集之血液檢體，請受檢者先到檢驗科預約採檢時間。(因採檢容器無常備庫存，受檢者務必先持檢驗單到檢驗科預約採血時間)</li>
-
-														<li class="mb-1 pt-1">可採檢時間為週一至週六 07:30~10:00</li>                          
-
-														<li class="mb-1 pt-1">
-
-															<div class="row">
-
-																<div class="col-12">
-
-																	<div class="font-18"><strong>檢體採集注意事項</strong></div>
-
-																	<div>
-
-																		<p class="mb-0">A、採檢試管為QuantiFeron-TB(QFT)專用管試管，須儲存在4-25℃的溫度。4種試管分別為Nil Control (Gray cap)、TB1 Antigen (green cap)、TB2 Antigen (yellow cap)、Mitogen Control (Purple cap)。</p>
-
-																		<p class="mb-0">B、採檢次序為灰色→綠色→黃色→紫色管，以真空採血收43管，約2-3秒至標示黑色刻度處約1 mL容量，採檢後立即施力搖動上下混合試管10次。</p>
-
-																	</div>
-
-																</div>
-
-															</div>
-
-														</li>
-
-														<li class="mb-1 pt-1">
-
-															<div class="row">
-
-																<div class="col-12">
-
-																	<div class="font-18"><strong>檢體前處理注意事項</strong></div>
-
-																	<div>
-
-																		<p class="mb-0">A、靜置室溫，檢體不可冷藏或冷凍；採檢後到檢體進入代檢單位，放置室溫最長時間，不得超過16小時。</p>
-
-																		<p class="mb-0">B、檢體必須於採檢當天送抵代檢實驗室。</p>
-
-																	</div>
-
-																</div>
-
-															</div>
-
-														</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">IGRA採檢及檢體前處理須知 <small class="font-14 text-secondary">Interferon gamma releasing assay</small></h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">此項檢驗需要新鮮採集之血液檢體，請受檢者先到檢驗科預約採檢時間。(因採檢容器無常備庫存，受檢者務必先持檢驗單到檢驗科預約採血時間)</li>
+					<li class="mb-1 pt-1">可採檢時間為週一至週六 07:30~10:00</li>                          
+					<li class="mb-1 pt-1">
+						<div class="row">
+							<div class="col-12">
+								<div class="font-18"><strong>檢體採集注意事項</strong></div>
+								<div>
+									<p class="mb-0">A、採檢試管為QuantiFeron-TB(QFT)專用管試管，須儲存在4-25℃的溫度。4種試管分別為Nil Control (Gray cap)、TB1 Antigen (green cap)、TB2 Antigen (yellow cap)、Mitogen Control (Purple cap)。</p>
+									<p class="mb-0">B、採檢次序為灰色→綠色→黃色→紫色管，以真空採血收43管，約2-3秒至標示黑色刻度處約1 mL容量，採檢後立即施力搖動上下混合試管10次。</p>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="mb-1 pt-1">
+						<div class="row">
+							<div class="col-12">
+								<div class="font-18"><strong>檢體前處理注意事項</strong></div>
+								<div>
+									<p class="mb-0">A、靜置室溫，檢體不可冷藏或冷凍；採檢後到檢體進入代檢單位，放置室溫最長時間，不得超過16小時。</p>
+									<p class="mb-0">B、檢體必須於採檢當天送抵代檢實驗室。</p>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="IGRA採檢及檢體前處理須知｜檢驗科" %}
+    {% include 'schema_article.html' with headline="IGRA 採檢及檢體前處理須知｜臨床檢驗採集衛教｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

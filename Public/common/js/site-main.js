@@ -87,6 +87,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // --- 5.1 自動展開包含 active 子項目的父選單 ---
+    const activeSubItem = document.querySelector('.c-sidebar-trust__sub-item.is-active');
+    if (activeSubItem) {
+        const parentWrapper = activeSubItem.closest('.has-sub');
+        if (parentWrapper) {
+            parentWrapper.classList.add('is-expanded');
+        }
+    }
+
     // --- 6. 桌機 Mega Menu 子項目折疊 (Mega Menu Sub-folding) ---
     document.addEventListener('click', function(e) {
         const megaToggle = e.target.closest('.js-mega-sub-toggle');
@@ -210,8 +219,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <ul class="m-mobile-sub-list">
                         `;
                         
-                        // 強化：檢測是否有嵌套子清單 (Nested Sub-lists)
-                        const topLevelLis = col.querySelectorAll(':scope > .m-mega__list > li');
+                        // 強化：支援所有嵌套層級的列表 (Nested Sub-lists)
+                        const topLevelLis = col.querySelectorAll('.m-mega__list > li');
                         topLevelLis.forEach(li => {
                             const mainA = li.querySelector(':scope > a');
                             if (!mainA) return;

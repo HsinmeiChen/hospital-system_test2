@@ -2,98 +2,134 @@
 <div id="m-header-root">
     <header class="m-header" id="m-header">
         <div class="m-header__container">
-            <!-- Logo (GEO: ?�地標�?強�?) -->
-            <div class="m-header__logo" style="display: flex;justify-content: start; align-items: center;">
-                <a href="/index/" title="?�本?��???- ?��??�院">
-                    <img src="{% static 'common/img/Everan_logo.webp' %}" alt="?��??�院" title="?�本?��???- ?��??�院">
+            <!-- Logo (GEO: 在地標記強化) -->
+            <div class="m-header__logo d-flex align-items-center gap-2 justify-content-center">
+                <a href="/index/" title="回首頁 - 長安醫院" style="margin-right: -10px;">
+                    <img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院" title="回首頁 - 長安醫院">
                 </a>
-                <a href="/A003_Laboratory/" title="?�長安醫?�檢驗�?首�?" alt="?�長安醫?�檢驗�?首�?">
-					<h3 class="mb-0" style="font-size: 1.5rem;"><b>檢�?�?/b></h3>
-					<div class="font-12">Department of Laboratory Medicine</div>
+                <a href="/A003_Laboratory/" class="og-word" style="border-left: 1px solid var(--color-border-dark);padding-left: 15px;">
+					<h3 class="mb-0" style="font-size: 1.6rem;font-weight: bold;">檢驗科</h3>
+					<div class="font-12" style="font-size: 0.8rem;">Department of Laboratory Medicine</div>
 				</a>
             </div>
 
-            <!-- Desktop Nav (SEO: Schema.org 結�?) -->
+            <!-- Desktop Nav (SEO: Schema.org 結構) -->
             <nav class="m-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
                 <ul class="m-nav__list">
-                    
-                    <!-- 1. 科室介紹?��???-->
+
+                    <!-- 1. 本科介紹與檢查 -->
                     <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="科室介紹?��???>
-                            <span itemprop="name">科室介紹?��???/span>
+                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="單位資訊與服務">
+                            <span itemprop="name">單位資訊與服務</span>
                         </a>
                         <div class="m-mega">
                             <div class="m-mega__container">
                                 <div class="m-mega__nav-side" style="grid-template-columns: 2fr 2fr;">
                                     <section class="m-mega__column">
-                                        <h4 class="m-mega__title">?��?資�?</h4>
-                                        <div class="m-grid-guideline" style="grid-template-columns: repeat(2, 1fr);">
+                                        <h4 class="m-mega__title">單位資訊</h4>
+                                        <div class="m-grid-guideline" style="grid-template-columns:repeat(2, 1fr);">
                                             <ul class="m-mega__list">
-                                                <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-1.html" itemprop="url" title="?�?�公??>?�?�公??/a></li>
-                                                <li><a href="/A003_Laboratory_2/" itemprop="url" title="?�正?��?保�??�諾">?�正?��?保�??�諾</a></li>
-                                                <li><a href="/A003_Laboratory_4/" itemprop="url" title="?�絡?��?>?�絡?��?/a></li>
+                                                <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-1.html" itemprop="url" title="最新公告">最新公告</a></li>
+                                                <li><a href="/A003_Laboratory/" itemprop="url" title="交通資訊">本科介紹</a></li>
+                                                <li><a href="/A003_Laboratory_2/" itemprop="url" title="交通資訊">公正性及保密承諾</a></li>               
                                             </ul>
-                                            
                                             <ul class="m-mega__list">
-                                                <li><a href="/A003_Laboratory/" itemprop="url" title="?��?介紹">?��?介紹</a></li>
-                                                <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-3.html" itemprop="url" title="?�怨�??��?�?>?�怨�??��?�?/a></li>
+                                                <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-3.html" itemprop="url" title="交通資訊">抱怨處理程序</a></li>
+                                                <li><a href="/A003_Laboratory_4/" itemprop="url" title="聯絡我們">聯絡我們</a></li>  
                                             </ul>
                                         </div>
                                     </section>
-                                   
                                     <section class="m-mega__column">
-                                        <h4 class="m-mega__title">檢�??��?流�?</h4>
+                                        <h4 class="m-mega__title">門診抽血、心電圖及肺功能檢查</h4>
                                         <ul class="m-mega__list">
-                                            <li><a href="/A003_labor_blood/" itemprop="url" title="?�診抽血">?�診抽血</a></li>
-                                            <li><a href="/A003_labor_blood_2/" itemprop="url" title="?��?驗尿?��?便檢體容??>?��?驗尿?��?便檢體容??/a></li>
-                                            <li><a href="/A003_labor_blood_3/" itemprop="url" title="心電?��??��??�檢?��?�?>心電?��??��??�檢?��?�?/a></li>
+                                            <li><a href="/A003_labor_blood/" itemprop="url" title="門診抽血">門診抽血</a></li>
+                                            <li><a href="/A003_labor_blood_2/" itemprop="url" title="領取驗尿及糞便檢體容器">領取驗尿及糞便檢體容器</a></li>
+                                            <li><a href="/A003_labor_blood_2/" itemprop="url" title="心電圖及肺功能檢查流程">心電圖及肺功能檢查流程</a></li>
                                         </ul>
                                     </section>
-
                                 </div>
-                                <div class="m-mega__promo-side">
-                                    <img src="{% static 'common/img/everan2.webp' %}" alt="認�??��?" class="m-mega__promo-img" itemprop="image" loading="lazy">
+								<div class="m-mega__promo-side">
+                                    <img src="{% static 'common/img/everan3.webp' %}" alt="醫療服務" class="m-mega__promo-img" title="醫療服務">
                                 </div>
                             </div>
                         </div>
                     </li>
-
-                    <!-- 2. ?��?檢�?資�? -->
+                    
+                    <!-- 2. 臨床檢驗資訊 -->
                     <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="?��?檢�?資�?">
-                            <span itemprop="name">?��?檢�?資�?</span>
+                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="臨床檢驗資訊">
+                            <span itemprop="name">臨床檢驗資訊</span>
                         </a>
                         <div class="m-mega">
                             <div class="m-mega__container">
                                 <div class="m-mega__nav-side">
                                     <section class="m-mega__column">
-                                        <h4 class="m-mega__title">衛�?資�?</h4>
+                                        <h4 class="m-mega__title">衛教資訊</h4>
                                         <ul class="m-mega__list">
-                                            <li><a href="/A003_labor_clinical/" itemprop="url" title="檢�??��?衛�?">檢�??��?衛�?</a></li>
-                                            <li><a href="/A003_labor_clinical_1/" itemprop="url" title="?�檢容器說�?">?�檢容器說�?</a></li>
-                                            <li><a href="/A003_labor_clinical_5/" itemprop="url" title="檢�??�通退件�???>檢�??�通退件�???/a></li>
+                                            <li><a href="/A003_labor_clinical/" itemprop="url" title="檢體採集衛教">檢體採集衛教</a></li>
+                                            <li><a href="/A003_labor_clinical_1/" itemprop="url" title="採檢容器說明">採檢容器說明</a></li>
+                                            <li><a href="/A003_labor_clinical_5/" itemprop="url" title="檢體共通退件原則">檢體共通退件原則</a></li>
                                         </ul>
                                     </section>
                                     <section class="m-mega__column">
-                                        <h4 class="m-mega__title">?��??��??��??��??��???/h4>
+                                        <h4 class="m-mega__title">採集方法原則、服務項目</h4>
                                         <ul class="m-mega__list">
-                                            <li><a href="/A003_labor_clinical_4/" itemprop="url" title="微�??�培養檢體採?�方法�???>微�??�培養檢體採?�方法�???/a></li>
-                                            <li>
-                                                <a href="javascript:void(0)" class="js-mega-sub-toggle" itemprop="url" title="檢�??��??�知">檢�??��??�知</a>
-                                                <ul class="m-mega__sub-list">
-                                                    <li><a href="/A003_labor_clinical_2/" itemprop="url" title="?�檢?��?業�?�?>?�檢?��?業�?�?/a></li>
-                                                    <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢�??��??��?">檢�??��??��?</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html" itemprop="url" title="檢�??��??�目">檢�??��??�目</a></li>
+                                            <li><a href="/A003_labor_clinical_4/" itemprop="url" title="微生物培養檢體採集方法須知">微生物培養檢體採集方法須知</a></li>
+                                            <!-- 嵌套子選單 -->
+    <li class="has-mega-sub">
+        <a href="javascript:void(0)" class="js-mega-sub-toggle" itemprop="url" title="檢體採集須知">檢體採集須知</a>
+        <ul class="m-mega__sub-list">
+            <li><a href="/A003_labor_clinical_2/" itemprop="url" title="採檢前作業流程">採檢前作業流程</a></li>
+            <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢體採集原則">檢體採集原則</a></li>
+        </ul>
+    </li>
+                                            <!-- <li><a href="/A003_labor_blood_2/" itemprop="url" title="領取驗尿及糞便檢體容器">檢體採集須知</a></li>
+                                            <li><a href="/A003_labor_clinical_2/" itemprop="url" title="採檢前作業流程">採檢前作業流程</a></li>
+                                            <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢體採集原則">檢體採集原則</a></li> -->
+                                            <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html" itemprop="url" title="檢驗服務項目">檢驗服務項目</a></li>
                                         </ul>
                                     </section>
                                     <section class="m-mega__column">
-                                        <h4 class="m-mega__title">?��?資�?</h4>
+                                        <h4 class="m-mega__title">其他資訊</h4>
                                         <ul class="m-mega__list">
-                                            <li><a href="/A003_labor_clinical_7/" itemprop="url" title="檢�??��??��?�?>檢�??��??��?�?/a></li>
-                                            <li><a href="/A003_labor_clinical_8/" itemprop="url" title="?�險?��??��??�常?�通報">?�險?��??��??�常?�通報</a></li>
-                                            <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-9.html" itemprop="url" title="?��??��??��?">?��??��??��?</a></li>
+                                            <li><a href="/A003_labor_clinical_7/" title="檢體加作及複驗">檢體加作及複驗</a></li>
+                                            <li><a href="/A003_labor_clinical_8/" target="_blank" itemprop="url" title="危險值及重要異常值通報">危險值及重要異常值通報</a></li>
+                                            <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-9.html" title="報告單位換算">報告單位換算</a></li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </li>                    
+
+                    <!-- 3. 病理檢查與基因檢測 -->
+                    <li class="m-nav__item">
+                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="病理檢查與基因檢測">
+                            <span itemprop="name">病理檢查與基因檢測</span>
+                        </a>
+                        <div class="m-mega">
+                            <div class="m-mega__container">
+                                <div class="m-mega__nav-side" style="grid-template-columns: 2fr 1fr;">
+                                    <section class="m-mega__column">
+                                        <h4 class="m-mega__title">病理檢查資訊</h4>
+                                        <div class="m-grid-guideline">
+                                            <ul class="m-mega__list">
+                                                <li><a href="/A003_labor_pathology/" itemprop="url" title="病理檢體採集及包裝注意事項">病理檢體採集及包裝注意事項</a></li>
+                                                <li><a href="/A003_labor_pathology_1/" itemprop="url" title="病人辨識">病人辨識</a></li>
+                                            </ul>
+                                            <ul class="m-mega__list">
+                                                <li><a href="/A003_labor_pathology_2/" itemprop="url" title="細胞病理檢體採集注意事項">細胞病理檢體採集注意事項</a></li>
+                                                <li><a href="/A003_labor_pathology_3/" itemprop="url" title="細胞病理診斷抹片前處理需求">細胞病理診斷抹片前處理需求</a></li>
+                                            </ul>
+                                            <ul class="m-mega__list">
+                                                <li><a href="/A003_labor_pathology_5/" itemprop="url" title="病理服務項目">病理服務項目</a>
+                                            </ul>
+                                        </div>
+                                    </section>
+                                    <section class="m-mega__column">
+                                        <h4 class="m-mega__title">基因檢測資訊</h4>
+                                        <ul class="m-mega__list">
+                                            <li><a href="/A003_labor_Genetic/" itemprop="url" title="基因檢測檢體採集及送檢注意事項">基因檢測檢體採集及送檢注意事項</a></li>
                                         </ul>
                                     </section>
                                 </div>
@@ -102,64 +138,23 @@
                         </div>
                     </li>
 
-                    <!-- 3. ?��??�基?�檢測�?�?-->
-                    <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="?��??�基?�檢測�?�?>
-                            <span itemprop="name">?��??�基?�檢測�?�?/span>
-                        </a>
-                        <div class="m-mega">
-                            <div class="m-mega__container">
-                                <div class="m-mega__nav-side" style="grid-template-columns: 3fr 1fr;">
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">?��?檢查資�?</h4>
-                                        <div class="m-grid-guideline" style="grid-template-columns: repeat(2, 1fr);">
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A003_labor_pathology/" itemprop="url" title="?��?檢�??��??��?裝注?��???>?��?檢�??��??��?裝注?��???/a></li>
-                                                <li><a href="/A003_labor_pathology_1/" itemprop="url" title="?�人辨�?">?�人辨�?</a></li>
-                                                <li><a href="/A003_labor_pathology_2/" itemprop="url" title="細�??��?檢�??��?注�?事�?">細�??��?檢�??��?注�?事�?</a></li>
-                                            </ul>
-                                            
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A003_labor_pathology_3/" itemprop="url" title="細�??��?診斷?��??��??��?�?>細�??��?診斷?��??��??��?�?/a></li>
-                                                <li><a href="/A003_labor_pathology_5/" itemprop="url" title="?�怨�??��?�?>?��??��??�目</a></li>
-                                            </ul>
-                                        </div>
-                                    </section>
-                                   
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">?��?檢測資�?</h4>
-                                        <ul class="m-mega__list">
-                                            <li><a href="/A003_labor_Genetic/" itemprop="url" title="?��?檢測檢�??��??�送檢注�?事�?">?��?檢測檢�??��??�送檢注�?事�?</a></li>
-                                        </ul>
-                                    </section>
-
-                                </div>
-                                <div class="m-mega__promo-side">
-                                    <img src="{% static 'common/img/everan2.webp' %}" alt="認�??��?" class="m-mega__promo-img" itemprop="image" loading="lazy">
-                                </div>
-                            </div>
-                        </div>
-                    </li>
                 </ul>
             </nav>
 
-            <!-- 行�??��??�器 -->
-            <button class="m-hamburger" id="m-toggle" aria-label="?��?導覽?�單">
+            <!-- 行動版切換器 -->
+            <button class="m-hamburger" id="m-toggle" aria-label="切換導覽選單">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </header>
 
-    <!-- 行�??�側?��?�?-->
+    <!-- 行動版側邊導覽 -->
     <div class="m-overlay" id="m-overlay"></div>
-    <nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行�??��?�?>
+    <nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行動版導覽">
         <div class="m-mobile-container" id="m-mobile-container">
-            <!-- 行�??�選?�由 site_main.js ?��??��?桌�??�選?��?步�???-->
-            <!-- ?��?維護上面??<nav class="m-nav"> ?�可?�步?�新行�???-->
+            <!-- 行動版選單由 site_main.js 自動根據桌機版選單同步生成 -->
+            <!-- 僅需維護上面的 <nav class="m-nav"> 即可同步更新行動版 -->
 
         </div>
     </nav>
-            
-        <!-- Modal ?�用?��?-->
-    {% include 'modals/bed_rate_modal.html' %}
 </div>

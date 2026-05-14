@@ -1,67 +1,51 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-4-base.html" %}
+
 {% load static %}
 
-{% block title %}眼睛檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}眼睛檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}眼睛檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}眼睛檢體採集｜微生物培養採檢須知｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">眼睛檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_4"></div>
-
-											</div>
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2 ml-md-4">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">不可以採取使用局部麻醉藥或消毒液沖洗後的眼部檢體。因眼部治療劑與局部麻醉劑，成份都含有防腐劑，除了對微生物有抑制外，也會將結膜囊內的病原微生物沖洗掉。</li>
-
-														<li class="mb-1 pt-1">若使用局部麻醉後再採取檢體，則採取角膜刮取物做抹片，置於無菌容器。</li>
-
-														<li class="mb-1 pt-1">使用溫和的殺菌劑清潔眼部周圍，眼部如有化妝或擦藥，利用無菌棉棒沾無菌0.9%食鹽水將化妝品及藥膏除去。</li>   
-
-														<li class="mb-1 pt-1">刮取眼部檢體需由眼科醫師執行。(注意：採取的檢體需註明左眼(OS)或右眼(OD)，置於無菌試管內。) </li> 
-
-														<li class="mb-1 pt-1">膿瘍檢體採集用兩支無菌棉棒或一支白金圈環採取，若利用白金材質眼科小鏟(platinum spatula)刮取眼部檢體，分離病原菌效果更佳，但要注意避免睫毛和眼瞼邊緣的污染。若有結膜炎以外之眼部感染，可由前房、後房或玻璃體液取得檢體進行培養。</li>   
-
-														<li class="mb-1 pt-1">角膜檢體若需要觀察原蟲類之感染，則需將檢體置於載玻片上加上些許0.9%食鹽水並蓋上蓋玻片或置於含0.9%食鹽水的容器中儘速送檢。</li> 
-
-													</ol> 
-
-												</div>
-
-	
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">眼睛檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2 ml-md-4">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">不可以採取使用局部麻醉藥或消毒液沖洗後的眼部檢體。因眼部治療劑與局部麻醉劑，成份都含有防腐劑，除了對微生物有抑制外，也會將結膜囊內的病原微生物沖洗掉。</li>
+					<li class="mb-1 pt-1">若使用局部麻醉後再採取檢體，則採取角膜刮取物做抹片，置於無菌容器。</li>
+					<li class="mb-1 pt-1">使用溫和的殺菌劑清潔眼部周圍，眼部如有化妝或擦藥，利用無菌棉棒沾無菌0.9%食鹽水將化妝品及藥膏除去。</li>   
+					<li class="mb-1 pt-1">刮取眼部檢體需由眼科醫師執行。(注意：採取的檢體需註明左眼(OS)或右眼(OD)，置於無菌試管內。) </li> 
+					<li class="mb-1 pt-1">膿瘍檢體採集用兩支無菌棉棒或一支白金圈環採取，若利用白金材質眼科小鏟(platinum spatula)刮取眼部檢體，分離病原菌效果更佳，但要注意避免睫毛和眼瞼邊緣的污染。若有結膜炎以外之眼部感染，可由前房、後房或玻璃體液取得檢體進行培養。</li>   
+					<li class="mb-1 pt-1">角膜檢體若需要觀察原蟲類之感染，則需將檢體置於載玻片上加上些許0.9%食鹽水並蓋上蓋玻片或置於含0.9%食鹽水的容器中儘速送檢。</li> 
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="眼睛檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="眼睛檢體採集｜微生物培養採檢須知｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

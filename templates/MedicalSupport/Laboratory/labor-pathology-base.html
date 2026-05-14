@@ -1,6 +1,46 @@
-{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+{% extends "main_base.html" %}
+
 {% load static %}
 
-{% block labor_sidebar %}
-{% include 'MedicalSupport/Laboratory/labor-pathology-menu.html' %}
+{% block content %}
+
+    {% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+
+    <div class="l-wrapper l-sub__bg">
+        <header>{% include 'MedicalSupport/Laboratory/labor-header.html' %}</header>
+        <main class="l-sub-layout__main" role="main">
+            <div class="l-container-panel">
+                <div class="row">
+                    <aside class="col-lg-3">
+                        <div class="l-sidebar">
+                            {% include 'MedicalSupport/Laboratory/labor-pathology-menu.html' %}
+                        </div>
+                    </aside>
+                    <article class="col-lg-9">
+                        {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                        <div class="l-main-content u-panel-pure">
+                            {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- ▼▼▼ SEO/GEO ▼▼▼-->
+    {% block guide_seo %}{% endblock %}
+    <!-- ▲▲▲ SEO/GEO End ▲▲▲ -->    
 {% endblock %}
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
+    {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+    {% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

@@ -1,65 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}痰液檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}痰液檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}痰液檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}痰液檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">腦脊髓液 (CSF) 檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">建議以收集清晨第一口痰為佳。</li>
-
-														<li class="mb-1 pt-1">取痰前，請先以開水漱口(勿使用漱口水或牙膏)，以減少口內之食物殘渣、漱口液、藥物等物質污染檢體。</li>	
-
-														<li class="mb-1 pt-1">打開無菌收集容器的蓋子，將肺部深處之痰液咳入收集盒中，立即將收集盒上蓋鎖緊，切勿再開蓋以免檢體受到污染影響檢驗結果。(注意：咳痰時應用力將肺部深處之痰液咳出。)</li>
-
-														<li class="mb-1 pt-1">痰液檢體收集完成後，請儘速將檢體交至檢驗科或護理站(請於 1 小時內完成傳送)。</li>
-
-														<li class="mb-1 pt-1">具臨床症狀及胸部 X 光發現結核病徵者，建議開立 3 套痰液檢體進行抗酸菌抹片及培養檢驗，每套收集間隔 8 ~ 24 小時，至少有一套需為早晨第一口痰。</li>
-
-														<li class="mb-1 pt-1">如為多套檢體需採檢時，請於檢體標籤上標示此次為第幾次送檢。</li>
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">痰液檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">建議以收集清晨第一口痰為佳。</li>
+					<li class="mb-1 pt-1">取痰前，請先以開水漱口(勿使用漱口水或牙膏)，以減少口內之食物殘渣、漱口液、藥物等物質污染檢體。</li>	
+					<li class="mb-1 pt-1">打開無菌收集容器的蓋子，將肺部深處之痰液咳入收集盒中，立即將收集盒上蓋鎖緊，切勿再開蓋以免檢體受到污染影響檢驗結果。(注意：咳痰時應用力將肺部深處之痰液咳出。)</li>
+					<li class="mb-1 pt-1">痰液檢體收集完成後，請儘速將檢體交至檢驗科或護理站(請於 1 小時內完成傳送)。</li>
+					<li class="mb-1 pt-1">具臨床症狀及胸部 X 光發現結核病徵者，建議開立 3 套痰液檢體進行抗酸菌抹片及培養檢驗，每套收集間隔 8 ~ 24 小時，至少有一套需為早晨第一口痰。</li>
+					<li class="mb-1 pt-1">如為多套檢體需採檢時，請於檢體標籤上標示此次為第幾次送檢。</li>
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="痰液檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="痰液檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

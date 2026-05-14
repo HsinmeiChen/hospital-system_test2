@@ -1,41 +1,42 @@
-{% extends "MedicalSupport/Laboratory/labor-base.html" %}
+{% extends "MedicalSupport/Laboratory/labor-clinical-base.html" %}
+
 {% load static %}
 
-{% block title %}檢體加作及複驗｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}檢體加作及複驗｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}檢體加作及複驗｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}檢體加作及複驗｜{{ block.super }檢驗科}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">檢體加作及複驗</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">											
-
-											<div class="col-12 mb-2">
-
-												<img class="w-100" src="{% static 'common/img/Lab/追加及複驗_頁面_1.jpg' %}" alt="檢體加作及複驗表格">
-
-											</div>
-
-										</div>						
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">檢體加作及複驗</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12 mb-2">
+			<img class="w-100" src="{% static 'common/img/Lab/追加及複驗_頁面_1.jpg' %}" alt="檢體加作及複驗說明表格" title="檢體加作及複驗說明表格">
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="檢體加作及複驗｜檢驗科" %}
+    {% include 'schema_article.html' with headline="檢體加作及複驗｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,57 +1,151 @@
-
-<style>
-	.side_menu_div a:hover, .side-lili label:hover, .side-lili.menu-items li a:hover {
-		font-size: 19px !important;
-	}
-</style>
-<!-- ======= main-content ======= -->
-<div class="">			
-	<div class="text-white">
-		<div class="title-bg">
-			<div class="px-3 py-4">
-				<h3 class="mb-0">臨床檢驗資訊</h3>
-				<div class="font-14 opacity-60">Clinical Laboratory Information</div>
-			</div>	
-			<div class="d-block d-md-none beige-bg cofe-word p-2 border-2px">
-				<div id="vn-click" class="vn-click font-18 bg-white">點我看其他項目
-					<span><i class="fas fa-caret-right"></i></span>
-				</div>	
-			</div>				
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">LAB SERVICE</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>臨床檢驗資訊</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down" aria-hidden="true"></i></span>
 		</div>
-	</div>		
-	<!-- 下拉選單 -->			
-	<div id="vn-info" class="vn-info">				
-		<div class="side_menu_div beige-bg">
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical/">衛教資訊</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_1/">採檢容器說明</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_2/">採檢前作業流程</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_3/">檢體採集原則</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_4/">微生物培養檢體採集方法須知</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_5/">檢體共通退件原則</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_6/">檢驗服務項目</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_7/">檢體加作及複驗</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_8/">危險值及重要異常值通報</a>
-			</li>
-			<li class="item text-left">
-				<a class="s_btn font-18" href="/A003_labor_clinical_9/">報告單位換算</a>
-			</li>
-		</div>
+		<p>Clinical Laboratory Information</p>
 	</div>
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院檢驗科 - 衛教資訊" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical/' %}is-active{% endif %}" href="/A003_labor_clinical/" title="台中長安醫院檢驗科-衛教資訊" itemprop="url" {% if request.path == '/A003_labor_clinical/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">衛教資訊</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_1/' %}is-active{% endif %}" href="/A003_labor_clinical_1/" title="台中長安醫院檢驗科-採檢容器說明" itemprop="url" {% if request.path == '/A003_labor_clinical_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">採檢容器說明</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<!-- <li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_1/' %}is-active{% endif %}" href="/A003_labor_clinical_1/" title="台中長安醫院檢驗科-檢體採集須知" itemprop="url" {% if request.path == '/A003_labor_clinical_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢體採集須知</span>
+						<span class="c-sidebar-trust__en">Blood Draw</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li> -->
+
+
+			<!-- 檢體採集須知 (父選單) -->
+<li class="c-sidebar-trust__item-wrapper has-sub">
+    <a class="c-sidebar-trust__item js-submenu-toggle" href="javascript:void(0)" title="檢體採集須知" itemprop="url">
+        <div class="c-sidebar-trust__content">
+            <span class="c-sidebar-trust__text" itemprop="name">檢體採集須知</span>
+        </div>
+        <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+    </a>
+    
+    <!-- 子選單列表 -->
+    <ul class="c-sidebar-trust__sub-list">
+        <li>
+            <a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_2/' %}is-active{% endif %}" href="/A003_labor_clinical_2/">
+                採檢前作業流程
+            </a>
+        </li>
+        <li>
+            <a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_3/' %}is-active{% endif %}" href="/A003_labor_clinical_3/">
+                檢體採集原則
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+			<!-- <li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_2/' %}is-active{% endif %}" href="/A003_labor_clinical_2/" title="台中長安醫院檢驗科-檢體採集須知" itemprop="url" {% if request.path == '/A003_labor_clinical_2/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">採檢前作業流程</span>
+						<span class="c-sidebar-trust__en">Blood Draw</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3/' %}is-active{% endif %}" href="/A003_labor_clinical_3/" title="台中長安醫院檢驗科-檢體採集原則" itemprop="url" {% if request.path == '/A003_labor_clinical_3/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢體採集原則</span>
+						<span class="c-sidebar-trust__en">Blood Draw</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li> -->
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_4/' %}is-active{% endif %}" href="/A003_labor_clinical_4/" title="台中長安醫院檢驗科-微生物培養檢體採集方法須知" itemprop="url" {% if request.path == '/A003_labor_clinical_4/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">微生物培養檢體採集方法須知</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_5/' %}is-active{% endif %}" href="/A003_labor_clinical_5/" title="台中長安醫院檢驗科-檢體共通退件原則" itemprop="url" {% if request.path == '/A003_labor_clinical_5/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢體共通退件原則</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html" title="台中長安醫院檢驗科-檢驗服務項目" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢驗服務項目</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_7/' %}is-active{% endif %}" href="/A003_labor_clinical_7/" title="台中長安醫院檢驗科-檢體加作及複驗" itemprop="url" {% if request.path == '/A003_labor_clinical_7/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢體加作及複驗</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_8/' %}is-active{% endif %}" href="/A003_labor_clinical_8/" title="台中長安醫院檢驗科-危險值及重要異常值通報" itemprop="url" {% if request.path == '/A003_labor_clinical_8/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">危險值及重要異常值通報</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-9.html' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-9.html" title="台中長安醫院檢驗科-報告單位換算" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-9.html' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">報告單位換算</span>
+						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+		</ul>
+	</nav>
 </div>

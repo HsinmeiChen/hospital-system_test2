@@ -1,107 +1,71 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}糞便檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}糞便檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}糞便檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}糞便檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">糞便檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>
-
-	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<div class="p-2 title-bg d-inline-flex mb-2">
-
-														<h4 class="cofe-word mb-0">常規糞便檢體</h4>
-
-													</div>
-
-													<div class="px-2 pb-2 ml-md-4">
-
-														<ol class="custom-numbers mb-0">
-
-															<li class="mb-1 pt-1">收集方式可採便盆或坐式馬桶採檢，解便時應盡可能解在馬桶前端，不要解在水中，若使用坐式馬桶時，可往前或反坐方式，若為蹲式馬桶則盡可能取未沾水部份之糞便，採取量約為拇指頭大小，採檢完畢後，將檢體裝入糞便採集瓶後，儘速送檢。</li>
-
-															<li class="mb-1 pt-1">若已知糞便為水樣糞便，請事先向檢驗科索取採檢滴管，採檢時可利用滴管吸取吸取約2 mL的量，採檢完畢後，將檢體裝入糞便採集瓶後，儘速送檢。</li>
-
-															<li class="mb-1 pt-1">因常規糞便檢體檢查包含寄生蟲卵觀察，故檢體採集完成後，需於室溫下2小時內送至檢驗科檢查。</li>
-
-														</ol> 
-
-													</div>
-
-													<div class="p-2 title-bg d-inline-flex mb-2">
-
-														<h4 class="cofe-word mb-0">化學法潛血試驗</h4>
-
-													</div>
-
-													<div class="px-2 pb-2 ml-md-4">
-
-														<ol class="custom-numbers mb-0">
-
-															<li class="mb-1 pt-1">應於前三日禁食肉類及含動物血食物，並且禁服鐵劑及維生素C。用容器中杓子取含有粘液、膿血等外觀異常部分的糞便；外觀無異常的糞便需以表面及深處部位多處取檢體，採取量約拇指頭大小。連同杓子鎖緊於收集盒，收集盒中勿放入衛生紙。</li>
-
-															<li class="mb-1 pt-1">若為水樣糞便可以用吸管，於便盆吸取約2 mL的量，裝入一般糞便瓶後，儘速送檢。</li>
-
-														</ol> 
-
-													</div>
-
-													<div class="p-2 title-bg d-inline-flex mb-2">
-
-														<h4 class="cofe-word mb-0">免疫潛血法</h4>
-
-													</div>
-
-													<div class="px-2 pb-2 ml-md-4">
-
-														<ol class="custom-numbers mb-0">
-
-															<li class="mb-1 pt-1">需使免疫潛血糞便收集瓶，用容器中棒子，在糞便不同地方插刺2-3處以上，使少量的糞便覆蓋滿溝槽即可，再將棒子插回收集盒中，旋緊蓋子，激烈搖盪混合即可。如遇痔瘡出血或女性月經期間，需暫停採集；糞便太硬時可加水弄濕，待糞便軟化後再以棒子插採。</li>
-
-															<li class="mb-1 pt-1">若有水便狀況，不易取樣時，需改日再採取。</li>
-
-														</ol> 
-
-													</div>
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">糞便檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<div class="p-2 title-bg d-inline-flex mb-2">
+					<h4 class="cofe-word mb-0">常規糞便檢體</h4>
+				</div>
+				<div class="px-2 pb-2 ml-md-4">
+					<ol class="custom-numbers mb-0">
+						<li class="mb-1 pt-1">收集方式可採便盆或坐式馬桶採檢，解便時應盡可能解在馬桶前端，不要解在水中，若使用坐式馬桶時，可往前或反坐方式，若為蹲式馬桶則盡可能取未沾水部份之糞便，採取量約為拇指頭大小，採檢完畢後，將檢體裝入糞便採集瓶後，儘速送檢。</li>
+						<li class="mb-1 pt-1">若已知糞便為水樣糞便，請事先向檢驗科索取採檢滴管，採檢時可利用滴管吸取吸取約2 mL的量，採檢完畢後，將檢體裝入糞便採集瓶後，儘速送檢。</li>
+						<li class="mb-1 pt-1">因常規糞便檢體檢查包含寄生蟲卵觀察，故檢體採集完成後，需於室溫下2小時內送至檢驗科檢查。</li>
+					</ol> 
+				</div>
+				<div class="p-2 title-bg d-inline-flex mb-2">
+					<h4 class="cofe-word mb-0">化學法潛血試驗</h4>
+				</div>
+				<div class="px-2 pb-2 ml-md-4">
+					<ol class="custom-numbers mb-0">
+						<li class="mb-1 pt-1">應於前三日禁食肉類及含動物血食物，並且禁服鐵劑及維生素C。用容器中杓子取含有粘液、膿血等外觀異常部分的糞便；外觀無異常的糞便需以表面及深處部位多處取檢體，採取量約拇指頭大小。連同杓子鎖緊於收集盒，收集盒中勿放入衛生紙。</li>
+						<li class="mb-1 pt-1">若為水樣糞便可以用吸管，於便盆吸取約2 mL的量，裝入一般糞便瓶後，儘速送檢。</li>
+					</ol> 
+				</div>
+				<div class="p-2 title-bg d-inline-flex mb-2">
+					<h4 class="cofe-word mb-0">免疫潛血法</h4>
+				</div>
+				<div class="px-2 pb-2 ml-md-4">
+					<ol class="custom-numbers mb-0">
+						<li class="mb-1 pt-1">需使免疫潛血糞便收集瓶，用容器中棒子，在糞便不同地方插刺2-3處以上，使少量的糞便覆蓋滿溝槽即可，再將棒子插回收集盒中，旋緊蓋子，激烈搖盪混合即可。如遇痔瘡出血或女性月經期間，需暫停採集；糞便太硬時可加水弄濕，待糞便軟化後再以棒子插採。</li>
+						<li class="mb-1 pt-1">若有水便狀況，不易取樣時，需改日再採取。</li>
+					</ol> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="糞便檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="糞便檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

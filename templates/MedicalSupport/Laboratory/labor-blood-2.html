@@ -1,77 +1,60 @@
 {% extends "MedicalSupport/Laboratory/labor-blood-base.html" %}
+
 {% load static %}
 
-{% block title %}領取驗尿及糞便檢體容器｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}領取驗尿及糞便檢體容器｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}領取驗尿及糞便檢體容器｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}領取驗尿及糞便檢體容器｜{{ block.super }}檢驗科{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">領取驗尿及糞便檢體容器</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">門診抽血櫃台服務時間</h4>
-
-												</div>
-
-												<div class="px-2">
-
-													<ul class="list-bullets">
-
-														<li class="mb-1">週一至週五，07:30~22:00</li>
-
-														<li class="mb-1">週六，07:30~12:30</li>
-
-													</ul>
-
-												</div>
-
-												<div class="alert alert-warning">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1">
-
-															<strong>請持健保卡到檢驗科報到機報到，依報到號碼叫號領取檢體採集容器。</strong>
-
-														</li>
-
-														<li class="mb-1">
-
-															<strong>早上尖峰時段，不需要抽血者您可在完成報到程序後，先到1號櫃台領取檢體容器。</strong>
-
-														</li>
-
-													</ol>                                
-
-												</div>
-
-											</div>
-
-										</div>								
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">領取驗尿及糞便檢體容器</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">門診抽血櫃台服務時間</h4>
+			</div>
+			<div class="px-2">
+				<ul class="list-bullets">
+					<li class="mb-1">週一至週五，07:30~22:00</li>
+					<li class="mb-1">週六，07:30~12:30</li>
+				</ul>
+			</div>
+			<div class="alert alert-warning">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1">
+						<strong>請持健保卡到檢驗科報到機報到，依報到號碼叫號領取檢體採集容器。</strong>
+					</li>
+					<li class="mb-1">
+						<strong>早上尖峰時段，不需要抽血者您可在完成報到程序後，先到1號櫃台領取檢體容器。</strong>
+					</li>
+				</ol>                                
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="領取驗尿及糞便檢體容器｜檢驗科" %}
+    {% include 'schema_article.html' with headline="領取驗尿及糞便檢體容器｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

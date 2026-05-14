@@ -1,67 +1,51 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}輸備血檢體採集｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}輸備血檢體採集｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}輸備血檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}輸備血檢體採集｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">輸備血檢體採集</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">血庫檢體採血管為紫頭管，檢體上需貼上已填寫完整資料之血庫專用標籤紙。</li>
-
-														<li class="mb-1 pt-1">使用血庫專用標籤時，採血者須於標籤紙上簽名，並有第二個人核對複簽（double sign）確認。</li>	
-
-														<li class="mb-1 pt-1">採檢時需適時評估醫囑上病人輸/備血數量，藉此衡量檢體需求量，最低採檢量為2.5 mL，建議採檢量為3 Ll以上。</li>
-
-														<li class="mb-1 pt-1">緊急輸血及抗體鑑定檢體需於血袋開始輸注前完成採檢動作。</li>
-
-														<li class="mb-1 pt-1">血庫檢體標示範例如下：</li>
-
-														<img src="{% static 'common/img/Lab/血庫檢體標示.png' %}" class="img-fluid" alt="血庫檢體標示範例圖">
-
-													</ol> 
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-									
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">輸備血檢體採集</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">血庫檢體採血管為紫頭管，檢體上需貼上已填寫完整資料之血庫專用標籤紙。</li>
+					<li class="mb-1 pt-1">使用血庫專用標籤時，採血者須於標籤紙上簽名，並有第二個人核對複簽（double sign）確認。</li>	
+					<li class="mb-1 pt-1">採檢時需適時評估醫囑上病人輸/備血數量，藉此衡量檢體需求量，最低採檢量為2.5 mL，建議採檢量為3 Ll以上。</li>
+					<li class="mb-1 pt-1">緊急輸血及抗體鑑定檢體需於血袋開始輸注前完成採檢動作。</li>
+					<li class="mb-1 pt-1">血庫檢體標示範例如下：</li>
+					<img src="{% static 'common/img/Lab/血庫檢體標示.png' %}" class="img-fluid" alt="血庫檢體標示範例圖" title="血庫檢體標示範例圖">
+				</ol> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="輸備血檢體採集｜檢驗科" %}
+    {% include 'schema_article.html' with headline="輸備血檢體採集｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,294 +1,156 @@
-{% extends "department/department_base.html" %}
-
-{% load static %}
-
-{% block title %}{{ department }} | {{ block.super }}{% endblock %}
-{% block og_title %}{{ department }} | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-
-<header id="content_h">
-
-    <h2 class="c-onsale-heading">{{ department }}</h2>
-
-</header>
-
-<div class="l-main-content__body">
-
-	<div class="row">	
-
-		<div class="col-12">
-
-			<div class="d_intro animate-from-bottom__0 mb-2">
-
-				<div class="w-100 position-relative">
-
-					<div class="in_icon position-absolute">
-
-						<i class="fas fa-notes-medical lightco-word"></i>
-
-					</div>
-
-					<div class="in_content position-relative">
-
-						{% for introduction in introduction_list %}
-
-							{% if "<h>" in introduction %}
-
-								<div class="in_title">
-
-									<span class="title_line_org">{{ introduction|cut:"<h>" }}</span>
-
-								</div>
-
-							{% endif %}
-
-							{% if "<t>" in introduction %}
-
-								<div class="in_subtitle text-justify">
-
-									{{ introduction|cut:"<t>" }}
-
-								</div>
-
-							{% endif %}
-
-						{% endfor %}
-
-					</div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-
-
-		<div class="col-12">
-
-			
-
-			<div class="p-2 title-bg my-2 w-100 text-center">
-
-				<h4 class="cofe-word mb-0">團隊介紹</h4>
-
-			</div>
-
-			{% for name,expertise,img,number,filename,sectno,docno in doctors %}
-
-				<form action="/A001_department_doctor/" method="GET">
-
-					<div class="container py-2">
-
-						<div class="row align-items-center border-bottom">
-
-							<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
-
-								<div class="d_img_div">
-
-									<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid">
-
-								</div>
-
-							</div>
-
-							<div class="col-12 col-md-8 col-lg-9">
-
-								<div class="about-text text-sm-left text-center">
-
-									<h4 class="cofe-word">{{ name }}</h4>
-
-									<p class="text-justify gy-word font-18">{{ expertise }}</p>
-
-								</div>
-
-								<div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
-
-									<div class="fill-flex">
-
-										<ul class="nav nav-pillstext-center">
-
-											{% if not disable_X %}
-
-												<li class="flex-fill">
-
-													<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
-
-												</li>
-
-												<li class="flex-fill">
-
-													<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
-
-														<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
-
-													</a>
-
-												</li>
-
-											{% endif %}
-
-											<li class="flex-fill">
-
-												<input type="hidden" name="part_info" value="true">
-
-												<input type="hidden" name="open_info_name" value="{{ filename }}">
-
-												<!-- <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" onclick="window.location.href='/A001_department_orthopedics_' + {{ number }} + '/';">詳細介紹</button> -->
-
-												<button type="submit" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" >詳細介紹</button>
-
-											</li>
-
-										</ul>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-					</div>
-
-				</form>
-
-			{% endfor %}
-
-		</div>
-
-	</div>
-
-</div>
-
-
-
-
-
-<!-- ======= 本頁 Modal Area ======= -->
-
-<!-- 停休診時間 -->
-
-{% for number,stop_datas in modals %}
-
-	<div class="modal fade" id="M{{ number }}" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-hidden="true">
-
-		<div class="modal-dialog modal-dialog-centered" role="document">
-
-			<div class="modal-content">
-
-				<div class="modal-header">
-
-					<h5 class="modal-title">停休診時間</h5>
-
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-						<span aria-hidden="true">&times;</span>
-
-					</button>
-
-				</div>
-
-				<div class="modal-body">
-
-					{% if stop_datas %}
-
-						<table class="table table-bordered">
-
-							<thead>
-
-								<tr>
-
-									<th class="title-bg text-center">月份</th>
-
-									<th class="title-bg text-center">日期</th>
-
-									<th class="title-bg text-center">科別</th>
-
-									<th class="title-bg text-center">時段</th>
-
-									<th class="title-bg text-center">診間</th>
-
-								</tr>
-
-							</thead>
-
-							{% for stop_data in stop_datas %}
-
-								<tbody>
-
-									<tr>
-
-										<td class="text-center">{{ stop_data.5 }}</td>
-
-										<td class="text-center">{{ stop_data.6 }}</td>
-
-										<td class="text-center">{{ stop_data.0 }}</td>
-
-										<td class="text-center">{{ stop_data.3 }}</td>
-
-										<td class="text-center">{{ stop_data.4|slice:"1:4" }}</td>
-
-									</tr>
-
-								</tbody>
-
-							{% endfor %}
-
-						</table>
-
-					{% else %}
-
-						<div class="text-center font-18">無</div>
-
-					{% endif %}
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
-
-{% endfor %}
-
-<!-- ======= 本頁 Modal Area End ======= -->
-
-
-
-{% endblock %}
-
-
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-
-{% block guide_seo %}
-
-{% include 'schema_article.html' with headline="{{ department }}" %}
-
-{% endblock %}
-
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-
-{% block sub_extra_css %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-
-{% block sub_extra_js %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra JS End ※※※ -->
+{% extends "department/department_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}{{ department }}｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ department }}｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+{% block guide_content %}
+
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}
+<!-- Modal﹔停休診時間 -->
+{% for number,stop_datas in modals %}
+	<div class="modal fade" id="M{{ number }}" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">停休診時間</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{% if stop_datas %}
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th class="title-bg text-center">月份</th>
+									<th class="title-bg text-center">日期</th>
+									<th class="title-bg text-center">科別</th>
+									<th class="title-bg text-center">時段</th>
+									<th class="title-bg text-center">診間</th>
+								</tr>
+							</thead>
+							{% for stop_data in stop_datas %}
+								<tbody>
+									<tr>
+										<td class="text-center">{{ stop_data.5 }}</td>
+										<td class="text-center">{{ stop_data.6 }}</td>
+										<td class="text-center">{{ stop_data.0 }}</td>
+										<td class="text-center">{{ stop_data.3 }}</td>
+										<td class="text-center">{{ stop_data.4|slice:"1:4" }}</td>
+									</tr>
+								</tbody>
+							{% endfor %}
+						</table>
+					{% else %}
+						<div class="text-center font-18">無</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}
+{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">{{ department }}</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="d_intro animate-from-bottom__0 mb-2">
+				<div class="w-100 position-relative">
+					<div class="in_icon position-absolute">
+						<i class="fas fa-notes-medical lightco-word"></i>
+					</div>
+					<div class="in_content position-relative">
+						{% for introduction in introduction_list %}
+							{% if "<h>" in introduction %}
+								<div class="in_title">
+									<span class="title_line_org">{{ introduction|cut:"<h>" }}</span>
+								</div>
+							{% endif %}
+							{% if "<t>" in introduction %}
+								<div class="in_subtitle text-justify">
+									{{ introduction|cut:"<t>" }}
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="p-2 title-bg my-2 w-100 text-center">
+				<h4 class="cofe-word mb-0">團隊介紹</h4>
+			</div>
+			{% for name,expertise,img,number,filename,sectno,docno in doctors %}
+				<form action="/A001_department_doctor/" method="GET">
+					<div class="container py-2">
+						<div class="row align-items-center border-bottom">
+							<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
+								<div class="d_img_div">
+									<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid">
+								</div>
+							</div>
+							<div class="col-12 col-md-8 col-lg-9">
+								<div class="about-text text-sm-left text-center">
+									<h4 class="cofe-word">{{ name }}</h4>
+									<p class="text-justify gy-word font-18">{{ expertise }}</p>
+								</div>
+								<div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
+									<div class="fill-flex">
+										<ul class="nav nav-pillstext-center">
+											{% if not disable_X %}
+												<li class="flex-fill">
+													<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
+												</li>
+												<li class="flex-fill">
+													<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
+														<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
+													</a>
+												</li>
+											{% endif %}
+											<li class="flex-fill">
+												<input type="hidden" name="part_info" value="true">
+												<input type="hidden" name="open_info_name" value="{{ filename }}">
+												<!-- <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" onclick="window.location.href='/A001_department_orthopedics_' + {{ number }} + '/';">詳細介紹</button> -->
+												<button type="submit" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" >詳細介紹</button>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="{{ department }}" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

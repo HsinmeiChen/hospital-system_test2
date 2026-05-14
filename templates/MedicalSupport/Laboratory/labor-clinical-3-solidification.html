@@ -1,69 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-clinical-3-base.html" %}
+
 {% load static %}
 
-{% block title %}血液凝固檢驗檢體採檢｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}血液凝固檢驗檢體採檢｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}血液凝固檢驗檢體採檢｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}血液凝固檢驗檢體採檢｜檢體採集原則｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
 
-									<section id="content_h">
-
-										<div class="onsale_heading">血液凝固檢驗檢體採檢</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">	                        
-
-											<div class="col-12">
-
-												<div class="select_3"></div>
-
-											</div>
-
-	
-
-											<div class="col-12">
-
-												<div class="px-2 pb-2">
-
-													<ol class="custom-numbers mb-0">
-
-														<li class="mb-1 pt-1">避免經由使用肝素沖洗過的管線採集檢體。如果檢體必須經由內導管來取得，須要考慮heparin的污染及檢體被稀釋的可能。當檢體必須經由肝素沖洗過的管線採集時，需要使用5mL的生理食鹽水來沖洗，且最前面5mL的血或6倍的管線量的血量須丟棄後才能採集血液凝固試驗的檢體。</li>
-
-														<li class="mb-1 pt-1">檢體量可接受範圍以實際需求檢體量±10%為原則。</li>
-
-														<!-- <li class="mb-1 pt-1">當患者Hct＜55%時，建議採檢量與抗凝劑比例為9：1；允收範圍為+/- 10%，當Hct＞55%時，須調整抗凝劑量，調整公式如下：</li>			 -->
-
-													</ol> 
-
-													<!-- <div class="alert alert-warning text-center">
-
-														<div><strong>Volume of sodium citrate= (100－HCT) / (595－HCT) x V</strong></div>
-
-														<div><strong>HCT = patient’s Hct%；V = Blood Volume</strong></div>
-
-													</div> -->
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>								
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">血液凝固檢驗檢體採檢</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">	
+		<div class="col-12">
+			<div class="px-2 pb-2">
+				<ol class="custom-numbers mb-0">
+					<li class="mb-1 pt-1">避免經由使用肝素沖洗過的管線採集檢體。如果檢體必須經由內導管來取得，須要考慮heparin的污染及檢體被稀釋的可能。當檢體必須經由肝素沖洗過的管線採集時，需要使用5mL的生理食鹽水來沖洗，且最前面5mL的血或6倍的管線量的血量須丟棄後才能採集血液凝固試驗的檢體。</li>
+					<li class="mb-1 pt-1">檢體量可接受範圍以實際需求檢體量±10%為原則。</li>
+					<!-- <li class="mb-1 pt-1">當患者Hct＜55%時，建議採檢量與抗凝劑比例為9：1；允收範圍為+/- 10%，當Hct＞55%時，須調整抗凝劑量，調整公式如下：</li>			 -->
+				</ol> 
+				<!-- <div class="alert alert-warning text-center">
+					<div><strong>Volume of sodium citrate= (100－HCT) / (595－HCT) x V</strong></div>
+					<div><strong>HCT = patient’s Hct%；V = Blood Volume</strong></div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="血液凝固檢驗檢體採檢｜檢驗科" %}
+    {% include 'schema_article.html' with headline="血液凝固檢驗檢體採檢｜檢體採集原則｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

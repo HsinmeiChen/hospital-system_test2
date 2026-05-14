@@ -1,63 +1,52 @@
 {% extends "MedicalSupport/Laboratory/labor-blood-base.html" %}
+
 {% load static %}
 
-{% block title %}門診抽血｜檢驗科｜長安醫院{% endblock %}
-{% block og_title %}門診抽血｜檢驗科｜長安醫院{% endblock %}
+<!-- === Meta ================================== -->
+{% block title %}門診抽血｜{{ block.super }}檢驗科{% endblock %}
+{% block og_title %}門診抽血｜{{ block.super }}檢驗科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 
 {% block guide_content %}
-<!-- 標題 -->
-
-									<section id="content_h">
-
-										<div class="onsale_heading">門診抽血</div>
-
-										<hr class="my-2">
-
-									</section>
-
-									<!-- 細節 -->
-
-									<section id="content_body">
-
-										<div class="row">
-
-											<div class="col-12">
-
-												<div class="p-2 title-bg d-inline-flex mb-2">
-
-													<h4 class="cofe-word mb-0">櫃台服務時間</h4>
-
-												</div>
-
-												<div class="px-2">
-
-													<ul class="list-bullets">
-
-														<li class="mb-1">週一至週五，07:30~21:30</li>
-
-														<li class="mb-1">週六，07:30~12:30</li>
-
-													</ul>
-
-												</div>
-
-												<div class="alert alert-warning">
-
-													<strong>請持健保卡到檢驗科報到機報到，依報到號碼叫號抽血。</strong>
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</section>
-
-								
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h1 class="c-onsale-heading">門診抽血</h1>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">櫃台服務時間</h4>
+			</div>
+			<div class="px-2">
+				<ul class="list-bullets">
+					<li class="mb-1">週一至週五，07:30~21:30</li>
+					<li class="mb-1">週六，07:30~12:30</li>
+				</ul>
+			</div>
+			<div class="alert alert-warning">
+				<strong>請持健保卡到檢驗科報到機報到，依報到號碼叫號抽血。</strong>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="門診抽血｜檢驗科" %}
+    {% include 'schema_article.html' with headline="門診抽血｜檢驗科" %}
 {% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}
