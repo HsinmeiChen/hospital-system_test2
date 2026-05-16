@@ -2318,21 +2318,29 @@ def A001_department_overview(request):
 			subjects.append(re_dir[2])
 			django_subjects.append(s_dir)
 
+	mapping = _get_dept_dr_map() # 115/05/17短網址-新增部分
+
 	for subject in django_subjects:
 		django_departments = []
 		django_departments2 = []
+		django_dept_ens = [] # 115/05/17短網址-新增部分
 		d_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject)))
 
 		for d_dir in d_dirs:
 			red_dir = d_dir.split("_")
 			django_departments.append(red_dir[1])
-			# django_departments2.append(os.path.join(settings.MEDIA_ROOT, 'department', str(subject), str(d_dir)))
 
-			"""20250715 path 格式為 大科室序號_科別序號"""
-			django_departments2.append(str(subject).split("_")[1] + "_" + str(d_dir).split("_")[0])
-			"""20250715 path 格式為 大科室序號_科別序號"""
+			# 115/05/17短網址-新增部分
+			path_id = str(subject).split("_")[1] + "_" + str(d_dir).split("_")[0]
+			django_departments2.append(path_id)
 
-			z_departments = zip(django_departments,django_departments2)
+			dept_en = ""
+			if path_id in mapping['depts']:
+				dept_en = mapping['depts'][path_id]['en']
+			django_dept_ens.append(dept_en)
+			
+			z_departments = zip(django_departments, django_departments2, django_dept_ens)
+			# 115/05/17短網址-新增部分
 
 		departments.append(z_departments)
 
@@ -2345,8 +2353,104 @@ def A001_department_overview(request):
 	})
 
 # 科室介紹
+# --- [ Mapping Cache 對照表快取機制] ---
+_DEPT_DR_MAP_CACHE = None
+
+def _get_dept_dr_map():
+	global _DEPT_DR_MAP_CACHE
+	if _DEPT_DR_MAP_CACHE is not None:
+		return _DEPT_DR_MAP_CACHE
+
+	mapping = {'doctors': {}, 'depts': {}, 'dept_en_to_id': {}}
+	pathC = os.path.join(settings.MEDIA_ROOT, 'department')
+	if not os.path.exists(pathC): return mapping
+		
+	for d000 in os.listdir(pathC):
+		if "D000" in d000:
+			p_parts = d000.split("_")
+			if len(p_parts) < 2: continue
+			pathP = p_parts[1]
+			
+			target_dir = os.path.join(pathC, d000)
+			for sub_dir in os.listdir(target_dir):
+				d_parts = sub_dir.split("_")
+				if len(d_parts) < 3: continue
+				pathD, dept_name, dept_en = d_parts[0], d_parts[1], d_parts[2]
+				dept_id = f"{pathP}_{pathD}"
+				
+				# 儲存科別資訊
+				dept_full_path = os.path.join(target_dir, sub_dir)
+				mapping['depts'][dept_id] = {'en': dept_en, 'name': dept_name, 'full_path': dept_full_path}
+				mapping['dept_en_to_id'][dept_en] = dept_id
+				
+				# 掃描該科別下的醫師
+				if os.path.isdir(dept_full_path):
+					for f in os.listdir(dept_full_path):
+						if f.startswith("D000") and f.endswith(".txt"):
+							f_parts = f.split("_")
+							if len(f_parts) >= 4:
+								pathF = f_parts[1]
+								dr_id = f_parts[3].replace(".txt", "")
+								path_id = f"{dept_id}_{pathF}"
+
+								doc_data = {
+									'id': dr_id,
+									'path_id': path_id,
+									'filename': f,
+									'dept_path': dept_full_path,
+									'dept_name': dept_name,
+									'dept_en': dept_en
+								}
+								# 同時支援用「路徑ID」和「醫師ID」來查找
+								mapping['doctors'][path_id] = doc_data
+								mapping['doctors'][dr_id] = doc_data
+	_DEPT_DR_MAP_CACHE = mapping
+	return mapping
+
+# --- [ 醫師-短網址轉接頭 ] ---
+def A001_department_doctor_short(request, dept_en, dr_id):
+	mapping = _get_dept_dr_map()
+	doc_info = mapping['doctors'].get(dr_id)
+	if not doc_info: return redirect('/A001_dr_search/')
+	request.GET = request.GET.copy()
+	request.GET['dr_search'] = 'true'
+	request.GET['open_info_path'] = doc_info['path_id']
+	return A001_department_doctor(request)
+
+
+# --- [ 科別-短網址轉接頭 ] ---
+def A001_department_part_short(request, dept_en):
+	mapping = _get_dept_dr_map()
+	dept_id = mapping['dept_en_to_id'].get(dept_en)
+	if not dept_id: return redirect('/A001_department_overview/')
+	request.GET = request.GET.copy()
+	request.GET['open_info_name'] = dept_id
+	return A001_department_part(request)
+
+
+
 # @csrf_exempt
 def A001_department_part(request):
+
+	# 新增部分 Start (修正轉址迴圈) --------------------------------
+	# 只有當請求路徑是舊路徑時，才執行轉址
+	if request.path == '/A001_department_part/':
+		if "open_info_name" in request.GET:
+			path_id = request.GET.get("open_info_name")
+			mapping = _get_dept_dr_map()
+			if path_id in mapping['depts']:
+				# 加上 permanent=True 觸發 301 永久轉址
+				return redirect(f"/A001_department_overview/{mapping['depts'][path_id]['en']}/", permanent=True)
+	
+	path = ""
+	department = ""
+	dept_en = ""
+	modals = []
+	introduction_list = []
+	doctors = []
+	disable_X = False
+	# 新增部分 End --------------------------------
+
 	if ("open_info_name" in request.GET):
 		path = request.GET.get("open_info_name")
 		request.session['path'] = path
@@ -2354,22 +2458,36 @@ def A001_department_part(request):
 	if ("path" in request.session):
 		path = request.session['path']
 
-		"""20250715 path 格式為 大科室序號_科別序號"""
-		pathP = path.split("_")[0]
-		pathD = path.split("_")[1]
-		pathC = os.path.join(settings.MEDIA_ROOT, 'department')
-		pathDirs = os.listdir(pathC)
-		pathFile = ""
-		for pathDir in pathDirs:
-			if ("D000" in pathDir) and (pathP == pathDir.split("_")[1]):
-				fileDirs = os.listdir(os.path.join(pathC, pathDir))
-				for fileDir in fileDirs:
-					if (pathD == fileDir.split("_")[0]):
-						pathFile = os.path.join(pathC, pathDir, fileDir)
+		# 新增部分 Start --------------------------------
+		# 使用對照表快取機制取得科室資訊
+		mapping = _get_dept_dr_map()
 
-		department = os.path.basename(pathFile).split("_")[1]
-		disablePath = os.path.basename(pathFile).split("_")
-		"""20250715 path 格式為 大科室序號_科別序號"""
+		pathFile = ""
+		department = ""
+		if path in mapping['depts']:
+			pathFile = mapping['depts'][path]['full_path']
+			department = mapping['depts'][path]['name']
+		
+
+		if not pathFile:
+			# 如果快取找不到，降級回原本的掃描邏輯（或報錯）
+			pathP = path.split("_")[0]
+			pathD = path.split("_")[1]
+			pathC = os.path.join(settings.MEDIA_ROOT, 'department')
+			pathDirs = os.listdir(pathC)
+			for pathDir in pathDirs:
+				if ("D000" in pathDir) and (pathP == pathDir.split("_")[1]):
+					fileDirs = os.listdir(os.path.join(pathC, pathDir))
+					for fileDir in fileDirs:
+						if (pathD == fileDir.split("_")[0]):
+							pathFile = os.path.join(pathC, pathDir, fileDir)
+
+			if pathFile:
+				department = os.path.basename(pathFile).split("_")[1]
+		disablePath = os.path.basename(pathFile).split("_") if pathFile else []
+
+
+		# 新增部分 end --------------------------------
 
 		# department = path.split("\\")[6].split("_")[1]
 		# disablePath = path.split("\\")[6].split("_")
@@ -2399,7 +2517,10 @@ def A001_department_part(request):
 
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
 		# files = os.listdir(path)
-		files = os.listdir(pathFile)
+		if pathFile:
+			files = os.listdir(pathFile)
+		else:
+			files = []
 
 		for file in files:
 			if (".txt" in file) and ("I000" in file):
@@ -2438,9 +2559,16 @@ def A001_department_part(request):
 		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8)
 		modals = zip(doctor_list4, doctor_list6)
 
+		# 新增部分 Start --------------------------------
+		mapping = _get_dept_dr_map()
+		dept_id = path.split("_")[0] + "_" + path.split("_")[1]
+		dept_en = mapping['depts'][dept_id]['en'] if dept_id in mapping['depts'] else ""
+		# 新增部分 end --------------------------------
+
 	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "department/department_part.html", {
 		'department': department,
+		'dept_en': dept_en,
 		'modals': modals,
 		'introduction_list': introduction_list,
 		'doctors': doctors,
@@ -2448,9 +2576,27 @@ def A001_department_part(request):
 		'MEDIA_URL': MEDIA_URL,
 	})
 
-# 醫師個人介紹
+# 醫師個人介紹 (原程式:需要帶參數網址，已改成短網址背後的「引擎」)
 # @csrf_exempt
 def A001_department_doctor(request):
+
+	# 新增部分 Start (修正轉址迴圈) --------------------------------
+	mapping = _get_dept_dr_map()
+	# 只有當請求路徑是舊路徑時，才執行轉址
+	if request.path == '/A001_department_doctor/':
+		if "open_info_path" in request.GET:
+			path_id = request.GET.get("open_info_path")
+			if path_id in mapping['doctors']:
+				doc = mapping['doctors'][path_id]
+				# 加上 permanent=True 觸發 301 轉址
+				return redirect(f"/A001_department_doctor/{doc['dept_en']}/{doc['id']}/", permanent=True)
+		elif "open_info_name" in request.GET:
+			dr_id = request.GET.get("open_info_name")
+			if dr_id in mapping['doctors']:
+				doc = mapping['doctors'][dr_id]
+				return redirect(f"/A001_department_doctor/{doc['dept_en']}/{doc['id']}/", permanent=True)
+	# 新增部分 End --------------------------------
+
 	"""20250715 統一醫師查詢與科室總覽 path 格式為 大科室序號_科別序號_醫師序號"""
 	if ("part_info" in request.GET) or ("dr_search" in request.GET):
 		# 定義 dorp 和 porn 變數用於分頁連結
@@ -2476,7 +2622,7 @@ def A001_department_doctor(request):
 
 		# 驗證 filename 格式是否正確（應為 大科室序號_科別序號_醫師序號）
 		if not filename or filename.count("_") < 2:
-			from django.http import Http404
+			# from django.http import Http404
 			raise Http404("無效的醫師路徑參數")
 
 		# 構建 URL，用於分頁連結
@@ -2512,32 +2658,39 @@ def A001_department_doctor(request):
 		url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query, parsed.fragment))
 
 		request.session['path'] = filename
-		filename_parts = filename.split("_")
-		pathP = filename_parts[0]
-		pathD = filename_parts[1]
-		pathF = filename_parts[2]
-		pathC = os.path.join(settings.MEDIA_ROOT, 'department')
-		pathDirs = os.listdir(pathC)
+		
+		# 新增部分 Start --------------------------------
+		# --- [使用對照表快速定位醫師檔案] ---
+		mapping = _get_dept_dr_map()
+
 		pathFile = ""
-		for pathDir in pathDirs:
-			if ("D000" in pathDir) and (pathP == pathDir.split("_")[1]):
-				fileDirs = os.listdir(os.path.join(pathC, pathDir))
-				for fileDir in fileDirs:
-					if (pathD == fileDir.split("_")[0]):
-						pathFile = os.path.join(pathC, pathDir, fileDir)
-						dFiles = os.listdir(pathFile)
-						for dFile in dFiles:
-							if (pathF == dFile.split("_")[1]):
-								filename = dFile
+		if filename in mapping['doctors']:
+			doc_m = mapping['doctors'][filename]
+			pathFile = doc_m['dept_path']
+			filename = doc_m['filename']
+		
+		if not pathFile:
+			filename_parts = filename.split("_")
+			pathP = filename_parts[0]
+			pathD = filename_parts[1]
+			pathF = filename_parts[2]
+			pathC = os.path.join(settings.MEDIA_ROOT, 'department')
+			pathDirs = os.listdir(pathC)
+			for pathDir in pathDirs:
+				if ("D000" in pathDir) and (pathP == pathDir.split("_")[1]):
+					fileDirs = os.listdir(os.path.join(pathC, pathDir))
+					for fileDir in fileDirs:
+						if (pathD == fileDir.split("_")[0]):
+							pathFile = os.path.join(pathC, pathDir, fileDir)
+							dFiles = os.listdir(pathFile)
+							for dFile in dFiles:
+								if (pathF == dFile.split("_")[1]):
+									filename = dFile
 
-		department = os.path.basename(pathFile).split("_")[1]
-		disablePath = os.path.basename(pathFile).split("_")
-		"""20250715 path 格式為 大科室序號_科別序號_醫師序號"""
+		department = os.path.basename(pathFile).split("_")[1] if pathFile else ""
+		disablePath = os.path.basename(pathFile).split("_") if pathFile else []
+		# 新增部分 End --------------------------------
 
-		# dorp = "part_info"
-		# porn = "open_info_name"
-		# filename = request.GET.get("open_info_name")
-		# print(filename)
 
 		if filename == "1":
 			filename = request.session['filename']
@@ -2928,12 +3081,22 @@ def A001_dr_search(request):
 			re_dir = s_dir.split("_")
 			django_subjects.append(s_dir)
 
+	# 新增部分 Start --------------------------------
+	mapping = _get_dept_dr_map()
+	# 新增部分 End --------------------------------
+
 	for subject in django_subjects:
 		d_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject)))
 
 		for d_dir in d_dirs:
 			django_doctors = []
 			django_doctors2 = []
+
+			# 新增部分 Start --------------------------------
+			django_dept_ens = []
+			django_dr_ids = []
+			# 新增部分 End --------------------------------
+
 			re_subject = d_dir.split("_")
 			subjects.append(re_subject[1])
 			dd_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject), str(d_dir)))
@@ -2942,10 +3105,22 @@ def A001_dr_search(request):
 				if ("D000" in dd_dir):
 					red_dir = dd_dir.split("_")
 					django_doctors.append(red_dir[2].split(" ")[0])
-					"""20250715 path 格式為 大科室序號_科別序號_醫師序號"""
-					django_doctors2.append(str(subject).split("_")[1] + "_" + str(d_dir).split("_")[0] + "_" + str(dd_dir).split("_")[1])
-					"""20250715 path 格式為 大科室序號_科別序號_醫師序號"""
-					z_doctors = zip(django_doctors,django_doctors2)
+
+					# 新增部分 Start --------------------------------
+					path_id = str(subject).split("_")[1] + "_" + str(d_dir).split("_")[0] + "_" + str(dd_dir).split("_")[1]
+					django_doctors2.append(path_id)
+					
+					# 獲取英文名稱與醫師 ID
+					dept_en = ""
+					dr_id = ""
+					if path_id in mapping['doctors']:
+						dept_en = mapping['doctors'][path_id]['dept_en']
+						dr_id = mapping['doctors'][path_id]['id']
+					django_dept_ens.append(dept_en)
+					django_dr_ids.append(dr_id)
+					
+					z_doctors = zip(django_doctors, django_doctors2, django_dept_ens, django_dr_ids)
+					# 新增部分 End --------------------------------
 
 			doctors.append(z_doctors)
 
@@ -4161,7 +4336,7 @@ def A006_Online_Booking_1(request):
 		d_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject)))
 		django_senames = []
 		for d_dir in d_dirs:
-			if (len(d_dir.split("_")) == 2):
+			if (len(d_dir.split("_")) >= 2) and not d_dir.endswith("_x"):
 				django_senames.append(d_dir.split("_")[1])
 		senames.append(django_senames)
 
@@ -4198,7 +4373,7 @@ def A006_Online_Booking_1_part(request):
 
 		return redirect("/A006_Online_Booking_2_1/?A006_sename=骨科&A006_userid=HA01855")
 	# print(sename)
-	A006_I000 = glob.glob(os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}', 'I000*'))
+	A006_I000 = glob.glob(os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}*', 'I000*'))
 
 	# 科室介紹資訊
 	I000_concent = open(A006_I000[0], "r", encoding="utf-8")
@@ -4518,7 +4693,7 @@ def A006_Online_Booking_2(request):
 		d_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject)))
 
 		for d_dir in d_dirs:
-			if (len(d_dir.split("_")) == 2):
+			if (len(d_dir.split("_")) >= 2) and not d_dir.endswith("_x"):
 				django_doctors = []
 				django_doctors2 = []
 				django_doctors3 = []
@@ -4545,6 +4720,42 @@ def A006_Online_Booking_2(request):
 	})
 
 # 網路掛號_個別醫師預約頁
+# --- [ 網路掛號-醫師預約-短網址轉接頭 ] ---
+@csrf_exempt
+def A006_Online_Booking_2_1_short(request, dept_en, dr_id):
+	mapping = _get_dept_dr_map()
+	if dr_id in mapping['doctors']:
+		doc = mapping['doctors'][dr_id]
+		# 將參數重新塞回 request.GET 中供原函式使用
+		request.GET = request.GET.copy()
+		request.GET['A006_userid'] = dr_id
+		request.GET['A006_sename'] = doc['dept_name']
+	return A006_Online_Booking_2_1(request)
+
+@csrf_exempt
+def A006_Online_Booking_2_1_legacy(request):
+	# 攔截舊的 QueryString 網址並轉址到新的 SEO 短網址
+	if "A006_userid" in request.GET:
+		dr_id = request.GET.get("A006_userid")
+		mapping = _get_dept_dr_map()
+		if dr_id in mapping['doctors']:
+			doc = mapping['doctors'][dr_id]
+			# 保留原本可能帶入的其他參數，例如 A006_date_select 等
+			other_params = request.GET.copy()
+			other_params.pop("A006_userid", None)
+			other_params.pop("A006_sename", None)
+			
+			query_string = ""
+			if other_params:
+				from urllib.parse import urlencode
+				query_string = "?" + urlencode(other_params)
+				
+			return redirect(f"/A006_Online_Booking_2_1/{doc['dept_en']}/{doc['id']}/{query_string}", permanent=True)
+	
+	# 若無攔截到，則退回原邏輯
+	return A006_Online_Booking_2_1(request)
+
+
 @csrf_exempt
 def A006_Online_Booking_2_1(request):
 	A006_True = "True"
@@ -4581,7 +4792,7 @@ def A006_Online_Booking_2_1(request):
 		sectno = None
 
 	# 醫師基本資料介紹
-	A006_dirs = glob.glob(os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}', 'D000*'))
+	A006_dirs = glob.glob(os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}*', 'D000*'))
 	for A006_dir in A006_dirs:
 		if (userid in A006_dir):
 			drname = os.path.basename(A006_dir).split("_")[2]

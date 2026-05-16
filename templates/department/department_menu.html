@@ -1,47 +1,41 @@
-<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
-	<div class="c-sidebar-trust__header js-sidebar-toggle">
-		<div class="u-badge-small">Departments</div>
-		<div class="c-sidebar-trust__title-row">
-			<h3>醫療科室</h3>
-			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
-		</div>
-		<p>Care & Support</p>
-	</div>		
-
-	<nav class="c-sidebar-trust__nav" aria-label="長安醫院科室總覽導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
-		<ul class="c-sidebar-trust__list">
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A001_department_overview/' %}is-active{% endif %}" href="/A001_department_overview/" title="台中長安醫院-科室總覽" itemprop="url" {% if request.path == '/A001_department_overview/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">科室總覽</span>
-						<span class="c-sidebar-trust__en">Medical Departments</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院-急診醫學科" itemprop="url" {% if '/A003_ER/' in request.path %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">急診醫學科</span>
-						<span class="c-sidebar-trust__en">Emergency Medicine</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>	
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A001_dr_search/' %}is-active{% endif %}" href="/A001_dr_search/" title="台中長安醫院-醫師查詢" itemprop="url" {% if '/A001_dr_search/' in request.path %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">醫師查詢</span>
-						<span class="c-sidebar-trust__en">Traffic Information</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-		</ul>
-	</nav>
-</div>
-
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">Departments</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>醫療科室</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Care & Support</p>
+	</div>
+	<nav class="c-sidebar-trust__nav" aria-label="台中長安醫院 - 科室總覽" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A001_department_overview/' %}is-active{% endif %}" href="/A001_department_overview/" title="台中長安醫院-科室總覽" itemprop="url" {% if request.path == '/A001_department_overview/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">科室總覽</span>
+						<span class="c-sidebar-trust__en">Medical Departments</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院-急診醫學科" itemprop="url" {% if '/A003_ER/' in request.path %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">急診醫學科</span>
+						<span class="c-sidebar-trust__en">Emergency Medicine</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A001_dr_search/' %}is-active{% endif %}" href="/A001_dr_search/" title="台中長安醫院-醫師查詢" itemprop="url" {% if '/A001_dr_search/' in request.path %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">醫師查詢</span>
+						<span class="c-sidebar-trust__en">Traffic Information</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>

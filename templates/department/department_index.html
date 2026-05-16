@@ -1,123 +1,73 @@
-{% extends "department/department_base.html" %}
-
-{% load static %}
-
-{% block title %}科室總覽 | {{ block.super }}{% endblock %}
-{% block og_title %}科室總覽 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-
-<header id="content_h">
-
-    <h2 class="c-onsale-heading">科室總覽</h2>
-
-</header>
-
-<div class="l-main-content__body">
-
-    <div class="row">
-
-		{% for subject, department in datas %}
-
-			<div class="col-12">
-
-				<div class="baseline_title long_t cofe-word mt-3">
-
-					<h3>{{ subject }}</h3>
-
-				</div>
-
-			</div>
-
-			<div class="col-12">
-
-				<div class="row my-3">
-
-					{% for d,path in department %}
-
-						<div class="col-12 col-md-4">
-
-							<form action="/A001_department_part/" method="GET">
-
-								<a href="#" onclick='this.parentNode.submit(); return false;'>
-
-									<input type="hidden" name="open_info_name" value="{{ path }}">
-
-									<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-
-										<div class="w-100 position-relative">
-
-											<div class="in_icon position-absolute">
-
-												<i class="fas fa-notes-medical darkcoco-word font-70"></i>
-
-											</div>
-
-											<div class="in_content position-relative"> 
-
-												<div class="in_title">
-
-													<span class="title_line_org">{{ d }}</span>
-
-												</div>
-
-											</div>
-
-										</div>
-
-									</div>
-
-								</a>
-
-							</form>
-
-						</div>
-
-					{% endfor %}
-
-				</div>
-
-			</div>
-
-		{% endfor %}
-
-	</div>
-
-</div>
-
-{% endblock %}
-
-
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-
-{% block guide_seo %}
-
-{% include 'schema_article.html' with headline="科室總覽" %}
-
-{% endblock %}
-
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-
-{% block sub_extra_css %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-
-{% block sub_extra_js %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
-
-
+{% extends "department/department_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+<!-- title -->{% block title %}科室總覽 | {{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+<!-- title -->{% block og_title %}科室總覽 | {{ block.super }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}科室總覽 | {{ block.super }}{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">科室總覽</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		{% for subject, department in datas %}
+			<div class="col-12">
+				<div class="baseline_title long_t cofe-word mt-3">
+					<h3>{{ subject }}</h3>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="row my-3">
+					{% for d, path, dept_en in department %}
+						<div class="col-12 col-md-4">
+							<a href="/A001_department_overview/{{ dept_en }}/">
+								<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
+									<div class="w-100 position-relative">
+										<div class="in_icon position-absolute">
+											<i class="fas fa-notes-medical darkcoco-word font-70"></i>
+										</div>
+										<div class="in_content position-relative">
+											<div class="in_title">
+												<span class="title_line_org">{{ d }}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+	{% include 'schema_article.html' with headline="科室總覽" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

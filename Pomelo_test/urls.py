@@ -33,10 +33,12 @@ urlpatterns = [
     re_path('A000_video_message/', pomelo_views.new_video),
     re_path('A000_medical_info/', pomelo_views.medical_info), # 未開放
     re_path('A000_medical_pages/', pomelo_views.medical_pages),
-    re_path('A001_department_overview/', pomelo_views.A001_department_overview),
-    re_path('A001_department_part/', pomelo_views.A001_department_part),
-    re_path('A001_department_doctor/', pomelo_views.A001_department_doctor),
-    re_path('A001_dr_search/', pomelo_views.A001_dr_search),
+    re_path('^A001_department_overview/$', pomelo_views.A001_department_overview),
+    re_path('^A001_department_overview/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A001_department_part_short),
+    re_path('^A001_department_part/$', pomelo_views.A001_department_part),
+    re_path('^A001_department_doctor/$', pomelo_views.A001_department_doctor),
+    re_path('^A001_department_doctor/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A001_department_doctor_short),
+    re_path('^A001_dr_search/$', pomelo_views.A001_dr_search),
     re_path('A002_consultation_progress/', pomelo_views.A002_consultation_progress),
     re_path('A002_registration_notice/', pomelo_views.A002_registration_notice),
     re_path('A002_which_disease/', pomelo_views.A002_which_disease),
@@ -134,7 +136,8 @@ urlpatterns = [
     re_path('A006_Online_Booking_1/', pomelo_views.A006_Online_Booking_1),
     re_path('A006_Online_Booking_1_part/', pomelo_views.A006_Online_Booking_1_part), # 科別預約頁
     re_path('A006_Online_Booking_2/', pomelo_views.A006_Online_Booking_2),
-    re_path('A006_Online_Booking_2_1/', pomelo_views.A006_Online_Booking_2_1), # 醫師預約頁
+    re_path('^A006_Online_Booking_2_1/$', pomelo_views.A006_Online_Booking_2_1_legacy), # 醫師預約頁(舊網址轉接)
+    re_path('^A006_Online_Booking_2_1/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_2_1_short), # 醫師預約頁(新網址)
     re_path('A006_sign_out/', pomelo_views.A006_sign_out),
     re_path('A006_register/', pomelo_views.A006_register),
     re_path('A006_find_register/', pomelo_views.A006_find_register),

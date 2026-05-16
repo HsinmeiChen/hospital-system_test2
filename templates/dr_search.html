@@ -23,26 +23,22 @@
 		</div>
 		<div class="col-12">
 			<div class="row my-3">
-				{% for d, path in doctor %}
+				{% for d, path, dept_en, dr_id in doctor %}
 				<div class="col-12 col-md-4">
-					<form action="/A001_department_doctor/" method="GET">
-						<a href="#" onclick='this.parentNode.submit(); return false;'>
-							<input type="hidden" name="dr_search" value="true">
-							<input type="hidden" name="open_info_path" value="{{ path }}">
-							<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-								<div class="w-100 position-relative">
-									<div class="in_icon position-absolute">
-										<i class="fas fa-user-md darkcoco-word font-70"></i>
-									</div>
-									<div class="in_content position-relative">
-										<div class="in_title">
-											<span class="title_line_org">{{ d }}</span>
-										</div>
+					<a href="/A001_department_doctor/{{ dept_en }}/{{ dr_id }}/">
+						<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
+							<div class="w-100 position-relative">
+								<div class="in_icon position-absolute">
+									<i class="fas fa-user-md darkcoco-word font-70"></i>
+								</div>
+								<div class="in_content position-relative">
+									<div class="in_title">
+										<span class="title_line_org">{{ d }}</span>
 									</div>
 								</div>
 							</div>
-						</a>
-					</form>
+						</div>
+					</a>
 				</div>
 				{% endfor %}
 			</div>

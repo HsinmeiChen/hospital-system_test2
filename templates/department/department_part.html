@@ -92,46 +92,41 @@
 			<div class="p-2 title-bg my-2 w-100 text-center">
 				<h4 class="cofe-word mb-0">團隊介紹</h4>
 			</div>
-			{% for name,expertise,img,number,filename,sectno,docno in doctors %}
-				<form action="/A001_department_doctor/" method="GET">
-					<div class="container py-2">
-						<div class="row align-items-center border-bottom">
-							<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
-								<div class="d_img_div">
-									<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid">
-								</div>
-							</div>
-							<div class="col-12 col-md-8 col-lg-9">
-								<div class="about-text text-sm-left text-center">
-									<h4 class="cofe-word">{{ name }}</h4>
-									<p class="text-justify gy-word font-18">{{ expertise }}</p>
-								</div>
-								<div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
-									<div class="fill-flex">
-										<ul class="nav nav-pillstext-center">
-											{% if not disable_X %}
-												<li class="flex-fill">
-													<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
-												</li>
-												<li class="flex-fill">
-													<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
-														<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
-													</a>
-												</li>
-											{% endif %}
-											<li class="flex-fill">
-												<input type="hidden" name="part_info" value="true">
-												<input type="hidden" name="open_info_name" value="{{ filename }}">
-												<!-- <button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" onclick="window.location.href='/A001_department_orthopedics_' + {{ number }} + '/';">詳細介紹</button> -->
-												<button type="submit" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" >詳細介紹</button>
-											</li>
-										</ul>
-									</div>
-								</div>
+			{% for name,expertise,img,number,filename,sectno,docno in doctors %}				
+			<div class="container py-2">
+				<div class="row align-items-center border-bottom">
+					<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
+						<div class="d_img_div">
+							<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">{{ name }}</h4>
+							<p class="text-justify gy-word font-18">{{ expertise }}</p>
+						</div>
+						<div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
+							<div class="fill-flex">
+								<ul class="nav nav-pillstext-center">
+									{% if not disable_X %}
+										<li class="flex-fill">
+											<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
+										</li>
+										<li class="flex-fill">
+											<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
+												<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
+											</a>
+										</li>
+									{% endif %}
+									<li class="flex-fill">
+										<a href="/A001_department_doctor/{{ dept_en }}/{{ docno }}/" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0 text-center">詳細介紹</a>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
+			</div>				
 			{% endfor %}
 		</div>
 	</div>
