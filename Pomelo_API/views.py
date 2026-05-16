@@ -2374,7 +2374,7 @@ def A001_department_part(request):
 		# department = path.split("\\")[6].split("_")[1]
 		# disablePath = path.split("\\")[6].split("_")
 		disable_X = False
-		if ((len(disablePath) == 3) and (disablePath[2] == "x")):
+		if "x" in disablePath: # 只要包含 x 標記就生效
 			disable_X = True
 
 
@@ -2550,7 +2550,7 @@ def A001_department_doctor(request):
 
 		# disablePath = path.split("\\")[6].split("_")
 		disable_X = False
-		if ((len(disablePath) == 3) and (disablePath[2] == "x")):
+		if "x" in disablePath: # 只要包含 x 標記就生效
 			disable_X = True
 
 		d_sectno = MSSQLAPI.Search_Dr_SECTNO(department)
