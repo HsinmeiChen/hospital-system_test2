@@ -1811,178 +1811,195 @@ def index(request):
 
 # 功能(二)、子頁-最新消息
 def get_year(element):
-	return element[5]  #指讀取資料第 5 個
+	return element[6]
 
-# 最新消息
+# 最新消息 (清單頁)
 def new_news(request):
-	# 定義變數
-	news_lists = [] # 宣告一個空的陣列裝 news_lists.append(d.split("_")) 產出的切割後檔名陣列資料
-	info_data = []  # 宣告一個空的陣列裝 info_data.append(d) 產出的完整檔名陣列資料
-	message_lists = []  # 宣告一個空的陣列裝 message_lists.append(fd.readlines()) 產出的完整檔名陣列資料
-
-	# 去查詢資料夾裡面有哪些檔案，並帶入 datas 陣列變數，html 在用 datas 變數將檔案列出 (等同所有檔案；類型-陣列)
+	news_lists = []
 	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
-	i = 0
-	# 將檔案名稱進行文字切割並篩選檔案類型分類 (例如.txt)
+
 	for d in n_data:
 		if (".txt" in d):
-			# 處理檔名：移除 .txt 和 hash 部分（^627eded3）
 			name_without_ext = d.replace(".txt", "")
-			if '^' in name_without_ext:
-				# 分離檔名主體和 hash key
-				body_part, hash_key = name_without_ext.split('^', 1)
-				parts = body_part.split("_")
-			else:
-				parts = name_without_ext.split("_")
-			
-			news_lists.append(parts) #切割後的檔名 (為了要分別放到 table 的欄位中)
-			news_lists[i].insert(0, "D00" + str(i)) #因 modal 需要取到 ID，但因 txt 的檔名沒有唯一值，所以需要幫他每筆資料新增流水號，讓 modal 可以取 ID 帶資料
-			i += 1
 
-	news_lists.sort(key = get_year, reverse = True) #根據 get_year function 取出的值為 key，去進行資料排序
+			# --- 提取 Slug (Hash Key) ---
+			slug = name_without_ext.split('^')[1] if '^' in name_without_ext else ""
+			body_part = name_without_ext.split('^')[0]
+			parts = body_part.split("_")
 
-	#用巢狀迴圈雙重比對並排序資料 (最外層陣列資料筆數代表迴圈執行次數，內層所有陣列資料會隨著外層重複比對)
-	for c in news_lists:
-		for d in n_data:
-			if c[3] in d: #由於前面新增了流水號，為取得完整檔名，所以資料位置讀取要取第3個
-				info_data.append(d) #完整檔名(因讀取txt檔必須是完整的檔名，所以才需多info_data這個陣列)
+			# --- 將 Slug 加入陣列最後，方便前端讀取 ---
+			parts.append(slug)
+			news_lists.append(parts)
 
-	for f in info_data:
-		fd = open(os.path.join(settings.MEDIA_ROOT, 'news_1', f), "r", encoding="utf-8")
-		message_lists.append(fd.readlines())
-		fd.close()
+	news_lists.sort(key=get_year, reverse=True)
 
-	abc = zip(news_lists, message_lists)  #把拆散的資料，透過 zip 指令重新組合起來
-
-	page_limit = 10
-	# 設定分頁功能
-	paginator = Paginator(news_lists, page_limit) # 設定一頁要顯示幾筆
-	page = request.GET.get('page') # 接收使用者點選的頁碼
-	contacts = paginator.get_page(page) # 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
+	paginator = Paginator(news_lists, 10)
+	page = request.GET.get('page')
+	contacts = paginator.get_page(page)
 
 	return render(request, "news_1.html", {
-		'abc': abc,
 		'contacts': contacts,
 		'paginator': paginator,
 		'MEDIA_URL': settings.MEDIA_URL,
 	})
 
+# 最新消息 (文章內容頁)
+def new_news_detail(request, slug):
+	# --- 在資料夾中尋找符合該 slug 的檔案 ---
+	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
+	target_file = next((f for f in n_data if f.endswith(f"^{slug}.txt")), None)
+    
+	if not target_file:
+		return redirect('/A000_news/') # 找不到檔案就回列表
+
+    # --- 解析標題與日期 ---
+	name_without_ext = target_file.replace(".txt", "")
+	body_part = name_without_ext.split('^')[0]
+	parts = body_part.split("_")
+	title = parts[2]
+	date = parts[6]
+
+	# --- 讀取內容 ---
+	with open(os.path.join(settings.MEDIA_ROOT, 'news_1', target_file), "r", encoding="utf-8") as fd:
+		content_lines = fd.readlines()
+	
+	first_img = ""
+	excerpt = ""
+	for line in content_lines:
+
+		# 1.抓取第一個圖片
+		if not first_img and "<img1>" in line:
+			first_img = line.replace("<img1>", "").strip()
+
+		# 2.抓取摘要(第一個 <t>)
+		if not excerpt and "<t>" in line:
+			excerpt = line.replace("<t>", "").strip()
+		
+		if first_img and excerpt:
+			break
+
+	# --- 檢查內容中是否包含任何 <h> 標籤-優先採用，沒有則使用檔案名稱的標題 ---
+	has_h_tag = any("<h>" in line for line in content_lines)
+
+	return render(request, "news_detail.html", {
+		'title': title,
+		'date': date,
+		'content_lines': content_lines,
+		'first_img': first_img,
+		'excerpt': excerpt,
+		'has_h_tag': has_h_tag,
+		'MEDIA_URL': settings.MEDIA_URL,
+	})
+
+
+
 # 功能(三)、子頁-媒體報導
 def get_m_year(element):
-	return element[7]  #指取資料第 7 個位置值
+	return element[6]  #指取資料第 6 個位置值
 
+# 媒體報導 (清單頁)
 def new_medias(request):
-
-	# 步驟(1)、定義變數 (先給一個空盒子，才有辦法裝 append 出來的資料)
-	medias_split_box = [] # 裝 news_lists.append(d.split("_")) 產出的切割後的「檔名」
-	medias_all_box = [] # 裝 info_data.append(d) 完整檔名下的「檔案內容」
-	modal_content = [] # 裝 modal_content.append(mfd.readlines()) 產出的完整檔名下的「檔案內容」
-	list_description = [] # 裝 list_description.append(mrd_size.read(20)) 產出的「檔案內容(前150字)」
-	list_picture = [] # 裝 list_picture.append(mrd_size.readlines()) 產出的完整檔名下的「檔案內容-圖片」
-
-	# 步驟(2)、查詢並帶入 C:\python\media\news_2 資料夾中所有檔案
+	medias_split_box = []
 	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
 
-	# 步驟(3)、將步驟(2)取得的檔案資料用迴圈進行檔名切割並篩出指定檔案類型
-	i = 0
 	for md in medias_datas:
 		if (".txt" in md):
-			medias_split_box.append(md.split("_")) # 將檔名進行切割，再透過 append 一筆筆產出切後的「檔名」 (為了要分別放到 table 的欄位中)
-			# medias_all_box.append(md) # 因讀取 txt 檔需是完整檔名，才能一筆筆產出「檔案內容」
+			name_without_ext = md.replace(".txt", "")
+			parts = name_without_ext.split("_")
 
-			'''# 步驟(5) 顯示 modal 效果(因 modal 需要對應 ID，但因 txt 的檔名沒有唯一值，
-			所以需要幫他每筆資料新增流水號，讓 modal 可以取 ID 帶資料)'''
-			medias_split_box[i].insert(0, "D00" + str(i))
-			i += 1
+			# --- 增加防錯機制:確保檔名至少有 8 段 (0~7)，才進行解析 ---
+			if len(parts) >= 8:
+				slug = f"{parts[6]}_{parts[7]}" # 生成 Slug: 日期 [6] + ID [7]
+				parts.append(slug) # Index [8]
+				parts.append(md)   # Index [9] 儲存原始檔名，方便稍後讀取
+				medias_split_box.append(parts)
+			else:
+				continue
 
-	# 步驟(4)、根據 get_m_year function 取出的值為 key，按照日期去進行資料排序
-	medias_split_box.sort(key = get_m_year, reverse = True)
+	medias_split_box.sort(key= get_m_year, reverse = True)
 
-	'''# 步驟(6-1)、將「檔名」與「所有檔案」作比對 function，若有比對到，以切割後的「檔名」呈現的數量去執行次數
-		 並以第2位檔名去取值並進行檔案內容判斷，一筆筆產出「檔案內容」'''
-	'''# 步驟(6-2)、再打開「檔案」去讀裡面的內容，並將讀取的內容打包成一筆筆，存到 modal_content 陣列'''
-	for mc in medias_split_box:
-		for md in medias_datas:
-			if mc[3] in md:
-				medias_all_box.append(md)
+	paginator = Paginator(medias_split_box, 10)
+	page = request.GET.get('page')
+	contacts = paginator.get_page(page)
 
-	for mf in medias_all_box:
-		# open(filename,mode)-filename：檔案存在位置，mode：對這個檔案做些事情；r - 唯讀模式(檔案需存在)，只能從指定檔案讀取資料，並不能夠對這個檔案的內容進行任何寫入或變更
-		mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mf), "r", encoding="utf-8")
-		# 讀取檔案內容並去除換行符號
-		lines = mfd.readlines()
-		cleaned_lines = [line.strip() for line in lines]
-		modal_content.append(cleaned_lines) 
-		mfd.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
+	# --- 關鍵修正：僅針對當前頁面的 10 筆資料提取圖片 ---
+	for item in contacts:
+		img_name = ""
+		excerpt = ""
 
-	# 步驟(7)、設定 list 可以讀取顯示幾個字(150)
-	for mread in medias_all_box:
-		mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mread), "r", encoding="utf-8")
-		pxpx = mrd_size.read(100)
-		pxpx = pxpx.replace('<h>','') # 不帶出<h>
-		pxpx = pxpx.replace('\n','') # 不帶出\n
-		pxpx = pxpx.replace('\r','') # 不帶出\r
-		pxpx = pxpx.replace('<t>','')# 不帶出<t>
-		list_description.append(pxpx)
-		# 步驟(8)、先把txt所有行數讀進去gg，再去找第一個<img1>把這行紀錄到 list_picture 陣列資料
-		for gg in mrd_size.readlines():
-			if "<img1>" in gg:
-				list_picture.append(gg.strip())
-				break # 跳離迴圈 因為圖片只抓每個txt檔的第一張
-		mrd_size.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
+		try:
+			# 讀取該筆新聞的內容、抓取<img1>跟摘要<t> 
+			with open(os.path.join(settings.MEDIA_ROOT, 'news_2', item[9]), "r", encoding="utf-8") as f:
+				for line in f:
 
-	page_limit = 3
-	# 步驟(9)、設定分頁功能
-	'''假設一個陣列已有作分頁，但另外一個陣列沒有作分頁的話，就會影響 zip 組合數量不一，
-	顯示的筆數就會以少的為主，所以要把數量(例如.分頁)弄成一致，才會完成組合順利顯示'''
-	paginator_2 = MyPaginator(medias_split_box, page_limit) # 設定一頁要顯示幾筆
-	total_2 = int(paginator_2.num_pages) # 將筆數計算總共有幾頁
-	page_2 = request.GET.get('page', 1) # 接收使用者點選的頁碼
-	contacts_2 = paginator_2.page(page_2) # (列表清單用變數) 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
+					# 1.抓取第一個圖片
+					if not img_name and "<img1>" in line:
+						img_name = line.replace("<img1>", "").strip()
+						break
 
-	paginator_3 = MyPaginator(list_description, page_limit)
-	total_3 = int(paginator_3.num_pages)
-	page_3 = request.GET.get('page', 1)
-	contacts_3 = paginator_3.page(page_3)
+					# 2.抓取第一個 <t> 作為摘要
+					if not excerpt and "<t>" in line:
+						excerpt = line.replace("<t>", "").strip()
 
-	paginator_3P = MyPaginator(list_picture, page_limit)
-	total_3P = int(paginator_3P.num_pages)
-	page_3P = request.GET.get('page', 1)
-	contacts_3P = paginator_3P.page(page_3P)
-
-	paginator_4 = MyPaginator(modal_content, page_limit)
-	total_4 = int(paginator_4.num_pages)
-	page_4 = request.GET.get('page', 1)
-	contacts_4 = paginator_4.page(page_4)
-
-	# 步驟(10)、組合陣列變數，讓前端可以用帶值(contacts_可以被拿來組合，是因為已經整理好了)
-	# (modal用) 因要把「檔名」+「檔案內容」資料帶到前端，所以需用 zip 將兩個重新組合起來並放到 abc 變數中 (程式碼要放在 sort 後面)
-	zip_data = zip(contacts_2, contacts_4)
-	# zdata = zip(medias_split_box, medias_all_box) # (列表清單內容用)html 若前面有用過變數，就要用另一個變數，不然會帶不出來
-	zdata = zip(contacts_2, contacts_3, contacts_3P)
-
-	# 確保 MEDIA_URL 傳遞到模板
-	MEDIA_URL = settings.MEDIA_URL
-
-	if ("medical" in request.path):
-		return render(request, "news_4/news_4.html", {
-			'contacts_2': contacts_2,
-			'contacts_3': contacts_3,
-			'contacts_3P': contacts_3P,
-			'contacts_4': contacts_4,
-			'paginator_2': paginator_2,
-			'zip_data': zip_data,
-			'zdata': zdata,
-			'MEDIA_URL': MEDIA_URL,
-		})
+					# 3.都抓到後就跳出迴圈
+					if img_name and excerpt:
+						break
+		except:
+			pass
+		item.append(img_name) # Index [10]
+		item.append(excerpt)  # Index [11]
 
 	return render(request, "news_2.html", {
-		'zip_data': zip_data,
-		'zdata': zdata,
-		'contacts_2': contacts_2,
-		'paginator_2': paginator_2,
-		'MEDIA_URL': MEDIA_URL,
+		'contacts': contacts,
+		'paginator': paginator,
+		'MEDIA_URL': settings.MEDIA_URL,
 	})
+
+
+# 媒體報導 (文章內容頁)
+def new_media_detail(request, slug):
+
+	# --- 根據 slug (例如 2025-07-21_HA01830) 找尋結尾匹配的檔案 ---
+	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
+	target_file = next((f for f in n_data if f.endswith(f"{slug}.txt")), None)
+
+	if not target_file:
+		return redirect('/A000_reports/')
+
+	# --- 解析標題與日期 ---
+	name_without_ext = target_file.replace(".txt", "")
+	parts = name_without_ext.split("_")
+	title = parts[2]
+	date = parts[6]
+
+	with open(os.path.join(settings.MEDIA_ROOT, 'news_2', target_file), "r", encoding="utf-8") as fd:
+		content_lines = fd.readlines()
+
+	# --- 同時提取圖片與摘要文字 ---
+	first_img = ""
+	excerpt = ""
+	for line in content_lines:
+		if not first_img and "<img1>" in line:
+			first_img = line.replace("<img1>", "").strip()
+		if not excerpt and "<t>" in line:
+			excerpt = line.replace("<t>", "").strip()
+		if first_img and excerpt:
+			break
+
+	# ---檢查內容中是否包含任何 <h> 標籤-優先採用，沒有則使用檔案名稱的標題
+	has_h_tag = any("<h>" in line for line in content_lines)
+
+	return render(request, "news_2_detail.html", {
+		'title': title,
+		'date': date,
+		'content_lines': content_lines,
+		'first_img': first_img,
+		'excerpt': excerpt,
+		'has_h_tag': has_h_tag,
+		'MEDIA_URL': settings.MEDIA_URL,
+	})
+
+
 
 # 功能(三)、子頁-停休診公告
 def new_stop_show(request):

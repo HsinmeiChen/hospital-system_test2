@@ -1,494 +1,0 @@
-{% extends "department/department_base.html" %}
-{% load static %}
-
-{% block title %}醫師查詢 | {{ block.super }}{% endblock %}
-{% block og_title %}醫師查詢 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<header id="content_h">
-    <h2 class="c-onsale-heading">醫師查詢</h2>
-</header>
-
-<!-- ======= 本頁 Modal Area ======= -->
-	<!-- modal -->
-	<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="docs_div">
-						<div class="orthopedics">
-							<!-- 骨科醫師群 -->
-							<div class="d-flex align-content-center flex-wrap">
-								<button type="button" class="btn btn-warning rounded-0 m-1" onclick="window.location.href='orthopedics/department_in_1-1.html';">林茂仁</button>
-								<button type="button" class="btn btn-warning rounded-0 m-1">楊志鴻</button>
-								<button type="button" class="btn btn-warning rounded-0 m-1">黃梓榕</button>
-								<button type="button" class="btn btn-warning rounded-0 m-1">邱宗恆</button>
-							</div>
-						</div>
-						<div class="Urology">
-							<!-- 泌尿科醫師群 -->
-							<div class="d-flex align-content-center flex-wrap">
-								<button type="button" class="btn btn-warning rounded-0 m-1" onclick="window.location.href='orthopedics/department_in_1-1.html';">林彥志</button>
-								<button type="button" class="btn btn-warning rounded-0 m-1">黃煒軒</button>
-							</div>
-						</div>
-						<div class="B_Surgery">
-							<!-- 乳房外科醫師群 -->
-							<div class="d-flex align-content-center flex-wrap">
-								<button type="button" class="btn btn-warning rounded-0 m-1" onclick="window.location.href='orthopedics/department_in_1-1.html';">鍾文耀</button>
-								<button type="button" class="btn btn-warning rounded-0 m-1">葉名焮</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- ======= 本頁 Modal Area End ======= -->
-
-
-<div class="l-main-content__body">
-    <div class="row">
-										<div class="col-12">
-											<div class="baseline_title long_t cofe-word mt-3">
-												<h3>外科</h3>
-											</div>											
-										</div>
-										<div class="col-12">											
-											<div class="row my-3">
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="骨科醫師" href="#" id="orthopedics">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">骨科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="泌尿科醫師" href="#" id="Urology">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">泌尿科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="乳房外科醫師" href="#" id="B_Surgery">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">乳房外科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="一般外科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">一般外科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="神經外科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">神經外科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="大腸直腸外科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">大腸直腸外科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-											</div>	
-										</div>
-									</div>	
-									<div class="row">
-										<div class="col-12">
-											<div class="baseline_title long_t cofe-word mt-3">
-												<h3>內科</h3>
-											</div>											
-										</div>
-										<div class="col-12">											
-											<div class="row my-3">
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="心臟血管科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">心臟血管科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="胸腔內科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">胸腔內科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="腎臟科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">腎臟科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="新陳代謝科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">新陳代謝科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="肝膽腸胃科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">肝膽腸胃科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="神經內科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">神經內科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="過敏免疫風濕科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">過敏免疫風濕科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="家醫科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">家醫科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												
-											</div>	
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-12">
-											<div class="baseline_title long_t cofe-word mt-3">
-												<h3>專門科</h3>
-											</div>											
-										</div>
-										<div class="col-12">											
-											<div class="row my-3">
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="眼科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">眼科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="復健科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">復健科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="耳鼻喉頭頸外科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">耳鼻喉頭頸外科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="急診醫學科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">急診醫學科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="麻醉科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">麻醉科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a href="#" class="item_doc" data-toggle="modal" data-target="#edit" data-title="影像醫學科醫師">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">影像醫學科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-											</div>	
-										</div>
-									</div>	
-									<div class="row">
-										<div class="col-12">
-											<div class="baseline_title long_t cofe-word mt-3">
-												<h3>婦兒科</h3>
-											</div>											
-										</div>
-										<div class="col-12">											
-											<div class="row my-3">
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="婦產科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">婦產科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												<div class="col-12 col-md-4">
-													<a class="item_doc" data-toggle="modal" data-target="#edit" data-title="小兒科醫師" href="#">
-														<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-															<div class="w-100 position-relative">
-																<div class="in_icon position-absolute">
-																	<i class="fas fa-user-md darkcoco-word font-70"></i>
-																</div>
-																<div class="in_content position-relative"> 
-																	<div class="in_title">
-																		<span class="title_line_org">小兒科</span>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</a>
-												</div>
-												
-											</div>	
-										</div>
-									</div>
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="醫師查詢" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-<script>
-		$('#edit').on('show.bs.modal', function (e) {
-			//show.bs.modal = BS內建，觸發時執行
-			let item_doc = $(e.relatedTarget);//抓取觸發按鈕的資料
-			// console.log(btn);//確認點擊到哪個按鈕
-			let title = item_doc.data('title');
-			// console.log(title);//確認title的內容
-			let modal = $(this);//要修改的modal就是現在開啟的這個modal
-			modal.find('.modal-title').text(title);//把modal的title換成按鈕上的title
-		});
-		// 根據點擊按鈕顯示對應 div 設定 (原理：以 id 轉 .class方式)
-		$(".item_doc").click(function () {
-			$(".docs_div").children().each(function () {
-				$(this).hide();
-			});
-			$(`div.${$(this).attr("id")}`).show();
-		});
-	</script>
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
-
-
-	

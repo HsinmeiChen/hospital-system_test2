@@ -1,179 +1,173 @@
-{% extends "MedicalSupport/ER/ER-base.html" %}
-{% load static %}
-
-{% block title %}民眾感謝急診醫學科 | {{ block.super }}{% endblock %}
-{% block og_title %}民眾感謝急診醫學科 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<!-- <header id="content_h">
-    <h2 class="c-onsale-heading">民眾感謝</h2>
-</header> -->
-<div class="l-main-content__body">
-    <img src="{% static 'common/img/ER/Triage/tshape.png' %}" class="t-shape">
-	<div class="sub_header">
-		<div class="thr_header border-bottom">
-			<h1 class="font-weight-bold">民眾感謝</h1>
-		</div>
-	</div>
-	<div class="main_text container pt-2 bbg">
-		<div class="">
-			<div class="">
-				<div id="demo" class="carousel slide" data-ride="carousel">
-					<ul class="carousel-indicators">
-						<li data-target="#demo" data-slide-to="0" class="active"></li>
-						<li data-target="#demo" data-slide-to="1"></li>
-						<li data-target="#demo" data-slide-to="2"></li>
-					</ul>
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<div class="row">
-								<div class="col-md-7 ele_pic ele_thx">
-									<div class="main-visual mt-3">
-										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
-											<p class="t-phrase">民眾出現 OHCA！
-												<br class="sp-non-br">救護人員從鬼門關搶救一命！
-											</p>
-											<p class="t-text">
-												<span>為表感激之情，患者特地至醫院當面表達謝意</span>
-											</p>
-											<p class="t-text">
-												<span>感謝救護人員的救命之恩。</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-5">
-									<img src="{% static 'common/img/ER/Triage/thx_1.jpg' %}" alt="Los Angeles" width="1100" height="500">
-								</div>
-							</div> 
-						</div>
-						<div class="carousel-item">
-							<div class="row">
-								<div class="col-md-7 ele_pic ele_thx">
-									<div class="main-visual mt-3">
-										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
-											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！
-												<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！
-											</p>
-											<p class="t-text text-justify">
-												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！
-												</span>
-											</p>
-											<p class="t-text">
-												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-5">
-									<img src="{% static 'common/img/ER/Triage/thx_5.jpg' %}" alt="民眾感謝" width="1100" height="500">
-								</div>
-							</div>   
-						</div>
-						<div class="carousel-item">
-							<div class="row">
-								<div class="col-md-7 ele_pic ele_thx">
-									<div class="main-visual mt-3">
-										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
-											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！
-												<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！
-											</p>
-											<p class="t-text text-justify">
-												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！
-												</span>
-											</p>
-											<p class="t-text">
-												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-5">
-									<img src="{% static 'common/img/ER/Triage/thx_3.jpg' %}" alt="民眾感謝" width="1100" height="500">
-								</div>
-							</div> 
-						</div>
-						<div class="carousel-item">
-							<div class="row">
-								<div class="col-md-7 ele_pic ele_thx">
-									<div class="main-visual mt-3">
-										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
-											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！
-												<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！
-											</p>
-											<p class="t-text text-justify">
-												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！
-												</span>
-											</p>
-											<p class="t-text">
-												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-5">
-									<img src="{% static 'common/img/ER/Triage/thx_4.png' %}" alt="民眾感謝" width="1100" height="500">
-								</div>
-							</div>   
-						</div>
-						<div class="carousel-item">
-							<div class="row">
-								<div class="col-12 d-flex justify-content-center">
-									<img src="{% static 'common/img/ER/Triage/thx_2.jpg' %}" class="img-thumbnail" alt="民眾感謝" width="400">
-								</div>
-							</div>
-						</div>
-					</div>
-					<a class="carousel-control-prev" href="#demo" data-slide="prev">
-						<span class="carousel-control-prev-icon"></span>
-					</a>
-					<a class="carousel-control-next" href="#demo" data-slide="next">
-						<span class="carousel-control-next-icon"></span>
-					</a>
-				</div>	
-			</div>							
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="急診醫學科 - 民眾感謝" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-<style>
-	.carousel-control-prev-icon,
-	.carousel-control-next-icon {
-		height: 30px;
-		border-radius: 3px;
-		background-color: black;
-	}
-	.carousel-control-next{
-		right: -30px;
-	}
-	.carousel-control-prev{
-		left: -30px;
-	}
-	.carousel-control-next, .carousel-control-prev{
-		width: auto;
-	}
-	@media only screen and (max-width: 768px){
-		.carousel-control-next{
-			right: 0px;
-		}
-		.carousel-control-prev{
-			left: 0px;
-		}
-	}
-</style>
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
+{% extends "MedicalSupport/ER/ER-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}民眾感謝｜{{ block.super }}急診醫學科{% endblock %}
+{% block og_title %}民眾感謝｜{{ block.super }}急診醫學科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<div class="l-main-content__body">
+    <img src="{% static 'common/img/ER/Triage/tshape.png' %}" class="t-shape">
+	<div class="sub_header">
+		<div class="thr_header border-bottom">
+			<h1 class="font-weight-bold">民眾感謝</h1>
+		</div>
+	</div>
+	<div class="main_text container pt-2 bbg">
+		<div class="">
+			<div class="">
+				<div id="demo" class="carousel slide" data-ride="carousel">
+					<ul class="carousel-indicators">
+						<li data-target="#demo" data-slide-to="0" class="active"></li>
+						<li data-target="#demo" data-slide-to="1"></li>
+						<li data-target="#demo" data-slide-to="2"></li>
+					</ul>
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<div class="row">
+								<div class="col-md-7 ele_pic ele_thx">
+									<div class="main-visual mt-3">
+										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
+											<p class="t-phrase">民眾出現 OHCA！
+												<br class="sp-non-br">救護人員從鬼門關搶救一命！
+											</p>
+											<p class="t-text">
+												<span>為表感激之情，患者特地至醫院當面表達謝意</span>
+											</p>
+											<p class="t-text">
+												<span>感謝救護人員的救命之恩。</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<img src="{% static 'common/img/ER/Triage/thx_1.jpg' %}" alt="Los Angeles" width="1100" height="500">
+								</div>
+							</div> 
+						</div>
+						<div class="carousel-item">
+							<div class="row">
+								<div class="col-md-7 ele_pic ele_thx">
+									<div class="main-visual mt-3">
+										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
+											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！
+												<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！
+											</p>
+											<p class="t-text text-justify">
+												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！</span>
+											</p>
+											<p class="t-text">
+												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<img src="{% static 'common/img/ER/Triage/thx_5.jpg' %}" alt="民眾感謝" width="1100" height="500">
+								</div>
+							</div>
+						</div>
+						<div class="carousel-item">
+							<div class="row">
+								<div class="col-md-7 ele_pic ele_thx">
+									<div class="main-visual mt-3">
+										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
+											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！</p>
+											<p class="t-text text-justify">
+												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！</span>
+											</p>
+											<p class="t-text">
+												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<img src="{% static 'common/img/ER/Triage/thx_3.jpg' %}" alt="民眾感謝" width="1100" height="500">
+								</div>
+							</div> 
+						</div>
+						<div class="carousel-item">
+							<div class="row">
+								<div class="col-md-7 ele_pic ele_thx">
+									<div class="main-visual mt-3">
+										<div class="text-wrapper" style="color: #654127;font-weight: bold;">
+											<p class="t-phrase">感謝第一線人員，溫馨送暖慨捐物資！<br class="sp-non-br">體恤醫療人員辛勞，愛心不打烊！</p>
+											<p class="t-text text-justify">
+												<span>防疫期間，許多善心民眾為了體恤醫療醫護人員的辛苦，雪中送炭，送暖鼓勵最前線！除了捐贈物資，手寫小卡也寫了鼓勵與溫暖話語，為醫護同仁加油打氣，人間滿是溫暖的愛與關懷，讓前線人員堅守崗位同時，更有元氣繼續作戰，守護民眾健康！</span></p>
+											<p class="t-text">
+												<span>希望疫情趕快結束，能夠恢復正常生活作息。</span>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<img src="{% static 'common/img/ER/Triage/thx_4.png' %}" alt="民眾感謝" width="1100" height="500">
+								</div>
+							</div>
+						</div>
+						<div class="carousel-item">
+							<div class="row">
+								<div class="col-12 d-flex justify-content-center">
+									<img src="{% static 'common/img/ER/Triage/thx_2.jpg' %}" class="img-thumbnail" alt="民眾感謝" width="400">
+								</div>
+							</div>
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#demo" data-slide="prev">
+						<span class="carousel-control-prev-icon"></span>
+					</a>
+					<a class="carousel-control-next" href="#demo" data-slide="next">
+						<span class="carousel-control-next-icon"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="民眾感謝｜急診醫學科" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+	.carousel-control-prev-icon,
+	.carousel-control-next-icon {
+		height: 30px;
+		border-radius: 3px;
+		background-color: black;
+	}
+	.carousel-control-next{
+		right: -30px;
+	}
+	.carousel-control-prev{
+		left: -30px;
+	}
+	.carousel-control-next, .carousel-control-prev{
+		width: auto;
+	}
+	@media only screen and (max-width: 768px){
+		.carousel-control-next{
+			right: 0px;
+		}
+		.carousel-control-prev{
+			left: 0px;
+		}
+	}
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

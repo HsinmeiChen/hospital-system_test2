@@ -1,0 +1,81 @@
+﻿{% extends "news_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}{{ title }}｜最新消息｜{{ block.super }}{% endblock %}
+<!-- description -->{% block meta_description %}{{ excerpt|truncatechars:40 }} - 發佈日期：{{ date }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ ======== -->
+<!-- title -->{% block og_title %}{{ title }}｜最新消息｜{{ block.super }}{% endblock %}
+<!-- description -->{% block og_description %}{{ excerpt|truncatechars:40 }} - 發佈日期：{{ date }}{% endblock %}
+<!-- image URL-->{% block og_image %}{% if first_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}news_1/img/{{ first_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}{{ title }}｜最新消息｜{{ block.super }}{% endblock %}
+<!-- description -->{% block twitter_description %}{{ excerpt|truncatechars:40 }} - 發佈日期：{{ date }}{% endblock %}
+ <!-- image URL -->{% block twitter_image %}{% if first_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}news_1/img/{{ first_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="justify-content: end;">
+            <li class="breadcrumb-item"><a href="/">本院首頁</a></li>
+            <li class="breadcrumb-item"><a href="/A000_news/">最新消息</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<div class="l-main-content__body">
+    <div class="article_container">
+        <p class="text-muted" style="margin: .8rem 0 .5rem 0;text-align: right;">發佈日期：{{ date }}</p>
+        <div>
+			<!-- 1. 標題區塊：若內容無 <h> 則顯示檔名標題 -->
+			{% if not has_h_tag %}
+				<h1 class="article_h">{{ title }}</h1>
+			{% endif %}
+
+			<!-- 2. 文章內容 -->
+            {% for line in content_lines %}
+                {% if "<h>" in line %}
+					<h1 class="article_h">{{ line|cut:"<h>"|safe }}</h1>
+				{% endif %}
+
+				{% if "<t>" in line %}
+					<p class="py-2 text-justify">{{ line|cut:"<t>"|safe }}</p>
+				{% endif %}
+
+                {% if "<img1>" in line %}
+                    <img class="img-fluid w-100 my-3" src="{{ MEDIA_URL }}news_1/img/{{ line|cut:'<img1>'|safe }}" alt="{{ title }}" title="{{ title }}" loading="lazy">
+                {% endif %}
+            {% endfor %}
+        </div>		
+    </div>
+</div>
+<div class="mt-4 pt-4 text-center border-top">
+    <a href="/A000_news/" class="btn btn-outline-warning btn-lg rounded-0">回列表頁</a>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+       
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline=title|add:"｜最新消息" datePublished=date folder="news_1" article_img=first_img %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

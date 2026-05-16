@@ -25,8 +25,10 @@ urlpatterns = [
     #re_path('admin/', admin.site.urls),
     re_path('^$', pomelo_views.index),
     re_path('index/', pomelo_views.index),
-    re_path('A000_news/', pomelo_views.new_news),
-    re_path('A000_reports/', pomelo_views.new_medias),
+    re_path('^A000_news/$', pomelo_views.new_news),
+    re_path('A000_news/(?P<slug>[\w\d]+)/', pomelo_views.new_news_detail, name='news_detail'),
+    re_path('^A000_reports/$', pomelo_views.new_medias),
+    re_path('A000_reports/(?P<slug>[\w\d_-]+)/', pomelo_views.new_media_detail, name='media_detail'),
     re_path('A000_closed_clinic/', pomelo_views.new_stop_show),
     re_path('A000_video_message/', pomelo_views.new_video),
     re_path('A000_medical_info/', pomelo_views.medical_info), # 未開放
@@ -70,7 +72,7 @@ urlpatterns = [
     re_path('A003_labor_clinical_3_csf/', pomelo_views.A003_labor_clinical_3_csf),
     re_path('A003_labor_clinical_3_dung/', pomelo_views.A003_labor_clinical_3_dung),
     re_path('A003_labor_clinical_3_ra/', pomelo_views.A003_labor_clinical_3_ra),
-    re_path('A003_labor_clinical_3_phlegm/', pomelo_views.A003_labor_clinical_3_phlegm),  # 內容不對
+    re_path('A003_labor_clinical_3_phlegm/', pomelo_views.A003_labor_clinical_3_phlegm),
     re_path('A003_labor_clinical_3_prepare/', pomelo_views.A003_labor_clinical_3_prepare),
     re_path('A003_labor_clinical_3_respiratory/', pomelo_views.A003_labor_clinical_3_respiratory),
     re_path('A003_labor_clinical_3_semen/', pomelo_views.A003_labor_clinical_3_semen),

@@ -1,58 +1,59 @@
-{% extends "MedicalSupport/ER/ER-base.html" %}
-{% load static %}
-
-{% block title %}本科介紹急診醫學科 | {{ block.super }}{% endblock %}
-{% block og_title %}本科介紹急診醫學科 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<header id="content_h">
-    <h2 class="c-onsale-heading">本科介紹</h2>
-</header>
-<div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			<div class="p-2 title-bg d-inline-flex mb-2">
-				<h4 class="cofe-word mb-0">關於急診醫學科</h4>
-			</div>
-			<p class="word-Indent font-18">急診在全體醫師群努力下，提供鄰近民眾緊急傷病時，24小時全天候診療服務及各類外傷處理。且配合內科、兒科、心臟科、骨科、泌尿科醫師全天候支援，在前線、後線的互相配合下讓治療成效大幅提升。</p>
-		
-			<p class="word-Indent font-18">胸悶、胸痛或急性心肌梗塞、急性腰痛、尿路結石、兒童腹瀉、嘔吐、急性腸胃炎、流感、諾羅、輪狀病毒篩檢、骨折或各種外傷。</p>
-		
-			<p class="word-Indent font-18">此外急診室也設有專門傷口照護人員，不管是急性或是慢性傷口都能夠提供社區民眾最優質的照護。</p>
-		
-		</div>
-		<div class="col-12">
-			<div class="p-2 title-bg d-inline-flex mb-2">
-				<h4 class="cofe-word mb-0">各式儀器、設備、檢查</h4>
-			</div>
-			<div class="px-2">
-				<ul class="list-bullets">
-					<li class="mb-1">超音波</li>
-					<li class="mb-1">心電圖監視器</li>
-					<li class="mb-1">三合一行動監視器</li>
-					<li class="mb-1">自動心肺復甦機</li>
-					<li class="mb-1">血氧監測儀</li>
-					<li class="mb-1">人工呼吸機</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="急診醫學科 - 本科介紹" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
+{% extends "MedicalSupport/ER/ER-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}本科介紹｜{{ block.super }}急診醫學科{% endblock %}
+{% block og_title %}本科介紹｜{{ block.super }}急診醫學科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">本科介紹</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">關於急診醫學科</h4>
+			</div>
+			<p class="word-Indent font-18">急診在全體醫師群努力下，提供鄰近民眾緊急傷病時，24小時全天候診療服務及各類外傷處理。且配合內科、兒科、心臟科、骨科、泌尿科醫師全天候支援，在前線、後線的互相配合下讓治療成效大幅提升。</p>
+			<p class="word-Indent font-18">胸悶、胸痛或急性心肌梗塞、急性腰痛、尿路結石、兒童腹瀉、嘔吐、急性腸胃炎、流感、諾羅、輪狀病毒篩檢、骨折或各種外傷。</p>
+			<p class="word-Indent font-18">此外急診室也設有專門傷口照護人員，不管是急性或是慢性傷口都能夠提供社區民眾最優質的照護。</p>
+		</div>
+		<div class="col-12">
+			<div class="p-2 title-bg d-inline-flex mb-2">
+				<h4 class="cofe-word mb-0">各式儀器、設備、檢查</h4>
+			</div>
+			<div class="px-2">
+				<ul class="list-bullets">
+					<li class="mb-1">超音波</li>
+					<li class="mb-1">心電圖監視器</li>
+					<li class="mb-1">三合一行動監視器</li>
+					<li class="mb-1">自動心肺復甦機</li>
+					<li class="mb-1">血氧監測儀</li>
+					<li class="mb-1">人工呼吸機</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="本科介紹｜急診醫學科" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

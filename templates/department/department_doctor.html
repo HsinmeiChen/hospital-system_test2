@@ -1,15 +1,23 @@
-{% extends "department/department_base.html" %}
+{% extends "department/department_doctor_base.html" %}
 
 {% load static %}
 
 <!-- === Meta ================================== -->
-{% block title %}{{ doctor_name }}｜{{ department }}｜{{ block.super }}{% endblock %}
+<!-- title -->{% block title %}{{ doctor_name }}｜{{ department }}｜{{ block.super }}{% endblock %}
+<!-- description -->{% block meta_description %}{{ doctor_name }}是長安醫院{{ department }}專科醫師，專長為{{ doctor_e|join:"、"|truncatechars:50 }}。位於台中太平區，提供專業醫療諮詢與掛號服務。{% endblock %}
 
-{% block og_title %}{{ doctor_name }}｜{{ department }}｜{{ block.super }}{% endblock %}
+<!-- ※※※ Open Graph ※※※ -->
+<!-- type -->{% block og_type %}profile{% endblock %}
+<!-- title -->{% block og_title %}{{ doctor_name }}｜{{ department }}｜{{ block.super }}{% endblock %}
+<!-- description -->{% block og_description %}{{ doctor_name }}是長安醫院{{ department }}專科醫師，專長為{{ doctor_e|join:"、"|truncatechars:50 }}。位於台中太平區，提供專業醫療諮詢與掛號服務。{% endblock %}
+<!-- image -->{% block og_image %}{% if doctor_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}department/img/{{ doctor_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
-{% block og_image %}{% if doctor_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}department/img/{{ doctor_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}{{ doctor_name }}｜{{ department }}｜{{ block.super }}{% endblock %}
+<!-- description -->{% block twitter_description %}{{ doctor_name }}是長安醫院{{ department }}專科醫師，專長為{{ doctor_e|join:"、"|truncatechars:50 }}。位於台中太平區，提供專業醫療諮詢與掛號服務。{% endblock %}
+<!-- image -->{% block twitter_image %}{% if doctor_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}department/img/{{ doctor_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
-{% block twitter_image %}{% if doctor_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}department/img/{{ doctor_img|cut:" " }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -120,7 +128,7 @@
 
 <!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
-    <h1 class="c-onsale-heading">{{ doctor_name }}</h1>
+    <h1 class="c-onsale-heading">{{ doctor_name }}｜{{ department }}</h1>
 </header>
 <div class="l-main-content__body">
 	<div class="">
@@ -278,9 +286,10 @@
 		{% endif %}
 		<div class="py-3 text-center border-top">
 
-			<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A001_department_part/';"> 回本科首頁</button>
+			<button type="button" class="btn btn-warning btn-lg rounded-0 mx-2" onclick="window.location.href='/A001_dr_search/';"><i class="fas fa-user-md" aria-hidden="true"></i> 瀏覽其他醫師</button>
 
-			<button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A001_dr_search/';">回醫師查詢</button>
+			<button type="button" class="btn btn-outline-warning btn-lg rounded-0 mx-2" onclick="window.location.href='/A001_department_overview/';"><i class="fas fa-clinic-medical" aria-hidden="true"></i> 查看所有科別</button>
+			
 		</div>
 	</div>
 </div>
@@ -290,7 +299,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="{{ doctor_name }}｜{{ department }}" %}
+	{% include 'schema_physician.html' with name=doctor_name image=doctor_img specialty=department description=doctor_info expertise=doctor_e %}
 {% endblock %}
 
 

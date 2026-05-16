@@ -257,8 +257,7 @@
   .c-sidebar-trust__sub-list {
     display: none;
     list-style: none;
-    padding: 0 0 0 1.2rem;
-    margin: 8px 0;
+    padding: 8px 0 0 0;
     flex-direction: column;
     gap: 0; /* 改為無間隙，靠 border 區分 */
     border-left: 2px solid var(--color-accent-peach);
@@ -272,32 +271,20 @@
   .c-sidebar-trust__sub-item {
     display: flex;
     align-items: center;
-    padding: 0.7rem 1.2rem;
+    padding: 0.4rem 1.2rem;
     background: transparent;
     border: none;
     text-decoration: none !important;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--color-text-light);
+    color: var(--color-text-dark);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
   }
 
-  .c-sidebar-trust__sub-item::before {
-    content: '';
-    position: absolute;
-    left: -2px;
-    top: 50%;
-    width: 8px;
-    height: 2px;
-    background: var(--color-accent-peach);
-    transform: translateY(-50%);
-    transition: all 0.3s;
-  }
-
   .c-sidebar-trust__sub-item:hover,
   .c-sidebar-trust__sub-item.is-active {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     padding-left: 1.5rem;
   }
 
@@ -324,7 +311,7 @@
         display: none;
         list-style: none;
         padding: 0 0 0 1rem;
-        margin: 8px 0 8px 1.2rem;
+        margin: 8px 0 0 1.2rem;
         flex-direction: column;
         border-left: 2px solid var(--color-accent-peach);
     }
@@ -332,8 +319,8 @@
         display: flex;
     }
     .c-sidebar-trust__sub-item {
-        padding: 1rem 1.2rem;
-        font-size: 1rem;
+        font-size: 1.2rem;
+        line-height: 3rem;
     }
 }
 

@@ -44,9 +44,31 @@
     }
 
     /* Logo */
+    .m-header__logo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .m-header__logo > a:first-of-type{
+        margin-right: -10px;
+    }
+    .m-header__logo > a:nth-of-type(2){
+        border-left: 1px solid var(--color-border-dark);
+        padding-left: 15px;
+        color: var(--color-secondary);
+    }
+    .m-header__logo > a:nth-of-type(2) > h3{
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+    .m-header__logo > a:nth-of-type(2) > div{
+        font-size: 0.6rem;
+        line-height: 10px;
+    }
     .m-header__logo img,
 	.m-mobile-logo img {
-        height: 70px;
+        height: auto;
         transition: var(--transition);
 		margin-left: -10px;
     }
@@ -171,7 +193,7 @@
     /* 嵌套子選單樣式 (Mega Menu Sub-list) - 支援折疊 */
     .m-mega__sub-list {
         list-style: none;
-        padding: 0 0 0 1.25rem;
+        padding: 0 0 0 .9rem;
         margin: 5px 0 10px 0.5rem;
         border-left: 1px solid var(--border-color);
         display: none; /* 預設改為隱藏，支援折疊 */
@@ -193,20 +215,8 @@
         opacity: 0.8;
         padding: 6px 0;
     }
-
-    .m-mega__sub-list a:hover {
-        opacity: 1;
-        color: var(--color-primary);
-    }
-
-    .m-mega__sub-list a::before {
-        content: '↳';
-        font-size: 0.8rem;
-        margin-right: 6px;
-        opacity: 0.5;
-        transition: var(--transition);
-    }
     
+    .m-mega__sub-list a:hover::before,
     .m-mega__sub-list a:hover::before {
         opacity: 1;
         color: var(--color-secondary);
@@ -348,6 +358,9 @@
     @media (min-width: 992px) {
         .m-nav { display: flex; }
         .m-hamburger { display: none; }
+        .m-header__logo > a:nth-of-type(2) > div{
+            font-size: 0.8rem;
+        }
     }
 
     /* 特別：就醫指南三欄排版 */

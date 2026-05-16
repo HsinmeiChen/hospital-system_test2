@@ -13,7 +13,7 @@
 			<li class="c-sidebar-trust__item-wrapper">
 				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical/' %}is-active{% endif %}" href="/A003_labor_clinical/" title="台中長安醫院檢驗科-衛教資訊" itemprop="url" {% if request.path == '/A003_labor_clinical/' %}aria-current="page"{% endif %}>
 					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text" itemprop="name">衛教資訊</span>
+						<span class="c-sidebar-trust__text" itemprop="name">檢體採集衛教</span>
 						<!-- <span class="c-sidebar-trust__en">Blood Draw</span> -->
 					</div>
 					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
@@ -30,61 +30,31 @@
 				</a>
 			</li>
 
-			<!-- <li class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_1/' %}is-active{% endif %}" href="/A003_labor_clinical_1/" title="台中長安醫院檢驗科-檢體採集須知" itemprop="url" {% if request.path == '/A003_labor_clinical_1/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text" itemprop="name">檢體採集須知</span>
-						<span class="c-sidebar-trust__en">Blood Draw</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
-				</a>
-			</li> -->
-
 
 			<!-- 檢體採集須知 (父選單) -->
-<li class="c-sidebar-trust__item-wrapper has-sub">
-    <a class="c-sidebar-trust__item js-submenu-toggle" href="javascript:void(0)" title="檢體採集須知" itemprop="url">
-        <div class="c-sidebar-trust__content">
-            <span class="c-sidebar-trust__text" itemprop="name">檢體採集須知</span>
-        </div>
-        <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
-    </a>
-    
-    <!-- 子選單列表 -->
-    <ul class="c-sidebar-trust__sub-list">
-        <li>
-            <a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_2/' %}is-active{% endif %}" href="/A003_labor_clinical_2/">
-                採檢前作業流程
-            </a>
-        </li>
-        <li>
-            <a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_3/' %}is-active{% endif %}" href="/A003_labor_clinical_3/">
-                檢體採集原則
-            </a>
-        </li>
-    </ul>
-</li>
-
-
-			<!-- <li class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_2/' %}is-active{% endif %}" href="/A003_labor_clinical_2/" title="台中長安醫院檢驗科-檢體採集須知" itemprop="url" {% if request.path == '/A003_labor_clinical_2/' %}aria-current="page"{% endif %}>
+			<li class="c-sidebar-trust__item-wrapper has-sub">
+				<a class="c-sidebar-trust__item js-submenu-toggle" href="javascript:void(0)" title="檢體採集須知" itemprop="url">
 					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text" itemprop="name">採檢前作業流程</span>
-						<span class="c-sidebar-trust__en">Blood Draw</span>
+						<span class="c-sidebar-trust__text" itemprop="name">檢體採集須知</span>
 					</div>
 					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
 				</a>
+				
+				<!-- 子選單列表 -->
+				<ul class="c-sidebar-trust__sub-list">
+					<li>
+						<a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_2/' %}is-active{% endif %}" href="/A003_labor_clinical_2/">
+							採檢前作業流程
+						</a>
+					</li>
+					<li>
+						<a class="c-sidebar-trust__sub-item {% if request.path == '/A003_labor_clinical_3/' %}is-active{% endif %}" href="/A003_labor_clinical_3/">
+							檢體採集原則
+						</a>
+					</li>
+				</ul>
 			</li>
 
-			<li class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_3/' %}is-active{% endif %}" href="/A003_labor_clinical_3/" title="台中長安醫院檢驗科-檢體採集原則" itemprop="url" {% if request.path == '/A003_labor_clinical_3/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text" itemprop="name">檢體採集原則</span>
-						<span class="c-sidebar-trust__en">Blood Draw</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
-				</a>
-			</li> -->
 
 			<li class="c-sidebar-trust__item-wrapper">
 				<a class="c-sidebar-trust__item {% if request.path == '/A003_labor_clinical_4/' %}is-active{% endif %}" href="/A003_labor_clinical_4/" title="台中長安醫院檢驗科-微生物培養檢體採集方法須知" itemprop="url" {% if request.path == '/A003_labor_clinical_4/' %}aria-current="page"{% endif %}>

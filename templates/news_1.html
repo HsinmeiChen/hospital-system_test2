@@ -3,50 +3,23 @@
 {% load static %}
 
 <!-- === Meta ================================== -->
-{% block title %}最新消息 | {{ block.super }}{% endblock %}
-{% block og_title %}最新消息 | {{ block.super }}{% endblock %}
+{% block title %}最新消息｜{{ block.super }}{% endblock %}
+{% block meta_description %}提供台中長安醫院最新的醫療服務訊息、院內公告與專業健康講座。我們位於台中太平區，致力於守護全台民眾的健康。{% endblock %}
+
+
+<!-- ※※※ Open Graph ※※※ ======== -->
+<!-- title -->{% block og_title %}最新消息｜{{ block.super }}{% endblock %}
+<!-- description -->{% block og_description %}提供台中長安醫院最新的醫療服務訊息、院內公告與專業健康講座。我們位於台中太平區，致力於守護全台民眾的健康。{% endblock %}
+
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}最新消息｜{{ block.super }}{% endblock %}
+<!-- description -->{% block twitter_description %}提供台中長安醫院最新的醫療服務訊息、院內公告與專業健康講座。我們位於台中太平區，致力於守護全台民眾的健康。{% endblock %}
+
 
 
 <!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
-
-<!-- ▼▼▼ Modal ▼▼▼-->
-{% block page_modals %}
-{% for a,b in abc %}
-<div class="modal fade" id="N-{{ a.0 }}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<!-- Modal Header -->
-			<div class="modal-header og-bg line_break">
-				<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{ a.3 }}</h5>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<!-- Modal body -->
-			<div class="modal-body cofe-word font-18 article_border">
-		        {% for bb in b %}
-		            {% if "<h>" in bb %}
-		            <div class="col-12 px-0">
-		                <div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
-		            </div>
-		            {% endif %}
-		            {% if "<t>" in bb %}
-		            <div>
-		                <p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>
-		            </div>
-		            {% endif %}
-		            {% if "<img1>" in bb %}
-		            <div class="col-12 px-0">
-		                <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
-		            </div>
-		            {% endif %}
-		        {% endfor %}
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
-{% endblock %}
-<!-- ▲▲▲ Modal ▲▲▲-->        
 
 <!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
@@ -69,12 +42,13 @@
 					        <td>
 							<div class="cell_left font-weight-bold">標題</div>
 							<div class="cell_right">
-								<a class="font-weight-bold" data-toggle="modal" data-target="#N-{{ news_list.0 }}">{{ news_list.3 }}</a>
+								<!-- 連結設定 slug 對應的索引位置 -->
+								<a class="font-weight-bold" href="/A000_news/{{ news_list.7 }}/">{{ news_list.2 }}</a>
 							</div>
 							</td>
 							<td class="text-center">
 						        <div class="cell_left font-weight-bold">更新日期</div>
-						        <div class="cell_right">{{ news_list.5 }}</div>
+						        <div class="cell_right">{{ news_list.6 }}</div>
 							</td>
 						</tr>
 					    {% endfor %}

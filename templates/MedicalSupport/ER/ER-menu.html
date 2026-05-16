@@ -1,87 +1,80 @@
-<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
-	<div class="c-sidebar-trust__header js-sidebar-toggle">
-		<div class="u-badge-small">ER</div>
-		<div class="c-sidebar-trust__title-row">
-			<h3>急診醫學科</h3>
-			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
-		</div>
-		<p>Emergency Medicine</p>
-	</div>		
-
-	<nav class="c-sidebar-trust__nav" aria-label="長安醫院急診醫學科選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
-		<ul class="c-sidebar-trust__list">
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院-急診-本科介紹" itemprop="url" {% if request.path == '/A003_ER/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">本科介紹</span>
-						<span class="c-sidebar-trust__en">About ER</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_1/' %}is-active{% endif %}" href="/A003_ER_1/" title="台中長安醫院-急診-醫師陣容" itemprop="url" {% if request.path == '/A003_ER_1/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">醫師陣容</span>
-						<span class="c-sidebar-trust__en">Doctors</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>	
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_2/' %}is-active{% endif %}" href="/A003_ER_2/" title="台中長安醫院-急診-檢傷流程" itemprop="url" {% if request.path == '/A003_ER_2/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">檢傷流程</span>
-						<span class="c-sidebar-trust__en">Triage Process</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html" title="台中長安醫院-急診-即時資訊" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">急診即時資訊</span>
-						<span class="c-sidebar-trust__en">Live Emergency Updates</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_1/' %}is-active{% endif %}" href="/A003_Story_1/" title="台中長安醫院-急診-民眾感謝" itemprop="url" {% if request.path == '/A003_Story_1/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">民眾感謝</span>
-						<span class="c-sidebar-trust__en">Thanks</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_2/' %}is-active{% endif %}" href="/A003_Story_2/" title="台中長安醫院-急診-定期訓練" itemprop="url" {% if request.path == '/A003_Story_2/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">定期訓練</span>
-						<span class="c-sidebar-trust__en">Training</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp" title="台中長安醫院-急診-回饋我們" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">回饋我們</span>
-						<span class="c-sidebar-trust__en">Feedback</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-		</ul>
-	</nav>
-</div>
-
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">ER</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>急診醫學科</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Emergency Medicine</p>
+	</div>
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院急診醫學科選單" itemscope itemtype="http://schema.org/SiteNavigationElement">
+		<ul class="c-sidebar-trust__list">
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER/' %}is-active{% endif %}" href="/A003_ER/" title="台中長安醫院急診-本科介紹" itemprop="url" {% if request.path == '/A003_ER/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">本科介紹</span>
+						<span class="c-sidebar-trust__en">About ER</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_1/' %}is-active{% endif %}" href="/A003_ER_1/" title="台中長安醫院急診-醫師陣容" itemprop="url" {% if request.path == '/A003_ER_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">醫師陣容</span>
+						<span class="c-sidebar-trust__en">Doctors</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_ER_2/' %}is-active{% endif %}" href="/A003_ER_2/" title="台中長安醫院急診-檢傷流程" itemprop="url" {% if request.path == '/A003_ER_2/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">檢傷流程</span>
+						<span class="c-sidebar-trust__en">Triage Process</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html" title="台中長安醫院急診-即時資訊" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/ER-2.html' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content"><span class="c-sidebar-trust__text" itemprop="name">急診即時資訊</span>
+						<span class="c-sidebar-trust__en">Live Emergency Updates</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_1/' %}is-active{% endif %}" href="/A003_Story_1/" title="台中長安醫院急診-民眾感謝" itemprop="url" {% if request.path == '/A003_Story_1/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">民眾感謝</span>
+						<span class="c-sidebar-trust__en">Thanks</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A003_Story_2/' %}is-active{% endif %}" href="/A003_Story_2/" title="台中長安醫院急診-定期訓練" itemprop="url" {% if request.path == '/A003_Story_2/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">定期訓練</span>
+						<span class="c-sidebar-trust__en">Training</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}is-active{% endif %}" href="http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp" title="台中長安醫院急診-回饋我們" itemprop="url" {% if request.path == 'http://web.everanhospital.com.tw:818/MedicalSupport/ER/Auto_asp/Question-ER.asp' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">回饋我們</span>
+						<span class="c-sidebar-trust__en">Feedback</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>

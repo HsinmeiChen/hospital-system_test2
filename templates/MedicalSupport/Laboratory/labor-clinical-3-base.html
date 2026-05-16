@@ -17,7 +17,7 @@
                         </div>
                     </aside>
                     <article class="col-lg-9">
-                        {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                        {% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %}<!-- 麵包屑自動化 -->
                         <div class="l-main-content u-panel-pure">
                             {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
                         </div>
@@ -34,7 +34,7 @@
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
-    <link rel="stylesheet" href="{% static 'common/css/Laboratory.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/refactored/Laboratory.css' %}">
     {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->

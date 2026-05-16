@@ -3,13 +3,13 @@
     <header class="m-header" id="m-header">
         <div class="m-header__container">
             <!-- Logo (GEO: 在地標記強化) -->
-            <div class="m-header__logo d-flex align-items-center gap-2 justify-content-center">
-                <a href="/index/" title="回首頁 - 長安醫院" style="margin-right: -10px;">
+            <div class="m-header__logo">
+                <a href="/index/" title="回首頁 - 長安醫院">
                     <img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院" title="回首頁 - 長安醫院">
                 </a>
-                <a href="/A003_Laboratory/" class="og-word" style="border-left: 1px solid var(--color-border-dark);padding-left: 15px;">
-					<h3 class="mb-0" style="font-size: 1.6rem;font-weight: bold;">檢驗科</h3>
-					<div class="font-12" style="font-size: 0.8rem;">Department of Laboratory Medicine</div>
+                <a href="/A003_Laboratory/">
+					<h3>檢驗科</h3>
+					<div>Department of Laboratory Medicine</div>
 				</a>
             </div>
 
@@ -76,16 +76,13 @@
                                         <ul class="m-mega__list">
                                             <li><a href="/A003_labor_clinical_4/" itemprop="url" title="微生物培養檢體採集方法須知">微生物培養檢體採集方法須知</a></li>
                                             <!-- 嵌套子選單 -->
-    <li class="has-mega-sub">
-        <a href="javascript:void(0)" class="js-mega-sub-toggle" itemprop="url" title="檢體採集須知">檢體採集須知</a>
-        <ul class="m-mega__sub-list">
-            <li><a href="/A003_labor_clinical_2/" itemprop="url" title="採檢前作業流程">採檢前作業流程</a></li>
-            <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢體採集原則">檢體採集原則</a></li>
-        </ul>
-    </li>
-                                            <!-- <li><a href="/A003_labor_blood_2/" itemprop="url" title="領取驗尿及糞便檢體容器">檢體採集須知</a></li>
-                                            <li><a href="/A003_labor_clinical_2/" itemprop="url" title="採檢前作業流程">採檢前作業流程</a></li>
-                                            <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢體採集原則">檢體採集原則</a></li> -->
+                                            <li class="has-mega-sub">
+                                                <a href="javascript:void(0)" class="js-mega-sub-toggle" itemprop="url" title="檢體採集須知">檢體採集須知</a>
+                                                <ul class="m-mega__sub-list">
+                                                    <li><a href="/A003_labor_clinical_2/" itemprop="url" title="採檢前作業流程">採檢前作業流程</a></li>
+                                                    <li><a href="/A003_labor_clinical_3/" itemprop="url" title="檢體採集原則">檢體採集原則</a></li>
+                                                </ul>
+                                            </li>
                                             <li><a href="http://web.everanhospital.com.tw:818/MedicalSupport/Laboratory/labor-clinical-6.html" itemprop="url" title="檢驗服務項目">檢驗服務項目</a></li>
                                         </ul>
                                     </section>

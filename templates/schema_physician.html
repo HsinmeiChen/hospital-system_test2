@@ -1,0 +1,26 @@
+<!-- [SEO/GEO 整合] Physician (醫師) 專用結構化資料模組 -->
+<!-- 應用情境：「醫師個人頁」、「護理長介紹」、或 「行政主管專欄」 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Physician",
+  "name": "{{ name }}",
+  "image": "{{ SITE_DOMAIN }}{{ MEDIA_URL }}department/img/{{ image|cut:' ' }}",
+  "medicalSpecialty": "{{ specialty }}",
+  "description": "{{ description|striptags|truncatechars:150 }}",
+  "hospitalAffiliation": {
+    "@type": "Hospital",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
+    "name": "長安醫院",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "太平區",
+      "addressRegion": "台中市",
+      "streetAddress": "永平路一段9號"
+    }
+  },
+  "knowsAbout": [{% for e in expertise %}"{{ e }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+  "url": "{{ SITE_DOMAIN }}{{ request.path }}",
+  "memberOf": { "@id": "{{ SITE_DOMAIN }}/#hospital" }
+}
+</script>

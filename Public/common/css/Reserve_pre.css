@@ -600,7 +600,7 @@ input[type="radio"].c-radio-table__radio:checked + .c-radio-table__label {
     }
     .online_nav{						
         max-width: 80rem;
-        padding: 0 2rem;
+        padding: 0 0 0 1rem;
     }
     .online_nav_title{
         width: 30%;

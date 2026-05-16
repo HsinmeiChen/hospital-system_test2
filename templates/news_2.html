@@ -3,290 +3,72 @@
 {% load static %}
 
 <!-- === Meta ================================== -->
-{% block title %}媒體報導 | {{ block.super }}{% endblock %}
-{% block og_title %}媒體報導 | {{ block.super }}{% endblock %}
+{% block title %}媒體報導｜{{ block.super }}{% endblock %}
+{% block og_title %}媒體報導｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
-
-<!-- ▼▼▼ Modal ▼▼▼-->
-{% block page_modals %}
-{% for a,b in zip_data %}
-	<div class="modal fade" id="M-{{ a.0 }}" tabindex="-1" aria-labelledby="news1_content" aria-hidden="true">
-    	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-	    	<div class="modal-content">
-		        <div class="modal-header og-bg line_break">
-		            <h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="exampleModalLabel">{{ a.3 }}</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-			        </button>
-			    </div>
-			    <div class="modal-body cofe-word font-18 article_border">
-				{% for bb in b %}
-				<!-- {% if "<h>" in bb %}
-					<div class="col-12 px-0">
-						<div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
-					</div>
-				{% endif %} -->
-				{% if "<t>" in bb %}
-		            <div>
-						<p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>
-					</div>
-			    {% endif %}
-				{% if "<img1>" in bb %}
-		            <div class="col-12 px-0">
-		                <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_2/img/{{ bb|cut:'<img1>'|safe }}?v=20260130" alt="" height="345">
-		            </div>
-		        {% endif %}
-				{% endfor %}
-			</div>
-		    </div>
-	    </div>
-	</div>
-{% endfor %}
-{% endblock %}
-<!-- ▲▲▲ Modal ▲▲▲-->
-
 
 <!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
     <h1 class="c-onsale-heading">媒體報導</h1>
 </header>
 <div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			{% for mmm,xxx,ppp in zdata %}
-				<!-- {{ ppp }} -->
-				<div class="media_new">
-					<div class="row align-items-center border-bottom">
-						<div class="col-md-4 d-flex justify-content-center">
-							<div class="p-3 out_divimg">
-								<div class="Img_div">
-									<img class="" src="{{ MEDIA_URL }}news_2/img/{{ ppp|cut:'<img1>' }}?v=20260130" alt="">
-								</div>
-							</div>
-						</div>
-						<div class="col-md-8">
-							<div style="max-width: 550px;width: 100%;">
-
-
-								<div class="ell_box">
-
-
-									<h5 class="ell_two">
-
-
-										<a href="#" data-toggle="modal" data-target="#M-{{ mmm.0 }}">{{ mmm.3 }}</a>
-
-
-									</h5>
-
-
-								</div>
-
-
-								<div class="ell_box mt-3">
-
-
-									<div class="ell_three text-muted">{{ xxx }}</div>
-
-
-								</div>
-
-
-								<div class="text-right mt-3 my-1 mr-1 text-date">
-
-
-									<small>{{ mmm.7|cut:".txt" }}</small>
-
-
-								</div>
-
-
-							</div>                
-
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-
-			{% endfor %}
-
-
-			<!-- 分頁功能 -->
-
-
-			<div class="row mt-3">
-
-
-				<div class="col-12 d-flex justify-content-center">
-
-
-					<ul class="pagination">
-
-
-						<li class="page-item">
-
-
-							<a class="page-link" href="?page=1">
-
-
-								<i class="fas fa-angle-double-left"></i>
-
-
-							</a>
-
-
-						</li>
-
-
-						{% if contacts_2.has_previous %}
-
-
-						<li class="active">
-
-
-							<a class="page-link" href="?page={{ contacts_2.previous_page_number }}">
-
-
-								<i class="fas fa-angle-left"></i>
-
-
-							</a>
-
-
-						</li>
-
-
-						{% endif %}
-
-
-
-
-
-						{% if paginator_2.has_previous_more %}
-
-
-						<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-
-
-						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-
-
-						{% endif %}
-
-
-
-
-
-						{% for i in paginator_2.previous_range %}
-
-
-						<li class="page-item">
-
-
-							<a class="page-link" href="?page={{ i }}">{{ i }}</a>
-
-
-						</li>
-
-
-						{% endfor %}
-
-
-
-
-
-						<li class="page-item active"><a class="page-link" href="?page={{ paginator_2.number }}">{{ paginator_2.number }}</a></li>
-
-
-
-
-
-						{% for i2 in paginator_2.next_range %}
-
-
-						<li class="page-item">
-
-
-							<a class="page-link" href="?page={{ i2 }}">{{ i2 }}</a>
-
-
-						</li>
-
-
-						{% endfor %}
-
-
-
-
-
-						{% if paginator_2.has_next_more %}
-
-
-						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-
-
-						<li class="page-item"><a class="page-link" href="?page={{ paginator_2.num_pages }}">{{ paginator_2.num_pages }}</a></li>
-
-
-						{% endif %}
-
-
-
-
-
-						{% if contacts_2.has_next %}
-
-
-						<li class="active">
-
-
-							<a class="page-link" href="?page={{ contacts_2.next_page_number }}">
-
-
-								<i class="fas fa-angle-right"></i>
-
-
-							</a>
-
-
-						</li>
-
-
-						{% endif %}
-
-
-						<li class="page-item">
-
-
-							<a class="page-link" href="?page={{ paginator_2.num_pages }}">
-
-
-								<i class="fas fa-angle-double-right"></i>
-
-
-							</a>
-
-
-						</li>
-
-
-					</ul>
-
-
-				</div>
-
-
-			</div>
-		</div>
-	</div>
+    <!-- 加入 AJAX 包覆層 -->
+    <div id="news_ajax_area">
+        <div class="row">
+            {% for news_list in contacts %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm rounded-0">
+                    <!-- 圖卡連結 (指向新詳細頁) -->
+                    <a href="/A000_reports/{{ news_list.8 }}/" class="text-decoration-none">
+                        <!-- 圖片顯示 (根據您的 ID 命名規則) -->
+                        <div class="card-img-top overflow-hidden" style="height: 200px;">
+							{% if news_list.10 %}
+							<!-- 如果有抓到 <img1> 標籤的圖片 -->
+							<img src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+							{% else %}
+							<!-- 如果沒有圖片，顯示預設圖 -->
+							<img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+							{% endif %}
+                        </div>
+                        <div class="card-body cofe-word">
+
+							<!-- 內文時間 (檔名) -->
+                            <p class="text-muted small mb-2 text-right"><i class="fa fa-clock" aria-hidden="true"></i> {{ news_list.6 }}</p>
+
+							<!-- 內文標題 (檔名) -->
+                            <h5 class="card-title font-weight-bold ell_two" style="height: 3rem; line-height: 1.5rem;">{{ news_list.2 }}</h5>
+
+							<!-- txt 內容第一個<t> -->
+                            <p class="text-muted small mb-0" style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ news_list.11|truncatechars:35 }}</p>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- AJAX 分頁功能 -->
+        <div class="row mt-3">
+            <div class="col-12 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if contacts.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">上一頁</a></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        <li class="page-item {% if contacts.number == i %}active{% endif %}">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if contacts.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}">下一頁</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
@@ -305,4 +87,16 @@
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
+<script>
+    // AJAX 分頁邏輯 (同 news_1)
+    $(document).on('click', '#news_ajax_area .pagination a', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        if (url) {
+            $('#news_ajax_area').load(url + ' #news_ajax_area > *');
+            window.history.pushState(null, "", url);
+            $('html, body').animate({ scrollTop: $('#content_h').offset().top - 50 }, 300);
+        }
+    });
+</script>
 {% endblock %}

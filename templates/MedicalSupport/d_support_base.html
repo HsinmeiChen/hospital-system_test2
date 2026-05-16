@@ -14,7 +14,7 @@
                     </div>
                 </aside>
                 <article class="col-lg-9">
-                    {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                    {% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %}<!-- 麵包屑自動化 -->
                     <div class="l-main-content u-panel-pure">
                         {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
                     </div>

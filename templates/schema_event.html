@@ -1,0 +1,24 @@
+<!-- [SEO/GEO 整合] Event (活動/講座) 專用結構化資料模組 -->
+<!-- 應用情境：「健康講座」、「義診活動」、「社區篩檢活動」 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "{{ event_name }}",
+  "description": "{{ description|striptags|truncatechars:150 }}",
+  "startDate": "{{ start_date|default:'2025-01-01T09:00' }}",
+  "location": { 
+    "@id": "{{ SITE_DOMAIN }}/#hospital" 
+  },
+  "organizer": {
+    "@id": "{{ SITE_DOMAIN }}/#hospital"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+  }
+}
+</script>
+
+<!-- 子頁 html 引用方式範例： -->
+<!-- {% include 'schema_event.html' with event_name="肺癌防治講座" description="由胸腔內科名醫分享..." start_date="2025-08-20T14:00" %} -->

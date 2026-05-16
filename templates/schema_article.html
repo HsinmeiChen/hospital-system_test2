@@ -1,23 +1,26 @@
 <!-- [SEO/GEO 整合] Article 專用結構化資料模組 -->
+<!-- 應用情境：「衛教文章」、「影片」、「衛教圖文」 時。 這能增加文章的 E-E-A-T (經驗、專業、權威、信任)，告訴 Google 這不是一般部落格，而是醫療機構發布的權威資訊。 -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "{% if headline %}{{ headline }}｜{% endif %}長安醫院",
     "inLanguage": "zh-TW",
-    "datePublished": "{{ date_published|default:'2022-02-22' }}",
-    "dateModified": "{{ date_modified|default:'2026-05-01' }}",
+    "datePublished": "{{ datePublished|default:'2022-02-22' }}",
+    "dateModified": "{% if dateModified %}{{ dateModified }}{% else %}{% now 'Y-m-d' %}{% endif %}",
     "author": {
         "@type": "Organization",
-        "name": "長安醫院"
+        "name": "長安醫院",
+        "url": "{{ SITE_DOMAIN }}"
     },
     "publisher": {
+        "@type": "Hospital",
         "@id": "{{ SITE_DOMAIN }}/#hospital"
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
     },
-    "image": "{{ og_image|default:DEFAULT_OG_IMAGE }}"
+    "image": "{% if article_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}{{ folder }}/img/{{ article_img }}{% else %}{{ SITE_DOMAIN }}{{ DEFAULT_OG_IMAGE }}{% endif %}"
 }
 </script>

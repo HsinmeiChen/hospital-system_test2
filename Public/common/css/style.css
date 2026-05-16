@@ -92,15 +92,14 @@ table{
     border-bottom:3px solid #f5961d;
 }
 .article_h{
-    font-size: 2rem;
-    /* color: #FF7600; */
+    font-size: 1.85rem;
     color: #17a2b8;
     font-weight: bold !important;
     border-bottom: solid 1px #e0e0e0;
-    text-align: center;
+    text-align: justify;
     margin-bottom: 15px;
-    padding: 10px;
-    line-height: 40px;
+    padding: 10px 0;
+    line-height: 45px;
 }
 /* === 底線標題 === */
 .baseline_title h3{
@@ -2739,6 +2738,11 @@ a.block-feature:hover {
         background-image: none;
         color: #754826;
         font-weight: normal;
+    }
+
+    /* 新的 */
+    .article_h{
+        text-align: center;
     }
 }
 

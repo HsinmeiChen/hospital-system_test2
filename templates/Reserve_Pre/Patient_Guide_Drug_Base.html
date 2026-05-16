@@ -20,7 +20,42 @@
     {% block page_modals %}{% endblock %} <!-- 存放 Modal -->
 
     <div class="l-wrapper l-sub__bg">
-        <header>{% include 'header.html' %}{% include 'Online_nav_drug.html' %}</header>
+        <header>
+            {% include 'header.html' %}
+            {% if Drug_login == "True" %}
+            <div>
+                <div>
+                    <div class="online_nav_bg">
+                        <div class="online_nav">
+                            <div class="Drug_One_Title">
+                                <span class="flex-fill"><i class="fas fa-notes-medical"></i> 預約慢性病處方箋</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if Pdinfo_Page %}
+            <div>
+                <div>
+                    <div class="online_nav_bg">
+                        <div class="online_nav">
+                            <div class="online_nav_title">
+                                <span class="flex-fill">預約慢性病處方箋</span>
+                                <div class="user_icon"><div>{{pd_info.0.2}}</div>，您好</div>
+                            </div>
+                            <div class="online_nav_btn Drugs_nav_btn">
+                                <div>
+                                    <a href="#" onclick="Drugs_logout_ok()">登出 <i class="fas fa-sign-out-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </header>
         <main class="l-sub-layout__main" role="main">
             <div class="l-container-panel p-3">
                 <article>

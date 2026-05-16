@@ -1,0 +1,62 @@
+.header .menu>ul>li{
+    padding: 0 .5rem 0 .5rem;
+    line-height: 3.2rem !important;
+}
+.header-item-right a:hover, .header .menu>ul>li:hover>a{
+    font-size: 1.2rem;
+}
+.side_menu_div a:hover, 
+.side-lili label:hover, 
+.side-lili.menu-items li a:hover{
+    font-size: 19px !important;
+}
+@media only screen and (max-width: 992px){
+    .header .menu>ul>li>a{
+        padding: 0;
+    }
+}
+.menu_sidebar{
+    top: 16% !important;
+}
+.card_shadow{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+
+/* ==== 本科簡介 ==== */
+.intro_banner{
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), var(--bg-Lab) no-repeat 0% 20%/ cover;
+    background-position: center center;
+    width: 100%;
+    height: 200px;
+}
+
+/* ==== 表格圖片顯示 ==== */
+
+/* 血瓶檢體採集表格圖片 */
+.b_td_img{
+    margin: 0 auto;
+    height: 340px;
+}
+.b_td_img .img-thumbnail{
+    height: 340px;
+}
+
+/* 採檢容器表格圖片 */
+.td_img img{
+    object-fit: contain;
+    width: 360px;
+}
+.Other_img{
+    display: flex;
+    height: 160px;
+    justify-content: start;
+}
+
+
+/* --------------- 新的 --------------- */
+@media (min-width: 992px) {
+    .c-sidebar-trust__item {
+        padding: 1.1rem;
+    }
+}

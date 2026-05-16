@@ -1,0 +1,44 @@
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">Doctors</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>{% if side_dept_name %}{{ side_dept_name }}{% else %}醫療科室{% endif %}</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Medical Team</p>
+	</div>		
+
+	<nav class="c-sidebar-trust__nav" aria-label="醫師團隊選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+            <!-- 回本科首頁按鈕 -->
+            {% if side_dept_url %}
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if 'A001_department_part' in request.path %}is-active{% endif %}" href="{{ side_dept_url }}" title="回到本科介紹">
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">本科介紹</span>
+						<span class="c-sidebar-trust__en">Introduction</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+            {% endif %}
+
+            <!-- 動態醫師列表 -->
+            {% for dr in side_doctors %}
+			<li class="c-sidebar-trust__item-wrapper" itemprop="name">
+                {% comment %} 判斷目前醫師：比對 URL 參數中的醫師序號或檔案編號 {% endcomment %}
+				<a class="c-sidebar-trust__item {% if dr.dr_id == current_dr_id %}is-active{% endif %}" 
+                   href="{{ dr.url }}" 
+                   title="台中長安醫院-{{ side_dept_name }}-{{ dr.full_name }}" 
+                   itemprop="url">
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">{{ dr.dr_name }}</span>
+						<span class="c-sidebar-trust__en">{{ dr.dr_title }}</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+            {% endfor %}
+		</ul>
+	</nav>
+</div>

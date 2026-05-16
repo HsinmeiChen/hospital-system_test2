@@ -1,37 +1,42 @@
-{% extends "MedicalSupport/ER/ER-base.html" %}
-{% load static %}
-
-{% block title %}檢傷流程急診醫學科 | {{ block.super }}{% endblock %}
-{% block og_title %}檢傷流程急診醫學科 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<header id="content_h">
-    <h2 class="c-onsale-heading">檢傷流程</h2>
-</header>
-<div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			<div class="div1">
-				<img src="{% static 'common/img/ER/Triage/急診就診流程-檢傷.jpg' %}" class="img-fluid" alt="急診檢傷就診流程">
-				<img src="{% static 'common/img/ER/Triage/ER-level5.jpg' %}" class="img-fluid" alt="急診檢傷就診流程">
-			</div>
-		</div>
-	</div>	
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="急診醫學科 - 檢傷流程" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
+{% extends "MedicalSupport/ER/ER-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}檢傷流程｜{{ block.super }}急診醫學科{% endblock %}
+{% block og_title %}檢傷流程｜{{ block.super }}急診醫學科{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">檢傷流程</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		<div class="col-12">
+			<div class="div1">
+				<img src="{% static 'common/img/ER/Triage/急診就診流程-檢傷.jpg' %}" class="img-fluid" alt="台中長安醫院急診醫學科檢傷流程圖1" title="台中長安醫院急診醫學科檢傷流程圖1" loading="lazy">
+				<img src="{% static 'common/img/ER/Triage/ER-level5.jpg' %}" class="img-fluid" alt="台中長安醫院急診醫學科檢傷流程圖2" title="台中長安醫院急診醫學科檢傷流程圖2" loading="lazy">
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="急診醫學科 - 檢傷流程" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

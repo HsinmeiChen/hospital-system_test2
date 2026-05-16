@@ -1,0 +1,20 @@
+<!-- [SEO/GEO 整合] Medical Service (醫療服務) 專用結構化資料模組 -->
+<!-- 應用情境：「健檢專案」、「自費手術」、「特定醫療處置服務」 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": "{{ service_name }}",
+  "description": "{{ description|striptags|truncatechars:150 }}",
+  "provider": { 
+    "@id": "{{ SITE_DOMAIN }}/#hospital" 
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+  }
+}
+</script>
+
+<!-- 內容頁 html 引用方式範例： -->
+<!-- {% include 'schema_service.html' with service_name="尊爵舒眠大腸鏡" description="提供專業無痛腸胃鏡檢查..." %} -->
