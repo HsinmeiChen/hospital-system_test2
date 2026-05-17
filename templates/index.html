@@ -8,354 +8,15 @@
 {% block content %}
 <div class="wrapper">
     <!-- ======= 本頁 Modal Area ======= -->
-        <!--  ▲▲▲ 最新消息 ▲▲▲  -->
-
-        {% for a,b in in_abc %}
-
-        <div class="modal fade" id="N-{{ a.0 }}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-hidden="true">
-
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-
-                <div class="modal-header og-bg line_break">
-
-                    <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{ a.3 }}</h5>
-
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-
-                <!-- Modal body -->
-
-                <div class="modal-body cofe-word font-18 article_border">
-
-                    {% for bb in b %}
-
-                        {% if "<h>" in bb %}
-
-                            <div class="col-12 px-0">
-
-                                <div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
-
-                            </div>
-
-                        {% endif %}
-
-
-
-                        {% if "<t>" in bb %}
-
-                            <div>
-
-                                <p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>       
-
-                            </div>
-
-                        {% endif %}
-
-
-
-                        {% if "<img1>" in bb %}
-
-                            <div class="col-12 px-0">
-
-                                <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_1/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
-
-                            </div>
-
-                        {% endif %}
-
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        <!--  ▲▲▲ 媒體報導 ▲▲▲  -->
-
-        {% for ma,mb in in_zip_data %}
-
-        <div class="modal fade" id="M-{{ ma.0 }}" tabindex="-1" aria-labelledby="news1_content" aria-hidden="true">
-
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-
-                <div class="modal-content">
-
-                    <div class="modal-header og-bg line_break">                
-
-                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="exampleModalLabel">{{ ma.3 }}</h5>
-
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                            <span aria-hidden="true">×</span>
-
-                        </button>
-
-                    </div>
-
-                    <div class="modal-body cofe-word font-18 article_border">                   
-
-                        {% for mbb in mb %}
-
-                            <!-- {% if "<h>" in bb %}
-
-                                <div class="col-12 px-0">
-
-                                    <div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
-
-                                </div>
-
-                            {% endif %} -->
-
-
-
-                            {% if "<t>" in mbb %}
-
-                                <div>
-
-                                    <p class="py-2 text-justify">{{ mbb|cut:"<t>"|safe }}</p>       
-
-                                </div>
-
-                            {% endif %}
-
-
-
-                            {% if "<img1>" in mbb %}
-
-                                <div class="col-12 px-0">
-
-                                    <img class="img-fluid w-100" src="{{ MEDIA_URL }}news_2/img/{{ mbb|cut:'<img1>'|safe }}" alt="" height="345">
-
-                                </div>
-
-                            {% endif %}
-
-
-
-                        {% endfor %}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        <!--  ▲▲▲ 影音消息 ▲▲▲  -->
-
-        {% for m in message_lists_1 %}
-
-        <div class="modal fade show" id="D1-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-
-            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
-
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-
-                    <div class="modal-header og-bg line_break">
-
-                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-
-                    </div>
-
-                    <!-- Modal body -->
-
-                    <div class="modal-body cofe-word font-18 article_border p-0">                       
-
-                        <div class="col-12 px-0" >
-
-                            <div class='embed-container'>
-
-                                
-
-                                <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-
-                                
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        {% for m in message_lists_2 %}
-
-        <div class="modal fade show" id="D2-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-
-            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
-
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-
-                    <div class="modal-header og-bg line_break">
-
-                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-
-                    </div>
-
-                    <!-- Modal body -->
-
-                    <div class="modal-body cofe-word font-18 article_border p-0">                       
-
-                        <div class="col-12 px-0" >
-
-                            <div class='embed-container'>
-
-                                
-
-                                <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-
-                                
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        {% for m in message_lists_3 %}
-
-        <div class="modal fade show" id="D3-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-
-            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
-
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-
-                    <div class="modal-header og-bg line_break">
-
-                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-
-                    </div>
-
-                    <!-- Modal body -->
-
-                    <div class="modal-body cofe-word font-18 article_border p-0">                       
-
-                        <div class="col-12 px-0" >
-
-                            <div class='embed-container'>
-
-                                
-
-                                <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-
-                                
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-        {% for m in message_lists_4 %}
-
-        <div class="modal fade show" id="D4-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-
-            <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" role="document">
-
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-
-                    <div class="modal-header og-bg line_break">
-
-                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-
-                    </div>
-
-                    <!-- Modal body -->
-
-                    <div class="modal-body cofe-word font-18 article_border p-0">                       
-
-                        <div class="col-12 px-0" >
-
-                            <div class='embed-container'>
-
-                                
-
-                                <div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-
-                                
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
+    <!-- 引入共享動態影音 Modal 組件 -->
+    {% include "modals/shared_video_modal.html" %}
     <!-- ======= 本頁 Modal Area End ======= -->
 
-
-
-
-
     <!-- ■■■ Logo、Navbar ■■■ -->
-
     <header>
-
         {% include 'header.html' %}
-
     </header>
-
     {% spaceless %}
-
     <main>
 
         <!-- ■■■ Banner ■■■ -->
@@ -623,157 +284,94 @@
 
 
         <!-- ■■■ 最新消息 ■■■ -->
-
         <section id="News" class="a_bg">
-
             <div class="a_inner">
-
                 <div class="a_inn_div">
-
                     <div class="a_tit_1">
-
                         <h2>最新消息<span><br class="d-block d-lg-none"> Event News</span></h2>                          
-
                     </div>
-
                     <div class="a_content_div">
-
                         <table class="table">             
-
                             <tbody class="text-left">
-
-                                {% for in_news_list in in_contacts %}
-
+                                {% for news_list in news_lists_5 %}
                                     <tr>
-
                                         <td class="px-3">
-
                                             <h5 class="mb-0 text-justify">
-
-                                                <a data-toggle="modal" data-target="#N-{{ in_news_list.0 }}">{{ in_news_list.3 }}</a>
-
+                                                <!-- 改為直接點擊跳轉到獨立內頁，完美維持 Hover 排版樣式 -->
+                                                <a href="/A000_news/{{ news_list.7 }}/">{{ news_list.2 }}</a>
                                             </h5>
-
                                         </td>
-
                                         <td class="w-15 h6 px-3">
-
                                             <div class="text-nowrap font-weight-bold text-center">
-
-                                                {{ in_news_list.7|cut:".txt" }}
-
+                                                {{ news_list.6 }}
                                             </div>
-
                                         </td>
-
                                     </tr>
-
                                 {% endfor %}
-
                             </tbody>
-
                         </table>
-
                         <div class="mb-3">
-
                             <button type="button" class="c-btn-more" onclick="window.location.href='/A000_news/';">
-
                                 閱讀更多 <i class="fas fa-chevron-right"></i>
-
                             </button>
-
                         </div>
-
                     </div>                        
-
                 </div>                    
-
             </div>                   
-
         </section>
+
 
 
 
         <!-- ■■■ 媒體報導 ■■■ -->
 
+                <!-- ■■■ 媒體報導 ■■■ -->
         <section id="media_reports" class="a_bg_img">
-
             <div class="a_inner">
-
                 <div class="a_inn_div">
-
                     <div class="a_tit">
-
                         <h2>媒體報導<span> <br class="d-block d-lg-none">Media Reports</span></h2>
-
                     </div>
-
                     <div class="a_content_div">
-
                         <div class="media_reports">
-
-                            {% for mmm,xxx,ppp in in_zdata %}
-
-                            <div>
-
-                                <div class="spacing_mp">
-
-                                    <a href="#" data-toggle="modal" data-target="#M-{{ mmm.0 }}" class="c-card slide_card d-block text-decoration-none">
-
-                                        <div class="c-card__img-wrapper">
-
-                                            <img class="c-card__img" src="{{ MEDIA_URL }}news_2/img/{{ ppp|cut:'<img1>' }}?v=20260130" alt="{{ mmm.3 }}" title="{{ mmm.3 }}">
-
-                                        </div>
-
-                                        <div class="c-card__body">
-
-                                            <h5 class="c-card__title">{{ mmm.3 }}</h5>
-
-                                            <p class="c-card__description">{{ xxx }}</p>
-
-                                            <div class="c-card__date">{{ mmm.7|cut:".txt" }}</div>
-
-                                        </div>
-
-                                    </a>
-
-                                </div>
-
+                            {% for news_list in media_reports_6 %}
+                            <div class="spacing_mp">
+                                <!-- 改為直接跳轉至媒體報導詳細內頁 -->
+                                <a href="/A000_reports/{{ news_list.8 }}/" class="c-card slide_card d-block text-decoration-none">
+                                    <div class="c-card__img-wrapper">
+                                        {% if news_list.10 %}
+                                        <picture>
+                                            {% if news_list.12 %}
+                                            <source srcset="{{ MEDIA_URL }}{{ news_list.12 }}" type="image/webp">
+                                            {% endif %}
+                                            <img class="c-card__img" src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                                        </picture>
+                                        {% else %}
+                                        <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                                        {% endif %}
+                                    </div>
+                                    <div class="c-card__body">
+                                        <h5 class="c-card__title">{{ news_list.2 }}</h5>
+                                        <p class="c-card__description">{{ news_list.11|truncatechars:35 }}</p>
+                                        <div class="c-card__date">{{ news_list.6 }}</div>
+                                    </div>
+                                </a>
                             </div>
-
                             {% endfor %}
-
-
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="text-center">
-
                     <button type="button" class="c-btn-more" onclick="window.location.href='/A000_reports/';">
-
                         閱讀更多 <i class="fas fa-chevron-right"></i>
-
                     </button>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
-        <!-- ■■■ 醫療資訊 ■■■ -->        
-
+        <!-- ■■■ 醫療資訊 ■■■ -->
         <section id="medical_info" class="a_bg_grid">
-
             <div class="a_inner">
-
                 <div class="a_tit">
 
                     <h2>醫療資訊<span> <br class="d-block d-lg-none">Medical Information</span></h2>
@@ -782,52 +380,49 @@
 
                 <!-- === 醫療資訊專區 (無 JS, 純 CSS 現代橫向捲動) === -->
                 <div class="medical_info">
-
                     {% include "news_4_partial.html" with is_index=True %}
-
                 </div>
 
                 <!-- 專屬無阻礙 CSS 樣式 (電腦版 4 欄，平板 3 欄，手機 2 欄，橫向滑動不折行) -->
                 <style>
                 /* 強制將原本的 medical_info 改為 Flex 橫向捲動排版 */
-                .medical_info {
+                .medical_info, .media_reports {
                     display: flex !important;
                     flex-wrap: nowrap !important;
                     overflow-x: auto !important;
                     -webkit-overflow-scrolling: touch !important; /* iOS 滑動流暢加速 */
                     scroll-snap-type: x mandatory !important; /* 磁吸式滑動 */
-                    gap: 20px !important;
                     padding: 10px 5px 25px 5px !important;
                     margin: 0 !important;
                     width: 100% !important;
                 }
 
                 /* 隱藏滾動條，保持極簡高級感 */
-                .medical_info::-webkit-scrollbar {
+                .medical_info::-webkit-scrollbar, .media_reports::-webkit-scrollbar {
                     display: none !important;
                 }
 
                 /* 【Mobile-First 行動裝置優先設計】 */
                 /* 預設：576px 以下顯示 1 欄 */
-                .medical_info .spacing_mp {
+                .medical_info .spacing_mp, .media_reports .spacing_mp {
                     flex: 0 0 100% !important;
                     scroll-snap-align: start !important;
                     display: block !important; /* 覆蓋 slick 預設 display */
                 }
 
                 /* 確保圖片外框有穩定高度，防止 collapsed 跑版 */
-                .medical_info .spacing_mp .c-card__img-wrapper {
+                .medical_info .spacing_mp .c-card__img-wrapper, .media_reports .spacing_mp .c-card__img-wrapper {
                     height: 220px !important;
                 }
 
                 /* 修正 picture 元件在原生 CSS 中的 inline 塌陷問題，確保撐滿容器 */
-                .medical_info .spacing_mp .c-card__img-wrapper picture {
+                .medical_info .spacing_mp .c-card__img-wrapper picture, .media_reports .spacing_mp .c-card__img-wrapper picture {
                     display: block !important;
                     width: 100% !important;
                     height: 100% !important;
                 }
 
-                .medical_info .spacing_mp .c-card__img-wrapper img {
+                .medical_info .spacing_mp .c-card__img-wrapper img, .media_reports .spacing_mp .c-card__img-wrapper img {
                     width: 100% !important;
                     height: 100% !important;
                     object-fit: cover !important;
@@ -835,38 +430,31 @@
 
                 /* 576px 以上（包含直向平板、768px 以上）顯示 2 欄 */
                 @media (min-width: 768px) {
-                    .medical_info .spacing_mp {
+                    .medical_info .spacing_mp, .media_reports .spacing_mp {
                         flex: 0 0 calc(50% - 10px) !important;
                     }
                 }
 
                 /* 大型電腦桌機版 (992px 以上) 顯示 3 欄 */
                 @media (min-width: 992px) {
-                    .medical_info .spacing_mp {
+                    .medical_info .spacing_mp, .media_reports .spacing_mp {
                         flex: 0 0 calc(33.33% - 15px) !important;
                     }
                 }
 
                 /* 大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
                 @media (min-width: 1400px) {
-                    .medical_info .spacing_mp {
+                    .medical_info .spacing_mp, .media_reports .spacing_mp {
                         flex: 0 0 calc(25% - 15px) !important;
                     }
                 }
                 </style>
-
                 <div class="text-center mt-3">
-
                     <button type="button" class="c-btn-more" onclick="window.location.href='/A000_medical_info/';">
-
                         閱讀更多 <i class="fas fa-chevron-right"></i>
-
                     </button>
-
                 </div>
-
             </div>
-
         </section>
 
 
@@ -957,7 +545,9 @@
 
                                         <div class="Div_body" style="padding: 1rem;">
 
-                                            <a href="#" data-toggle="modal" data-target="#D1-{{m.index}}">
+                                            <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 
                                                 <div class="c-card__img-wrapper">
 
@@ -999,7 +589,9 @@
 
                                         <div class="Div_body" style="padding: 1rem;">
 
-                                            <a href="#" data-toggle="modal" data-target="#D2-{{m.index}}">
+                                            <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 
                                                 <div class="c-card__img-wrapper">
 
@@ -1041,7 +633,9 @@
 
                                         <div class="Div_body" style="padding: 1rem;">
 
-                                            <a href="#" data-toggle="modal" data-target="#D3-{{m.index}}">
+                                            <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 
                                                 <div class="c-card__img-wrapper">
 
@@ -1083,7 +677,9 @@
 
                                         <div class="Div_body" style="padding: 1rem;">
 
-                                            <a href="#" data-toggle="modal" data-target="#D4-{{m.index}}">
+                                            <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 
                                                 <div class="c-card__img-wrapper">
 
@@ -1328,7 +924,5 @@
     <script src="{% static 'common/js/tab_switch_select.js' %}"></script>
     <!-- ★ slick 輪播效果 ★ -->
     <script src="{% static 'common/js/slide_div.js' %}"></script>
-    <!-- ★ Youtube 減少載入時間 ★ -->
-    <script src="{% static 'common/js/lite-youtube_lowtime.js' %}"></script>
 {% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

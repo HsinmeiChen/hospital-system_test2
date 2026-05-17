@@ -1,0 +1,93 @@
+{% load static %}
+<div class="row w-100 mx-0 justify-content-center no-gutters">
+    {% for news_list in contacts %}
+    <div class="col-12 mb-3 news-card-item">
+        <div class="card border-0 shadow-sm rounded-0 overflow-hidden" style="background-color: #ffffff;">
+            <!-- 點擊直接開啟媒體報導詳細內頁，完美套用 data-no-loading 繞過全域 Loading 遮罩 -->
+            <a href="/A000_reports/{{ news_list.8 }}/" class="text-decoration-none d-flex flex-row" data-no-loading>
+                
+                <!-- 左側：精緻縮圖區 (寬度 col-3，電腦版 col-md-2) -->
+                <div class="position-relative overflow-hidden col-3 col-md-2 px-0" style="height: 110px;">
+                    {% if news_list.10 %}
+                    <picture>
+                        {% if news_list.12 %}
+                        <source srcset="{{ MEDIA_URL }}{{ news_list.12 }}" type="image/webp">
+                        {% endif %}
+                        <img src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" class="w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                    </picture>
+                    {% else %}
+                    <img src="{% static 'common/img/everan2.webp' %}" class="w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                    {% endif %}
+                </div>
+                
+                <!-- 右側：內容區 (寬度 col-9，電腦版 col-md-10) -->
+                <div class="card-body cofe-word col-9 col-md-10 d-flex flex-column justify-content-between py-2 px-3">
+                    <div>
+                        <!-- 標題 (字級優雅、最多呈現兩行) -->
+                        <h5 class="font-weight-bold ell_two mb-1" style="font-size: 1.05rem; line-height: 1.45rem; color: #3d3428;">{{ news_list.2 }}</h5>
+                        <!-- 摘要：配合較小高度，各顯示一行的簡潔摘要 -->
+                        <p class="text-muted small mb-0 d-none d-md-block" style="line-height: 1.35rem; height: 1.35rem; overflow: hidden;">{{ news_list.11|truncatechars:85 }}</p>
+                        <p class="text-muted small mb-0 d-block d-md-none" style="line-height: 1.3rem; height: 1.3rem; overflow: hidden;">{{ news_list.11|truncatechars:40 }}</p>
+                    </div>
+                    <!-- 底部：發佈日期與點擊提示 -->
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <span class="text-muted small" style="color: #8c8275 !important;"><i class="fa fa-clock mr-1" aria-hidden="true"></i> {{ news_list.6 }}</span>
+                        <span class="btn-read-more text-warning font-weight-bold small d-none d-md-inline" style="color: #b89b78 !important;">閱讀全文 <i class="fas fa-chevron-right ml-1"></i></span>
+                    </div>
+                </div>
+                
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted my-4">
+        目前無相關文章。
+    </div>
+    {% endfor %}
+</div>
+
+<!-- === AJAX 分頁頁碼 (以 4 筆進行分頁計算) === -->
+{% if contacts.paginator.num_pages > 1 %}
+<div class="row w-100 mx-0 mt-3">
+    <div class="col-12 d-flex justify-content-center">
+        <ul class="pagination" id="doctor-pagination-list">
+            <!-- 首頁 -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+               <a class="page-link" href="{{ url }}&page=1" data-no-loading>
+                <i class="fas fa-angle-double-left"></i>
+               </a>
+            </li>
+            <!-- 上一頁 -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{{ url }}&page={% if contacts.has_previous %}{{ contacts.previous_page_number }}{% else %}1{% endif %}" data-no-loading>
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </li>
+            
+            <!-- 頁碼範圍限制 -->
+            {% for page_num in contacts.paginator.page_range %}
+                {% if page_num == contacts.number %}
+                    <li class="page-item active"><a class="page-link">{{ page_num }}</a></li>
+                {% elif page_num > contacts.number|add:"-3" and page_num < contacts.number|add:"3" %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url }}&page={{ page_num }}" data-no-loading>{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            <!-- 下一頁 -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ url }}&page={% if contacts.has_next %}{{ contacts.next_page_number }}{% else %}{{ contacts.paginator.num_pages }}{% endif %}" data-no-loading>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <!-- 末頁 -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ url }}&page={{ contacts.paginator.num_pages }}" data-no-loading>
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}

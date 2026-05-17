@@ -1,0 +1,62 @@
+{% load static %}
+<div class="doctor_mov">
+	{% for m in video_contacts %}
+	<div class="spacing_mp">
+		<a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
+			<div class="media_new info_card transform_result">
+				<div>
+					<img class="" src="{{m.youtube_image}}" alt="">
+				</div>
+			</div>
+		</a>
+	</div>
+	{% endfor %}
+</div>
+
+<!-- === AJAX 分頁頁碼 (每頁 4 筆，且大於 1 頁時才顯示) === -->
+{% if video_contacts.paginator.num_pages > 1 %}
+<div class="row w-100 mx-0 mt-3">
+    <div class="col-12 d-flex justify-content-center">
+        <ul class="pagination" id="video-pagination-list">
+            <!-- 首頁 -->
+            <li class="page-item {% if not video_contacts.has_previous %}disabled{% endif %}">
+               <a class="page-link" href="{{ video_url }}&video_page=1" data-no-loading>
+                <i class="fas fa-angle-double-left"></i>
+               </a>
+            </li>
+            <!-- 上一頁 -->
+            <li class="page-item {% if not video_contacts.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{{ video_url }}&video_page={% if video_contacts.has_previous %}{{ video_contacts.previous_page_number }}{% else %}1{% endif %}" data-no-loading>
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </li>
+            
+            <!-- 頁碼範圍限制 -->
+            {% for page_num in video_contacts.paginator.page_range %}
+                {% if page_num == video_contacts.number %}
+                    <li class="page-item active"><a class="page-link">{{ page_num }}</a></li>
+                {% elif page_num > video_contacts.number|add:"-3" and page_num < video_contacts.number|add:"3" %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ video_url }}&video_page={{ page_num }}" data-no-loading>{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            <!-- 下一頁 -->
+            <li class="page-item {% if not video_contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ video_url }}&video_page={% if video_contacts.has_next %}{{ video_contacts.next_page_number }}{% else %}{{ video_contacts.paginator.num_pages }}{% endif %}" data-no-loading>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <!-- 末頁 -->
+            <li class="page-item {% if not video_contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ video_url }}&video_page={{ video_contacts.paginator.num_pages }}" data-no-loading>
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,56 @@
+<!-- ========================================== -->
+<!-- 💻 全網頁共用：影音播放彈窗（模組化組件）  -->
+<!-- ========================================== -->
+
+<!-- 1. 共用 Modal HTML 結構骨架 -->
+<div class="modal fade" id="shared-video-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Header：標題由 JS 點擊時動態替換 -->
+            <div class="modal-header og-bg line_break">
+                <h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="shared-video-title">載入中...</h5>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <!-- Body：影片 Iframe 播放器動態插入點 -->
+            <div class="modal-body cofe-word font-18 article_border p-0">
+                <div class="col-12 px-0">
+                    <div class="embed-container" id="shared-video-body">
+                        <!-- 影片 <iframe> 將在點擊瞬間動態載入 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. 全域動態加載監聽器 (包含 Error 153 解決方案) -->
+<script>
+    $(document).ready(function() {
+        // 防止重複綁定監聽器
+        if (window.sharedVideoModalInitialized) return;
+        window.sharedVideoModalInitialized = true;
+
+        // 當 Modal 即將顯示時，動態讀取資料屬性並插入播放器
+        $(document).on('show.bs.modal', '#shared-video-modal', function (event) {
+            var button = $(event.relatedTarget); // 觸發 Modal 的 <a> 標籤
+            var videoId = button.data('video-id');
+            var videoTitle = button.data('video-title');
+            
+            // 1. 動態替換標題
+            $('#shared-video-title').text(videoTitle || '影片播放');
+            
+            // 2. 構建並插入 YouTube Iframe (使用 youtube-nocookie 與 來源安全性政策，解決 Error 153)
+            var iframeHtml = '<iframe src="https://www.youtube-nocookie.com/embed/' + videoId + '?rel=0" ' +
+                             'frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+                             'referrerpolicy="strict-origin-when-cross-origin" ' +
+                             'allowfullscreen></iframe>';
+            $('#shared-video-body').html(iframeHtml);
+        });
+
+        // 當 Modal 關閉動畫結束後，立刻清空 iframe 釋放資源，確保聲音完全中止
+        $(document).on('hidden.bs.modal', '#shared-video-modal', function () {
+            $('#shared-video-body').empty();
+            $('#shared-video-title').text('載入中...');
+        });
+    });
+</script>

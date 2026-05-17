@@ -10,112 +10,9 @@
 {% block guide_content %}
 
 <!-- ▼▼▼ Modal ▼▼▼-->
+<!-- 引入共享動態影音 Modal 組件 -->
 {% block page_modals %}
-<!-- Modal: 長安的故事 -->
-{% for m in message_lists_cut_1 %}
-	<div class="modal fade show" id="D1-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-			<div class="modal-content">
-			<!-- Modal Header -->
-				<div class="modal-header og-bg line_break">
-					<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-					<button type="button" class="close" data-dismiss="modal">×</button>
-				</div>
-				<!-- Modal body -->
-				<div class="modal-body cofe-word font-18 article_border p-0">
-					<div class="col-12 px-0" >
-						<div class='embed-container'>
-						<!-- {{m.youtube_id}} -->
-							<iframe class="lazyload" width='560' height='315' data-src='https://www.youtube-nocookie.com/embed/{{m.youtube_id}}?rel=0' src='' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
-
-							<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-
-							<lite-youtube videoid="{{m.youtube_id}}" playlabel="Play: Keynote (Google I/O '18)" params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1"></lite-youtube>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endfor %}
-
-<!-- Modal: 長安保健室 -->
-{% for m in message_lists_cut_2 %}
-	<div class="modal fade show" id="D2-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<!-- Modal Header -->
-				<div class="modal-header og-bg line_break">
-					<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-					<button type="button" class="close" data-dismiss="modal">×</button>
-				</div>
-				<!-- Modal body -->
-				<div class="modal-body cofe-word font-18 article_border p-0">
-					<div class="col-12 px-0" >
-						<div class='embed-container'>
-							<!-- {{m.youtube_id}} -->
-							<iframe class="lazyload" width='560' height='315' data-src='https://www.youtube-nocookie.com/embed/{{m.youtube_id}}?rel=0' src='' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
-							<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-							<lite-youtube videoid="{{m.youtube_id}}" playlabel="Play: Keynote (Google I/O '18)" params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1"></lite-youtube>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endfor %}
-
-<!-- Modal: 長安居家復健輕鬆做 -->
-{% for m in message_lists_cut_3 %}
-	<div class="modal fade show" id="D3-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<!-- Modal Header -->
-				<div class="modal-header og-bg line_break">
-					<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-					<button type="button" class="close" data-dismiss="modal">×</button>
-				</div>
-				<!-- Modal body -->
-				<div class="modal-body cofe-word font-18 article_border p-0"> 
-					<div class="col-12 px-0">
-						<div class='embed-container'>
-							<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-							<lite-youtube videoid="{{m.youtube_id}}" playlabel="Play: Keynote (Google I/O '18)" params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1"></lite-youtube>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endfor %}
-
-<!-- Modal: 專訪 -->
-{% for m in message_lists_cut_4 %}
-<div class="modal fade show" id="D4-{{m.index}}" tabindex="-1" role="dialog" aria-labelledby="news1_content" aria-modal="true">
-	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<!-- Modal Header -->
-			<div class="modal-header og-bg line_break">
-				<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-				<button type="button" class="close" data-dismiss="modal">×</button>
-			</div>
-			<!-- Modal body -->
-			<div class="modal-body cofe-word font-18 article_border p-0">
-				<div class="col-12 px-0" >
-					<div class='embed-container'>
-						<!-- {{m.youtube_id}} -->
-						<!-- <iframe class="lazyload" width='560' height='315' data-src='https://www.youtube-nocookie.com/embed/{{m.youtube_id}}?rel=0' src='' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe> -->
-						<!-- <div class="youtube-player" data-id="{{m.youtube_id}}"></div> -->
-						<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-						<!-- <lite-youtube videoid="{{m.youtube_id}}" playlabel="Play: Keynote (Google I/O '18)" params="controls=0&start=10&end=30&modestbranding=2&rel=0&enablejsapi=1"></lite-youtube> -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
-
+{% include "modals/shared_video_modal.html" %}
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
@@ -153,7 +50,9 @@
 						{% for m in message_lists_cut_1 %}
 							<div class="Div_box transform_result">
 								<div class="Div_body">
-									<a href="#" data-toggle="modal" data-target="#D1-{{m.index}}">
+									<a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 										<div class="media_new">
 											<div class="row align-items-center">
 												<div class="col-md-4 d-flex justify-content-center px-0">
@@ -232,7 +131,9 @@
 						{% for m in message_lists_cut_2 %}
 						<div class="Div_box transform_result">
 							<div class="Div_body">
-								<a href="#" data-toggle="modal" data-target="#D2-{{m.index}}">
+								<a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 									<div class="media_new">
 										<div class="row align-items-center">
 											<div class="col-md-4 d-flex justify-content-center px-0">
@@ -316,7 +217,9 @@
 						{% for m in message_lists_cut_3 %}
 						<div class="Div_box transform_result">
 							<div class="Div_body">
-								<a href="#" data-toggle="modal" data-target="#D3-{{m.index}}">
+								<a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 									<div class="media_new">
 										<div class="row align-items-center">
 											<div class="col-md-4 d-flex justify-content-center px-0">
@@ -396,7 +299,9 @@
 						{% for m in message_lists_cut_4 %}
 						<div class="Div_box transform_result">
 							<div class="Div_body">
-								<a href="#" data-toggle="modal" data-target="#D4-{{m.index}}">
+								<a href="#" data-toggle="modal" data-target="#shared-video-modal" 
+   data-video-id="{{ m.youtube_id }}" 
+   data-video-title="{% firstof m.title m.name %}">
 									<div class="media_new">
 										<div class="row align-items-center">
 											<div class="col-md-4 d-flex justify-content-center px-0">
@@ -489,5 +394,4 @@
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
-	<script src="{% static 'common/js/lite-youtube_lowtime.js' %}"></script>
 {% endblock %}

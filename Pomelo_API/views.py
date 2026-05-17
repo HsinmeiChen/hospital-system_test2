@@ -1567,133 +1567,108 @@ class MyPaginator(Paginator):
 		return super().page(number)
 
 # 功能(一)、首頁
-def index(request):
-	# try:
-	# 	if ("HTTP_X_FORWARDED_FOR" in request.META):
-	# 		user_ip = request.META["HTTP_X_FORWARDED_FOR"]
-	# 	else:
-	# 		user_ip = request.META["REMOTE_ADDR"]
 
-	# 	MSSQLAPI.Insert_LOG_WEB(user_ip, "/index/")
-	# except Exception as e:
-	# 	MSSQLAPI.Insert_LOG_WEB("ERROR", str(e))
+# --- [ 最新消息:解析檔名(slug / hash) ] ---
+def _get_news_1_list():
+	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
+	news_lists = []
+	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
 
-	# 最新消息區
-	in_news_lists = []
-	in_info_data = []
-	in_message_lists = []
-
-	in_n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
-	i = 0
-	for d in in_n_data:
+	for d in n_data:
 		if (".txt" in d):
-			# 處理檔名：移除 .txt 和 hash 部分（^627eded3）
 			name_without_ext = d.replace(".txt", "")
-			if '^' in name_without_ext:
-				# 分離檔名主體和 hash key
-				body_part, hash_key = name_without_ext.split('^', 1)
-				parts = body_part.split("_")
-			else:
-				parts = name_without_ext.split("_")
-			
-			in_news_lists.append(parts)
-			in_news_lists[i].insert(0, "D00" + str(i))
-			i += 1
 
-	in_news_lists.sort(key = get_year, reverse = True)
+			# --- 提取 Slug (Hash Key) ---
+			slug = name_without_ext.split('^')[1] if '^' in name_without_ext else ""
+			body_part = name_without_ext.split('^')[0]
+			parts = body_part.split("_")
 
-	for c in in_news_lists:
-		for d in in_n_data:
-			if c[3] in d:
-				in_info_data.append(d)
+			# --- 將 Slug 加入陣列最後，方便前端讀取 (成為 news_list.7) ---
+			parts.append(slug)
+			news_lists.append(parts)
 
-	for f in in_info_data:
-		fd = open(os.path.join(settings.MEDIA_ROOT, 'news_1', f), "r", encoding="utf-8")
-		in_message_lists.append(fd.readlines())
-		fd.close()
+	news_lists.sort(key=get_year, reverse=True)
+	return news_lists
 
-	in_abc = zip(in_news_lists, in_message_lists)
+# --- [ 媒體報導:解析檔名(slug / hash) ] ---
+def _get_news_2_list():
+	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
+	medias_split_box = []
+	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
 
-	in_paginator = Paginator(in_news_lists, 6)
-	total = int(in_paginator.num_pages)
-	page = request.GET.get('page')
-	in_contacts = in_paginator.get_page(page)
-
-	# 媒體報導區
-	in_medias_split_box = []
-	in_medias_all_box = []
-	in_modal_content = []
-	in_list_description = []
-	in_list_picture = []
-
-	in_medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
-
-	i = 0
-	for md in in_medias_datas:
+	for md in medias_datas:
 		if (".txt" in md):
-			in_medias_split_box.append(md.split("_"))
-			# medias_all_box.append(md)
-			in_medias_split_box[i].insert(0, "D00" + str(i))
-			i += 1
+			name_without_ext = md.replace(".txt", "")
+			parts = name_without_ext.split("_")
 
-	in_medias_split_box.sort(key = get_m_year, reverse = True)
+			# 增加防錯機制：確保檔名格式正確才解析
+			if len(parts) >= 8:
+				slug = f"{parts[6]}_{parts[7]}"  # 生成 Slug：日期 + ID
+				parts.append(slug)  # Index [8]
+				parts.append(md)    # Index [9] 儲存原始檔名
+				medias_split_box.append(parts)
+			else:
+				continue
 
-	for in_mc in in_medias_split_box:
-		for in_md in in_medias_datas:
-			if in_mc[3] in in_md:
-				in_medias_all_box.append(in_md)
+	medias_split_box.sort(key=get_m_year, reverse=True)
+	return medias_split_box
 
-	for in_mf in in_medias_all_box:
-		# open(filename,mode)
-		in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
-		lines = in_mfd.readlines()
-		cleaned_lines = [line.strip() for line in lines]
-		in_modal_content.append(cleaned_lines)
-		in_mfd.close()
+def _parse_news_2_items(items):
+	"""
+	【媒體報導 - 深度內容解析器】
+	1. 僅針對需要顯示的文章開檔 (首頁 6 筆 / 分頁 10 筆)，大幅降低磁碟 I/O
+	2. 提取首張縮圖與內文文字摘要
+	3. 自動生成極速 WebP 縮圖快取，並清理孤立快取
+	"""
+	for item in items:
+		if len(item) > 10:  # 防止重複解析
+			continue
+		img_name = ""
+		excerpt = ""
 
-	for in_mread in in_medias_all_box:
-		in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
-		in_pxpx = in_mrd_size.read(100)
-		in_pxpx = in_pxpx.replace('<h>','')
-		in_pxpx = in_pxpx.replace('\n','')
-		in_pxpx = in_pxpx.replace('\r','')
-		in_pxpx = in_pxpx.replace('<t>','')
-		in_list_description.append(in_pxpx)
-		for in_gg in in_mrd_size.readlines():
-			if "<img1>" in in_gg:
-				in_list_picture.append(in_gg.strip())
-				break
-		in_mrd_size.close()
+		try:
+			# 僅讀取該筆新聞的內容，抓取第一個圖片 <img1> 與摘要 <t> 
+			with open(os.path.join(settings.MEDIA_ROOT, 'news_2', item[9]), "r", encoding="utf-8-sig") as f:
+				for line in f:
+					if not img_name and "<img1>" in line:
+						img_name = line.replace("<img1>", "").strip()
+					if not excerpt and "<t>" in line:
+						excerpt = line.replace("<t>", "").strip()
+					if img_name and excerpt:
+						break
+		except:
+			pass
 
-	in_paginator_2 = MyPaginator(in_medias_split_box, 6)
-	in_total_2 = int(in_paginator_2.num_pages)
-	in_page_2 = request.GET.get('page', 1)
-	in_contacts_2 = in_paginator_2.page(in_page_2)
+		# 縮圖自動轉檔 WebP 與快取清理
+		webp_path = ""
+		if img_name:
+			source_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
+			target_dir = os.path.join(source_dir, 'thumb-webp')
+			webp_path = convert_image_to_webp(
+				source_dir=source_dir,
+				target_dir=target_dir,
+				original_filename=img_name,
+				quality=50
+			)
+			safe_cleanup_webp_cache(source_dir, target_dir)
+			
+		item.append(img_name)   # Index [10]
+		item.append(excerpt)    # Index [11]
+		item.append(webp_path)  # Index [12]
 
-	in_paginator_3 = MyPaginator(in_list_description, 6)
-	in_total_3 = int(in_paginator_3.num_pages)
-	in_page_3 = request.GET.get('page', 1)
-	in_contacts_3 = in_paginator_3.page(in_page_3)
 
-	in_paginator_3P = MyPaginator(in_list_picture, 6)
-	in_total_3P = int(in_paginator_3P.num_pages)
-	in_page_3P = request.GET.get('page', 1)
-	in_contacts_3P = in_paginator_3P.page(in_page_3P)
+def index(request):
+	# 1. 沿用並引入共用資料邏輯（僅取最新發布前 5 筆）
+	news_lists_5 = _get_news_1_list()[:5]
 
-	in_paginator_4 = MyPaginator(in_modal_content, 6)
-	in_total_4 = int(in_paginator_4.num_pages)
-	in_page_4 = request.GET.get('page', 1)
-	in_contacts_4 = in_paginator_4.page(in_page_4)
+	# 2. 沿用並引入共用資料邏輯（僅取最新發布前 6 筆，並動態提取摘要）
+	medias_split_box = _get_news_2_list()
+	media_reports_6 = medias_split_box[:6]
+	_parse_news_2_items(media_reports_6)
 
-	in_zip_data = zip(in_contacts_2, in_contacts_4)
-	# zdata = zip(medias_split_box, medias_all_box)
-
-	in_zdata = zip(in_contacts_2, in_contacts_3, in_contacts_3P)
-
-	# 傳遞 MEDIA_URL
 	MEDIA_URL = settings.MEDIA_URL
 
-	# 影音消息
+	# 3. 影音消息
 	_dir=os.path.join(settings.MEDIA_ROOT, 'news_3')
 	data = os.listdir(_dir)
 	message_lists=[]
@@ -1753,33 +1728,14 @@ def index(request):
 	message_lists_3=list(filter(lambda x: x['video_type'] == '3',message_lists))[:4]
 	message_lists_4=list(filter(lambda x: x['video_type'] == '4',message_lists))[:4]
 
-	# 醫療資訊
-	# data = MSSQLAPI.Search_EAH_WEB_DATA("000")
-	#print(data)
-	# for d in data:
-	# 	re_d = d.split("\n")
-	# 	for dd in re_d:
-	# 		if ("<h>" in d):
-	# 			media_page_data.append(d.replace("<h>", ""))
-	# 		if ("<in_date>" in d):
-	# 			media_page_data.append(d.replace("<in_date>", ""))
-	# 		if (("<t>" in d) and (t == 0)):
-	# 			t += 1
-	# 			media_page_data.append(d.replace("<t>", ""))
-	# 		if ("<img_t>" in d):
-	# 			media_page_data.append(d.replace("<img_t>", ""))
 
-	# media_page_list.append(media_page_data)
-
-	# 醫療資訊對接 Mapping Cache 取得極速緩存 (僅顯示最新 4 筆)
+	# 4. 醫療資訊對接 Mapping Cache 取得極速緩存 (僅顯示最新 4 筆)
 	mapping = _get_medical_map()
 	media_page_list = mapping['list_data'][:4]
 
 	return render(request, "index.html", {
-		'in_abc': in_abc,
-		'in_contacts': in_contacts,
-		'in_zip_data': in_zip_data,
-		'in_zdata': in_zdata,
+		'news_lists_5': news_lists_5,
+		'media_reports_6': media_reports_6,
 		'message_lists_1': message_lists_1,
 		'message_lists_2': message_lists_2,
 		'message_lists_3': message_lists_3,
@@ -1797,23 +1753,8 @@ def get_year(element):
 
 # 最新消息 (清單頁)
 def new_news(request, page=None):
-	news_lists = []
-	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
-
-	for d in n_data:
-		if (".txt" in d):
-			name_without_ext = d.replace(".txt", "")
-
-			# --- 提取 Slug (Hash Key) ---
-			slug = name_without_ext.split('^')[1] if '^' in name_without_ext else ""
-			body_part = name_without_ext.split('^')[0]
-			parts = body_part.split("_")
-
-			# --- 將 Slug 加入陣列最後，方便前端讀取 ---
-			parts.append(slug)
-			news_lists.append(parts)
-
-	news_lists.sort(key=get_year, reverse=True)
+	# 沿用並引入共用最新消息資料邏輯，確保未來更新同步！
+	news_lists = _get_news_1_list()
 
 	paginator = Paginator(news_lists, 10)
 	page = page or request.GET.get('page') or 1
@@ -1909,75 +1850,16 @@ def new_news_detail(request, slug):
 def get_m_year(element):
 	return element[6]  #指取資料第 6 個位置值
 
-# 媒體報導 (清單頁)
 def new_medias(request, page=None):
-	medias_split_box = []
-	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
-
-	for md in medias_datas:
-		if (".txt" in md):
-			name_without_ext = md.replace(".txt", "")
-			parts = name_without_ext.split("_")
-
-			# 增加防錯機制:確保檔名至少有 8 段 (0~7)，才進行解析
-			if len(parts) >= 8:
-				slug = f"{parts[6]}_{parts[7]}" # 生成 Slug: 日期 [6] + ID [7]
-				parts.append(slug) # Index [8]
-				parts.append(md)   # Index [9] 儲存原始檔名，方便稍後讀取
-				medias_split_box.append(parts)
-			else:
-				continue
-
-	medias_split_box.sort(key= get_m_year, reverse = True)
+	# 沿用並引入共用媒體報導資料邏輯，確保未來更新同步！
+	medias_split_box = _get_news_2_list()
 
 	paginator = Paginator(medias_split_box, 10)
 	page = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page)
 
-	# --- 僅針對當前頁面的 10 筆資料提取圖片 ---
-	for item in contacts:
-		img_name = ""
-		excerpt = ""
-
-		try:
-			# 讀取該筆新聞的內容、抓取<img1>跟摘要<t> 
-			with open(os.path.join(settings.MEDIA_ROOT, 'news_2', item[9]), "r", encoding="utf-8-sig") as f:
-				for line in f:
-
-					# 1.抓取第一個圖片
-					if not img_name and "<img1>" in line:
-						img_name = line.replace("<img1>", "").strip()
-
-					# 2.抓取第一個 <t> 作為摘要
-					if not excerpt and "<t>" in line:
-						excerpt = line.replace("<t>", "").strip()
-
-					# 3.都抓到後就跳出迴圈
-					if img_name and excerpt:
-						break
-		except:
-			pass
-
-		# --- 新加入 WebP 自動轉換與快取清理 --- 
-		webp_path = ""
-		if img_name:
-			source_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
-			target_dir = os.path.join(source_dir, 'thumb-webp')
-
-			# 執行轉檔 (品質 50% 適合清單縮圖)
-			webp_path = convert_image_to_webp(
-				source_dir=source_dir,
-				target_dir=target_dir,
-				original_filename=img_name,
-				quality=50
-			)
-
-			# 執行快取自動清理 (100%安全，只清孤立快取，不碰原圖)
-			safe_cleanup_webp_cache(source_dir, target_dir)
-			
-		item.append(img_name) # Index [10]
-		item.append(excerpt)  # Index [11]
-		item.append(webp_path) # Index [12] 新增快取 WebP 相對路徑傳遞給前端
+	# --- 僅針對當前分頁的 10 筆資料深度提取圖片與摘要，並處理快取 ---
+	_parse_news_2_items(contacts)
 
 	# --- 加入 AJAX 分頁邏輯 ---
 	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -2815,36 +2697,36 @@ def A001_department_doctor(request):
 			raise Http404("無效的醫師路徑參數")
 
 		# 構建 URL，用於分頁連結
-		# 確保 URL 包含必要的參數（dorp 和 porn），但不包含 page 參數（分頁時會添加）
 		from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 		parsed = urlparse(request.get_full_path())
-		query_params = parse_qs(parsed.query)
 		
-		# 移除 page 參數（分頁時會重新添加）
-		if 'page' in query_params:
-			del query_params['page']
-		
-		# 確保保留必要的參數（dorp 和 porn）
+		# 1. 構建相關文章使用的 url (移除 page，保留 video_page)
+		query_params_art = parse_qs(parsed.query)
+		if 'page' in query_params_art:
+			del query_params_art['page']
 		if dorp and porn:
-			# 確保 dorp 參數存在
-			if dorp not in query_params:
-				query_params[dorp] = ['']
-			# 確保 porn 參數存在，使用實際的 filename
-			if porn not in query_params:
-				query_params[porn] = [filename] if filename else ['1']
-			else:
-				# 如果參數值為 '1'，更新為實際的 filename
-				if query_params.get(porn) == ['1'] and filename:
-					query_params[porn] = [filename]
-		
-		# 重新構建 URL（不包含 page 參數）
-		# 確保至少有一個查詢參數，這樣模板中使用 & 連接就不會有問題
-		if not query_params and dorp and porn:
-			query_params[dorp] = ['']
-			query_params[porn] = [filename] if filename else ['1']
-		
-		new_query = urlencode(query_params, doseq=True)
-		url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query, parsed.fragment))
+			if dorp not in query_params_art: query_params_art[dorp] = ['']
+			if porn not in query_params_art: query_params_art[porn] = [filename] if filename else ['1']
+			elif query_params_art.get(porn) == ['1'] and filename: query_params_art[porn] = [filename]
+		if not query_params_art and dorp and porn:
+			query_params_art[dorp] = ['']
+			query_params_art[porn] = [filename] if filename else ['1']
+		new_query_art = urlencode(query_params_art, doseq=True)
+		url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query_art, parsed.fragment))
+
+		# 2. 構建相關影音使用的 video_url (移除 video_page，保留 page)
+		query_params_vid = parse_qs(parsed.query)
+		if 'video_page' in query_params_vid:
+			del query_params_vid['video_page']
+		if dorp and porn:
+			if dorp not in query_params_vid: query_params_vid[dorp] = ['']
+			if porn not in query_params_vid: query_params_vid[porn] = [filename] if filename else ['1']
+			elif query_params_vid.get(porn) == ['1'] and filename: query_params_vid[porn] = [filename]
+		if not query_params_vid and dorp and porn:
+			query_params_vid[dorp] = ['']
+			query_params_vid[porn] = [filename] if filename else ['1']
+		new_query_vid = urlencode(query_params_vid, doseq=True)
+		video_url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, parsed.params, new_query_vid, parsed.fragment))
 
 		request.session['path'] = filename
 		
@@ -2920,79 +2802,30 @@ def A001_department_doctor(request):
 				# 取得轉換後的 WebP 檔名
 				doctor_webp_img = convert_doctor_image_to_webp(doctor_img.strip()) if doctor_img else ""
 
-		# 媒體報導區
-		in_medias_split_box = []
-		in_medias_all_box = []
-		in_modal_content = []
-		in_list_description = []
-		in_list_picture = []
+		# --- 媒體報導區  (使用共用函數-醫師工號比對) ---
 
-		in_medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
+		# 1. 呼叫共用函數獲取所有媒體報導清單
+		all_medias = _get_news_2_list()
+		doctor_medias = []
+		
+		# 2. 進行工號匹配：檔名中只要包含醫師工號（如 HA01507），就視為該醫師的相關文章
+		for item in all_medias:
+			if len(item) >= 8 and (department_doctor_id == item[7] or department_doctor_id in item[9]):
+				doctor_medias.append(item)
 
-		i = 0
-		for md in in_medias_datas:
-			if (department_doctor_id in md):
-				in_medias_split_box.append(md.split("_"))
-				# medias_all_box.append(md)
-				in_medias_split_box[i].insert(0, "D00" + str(i))
-				i += 1
-
-		in_medias_split_box.sort(key = get_m_year, reverse = True)
-
-		for in_mc in in_medias_split_box:
-			for in_md in in_medias_datas:
-				if in_mc[3] in in_md:
-					in_medias_all_box.append(in_md)
-
-		for in_mf in in_medias_all_box:
-			# open(filename,mode)
-			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
-			lines = in_mfd.readlines()
-			cleaned_lines = [line.strip() for line in lines]
-			in_modal_content.append(cleaned_lines)
-			in_mfd.close()
-
-		for in_mread in in_medias_all_box:
-			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
-			in_pxpx = in_mrd_size.read(100)
-			in_pxpx = in_pxpx.replace('<h>','')
-			in_pxpx = in_pxpx.replace('\n','')
-			in_pxpx = in_pxpx.replace('\r','')
-			in_pxpx = in_pxpx.replace('<t>','')
-			in_list_description.append(in_pxpx)
-			for in_gg in in_mrd_size.readlines():
-				if "<img1>" in in_gg:
-					in_list_picture.append(in_gg.strip())
-					break
-			in_mrd_size.close()
-
-		in_paginator_2 = MyPaginator(in_medias_split_box, 6)
-		in_total_2 = int(in_paginator_2.num_pages)
+		# 3. 進行分頁（每頁顯示 4 筆）
+		in_paginator_2 = Paginator(doctor_medias, 4)
 		in_page_2 = request.GET.get('page', 1)
-		in_contacts_2 = in_paginator_2.page(in_page_2)
+		in_contacts_2 = in_paginator_2.get_page(in_page_2)
 
-		in_paginator_3 = MyPaginator(in_list_description, 6)
-		in_total_3 = int(in_paginator_3.num_pages)
-		in_page_3 = request.GET.get('page', 1)
-		in_contacts_3 = in_paginator_3.page(in_page_3)
+		# 4. 僅針對當前分頁的 6 筆資料深度提取圖片與摘要，並處理 WebP 快取
+		_parse_news_2_items(in_contacts_2)
+		# 5. 相容原本前端的變數名稱
+		in_zdata = in_contacts_2
+		in_zdata_i = len(doctor_medias)
+		
 
-		in_paginator_3P = MyPaginator(in_list_picture, 6)
-		in_total_3P = int(in_paginator_3P.num_pages)
-		in_page_3P = request.GET.get('page', 1)
-		in_contacts_3P = in_paginator_3P.page(in_page_3P)
-
-		in_paginator_4 = MyPaginator(in_modal_content, 6)
-		in_total_4 = int(in_paginator_4.num_pages)
-		in_page_4 = request.GET.get('page', 1)
-		in_contacts_4 = in_paginator_4.page(in_page_4)
-
-		in_zip_data = zip(in_contacts_2, in_contacts_4)
-		# zdata = zip(medias_split_box, medias_all_box)
-
-		in_zdata = zip(in_contacts_2, in_contacts_3, in_contacts_3P)
-		in_zdata_i = i
-
-		# 影音消息
+		# --- 影音消息 ---
 		_dir=os.path.join(settings.MEDIA_ROOT, 'news_3')
 		data = os.listdir(_dir)
 		message_lists=[]
@@ -3040,214 +2873,51 @@ def A001_department_doctor(request):
 					message_lists[i]['youtube_id']=youtube_id
 			i+=1
 		message_lists=sorted(message_lists, key=lambda k: k['date'], reverse=True)
-		message_lists_1=list(message_lists)[:4]
+
+		# 為了避免在不同分頁切換時，部分彈窗 (Modal) 無法載入的問題，
+		# 我們將在 page_modals 中渲染該醫師的所有影音 Modals，所以保留完整的 message_lists 備用。
+		all_video_messages = message_lists
+
+		# 影音分頁（每頁顯示 4 筆）
+		video_paginator = Paginator(message_lists, 4)
+		video_page_num = request.GET.get('video_page', 1)
+		video_contacts = video_paginator.get_page(video_page_num)
+
+		message_lists_1 = video_contacts.object_list
 		message_lists_1_i = i
 
-	# if ("dr_search" in request.GET):
-	# 	if ("open_info_path" in request.GET):
-	# 		"""20250715 path 格式為 大科室序號_科別序號_醫師序號"""
-	# 		filename = request.GET.get("open_info_path")
-
-	# 		pathP = filename.split("_")[0]
-	# 		pathD = filename.split("_")[1]
-	# 		pathF = filename.split("_")[2]
-	# 		pathC = os.path.join(settings.MEDIA_ROOT, 'department')
-	# 		pathDirs = os.listdir(pathC)
-	# 		pathFile = ""
-	# 		for pathDir in pathDirs:
-	# 			if ("D000" in pathDir) and (pathP == pathDir.split("_")[1]):
-	# 				fileDirs = os.listdir(pathC + "\\" + pathDir)
-	# 				for fileDir in fileDirs:
-	# 					if (pathD == fileDir.split("_")[0]):
-	# 						pathFile = pathC + "\\" + pathDir + "\\" + fileDir
-	# 						dFiles = os.listdir(pathC + "\\" + pathDir + "\\" + fileDir)
-	# 						for dFile in dFiles:
-	# 							if (pathF == dFile.split("_")[1]):
-	# 								filename = dFile
-
-	# 		department = pathFile.split("\\")[5].split("_")[1]
-	# 		disablePath = pathFile.split("\\")[5].split("_")
-	# 		"""20250715 path 格式為 大科室序號_科別序號_醫師序號"""
-
-	# 		# dorp = "dr_search"
-	# 		# porn = "open_info_path"
-	# 		# path = request.GET.get("open_info_path")
-	# 		# if path == "1":
-	# 		# 	path = request.session['re_path']
-	# 		# else:
-	# 		# 	request.session['re_path'] = path
-	# 		# 	# 20240129關係re_path先改 + "\\" + re_path[7]； + "\\" + re_path[8]
-	# 		# 	re_path = path.split("\\")
-	# 		# 	rp = re_path[0] + "\\" + re_path[1] + "\\"  + "\\" + re_path[2] + "\\" + re_path[3] + "\\" + re_path[5] + "\\" + re_path[6]
-
-	# 		# 	request.session['path'] = rp
-	# 		# 	# rep = re_path[0] + "\\" + re_path[1] + "\\"  + "\\" + re_path[2] + "\\" + re_path[3] + "\\" + re_path[5] + "\\" + re_path[6] + "\\" + re_path[7]
-
-	# 		# department = path.split("\\")[6].split("_")[1]
-
-	# 		disablePath = pathFile.split("\\")[6].split("_")
-	# 		if ((len(disablePath) == 3) and (disablePath[2] == "x")):
-	# 			disable_X = True
-
-
-	# 		d_sectno = MSSQLAPI.Search_Dr_SECTNO(department)
-	# 		if (d_sectno != None):
-	# 			sectno = d_sectno[0]
-	# 		else:
-	# 			sectno = "XXX"
-
-	# 		re_path = pathFile.split("\\")
-	# 		# print(re_path)
-	# 		# 20240129關係re_path先改成8原本是7
-	# 		doctor_name = re_path[7].split("_")[2]
-	# 		department_doctor_id = re_path[7].split("_")[3].replace(".txt", "")
-	# 		docno = department_doctor_id
-	# 		stop_datas = PLSQLAPI.Search_Stop_Show_by_Dr(str(re_path[7].split("_")[3]).replace(".txt",""))
-
-	# 		content = open(filename, "r", encoding="utf-8-sig")
-	# 		for c in content.readlines():
-	# 			if ("<i>" in c):
-	# 				doctor_info = c.replace("<i>","")
-	# 			if ("<e>" in c):
-	# 				doctor_e = c.replace("<e>","").split("、")
-	# 			if ("<a>" in c):
-	# 				doctor_a = c.replace("<a>","").split("；")
-	# 			if ("<img1>" in c):
-	# 				doctor_img = c.replace("<img1>","")
-
-	# 		# 媒體報導區
-	# 		in_medias_split_box = []
-	# 		in_medias_all_box = []
-	# 		in_modal_content = []
-	# 		in_list_description = []
-	# 		in_list_picture = []
-
-	# 		in_medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
-
-	# 		i = 0
-	# 		for md in in_medias_datas:
-	# 			if (department_doctor_id in md):
-	# 				in_medias_split_box.append(md.split("_"))
-	# 				# medias_all_box.append(md)
-	# 				in_medias_split_box[i].insert(0, "D00" + str(i))
-	# 				i += 1
-
-	# 		in_medias_split_box.sort(key = get_m_year, reverse = True)
-
-	# 		for in_mc in in_medias_split_box:
-	# 			for in_md in in_medias_datas:
-	# 				if in_mc[3] in in_md:
-	# 					in_medias_all_box.append(in_md)
-
-	# 		for in_mf in in_medias_all_box:
-	# 			# open(filename,mode)
-	# 			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
-	# 			in_modal_content.append(in_mfd.readlines())
-	# 			in_mfd.close()
-
-	# 		for in_mread in in_medias_all_box:
-	# 			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
-	# 			in_pxpx = in_mrd_size.read(100)
-	# 			in_pxpx = in_pxpx.replace('<h>','')
-	# 			in_pxpx = in_pxpx.replace('\n','')
-	# 			in_pxpx = in_pxpx.replace('\r','')
-	# 			in_pxpx = in_pxpx.replace('<t>','')
-	# 			in_list_description.append(in_pxpx)
-	# 			for in_gg in in_mrd_size.readlines():
-	# 				if "<img1>" in in_gg:
-	# 					in_list_picture.append(in_gg)
-	# 					break
-	# 			in_mrd_size.close()
-
-	# 		in_paginator_2 = MyPaginator(in_medias_split_box, 6)
-	# 		in_total_2 = int(in_paginator_2.num_pages)
-	# 		in_page_2 = request.GET.get('page', 1)
-	# 		in_contacts_2 = in_paginator_2.page(in_page_2)
-
-	# 		in_paginator_3 = MyPaginator(in_list_description, 6)
-	# 		in_total_3 = int(in_paginator_3.num_pages)
-	# 		in_page_3 = request.GET.get('page', 1)
-	# 		in_contacts_3 = in_paginator_3.page(in_page_3)
-
-	# 		in_paginator_3P = MyPaginator(in_list_picture, 6)
-	# 		in_total_3P = int(in_paginator_3P.num_pages)
-	# 		in_page_3P = request.GET.get('page', 1)
-	# 		in_contacts_3P = in_paginator_3P.page(in_page_3P)
-
-	# 		in_paginator_4 = MyPaginator(in_modal_content, 6)
-	# 		in_total_4 = int(in_paginator_4.num_pages)
-	# 		in_page_4 = request.GET.get('page', 1)
-	# 		in_contacts_4 = in_paginator_4.page(in_page_4)
-
-	# 		in_zip_data = zip(in_contacts_2, in_contacts_4)
-	# 		# zdata = zip(medias_split_box, medias_all_box)
-
-	# 		in_zdata = zip(in_contacts_2, in_contacts_3, in_contacts_3P)
-	# 		in_zdata_i = i
-
-	# 		# 影音消息
-	# 		_dir=os.path.join(settings.MEDIA_ROOT, 'news_3')
-	# 		data = os.listdir(_dir)
-	# 		message_lists=[]
-	# 		for d in data:
-	# 			split_data=[]
-	# 			if (department_doctor_id in d):
-	# 				split_data=d.split('_')
-	# 				if len(split_data)==3:
-	# 					C003=split_data[0]
-	# 					if C003=='C003':
-	# 						name=split_data[1]
-	# 						videoType=split_data[2].split('.')[0]
-	# 						message_lists.append({"name":name,"video_type":videoType,"file_name":d})
-	# 				if len(split_data)==4:
-	# 					C003=split_data[0]
-	# 					if C003=='C003':
-	# 						name=split_data[1]
-	# 						videoType=split_data[2]
-	# 						message_lists.append({"name":name,"video_type":videoType,"file_name":d})
-
-	# 		i=0
-	# 		for m in message_lists:
-	# 			message_lists[i]['index']=i+1;
-	# 			fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8-sig")
-	# 			fd_lines=fd.readlines()
-	# 			for line in fd_lines:
-	# 				if "<yh>" in line:
-	# 					line=line.replace('<yh>','')
-	# 					split_line=re.split('[/／]', line)
-	# 					if len(split_line)==2:
-	# 						message_lists[i]['title']=split_line[0].strip()
-	# 						message_lists[i]['sub']=split_line[1].strip()
-	# 					elif len(split_line)==1:
-	# 						message_lists[i]['title']=split_line[0].strip()
-	# 				elif "<yd>" in line:
-	# 					message_lists[i]['date']=line.replace('<yd>','').strip()
-	# 				elif "<dr>" in line:
-	# 					message_lists[i]['doctor_id']=line.replace('<dr>','').strip()
-	# 				elif "<ytb>" in line:
-	# 					youtube_url=line.replace('<ytb>','').strip()
-	# 					youtube_id=youtube_url.split('/')[-1]
-	# 					youtube_image=f'https://img.youtube.com/vi/{youtube_id}/0.jpg'
-	# 					message_lists[i]['youtube_url']=youtube_url
-	# 					message_lists[i]['youtube_image']=youtube_image
-	# 					message_lists[i]['youtube_id']=youtube_id
-	# 			i+=1
-	# 		message_lists=sorted(message_lists, key=lambda k: k['date'], reverse=True)
-	# 		message_lists_1=list(message_lists)[:4]
-	# 		message_lists_1_i = i
 
 	MEDIA_URL = settings.MEDIA_URL
+
+	# ===【 AJAX 局部渲染相關文章 / 相關影音區塊 】===
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+		if 'video_page' in request.GET:
+			return render(request, "department/doctor_videos_partial.html", {
+				'video_contacts': video_contacts,
+				'MEDIA_URL': MEDIA_URL,
+				'video_url': video_url,
+			})
+		else:
+			return render(request, "department/doctor_articles_partial.html", {
+				'contacts': in_contacts_2,
+				'MEDIA_URL': MEDIA_URL,
+				'url': url,
+			})
+
 	return render(request, "department/department_doctor.html", {
 		'doctor_name': doctor_name,
 		'department': department,
 		'stop_datas': stop_datas,
-		'in_zip_data': in_zip_data,
 		'in_zdata': in_zdata,
 		'in_zdata_i': in_zdata_i,
 		'in_contacts_2': in_contacts_2,
+		'contacts': in_contacts_2, # 對接 doctor_articles_partial.html 所需
 		'in_paginator_2': in_paginator_2,
 		'message_lists_1': message_lists_1,
 		'message_lists_1_i': message_lists_1_i,
+		'all_video_messages': all_video_messages,
+		'video_contacts': video_contacts,
+		'video_url': video_url,
 		'doctor_img': doctor_img,
 		'doctor_webp_img': doctor_webp_img,
 		'doctor_info': doctor_info,

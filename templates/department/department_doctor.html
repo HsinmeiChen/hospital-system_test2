@@ -66,63 +66,9 @@
 		</div>
 	</div>
 </div>
+<!-- 引入共享動態影音 Modal 組件 -->
+{% include "modals/shared_video_modal.html" %}
 
-<!-- Modal: 媒體報導 -->
-{% for a,b in in_zip_data %}
-<div class="modal fade" id="M-{{ a.0 }}" tabindex="-1"aria-labelledby="news1_content" aria-hidden="true">
-	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<div class="modal-header og-bg line_break">
-				<h5 class="ell_two modal-title beige-word font-24 font-weight-bold" id="exampleModalLabel">{{ a.3 }}</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
-			</div>
-			<div class="modal-body cofe-word font-18 article_border">		            
-				{% for bb in b %}
-					<!-- {% if "<h>" in bb %}
-						<div class="col-12 px-0">
-							<div class="article_h">{{ bb|cut:"<h>"|safe }}</div>
-						</div>
-					{% endif %} -->
-					{% if "<t>" in bb %}
-						<div>
-							<p class="py-2 text-justify">{{ bb|cut:"<t>"|safe }}</p>
-						</div>
-					{% endif %}
-					{% if "<img1>" in bb %}
-						<div class="col-12 px-0">
-							<img class="img-fluid w-100" src="{{ MEDIA_URL }}news_2/img/{{ bb|cut:'<img1>'|safe }}" alt="" height="345">
-						</div>
-					{% endif %}
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
-<!--  Modal:影音消息  -->
-{% for m in message_lists_1 %}
-<div class="modal fade show" id="D1-{{m.index}}"tabindex="-1" role="dialog"aria-labelledby="news1_content" aria-modal="true">
-	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<!-- Modal Header -->
-			<div class="modal-header og-bg line_break">
-				<h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{m.title}}</h5>
-				<button type="button" class="close" data-dismiss="modal">×</button>
-			</div>
-			<!-- Modal body -->
-			<div class="modal-body cofe-word font-18 article_border p-0">
-				<div class="col-12 px-0" >
-					<div class='embed-container'>
-						<div class="youtube-player" data-id="{{m.youtube_id}}"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
@@ -195,98 +141,62 @@
 			</div>
 		</div>
 		{% if in_zdata_i != 0 %}
-		<div class="caption_noline text-center">相關文章</div>
-		<div class="list-group list-group-flush">
-			{% for mmm,xxx,ppp in in_zdata %}
-			<div class="media_new">
-				<div class="border-bottom px-3 pt-3 pb-2">
-					<div>
-						<h5 class="ell_two">
-							<a href="#" data-toggle="modal" data-target="#M-{{ mmm.0 }}">{{ mmm.3 }}</a>
-						</h5>
-						<div class="single_ell text-muted">{{ xxx }}</div>
-						<div class="text-right mr-2 mb-0 text-date">
-							<small>{{ mmm.7|cut:".txt" }}</small>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-			{% if in_paginator_2.num_pages > 1 %}
-			<div class="row mt-3">
-				<div class="col-12 d-flex justify-content-center">
-						<ul class="pagination">
-							<li class="page-item">
-							   <a class="page-link" href="{{ url }}&page=1">
-								<i class="fas fa-angle-double-left"></i>
-							   </a>
-							</li>
-							{% if in_contacts_2.has_previous %}
-								<li class="active">
-									<a class="page-link" href="{{ url }}&page={{ in_contacts_2.previous_page_number }}">
-										<i class="fas fa-angle-left"></i>
-									</a>
-								</li>
-							{% endif %}
-							{% if in_paginator_2.has_previous_more %}
-								<li class="page-item"><a class="page-link" href="{{ url }}&page=1">1</a></li>
-								<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-							{% endif %}
-							{% for i in in_paginator_2.previous_range %}
-								<li class="page-item">
-									<a class="page-link" href="{{ url }}&page={{ i }}">{{ i }}</a>
-								</li>
-							{% endfor %}
-							<li class="page-item active"><a class="page-link">{{ in_paginator_2.number }}</a></li>
-							{% for i2 in in_paginator_2.next_range %}
-								<li class="page-item">
-									<a class="page-link" href="{{ url }}&page={{ i2 }}">{{ i2 }}</a>
-								</li>
-							{% endfor %}
-							{% if in_paginator_2.has_next_more %}
-								<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-								<li class="page-item"><a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}">{{ in_paginator_2.num_pages }}</a></li>
-							{% endif %}
-							{% if in_contacts_2.has_next %}
-								<li class="active">
-									<a class="page-link" href="{{ url }}&page={{ in_contacts_2.next_page_number }}">
-										<i class="fas fa-angle-right"></i>
-									</a>
-								</li>
-							{% endif %}
-							<li class="page-item">
-								<a class="page-link" href="{{ url }}&page={{ in_paginator_2.num_pages }}">
-									<i class="fas fa-angle-double-right"></i>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			{% endif %}
+		<div class="caption_noline text-center" id="doctor_articles_title">相關文章</div>
+		<div class="list-group list-group-flush p-3" id="doctor_articles_container" style="background-color: #faf8f5;">
+			{% include "department/doctor_articles_partial.html" %}
 		</div>
 		{% endif %}
 		{% if message_lists_1_i != 0 %}
-			<div class="caption_noline text-center">相關影音</div>
+			<div class="caption_noline text-center" id="doctor_videos_title">相關影音</div>
 			<style>
-				.slick-track{
-					margin-left: initial;
-					margin-right: initial;
+				/* 採用與首頁相同的純 CSS 現代橫向捲動排版 */
+				.doctor_mov {
+					display: flex !important;
+					flex-wrap: nowrap !important;
+					overflow-x: auto !important;
+					-webkit-overflow-scrolling: touch !important; /* iOS 滑動流暢加速 */
+					scroll-snap-type: x mandatory !important; /* 磁吸式滑動 */
+					padding: 10px 5px 25px 5px !important;
+					margin: 0 !important;
+					width: 100% !important;
+				}
+
+				/* 隱藏滾動條，保持極簡高級感 */
+				.doctor_mov::-webkit-scrollbar {
+					display: none !important;
+				}
+
+				/* 【Mobile-First 行動裝置優先設計】 */
+				/* 預設：576px 以下顯示 1 欄 */
+				.doctor_mov .spacing_mp {
+					flex: 0 0 100% !important;
+					scroll-snap-align: start !important;
+					display: block !important;
+				}
+
+				/* 576px 以上（包含直向平板、768px 以上）顯示 2 欄 */
+				@media (min-width: 768px) {
+					.doctor_mov .spacing_mp {
+						flex: 0 0 calc(50% - 10px) !important;
+					}
+				}
+
+				/* 大型電腦桌機版 (992px 以上) 顯示 3 欄 */
+				@media (min-width: 992px) {
+					.doctor_mov .spacing_mp {
+						flex: 0 0 calc(33.33% - 15px) !important;
+					}
+				}
+
+				/* 大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
+				@media (min-width: 1400px) {
+					.doctor_mov .spacing_mp {
+						flex: 0 0 calc(25% - 15px) !important;
+					}
 				}
 			</style>
-			<div class="doctor_mov">
-				{% for m in message_lists_1 %}
-				<div>
-					<div class="spacing_mp">
-						<a href="#" data-toggle="modal" data-target="#D1-{{m.index}}">
-							<div class="media_new info_card transform_result">
-								<div>
-									<img class="" src="{{m.youtube_image}}" alt="">
-								</div>
-							</div>
-						</a>
-					</div>
-				</div>
-				{% endfor %}
+			<div id="doctor_videos_container">
+				{% include "department/doctor_videos_partial.html" %}
 			</div>
 		{% endif %}
 		<div class="py-3 text-center border-top">
@@ -311,62 +221,101 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
-	.page-link:hover{
-		cursor: initial;
+		/* === 相關文章水平卡片美化與 Hover 微動畫 === */
+	.news-card-item .card {
+		transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+		border: 1px solid #f0eae1 !important;
 	}
-	#content_body li a:hover:not(.page-item.active .page-link), .see_more_a a:hover{
-		background: transparent;
+	.news-card-item .card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 8px 24px rgba(184, 155, 120, 0.16) !important;
+		border-color: #d1bfa7 !important;
 	}
+	.news-card-item .btn-read-more i {
+		transition: transform 0.2s ease;
+	}
+	.news-card-item .card:hover .btn-read-more i {
+		transform: translateX(3px);
+	}
+
 </style>
-<!-- ★ 輪播效果 ★ -->
-<link rel="stylesheet" href="{% static 'common/css/slick.css' %}" />
-<link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" />
+<!-- 已移除 slick 輪播樣式，改用純 CSS 橫向捲動 -->
 {% endblock %}
 
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
 <script>
-		// 相關影音
-		$('.doctor_mov').slick({
-			// dots: true,
-			infinite: true,
-			nextArrow: '<button type="button" class="arrow_btright slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-right"></i></button>',
-			prevArrow: '<button type="button" class="arrow_btleft slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-left fa-1x"></i></button>',
-			speed: 300,
-			slidesToShow: 4,
-			slidesToScroll: 1,
-			responsive: [
-				{
-					breakpoint: 1024,
-					settings: {
-						slidesToShow: 3,
-						slidesToScroll: 3,
-						infinite: true,
-						dots: true
-					}
-				},
-				{
-					breakpoint: 600,
-					settings: {
-						slidesToShow: 2,
-						slidesToScroll: 2
-					}
-				},
-				{
-					breakpoint: 480,
-					settings: {
-						slidesToShow: 1,
-						slidesToScroll: 1
-					}
-				}
-			]
+	// ===【 相關文章 AJAX 不翻頁分頁監聽 】===
+	$(document).on('click', '#doctor-pagination-list a.page-link', function(e){
+		e.preventDefault();
+		var url = $(this).attr('href');
+		
+		// 防重複點擊或無效點擊
+		if (!url || url === 'javascript:void(0);' || $(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
+			return;
+		}
+		
+		// 顯示淡出載入中視覺狀態
+		$('#doctor_articles_container').css('opacity', '0.5');
+		
+		$.ajax({
+			url: url,
+			type: 'GET',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest'
+			},
+			success: function(data) {
+				// 替換相關文章容器，並還原不透明度
+				$('#doctor_articles_container').css('opacity', '1').html(data);
+				
+				// 視窗平滑滾動回相關文章區塊的標題，確保良好 UX
+				$('html, body').animate({
+					scrollTop: $('#doctor_articles_title').offset().top - 80
+				}, 200);
+			},
+			error: function() {
+				$('#doctor_articles_container').css('opacity', '1');
+				alert('載入相關文章失敗，請稍後再試！');
+			}
 		});
-	</script>
-	<!-- ★ 輪播效果 ★ -->
-    <script src="{% static 'common/js/slick.js' %}"></script>
-    <!-- ★ 頁籤轉下拉選單 ★ -->
-    <script src="{% static 'common/js/tab_switch_select.js' %}"></script>
-	<!-- ※※ Youtube 減少載入時間 ※※ -->
-    <script src="{% static 'common/js/lite-youtube_lowtime.js' %}"></script>
+	});
+</script>
+
+<script>
+	// ===【 相關影音 AJAX 不翻頁分頁監聽 】===
+	$(document).on('click', '#video-pagination-list a.page-link', function(e){
+		e.preventDefault();
+		var url = $(this).attr('href');
+		
+		// 防重複點擊或無效點擊
+		if (!url || url === 'javascript:void(0);' || $(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
+			return;
+		}
+		
+		// 顯示淡出載入中視覺狀態
+		$('#doctor_videos_container').css('opacity', '0.5');
+		
+		$.ajax({
+			url: url,
+			type: 'GET',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest'
+			},
+			success: function(data) {
+				// 替換相關影音容器，並還原不透明度
+				$('#doctor_videos_container').css('opacity', '1').html(data);
+				
+				// 視窗平滑滾動回相關影音區塊的標題，確保良好 UX
+				$('html, body').animate({
+					scrollTop: $('#doctor_videos_title').offset().top - 80
+				}, 200);
+			},
+			error: function() {
+				$('#doctor_videos_container').css('opacity', '1');
+				alert('載入相關影音失敗，請稍後再試！');
+			}
+		});
+	});
+</script>
 {% endblock %}
