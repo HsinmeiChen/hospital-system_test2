@@ -51,6 +51,16 @@
 				</a>
 			</li>
 
+			<li class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if '/A000_medical_info/' in request.path %}is-active{% endif %}" href="/A000_medical_info/" title="台中長安醫院-醫療訊息" itemprop="url" {% if '/A000_medical_info/' in request.path %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">醫療資訊</span>
+						<span class="c-sidebar-trust__en">Medical Info</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+			</li>
+
 		</ul>
 	</nav>
 </div>

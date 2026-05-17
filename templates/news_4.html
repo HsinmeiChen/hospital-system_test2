@@ -1,0 +1,82 @@
+{% extends "news_base.html" %}
+{% load static %}
+
+{% block title %}醫療資訊｜{{ block.super }}{% endblock %}
+{% block og_title %}醫療資訊｜{{ block.super }}{% endblock %}
+
+{% block guide_content %}
+<header id="content_h">
+    <h1 class="c-onsale-heading">醫療資訊</h1>
+</header>
+<div class="l-main-content__body">
+    <!-- AJAX 清單卡片容器 -->
+    <div class="row" id="news_list_container">
+        {% include "news_4_partial.html" %}
+    </div>
+	<!-- 載入更多按鈕 -->
+	<div class="text-center mt-4 mb-4" id="load_more_wrapper">
+		{% if contacts.has_next %}
+		<a id="load_more_btn" class="btn btn-outline-primary px-5 py-2 rounded-pill font-weight-bold shadow-sm" href="/A000_medical_info/page/{{ contacts.next_page_number }}/" data-no-loading>
+			載入更多醫療資訊 ⬇
+		</a>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block sub_extra_js %}
+<script>
+    // 1. 點擊載入更多按鈕
+    $(document).on('click', '#load_more_btn', function(e) {
+        e.preventDefault();
+        var $btn = $(this);
+        var url = $btn.attr('href');
+        if (!url) return;
+        
+        $btn.addClass('disabled').html('<i class="fa fa-spinner fa-spin mr-2"></i> 載入中...');
+        
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            success: function(data) {
+                var $data = $('<div>').html(data);
+                
+                // 追加新卡片
+                var $newCards = $data.find('.news-card-item');
+                $('#news_list_container').append($newCards);
+                
+                // 取得下一頁網址
+                var $state = $data.find('.load-more-state');
+                var nextUrl = $state.data('next-url');
+                
+                if (nextUrl) {
+                    $btn.removeClass('disabled').attr('href', nextUrl).html('載入更多醫療資訊 ⬇');
+                } else {
+                    $('#load_more_wrapper').html('<p class="text-muted font-weight-bold my-3">已載入所有醫療資訊</p>');
+                }
+            },
+            error: function() {
+                $btn.removeClass('disabled').html('載入更多醫療資訊 ⬇');
+                alert('載入失敗，請稍後再試！');
+            }
+        });
+    });
+
+    // 2. 滾動到底部自動加載 (Throttling 節流設計)
+    var scrollTimer;
+    $(window).on('scroll', function() {
+        if (scrollTimer) return;
+        
+        scrollTimer = setTimeout(function() {
+            scrollTimer = null;
+            var $btn = $('#load_more_btn');
+            if ($btn.length && !$btn.hasClass('disabled')) {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
+                    $btn.click();
+                }
+            }
+        }, 100);
+    });
+</script>
+{% endblock %}

@@ -56,48 +56,48 @@ $(document).ready(function() {
             }
         ]
     });
-    // 首頁-醫療資訊區
-    $('.medical_info').slick({
-        // dots: true,
-        infinite: true,
-        nextArrow: '<button type="button" class="arrow_btright slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-right"></i></button>',
-        prevArrow: '<button type="button" class="arrow_btleft slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-left fa-1x"></i></button>',
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1600,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1
-                }
-            },
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
+    // 首頁-醫療資訊區 (已汰換為現代 Vanilla CSS 橫向捲動佈局，無需 JS)
+    // $('.medical_info').slick({
+    //     // dots: true,
+    //     infinite: true,
+    //     nextArrow: '<button type="button" class="arrow_btright slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-right"></i></button>',
+    //     prevArrow: '<button type="button" class="arrow_btleft slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-left fa-1x"></i></button>',
+    //     speed: 300,
+    //     slidesToShow: 4,
+    //     slidesToScroll: 1,
+    //     responsive: [
+    //         {
+    //             breakpoint: 1600,
+    //             settings: {
+    //                 slidesToShow: 3,
+    //                 slidesToScroll: 1
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 1200,
+    //             settings: {
+    //                 slidesToShow: 2,
+    //                 slidesToScroll: 1,
+    //                 infinite: true,
+    //                 dots: true
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 600,
+    //             settings: {
+    //                 slidesToShow: 2,
+    //                 slidesToScroll: 2
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 480,
+    //             settings: {
+    //                 slidesToShow: 1,
+    //                 slidesToScroll: 1
+    //             }
+    //         }
+    //     ]
+    // });
     // 首頁-重點醫療
     $('.slider').slick({
         infinite: true,

@@ -1645,14 +1645,14 @@ def index(request):
 
 	for in_mf in in_medias_all_box:
 		# open(filename,mode)
-		in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8")
+		in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
 		lines = in_mfd.readlines()
 		cleaned_lines = [line.strip() for line in lines]
 		in_modal_content.append(cleaned_lines)
 		in_mfd.close()
 
 	for in_mread in in_medias_all_box:
-		in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8")
+		in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
 		in_pxpx = in_mrd_size.read(100)
 		in_pxpx = in_pxpx.replace('<h>','')
 		in_pxpx = in_pxpx.replace('\n','')
@@ -1723,7 +1723,7 @@ def index(request):
 	i=0
 	for m in message_lists:
 		message_lists[i]['index']=i+1;
-		fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8")
+		fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8-sig")
 		fd_lines=fd.readlines()
 		for line in fd_lines:
 			if "<yh>" in line:
@@ -1771,31 +1771,9 @@ def index(request):
 
 	# media_page_list.append(media_page_data)
 
-	media_page_list = []
-	media_page_dir = os.path.join(settings.MEDIA_ROOT, 'news_4')
-	media_page_files = os.listdir(media_page_dir)
-	re_media_page_files = sorted(media_page_files, reverse=True)
-
-	for media_page_file in re_media_page_files:
-		if ("IN001" in media_page_file):
-			media_page_data = []
-			t = 0
-
-			fd = open(media_page_dir + "\\" + media_page_file, "r", encoding="utf-8")
-			fd_lines = fd.readlines()
-			for fd_line in fd_lines:
-				if ("<h>" in fd_line):
-					media_page_data.append(fd_line.replace("<h>", ""))
-				if ("<in_date>" in fd_line):
-					media_page_data.append(fd_line.replace("<in_date>", ""))
-				if (("<t>" in fd_line) and (t == 0)):
-					t += 1
-					media_page_data.append(fd_line.replace("<t>", ""))
-				if ("<img_t>" in fd_line):
-					media_page_data.append(fd_line.replace("<img_t>", ""))
-
-			media_page_data.append(media_page_file.split("_")[0] + "_" + media_page_file.split("_")[1])
-			media_page_list.append(media_page_data)
+	# 醫療資訊對接 Mapping Cache 取得極速緩存 (僅顯示最新 4 筆)
+	mapping = _get_medical_map()
+	media_page_list = mapping['list_data'][:4]
 
 	return render(request, "index.html", {
 		'in_abc': in_abc,
@@ -1807,6 +1785,7 @@ def index(request):
 		'message_lists_3': message_lists_3,
 		'message_lists_4': message_lists_4,
 		'media_page_list': media_page_list,
+		'contacts': media_page_list, # 增加 contacts 變數以相容於 news_4_card_single.html 的 data 參照
 		'MEDIA_URL': MEDIA_URL,
 	})
 
@@ -1871,7 +1850,7 @@ def new_news_detail(request, slug):
 	date = parts[6]
 
 	# --- 讀取內容，並轉換內文圖片為 80% 品質 WebP ---
-	with open(os.path.join(settings.MEDIA_ROOT, 'news_1', target_file), "r", encoding="utf-8") as fd:
+	with open(os.path.join(settings.MEDIA_ROOT, 'news_1', target_file), "r", encoding="utf-8-sig") as fd:
 		raw_lines = fd.readlines()
 	
 	content_lines = []
@@ -1962,7 +1941,7 @@ def new_medias(request, page=None):
 
 		try:
 			# 讀取該筆新聞的內容、抓取<img1>跟摘要<t> 
-			with open(os.path.join(settings.MEDIA_ROOT, 'news_2', item[9]), "r", encoding="utf-8") as f:
+			with open(os.path.join(settings.MEDIA_ROOT, 'news_2', item[9]), "r", encoding="utf-8-sig") as f:
 				for line in f:
 
 					# 1.抓取第一個圖片
@@ -2031,7 +2010,7 @@ def new_media_detail(request, slug):
 	title = parts[2]
 	date = parts[6]
 
-	with open(os.path.join(settings.MEDIA_ROOT, 'news_2', target_file), "r", encoding="utf-8") as fd:
+	with open(os.path.join(settings.MEDIA_ROOT, 'news_2', target_file), "r", encoding="utf-8-sig") as fd:
 		raw_lines = fd.readlines()
 
 	# --- 同時提取圖片與摘要文字，並轉換內文圖片為 80% 品質 WebP 並且組裝 picture 標籤 ---
@@ -2185,7 +2164,7 @@ def new_video(request):
 	i=0
 	for m in message_lists:
 		message_lists[i]['index']=i+1;
-		fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8")
+		fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8-sig")
 		fd_lines=fd.readlines()
 		for line in fd_lines:
 			if "<yh>" in line:
@@ -2262,129 +2241,231 @@ def new_video(request):
 
 # 功能(五)、子頁-醫療資訊
 
-# 【總覽頁】
-def medical_info(request):
-	# 步驟(1)、定義變數 (先給一個空盒子，才有辦法裝 append 出來的資料)
-	medias_split_box = [] # 裝 news_lists.append(d.split("_")) 產出的切割後的「檔名」
-	medias_all_box = [] # 裝 info_data.append(d) 完整檔名下的「檔案內容」
-	modal_content = [] # 裝 modal_content.append(mfd.readlines()) 產出的完整檔名下的「檔案內容」
-	list_description = [] # 裝 list_description.append(mrd_size.read(20)) 產出的「檔案內容(前150字)」
-	list_picture = [] # 裝 list_picture.append(mrd_size.readlines()) 產出的完整檔名下的「檔案內容-圖片」
+# --- [ 檔案加上 hash 值 (slug)、新舊網址對照表快取 ] ---
 
-	# 步驟(2)、查詢並帶入 C:\python\media\news_2 資料夾中所有檔案
-	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
+_MEDICAL_MAP_CACHE = None
 
-	# 步驟(3)、將步驟(2)取得的檔案資料用迴圈進行檔名切割並篩出指定檔案類型
-	i = 0
-	for md in medias_datas:
-		if (".txt" in md):
-			medias_split_box.append(md.split("_")) # 將檔名進行切割，再透過 append 一筆筆產出切後的「檔名」 (為了要分別放到 table 的欄位中)
-			# medias_all_box.append(md) # 因讀取 txt 檔需是完整檔名，才能一筆筆產出「檔案內容」
+def _get_medical_map():
+	"""醫療資訊檔案快取對照表 (含自動 CRC32 哈希命名)"""
+	global _MEDICAL_MAP_CACHE
+	if _MEDICAL_MAP_CACHE is not None:
+		return _MEDICAL_MAP_CACHE
 
-			'''# 步驟(5) 顯示 modal 效果(因 modal 需要對應 ID，但因 txt 的檔名沒有唯一值，
-			所以需要幫他每筆資料新增流水號，讓 modal 可以取 ID 帶資料)'''
-			medias_split_box[i].insert(0, "D00" + str(i))
-			i += 1
-
-	# 步驟(4)、根據 get_m_year function 取出的值為 key，按照日期去進行資料排序
-	medias_split_box.sort(key = get_m_year, reverse = True)
-
-	'''# 步驟(6-1)、將「檔名」與「所有檔案」作比對 function，若有比對到，以切割後的「檔名」呈現的數量去執行次數
-		 並以第2位檔名去取值並進行檔案內容判斷，一筆筆產出「檔案內容」'''
-	'''# 步驟(6-2)、再打開「檔案」去讀裡面的內容，並將讀取的內容打包成一筆筆，存到 modal_content 陣列'''
-	for mc in medias_split_box:
-		for md in medias_datas:
-			if mc[3] in md:
-				medias_all_box.append(md)
-
-	for mf in medias_all_box:
-		# open(filename,mode)-filename：檔案存在位置，mode：對這個檔案做些事情；r - 唯讀模式(檔案需存在)，只能從指定檔案讀取資料，並不能夠對這個檔案的內容進行任何寫入或變更
-		mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mf), "r", encoding="utf-8")
-		# 讀取檔案內容並去除換行符號
-		lines = mfd.readlines()
-		cleaned_lines = [line.strip() for line in lines]
-		modal_content.append(cleaned_lines)
-		mfd.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
-
-	# 步驟(7)、設定 list 可以讀取顯示幾個字(150)
-	for mread in medias_all_box:
-		mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', mread), "r", encoding="utf-8")
-		pxpx = mrd_size.read(100)
-		pxpx = pxpx.replace('<h>','') # 不帶出<h>
-		pxpx = pxpx.replace('\n','') # 不帶出\n
-		pxpx = pxpx.replace('\r','') # 不帶出\r
-		pxpx = pxpx.replace('<t>','')# 不帶出<t>
-		list_description.append(pxpx)
-		# 步驟(8)、先把txt所有行數讀進去gg，再去找第一個<img1>把這行紀錄到 list_picture 陣列資料
-		for gg in mrd_size.readlines():
-			if "<img1>" in gg:
-				list_picture.append(gg.strip())
-				break # 跳離迴圈 因為圖片只抓每個txt檔的第一張
-		mrd_size.close() #.close:將檔案關閉，停止對於檔案進行任何操作。
-
-	page_limit = 10
-	# 步驟(9)、設定分頁功能
-	'''假設一個陣列已有作分頁，但另外一個陣列沒有作分頁的話，就會影響 zip 組合數量不一，
-	顯示的筆數就會以少的為主，所以要把數量(例如.分頁)弄成一致，才會完成組合順利顯示'''
-	paginator_2 = MyPaginator(medias_split_box, page_limit) # 設定一頁要顯示幾筆
-	total_2 = int(paginator_2.num_pages) # 將筆數計算總共有幾頁
-	page_2 = request.GET.get('page', 1) # 接收使用者點選的頁碼
-	contacts_2 = paginator_2.page(page_2) # (列表清單用變數) 回傳使用者點的頁碼，讓前台顯示 (取得第幾頁的內容再丟回contacts)
-
-	paginator_3 = MyPaginator(list_description, page_limit)
-	total_3 = int(paginator_3.num_pages)
-	page_3 = request.GET.get('page', 1)
-	contacts_3 = paginator_3.page(page_3)
-
-	paginator_3P = MyPaginator(list_picture, page_limit)
-	total_3P = int(paginator_3P.num_pages)
-	page_3P = request.GET.get('page', 1)
-	contacts_3P = paginator_3P.page(page_3P)
-
-	paginator_4 = MyPaginator(modal_content, page_limit)
-	total_4 = int(paginator_4.num_pages)
-	page_4 = request.GET.get('page', 1)
-	contacts_4 = paginator_4.page(page_4)
-
-	# 步驟(10)、組合陣列變數，讓前端可以用帶值(contacts_可以被拿來組合，是因為已經整理好了)
-	# (modal用) 因要把「檔名」+「檔案內容」資料帶到前端，所以需用 zip 將兩個重新組合起來並放到 abc 變數中 (程式碼要放在 sort 後面)
-	zip_data = zip(contacts_2, contacts_4)
-	# zdata = zip(medias_split_box, medias_all_box) # (列表清單內容用)html 若前面有用過變數，就要用另一個變數，不然會帶不出來
-	zdata = zip(contacts_2, contacts_3, contacts_3P)
-	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "news_4/news_4.html", {
-		'contacts_2': contacts_2,
-		'contacts_3': contacts_3,
-		'contacts_3P': contacts_3P,
-		'contacts_4': contacts_4,
-		'paginator_2': paginator_2,
-		'zip_data': zip_data,
-		'zdata': zdata,
-		'MEDIA_URL': MEDIA_URL,
-	})
-
-	# 【項目內頁】
-def medical_pages(request):
+	# 1. 自動為 news_4 資料夾下的檔案追加 hash (追加在 .txt 前面)
 	media_page_dir = os.path.join(settings.MEDIA_ROOT, 'news_4')
-	if ("media_page_path" in request.GET):
-		path = request.GET.get("media_page_path")
-		media_page_files = os.listdir(media_page_dir)
-		for media_page_file in media_page_files:
-			if (path in media_page_file):
-				path = media_page_file
+	if os.path.exists(media_page_dir):
+		from Pomelo_test.utils import append_hash_to_filenames
+		append_hash_to_filenames(media_page_dir, extension='.txt', separator='^')
 
-		path = os.path.join(media_page_dir, path)
-		try:
-			data = open(path, "r", encoding="utf-8")
-			data_lines = data.readlines()
-		except:
-			return render(request, "404.html", status = 404)
+	mapping = {
+		'by_slug': {},        # slug (即 hash 值) -> 完整檔名 (如 IN001_...^a1b2c3d4.txt)
+		'by_legacy_key': {},  # 舊金鑰 (如 IN001_2025-09-02) -> hash 值 (如 a1b2c3d4)
+		'list_data': []       # 清單頁預解析資料快取
+	}
+
+	if not os.path.exists(media_page_dir):
+		_MEDICAL_MAP_CACHE = mapping
+		return mapping
+
+	media_page_files = os.listdir(media_page_dir)
+	# 依檔名排序 (新至舊)
+	re_media_page_files = sorted(media_page_files, reverse=True)
+
+	for media_page_file in re_media_page_files:
+		if ("IN001" in media_page_file) and media_page_file.endswith(".txt"):
+			name_without_ext = media_page_file.replace(".txt", "")
+			
+			# 分割獲取核心檔名與 Hash
+			h_parts = name_without_ext.split("^")
+			core_name = h_parts[0]
+			file_hash = h_parts[1] if len(h_parts) > 1 else ""
+
+			parts = core_name.split("_")
+			if len(parts) >= 2:
+				legacy_key = f"{parts[0]}_{parts[1]}"  # IN001_2025-09-02
+				slug = file_hash if file_hash else legacy_key  # 若有 hash 則用 hash，沒有則降級用舊 key
+				
+				mapping['by_slug'][slug] = media_page_file
+				mapping['by_legacy_key'][legacy_key] = slug
+				
+				# 解析檔案內容用於列表呈現
+				title = ""
+				date_val = ""
+				excerpt = ""
+				img_t = ""
+				t_count = 0
+				
+				try:
+					filepath = os.path.join(media_page_dir, media_page_file)
+					with open(filepath, "r", encoding="utf-8-sig") as fd:
+						for line in fd:
+							if "<h>" in line:
+								title = line.replace("<h>", "").strip()
+							elif "<in_date>" in line:
+								date_val = line.replace("<in_date>", "").strip()
+							elif "<t>" in line and t_count == 0:
+								t_count += 1
+								excerpt = line.replace("<t>", "").strip()
+							elif "<img_t>" in line:
+								img_t = line.replace("<img_t>", "").strip()
+				except Exception as e:
+					print(f"解析醫療資訊檔案失敗 {media_page_file}: {e}")
+					
+				if not date_val:
+					date_val = parts[1]
+					
+				# 儲存清單資料項
+				# 0: title, 1: date, 2: excerpt, 3: img_t, 4: slug (hash), 5: webp_path (快取預留)
+				mapping['list_data'].append([title, date_val, excerpt, img_t, slug, ""])
+
+	_MEDICAL_MAP_CACHE = mapping
+	return mapping
+
+
+# 【醫療資訊 - 清單總覽頁】
+def medical_info(request, page=None):
+	mapping = _get_medical_map()
+	media_page_list = mapping['list_data']
+
+	# 設定一頁顯示 10 筆 (比照 news_2)
+	paginator = Paginator(media_page_list, 10)
+	page_num = page or request.GET.get('page') or 1
+	contacts = paginator.get_page(page_num)
+
+	# 為當前分頁縮圖自動轉檔為 WebP (品質 50% 適合清單縮圖)
+	for item in contacts:
+		img_name = item[3]
+		if img_name:
+			source_dir = os.path.join(settings.MEDIA_ROOT, 'news_4', 'img')
+			target_dir = os.path.join(source_dir, 'thumb-webp')
+			
+			if not os.path.exists(target_dir):
+				os.makedirs(target_dir, exist_ok=True)
+				
+			try:
+				webp_path = convert_image_to_webp(
+					source_dir=source_dir,
+					target_dir=target_dir,
+					original_filename=img_name,
+					quality=50
+				)
+				safe_cleanup_webp_cache(source_dir, target_dir)
+				item[5] = webp_path  # 寫入 WebP 相對路徑
+			except Exception as e:
+				print(f"縮圖 WebP 轉換失敗: {e}")
+
+	# 支援 AJAX 無限滾動
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+		return render(request, "news_4_partial.html", {
+			'contacts': contacts,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
+	else:
+		return render(request, "news_4.html", {
+			'contacts': contacts,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
+
+
+# 【醫療資訊 - 舊參數網址轉接頭 (301 永久轉址)】
+def medical_pages(request):
+	if "media_page_path" in request.GET:
+		path = request.GET.get("media_page_path")  # 例如 IN001_2025-09-02
+		mapping = _get_medical_map()
+		
+		# 查詢對照表，獲得 Hashed Slug (即極簡 hash 值)
+		new_slug = mapping['by_legacy_key'].get(path)
+		if new_slug:
+			return redirect(f"/A000_medical_info/{new_slug}/", permanent=True)
+			
+	return redirect("/A000_medical_info/", permanent=True)
+
+
+# 【醫療資訊 - 極短網址詳細頁】
+def medical_pages_detail(request, slug):
+	mapping = _get_medical_map()
+	
+	# 相容防呆：如果使用者訪問的是舊 Key 形式的新網址 (如 /A000_medical_info/IN001_2025-09-02/)
+	if slug in mapping['by_legacy_key']:
+		canonical_slug = mapping['by_legacy_key'][slug]
+		return redirect(f"/A000_medical_info/{canonical_slug}/", permanent=True)
+
+	# 根據 hash 獲取對應的檔案
+	target_file = mapping['by_slug'].get(slug)
+	if not target_file:
+		return redirect('/A000_medical_info/')
+
+	media_page_dir = os.path.join(settings.MEDIA_ROOT, 'news_4')
+	filepath = os.path.join(media_page_dir, target_file)
+
+	try:
+		with open(filepath, "r", encoding="utf-8-sig") as fd:
+			raw_lines = fd.readlines()
+	except Exception as e:
+		print(f"讀取詳細頁檔案失敗 {target_file}: {e}")
+		return render(request, "404.html", status=404)
+
+	# 解析標題、發佈日期、首張圖片、首段摘要 (用於 OG Title 或 SEO 標籤)
+	title = ""
+	date = ""
+	first_img = ""
+	excerpt = ""
+	for line in raw_lines:
+		if "<h>" in line:
+			title = line.replace("<h>", "").strip()
+		elif "<in_date>" in line:
+			date = line.replace("<in_date>", "").strip()
+		elif "<img_t>" in line and not first_img:
+			first_img = line.replace("<img_t>", "").strip()
+		elif "<img1>" in line and not first_img:
+			first_img = line.replace("<img1>", "").strip()
+		elif "<t>" in line and not excerpt:
+			excerpt = line.replace("<t>", "").strip()
+
+	if not date:
+		parts = target_file.split("_")
+		if len(parts) >= 2:
+			date = parts[1]
+
+	# 遍歷每一行內容，自動轉換內文圖片為 80% 品質 WebP 格式
+	data_lines = []
+	for line in raw_lines:
+		if "<img1>" in line:
+			img_filename = line.replace("<img1>", "").strip()
+			if img_filename:
+				source_dir = os.path.join(settings.MEDIA_ROOT, 'news_4', 'img')
+				target_dir = os.path.join(source_dir, 'img_webp_article')
+				
+				if not os.path.exists(target_dir):
+					os.makedirs(target_dir, exist_ok=True)
+					
+				# 執行轉檔 (80% 品質適合文章內圖片)
+				convert_image_to_webp(source_dir, target_dir, img_filename, quality=80)
+				safe_cleanup_webp_cache(source_dir, target_dir)
+				
+				# 封裝為高相容性 HTML5 <picture> 標籤
+				name_without_ext = os.path.splitext(img_filename)[0]
+				picture_html = (
+					f'<picture>'
+					f'<source srcset="{settings.MEDIA_URL}news_4/img/img_webp_article/{name_without_ext}.webp" type="image/webp">'
+					f'<img class="img-fluid w-100 my-3" src="{settings.MEDIA_URL}news_4/img/{img_filename}" alt="{title}" title="{title}" loading="lazy">'
+					f'</picture>'
+				)
+				line = f"<img1_html>{picture_html}\n"
+				
+		data_lines.append(line)
 
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "news_4/news_4_1.html", {
+	return render(request, "news_4_1.html", {
+		'title': title,
+		'date': date,
+		'first_img': first_img,
+		'excerpt': excerpt,
 		'data_lines': data_lines,
 		'MEDIA_URL': MEDIA_URL,
+		'SITE_DOMAIN': settings.SITE_DOMAIN,
 	})
+
 
 # =========================================A001(科室介紹)=========================================
 
@@ -2624,7 +2705,7 @@ def A001_department_part(request):
 		for file in files:
 			if (".txt" in file) and ("I000" in file):
 
-				content = open(os.path.join(pathFile, file), "r", encoding="utf-8")
+				content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
 				introduction_list = content.readlines()
 				content.close()
 
@@ -2647,7 +2728,7 @@ def A001_department_part(request):
 				doctor_list7.append(sectno)
 				doctor_list8.append(re_file[3].replace(".txt",""))
 
-				content = open(os.path.join(pathFile, file), "r", encoding="utf-8")
+				content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
 				has_img = False
 				for c in content.readlines():
 					if ("<e>" in c):
@@ -2826,7 +2907,7 @@ def A001_department_doctor(request):
 		docno = department_doctor_id
 		stop_datas = PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""))
 
-		content = open(pathFile + "\\" + filename, "r", encoding="utf-8")
+		content = open(pathFile + "\\" + filename, "r", encoding="utf-8-sig")
 		for c in content.readlines():
 			if ("<i>" in c):
 				doctor_info = c.replace("<i>","")
@@ -2865,14 +2946,14 @@ def A001_department_doctor(request):
 
 		for in_mf in in_medias_all_box:
 			# open(filename,mode)
-			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8")
+			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
 			lines = in_mfd.readlines()
 			cleaned_lines = [line.strip() for line in lines]
 			in_modal_content.append(cleaned_lines)
 			in_mfd.close()
 
 		for in_mread in in_medias_all_box:
-			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8")
+			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
 			in_pxpx = in_mrd_size.read(100)
 			in_pxpx = in_pxpx.replace('<h>','')
 			in_pxpx = in_pxpx.replace('\n','')
@@ -2935,7 +3016,7 @@ def A001_department_doctor(request):
 		i=0
 		for m in message_lists:
 			message_lists[i]['index']=i+1;
-			fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8")
+			fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8-sig")
 			fd_lines=fd.readlines()
 			for line in fd_lines:
 				if "<yh>" in line:
@@ -3023,7 +3104,7 @@ def A001_department_doctor(request):
 	# 		docno = department_doctor_id
 	# 		stop_datas = PLSQLAPI.Search_Stop_Show_by_Dr(str(re_path[7].split("_")[3]).replace(".txt",""))
 
-	# 		content = open(filename, "r", encoding="utf-8")
+	# 		content = open(filename, "r", encoding="utf-8-sig")
 	# 		for c in content.readlines():
 	# 			if ("<i>" in c):
 	# 				doctor_info = c.replace("<i>","")
@@ -3060,12 +3141,12 @@ def A001_department_doctor(request):
 
 	# 		for in_mf in in_medias_all_box:
 	# 			# open(filename,mode)
-	# 			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8")
+	# 			in_mfd = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mf), "r", encoding="utf-8-sig")
 	# 			in_modal_content.append(in_mfd.readlines())
 	# 			in_mfd.close()
 
 	# 		for in_mread in in_medias_all_box:
-	# 			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8")
+	# 			in_mrd_size = open(os.path.join(settings.MEDIA_ROOT, 'news_2', in_mread), "r", encoding="utf-8-sig")
 	# 			in_pxpx = in_mrd_size.read(100)
 	# 			in_pxpx = in_pxpx.replace('<h>','')
 	# 			in_pxpx = in_pxpx.replace('\n','')
@@ -3128,7 +3209,7 @@ def A001_department_doctor(request):
 	# 		i=0
 	# 		for m in message_lists:
 	# 			message_lists[i]['index']=i+1;
-	# 			fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8")
+	# 			fd = open(os.path.join(_dir,m["file_name"]),"r",encoding="utf-8-sig")
 	# 			fd_lines=fd.readlines()
 	# 			for line in fd_lines:
 	# 				if "<yh>" in line:
@@ -3457,7 +3538,7 @@ def A002_consultation_progress(request):
 # 掛號須知
 def A002_registration_notice(request):
 	A006_True = "True"
-	data = open(os.path.join(settings.MEDIA_ROOT, 'A002', 'registration_notice', 'main.txt'), "r", encoding="utf-8")
+	data = open(os.path.join(settings.MEDIA_ROOT, 'A002', 'registration_notice', 'main.txt'), "r", encoding="utf-8-sig")
 	data_lines = data.readlines()
 
 	return render(request, "Patient_Guide/Patient_Guide_index.html", {
@@ -3493,7 +3574,7 @@ def A002_which_disease(request):
 				files = os.listdir(dir_path)
 				for file in files:
 					if ("I000" in file):
-						text = open(os.path.join(dir_path, file), "r", encoding="utf-8")
+						text = open(os.path.join(dir_path, file), "r", encoding="utf-8-sig")
 
 						for t in text.readlines():
 							if("<dm>" in t):
@@ -3780,7 +3861,7 @@ def A003_labor_pathology_5(request):
 # 長安簡介
 def A004_hos_intro(request):
 	path = os.path.join(settings.MEDIA_ROOT, 'A004', 'about.txt')
-	data = open(path, "r", encoding="utf-8")
+	data = open(path, "r", encoding="utf-8-sig")
 	data_lines = [line.strip() for line in data.readlines()]
 	data.close()
 
@@ -4561,7 +4642,7 @@ def A006_Online_Booking_1_part(request):
 	A006_I000 = glob.glob(os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}*', 'I000*'))
 
 	# 科室介紹資訊
-	I000_concent = open(A006_I000[0], "r", encoding="utf-8")
+	I000_concent = open(A006_I000[0], "r", encoding="utf-8-sig")
 	A006_I000_list = I000_concent.readlines()
 	I000_concent.close()
 
@@ -4983,7 +5064,7 @@ def A006_Online_Booking_2_1(request):
 			drname = os.path.basename(A006_dir).split("_")[2]
 			# 測試區
 			# drname = A006_dir.split("\\")[6].split("_")[2]
-			dr_concent = open(A006_dir, "r", encoding="utf-8")
+			dr_concent = open(A006_dir, "r", encoding="utf-8-sig")
 			for concent in dr_concent.readlines():
 				if ("<img1>" in concent):
 					dr_img = concent.replace("<img1>","")

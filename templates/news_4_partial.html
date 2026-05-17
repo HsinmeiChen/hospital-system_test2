@@ -1,0 +1,69 @@
+<!-- ======================== templates/news_4_partial.html ======================== -->
+{% load static %}
+
+{% for item in contacts %}
+    {% if is_index %}
+        <!-- =================================================================== -->
+        <!-- 1. 【首頁專用結構】 (100% 沿用原本的 spacing_mp 與 c-card 類別，完美保留所有原版 Hover 特效與排版) -->
+        <!-- =================================================================== -->
+        <div class="spacing_mp">
+            <a href="/A000_medical_info/{{ item.4 }}/" class="c-card slide_card d-block text-decoration-none cursor-pointer">
+                <div class="c-card__img-wrapper" style="max-height: 380px;">
+                    {% if item.3 %}
+                    <picture style="display: block; width: 100%; height: 100%;">
+                        {% if item.5 %}
+                        <source srcset="{{ MEDIA_URL }}{{ item.5 }}" type="image/webp">
+                        {% endif %}
+                        <img class="c-card__img" src="{{ MEDIA_URL }}news_4/img/{{ item.3 }}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                    </picture>
+                    {% else %}
+                    <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                    {% endif %}
+                </div>
+                <div class="c-card__body">
+                    <h5 class="c-card__title">{{ item.0 }}</h5>
+                    <p class="c-card__description">{{ item.2 }}</p>
+                    <div class="c-card__date">{{ item.1 }}</div>
+                </div>
+            </a>
+        </div>
+    {% else %}
+        <!-- =================================================================== -->
+        <!-- 2. 【清單列表頁專用結構】 (使用 Bootstrap Card 類別) -->
+        <!-- =================================================================== -->
+        <div class="col-lg-4 col-md-6 mb-4 news-card-item">
+            <div class="card h-100 border-0 shadow-sm rounded-0">
+                <a href="/A000_medical_info/{{ item.4 }}/" class="text-decoration-none d-block cursor-pointer">
+                    <div class="card-img-top overflow-hidden" style="height: 200px;">
+                        {% if item.3 %}
+                        <picture style="display: block; width: 100%; height: 100%;">
+                            {% if item.5 %}
+                            <source srcset="{{ MEDIA_URL }}{{ item.5 }}" type="image/webp">
+                            {% endif %}
+                            <img src="{{ MEDIA_URL }}news_4/img/{{ item.3 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                        </picture>
+                        {% else %}
+                        <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="card-body cofe-word">
+                        <p class="text-muted small mb-2 text-right"><i class="fa fa-clock" aria-hidden="true"></i> {{ item.1 }}</p>
+                        <h5 class="card-title font-weight-bold ell_two" style="height: 3rem; line-height: 1.5rem;">{{ item.0 }}</h5>
+                        <p class="text-muted small mb-0" style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ item.2|truncatechars:35 }}</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% if not is_index %}
+<!-- 用於更新下一頁狀態的隱藏節點 (僅清單頁需要) -->
+<div class="load-more-state d-none" 
+    {% if contacts.has_next %}
+    data-next-url="/A000_medical_info/page/{{ contacts.next_page_number }}/"
+    {% else %}
+    data-has-next="false"
+    {% endif %}>
+</div>
+{% endif %}

@@ -780,51 +780,82 @@
 
                 </div>
 
+                <!-- === 醫療資訊專區 (無 JS, 純 CSS 現代橫向捲動) === -->
                 <div class="medical_info">
 
-                    {% if media_page_list %}
-
-                        {% for data in media_page_list %}
-
-                        <form action="/A000_medical_pages/" method="GET">
-
-                            <input type="hidden" name="media_page_path" value="{{ data.4 }}">
-
-                            <div class="spacing_mp">
-
-                                <a onclick="$(this).closest('form').submit();" class="c-card slide_card d-block text-decoration-none cursor-pointer">
-
-                                    <div class="c-card__img-wrapper" style="max-height: 380px;">
-
-                                        <img class="c-card__img" src="{{ MEDIA_URL }}news_4/img/{{ data.3 }}" alt="{{ data.0 }}" title="{{ data.0 }}">
-
-                                    </div>
-
-                                    <div class="c-card__body">
-
-                                        <h5 class="c-card__title">{{ data.0 }}</h5>
-
-                                        <p class="c-card__description">{{ data.2 }}</p>
-
-                                        <div class="c-card__date">{{ data.1 }}</div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                        </form>
-
-                        {% endfor %}
-
-                    {% endif %}
-
-
+                    {% include "news_4_partial.html" with is_index=True %}
 
                 </div>
 
-                <!-- <div class="text-center mt-3">
+                <!-- 專屬無阻礙 CSS 樣式 (電腦版 4 欄，平板 3 欄，手機 2 欄，橫向滑動不折行) -->
+                <style>
+                /* 強制將原本的 medical_info 改為 Flex 橫向捲動排版 */
+                .medical_info {
+                    display: flex !important;
+                    flex-wrap: nowrap !important;
+                    overflow-x: auto !important;
+                    -webkit-overflow-scrolling: touch !important; /* iOS 滑動流暢加速 */
+                    scroll-snap-type: x mandatory !important; /* 磁吸式滑動 */
+                    gap: 20px !important;
+                    padding: 10px 5px 25px 5px !important;
+                    margin: 0 !important;
+                    width: 100% !important;
+                }
+
+                /* 隱藏滾動條，保持極簡高級感 */
+                .medical_info::-webkit-scrollbar {
+                    display: none !important;
+                }
+
+                /* 【Mobile-First 行動裝置優先設計】 */
+                /* 預設：576px 以下顯示 1 欄 */
+                .medical_info .spacing_mp {
+                    flex: 0 0 100% !important;
+                    scroll-snap-align: start !important;
+                    display: block !important; /* 覆蓋 slick 預設 display */
+                }
+
+                /* 確保圖片外框有穩定高度，防止 collapsed 跑版 */
+                .medical_info .spacing_mp .c-card__img-wrapper {
+                    height: 220px !important;
+                }
+
+                /* 修正 picture 元件在原生 CSS 中的 inline 塌陷問題，確保撐滿容器 */
+                .medical_info .spacing_mp .c-card__img-wrapper picture {
+                    display: block !important;
+                    width: 100% !important;
+                    height: 100% !important;
+                }
+
+                .medical_info .spacing_mp .c-card__img-wrapper img {
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover !important;
+                }
+
+                /* 576px 以上（包含直向平板、768px 以上）顯示 2 欄 */
+                @media (min-width: 768px) {
+                    .medical_info .spacing_mp {
+                        flex: 0 0 calc(50% - 10px) !important;
+                    }
+                }
+
+                /* 大型電腦桌機版 (992px 以上) 顯示 3 欄 */
+                @media (min-width: 992px) {
+                    .medical_info .spacing_mp {
+                        flex: 0 0 calc(33.33% - 15px) !important;
+                    }
+                }
+
+                /* 大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
+                @media (min-width: 1400px) {
+                    .medical_info .spacing_mp {
+                        flex: 0 0 calc(25% - 15px) !important;
+                    }
+                }
+                </style>
+
+                <div class="text-center mt-3">
 
                     <button type="button" class="c-btn-more" onclick="window.location.href='/A000_medical_info/';">
 
@@ -832,7 +863,7 @@
 
                     </button>
 
-                </div> -->
+                </div>
 
             </div>
 

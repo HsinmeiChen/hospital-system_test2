@@ -33,7 +33,14 @@ urlpatterns = [
     re_path('A000_reports/(?P<slug>[\w\d_-]+)/', pomelo_views.new_media_detail, name='media_detail'),
     re_path('A000_closed_clinic/', pomelo_views.new_stop_show),
     re_path('A000_video_message/', pomelo_views.new_video),
-    re_path('A000_medical_info/', pomelo_views.medical_info), # 未開放
+    # 2. 新增與重構醫療資訊路由：
+    # 首頁清單路徑
+    re_path('^A000_medical_info/$', pomelo_views.medical_info),
+    # - AJAX 分頁加載路徑 (如 /A000_medical_info/page/2/)
+    re_path('^A000_medical_info/page/(?P<page>\d+)/$', pomelo_views.medical_info),
+    # - 詳細頁極短網址路徑 (如 /A000_medical_info/a1b2c3d4/)
+    re_path('^A000_medical_info/(?P<slug>[\w\d_-]+)/$', pomelo_views.medical_pages_detail, name='medical_detail'),
+    
     re_path('A000_medical_pages/', pomelo_views.medical_pages),
     re_path('^A001_department_overview/$', pomelo_views.A001_department_overview),
     re_path('^A001_department_overview/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A001_department_part_short),
