@@ -118,6 +118,10 @@ def breadcrumb_processor(request):
     # 1. 取得當前網址路徑
     path_segments = request.path.strip("/").split("/")
 
+    # 移除分頁路徑片段，避免影響麵包屑生成
+    if len(path_segments) >= 2 and path_segments[-2] == 'page' and path_segments[-1].isdigit():
+        path_segments = path_segments[:-2]
+
     # 2. 定義網址片段與中文名稱的對應
     NAME_MAP = {
         "index": "本院首頁",
@@ -222,9 +226,9 @@ def breadcrumb_processor(request):
         "A006_Online_Booking_login": "民眾登入",
         "A006_Online_Booking_first": "初診資料填寫",
         "A006_Online_Booking_data": "預約資料記錄",
-        "A006_Online_Booking_1": "選擇科別",
+        "A006_Online_Booking_1": "依科別掛號",
         "A006_Online_Booking_1_part": "科別預約",
-        "A006_Online_Booking_2": "選擇醫師",
+        "A006_Online_Booking_2": "依醫師掛號",
         "A006_Online_Booking_2_1": "醫師預約", # 帶醫師變數
         "A003_health_edu": "衛教園地",
         # "A007_Reserve_pre": "預約慢箋", # 頁面手動新增
@@ -398,7 +402,7 @@ def breadcrumb_processor(request):
                     
                     # 建立固定的 A006 層級
                     breadcrumbs.append({"name": "網路掛號", "url": "/A006_Online_Booking_0/"})
-                    breadcrumbs.append({"name": "選擇醫師", "url": "/A006_Online_Booking_2/"})
+                    breadcrumbs.append({"name": "依醫師掛號", "url": "/A006_Online_Booking_2/"})
                     
                     # 動態抓取醫師名稱
                     mapping = _get_dept_dr_map()
@@ -407,6 +411,20 @@ def breadcrumb_processor(request):
                         dr_name = mapping['doctors'][dr_id]['filename'].split("_")[2] # 例如: "李育嘉 主治醫師"
                         
                     breadcrumbs.append({"name": dr_name, "url": f"/A006_Online_Booking_2_1/{dept_en}/{dr_id}/"})
+
+                elif path_segments[0] == "A006_Online_Booking_1_part" and len(path_segments) >= 2:
+                    dept_en = path_segments[1]
+                    
+                    breadcrumbs.append({"name": "網路掛號", "url": "/A006_Online_Booking_0/"})
+                    breadcrumbs.append({"name": "依科別掛號", "url": "/A006_Online_Booking_1/"})
+                    
+                    mapping = _get_dept_dr_map()
+                    dept_name = dept_en
+                    if dept_en in mapping['dept_en_to_id']:
+                        dept_id = mapping['dept_en_to_id'][dept_en]
+                        dept_name = mapping['depts'][dept_id]['name']
+                        
+                    breadcrumbs.append({"name": dept_name, "url": f"/A006_Online_Booking_1_part/{dept_en}/"})
 
                 else:
                     url_accum = "/"

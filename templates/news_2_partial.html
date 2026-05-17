@@ -1,0 +1,42 @@
+{% load static %}
+{# 媒體報導 - 無限滾動局部樣板：僅渲染圖卡 (div) 與最末端隱藏的下一頁動態網址 #}
+{% for news_list in contacts %}
+<div class="col-lg-4 col-md-6 mb-4 news-card-item">
+    <div class="card h-100 border-0 shadow-sm rounded-0">
+        <!-- 圖卡連結 (指向新詳細頁) -->
+        <a href="/A000_reports/{{ news_list.8 }}/" class="text-decoration-none">
+            <!-- 圖片顯示 (根據您的 ID 命名規則) -->
+            <div class="card-img-top overflow-hidden" style="height: 200px;">
+                {% if news_list.10 %}
+                <!-- 如果有抓到 <img1> 標籤的圖片 -->
+                <img src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                {% else %}
+                <!-- 如果沒有圖片，顯示預設圖 -->
+                <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                {% endif %}
+            </div>
+            <div class="card-body cofe-word">
+
+                <!-- 內文時間 (檔名) -->
+                <p class="text-muted small mb-2 text-right"><i class="fa fa-clock" aria-hidden="true"></i> {{ news_list.6 }}</p>
+
+                <!-- 內文標題 (檔名) -->
+                <h5 class="card-title font-weight-bold ell_two" style="height: 3rem; line-height: 1.5rem;">{{ news_list.2 }}</h5>
+
+                <!-- txt 內容第一個<t> -->
+                <p class="text-muted small mb-0" style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ news_list.11|truncatechars:35 }}</p>
+
+            </div>
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+<!-- 傳遞給前端的下一頁狀態，用來更新按鈕 -->
+<div class="load-more-state d-none" 
+    {% if contacts.has_next %}
+    data-next-url="/A000_reports/page/{{ contacts.next_page_number }}/"
+    {% else %}
+    data-has-next="false"
+    {% endif %}>
+</div>

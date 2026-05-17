@@ -1814,7 +1814,7 @@ def get_year(element):
 	return element[6]
 
 # 最新消息 (清單頁)
-def new_news(request):
+def new_news(request, page=None):
 	news_lists = []
 	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
 
@@ -1834,14 +1834,22 @@ def new_news(request):
 	news_lists.sort(key=get_year, reverse=True)
 
 	paginator = Paginator(news_lists, 10)
-	page = request.GET.get('page')
+	page = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page)
 
-	return render(request, "news_1.html", {
-		'contacts': contacts,
-		'paginator': paginator,
-		'MEDIA_URL': settings.MEDIA_URL,
-	})
+	# --- 加入 AJAX 分頁邏輯 ---
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+		return render(request, "news_1_partial.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
+	else:
+		return render(request, "news_1.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
 
 # 最新消息 (文章內容頁)
 def new_news_detail(request, slug):
@@ -1898,7 +1906,7 @@ def get_m_year(element):
 	return element[6]  #指取資料第 6 個位置值
 
 # 媒體報導 (清單頁)
-def new_medias(request):
+def new_medias(request, page=None):
 	medias_split_box = []
 	medias_datas = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_2'))
 
@@ -1919,7 +1927,7 @@ def new_medias(request):
 	medias_split_box.sort(key= get_m_year, reverse = True)
 
 	paginator = Paginator(medias_split_box, 10)
-	page = request.GET.get('page')
+	page = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page)
 
 	# --- 關鍵修正：僅針對當前頁面的 10 筆資料提取圖片 ---
@@ -1935,7 +1943,6 @@ def new_medias(request):
 					# 1.抓取第一個圖片
 					if not img_name and "<img1>" in line:
 						img_name = line.replace("<img1>", "").strip()
-						break
 
 					# 2.抓取第一個 <t> 作為摘要
 					if not excerpt and "<t>" in line:
@@ -1949,11 +1956,19 @@ def new_medias(request):
 		item.append(img_name) # Index [10]
 		item.append(excerpt)  # Index [11]
 
-	return render(request, "news_2.html", {
-		'contacts': contacts,
-		'paginator': paginator,
-		'MEDIA_URL': settings.MEDIA_URL,
-	})
+	# --- 加入 AJAX 分頁邏輯 ---
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+		return render(request, "news_2_partial.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
+	else:
+		return render(request, "news_2.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+			'MEDIA_URL': settings.MEDIA_URL,
+		})
 
 
 # 媒體報導 (文章內容頁)
@@ -4347,6 +4362,47 @@ def A006_Online_Booking_1(request):
 	})
 
 # 網路掛號_選擇科別_當週該科醫師列表
+# --- [ 網路掛號-科別預約-短網址轉接頭 ] ---
+def A006_Online_Booking_1_part_short(request, dept_en):
+	mapping = _get_dept_dr_map()
+	if dept_en in mapping['dept_en_to_id']:
+		dept_id = mapping['dept_en_to_id'][dept_en]
+		dept_name = mapping['depts'][dept_id]['name']
+		
+		# 將參數重新塞回 request.GET 中供原函式使用
+		request.GET = request.GET.copy()
+		request.GET['A006_sename'] = dept_name
+	return A006_Online_Booking_1_part(request)
+
+def A006_Online_Booking_1_part_legacy(request):
+	# 攔截舊的 QueryString 網址並轉址到新的 SEO 短網址
+	if "A006_sename" in request.GET:
+		sename = request.GET.get("A006_sename")
+		mapping = _get_dept_dr_map()
+		
+		# 從反向對應中尋找英文代碼
+		dept_en = None
+		for k, v in mapping['dept_en_to_id'].items():
+			if mapping['depts'][v]['name'] == sename:
+				dept_en = k
+				break
+				
+		if dept_en:
+			# 保留原本可能帶入的其他參數，例如 A006_date_select 等
+			other_params = request.GET.copy()
+			other_params.pop("A006_sename", None)
+			
+			query_string = ""
+			if other_params:
+				from urllib.parse import urlencode
+				query_string = "?" + urlencode(other_params)
+				
+			return redirect(f"/A006_Online_Booking_1_part/{dept_en}/{query_string}", permanent=True)
+	
+	# 若無攔截到，則退回原邏輯
+	return A006_Online_Booking_1_part(request)
+
+
 def A006_Online_Booking_1_part(request):
 	A006_True = "True"
 	if not ("A006_first" in request.session):

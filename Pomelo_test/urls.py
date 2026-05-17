@@ -26,8 +26,10 @@ urlpatterns = [
     re_path('^$', pomelo_views.index),
     re_path('index/', pomelo_views.index),
     re_path('^A000_news/$', pomelo_views.new_news),
+    re_path('^A000_news/page/(?P<page>\d+)/$', pomelo_views.new_news),
     re_path('A000_news/(?P<slug>[\w\d]+)/', pomelo_views.new_news_detail, name='news_detail'),
     re_path('^A000_reports/$', pomelo_views.new_medias),
+    re_path('^A000_reports/page/(?P<page>\d+)/$', pomelo_views.new_medias),
     re_path('A000_reports/(?P<slug>[\w\d_-]+)/', pomelo_views.new_media_detail, name='media_detail'),
     re_path('A000_closed_clinic/', pomelo_views.new_stop_show),
     re_path('A000_video_message/', pomelo_views.new_video),
@@ -134,7 +136,8 @@ urlpatterns = [
     re_path('A006_Online_Booking_data/', pomelo_views.A006_Online_Booking_data), # 預約資料記錄
     re_path('A006_Online_Booking_check/', pomelo_views.A006_Online_Booking_check),
     re_path('A006_Online_Booking_1/', pomelo_views.A006_Online_Booking_1),
-    re_path('A006_Online_Booking_1_part/', pomelo_views.A006_Online_Booking_1_part), # 科別預約頁
+    re_path('^A006_Online_Booking_1_part/$', pomelo_views.A006_Online_Booking_1_part_legacy), # 科別預約頁(舊網址轉接)
+    re_path('^A006_Online_Booking_1_part/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_1_part_short), # 科別預約頁(新網址)
     re_path('A006_Online_Booking_2/', pomelo_views.A006_Online_Booking_2),
     re_path('^A006_Online_Booking_2_1/$', pomelo_views.A006_Online_Booking_2_1_legacy), # 醫師預約頁(舊網址轉接)
     re_path('^A006_Online_Booking_2_1/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_2_1_short), # 醫師預約頁(新網址)

@@ -1,0 +1,26 @@
+{# 最新消息 - 無限滾動局部樣板：僅渲染資料列 (tr) 與最末端隱藏的下一頁動態網址 #}
+
+{% for news_list in contacts %}
+<tr class="cell_row news-item-row">
+    <td>
+        <div class="cell_left font-weight-bold">標題</div>
+        <div class="cell_right">
+            <!-- 連結設定 slug 對應的索引位置 -->
+            <a class="font-weight-bold" href="/A000_news/{{ news_list.7 }}/">{{ news_list.2 }}</a>
+        </div>
+    </td>
+    <td class="text-center">
+        <div class="cell_left font-weight-bold">更新日期</div>
+        <div class="cell_right">{{ news_list.6 }}</div>
+    </td>
+</tr>
+{% endfor %}
+
+<!-- 傳遞給前端的下一頁狀態，用來更新按鈕 -->
+<tr class="load-more-state d-none" 
+    {% if contacts.has_next %}
+    data-next-url="/A000_news/page/{{ contacts.next_page_number }}/"
+    {% else %}
+    data-has-next="false"
+    {% endif %}>
+</tr>
