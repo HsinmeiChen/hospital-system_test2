@@ -1,59 +1,48 @@
-{% extends "department/m_intro_base.html" %}
-
-{% load static %}
-
-{% block title %}長安簡介 | {{ block.super }}{% endblock %}
-{% block og_title %}長安簡介 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-
-<header id="content_h">
-    <h2 class="c-onsale-heading">長安簡介</h2>
-</header>
-
-<div class="l-main-content__body">
-    <div class="media_info">
-		<div class="row">
-			<div class="col-12">
-				{% include 'Public_tag.html' %}
-			</div>
-		</div>
-	</div>
-</div>
-
-{% endblock %}
-
-
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-
-{% block guide_seo %}
-
-{% include 'schema_article.html' with headline="長安簡介" %}
-
-{% endblock %}
-
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-
-{% block sub_extra_css %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-
-{% block sub_extra_js %}
-
-{% endblock %}
-
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
-
-
+{% extends "department/m_intro_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}長安簡介｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}長安簡介｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}長安簡介｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<header id="content_h">
+    <h2 class="c-onsale-heading">長安簡介</h2>
+</header>
+
+<div class="l-main-content__body">
+    <div class="media_info">
+		<div class="row">
+			<div class="col-12">
+				{% include 'Public_tag.html' %}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+	{% include 'schema_article.html' with headline="長安簡介" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

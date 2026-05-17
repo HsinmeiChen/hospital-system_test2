@@ -1,12 +1,10 @@
 from django.conf import settings
 from django.shortcuts import render, Http404
-from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from collections import defaultdict # 分群套件
-from PIL import Image # 圖片壓縮、轉檔、裁切
-from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
+from Pomelo_test.utils import convert_image_to_webp, append_hash_to_filenames
 import os, datetime, pymssql, re, glob, calendar, time, smtplib, openpyxl
 
 try:
@@ -186,65 +184,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 NEWS_DIR = os.path.join(BASE_DIR, '..', '..', 'media', 'news_1')  # 根據實際結構調整
 
 def append_crc32_to_filenames():
-	for filename in os.listdir(NEWS_DIR):
-		# 僅處理 .txt 檔案
-		if not filename.endswith('.txt'):
-			continue
-
-		# 檢查是否已含有 ^（代表已有 hash，不處理）
-		if '^' in filename:
-			continue
-
-		# 計算 CRC32 值
-		crc32_value = zlib.crc32(filename.encode('utf-8')) & 0xffffffff
-		crc32_hex = format(crc32_value, '08x')
-
-		# 建立新檔名
-		name_part, ext = os.path.splitext(filename)
-		new_filename = f"{name_part}^{crc32_hex}{ext}"
-
-		# 執行重新命名
-		src_path = os.path.join(NEWS_DIR, filename)
-		dst_path = os.path.join(NEWS_DIR, new_filename)
-		os.rename(src_path, dst_path)
-
-		print(f"✔ 已重新命名：{filename} → {new_filename}")
+	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-
-# === 通用 WebP 轉換主函式 (所有路徑) ===
-def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80):
-	"""
-	通用圖片轉換函式：將原圖轉為 WebP 格式並儲存在指定資料夾中。
-	- source_dir: 原圖來源資料夾
-	- target_dir: WebP 目標儲存資料夾
-	- original_filename: 原始圖片檔名
-	- quality: 壓縮品質 (預設 80 %)
-	"""
-	os.makedirs(target_dir, exist_ok=True)
-
-	original_path = os.path.join(source_dir, original_filename)
-	name_without_ext = os.path.splitext(original_filename)[0]
-	webp_filename = f"{name_without_ext}.webp"
-	webp_path = os.path.join(target_dir, webp_filename)
-
-	if not os.path.exists(original_path):
-		print(f"[錯誤] 找不到原始圖片：{original_path}")
-		return ""
-
-	lock_path = f"{webp_path}.lock" # 同時多人點擊時也不會重複轉換
-	with FileLock(lock_path):
-		if not os.path.exists(webp_path): # 只有當 WebP 檔案尚未存在時，才會進行轉換
-			try: 
-				img = Image.open(original_path)
-				img.save(webp_path, 'webp', quality=quality)
-			except Exception as e:
-				print(f"[錯誤] 轉檔失敗：{e}")
-				return ""
-
-	return os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
-
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■
 # === 工具：處理包在段落中的 <img1> 與 <yt> 轉換 html 邏輯 【用於 parse_article_txt() 呼叫】 ===
 def render_custom_tags(line, img_url):
 	'''

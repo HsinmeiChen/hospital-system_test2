@@ -8,6 +8,9 @@ import pandas as pd
 import os, datetime, re, glob, calendar, time, smtplib, openpyxl
 from django.conf import settings
 
+# --- 導入共用圖片轉 .webp 格式 與清理舊檔案函式 ---
+from Pomelo_test.utils import convert_image_to_webp, safe_cleanup_webp_cache
+
 try:
 	import oracledb
 	try:
@@ -1867,14 +1870,14 @@ def new_news_detail(request, slug):
 	title = parts[2]
 	date = parts[6]
 
-	# --- 讀取內容 ---
+	# --- 讀取內容，並轉換內文圖片為 80% 品質 WebP ---
 	with open(os.path.join(settings.MEDIA_ROOT, 'news_1', target_file), "r", encoding="utf-8") as fd:
-		content_lines = fd.readlines()
+		raw_lines = fd.readlines()
 	
+	content_lines = []
 	first_img = ""
 	excerpt = ""
-	for line in content_lines:
-
+	for line in raw_lines:
 		# 1.抓取第一個圖片
 		if not first_img and "<img1>" in line:
 			first_img = line.replace("<img1>", "").strip()
@@ -1882,9 +1885,31 @@ def new_news_detail(request, slug):
 		# 2.抓取摘要(第一個 <t>)
 		if not excerpt and "<t>" in line:
 			excerpt = line.replace("<t>", "").strip()
+
+		# 自動轉換內文圖片為 80% 品質 WebP 並且直接預渲染好相容 .jpeg/.png 各種長度副檔名的 picture 標籤
+		if "<img1>" in line:
+			img_filename = line.replace("<img1>", "").strip()
+			if img_filename:
+				source_dir = os.path.join(settings.MEDIA_ROOT, 'news_1', 'img')
+				target_dir = os.path.join(source_dir, 'img_webp_article')
+
+				# 執行 WebP 轉換 (文章圖片使用 80% 品質)
+				convert_image_to_webp(source_dir, target_dir, img_filename, quality=80)
+
+				# 安全清理機制
+				safe_cleanup_webp_cache(source_dir, target_dir)
+
+				# 組裝 HTML (利用 os.path.splitext，無痛相容 .jpeg/.png/.gif 等任意長度的副檔名！)
+				name_without_ext = os.path.splitext(img_filename)[0]
+				picture_html = (
+					f'<picture>'
+					f'<source srcset="{settings.MEDIA_URL}news_1/img/img_webp_article/{name_without_ext}.webp" type="image/webp">'
+					f'<img class="img-fluid w-100 my-3" src="{settings.MEDIA_URL}news_1/img/{img_filename}" alt="{title}" title="{title}" loading="lazy">'
+					f'</picture>'
+				)
+				line = f"<img1_html>{picture_html}\n"
 		
-		if first_img and excerpt:
-			break
+		content_lines.append(line)
 
 	# --- 檢查內容中是否包含任何 <h> 標籤-優先採用，沒有則使用檔案名稱的標題 ---
 	has_h_tag = any("<h>" in line for line in content_lines)
@@ -1915,7 +1940,7 @@ def new_medias(request, page=None):
 			name_without_ext = md.replace(".txt", "")
 			parts = name_without_ext.split("_")
 
-			# --- 增加防錯機制:確保檔名至少有 8 段 (0~7)，才進行解析 ---
+			# 增加防錯機制:確保檔名至少有 8 段 (0~7)，才進行解析
 			if len(parts) >= 8:
 				slug = f"{parts[6]}_{parts[7]}" # 生成 Slug: 日期 [6] + ID [7]
 				parts.append(slug) # Index [8]
@@ -1930,7 +1955,7 @@ def new_medias(request, page=None):
 	page = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page)
 
-	# --- 關鍵修正：僅針對當前頁面的 10 筆資料提取圖片 ---
+	# --- 僅針對當前頁面的 10 筆資料提取圖片 ---
 	for item in contacts:
 		img_name = ""
 		excerpt = ""
@@ -1953,8 +1978,27 @@ def new_medias(request, page=None):
 						break
 		except:
 			pass
+
+		# --- 新加入 WebP 自動轉換與快取清理 --- 
+		webp_path = ""
+		if img_name:
+			source_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
+			target_dir = os.path.join(source_dir, 'thumb-webp')
+
+			# 執行轉檔 (品質 50% 適合清單縮圖)
+			webp_path = convert_image_to_webp(
+				source_dir=source_dir,
+				target_dir=target_dir,
+				original_filename=img_name,
+				quality=50
+			)
+
+			# 執行快取自動清理 (100%安全，只清孤立快取，不碰原圖)
+			safe_cleanup_webp_cache(source_dir, target_dir)
+			
 		item.append(img_name) # Index [10]
 		item.append(excerpt)  # Index [11]
+		item.append(webp_path) # Index [12] 新增快取 WebP 相對路徑傳遞給前端
 
 	# --- 加入 AJAX 分頁邏輯 ---
 	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -1988,18 +2032,42 @@ def new_media_detail(request, slug):
 	date = parts[6]
 
 	with open(os.path.join(settings.MEDIA_ROOT, 'news_2', target_file), "r", encoding="utf-8") as fd:
-		content_lines = fd.readlines()
+		raw_lines = fd.readlines()
 
-	# --- 同時提取圖片與摘要文字 ---
+	# --- 同時提取圖片與摘要文字，並轉換內文圖片為 80% 品質 WebP 並且組裝 picture 標籤 ---
+	content_lines = []
 	first_img = ""
 	excerpt = ""
-	for line in content_lines:
+	for line in raw_lines:
 		if not first_img and "<img1>" in line:
 			first_img = line.replace("<img1>", "").strip()
 		if not excerpt and "<t>" in line:
 			excerpt = line.replace("<t>", "").strip()
-		if first_img and excerpt:
-			break
+
+		# 自動轉換內文圖片為 80% 品質 WebP
+		if "<img1>" in line:
+			img_filename = line.replace("<img1>", "").strip()
+			if img_filename:
+				source_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
+				target_dir = os.path.join(source_dir, 'img_webp_article')
+
+				# 執行 WebP 轉換 (文章圖片使用 80% 品質)
+				convert_image_to_webp(source_dir, target_dir, img_filename, quality=80)
+
+				# 安全清理機制
+				safe_cleanup_webp_cache(source_dir, target_dir)
+
+				# 組裝 HTML (利用 os.path.splitext，無痛相容 .jpeg/.png/.gif 等任意長度的副檔名！)
+				name_without_ext = os.path.splitext(img_filename)[0]
+				picture_html = (
+					f'<picture>'
+					f'<source srcset="{settings.MEDIA_URL}news_2/img/img_webp_article/{name_without_ext}.webp" type="image/webp">'
+					f'<img class="img-fluid w-100 my-3" src="{settings.MEDIA_URL}news_2/img/{img_filename}" alt="{title}" title="{title}" loading="lazy">'
+					f'</picture>'
+				)
+				line = f"<img1_html>{picture_html}\n"
+		
+		content_lines.append(line)
 
 	# ---檢查內容中是否包含任何 <h> 標籤-優先採用，沒有則使用檔案名稱的標題
 	has_h_tag = any("<h>" in line for line in content_lines)
@@ -2368,6 +2436,20 @@ def A001_department_overview(request):
 	})
 
 # 科室介紹
+
+# --- [ 圖片轉 WebP 專用包裝函數] ---
+def convert_doctor_image_to_webp(original_filename):
+	"""專用：轉換醫師大頭照為 WebP，儲存於 department/img/doc-webp，壓縮品質 80%"""
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'department', 'img')
+	target_dir = os.path.join(source_dir, 'doc-webp')
+	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
+
+def convert_about_image_to_webp(original_filename):
+	"""專用：轉換長安簡介圖片為 WebP，儲存於 A004/img/about-webp，壓縮品質 80%"""
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'A004', 'img')
+	target_dir = os.path.join(source_dir, 'about-webp')
+	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
+
 # --- [ Mapping Cache 對照表快取機制] ---
 _DEPT_DR_MAP_CACHE = None
 
@@ -2527,6 +2609,8 @@ def A001_department_part(request):
 		doctor_list7 = []
 		# 醫師員編
 		doctor_list8 = []
+		# 醫師 WebP 大頭照列表
+		doctor_webp_list = []
 		# 科室介紹內容
 		introduction_list = []
 
@@ -2564,14 +2648,23 @@ def A001_department_part(request):
 				doctor_list8.append(re_file[3].replace(".txt",""))
 
 				content = open(os.path.join(pathFile, file), "r", encoding="utf-8")
+				has_img = False
 				for c in content.readlines():
 					if ("<e>" in c):
 						doctor_list2.append(c.replace("<e>",""))
 					if ("<img1>" in c):
-						doctor_list3.append(c.replace("<img1>",""))
+						img_name = c.replace("<img1>","").strip()
+						doctor_list3.append(img_name)
+						# 呼叫底層自動進行轉檔並加入列表
+						webp_name = convert_doctor_image_to_webp(img_name) if img_name else ""
+						doctor_webp_list.append(webp_name)
+						has_img = True
+				if not has_img:
+					doctor_list3.append("")
+					doctor_webp_list.append("")
 				content.close()
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
-		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8)
+		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8, doctor_webp_list)
 		modals = zip(doctor_list4, doctor_list6)
 
 		# 新增部分 Start --------------------------------
@@ -2743,6 +2836,8 @@ def A001_department_doctor(request):
 				doctor_a = c.replace("<a>","").split("；")
 			if ("<img1>" in c):
 				doctor_img = c.replace("<img1>","")
+				# 取得轉換後的 WebP 檔名
+				doctor_webp_img = convert_doctor_image_to_webp(doctor_img.strip()) if doctor_img else ""
 
 		# 媒體報導區
 		in_medias_split_box = []
@@ -3073,6 +3168,7 @@ def A001_department_doctor(request):
 		'message_lists_1': message_lists_1,
 		'message_lists_1_i': message_lists_1_i,
 		'doctor_img': doctor_img,
+		'doctor_webp_img': doctor_webp_img,
 		'doctor_info': doctor_info,
 		'disable_X': disable_X,
 		'docno': docno,
@@ -3685,7 +3781,15 @@ def A003_labor_pathology_5(request):
 def A004_hos_intro(request):
 	path = os.path.join(settings.MEDIA_ROOT, 'A004', 'about.txt')
 	data = open(path, "r", encoding="utf-8")
-	data_lines = data.readlines()
+	data_lines = [line.strip() for line in data.readlines()]
+	data.close()
+
+	# 預先轉換簡介內嵌的圖片為 WebP
+	for line in data_lines:
+		if "<img1>" in line:
+			img_name = line.replace("<img1>", "").strip()
+			if img_name:
+				convert_about_image_to_webp(img_name)
 
 	return render(request, "department/m_intro_index.html", {
 		'data_lines': data_lines,
@@ -3707,6 +3811,14 @@ def A005_Self_fee(request):
 
 # 病房訊息_病人住院流程
 def A005_ward_mes_1(request):
+	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
+	target_dir = os.path.join(source_dir, 'ward-webp')
+
+	# 如果子資料夾不存在，則自動建立它
+	if not os.path.exists(target_dir):
+		os.makedirs(target_dir)
+
+	convert_image_to_webp(source_dir, target_dir, 'hos_process.jpg', quality=80)
 	return render(request, "department/ward_mes_1.html", {})
 
 # 病房訊息_住院須知
@@ -3715,11 +3827,28 @@ def A005_ward_mes_1(request):
 
 # 病房訊息_病人出院流程
 def A005_ward_mes_3(request):
+	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
+
+	target_dir = os.path.join(source_dir, 'ward-webp')
+
+	if not os.path.exists(target_dir):
+		os.makedirs(target_dir)
+
+	convert_image_to_webp(source_dir, target_dir, 'dis_process.jpg', quality=80)
 	return render(request, "department/ward_mes_3.html", {})
 
 # 病房訊息_病房訊息
 def A005_ward_mes_0(request):
+	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
+
+	target_dir = os.path.join(source_dir, 'ward-webp')
+
+	if not os.path.exists(target_dir):
+		os.makedirs(target_dir)
+
+	convert_image_to_webp(source_dir, target_dir, 'Room_fee.jpg', quality=80)
 	return render(request, "department/ward_mes_index.html", {})
+
 
 # =========================================A006(網路掛號)=========================================
 # 取得下一個月一號

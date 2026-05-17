@@ -1,35 +1,48 @@
-﻿{% extends "department/ward_mes_base.html" %}
-{% load static %}
-
-{% block title %}病人住院流程 | {{ block.super }}{% endblock %}
-{% block og_title %}病人住院流程 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<header id="content_h">
-    <h2 class="c-onsale-heading">病人住院流程</h2>
-</header>
-<div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			<img class="w-100" src="{% static 'common/img/ward_mes/hos_process.jpg' %}" alt="病人住院流程">
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="病人住院流程" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
+﻿{% extends "department/ward_mes_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+<!-- title -->{% block title %}病人住院流程｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+<!-- title -->{% block og_title %}病人住院流程｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}病人住院流程｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">病人住院流程</h2>
+</header>
+<div class="l-main-content__body">
+    <div class="row">
+		<div class="col-12">
+			<picture>
+				<source srcset="{% static 'common/img/ward_mes/ward-webp/hos_process.webp' %}" type="image/webp">
+				<img class="w-100" src="{% static 'common/img/ward_mes/hos_process.jpg' %}" alt="病人住院流程">
+			</picture>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="病人住院流程" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

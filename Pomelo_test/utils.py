@@ -3,11 +3,28 @@ import io
 import os
 import random
 import zlib
+import traceback
 
 try:
-    from PIL import Image, ImageDraw, ImageFont
+	from PIL import Image, ImageDraw, ImageFont
 except ImportError:
-    Image = ImageDraw = ImageFont = None
+	Image = ImageDraw = ImageFont = None
+
+# --- 安全檔案鎖匯入 ---
+try:
+	from filelock import FileLock
+except ImportError:
+	FileLock = None
+
+# --- PDF 轉圖工具匯入 ---
+# PyMuPDF - 用於將 PDF 轉換成圖片，不需要外部 Poppler 依賴
+try:
+	import fitz  
+except ImportError:
+	fitz = None
+
+# --- Django 設定匯入 ---
+from django.conf import settings
 
 
 def generate_captcha_image_bytes(code):
@@ -113,3 +130,181 @@ def append_hash_to_filenames(directory, extension='.txt', separator='^'):
                 os.rename(filepath, new_path)
         except Exception:
             pass
+
+
+
+# =========================================================================
+# 圖片轉 WebP 模組化工具 (含 mtime 比對增量更新與 PNG 透明度相容機制)
+# =========================================================================
+
+# --- [ 通用模組化 WebP 轉換函式 ] ---
+def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80):
+	"""
+	- 包含 mtime 覆寫原圖自動偵測更新與 PNG 透明度相容機制
+	- source_dir: 原始圖片資料夾絕對路徑 (例如: media/news_2/img)
+	- target_dir: WebP 儲存目標資料夾絕對路徑 (例如: media/news_2/img/thumb-webp)
+	- original_filename: 原始圖片檔名 (例如: "banner1.jpg")
+	- quality: 壓縮品質 (預設 80 %)
+	"""
+	if Image is None or not original_filename:
+		return ""
+
+	original_path = os.path.join(source_dir, original_filename)
+	name_without_ext = os.path.splitext(original_filename)[0]
+	webp_filename = f"{name_without_ext}.webp"
+	webp_path = os.path.join(target_dir, webp_filename)
+
+	# --- 1. 檢查原始圖片是否存在 ---
+	if not os.path.exists(original_path):
+		return ""
+
+	# --- 2. 核心增量比對 (含檔案修改時間 mtime) ---
+	should_convert = False
+	if not os.path.exists(webp_path):
+		should_convert = True
+	else:
+		# 當維護人員手動上傳覆寫原圖時，原圖修改時間戳記會大於 WebP 的修改時間戳記
+		original_mtime = os.path.getmtime(original_path)
+		webp_mtime = os.path.getmtime(webp_path)
+		if original_mtime > webp_mtime:
+			should_convert = True
+
+	# --- 3. 取得相對於 MEDIA_ROOT 的快取 WebP 路徑 ---
+	relative_webp_path = os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
+
+	if not should_convert:
+		return relative_webp_path
+
+	# --- 4. 使用 FileLock 機制防止高流量/快速重新整理時的重複轉檔與 CPU 暴衝 ---
+	if FileLock is not None:
+		lock_path = f"{webp_path}.lock"
+		with FileLock(lock_path):
+			# 雙重確認等待鎖定期間是否已由其他線程完成轉檔
+			if os.path.exists(webp_path) and os.path.getmtime(webp_path) >= os.path.getmtime(original_path):
+				return relative_webp_path
+
+			return _execute_webp_save(original_path, webp_path, quality, relative_webp_path)
+	else:
+		return _execute_webp_save(original_path, webp_path, quality, relative_webp_path)
+
+
+# --- [ 核心 WebP 儲存函式 ] ---
+def _execute_webp_save(original_path, webp_path, quality, relative_webp_path):
+	try:
+		with Image.open(original_path) as img:
+			# --- 5. PNG 透明度與色彩空間防堵機制 (Alpha Channel) ---
+			if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
+				img = img.convert('RGBA')
+			else:
+				img = img.convert('RGB')
+			# --- 6. 保存為高品質 WebP ---	
+			img.save(webp_path, 'WEBP', quality=quality)
+		return relative_webp_path
+	except Exception as e:
+		print(f"[WebP Error] 轉檔失敗: {e}")
+		return ""
+
+
+# --- [ 通用 PDF 轉 WebP 圖片函式 (集中化集中管理) ] ---
+def convert_pdf_to_webp(source_dir, target_dir, pdf_filename, quality=100):
+	"""
+	將 PDF 檔案自動轉換為 WebP 圖片（支援多頁 PDF，集中管理）
+	- source_dir: PDF 來源資料夾
+	- target_dir: WebP 目標儲存資料夾
+	- pdf_filename: PDF 檔名（如 '2025-health-project.pdf'）
+	- quality: 壓縮品質 (預設 100 %)
+	回傳：WebP 圖片相對路徑列表 與 是否剛完成新轉檔 (tuple)
+	"""
+	if fitz is None or Image is None:
+		print("[錯誤] 未安裝 fitz (PyMuPDF) 或 PIL，無法進行 PDF 轉檔")
+		return [], False
+		
+	os.makedirs(target_dir, exist_ok=True)
+	pdf_path = os.path.join(source_dir, pdf_filename)
+
+	if not os.path.exists(pdf_path):
+		print(f"[錯誤] 找不到 PDF 檔案：{pdf_path}")
+		return [], False
+
+	pdf_basename = os.path.splitext(pdf_filename)[0]
+	lock_path = os.path.join(target_dir, f"{pdf_basename}.lock")
+    
+	newly_converted = False
+    
+    # 執行檔案鎖安全轉檔
+	if FileLock is not None:
+		with FileLock(lock_path):
+			first_page_webp = os.path.join(target_dir, f"{pdf_basename}-page1.webp")
+			if not os.path.exists(first_page_webp):
+				newly_converted = True
+				_execute_pdf_to_webp(pdf_path, target_dir, pdf_basename, quality)
+	else:
+		first_page_webp = os.path.join(target_dir, f"{pdf_basename}-page1.webp")
+		if not os.path.exists(first_page_webp):
+			newly_converted = True
+			_execute_pdf_to_webp(pdf_path, target_dir, pdf_basename, quality)
+            
+	# 整理並回傳已轉換的圖片相對路徑
+	webp_files = []
+	page = 1
+	while True:
+		webp_filename = f"{pdf_basename}-page{page}.webp"
+		webp_path = os.path.join(target_dir, webp_filename)
+		if os.path.exists(webp_path):
+			relative_path = os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
+			webp_files.append(relative_path)
+			page += 1
+		else:
+			break
+
+	return webp_files, newly_converted
+
+
+def _execute_pdf_to_webp(pdf_path, target_dir, pdf_basename, quality):
+	try:
+		pdf_document = fitz.open(pdf_path)
+		page_count = pdf_document.page_count
+		for page_num in range(page_count):
+			page = pdf_document[page_num]
+			mat = fitz.Matrix(2, 2)  # 2倍縮放高清晰度
+			pix = page.get_pixmap(matrix=mat)
+			img_data = pix.tobytes("png")
+			image = Image.open(io.BytesIO(img_data))
+
+			webp_filename = f"{pdf_basename}-page{page_num + 1}.webp"
+			webp_path = os.path.join(target_dir, webp_filename)
+			image.save(webp_path, 'WEBP', quality=quality)
+
+		pdf_document.close()
+	except Exception as e:
+		print(f"[PDF Error] 轉換失敗 {pdf_basename}: {e}")
+
+
+# --- [ 安全清理機制 ] ---
+def safe_cleanup_webp_cache(source_dir, target_dir):
+	"""
+	安全清理機制：僅移除 target_dir 快取資料夾下對應原圖已被刪除的孤立 WebP 與鎖定檔，
+	絕對不會修改或刪除 source_dir 原始資料夾底下的任何檔案。
+	"""
+	if not os.path.exists(target_dir) or not os.path.exists(source_dir):
+		return
+	for filename in os.listdir(target_dir):
+		if filename.endswith('.webp'):
+			name_without_ext = os.path.splitext(filename)[0]
+			# 檢查原始資料夾中是否存在任何同名原圖 (支援多種常見副檔名)
+			has_original = False
+			for ext in ['.jpg', '.jpeg', '.png', '.gif', '.JPG', '.JPEG', '.PNG', '.GIF']:
+				if os.path.exists(os.path.join(source_dir, f"{name_without_ext}{ext}")):
+					has_original = True
+					break
+
+			# 若原圖已不存在，安全清除該快取
+			if not has_original:
+				webp_filepath = os.path.join(target_dir, filename)
+				lock_filepath = f"{webp_filepath}.lock"
+				try:
+					os.remove(webp_filepath)
+					if os.path.exists(lock_filepath):
+						os.remove(lock_filepath)
+				except Exception:
+					pass

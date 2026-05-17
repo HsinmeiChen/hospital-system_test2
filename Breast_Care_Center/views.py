@@ -9,18 +9,16 @@ from django.core.cache import cache # 用於快取資料，減少磁碟 I/O
 
 import urllib.parse  # 用來處理 URL 中的特殊字元，讓網址能正確顯示中文或其他特殊字符
 
-from PIL import Image, ImageDraw, ImageFont, ImageFilter # 圖片壓縮、轉檔、裁切 (將圖片轉成 WebP 或改變品質/尺寸)
-import io # 用於處理圖片的記憶體檔案流
-
-from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
-
-import os, oracledb, datetime, re, time, hashlib # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤 / 產生 hash 值
-import traceback, random, zlib # 除錯（debug） 或 記錄錯誤訊息（logging）/ 隨機選擇 5 筆文章 / 用來產生檔名的 hash 值以避免檔名衝突或快取問題
+import os, oracledb, datetime, re, time # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
+import random # 用於生成隨機驗證碼字元
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
 from .forms import ContactForm, send_email_to_client
 from Pomelo_test.decorators import ratelimit_captcha, ratelimit_form_submit, captcha_failure_limit
-from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes
+
+# 新修改
+from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes, convert_image_to_webp
+
 # ContactForm：Django 表單類別，用來驗證使用者輸入（name/email/subject/message 等）
 # send_email_to_client：封裝郵件內容與發送邏輯的函式（使用 Django 的郵件後端發送 EmailMessage）。
 
@@ -292,39 +290,6 @@ def append_crc32_to_filenames():
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-
-# === 通用 WebP 轉換主函式 (所有路徑) ===
-def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80):
-	"""
-	通用圖片轉換函式：將原圖轉為 WebP 格式並儲存在指定資料夾中。
-	- source_dir: 原圖來源資料夾
-	- target_dir: WebP 目標儲存資料夾
-	- original_filename: 原始圖片檔名
-	- quality: 壓縮品質 (預設 80 %)
-	"""
-	os.makedirs(target_dir, exist_ok=True)
-
-	original_path = os.path.join(source_dir, original_filename)
-	name_without_ext = os.path.splitext(original_filename)[0]
-	webp_filename = f"{name_without_ext}.webp"
-	webp_path = os.path.join(target_dir, webp_filename)
-
-	if not os.path.exists(original_path):
-		print(f"[錯誤] 找不到原始圖片：{original_path}")
-		return ""
-
-	lock_path = f"{webp_path}.lock" # 同時多人點擊時也不會重複轉換
-	with FileLock(lock_path):
-		if not os.path.exists(webp_path): # 只有當 WebP 檔案尚未存在時，才會進行轉換
-			try: 
-				img = Image.open(original_path)
-				img.save(webp_path, 'webp', quality=quality)
-			except Exception as e:
-				print(f"[錯誤] 轉檔失敗：{e}")
-				return ""
-
-	return os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
-
 # === 工具：處理包在段落中的 <img1> 與 <yt> 轉換 html 邏輯 【用於 parse_article_txt() 呼叫】 ===
 def render_custom_tags(line, img_url, filepath=""):
 	'''

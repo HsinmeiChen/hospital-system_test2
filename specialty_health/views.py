@@ -5,19 +5,13 @@ from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger # 用�
 from collections import defaultdict, OrderedDict # 用於分群或累加資料 / 用於需要穩定排序的回傳資料
 from django.utils.html import escape # 用於轉義 HTML 字元，避免 XSS 攻擊
 from django.views.decorators.http import require_GET # 限制只能用 GET 方法存取的裝飾器
-import mimetypes # 用於偵測檔案的 MIME 類型
-
-from PIL import Image, ImageDraw, ImageFont, ImageFilter # 圖片壓縮、轉檔、裁切 (將圖片轉成 WebP 或改變品質/尺寸)
-import io # 用於處理圖片的記憶體檔案流
-import fitz  # PyMuPDF - 用於將 PDF 轉換成圖片（不需要外部 Poppler 依賴）
-
-from filelock import FileLock # 避免多人同時進入轉換圖片邏輯，保證同一時間只有一個人可以執行轉換
-
 import os, oracledb, datetime, re, time # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
-import traceback, random, zlib # 除錯（debug） 或 記錄錯誤訊息（logging）/ 隨機選擇 5 筆文章 / 用來產生檔名的 hash 值以避免檔名衝突或快取問題
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
-from Pomelo_test.utils import generate_captcha_image_bytes
+
+# 新修改 (圖片轉 WebP、PDF 轉 WebP 工具)
+from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
+
 from .forms import ContactForm, send_email_to_client
 # ContactForm：Django 表單類別，用來驗證使用者輸入（name/email/subject/message 等）
 # send_email_to_client：封裝郵件內容與發送邏輯的函式（使用 Django 的郵件後端發送 EmailMessage）。
@@ -263,142 +257,10 @@ Films_Dir = os.path.join(special_base_dir, 'h-films')
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 (記得要呼叫才會啟動) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 def append_crc32_to_filenames():
-	for filename in os.listdir(NEWS_DIR):
-		# 僅處理 .txt 檔案
-		if not filename.endswith('.txt'):
-			continue
-
-		# 檢查是否已含有 ^（代表已有 hash，不處理）
-		if '^' in filename:
-			continue
-
-		# 計算 CRC32 值
-		crc32_value = zlib.crc32(filename.encode('utf-8')) & 0xffffffff
-		crc32_hex = format(crc32_value, '08x')
-
-		# 建立新檔名
-		name_part, ext = os.path.splitext(filename)
-		new_filename = f"{name_part}^{crc32_hex}{ext}"
-
-		# 執行重新命名
-		src_path = os.path.join(NEWS_DIR, filename)
-		dst_path = os.path.join(NEWS_DIR, new_filename)
-		os.rename(src_path, dst_path)
-
-		print(f"✔ 已重新命名：{filename} → {new_filename}")
+	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-
-# === 通用 WebP 轉換主函式 (所有路徑) ===
-def convert_image_to_webp(source_dir, target_dir, original_filename, quality=80):
-	"""
-	通用圖片轉換函式：將原圖轉為 WebP 格式並儲存在指定資料夾中。
-	- source_dir: 原圖來源資料夾
-	- target_dir: WebP 目標儲存資料夾
-	- original_filename: 原始圖片檔名
-	- quality: 壓縮品質 (預設 80 %)
-	"""
-	os.makedirs(target_dir, exist_ok=True)
-
-	original_path = os.path.join(source_dir, original_filename)
-	name_without_ext = os.path.splitext(original_filename)[0]
-	webp_filename = f"{name_without_ext}.webp"
-	webp_path = os.path.join(target_dir, webp_filename)
-
-	if not os.path.exists(original_path):
-		print(f"[錯誤] 找不到原始圖片：{original_path}")
-		return ""
-
-	lock_path = f"{webp_path}.lock" # 同時多人點擊時也不會重複轉換
-	with FileLock(lock_path):
-		if not os.path.exists(webp_path): # 只有當 WebP 檔案尚未存在時，才會進行轉換
-			try: 
-				img = Image.open(original_path)
-				img.save(webp_path, 'webp', quality=quality)
-			except Exception as e:
-				print(f"[錯誤] 轉檔失敗：{e}")
-				return ""
-
-	return os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
-
-
-# === PDF 自動轉 WebP 圖片（使用 PyMuPDF，無需外部依賴）===
-def convert_pdf_to_webp(source_dir, target_dir, pdf_filename, quality=100):
-	"""
-	將 PDF 檔案自動轉換為 WebP 圖片（支援多頁 PDF）
-	使用 PyMuPDF (fitz)，不需要安裝 Poppler
-	- source_dir: PDF 來源資料夾
-	- target_dir: WebP 目標儲存資料夾
-	- pdf_filename: PDF 檔名（如 '2025-health-project.pdf'）
-	- quality: 壓縮品質 (預設 100 %)
-	回傳：WebP 圖片相對路徑列表
-	"""
-	os.makedirs(target_dir, exist_ok=True)
-	pdf_path = os.path.join(source_dir, pdf_filename)
-	
-	if not os.path.exists(pdf_path):
-		print(f"[錯誤] 找不到 PDF 檔案：{pdf_path}")
-		return []
-	
-	# PDF 檔名（去除副檔名）
-	pdf_basename = os.path.splitext(pdf_filename)[0]
-	
-	# 使用檔案鎖避免重複轉換
-	lock_path = os.path.join(target_dir, f"{pdf_basename}.lock")
-	with FileLock(lock_path):
-		# 檢查是否已經轉換過（檢查第一頁是否存在）
-		first_page_webp = os.path.join(target_dir, f"{pdf_basename}-page1.webp")
-		
-		newly_converted = False
-		if not os.path.exists(first_page_webp):
-			newly_converted = True
-			try:
-				print(f"[PDF轉換] 開始轉換：{pdf_filename}")
-				
-				# 開啟 PDF 檔案
-				pdf_document = fitz.open(pdf_path)
-				page_count = pdf_document.page_count
-				
-				# 逐頁轉換並儲存為 WebP
-				for page_num in range(page_count):
-					page = pdf_document[page_num]
-					
-					# 設定縮放比例 (zoom=2 相當於 200 DPI)
-					mat = fitz.Matrix(2, 2)  # 2倍縮放 = 高清晰度
-					pix = page.get_pixmap(matrix=mat)
-					
-					# 將 Pixmap 轉換為 PIL Image
-					img_data = pix.tobytes("png")
-					image = Image.open(io.BytesIO(img_data))
-					
-					# 儲存為 WebP 格式
-					webp_filename = f"{pdf_basename}-page{page_num + 1}.webp"
-					webp_path = os.path.join(target_dir, webp_filename)
-					image.save(webp_path, 'WEBP', quality=quality)
-					print(f"[PDF轉換] 已儲存第 {page_num + 1} 頁：{webp_filename}")
-				
-				pdf_document.close()
-				print(f"[PDF轉換] 完成，共 {page_count} 頁")
-			except Exception as e:
-				print(f"[錯誤] PDF 轉換失敗：{str(e)}")
-				traceback.print_exc()
-				return []
-	
-	# 回傳所有已轉換的 WebP 圖片相對路徑
-	webp_files = []
-	page = 1
-	while True:
-		webp_filename = f"{pdf_basename}-page{page}.webp"
-		webp_path = os.path.join(target_dir, webp_filename)
-		if os.path.exists(webp_path):
-			relative_path = os.path.relpath(webp_path, settings.MEDIA_ROOT).replace("\\", "/")
-			webp_files.append(relative_path)
-			page += 1
-		else:
-			break
-	
-	return webp_files, newly_converted
 
 
 

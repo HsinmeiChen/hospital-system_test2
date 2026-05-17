@@ -92,12 +92,17 @@
 			<div class="p-2 title-bg my-2 w-100 text-center">
 				<h4 class="cofe-word mb-0">團隊介紹</h4>
 			</div>
-			{% for name,expertise,img,number,filename,sectno,docno in doctors %}				
+			{% for name,expertise,img,number,filename,sectno,docno,img_webp in doctors %}				
 			<div class="container py-2">
 				<div class="row align-items-center border-bottom">
 					<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
 						<div class="d_img_div">
-							<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid">
+							<picture>
+								{% if img_webp %}
+								<source srcset="{{ MEDIA_URL }}{{ img_webp }}" type="image/webp" title="{{ name }}" alt="{{ name }}">
+								{% endif %}
+								<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid" alt="{{ name }}" title="{{ name }}">
+							</picture>
 						</div>
 					</div>
 					<div class="col-12 col-md-8 col-lg-9">

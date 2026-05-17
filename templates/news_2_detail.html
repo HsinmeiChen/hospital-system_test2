@@ -1,4 +1,4 @@
-﻿{% extends "news_base.html" %}
+{% extends "news_base.html" %}
 
 {% load static %}
 
@@ -45,9 +45,10 @@
 					<p class="py-2 text-justify">{{ line|cut:"<t>"|safe }}</p>
 				{% endif %}
 
-                {% if "<img1>" in line %}
-                    <img class="img-fluid w-100 my-3" src="{{ MEDIA_URL }}news_2/img/{{ line|cut:'<img1>'|safe }}" alt="{{ title }}" title="{{ title }}" loading="lazy">
+                {% if "<img1_html>" in line %}
+                    {{ line|cut:'<img1_html>'|safe }}
                 {% endif %}
+                
             {% endfor %}
         </div>		
     </div>
