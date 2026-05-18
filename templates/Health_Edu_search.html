@@ -1,8 +1,8 @@
 {% extends "Health_Edu_base.html" %}
 
 {% load static %}
-{% block title %}搜尋結果 | 衛教園地 | {{ block.super }}{% endblock %}
-{% block og_title %}搜尋結果 | 衛教園地 | {{ block.super }}{% endblock %}
+{% block title %}搜尋結果｜衛教園地｜{{ block.super }}{% endblock %}
+{% block og_title %}搜尋結果｜衛教園地｜{{ block.super }}{% endblock %}
 
 {% block guide_content %}
 <header id="content_h">
@@ -38,9 +38,9 @@
 				<tbody>
 					{% for a in message_lists_cut %}
 					<tr>
-						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.r_department}}</a></td>
-						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.room}}</a></td>
-						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.name}}</a></td>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.hash %}" class="health_list">{{a.r_department}}</a></td>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.hash %}" class="health_list">{{a.room}}</a></td>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.hash %}" class="health_list">{{a.name}}</a></td>
 					</tr>
 					{% empty %}
 					<tr>

@@ -31,26 +31,22 @@
 			</div>
 			<div class="col-12">
 				<div class="row my-3">
-					{% for d, userid, sename in doctor %}
+					{% for d, userid, sename, dept_en in doctor %}
 						<div class="col-12 col-md-3">
-							<form action="/A006_Online_Booking_2_1/" method="GET">
-								<a href="#" onclick='this.parentNode.submit(); return false;'>
-									<input type="hidden" name="A006_userid" value="{{ userid }}">
-									<input type="hidden" name="A006_sename" value="{{ sename }}">
-									<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-										<div class="w-100 position-relative">
-											<div class="in_icon position-absolute">
-												<i class="fas fa-user-md darkcoco-word font-70"></i>
-											</div>
-											<div class="in_content position-relative"> 
-												<div class="in_title">
-													<span class="title_line_org">{{ d }}</span>
-												</div>
+							<a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ userid }}/">
+								<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
+									<div class="w-100 position-relative">
+										<div class="in_icon position-absolute">
+											<i class="fas fa-user-md darkcoco-word font-70"></i>
+										</div>
+										<div class="in_content position-relative"> 
+											<div class="in_title">
+												<span class="title_line_org">{{ d }}</span>
 											</div>
 										</div>
 									</div>
-								</a>
-							</form>
+								</div>
+							</a>
 						</div>
 					{% endfor %}
 				</div>

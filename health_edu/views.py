@@ -174,9 +174,12 @@ def index(request):
 		main_item = os.path.basename(os.path.dirname(p[5]))
 		sub_item = os.path.basename(p[5])
 		sub_item_en = sub_item.split("_")[1] if "_" in sub_item else sub_item
+		import hashlib
+		name_hash = hashlib.md5(get_image_name(p).encode('utf-8')).hexdigest()[:8]
 		message_lists.append(
 			{"index":p[0],
 			"name":get_image_name(p),
+			"hash":name_hash,
 			"arr":temp_arr ,
 			"main_item":main_item ,
 			"sub_item":sub_item ,
@@ -241,7 +244,9 @@ def index2(request, sub_item_en):
 		for f in pic_lists:
 			if get_image_name(p) in f[1]:
 				temp_arr.append(f[3])
-		message_lists.append({"index":p[0],"name":get_image_name(p),"arr":temp_arr ,"time":get_time_str(p)})
+		import hashlib
+		name_hash = hashlib.md5(get_image_name(p).encode('utf-8')).hexdigest()[:8]
+		message_lists.append({"index":p[0],"name":get_image_name(p),"hash":name_hash,"arr":temp_arr ,"time":get_time_str(p)})
 	message_lists=remove_duplicate_items(message_lists,"name")
 	message_lists.sort(key=lambda x: (x["time"], x["name"]), reverse=True)
 
@@ -297,12 +302,15 @@ def search_page(request):
 				for title in unique_titles:
 					idx += 1
 					sub_item_en = sub_folder.split("_")[1] if "_" in sub_folder else sub_folder
+					import hashlib
+					name_hash = hashlib.md5(title.encode('utf-8')).hexdigest()[:8]
 					message_lists.append({
 						"index": idx,
 						"r_department": r_department,
 						"room": sub_folder.split("_")[0] if "_" in sub_folder else sub_folder,
 						"sub_item_en": sub_item_en,
 						"name": title,
+						"hash": name_hash,
 						"department": base_folder
 					})
 
@@ -338,10 +346,32 @@ def detail_page(request, sub_item_en, title_name):
 	if not os.path.exists(_dir):
 		return redirect('index')
 
+	# 尋找與傳入 hash 值相符的中文標題
+	import hashlib
+	real_title = None
 	all_files = os.listdir(_dir)
+	for file in all_files:
+		if file.lower().endswith('.jpg') and '_' in file:
+			prefix = file.split('_')[0]
+			computed_hash = hashlib.md5(prefix.encode('utf-8')).hexdigest()[:8]
+			if computed_hash == title_name:
+				real_title = prefix
+				break
+
+	# 備案：若傳入的本來就是中文標題 (相容舊網址)
+	if not real_title:
+		for file in all_files:
+			if file.lower().endswith('.jpg') and file.startswith(title_name + '_'):
+				real_title = title_name
+				break
+
+	# 若皆找不到，導回首頁
+	if not real_title:
+		return redirect('index')
+
 	jpg_files = []
 	for file in all_files:
-		if file.lower().endswith('.jpg') and file.startswith(title_name + '_'):
+		if file.lower().endswith('.jpg') and file.startswith(real_title + '_'):
 			jpg_files.append(file)
 
 	# 按照 page 序號排序
@@ -357,31 +387,46 @@ def detail_page(request, sub_item_en, title_name):
 	jpg_files.sort(key=get_suffix_num)
 
 	# 進行 webp 轉換並將連結加入
-	webp_images = []
+	_webp_dir = os.path.join(_dir, 'webp')
+	os.makedirs(_webp_dir, exist_ok=True)
+
+	image_list = []
 	for file in jpg_files:
 		jpg_path = os.path.join(_dir, file)
 		base_name = os.path.splitext(file)[0]
 		webp_name = base_name + '.webp'
-		webp_path = os.path.join(_dir, webp_name)
+		webp_path = os.path.join(_webp_dir, webp_name)
 
 		# 進行轉換
+		has_webp = True
 		if not os.path.exists(webp_path):
 			try:
 				from PIL import Image
 				with Image.open(jpg_path) as img:
 					img.save(webp_path, 'WEBP', quality=85)
 			except Exception as e:
-				webp_name = file
+				has_webp = False
 
-		webp_images.append(webp_name)
+		MEDIA_URL = settings.MEDIA_URL
+		jpg_url = f"{MEDIA_URL}health_edu/Doc/{main_item}/{sub_item}/{file}"
+		if has_webp:
+			webp_url = f"{MEDIA_URL}health_edu/Doc/{main_item}/{sub_item}/webp/{webp_name}"
+		else:
+			webp_url = jpg_url
 
-	MEDIA_URL = settings.MEDIA_URL
+		image_list.append({
+			'jpg_url': jpg_url,
+			'webp_url': webp_url,
+			'has_webp': has_webp
+		})
+
 	return render(request, "Health_Edu_detail.html", {
 		'collapse_List': collapse_List,
 		'main_item': main_item,
 		'sub_item': sub_item,
 		'sub_item_en': sub_item_en,
-		'title_name': title_name,
-		'webp_images': webp_images,
+		'sub_item_chinese': category_info["sub_chinese"],
+		'title_name': real_title,
+		'image_list': image_list,
 		'MEDIA_URL': MEDIA_URL,
 	})

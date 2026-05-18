@@ -467,6 +467,8 @@ def breadcrumb_processor(request):
                     sub_item_en = path_segments[1]
                     if sub_item_en != "search":
                         sub_chinese = sub_item_en
+                        main_item = None
+                        sub_item = None
                         _base_dir = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc')
                         if os.path.exists(_base_dir):
                             for main_dir in os.listdir(_base_dir):
@@ -476,11 +478,32 @@ def breadcrumb_processor(request):
                                             parts = sub_dir.split("_")
                                             if len(parts) > 1 and parts[1].lower() == sub_item_en.lower():
                                                 sub_chinese = parts[0]
+                                                main_item = main_dir
+                                                sub_item = sub_dir
                                                 break
                         breadcrumbs.append({"name": sub_chinese, "url": f"/A003_health_edu/{sub_item_en}/"})
                         if len(path_segments) >= 3:
-                            title_name = path_segments[2]
-                            breadcrumbs.append({"name": title_name, "url": f"/A003_health_edu/{sub_item_en}/{title_name}/"})
+                            title_segment = path_segments[2]
+                            display_title = title_segment
+                            if main_item and sub_item:
+                                _dir = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', main_item, sub_item)
+                                if os.path.exists(_dir):
+                                    import hashlib
+                                    # 優先以 hash 值比對
+                                    for f in os.listdir(_dir):
+                                        if f.lower().endswith('.jpg') and '_' in f:
+                                             prefix = f.split('_')[0]
+                                             h = hashlib.md5(prefix.encode('utf-8')).hexdigest()[:8]
+                                             if h == title_segment:
+                                                 display_title = prefix
+                                                 break
+                                    # 備案：若傳入的就是原中文 (相容舊網址)
+                                    if display_title == title_segment:
+                                         for f in os.listdir(_dir):
+                                             if f.lower().endswith('.jpg') and f.startswith(title_segment + '_'):
+                                                 display_title = title_segment
+                                                 break
+                            breadcrumbs.append({"name": display_title, "url": f"/A003_health_edu/{sub_item_en}/{title_segment}/"})
 
                 else:
                     url_accum = "/"

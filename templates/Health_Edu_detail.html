@@ -1,62 +1,105 @@
 {% extends "Health_Edu_base.html" %}
 
 {% load static %}
-{% block title %}{{ title_name }} | 衛教園地 | {{ block.super }}{% endblock %}
-{% block og_title %}{{ title_name }} | 衛教園地 | {{ block.super }}{% endblock %}
 
-{% block sub_extra_css %}
-<style>
-    .health-edu-images-container img {
-        transition: transform 0.2s ease-in-out;
-    }
-    .health-edu-images-container img:hover {
-        transform: scale(1.01);
-    }
-</style>
-{% endblock %}
+<!-- === Meta ================================== -->
+<!-- title -->{% block title %}{{ title_name }}｜衛教園地｜{{ block.super }}{% endblock %}
+<!-- description -->{% block meta_description %}台中長安醫院{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，為台中市及太平區在地市民提供日常保健、疾病預防與照護指引。{% endblock %}
 
+<!-- ※※※ Open Graph ※※※ -->
+<!-- title -->{% block og_title %}{{ title_name }}｜衛教園地｜{{ block.super }}{% endblock %}
+<!-- description -->{% block og_description %}台中長安醫院{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，為台中市及太平區在地市民提供日常保健、疾病預防與照護指引。{% endblock %}
+<!-- image -->{% block og_image %}{% if image_list %}{{ SITE_DOMAIN }}{{ image_list.0.jpg_url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}{{ title_name }}｜衛教園地｜{{ block.super }}{% endblock %}
+<!-- description -->{% block twitter_description %}台中長安醫院{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，為台中市及太平區在地市民提供日常保健、疾病預防與照護指引。{% endblock %}
+<!-- image -->{% block twitter_image %}{% if image_list %}{{ SITE_DOMAIN }}{{ image_list.0.jpg_url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
-	<div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-3">
-		<div class="d-flex align-items-center mb-2 mb-sm-0">
-			<a href="/A003_health_edu/{{ sub_item_en }}/" class="btn btn-outline-secondary btn-sm mr-3 font-weight-bold" style="border-radius: 20px; padding: 4px 15px;">
-				<i class="fas fa-arrow-left"></i> 返回列表
-			</a>
-			<h2 class="c-onsale-heading mb-0 font-weight-bold font-24" style="color: #2b547e; line-height: 1.2;">{{ title_name }}</h2>
-		</div>
-	</div>
+	<h1 class="c-onsale-heading">{{ title_name }}</h1>
 </header>
 <div class="l-main-content__body mt-4">
 	<div class="row">
 		<div class="col-12">
-			<!-- 搜尋列 -->
-			<div class="d-flex justify-content-end mb-4">
-				<div class="search_box">
-					<form class="form-inline" action="{% url 'search' %}">
-						<div class="input-group" style="width: 100%;">
-							<input type="text" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="search_text">
-							<input type="hidden" name="page" value="1">
-							<div class="input-group-append ml-0">
-								<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-
-			<!-- 衛教圖片展示 (以 WebP 格式顯示，並支援懶載入與陰影圓角邊框) -->
+			<!-- 衛教圖片展示 (以 <picture> 支援 WebP 格式與 JPG 降級相容，並支援懶載入與陰影圓角邊框) -->
 			<div class="health-edu-images-container text-center">
-				{% for pic in webp_images %}
+				{% for img in image_list %}
 				<div class="mb-4">
-					<img src="{{ MEDIA_URL }}health_edu/Doc/{{ main_item }}/{{ sub_item }}/{{ pic }}" 
-						 class="img-fluid rounded shadow border" 
-						 alt="{{ title_name }} - 第 {{ forloop.counter }} 頁"
-						 loading="lazy"
-						 style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+					<picture>
+						{% if img.has_webp %}
+						<source srcset="{{ img.webp_url }}" type="image/webp">
+						{% endif %}
+						<img src="{{ img.jpg_url }}" class="img-fluid" alt="台中長安醫院{{ sub_item_chinese }}衛教 - {{ title_name }} (第 {{ forloop.counter }} 頁)" loading="lazy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+					</picture>
 				</div>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
 </div>
+<div class="mt-4 pt-4 text-center border-top">
+	<a href="/A003_health_edu/{{ sub_item_en }}/" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院-回{{ sub_item_chinese }}衛教列表頁" aria-current="page" aria-label="台中長安醫院-回{{ sub_item_chinese }}衛教列表頁">回列表頁</a>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "@id": "{{ SITE_DOMAIN }}{{ request.path }}#medicalwebpage",
+    "url": "{{ SITE_DOMAIN }}{{ request.path }}",
+    "name": "{{ title_name }}｜{{ sub_item_chinese }}衛教園地",
+    "headline": "{{ title_name }}｜{{ sub_item_chinese }}衛教園地｜台中長安醫院",
+    "description": "台中長安醫院{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，為台中市及太平區在地市民提供日常保健、疾病預防與照護指引。",
+    "inLanguage": "zh-TW",
+    "datePublished": "2023-01-01",
+    "dateModified": "{% now 'Y-m-d' %}",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+    },
+    "image": [
+        {% for img in image_list %}
+        "{{ SITE_DOMAIN }}{{ img.jpg_url }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "about": [
+        {
+            "@type": "MedicalSpecialty",
+            "name": "{{ sub_item_chinese }}"
+        },
+        {
+            "@type": "MedicalCondition",
+            "name": "{{ title_name }}"
+        }
+    ],
+    "author": {
+        "@type": "Hospital",
+        "@id": "{{ SITE_DOMAIN }}/#hospital"
+    },
+    "publisher": {
+        "@type": "Hospital",
+        "@id": "{{ SITE_DOMAIN }}/#hospital"
+    }
+}
+</script>
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
 {% endblock %}

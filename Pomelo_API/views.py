@@ -2762,6 +2762,7 @@ def A001_department_doctor(request):
 
 		department = os.path.basename(pathFile).split("_")[1] if pathFile else ""
 		disablePath = os.path.basename(pathFile).split("_") if pathFile else []
+		dept_en = disablePath[2] if len(disablePath) >= 3 else ""
 		# 新增部分 End --------------------------------
 
 
@@ -2909,6 +2910,7 @@ def A001_department_doctor(request):
 	return render(request, "department/department_doctor.html", {
 		'doctor_name': doctor_name,
 		'department': department,
+		'dept_en': dept_en,
 		'stop_datas': stop_datas,
 		'in_zdata': in_zdata,
 		'in_zdata_i': in_zdata_i,
@@ -4635,9 +4637,11 @@ def A006_Online_Booking_2(request):
 				django_doctors = []
 				django_doctors2 = []
 				django_doctors3 = []
+				django_doctors4 = []
 				re_subject = d_dir.split("_")
 				subjects.append(re_subject[1])
 				sename = re_subject[1]
+				dept_en = re_subject[2] if len(re_subject) >= 3 else ""
 				dd_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject), str(d_dir)))
 
 				for dd_dir in dd_dirs:
@@ -4646,7 +4650,8 @@ def A006_Online_Booking_2(request):
 						django_doctors.append(red_dir[2].split(" ")[0])
 						django_doctors2.append(red_dir[3].replace(".txt", ""))
 						django_doctors3.append(sename)
-						z_doctors = zip(django_doctors,django_doctors2,django_doctors3)
+						django_doctors4.append(dept_en)
+						z_doctors = zip(django_doctors, django_doctors2, django_doctors3, django_doctors4)
 
 				doctors.append(z_doctors)
 
@@ -4662,8 +4667,10 @@ def A006_Online_Booking_2(request):
 @csrf_exempt
 def A006_Online_Booking_2_1_short(request, dept_en, dr_id):
 	mapping = _get_dept_dr_map()
-	if dr_id in mapping['doctors']:
-		doc = mapping['doctors'][dr_id]
+	# 優先使用「科別英文_醫師工號」組合鍵比對，解決跨科別同工號衝突
+	combo_key = f"{dept_en}_{dr_id}"
+	doc = mapping['doctors'].get(combo_key) or mapping['doctors'].get(dr_id)
+	if doc:
 		# 將參數重新塞回 request.GET 中供原函式使用
 		request.GET = request.GET.copy()
 		request.GET['A006_userid'] = dr_id
@@ -4675,9 +4682,25 @@ def A006_Online_Booking_2_1_legacy(request):
 	# 攔截舊的 QueryString 網址並轉址到新的 SEO 短網址
 	if "A006_userid" in request.GET:
 		dr_id = request.GET.get("A006_userid")
+		sename = request.GET.get("A006_sename")
 		mapping = _get_dept_dr_map()
-		if dr_id in mapping['doctors']:
-			doc = mapping['doctors'][dr_id]
+		
+		# 嘗試從科室名稱匹配出對應的科別英文，確保跳轉到正確的科別頁面
+		dept_en = None
+		if sename:
+			for d_info in mapping['depts'].values():
+				if d_info['name'] == sename:
+					dept_en = d_info['en']
+					break
+
+		# 優先用組合鍵查找醫師
+		doc = None
+		if dept_en:
+			doc = mapping['doctors'].get(f"{dept_en}_{dr_id}")
+		if not doc:
+			doc = mapping['doctors'].get(dr_id)
+
+		if doc:
 			# 保留原本可能帶入的其他參數，例如 A006_date_select 等
 			other_params = request.GET.copy()
 			other_params.pop("A006_userid", None)
@@ -4688,7 +4711,7 @@ def A006_Online_Booking_2_1_legacy(request):
 				from urllib.parse import urlencode
 				query_string = "?" + urlencode(other_params)
 				
-			return redirect(f"/A006_Online_Booking_2_1/{doc['dept_en']}/{doc['id']}/{query_string}", permanent=True)
+			return redirect(f"/A006_Online_Booking_2_1/{doc['dept_en']}/{doc['id']}/{query_string}", permanent=False)
 	
 	# 若無攔截到，則退回原邏輯
 	return A006_Online_Booking_2_1(request)

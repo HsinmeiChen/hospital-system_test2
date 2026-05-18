@@ -1,253 +1,93 @@
 {% extends "Health_Edu_base.html" %}
 
 {% load static %}
-{% block title %}衛教園地 | {{ block.super }}{% endblock %}
-{% block og_title %}衛教園地 | {{ block.super }}{% endblock %}
 
+<!-- === Meta ================================== -->
+{% block title %}衛教園地｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}衛教園地｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}衛教園地｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
     <h2 class="c-onsale-heading">衛教園地</h2>
 </header>
 <div class="l-main-content__body">
     <div class="row">
 		<div class="col-12">
-			<!-- 搜尋列 -->
-			 <div class="d-flex justify-content-end">
-				<div class="search_box">
-					<form class="form-inline" action="search">
-						<div class="input-group" style="width: 100%;">
-							<input type="text" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="search_text">
-
-
-															<input type="hidden" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="page" value=1>
-
-
-															<div class="input-group-append ml-0">
-
-
-																<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-
-
-															</div>
-
-
-														</div>
-
-
-													</form>
-
-
-												</div>
-
-
-											</div>
-
-
-											<!-- 新增內容區塊 -->
-
-
-											{% for m in message_lists_cut %}
-											<a href="{% url 'detail_page' sub_item_en=m.sub_item_en title_name=m.name %}" class="health_list">
-												<div class="card">
-													<div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
-														<div class="card-title mb-0">
-															<h5 class="mb-0 text_ellips_short">{{m.name}}</h5>
-														</div>
-														<!-- <div class="card-subtitle text-date mb-0 text-right">
-															<small>{{m.time}}</small>
-														</div> -->
-													</div>
-												</div>
-											</a>
-											{% endfor %}
-
-
-											<!-- 分頁功能 -->
-
-
-											<div class="row mt-3">
-
-
-												<div class="col-12 d-flex justify-content-center">
-
-
-													<ul class="pagination">
-
-
-														{% if contacts_2.has_previous %}
-
-
-														<li class="active"><a class="page-link"
-
-
-																href="?page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
-
-
-														{% endif %}
-
-
-
-
-
-														{% if paginator_2.has_previous_more %}
-
-
-														<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-
-
-														<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-
-
-														{% endif %}
-
-
-
-
-
-														{% for i in paginator_2.previous_range %}
-
-
-														<li class="page-item">
-
-
-															<a class="page-link" href="?page={{ i }}">{{ i }}</a>
-
-
-														</li>
-
-
-														{% endfor %}
-
-
-
-
-
-														<li class="page-item active"><a class="page-link"
-
-
-																href="?page={{paginator_2.number}}">{{ paginator_2.number }}</a></li>
-
-
-
-
-
-														{% for i2 in paginator_2.next_range %}
-
-
-														<li class="page-item">
-
-
-															<a class="page-link" href="?page={{i2}}">{{ i2 }}</a>
-
-
-														</li>
-
-
-														{% endfor %}
-
-
-
-
-
-														{% if paginator_2.has_next_more %}
-
-
-														<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-
-
-														<li class="page-item"><a class="page-link" href="?page={{paginator_2.num_pages}}">{{paginator_2.num_pages}}</a></li>
-
-
-														{% endif %}
-
-
-
-
-
-														{% if contacts_2.has_next %}
-
-
-														<li class="active">
-
-
-															<a class="page-link" href="?page={{contacts_2.next_page_number}}">&gt;&gt;</a>
-
-
-														</li>
-
-
-														{% endif %}
-
-
-													</ul>
-
-
-												</div>
-
-
-											</div>
-
-
-										</div>
-
-
-									</div>
-
-
+			<!-- 新增內容區塊 -->
+			{% for m in message_lists_cut %}
+				<a href="{% url 'detail_page' sub_item_en=m.sub_item_en title_name=m.hash %}" class="health_list">
+					<div class="card">
+						<div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
+							<div class="card-title mb-0">
+								<h5 class="mb-0 text_ellips_short">{{m.name}}</h5>
+							</div>
+							<!-- <div class="card-subtitle text-date mb-0 text-right">
+								<small>{{m.time}}</small>
+							</div> -->
+						</div>
+					</div>
+				</a>
+			{% endfor %}
+			<!-- 分頁功能 -->
+			<div class="row mt-3">
+				<div class="col-12 d-flex justify-content-center">
+					<ul class="pagination">
+						{% if contacts_2.has_previous %}
+						<li class="active"><a class="page-link" href="?page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
+						{% endif %}
+						{% if paginator_2.has_previous_more %}
+						<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+						{% endif %}
+						{% for i in paginator_2.previous_range %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{ i }}">{{ i }}</a>
+						</li>
+						{% endfor %}
+						<li class="page-item active"><a class="page-link" href="?page={{paginator_2.number}}">{{ paginator_2.number }}</a></li>
+						{% for i2 in paginator_2.next_range %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{i2}}">{{ i2 }}</a>
+						</li>
+						{% endfor %}
+						{% if paginator_2.has_next_more %}
+						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
+						<li class="page-item"><a class="page-link" href="?page={{paginator_2.num_pages}}">{{paginator_2.num_pages}}</a></li>
+						{% endif %}
+						{% if contacts_2.has_next %}
+						<li class="active">
+							<a class="page-link" href="?page={{contacts_2.next_page_number}}">&gt;&gt;</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-
+<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
 
-
-
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-
-
+<!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-
-
 {% include 'schema_article.html' with headline="衛教園地" %}
-
-
 {% endblock %}
 
 
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-
-
-
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-
-
+<!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-
-
 {% endblock %}
 
 
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-
-
-
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-
-
+<!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
-
-
 {% endblock %}
-
-
-<!-- ※※※ Sub Extra JS End ※※※ -->
-
-
-
-
-
