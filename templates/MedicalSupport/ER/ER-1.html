@@ -696,6 +696,140 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+/* 急診醫學科醫師陣容客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+
+/* 醫師列表外框 */
+.doc_list {
+    margin-top: 20px;
+}
+
+/* 將原本的 border-bottom 列轉換為高級直角白底名片卡片 */
+.doc_list > .row.align-items-center {
+    background: var(--color-bg-white) !important;
+    border: 1px solid var(--color-border-light) !important;
+    border-radius: 0 !important; /* 強制直角 */
+    margin: 20px 10px 0 10px!important;
+    padding: 24px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01) !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Hover 上浮與邊線點亮微動畫 */
+.doc_list > .row.align-items-center:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 24px rgba(117, 72, 43, 0.06) !important;
+    border-color: var(--color-primary) !important;
+}
+
+
+/* 醫師頭像外框 */
+.d_img_div {
+    border: 3px solid var(--color-bg-light) !important;
+    background: var(--color-bg-white) !important;
+    overflow: hidden !important;
+    width: 140px !important;
+    height: 175px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.d_img_div img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* 醫師姓名與專科徽章標籤 */
+.about-text .cofe-word {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: var(--color-text-dark) !important;
+    margin-bottom: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+@media (max-width: 575px) {
+    .about-text .cofe-word {
+        justify-content: center !important;
+    }
+}
+
+.about-text .cofe-word::after {
+    content: '急診醫學科' !important;
+    background-color: var(--color-bg-light) !important;
+    color: var(--color-primary) !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 3px 10px !important;
+    border: 1px solid var(--color-accent-peach) !important;
+    border-radius: 0 !important; /* 強制直角 */
+    display: inline-block !important;
+}
+
+/* 專長與經歷區塊美化 */
+.list-group-horizontal-sm {
+    background: transparent !important;
+}
+
+.list-group-item {
+    background: transparent !important;
+    padding: 10px 15px !important;
+}
+
+.list-group-item h5 {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: var(--color-primary) !important;
+    margin-bottom: 12px !important;
+    position: relative !important;
+    padding-left: 12px !important;
+}
+
+.list-group-item h5::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 3px !important;
+    width: 3px !important;
+    height: 14px !important;
+    background-color: var(--color-primary) !important;
+}
+
+/* 金色星芒清單 */
+.list-group-item ul.gy-word {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.list-group-item ul.gy-word li {
+    position: relative !important;
+    padding-left: 20px !important;
+    margin-bottom: 8px !important;
+    color: var(--color-text-dark) !important;
+    font-size: 0.98rem !important;
+    line-height: 1.5 !important;
+}
+
+.list-group-item ul.gy-word li::before {
+    content: '✦' !important;
+    position: absolute !important;
+    left: 0 !important;
+    color: var(--color-secondary) !important;
+    font-weight: bold !important;
+    font-size: 0.85rem !important;
+}
+</style>
 {% endblock %}
 
 

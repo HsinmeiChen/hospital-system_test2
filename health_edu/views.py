@@ -250,7 +250,7 @@ def index2(request, sub_item_en):
 	message_lists=remove_duplicate_items(message_lists,"name")
 	message_lists.sort(key=lambda x: (x["time"], x["name"]), reverse=True)
 
-	page_limit=8
+	page_limit=12
 	paginator_2 = MyPaginator(message_lists, page_limit)
 	total_2 = int(paginator_2.num_pages)
 	page_2 = request.GET.get('page', 1)
@@ -258,7 +258,7 @@ def index2(request, sub_item_en):
 
 	message_lists_cut=contacts_2
 	MEDIA_URL = settings.MEDIA_URL
-	return render(request, "Health_Edu_index2.html", {
+	return render(request, "Health_Edu_Department.html", {
 		'collapse_List': collapse_List,
 		'showfile': showfile,
 		'sub_item_chinese': sub_item_chinese,

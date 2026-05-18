@@ -66,7 +66,7 @@
 <div class="l-main-content__body">
 	<div class="row">
 		<div class="col-12">
-			<div class="d_intro animate-from-bottom__0 mb-2">
+			<div class="d_intro animate-from-bottom__0">
 				<div class="w-100 position-relative">
 					<div class="in_icon position-absolute">
 						<i class="fas fa-notes-medical lightco-word"></i>
@@ -88,45 +88,41 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-12">
-			<div class="p-2 title-bg my-2 w-100 text-center">
-				<h4 class="cofe-word mb-0">團隊介紹</h4>
-			</div>
+		<div class="col-12 mt-2">
 			{% for name,expertise,img,number,filename,sectno,docno,img_webp in doctors %}				
-			<div class="container py-2">
-				<div class="row align-items-center border-bottom">
-					<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-2">
-						<div class="d_img_div">
+			<div class="doctor-brand-card mt-4 p-4">
+				<div class="row align-items-center">
+					<!-- 醫師肖像框 -->
+					<div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center pb-3 pb-md-0">
+						<div class="doctor-photo-frame">
 							<picture>
 								{% if img_webp %}
 								<source srcset="{{ MEDIA_URL }}{{ img_webp }}" type="image/webp" title="{{ name }}" alt="{{ name }}">
 								{% endif %}
-								<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid" alt="{{ name }}" title="{{ name }}">
+								<img src="{{ MEDIA_URL }}department/img/{{ img }}" class="img-fluid doctor-img" alt="{{ name }}" title="{{ name }}">
 							</picture>
 						</div>
 					</div>
+					<!-- 醫師介紹與按鈕 -->
 					<div class="col-12 col-md-8 col-lg-9">
 						<div class="about-text text-sm-left text-center">
-							<h4 class="cofe-word">{{ name }}</h4>
-							<p class="text-justify gy-word font-18">{{ expertise }}</p>
+							<div class="d-flex flex-wrap align-items-center justify-content-sm-start justify-content-center gap-2 mb-2">
+								<h3 class="doctor-name mb-0 mr-2">{{ name }}</h3>
+								<span class="badge-dept-label">{{ department }}</span>
+							</div>
+							<p class="text-justify gy-word doctor-expertise-text mt-3">{{ expertise }}</p>
 						</div>
-						<div class="d-flex justify-content-sm-end justify-content-center mt-3 mb-2">
-							<div class="fill-flex">
-								<ul class="nav nav-pillstext-center">
-									{% if not disable_X %}
-										<li class="flex-fill">
-											<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
-										</li>
-										<li class="flex-fill">
-											<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank">
-												<button type="button" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0">網路掛號</button>
-											</a>
-										</li>
-									{% endif %}
-									<li class="flex-fill">
-										<a href="/A001_department_doctor/{{ dept_en }}/{{ docno }}/" class="btn-block group-btn yellow giant px-4 py-2 m-0 rounded-0 text-center">詳細介紹</a>
-									</li>
-								</ul>
+						<div class="d-flex justify-content-sm-end justify-content-center mt-4">
+							<div class="doctor-action-buttons d-flex flex-wrap gap-2 w-100 justify-content-sm-end justify-content-center">
+								{% if not disable_X %}
+									<button type="button" class="btn btn-outline-brand px-4 py-2" data-toggle="modal" data-target="#M{{ number }}">停休診時間</button>
+									<a href="/A006_Online_Booking_2_1/?A006_userid={{ docno }}&A006_sename={{ department }}" target="_blank" class="m-0">
+										<button type="button" class="btn btn-brand px-4 py-2">網路掛號</button>
+									</a>
+								{% endif %}
+								<a href="/A001_department_doctor/{{ dept_en }}/{{ docno }}/" class="m-0">
+									<button type="button" class="btn btn-brand-light px-4 py-2">詳細介紹</button>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -148,6 +144,145 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+/* 團隊介紹醫師卡片專屬樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+
+/* 團隊介紹毛玻璃漸層標題條 */
+.title-bg-brand {
+    background: linear-gradient(135deg, var(--color-bg-light) 0%, rgba(219, 213, 213, 0.2) 100%) !important;
+    border-left: 5px solid var(--color-primary) !important;
+}
+
+.brand-header-title {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: var(--color-primary) !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 0 !important;
+}
+
+/* 醫師名片卡片設計 */
+.doctor-brand-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: 0 !important; /* 強制直角 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.doctor-brand-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(117, 72, 43, 0.06);
+    border-color: var(--color-primary);
+}
+
+/* 醫師相片框 */
+.doctor-photo-frame {
+    border: 1px solid var(--color-bg-light);
+    background: var(--color-bg-white);
+    overflow: hidden;
+    width: 140px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+}
+
+.doctor-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.doctor-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.badge-dept-label {
+    background-color: var(--color-bg-light);
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border: 1px solid var(--color-accent-peach);
+    border-radius: 0; /* 直角 */
+}
+
+.doctor-expertise-text {
+    color: var(--color-neutral-brown);
+    font-size: 1.02rem !important;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* 現代俐落直角品牌按鈕組 */
+.doctor-action-buttons {
+    max-width: 500px;
+}
+
+.doctor-action-buttons a {
+    text-decoration: none !important;
+}
+
+.btn-brand {
+    background-color: var(--color-primary) !important;
+    border: 1.5px solid var(--color-primary) !important;
+    color: var(--color-bg-white) !important;
+    font-weight: 700;
+    padding: 8px 20px;
+    font-size: 0.92rem;
+    border-radius: 0 !important; /* 強制直角 */
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-brand:hover {
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(117, 72, 43, 0.15);
+}
+
+.btn-outline-brand {
+    background-color: transparent !important;
+    border: 1.5px solid var(--color-primary) !important;
+    color: var(--color-primary) !important;
+    font-weight: 700;
+    padding: 8px 20px;
+    font-size: 0.92rem;
+    border-radius: 0 !important; /* 強制直角 */
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-outline-brand:hover {
+    background-color: var(--color-bg-light) !important;
+    transform: translateY(-1px);
+}
+
+.btn-brand-light {
+    background-color: var(--color-bg-light) !important;
+    border: 1.5px solid var(--color-accent-peach) !important;
+    color: var(--color-primary) !important;
+    font-weight: 700;
+    padding: 8px 20px;
+    font-size: 0.92rem;
+    border-radius: 0 !important; /* 強制直角 */
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-brand-light:hover {
+    background-color: var(--color-accent-peach) !important;
+    color: var(--color-primary-hover) !important;
+    transform: translateY(-1px);
+}
+</style>
 {% endblock %}
 
 

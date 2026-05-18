@@ -27,28 +27,8 @@
 </header>
 <div class="l-main-content__body">
     <div class="row">
-		<div class="col-12">
-			<div>
-				<table class="table cell-table n_news">
-				    <thead>
-					    <tr>
-							<th class="text-center title-bg">標題</th>
-							<th width="15%" class="text-center title-bg">更新日期</th>
-					    </tr>
-				    </thead>
-					<tbody id="news_list_container">
-						{% include "news_1_partial.html" %}
-					</tbody>
-				</table>
-			</div>
-			<!-- 載入更多按鈕 -->
-			<div class="text-center mt-4 mb-4" id="load_more_wrapper">
-				{% if contacts.has_next %}
-				<a id="load_more_btn" class="btn btn-outline-primary px-5 py-2 rounded-pill font-weight-bold shadow-sm" href="/A000_news/page/{{ contacts.next_page_number }}/" data-no-loading>
-					載入更多最新消息 ⬇
-				</a>
-				{% endif %}
-			</div>
+		<div class="col-12 ajax-fade-container" id="ajax-paginated-section">
+			{% include "news_1_partial.html" %}
 		</div>
 	</div>
 </div>
@@ -69,66 +49,4 @@
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
-<script>
-    $(document).on('click', '#load_more_btn', function(e) {
-        e.preventDefault();
-        var $btn = $(this);
-        var url = $btn.attr('href');
-        
-        if (!url) return;
-        
-        // 變更按鈕文字為載入中狀態
-        $btn.addClass('disabled').html('<i class="fa fa-spinner fa-spin mr-2"></i> 載入中...');
-        
-        $.ajax({
-            url: url,
-            type: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function(data) {
-                // 建立一個暫時容器方便 jQuery 進行 DOM 搜尋與過濾
-                var $data = $('<div>').html(data);
-                
-                // 1. 提取所有新聞列並附加到容器中
-                var $newRows = $data.find('.news-item-row');
-                $('#news_list_container').append($newRows);
-                
-                // 2. 取得下一頁狀態資訊
-                var $state = $data.find('.load-more-state');
-                var nextUrl = $state.data('next-url');
-                
-                if (nextUrl) {
-                    // 更新按鈕網址並恢復文字
-                    $btn.removeClass('disabled').attr('href', nextUrl).html('載入更多最新消息 ⬇');
-                } else {
-                    // 沒有下一頁了，顯示已載入完成訊息
-                    $('#load_more_wrapper').html('<p class="text-muted font-weight-bold my-3">已載入所有最新消息</p>');
-                }
-            },
-            error: function() {
-                // 發生錯誤時恢復按鈕
-                $btn.removeClass('disabled').html('載入更多最新消息 ⬇');
-                alert('載入失敗，請稍後再試！');
-            }
-        });
-    });
-
-    // 監聽滾動事件，自動觸發載入更多 (無限滾動 + 節流優化避免卡頓)
-    var scrollTimer;
-    $(window).on('scroll', function() {
-        if (scrollTimer) return;
-        
-        scrollTimer = setTimeout(function() {
-            scrollTimer = null;
-            var $btn = $('#load_more_btn');
-            if ($btn.length && !$btn.hasClass('disabled')) {
-                // 當滾動到接近底部 (距離底部 300px 以內)
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 300) {
-                    $btn.click();
-                }
-            }
-        }, 100); // 每 100ms 才執行一次，大幅降低瀏覽器重新排版 (Reflow) 的負擔！
-    });
-</script>
 {% endblock %}

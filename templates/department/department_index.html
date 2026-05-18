@@ -3,13 +3,13 @@
 {% load static %}
 
 <!-- === Meta ================================== -->
-<!-- title -->{% block title %}科室總覽 | {{ block.super }}{% endblock %}
+<!-- title -->{% block title %}科室總覽｜{{ block.super }}{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-<!-- title -->{% block og_title %}科室總覽 | {{ block.super }}{% endblock %}
+<!-- title -->{% block og_title %}科室總覽｜{{ block.super }}{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-<!-- title -->{% block twitter_title %}科室總覽 | {{ block.super }}{% endblock %}
+<!-- title -->{% block twitter_title %}科室總覽｜{{ block.super }}{% endblock %}
 
 
 
@@ -23,25 +23,29 @@
     <div class="row">
 		{% for subject, department in datas %}
 			<div class="col-12">
-				<div class="baseline_title long_t cofe-word mt-3">
-					<h3>{{ subject }}</h3>
+				<div class="category-group-header">
+					<h3 class="category-group-title">
+                        <i class="fas {% if '內科' in subject %}fa-stethoscope{% elif '外科' in subject %}fa-briefcase-medical{% elif '專科' in subject %}fa-star-of-life{% else %}fa-notes-medical{% endif %}"></i>
+                        {{ subject }}
+                    </h3>
+                    <div class="title-bottom-decorator"></div>
 				</div>
 			</div>
 			<div class="col-12">
-				<div class="row my-3">
+				<div class="row">
 					{% for d, path, dept_en in department %}
-						<div class="col-12 col-md-4">
-							<a href="/A001_department_overview/{{ dept_en }}/">
-								<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
-									<div class="w-100 position-relative">
-										<div class="in_icon position-absolute">
-											<i class="fas fa-notes-medical darkcoco-word font-70"></i>
-										</div>
-										<div class="in_content position-relative">
-											<div class="in_title">
-												<span class="title_line_org">{{ d }}</span>
-											</div>
-										</div>
+						<div class="col-12 col-md-6 col-lg-4 mb-4">
+							<a href="/A001_department_overview/{{ dept_en }}/" class="dept-card-link">
+								<div class="dept-card-btn d-flex align-items-center">
+									<div class="dept-icon-wrapper">
+                                        <i class="fas {% if 'Cardiology' in dept_en %}fa-heartbeat{% elif 'Nephrology' in dept_en %}fa-lungs-virus{% elif 'Pediatrics' in dept_en %}fa-baby{% elif 'Pharmacy' in dept_en %}fa-pills{% elif 'OBGYN' in dept_en or 'Obstetrics' in dept_en %}fa-female{% elif 'Orthopedics' in dept_en %}fa-bone{% elif 'Neurology' in dept_en or 'Neurosurgery' in dept_en %}fa-brain{% elif 'Dentistry' in dept_en %}fa-tooth{% elif 'Ophthalmology' in dept_en %}fa-eye{% elif 'ENT' in dept_en or 'Otolaryngology' in dept_en %}fa-deaf{% elif 'Dermatology' in dept_en %}fa-hand-sparkles{% elif 'Rehabilitation' in dept_en %}fa-running{% elif 'TCM' in dept_en or 'Chinese' in dept_en %}fa-leaf{% elif 'Laboratory' in dept_en %}fa-vials{% elif 'Radiology' in dept_en %}fa-x-ray{% elif 'Nutrition' in dept_en %}fa-carrot{% elif 'Nursing' in dept_en %}fa-user-nurse{% else %}fa-notes-medical{% endif %}"></i>
+									</div>
+									<div class="dept-info-wrapper ml-3">
+										<span class="dept-name-zh">{{ d }}</span>
+										<span class="dept-name-en">{{ dept_en }}</span>
+									</div>
+									<div class="dept-arrow-wrapper ml-auto">
+										<i class="fas fa-arrow-right"></i>
 									</div>
 								</div>
 							</a>
@@ -64,6 +68,126 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+/* 科室總覽客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+.category-group-header {
+    position: relative;
+    margin-top: 24px;
+}
+
+.category-group-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+}
+
+.category-group-title i {
+    margin-right: 10px;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+}
+
+.title-bottom-decorator {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent-peach));
+    border-radius: 2px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+}
+
+.dept-card-link {
+    text-decoration: none !important;
+    display: block;
+}
+
+.dept-card-btn {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: 0 !important; /* 強制俐落直角 */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dept-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dept-card-link:hover .dept-card-btn {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
+    border-color: var(--color-primary);
+}
+
+.dept-card-link:hover .dept-card-btn::before {
+    opacity: 1;
+}
+
+.dept-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-border-light);
+    border-radius: 50%; /* 圓形徽章，與直角外框對比，增添視覺層次 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-neutral-brown);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.dept-card-link:hover .dept-icon-wrapper {
+    background-color: var(--color-bg-light);
+    color: var(--color-primary);
+}
+
+.dept-info-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.dept-name-zh {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.dept-name-en {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    text-transform: capitalize;
+}
+
+.dept-arrow-wrapper {
+    color: var(--color-border);
+    font-size: 1rem;
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.dept-card-link:hover .dept-arrow-wrapper {
+    transform: translateX(0);
+    opacity: 1;
+    color: var(--color-primary);
+}
+</style>
 {% endblock %}
 
 

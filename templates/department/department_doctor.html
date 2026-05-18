@@ -78,11 +78,6 @@
 </header>
 <div class="l-main-content__body">
 	<div class="">
-		<div class="d-flex justify-content-start">
-			<div class="p-2 title-bg mb-2 text-center fill-flex w-100">
-				<h4 class="cofe-word mb-0">醫師個人介紹</h4>
-			</div>
-		</div>
 		<div>
 			<div class="container py-2">
 				<div class="row">
@@ -142,64 +137,59 @@
 		</div>
 		{% if in_zdata_i != 0 %}
 		<div class="caption_noline text-center" id="doctor_articles_title">相關文章</div>
-		<div class="list-group list-group-flush p-3" id="doctor_articles_container" style="background-color: #faf8f5;">
+		<div class="list-group list-group-flush p-3 ajax-fade-container" id="doctor_articles_container" style="background-color: #faf8f5;">
 			{% include "department/doctor_articles_partial.html" %}
 		</div>
 		{% endif %}
 		{% if message_lists_1_i != 0 %}
 			<div class="caption_noline text-center" id="doctor_videos_title">相關影音</div>
 			<style>
-				/* 採用與首頁相同的純 CSS 現代橫向捲動排版 */
+				/* 全自適應靜態 Flex 網格排版（完全移除橫向滑動 Slider） */
 				.doctor_mov {
 					display: flex !important;
-					flex-wrap: nowrap !important;
-					overflow-x: auto !important;
-					-webkit-overflow-scrolling: touch !important; /* iOS 滑動流暢加速 */
-					scroll-snap-type: x mandatory !important; /* 磁吸式滑動 */
-					padding: 10px 5px 25px 5px !important;
+					flex-wrap: wrap !important;
+					padding: 10px 5px !important;
 					margin: 0 !important;
 					width: 100% !important;
+					justify-content: flex-start !important;
 				}
 
-				/* 隱藏滾動條，保持極簡高級感 */
-				.doctor_mov::-webkit-scrollbar {
-					display: none !important;
-				}
-
-				/* 【Mobile-First 行動裝置優先設計】 */
-				/* 預設：576px 以下顯示 1 欄 */
+				/* 行動端與直向平板 (768px 以下) 預設顯示 2 欄 */
 				.doctor_mov .spacing_mp {
-					flex: 0 0 100% !important;
-					scroll-snap-align: start !important;
+					flex: 0 0 calc(50% - 10px) !important;
+					margin: 5px !important;
 					display: block !important;
 				}
 
-				/* 576px 以上（包含直向平板、768px 以上）顯示 2 欄 */
+				/* 768px 以上中大型螢幕：顯示 2 欄 */
 				@media (min-width: 768px) {
 					.doctor_mov .spacing_mp {
 						flex: 0 0 calc(50% - 10px) !important;
+						margin: 5px !important;
 					}
 				}
 
 				/* 大型電腦桌機版 (992px 以上) 顯示 3 欄 */
 				@media (min-width: 992px) {
 					.doctor_mov .spacing_mp {
-						flex: 0 0 calc(33.33% - 15px) !important;
+						flex: 0 0 calc(33.33% - 14px) !important;
+						margin: 7px !important;
 					}
 				}
 
-				/* 大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
+				/* 特大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
 				@media (min-width: 1400px) {
 					.doctor_mov .spacing_mp {
-						flex: 0 0 calc(25% - 15px) !important;
+						flex: 0 0 calc(25% - 14px) !important;
+						margin: 7px !important;
 					}
 				}
 			</style>
-			<div id="doctor_videos_container">
+			<div id="doctor_videos_container" class="ajax-fade-container">
 				{% include "department/doctor_videos_partial.html" %}
 			</div>
 		{% endif %}
-		<div class="py-3 text-center border-top">
+		<div class="pt-4 text-center border-top">
 
 			<button type="button" class="btn btn-warning btn-lg rounded-0 mx-2" onclick="window.location.href='/A001_dr_search/';"><i class="fas fa-user-md" aria-hidden="true"></i> 瀏覽其他醫師</button>
 
@@ -239,83 +229,9 @@
 	}
 
 </style>
-<!-- 已移除 slick 輪播樣式，改用純 CSS 橫向捲動 -->
 {% endblock %}
 
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
-<script>
-	// ===【 相關文章 AJAX 不翻頁分頁監聽 】===
-	$(document).on('click', '#doctor-pagination-list a.page-link', function(e){
-		e.preventDefault();
-		var url = $(this).attr('href');
-		
-		// 防重複點擊或無效點擊
-		if (!url || url === 'javascript:void(0);' || $(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
-			return;
-		}
-		
-		// 顯示淡出載入中視覺狀態
-		$('#doctor_articles_container').css('opacity', '0.5');
-		
-		$.ajax({
-			url: url,
-			type: 'GET',
-			headers: {
-				'X-Requested-With': 'XMLHttpRequest'
-			},
-			success: function(data) {
-				// 替換相關文章容器，並還原不透明度
-				$('#doctor_articles_container').css('opacity', '1').html(data);
-				
-				// 視窗平滑滾動回相關文章區塊的標題，確保良好 UX
-				$('html, body').animate({
-					scrollTop: $('#doctor_articles_title').offset().top - 80
-				}, 200);
-			},
-			error: function() {
-				$('#doctor_articles_container').css('opacity', '1');
-				alert('載入相關文章失敗，請稍後再試！');
-			}
-		});
-	});
-</script>
-
-<script>
-	// ===【 相關影音 AJAX 不翻頁分頁監聽 】===
-	$(document).on('click', '#video-pagination-list a.page-link', function(e){
-		e.preventDefault();
-		var url = $(this).attr('href');
-		
-		// 防重複點擊或無效點擊
-		if (!url || url === 'javascript:void(0);' || $(this).parent().hasClass('disabled') || $(this).parent().hasClass('active')) {
-			return;
-		}
-		
-		// 顯示淡出載入中視覺狀態
-		$('#doctor_videos_container').css('opacity', '0.5');
-		
-		$.ajax({
-			url: url,
-			type: 'GET',
-			headers: {
-				'X-Requested-With': 'XMLHttpRequest'
-			},
-			success: function(data) {
-				// 替換相關影音容器，並還原不透明度
-				$('#doctor_videos_container').css('opacity', '1').html(data);
-				
-				// 視窗平滑滾動回相關影音區塊的標題，確保良好 UX
-				$('html, body').animate({
-					scrollTop: $('#doctor_videos_title').offset().top - 80
-				}, 200);
-			},
-			error: function() {
-				$('#doctor_videos_container').css('opacity', '1');
-				alert('載入相關影音失敗，請稍後再試！');
-			}
-		});
-	});
-</script>
 {% endblock %}

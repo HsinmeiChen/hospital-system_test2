@@ -1,0 +1,220 @@
+{% extends "Health_Edu_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+<!-- title -->{% block title %}{{ sub_item_chinese }}｜衛教園地｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+<!-- title -->{% block og_title %}{{ sub_item_chinese }}｜衛教園地｜{{ block.super }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+<!-- title -->{% block twitter_title %}{{ sub_item_chinese }}｜衛教園地｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h" class="mb-0">
+	<h2 class="c-onsale-heading">{{ sub_item_chinese }}</h2>
+</header>
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-12 ajax-fade-container" id="ajax-paginated-section">
+			<!-- 衛教文件卡片網格 -->
+			<div class="row">
+				{% for m in message_lists_cut %}
+					<div class="col-12 col-md-6 col-lg-4 mt-4">
+						<a href="{% url 'detail_page' sub_item_en=sub_item_en title_name=m.hash %}" class="article-card-link">
+							<div class="article-card-btn d-flex flex-column h-100">
+								<div class="badge-wrapper">
+									<span class="badge-dept">{{ sub_item_chinese }}</span>
+									<span class="badge-main-cat"><i class="fas fa-hospital"></i> {{ showfile }}</span>
+								</div>
+								<h4 class="article-title my-2">{{ m.name }}</h4>
+								<div class="mt-auto pt-3 d-flex align-items-center justify-content-between">
+									<small class="text-muted"><i class="far fa-calendar-alt mr-1"></i> {{ m.time }}</small>
+									<span class="article-arrow-wrapper">
+										<i class="fas fa-arrow-right"></i>
+									</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				{% empty %}
+					<div class="col-12 py-5 text-center bg-white border border-light">
+						<i class="fas fa-folder-open font-40 text-muted mb-3"></i>
+						<p class="text-muted mb-0">此科別目前尚無上傳衛教文章。</p>
+					</div>
+				{% endfor %} 
+			</div>
+
+			<!-- 分頁功能 -->
+			{% if paginator_2.count > paginator_2.per_page %}
+			<div class="row mt-4">
+				<div class="col-12 d-flex justify-content-center align-items-center">
+					<ul class="pagination align-items-center">
+						<!-- << First Page -->
+						<li class="page-item {% if not contacts_2.has_previous %}disabled{% endif %}">
+							<a class="page-link" href="?page=1" aria-label="First" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true">«</a>
+						</li>
+						
+						<!-- < Previous Page -->
+						<li class="page-item {% if not contacts_2.has_previous %}disabled{% endif %}">
+							<a class="page-link" href="?page={% if contacts_2.has_previous %}{{ contacts_2.previous_page_number }}{% else %}1{% endif %}" aria-label="Previous" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true">‹</a>
+						</li>
+
+						<!-- Dropdown Selection (第 {{ 頁碼 }} 頁) -->
+						<li class="page-item">
+							<select class="form-control pagination-select" data-param-name="page" data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white);">
+								{% for p in paginator_2.page_range %}
+									<option value="{{ p }}" {% if p == paginator_2.number %}selected{% endif %}>第 {{ p }} 頁</option>
+								{% endfor %}
+							</select>
+						</li>
+
+						<!-- > Next Page -->
+						<li class="page-item {% if not contacts_2.has_next %}disabled{% endif %}">
+							<a class="page-link" href="?page={% if contacts_2.has_next %}{{ contacts_2.next_page_number }}{% else %}{{ paginator_2.num_pages }}{% endif %}" aria-label="Next" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true">›</a>
+						</li>
+
+						<!-- >> Last Page -->
+						<li class="page-item {% if not contacts_2.has_next %}disabled{% endif %}">
+							<a class="page-link" href="?page={{ paginator_2.num_pages }}" aria-label="Last" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true">»</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline=" {{sub_item_chinese}}｜衛教園地｜{{block.super}}" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+/* 衛教園地科別頁客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+.article-card-link {
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.article-card-btn {
+    flex-grow: 1; /* 強制填滿剩餘高度 */
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border-light);
+    border-radius: 0 !important; /* 強制直角 */
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.article-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.article-card-link:hover .article-card-btn {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
+    border-color: var(--color-primary);
+}
+
+.article-card-link:hover .article-card-btn::before {
+    opacity: 1;
+}
+
+.badge-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.badge-dept {
+    background-color: var(--color-bg-light);
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 0; /* 直角 */
+    border: 1px solid var(--color-accent-peach);
+}
+
+.badge-main-cat {
+    color: var(--color-text-light);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-main-cat i {
+    margin-right: 4px;
+}
+
+.article-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    line-height: 1.4;
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+    
+    /* 限制最多兩行並自動截斷 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    /* 固定最小高度，確保單行或兩行標題時卡片高度完全齊平 */
+    min-height: 3.36rem; 
+}
+
+.article-card-link:hover .article-title {
+    color: var(--color-primary);
+}
+
+.article-arrow-wrapper {
+    color: var(--color-border);
+    font-size: 1.1rem;
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.article-card-link:hover .article-arrow-wrapper {
+    transform: translateX(0);
+    opacity: 1;
+    color: var(--color-primary);
+}
+
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

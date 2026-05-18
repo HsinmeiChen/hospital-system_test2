@@ -1854,11 +1854,11 @@ def new_medias(request, page=None):
 	# 沿用並引入共用媒體報導資料邏輯，確保未來更新同步！
 	medias_split_box = _get_news_2_list()
 
-	paginator = Paginator(medias_split_box, 10)
+	paginator = Paginator(medias_split_box, 12)
 	page = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page)
 
-	# --- 僅針對當前分頁的 10 筆資料深度提取圖片與摘要，並處理快取 ---
+	# --- 僅針對當前分頁的 12 筆資料深度提取圖片與摘要，並處理快取 ---
 	_parse_news_2_items(contacts)
 
 	# --- 加入 AJAX 分頁邏輯 ---
@@ -2209,8 +2209,8 @@ def medical_info(request, page=None):
 	mapping = _get_medical_map()
 	media_page_list = mapping['list_data']
 
-	# 設定一頁顯示 10 筆 (比照 news_2)
-	paginator = Paginator(media_page_list, 10)
+	# 設定一頁顯示 15 筆
+	paginator = Paginator(media_page_list, 15)
 	page_num = page or request.GET.get('page') or 1
 	contacts = paginator.get_page(page_num)
 
@@ -2816,8 +2816,8 @@ def A001_department_doctor(request):
 			if len(item) >= 8 and (department_doctor_id == item[7] or department_doctor_id in item[9]):
 				doctor_medias.append(item)
 
-		# 3. 進行分頁（每頁顯示 4 筆）
-		in_paginator_2 = Paginator(doctor_medias, 4)
+		# 3. 進行分頁（每頁顯示 5 筆）
+		in_paginator_2 = Paginator(doctor_medias, 5)
 		in_page_2 = request.GET.get('page', 1)
 		in_contacts_2 = in_paginator_2.get_page(in_page_2)
 

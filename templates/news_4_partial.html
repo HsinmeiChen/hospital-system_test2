@@ -1,10 +1,13 @@
-<!-- ======================== templates/news_4_partial.html ======================== -->
 {% load static %}
+
+{% if not is_index %}
+<div class="row w-100 mx-0">
+{% endif %}
 
 {% for item in contacts %}
     {% if is_index %}
         <!-- =================================================================== -->
-        <!-- 1. 【首頁專用結構】 (100% 沿用原本的 spacing_mp 與 c-card 類別，完美保留所有原版 Hover 特效與排版) -->
+        <!-- 1. 【首頁專用結構】 (保留原本特效) -->
         <!-- =================================================================== -->
         <div class="spacing_mp">
             <a href="/A000_medical_info/{{ item.4 }}/" class="c-card slide_card d-block text-decoration-none cursor-pointer">
@@ -29,7 +32,7 @@
         </div>
     {% else %}
         <!-- =================================================================== -->
-        <!-- 2. 【清單列表頁專用結構】 (使用 Bootstrap Card 類別) -->
+        <!-- 2. 【清單列表頁專用結構】 -->
         <!-- =================================================================== -->
         <div class="col-lg-4 col-md-6 mb-4 news-card-item">
             <div class="card h-100 border-0 shadow-sm rounded-0">
@@ -55,15 +58,52 @@
             </div>
         </div>
     {% endif %}
+{% empty %}
+    {% if not is_index %}
+    <div class="col-12 text-center text-muted py-5">
+        目前無醫療資訊。
+    </div>
+    {% endif %}
 {% endfor %}
 
 {% if not is_index %}
-<!-- 用於更新下一頁狀態的隱藏節點 (僅清單頁需要) -->
-<div class="load-more-state d-none" 
-    {% if contacts.has_next %}
-    data-next-url="/A000_medical_info/page/{{ contacts.next_page_number }}/"
-    {% else %}
-    data-has-next="false"
-    {% endif %}>
 </div>
+
+<!-- === AJAX 全局分頁頁碼 === -->
+{% if contacts.paginator.count > contacts.paginator.per_page %}
+<div class="row w-100 mx-0 mt-3">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <ul class="pagination align-items-center">
+            <!-- << First Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+               <a class="page-link" href="?page=1" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="First">«</a>
+            </li>
+            
+            <!-- < Previous Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_previous %}{{ contacts.previous_page_number }}{% else %}1{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Previous">‹</a>
+            </li>
+            
+            <!-- Dropdown Selection -->
+            <li class="page-item">
+                <select class="form-control pagination-select" data-param-name="page" data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white);">
+                    {% for p in contacts.paginator.page_range %}
+                        <option value="{{ p }}" {% if p == contacts.number %}selected{% endif %}>第 {{ p }} 頁</option>
+                    {% endfor %}
+                </select>
+            </li>
+            
+            <!-- > Next Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_next %}{{ contacts.next_page_number }}{% else %}{{ contacts.paginator.num_pages }}{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Next">›</a>
+            </li>
+            
+            <!-- >> Last Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ contacts.paginator.num_pages }}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Last">»</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}
 {% endif %}

@@ -375,3 +375,132 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })();
 
+
+// ==========================================
+// 長安醫院通用自適應 AJAX 分頁驅動器
+// ==========================================
+(function() {
+    // 1. 監聽方向鍵與頁碼點擊
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a[data-ajax-target]');
+        if (!link) return;
+        
+        // 阻止預設換頁行為
+        e.preventDefault();
+        
+        const url = link.getAttribute('href');
+        const targetSelector = link.getAttribute('data-ajax-target');
+        const scrollSelector = link.getAttribute('data-ajax-scroll');
+        const pushState = link.getAttribute('data-ajax-pushstate') === 'true';
+        
+        if (!url || url === '#' || url === 'javascript:void(0);') return;
+        
+        // 檢查是否處於 disabled 或是 active 狀態
+        const li = link.closest('.page-item');
+        if (li && (li.classList.contains('disabled') || li.classList.contains('active'))) return;
+        
+        triggerGlobalAjaxPage(url, targetSelector, scrollSelector, pushState);
+    });
+
+    // 2. 監聽下拉選單變更
+    document.addEventListener('change', function(e) {
+        const select = e.target.closest('select[data-ajax-target]');
+        if (!select) return;
+        
+        const targetSelector = select.getAttribute('data-ajax-target');
+        const scrollSelector = select.getAttribute('data-ajax-scroll');
+        const pushState = select.getAttribute('data-ajax-pushstate') === 'true';
+        
+        // 取得基礎網址與參數名稱
+        const baseUrl = select.getAttribute('data-url-base') || window.location.pathname;
+        const paramName = select.getAttribute('data-param-name') || 'page';
+        const pageVal = select.value;
+        
+        // 組裝 URL
+        let url;
+        try {
+            const urlObj = new URL(baseUrl, window.location.origin);
+            urlObj.searchParams.set(paramName, pageVal);
+            url = urlObj.pathname + urlObj.search;
+        } catch(err) {
+            const connector = baseUrl.includes('?') ? '&' : '?';
+            url = baseUrl + connector + paramName + '=' + pageVal;
+        }
+        
+        triggerGlobalAjaxPage(url, targetSelector, scrollSelector, pushState);
+    });
+
+    // 3. 處理瀏覽器上/下一頁歷史紀錄 (只對啟用 pushState 的容器起作用)
+    window.addEventListener('popstate', function(e) {
+        if (e.state && e.state.globalAjaxUrl && e.state.globalAjaxTarget) {
+            triggerGlobalAjaxPage(e.state.globalAjaxUrl, e.state.globalAjaxTarget, e.state.globalAjaxScroll, false);
+        }
+    });
+
+    // 4. 核心通用 AJAX 漸變切換與定位函式
+    function triggerGlobalAjaxPage(url, targetSelector, scrollSelector, pushState) {
+        const container = document.querySelector(targetSelector);
+        if (!container) return;
+        
+        // 漸變淡出
+        container.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        container.style.opacity = '0';
+        
+        setTimeout(() => {
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // 取得新內容：若後端回傳完整頁面，提取指定選擇器；若後端僅回傳局部範本，則直接取 body 內容
+                const newContent = doc.querySelector(targetSelector);
+                const updatedHTML = newContent ? newContent.innerHTML : (doc.body ? doc.body.innerHTML : html);
+                
+                if (updatedHTML) {
+                    container.innerHTML = updatedHTML;
+                    
+                    // 支援 pushState 瀏覽器歷史紀錄
+                    if (pushState) {
+                        history.pushState({ 
+                            globalAjaxUrl: url, 
+                            globalAjaxTarget: targetSelector, 
+                            globalAjaxScroll: scrollSelector 
+                        }, '', url);
+                    }
+                    
+                    // 平滑滾動到指定的定位點 (例如標題)
+                    if (scrollSelector) {
+                        const scrollEl = document.querySelector(scrollSelector);
+                        if (scrollEl) {
+                            if (window.jQuery) {
+                                window.jQuery('html, body').animate({
+                                    scrollTop: window.jQuery(scrollSelector).offset().top - 80
+                                }, 200);
+                            } else {
+                                scrollEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+                    }
+                }
+                
+                // 漸變淡入
+                container.style.opacity = '1';
+            })
+            .catch(error => {
+                console.error('AJAX分頁載入失敗:', error);
+                container.style.opacity = '1';
+                // 降級處理：若失敗則直接跳轉
+                window.location.href = url;
+            });
+        }, 300);
+    }
+})();
+

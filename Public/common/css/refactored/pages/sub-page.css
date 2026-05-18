@@ -271,11 +271,11 @@
   .c-sidebar-trust__sub-item {
     display: flex;
     align-items: center;
-    padding: 0.4rem 1.2rem;
+    padding: 0.4rem 1rem;
     background: transparent;
     border: none;
     text-decoration: none !important;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text-dark);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

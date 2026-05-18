@@ -18,60 +18,51 @@
 <header id="content_h">
     <h2 class="c-onsale-heading">衛教園地</h2>
 </header>
-<div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			<!-- 新增內容區塊 -->
-			{% for m in message_lists_cut %}
-				<a href="{% url 'detail_page' sub_item_en=m.sub_item_en title_name=m.hash %}" class="health_list">
-					<div class="card">
-						<div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
-							<div class="card-title mb-0">
-								<h5 class="mb-0 text_ellips_short">{{m.name}}</h5>
-							</div>
-							<!-- <div class="card-subtitle text-date mb-0 text-right">
-								<small>{{m.time}}</small>
-							</div> -->
-						</div>
-					</div>
-				</a>
-			{% endfor %}
-			<!-- 分頁功能 -->
-			<div class="row mt-3">
-				<div class="col-12 d-flex justify-content-center">
-					<ul class="pagination">
-						{% if contacts_2.has_previous %}
-						<li class="active"><a class="page-link" href="?page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
-						{% endif %}
-						{% if paginator_2.has_previous_more %}
-						<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-						{% endif %}
-						{% for i in paginator_2.previous_range %}
-						<li class="page-item">
-							<a class="page-link" href="?page={{ i }}">{{ i }}</a>
-						</li>
-						{% endfor %}
-						<li class="page-item active"><a class="page-link" href="?page={{paginator_2.number}}">{{ paginator_2.number }}</a></li>
-						{% for i2 in paginator_2.next_range %}
-						<li class="page-item">
-							<a class="page-link" href="?page={{i2}}">{{ i2 }}</a>
-						</li>
-						{% endfor %}
-						{% if paginator_2.has_next_more %}
-						<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-						<li class="page-item"><a class="page-link" href="?page={{paginator_2.num_pages}}">{{paginator_2.num_pages}}</a></li>
-						{% endif %}
-						{% if contacts_2.has_next %}
-						<li class="active">
-							<a class="page-link" href="?page={{contacts_2.next_page_number}}">&gt;&gt;</a>
-						</li>
-						{% endif %}
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="l-main-content__body mt-4">
+    <!-- 快速搜尋列區區塊 -->
+    <div class="elegant-search-section mb-5">
+        <form class="form-inline" action="{% url 'search' %}">
+            <div class="input-group search-bar-wrapper w-100">
+                <span class="input-icon"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control elegant-search-input" placeholder="輸入健康、疾病或照護關鍵字（如：高血壓、化學治療）..." name="search_text" required>
+                <div class="input-group-append ml-0">
+                    <button class="btn btn-primary btn-search-submit" type="submit">開始搜尋</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 科別卡片網格 -->
+    {% for main_cat in collapse_List %}
+        <div class="category-group-header">
+            <h3 class="category-group-title">
+                <i class="fas {% if '內科' in main_cat.showfile %}fa-stethoscope{% elif '外科' in main_cat.showfile %}fa-briefcase-medical{% elif '專科' in main_cat.showfile %}fa-star-of-life{% else %}fa-notes-medical{% endif %}"></i>
+                {{ main_cat.showfile }}
+            </h3>
+            <div class="title-bottom-decorator"></div>
+        </div>
+        
+        <div class="row">
+            {% for sub_cat in main_cat.sub_item %}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <a href="{% url 'sub_page' sub_item_en=sub_cat.en_name %}" class="dept-card-link">
+                        <div class="dept-card-btn d-flex align-items-center">
+                            <div class="dept-icon-wrapper">
+                                <i class="fas {% if 'Cardiology' in sub_cat.en_name %}fa-heartbeat{% elif 'Nephrology' in sub_cat.en_name %}fa-lungs-virus{% elif 'Pediatrics' in sub_cat.en_name %}fa-baby{% elif 'Pharmacy' in sub_cat.en_name %}fa-pills{% elif 'OBGYN' in sub_cat.en_name or 'Obstetrics' in sub_cat.en_name %}fa-female{% elif 'Orthopedics' in sub_cat.en_name %}fa-bone{% elif 'Neurology' in sub_cat.en_name or 'Neurosurgery' in sub_cat.en_name %}fa-brain{% elif 'Dentistry' in sub_cat.en_name %}fa-tooth{% elif 'Ophthalmology' in sub_cat.en_name %}fa-eye{% elif 'ENT' in sub_cat.en_name or 'Otolaryngology' in sub_cat.en_name %}fa-deaf{% elif 'Dermatology' in sub_cat.en_name %}fa-hand-sparkles{% elif 'Rehabilitation' in sub_cat.en_name %}fa-running{% elif 'TCM' in sub_cat.en_name or 'Chinese' in sub_cat.en_name %}fa-leaf{% elif 'Laboratory' in sub_cat.en_name %}fa-vials{% elif 'Radiology' in sub_cat.en_name %}fa-x-ray{% elif 'Nutrition' in sub_cat.en_name %}fa-carrot{% elif 'Nursing' in sub_cat.en_name %}fa-user-nurse{% else %}fa-notes-medical{% endif %}"></i>
+                            </div>
+                            <div class="dept-info-wrapper ml-3">
+                                <span class="dept-name-zh">{{ sub_cat.show_name }}</span>
+                                <span class="dept-name-en">{{ sub_cat.en_name }}</span>
+                            </div>
+                            <div class="dept-arrow-wrapper ml-auto">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 </div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
@@ -85,8 +76,184 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-{% endblock %}
+<style>
+/* 衛教園地首頁客製樣式 - 對接系統設計規範 (CSS Variables) */
+.elegant-search-section {
+    background: linear-gradient(135deg, var(--color-bg-light) 0%, rgba(219, 213, 213, 0.2) 100%);
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(117, 72, 43, 0.04);
+    border: 1px solid var(--color-bg-white);
+    backdrop-filter: blur(4px);
+}
 
+.search-bar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--color-bg-white);
+    border: 2px solid var(--color-border);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.search-bar-wrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(117, 72, 43, 0.15);
+}
+
+.input-icon {
+    padding-left: 20px;
+    color: var(--color-neutral-brown);
+    font-size: 1.1rem;
+}
+
+.elegant-search-input {
+    border: none !important;
+    box-shadow: none !important;
+    height: 52px;
+    padding-left: 10px;
+    font-size: 1rem;
+    color: var(--color-text-dark);
+}
+
+.elegant-search-input::placeholder {
+    color: var(--color-text-light);
+    opacity: 0.8;
+}
+
+.btn-search-submit {
+    height: 52px;
+    padding: 0 30px;
+    font-weight: 600;
+    border-radius: 0 !important;
+    background-color: var(--color-primary);
+    border: none;
+    color: var(--color-bg-white) !important;
+    transition: background-color 0.2s ease;
+}
+
+.btn-search-submit:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.category-group-header {
+    position: relative;
+    margin-top: 40px;
+}
+
+.category-group-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    display: flex;
+    align-items: center;
+}
+
+.category-group-title i {
+    margin-right: 10px;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+}
+
+.title-bottom-decorator {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent-peach));
+    border-radius: 2px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+}
+
+.dept-card-link {
+    text-decoration: none !important;
+    display: block;
+}
+
+.dept-card-btn {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border-light);
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dept-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dept-card-link:hover .dept-card-btn {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
+    border-color: var(--color-primary);
+}
+
+.dept-card-link:hover .dept-card-btn::before {
+    opacity: 1;
+}
+
+.dept-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-border-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-neutral-brown);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.dept-card-link:hover .dept-icon-wrapper {
+    background-color: var(--color-bg-light);
+    color: var(--color-primary);
+}
+
+.dept-info-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.dept-name-zh {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.dept-name-en {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    text-transform: capitalize;
+}
+
+.dept-arrow-wrapper {
+    color: var(--color-border);
+    font-size: 1rem;
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.dept-card-link:hover .dept-arrow-wrapper {
+    transform: translateX(0);
+    opacity: 1;
+    color: var(--color-primary);
+}
+</style>
+{% endblock %}
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}

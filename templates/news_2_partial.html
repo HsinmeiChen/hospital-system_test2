@@ -1,53 +1,79 @@
-{% load static %}  <!-- 只有要載入 static 路徑檔案才需要加 -->
-{# 媒體報導 - 無限滾動局部樣板：僅渲染圖卡 (div) 與最末端隱藏的下一頁動態網址 #}
-{% for news_list in contacts %}
-<div class="col-lg-4 col-md-6 mb-4 news-card-item">
-    <div class="card h-100 border-0 shadow-sm rounded-0">
-        <!-- 圖卡連結 (指向新詳細頁) -->
-        <a href="/A000_reports/{{ news_list.8 }}/" class="text-decoration-none">
+{% load static %}
+<div class="row w-100 mx-0">
+    {% for news_list in contacts %}
+    <div class="col-lg-4 col-md-6 mb-4 news-card-item">
+        <div class="card h-100 border-0 shadow-sm rounded-0">
+            <!-- 圖卡連結 (指向新詳細頁) -->
+            <a href="/A000_reports/{{ news_list.8 }}/" class="text-decoration-none">
 
-            <!-- [ 圖片顯示 (根據您的 ID 命名規則) ] -->
-            <div class="card-img-top overflow-hidden" style="height: 200px;">
-
-                {% if news_list.10 %}
-                <!-- 1. 如果有抓到 <img1> 標籤的圖片 -->
-                <picture>
-                    {% if news_list.12 %}
-                    <source srcset="{{ MEDIA_URL }}{{ news_list.12 }}" type="image/webp">
+                <!-- [ 圖片顯示 ] -->
+                <div class="card-img-top overflow-hidden" style="height: 200px;">
+                    {% if news_list.10 %}
+                    <picture>
+                        {% if news_list.12 %}
+                        <source srcset="{{ MEDIA_URL }}{{ news_list.12 }}" type="image/webp">
+                        {% endif %}
+                        <img src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                    </picture>
+                    {% else %}
+                    <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
                     {% endif %}
-                    <!-- 降級備用：舊瀏覽器或爬蟲自動載入原圖 (JPG/PNG)，保證 100% 不破圖 -->
-                    <img src="{{ MEDIA_URL }}news_2/img/{{ news_list.10 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
-                </picture>
-                {% else %}
+                </div>
 
-                <!-- 2. 如果沒有圖片，顯示預設圖 -->
-                <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
-                {% endif %}
+                <div class="card-body cofe-word">
+                    <!-- [ 內文時間 ] -->
+                    <p class="text-muted small mb-2 text-right"><i class="fa fa-clock" aria-hidden="true"></i> {{ news_list.6 }}</p>
 
-            </div>
+                    <!-- [ 內文標題 ] -->
+                    <h5 class="card-title font-weight-bold ell_two" style="height: 3rem; line-height: 1.5rem;">{{ news_list.2 }}</h5>
 
-            <div class="card-body cofe-word">
+                    <!-- [ txt 內容第一個<t> ] -->
+                    <p class="text-muted small mb-0" style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ news_list.11|truncatechars:35 }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted py-5">
+        目前無媒體報導。
+    </div>
+    {% endfor %}
+</div>
 
-                <!-- [ 內文時間 (檔名) ] -->
-                <p class="text-muted small mb-2 text-right"><i class="fa fa-clock" aria-hidden="true"></i> {{ news_list.6 }}</p>
-
-                <!-- [ 內文標題 (檔名) ] -->
-                <h5 class="card-title font-weight-bold ell_two" style="height: 3rem; line-height: 1.5rem;">{{ news_list.2 }}</h5>
-
-                <!-- [ txt 內容第一個<t> ] -->
-                <p class="text-muted small mb-0" style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ news_list.11|truncatechars:35 }}</p>
-
-            </div>
-        </a>
+<!-- === AJAX 全局分頁頁碼 === -->
+{% if contacts.paginator.count > contacts.paginator.per_page %}
+<div class="row w-100 mx-0 mt-3">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <ul class="pagination align-items-center">
+            <!-- << First Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+               <a class="page-link" href="?page=1" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="First">«</a>
+            </li>
+            
+            <!-- < Previous Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_previous %}{{ contacts.previous_page_number }}{% else %}1{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Previous">‹</a>
+            </li>
+            
+            <!-- Dropdown Selection -->
+            <li class="page-item">
+                <select class="form-control pagination-select" data-param-name="page" data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white);">
+                    {% for p in contacts.paginator.page_range %}
+                        <option value="{{ p }}" {% if p == contacts.number %}selected{% endif %}>第 {{ p }} 頁</option>
+                    {% endfor %}
+                </select>
+            </li>
+            
+            <!-- > Next Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_next %}{{ contacts.next_page_number }}{% else %}{{ contacts.paginator.num_pages }}{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Next">›</a>
+            </li>
+            
+            <!-- >> Last Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ contacts.paginator.num_pages }}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Last">»</a>
+            </li>
+        </ul>
     </div>
 </div>
-{% endfor %}
-
-<!-- [ 傳遞給前端的下一頁狀態，用來更新按鈕 ] -->
-<div class="load-more-state d-none" 
-    {% if contacts.has_next %}
-    data-next-url="/A000_reports/page/{{ contacts.next_page_number }}/"
-    {% else %}
-    data-has-next="false"
-    {% endif %}>
-</div>
+{% endif %}
