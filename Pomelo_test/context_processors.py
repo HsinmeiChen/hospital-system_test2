@@ -50,6 +50,15 @@ def get_dynamic_name(segment, request):
         # 1. 處理【科別介紹頁面】
         if segment == "A001_department_part":
             path_id = request.GET.get("open_info_name") or request.GET.get("open_info_path") or request.session.get("path")
+            
+            # 如果 path_id 是檔名格式 (如 D000_1_李育嘉_HA00086.txt)，提取醫師 ID
+            if path_id and "D000" in path_id and "_" in path_id:
+                parts = path_id.split("_")
+                if len(parts) >= 4:
+                    dr_real_id = parts[3].replace(".txt", "")
+                    if dr_real_id in mapping['doctors']:
+                        path_id = dr_real_id
+
             if path_id:
                 # --- [新增：優先從快取對照表中直接抓取] ---
                 # 如果是醫師 ID (如 HA00086)，直接從醫師對照表抓科別名稱
@@ -257,12 +266,33 @@ def breadcrumb_processor(request):
     # --- [側邊選單醫師列表邏輯] ---
     if any(seg in path_segments for seg in ["A001_department_part", "A001_department_doctor", "department", "doctor"]):
         try:
+            mapping = _get_dept_dr_map()
             path_id = request.GET.get("open_info_name") or request.GET.get("open_info_path") or request.session.get("path")
-            if path_id:
+            
+            # 優先嘗試從新網址路徑中解析科別或醫師 ID
+            if len(path_segments) >= 3 and path_segments[0] == "A001_department_doctor":
+                dept_en_from_url = path_segments[1]
+                dr_id_from_url = path_segments[2]
+                # 優先使用「科別英文_醫師ID」組合鍵比對，避免跨科別同工號衝突
+                combo_key = f"{dept_en_from_url}_{dr_id_from_url}"
+                if combo_key in mapping['doctors']:
+                    path_id = combo_key
+                elif dr_id_from_url in mapping['doctors']:
+                    path_id = dr_id_from_url
+            elif len(path_segments) >= 2 and path_segments[0] == "A001_department_overview":
+                dept_en_from_url = path_segments[1]
+                if dept_en_from_url in mapping['dept_en_to_id']:
+                    path_id = mapping['dept_en_to_id'][dept_en_from_url]
 
-                # 【新增】如果 path_id 是醫師 ID (如 HA00086)，先轉成完整路徑格式 (如 1_1_1)
-                mapping = _get_dept_dr_map()
-                
+            # 如果 path_id 是檔名格式 (如 D000_1_李育嘉_HA00086.txt)，提取醫師 ID
+            if path_id and "D000" in path_id and "_" in path_id:
+                parts = path_id.split("_")
+                if len(parts) >= 4:
+                    dr_real_id = parts[3].replace(".txt", "")
+                    if dr_real_id in mapping['doctors']:
+                        path_id = dr_real_id
+
+            if path_id:
                 dept_id = None
                 if path_id in mapping['doctors']:
                     dept_id = mapping['doctors'][path_id]['path_id'].split("_")[0] + "_" + mapping['doctors'][path_id]['path_id'].split("_")[1]
@@ -376,7 +406,10 @@ def breadcrumb_processor(request):
                     
                     # 2. 抓取醫師名稱並建立連結
                     dr_name = dr_id
-                    if dr_id in mapping['doctors']:
+                    combo_key = f"{dept_en}_{dr_id}"
+                    if combo_key in mapping['doctors']:
+                        dr_name = mapping['doctors'][combo_key]['filename'].split("_")[2]
+                    elif dr_id in mapping['doctors']:
                         dr_name = mapping['doctors'][dr_id]['filename'].split("_")[2] # 例如: "李育嘉 主治醫師"
                     
                     breadcrumbs.append({"name": dr_name, "url": f"/A001_department_doctor/{dept_en}/{dr_id}/"})
@@ -407,7 +440,10 @@ def breadcrumb_processor(request):
                     # 動態抓取醫師名稱
                     mapping = _get_dept_dr_map()
                     dr_name = "醫師預約"
-                    if dr_id in mapping['doctors']:
+                    combo_key = f"{dept_en}_{dr_id}"
+                    if combo_key in mapping['doctors']:
+                        dr_name = mapping['doctors'][combo_key]['filename'].split("_")[2]
+                    elif dr_id in mapping['doctors']:
                         dr_name = mapping['doctors'][dr_id]['filename'].split("_")[2] # 例如: "李育嘉 主治醫師"
                         
                     breadcrumbs.append({"name": dr_name, "url": f"/A006_Online_Booking_2_1/{dept_en}/{dr_id}/"})
@@ -425,6 +461,26 @@ def breadcrumb_processor(request):
                         dept_name = mapping['depts'][dept_id]['name']
                         
                     breadcrumbs.append({"name": dept_name, "url": f"/A006_Online_Booking_1_part/{dept_en}/"})
+
+                elif path_segments[0] == "A003_health_edu" and len(path_segments) >= 2:
+                    breadcrumbs.append({"name": "衛教園地", "url": "/A003_health_edu/"})
+                    sub_item_en = path_segments[1]
+                    if sub_item_en != "search":
+                        sub_chinese = sub_item_en
+                        _base_dir = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc')
+                        if os.path.exists(_base_dir):
+                            for main_dir in os.listdir(_base_dir):
+                                if os.path.isdir(os.path.join(_base_dir, main_dir)):
+                                    for sub_dir in os.listdir(os.path.join(_base_dir, main_dir)):
+                                        if "_" in sub_dir:
+                                            parts = sub_dir.split("_")
+                                            if len(parts) > 1 and parts[1].lower() == sub_item_en.lower():
+                                                sub_chinese = parts[0]
+                                                break
+                        breadcrumbs.append({"name": sub_chinese, "url": f"/A003_health_edu/{sub_item_en}/"})
+                        if len(path_segments) >= 3:
+                            title_name = path_segments[2]
+                            breadcrumbs.append({"name": title_name, "url": f"/A003_health_edu/{sub_item_en}/{title_name}/"})
 
                 else:
                     url_accum = "/"

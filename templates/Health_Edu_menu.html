@@ -1,86 +1,38 @@
 <div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
 	<div class="c-sidebar-trust__header js-sidebar-toggle">
-		<div class="u-badge-small">Education</div>
+		<div class="u-badge-small">EDUCATION</div>
 		<div class="c-sidebar-trust__title-row">
 			<h3>衛教園地</h3>
-			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down" aria-hidden="true"></i></span>
 		</div>
 		<p>Health Education</p>
 	</div>		
 
-	<nav class="c-sidebar-trust__nav">				
-		<div class="c-sidebar-trust__list">
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_registration_notice/' %}is-active{% endif %}" href="/A002_registration_notice/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">掛號須知</span>
-					<span class="c-sidebar-trust__en">Notice</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_clinic_time/' %}is-active{% endif %}" href="/A002_clinic_time/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">門診時刻表</span>
-					<span class="c-sidebar-trust__en">Schedule</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if '/A006_Online_Booking_0/' in request.path %}is-active{% endif %}" href="/A006_Online_Booking_0/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">網路掛號</span>
-					<span class="c-sidebar-trust__en">Booking</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_which_disease/' %}is-active{% endif %}" href="/A002_which_disease/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">我該看哪一科</span>
-					<span class="c-sidebar-trust__en">Division</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_data_apply/' %}is-active{% endif %}" href="/A002_data_apply/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">資料申請</span>
-					<span class="c-sidebar-trust__en">Application</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_consultation_progress/' %}is-active{% endif %}" href="/A002_consultation_progress/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">看診進度</span>
-					<span class="c-sidebar-trust__en">Progress</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if '/A007_Reserve_pre/' in request.path %}is-active{% endif %}" href="/A007_Reserve_pre/login/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">預約慢箋</span>
-					<span class="c-sidebar-trust__en">Prescription</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_payment_machine/' %}is-active{% endif %}" href="/A002_payment_machine/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">繳費機介紹</span>
-					<span class="c-sidebar-trust__en">Payment</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-
-			<a class="c-sidebar-trust__item {% if request.path == '/A002_self_service/' %}is-active{% endif %}" href="/A002_self_service/">
-				<div class="c-sidebar-trust__content">
-					<span class="c-sidebar-trust__text">自助掛號機</span>
-					<span class="c-sidebar-trust__en">Self-Service</span>
-				</div>
-				<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-			</a>
-		</div>
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院衛教園地導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+			{% for c in collapse_List %}
+			<li class="c-sidebar-trust__item-wrapper has-sub {% if c.file == main_item %}is-expanded{% endif %}">
+				<a class="c-sidebar-trust__item js-submenu-toggle" href="javascript:void(0)" title="{{ c.showfile }}" itemprop="url">
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text" itemprop="name">{{ c.showfile }}</span>
+						{% if c.en_name %}
+						<span class="c-sidebar-trust__en" style="display: block; font-size: 0.85em; color: #888; font-weight: normal; margin-top: 2px;">{{ c.en_name }}</span>
+						{% endif %}
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
+				</a>
+				
+				<ul class="c-sidebar-trust__sub-list">
+					{% for sub in c.sub_item %}
+					<li>
+						<a class="c-sidebar-trust__sub-item {% if c.file == main_item and sub.name == sub_item %}is-active{% endif %}" href="/A003_health_edu/{{ sub.en_name }}/" title="{{ sub.show_name }}">
+							{{ sub.show_name }}
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</li>
+			{% endfor %}
+		</ul>
 	</nav>
 </div>

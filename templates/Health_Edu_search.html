@@ -1,184 +1,100 @@
-{% load static %}
-<!doctype html>
-<html lang="zh-TW">
-
-<head>
-	{% include 'Public_head.html' %}
-	<title>衛教園地_長安醫院</title>
-	{% include 'GA_head.html' %}
-</head>
-
-<body>
-	{% include 'GA_noscript.html' %}
-
-	<div class="wrapper L_sub_main_bg">
-
-		<!-- ======= navbar 導航列 ======= -->
-		{% include 'header.html' %}
-		<!-- ======= navbar 導航列 End ======= -->
-
-		<!-- ======= main-content 主要區 ======= -->
-		<div>
-			<main class="pb-3">
-				<div class="container py-1">			
-					<div class="row">
-						<!-- ※※※ 側邊選單 ※※※ -->
-						<div class="col-lg-3 mb-2">
-							<div class="menu_sidebar">
-								<aside>
-									{% include 'Health_Edu_menu.html' %}
-									<!-- <div class="side_menu"></div> -->
-									<!-- 用來載入 menu.html -->
-								</aside>
-							</div>
-						</div>
-						<!-- ※※※ 側邊選單 End ※※※ -->
-
-						<!-- ※※※ 內容區 ※※※ -->
-						<div class="col-lg-9">
-							<article>
-								<div class="content">
-									<div class="text-right">
-										<div class="font-16">
-											<nav aria-label="breadcrumb">
-												<ol class="breadcrumb justify-content-end">
-													<li class="breadcrumb-item main_pencil font-weight-bold"></li>
-													<li class="breadcrumb-item active" aria-current="page">衛教園地</li>
-												</ol>
-											</nav>									
-										</div>
-									</div>
-									<div class="bg-white rounded panel-shadow title_wrap">
-										<section id="content_h">			
-											<!-- 標題 -->								
-											<div class="onsale_heading">搜尋結果</div>
-											<hr class="my-2">
-											<!-- 搜尋列 -->
-											<div class="d-flex justify-content-end">
-												<div class="search_box">
-													<form class="form-inline" action="search">
-														<div class="input-group" style="width: 100%;">
-															<input type="text" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="search_text">
-															<input type="hidden" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="page" value=1>
-															<div class="input-group-append ml-0">
-																<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
-															</div>
-														</div>
-													</form>
-												</div>
-											</div>
-
-											{% for a in message_lists_cut%}
-											<div class="modal fade" id="H_Edu_content_{{a.index}}" tabindex="-1" aria-labelledby="Health-Edu" aria-hidden="true">
-                                                <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header og-bg line_break">
-                                                        <h5 class="ell_two modal-title beige-word font-24 font-weight-bold">{{a.name}}</h5>
-														<button type="button" class="close" data-dismiss="modal">×</button>
-                                                        <!-- <h5 class="modal-title" id="Health-Edu">{{a.name}}</h5>
-                                                        <button type="button" class="btn btn-warning font-20" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span> 關閉
-                                                        </button> -->
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {% for pic in a.arr%}                                                            <img src="{{ MEDIA_URL }}health_edu/Doc/{{a.department}}/{{a.room}}/{{pic}}" class="img-fluid" alt="{{a.name}}">
-                                                            {% endfor %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% endfor %}
-		                                    <table class="table table-hover">
-		                                        <thead>
-		                                            <tr>
-		                                                <th>科別</th>
-		                                                <th>科室</th>
-		                                                <th>衛教文件</th>
-		                                            </tr>
-		                                        </thead>
-		                                        <tbody>
-		                                            {% for a in message_lists_cut%}
-		                                            <tr>
-		                                                <td><a href="#" data-toggle="modal" data-target="#H_Edu_content_{{a.index}}" class="health_list">{{a.r_department}}</a></td>
-		                                                <td><a href="#" data-toggle="modal" data-target="#H_Edu_content_{{a.index}}" class="health_list">{{a.room}}</a></td>
-		                                                <td><a href="#" data-toggle="modal" data-target="#H_Edu_content_{{a.index}}" class="health_list">{{a.name}}</a></td>
-		                                            </tr>
-		                                            {% endfor %} 
-		                                            
-		                                            
-		                                             
-		                                            
-		                                        </tbody>
-		                                    </table>
-											<!-- 分頁功能 -->
-											{% if message_lists_cut|length > 1 %}
-											<div class="row mt-3">
-												<div class="col-12 d-flex justify-content-center">
-													<ul class="pagination">
-														{% if contacts_2.has_previous %}
-														<li class="active"><a class="page-link"
-																href="?search_text={{search_text}}&page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
-														{% endif %}
-
-														{% if paginator_2.has_previous_more %}
-														<li class="page-item"><a class="page-link" href="?search_text={{search_text}}&page=1">1</a></li>
-														<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-														{% endif %}
-
-														{% for i in paginator_2.previous_range %}
-														<li class="page-item">
-															<a class="page-link" href="?search_text={{search_text}}&page={{ i }}">{{ i }}</a>
-														</li>
-														{% endfor %}
-
-														<li class="page-item active"><a class="page-link"
-																href="?search_text={{search_text}}&page={{ paginator_2.number }}">{{ paginator_2.number }}</a></li>
-
-														{% for i2 in paginator_2.next_range %}
-														<li class="page-item">
-															<a class="page-link" href="?search_text={{search_text}}&page={{ i2 }}">{{ i2 }}</a>
-														</li>
-														{% endfor %}
-
-														{% if paginator_2.has_next_more %}
-														<li class="page-item"><a class="page-link" href="javascript:viod(0);">...</a></li>
-														<li class="page-item"><a class="page-link" href="?search_text={{search_text}}&page={{ paginator_2.num_pages }}">{{paginator_2.num_pages}}</a></li>
-														{% endif %}
-
-														{% if contacts_2.has_next %}
-														<li class="active">
-															<a class="page-link" href="?search_text={{search_text}}&page={{ contacts_2.next_page_number }}">&gt;&gt;</a>
-														</li>
-														{% endif %}
-													</ul>
-												</div>
-											</div>
-											{% endif %}						
-										</section>
-										<section id="content_body">
-											<div class="row">
-												<div class="col-12">
-													&nbsp;
-												</div>
-											</div>						
-										</section>
-									</div>
-								</div>
-							</article>
-						</div>
-						<!-- ※※※ 內容區 End ※※※ -->
-
-					</div>		  
-				</div>	
-			</main>
-		</div>
-		<!-- ======= main 主要區 End ======= -->
-	</div>
-	<!-- ======= footer ======= -->
-	{% include 'footer.html' %}
-	<!-- ======= Footer End ======= -->
-
-	<!-- ======= JS 套件區 ======= -->
-	<!-- ======= JS 套件區 End ======= -->
-</body>
-</html>
+{% extends "Health_Edu_base.html" %}
+
+{% load static %}
+{% block title %}搜尋結果 | 衛教園地 | {{ block.super }}{% endblock %}
+{% block og_title %}搜尋結果 | 衛教園地 | {{ block.super }}{% endblock %}
+
+{% block guide_content %}
+<header id="content_h">
+	<h2 class="c-onsale-heading">搜尋結果</h2>
+</header>
+<div class="l-main-content__body mt-4">
+	<div class="row">
+		<div class="col-12">
+			<!-- 搜尋列 -->
+			<div class="d-flex justify-content-end mb-4">
+				<div class="search_box">
+					<form class="form-inline" action="{% url 'search' %}">
+						<div class="input-group" style="width: 100%;">
+							<input type="text" class="form-control" placeholder="搜尋其他文章" aria-label="搜尋其他文章" aria-describedby="button-addon2" name="search_text" value="{{ search_text }}">
+							<input type="hidden" name="page" value="1">
+							<div class="input-group-append ml-0">
+								<button class="btn btn_search" type="submit" id="button-addon2"><i class="fas fa-search"></i></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- 搜尋結果表格 -->
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>科別</th>
+						<th>科室</th>
+						<th>衛教文件</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for a in message_lists_cut %}
+					<tr>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.r_department}}</a></td>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.room}}</a></td>
+						<td><a href="{% url 'detail_page' sub_item_en=a.sub_item_en title_name=a.name %}" class="health_list">{{a.name}}</a></td>
+					</tr>
+					{% empty %}
+					<tr>
+						<td colspan="3" class="text-center py-4">查無符合「{{ search_text }}」的衛教文章</td>
+					</tr>
+					{% endfor %} 
+				</tbody>
+			</table>
+
+			<!-- 分頁功能 -->
+			{% if message_lists_cut|length > 0 %}
+			<div class="row mt-3">
+				<div class="col-12 d-flex justify-content-center">
+					<ul class="pagination">
+						{% if contacts_2.has_previous %}
+						<li class="active"><a class="page-link"
+								href="?search_text={{search_text}}&page={{ contacts_2.previous_page_number }}">&lt;&lt;</a></li>
+						{% endif %}
+
+						{% if paginator_2.has_previous_more %}
+						<li class="page-item"><a class="page-link" href="?search_text={{search_text}}&page=1">1</a></li>
+						<li class="page-item"><a class="page-link" href="javascript:void(0);">...</a></li>
+						{% endif %}
+
+						{% for i in paginator_2.previous_range %}
+						<li class="page-item">
+							<a class="page-link" href="?search_text={{search_text}}&page={{ i }}">{{ i }}</a>
+						</li>
+						{% endfor %}
+
+						<li class="page-item active"><a class="page-link"
+								href="?search_text={{search_text}}&page={{ paginator_2.number }}">{{ paginator_2.number }}</a></li>
+
+						{% for i2 in paginator_2.next_range %}
+						<li class="page-item">
+							<a class="page-link" href="?search_text={{search_text}}&page={{ i2 }}">{{ i2 }}</a>
+						</li>
+						{% endfor %}
+
+						{% if paginator_2.has_next_more %}
+						<li class="page-item"><a class="page-link" href="javascript:void(0);">...</a></li>
+						<li class="page-item"><a class="page-link" href="?search_text={{search_text}}&page={{ paginator_2.num_pages }}">{{paginator_2.num_pages}}</a></li>
+						{% endif %}
+
+						{% if contacts_2.has_next %}
+						<li class="active">
+							<a class="page-link" href="?search_text={{search_text}}&page={{ contacts_2.next_page_number }}">&gt;&gt;</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

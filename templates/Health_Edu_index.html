@@ -1,4 +1,4 @@
-﻿{% extends "Health_Edu_base.html" %}
+{% extends "Health_Edu_base.html" %}
 
 {% load static %}
 {% block title %}衛教園地 | {{ block.super }}{% endblock %}
@@ -46,45 +46,19 @@
 											<!-- 新增內容區塊 -->
 
 
-											{% for m in message_lists_cut%}
-
-
-											<a href="#" data-toggle="modal" data-target="#H_Edu_{{m.index}}" class="health_list">
-
-
+											{% for m in message_lists_cut %}
+											<a href="{% url 'detail_page' sub_item_en=m.sub_item_en title_name=m.name %}" class="health_list">
 												<div class="card">
-
-
 													<div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
-
-
 														<div class="card-title mb-0">
-
-
 															<h5 class="mb-0 text_ellips_short">{{m.name}}</h5>
-
-
 														</div>
-
-
 														<!-- <div class="card-subtitle text-date mb-0 text-right">
-
-
 															<small>{{m.time}}</small>
-
-
 														</div> -->
-
-
 													</div>
-
-
 												</div>
-
-
 											</a>
-
-
 											{% endfor %}
 
 

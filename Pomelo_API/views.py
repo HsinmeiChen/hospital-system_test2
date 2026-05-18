@@ -2461,16 +2461,18 @@ def _get_dept_dr_map():
 									'dept_name': dept_name,
 									'dept_en': dept_en
 								}
-								# 同時支援用「路徑ID」和「醫師ID」來查找
+								# 同時支援用「路徑ID」、「醫師ID」和「科別英文_醫師ID」組合鍵來查找，防止跨科別同工號衝突
 								mapping['doctors'][path_id] = doc_data
 								mapping['doctors'][dr_id] = doc_data
+								mapping['doctors'][f"{dept_en}_{dr_id}"] = doc_data
 	_DEPT_DR_MAP_CACHE = mapping
 	return mapping
 
 # --- [ 醫師-短網址轉接頭 ] ---
 def A001_department_doctor_short(request, dept_en, dr_id):
 	mapping = _get_dept_dr_map()
-	doc_info = mapping['doctors'].get(dr_id)
+	# 優先使用「科別英文_醫師ID」組合鍵比對，避免跨科別同工號衝突
+	doc_info = mapping['doctors'].get(f"{dept_en}_{dr_id}") or mapping['doctors'].get(dr_id)
 	if not doc_info: return redirect('/A001_dr_search/')
 	request.GET = request.GET.copy()
 	request.GET['dr_search'] = 'true'
