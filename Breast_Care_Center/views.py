@@ -9,7 +9,7 @@ from django.core.cache import cache # 用於快取資料，減少磁碟 I/O
 
 import urllib.parse  # 用來處理 URL 中的特殊字元，讓網址能正確顯示中文或其他特殊字符
 
-import os, oracledb, datetime, re, time # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
+import os, oracledb, datetime, re, time, hashlib, traceback # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
 import random # 用於生成隨機驗證碼字元
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
@@ -258,7 +258,7 @@ def breast_refresh_captcha(request):
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # 連動官網：醫師-個人介紹（依專案 MEDIA_ROOT，勿硬編碼）
-dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '3_乳房外科')
+dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '3_乳房外科_BreastSurgery')
 
 # 連動官網：醫師-最新消息、相關文章、影音專區
 NEWS_FOLDER = os.path.join(settings.MEDIA_ROOT, 'news_1')
@@ -1136,7 +1136,7 @@ def doctor_list(request):
 				name = name_parts[0]
 				job_title = name_parts[1] if len(name_parts) > 1 else ''
 
-				with open(os.path.join(dir, doc_filename), 'r', encoding='utf-8') as f:
+				with open(os.path.join(dir, doc_filename), 'r', encoding='utf-8-sig') as f:
 					parsed = parse_doctor_txt(f.read())
 
 				# 讀取停休診日期時間
@@ -1161,6 +1161,7 @@ def doctor_list(request):
 				continue
 	return render(request, 'Breast_Care_Center/breast-doctor-list.html', {
 		'doctors': doctors,
+		'dept_en': 'BreastSurgery',
 		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
@@ -1189,7 +1190,7 @@ def doctor_profile(request, employee_id):
 	if not matched_file:
 		raise Http404("找不到醫師介紹")
 
-	with open(os.path.join(dir, matched_file), 'r', encoding='utf-8') as f:
+	with open(os.path.join(dir, matched_file), 'r', encoding='utf-8-sig') as f:
 		content = f.read()
 
 	# 將 def parse_doctor_txt(content) 這段函式引入，帶入拆解後的變數
@@ -1245,6 +1246,7 @@ def doctor_profile(request, employee_id):
 		'has_articles': has_articles,
 		'has_videos': has_videos,
 		'doctors': doctors, # 側邊欄清單
+		'dept_en': 'BreastSurgery',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -1283,6 +1285,7 @@ def article_share_view(request, get_filename):
 		'summary': parsed['summary'],
 		'tags': extract_tags_from_blocks(parsed['blocks']),
 		'og_image': f"{settings.SITE_DOMAIN}/media/news_2/img/{parsed['og_img']}",
+		'dept_en': 'BreastSurgery',
 	}
 	return render(request, 'Breast_Care_Center/breast-article-detail.html', context)
 
@@ -1452,7 +1455,7 @@ def breast_news_api(request):
 	"""後端 API - 支援最新消息 Ajax 分頁"""
 	try:
 		page = int(request.GET.get("page", 1))
-		per_page = int(request.GET.get("per_page", 12))  # 每頁筆數，預設 10
+		per_page = int(request.GET.get("per_page", 20))  # 每頁筆數，預設 20
 
 		all_news = get_all_health_news()
 		paginator = Paginator(all_news, per_page)
@@ -1612,7 +1615,7 @@ def breast_media_api(request):
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
-	paginator = Paginator(all_articles, 8)
+	paginator = Paginator(all_articles, 20)
 	page = int(request.GET.get("page", 1))
 	page_obj = paginator.get_page(page)
 
@@ -1680,8 +1683,8 @@ def breast_media(request):
 	# Step 3：依日期由新到舊排序，只排序一次
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
 
-	# Step 4：分頁處理，每頁 8 筆
-	paginator = Paginator(all_articles, 8)
+	# Step 4：分頁處理，每頁 20 筆
+	paginator = Paginator(all_articles, 20)
 	page = request.GET.get('page', 1)
 	page_obj = paginator.get_page(page)
 
@@ -1800,8 +1803,8 @@ def breast_film_api(request):
 		# 以 date 欄位排序（字串），空日期會排到後面
 		all_videos.sort(key=lambda x: x.get('date', ''), reverse=True)
 
-		# 分頁，每頁 8 筆
-		paginator = Paginator(all_videos, 8)
+		# 分頁，每頁 20 筆
+		paginator = Paginator(all_videos, 20)
 		page = int(request.GET.get("page", 1))
 		page_obj = paginator.get_page(page)
 
@@ -1837,10 +1840,10 @@ def get_health_edu_items():
 	cache_key = 'breast_edu_items_metadata_v3' # 檔名邏輯更新，更新快取 key
 	cached_data = cache.get(cache_key)
 	if cached_data:
-		return cached_data, os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '乳房外科')
+		return cached_data, os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '乳房外科_BreastSurgery')
 
 	# 1. 處理舊有的純圖片衛教資料
-	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '乳房外科')
+	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '乳房外科_BreastSurgery')
 	image_files = [f for f in os.listdir(base_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
 	grouped_images = defaultdict(list)
@@ -1910,12 +1913,12 @@ def get_health_edu_items():
 @require_GET
 def breast_edu_api(request):
 	page = int(request.GET.get("page", 1))
-	per_page = int(request.GET.get("per_page", 8))
+	per_page = int(request.GET.get("per_page", 20))
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, per_page)
 	page_obj = paginator.get_page(page)
 	
-	image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+	image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
 	
 	data = []
 	for item in page_obj:
@@ -1948,7 +1951,7 @@ def breast_edu_api(request):
 def random_breast_edus_api(request):
 	"""隨機取得 5 筆衛教園地項目（供 breast-article-detail 側欄卡片用）"""
 	all_items, base_path = get_health_edu_items()
-	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
 
 	# 隨機挑選最多 5 筆
 	random_items = random.sample(all_items, min(5, len(all_items)))
@@ -1979,11 +1982,11 @@ def random_breast_edus_api(request):
 def breast_edu(request):
 	append_crc32_to_filenames() # 自動重命名衛教文章檔案 (加上 ^hash)
 	all_items, base_path = get_health_edu_items()
-	paginator = Paginator(all_items, 8)
+	paginator = Paginator(all_items, 20)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
 	context = {
-		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/',
+		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/',
 		'page_obj': page_obj,
 		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 	}
@@ -2032,7 +2035,7 @@ def breast_edu_detail(request, title_id):
 		})
 	else:
 		# 純圖片模式
-		image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/乳房外科/'
+		image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
 		full_images = [image_media_url + img for img in content]
 
 		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {

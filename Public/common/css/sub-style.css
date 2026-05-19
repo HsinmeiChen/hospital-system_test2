@@ -978,16 +978,11 @@ ol.custom-numbers li::before {
 /* |======== 看診進度 ========| */
 
 .see_memo .media{
-    flex-direction: column;
     border-bottom: 1px solid #dee2e6;
-    padding-bottom: .5rem;
+    padding: .5rem 0;
 }
 .see_memo .media > div:first-child{
     width: 100%;
-    border-bottom: 1px solid #dee2e6;
-    margin-bottom: .5rem;
-    padding-bottom: .5rem;
-    padding-top: .5rem;
 }
 									
 .tab-content .morning_which_doc .Div_box,
@@ -1012,6 +1007,7 @@ ol.custom-numbers li::before {
 }
 .see_title{
     padding: 8px;
+    margin-bottom: 5px;
 }
 .see_title h5{
     margin-bottom: 0px;
@@ -1020,12 +1016,18 @@ ol.custom-numbers li::before {
 .see_num{
     text-align: center;
     border-left: 1px solid #dee2e6!important;
-    width: 30%;											
+}
+.see_num:nth-child(1), .see_num:nth-child(3) {
+    width: 25%;
+}
+.see_num:nth-child(2) {
+    width: 50%;
+    padding: 0 15px;
 }
 .see_num h3{
     font-weight: bold;
-    margin-bottom: 0px;
-    font-size: 1.1rem;
+    margin-top: 10px;
+    font-size: 1rem;
 }
 .see_room_no{
     color: #009688;
@@ -1163,30 +1165,10 @@ ol.custom-numbers li::before {
     width: 100%;
 }
 .see_memo .media-body{
-    line-height: 30px;
+    line-height: 25px;
     font-weight: bold;
     text-align: center;
 }
-/* .content_border{
-    border: 5px solid #f5961d;
-    background-color: #FBFBF4;
-} */
-/* .number_tag{
-    width: 30px;
-    line-height: 30px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 700;
-    background-color:#28A745;
-    color: #fff;
-}
-.number_tag.t_orange{
-    background-color: darkorange;
-}
-.number_tag.t_blue{
-    background-color: #17a2b8;
-} */
 
 /* 詳細資料 */
 .Kir_bei::before{
@@ -2761,17 +2743,6 @@ input[type="radio"].c-radio-table__radio:checked + .c-radio-table__label {
     }
     .see_memo .media > div:first-child{
         width: auto;
-        border-bottom: 0px solid #dee2e6;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-        padding-top: 0px;
-        padding-right: 1rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        border-right: 1px solid #dee2e6;
-    }
-    .see_memo .media-body{
-        text-align: left;
     }
     .tab-content .morning_which_doc .Div_box,
     .tab-content .noon_which_doc .Div_box,

@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/health-film-api/', views.health_film_api, name='health_film_api'), # 「影音專區」- 前端用 Ajax 呼叫，動態載入影片文章。
 
     path('ort-health-edu/', view=views.ort_health_edu),  # 衛教園地列表-主頁
+    path('ort-health-edu/<str:title_name>/', views.ort_health_edu_detail, name='ort_health_edu_detail'),  # 衛教園地文章頁
     path('api/health-edu/', views.health_edu_api, name='health_edu_api'),  # 衛教園地 AJAX 分頁 API
     
     path('ort-doctor/', views.doctor_list, name='doctor_list'), # 醫師陣容列表-主頁

@@ -185,11 +185,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const div = document.createElement('div');
                 div.className = 'col-lg-4 mb-4';
                 div.innerHTML = `
-                    <figure class="card video-card h-100 shadow-sm article-card fade-in-card" data-url="${v.youtube_url}" data-title="${v.title}">
+                    <figure class="card video-card shadow-sm article-card fade-in-card" data-url="${v.youtube_url}" data-title="${v.title}">
                         <img src="${v.youtube_image}" class="card-img-top" alt="${v.title}">
-                        <figcaption class="card-body">
-                            <small class="card-text text-muted">上架時間：${v.date}</small>
+                        <figcaption class="card-body" style="padding: 15px 30px;">                            
                             <h5 class="card-title">${v.title}</h5>
+                            <p class="card-text text-muted mb-0 pb-0">上架時間：${v.date}</p>
                         </figcaption>
                     </figure>
                 `;

@@ -5,7 +5,7 @@ from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger # 用�
 from collections import defaultdict, OrderedDict # 用於分群或累加資料 / 用於需要穩定排序的回傳資料
 from django.utils.html import escape # 用於轉義 HTML 字元，避免 XSS 攻擊
 from django.views.decorators.http import require_GET # 限制只能用 GET 方法存取的裝飾器
-import os, oracledb, datetime, re, time # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
+import os, oracledb, datetime, re, time, random # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
 
@@ -232,10 +232,10 @@ def refresh_captcha(request):
 
 # 連動官網-各科醫師個人介紹 txt 檔案
 dirs = [
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
-	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科'),
+	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科_Gynecology'),
+	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科_Gastroenterology'),
+	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科_FamilyMedicine'),
+	os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科_Orthopedic'),
 ]
 
 # 連動官網-相關文章、影音專區 txt 檔案及 txt 檔案中的圖片 (壓縮後-縮圖用)
@@ -871,6 +871,18 @@ def parse_doctor_txt(content):
 			result['image'] = line.replace('<img1>', '').strip()
 	return result
 
+# 後:從科別資料夾路徑中提取乾淨的中文科別名稱（例："8_家醫科_FamilyMedicine" -> "家醫科"）
+def get_clean_department_name(dir_path):
+	folder_name = os.path.basename(dir_path)
+	parts = folder_name.split('_')
+	return parts[1] if len(parts) > 1 else parts[0]
+
+# 後:從科別資料夾路徑中提取乾淨的英文科別名稱（例："8_家醫科_FamilyMedicine" -> "FamilyMedicine"）
+def get_clean_department_en(dir_path):
+	folder_name = os.path.basename(dir_path)
+	parts = folder_name.split('_')
+	return parts[2] if len(parts) > 2 else ''
+
 # 後:醫師「個人介紹」- 側邊選單：其他醫師
 @require_GET
 def doctor_sidenav_api(request):
@@ -884,8 +896,9 @@ def doctor_sidenav_api(request):
 		if not os.path.exists(dir_path):
 			continue  # 如果路徑不存在，跳過
 
-		# 提取科別名稱
-		department_name = os.path.basename(dir_path)
+		# 提取科別名稱與英文名稱
+		department_name = get_clean_department_name(dir_path)
+		department_en = get_clean_department_en(dir_path)
 
 		# 取得該科別下的所有醫師
 		doctors = []
@@ -898,14 +911,16 @@ def doctor_sidenav_api(request):
 					name_parts = name_title.split(' ')
 					name = name_parts[0]
 					job_title = name_parts[1] if len(name_parts) > 1 else ''
-					# 提取科別名稱並去掉前綴（如 "1_"
-					department_name = os.path.basename(dir_path).split('_', 1)[-1]
+					# 提取科別名稱
+					department_name = get_clean_department_name(dir_path)
+					department_en = get_clean_department_en(dir_path)
 
 					doctors.append({
 						'employee_id': emp_id,
 						'name': name,
 						'job_title': job_title,
 						'department': department_name,  # 加入科別名稱
+						'department_en': department_en,  # 加入英文科別名稱
 					})
 				except Exception as e:
 					print(f"錯誤解析 {doc_filename}：{e}")
@@ -917,6 +932,7 @@ def doctor_sidenav_api(request):
 		# 將該科別的醫師加入分類列表
 		sidenav_doctors_by_department.append({
 			'department': department_name,
+			'department_en': department_en,  # 加入英文科別名稱
 			'doctors': doctors,
 		})
 	
@@ -1172,9 +1188,9 @@ def doctor_list(request):
 
 	# 健檢中心專用科別路徑（排除骨科）
 	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科_Gynecology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科_Gastroenterology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科_FamilyMedicine'),
 	]
 
 	# 遍歷健檢中心相關科別路徑（排除骨科）
@@ -1182,8 +1198,9 @@ def doctor_list(request):
 		if not os.path.exists(dir_path):
 			continue  # 如果路徑不存在，跳過
 
-		# 提取科別名稱（從路徑中提取最後一層資料夾名稱）
-		department_name = os.path.basename(dir_path)
+		# 提取科別名稱與英文名稱
+		department_name = get_clean_department_name(dir_path)
+		department_en = get_clean_department_en(dir_path)
 
 		# 取得該科別下的所有醫師
 		doctors = []
@@ -1196,8 +1213,9 @@ def doctor_list(request):
 					name_parts = name_title.split(' ')
 					name = name_parts[0]
 					job_title = name_parts[1] if len(name_parts) > 1 else ''
-					# 提取科別名稱並去掉前綴（如 "1_"
-					department_name = os.path.basename(dir_path).split('_', 1)[-1]
+					# 提取科別名稱
+					department_name = get_clean_department_name(dir_path)
+					department_en = get_clean_department_en(dir_path)
 
 					with open(os.path.join(dir_path, doc_filename), 'r', encoding='utf-8') as f:
 						parsed = parse_doctor_txt(f.read())
@@ -1212,6 +1230,7 @@ def doctor_list(request):
 						'image': parsed['image'],
 						'image_webp': webp_image,
 						'department': department_name,  # 加入科別名稱
+						'department_en': department_en,  # 加入英文科別名稱
 					})
 				except Exception as e:
 					print(f"錯誤解析 {doc_filename}：{e}")
@@ -1223,6 +1242,7 @@ def doctor_list(request):
 		# 將該科別的醫師加入分類列表
 		doctors_by_department.append({
 			'department': department_name,
+			'department_en': department_en,  # 加入英文科別名稱
 			'doctors': doctors,
 		})
 
@@ -1247,9 +1267,9 @@ def doctor_profile(request, employee_id):
 
 	# 健檢中心專用科別路徑（排除骨科）
 	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科_Gynecology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科_Gastroenterology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科_FamilyMedicine'),
 	]
 
 	# 遍歷健檢中心相關科別路徑（排除骨科）
@@ -1269,8 +1289,9 @@ def doctor_profile(request, employee_id):
 				name = name_parts[0]
 				job_title = name_parts[1] if len(name_parts) > 1 else ''
 
-				# 提取科別名稱並去掉前綴（如 "1_"
-				department = os.path.basename(dir_path).split('_', 1)[-1]
+				# 提取科別名稱與英文名稱
+				department = get_clean_department_name(dir_path)
+				department_en = get_clean_department_en(dir_path)
 				break
 
 		if matched_file:
@@ -1308,12 +1329,14 @@ def doctor_profile(request, employee_id):
 					name_parts = name_title.split(' ')
 					d_name = name_parts[0]
 					d_title = name_parts[1] if len(name_parts) > 1 else ''
-					d_department = os.path.basename(dir_path).split('_', 1)[-1]  # 提取科別名稱並去掉前綴
+					d_department = get_clean_department_name(dir_path)  # 提取科別名稱並去掉前綴
+					d_department_en = get_clean_department_en(dir_path)  # 提取英文科別名稱
 					doctors.append({
 						'employee_id': emp_id,
 						'name': d_name,
 						'job_title': d_title,
 						'department': d_department,
+						'department_en': d_department_en,  # 加入英文科別名稱
 					})
 				except Exception as e:
 					print(f"醫師清單錯誤: {e}")
@@ -1331,6 +1354,7 @@ def doctor_profile(request, employee_id):
 		'name': name,
 		'job_title': job_title,
 		'department': department,  # 傳遞科別變數到模板
+		'department_en': department_en,  # 傳遞英文科別變數到模板
 		'employee_id': employee_id,
 		'expertise': parsed['expertise'],
 		'expertise_list': parsed['expertise_list'],
@@ -1646,9 +1670,9 @@ def get_health_center_doctor_ids():
 	應用：健檢中心的媒體報導、推薦文章等，不應包含骨科醫師
 	"""
 	health_dirs = [
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科'),
-		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科_Gynecology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科_Gastroenterology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科_FamilyMedicine'),
 	]
 	
 	ids = []

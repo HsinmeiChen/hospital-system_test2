@@ -18,11 +18,11 @@ function loadVideos(page=1) {
         res.videos.forEach(v => {
             videoList.append(`
                 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                    <figure class="card video-card h-100 shadow-sm article-card fade-in-card" data-url="${v.youtube_url}">
+                    <figure class="card video-card shadow-sm article-card fade-in-card" data-url="${v.youtube_url}">
                         <img src="${v.youtube_image}" class="card-img-top" alt="${v.title}">
-                        <figcaption class="card-body">
-                            <small class="card-text text-muted">上架時間：${v.date}</small>
-                            <h5 class="card-title">${v.title}</h5>                            
+                        <figcaption class="card-body" style="padding: 15px 30px;">
+                            <h5 class="card-title">${v.title}</h5>
+                            <p class="card-text text-muted mb-0 pb-0">上架時間：${v.date}</p>                          
                         </figcaption>
                     </figure>
                 </div>

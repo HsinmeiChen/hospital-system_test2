@@ -1,112 +1,0 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "Breast_Care_Center/breast-base.html" %}
-
-{% block title %}{{ treat_a_title }} - 治療項目-全方位乳房中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}{{ treat_a_title }} - 治療項目-全方位乳房中心{% endblock %}
-{% block meta_description %}{{ treat_summary }}...{% endblock %}
-{% block og_title %}{{ treat_a_title }} - 治療項目-全方位乳房中心 | {{ block.super }}{% endblock %}
-{% block og_description %}{{ treat_summary }}...{% endblock %}
-
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'Breast_Care_Center/breast-header.html' %}
-        </header>
-        {% spaceless %}
-        <main class="treat-article-detail">
-
-            <div>
-                <!-- ■■■ Banner、Bread-crumbs ■■■ -->
-                <section class="section-grid">
-                    <div>
-                        <ul class="bc-nav">
-                            <li><a href="{% url 'breast_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                            <li><a href="{% url 'breast_treatment_list' %}">治療項目</a></li>
-                            <li>{{ treat_title }}</li>
-                        </ul>
-                    </div>
-                </section>
-                <!-- ■■■ Treament-Articles ■■■ -->
-                <section class="section-grid shadow-4">             
-                    <div class="row pb-4">
-                        <!-- (1)、側邊選單-治療項目列表 -->
-                        <aside class="col-xl-3 fade-in-card">
-                            <input type="checkbox" id="menu-toggle" />
-                            <label for="menu-toggle" class="menu-icon">☰ 其他治療項目</label>
-                            <nav class="sidenav">
-                                <div class="menu-heading">
-                                    <span>治療項目 </span>
-                                    <small>Medical Services</small>
-                                </div>
-                                <div id="treatment-sidenav" class="treatment-sidenav"></div>
-                            </nav>
-                        </aside>
-                        <!-- (2)、治療項目介紹 -->
-                        <section class="col-xl-9 fade-in-card">
-                            <div class="pb-2">
-                                <h1 class="article_h">{{ treat_a_title }}</h1>                    
-                                <div class="article-body">
-
-                                    {% for block in blocks %}
-                                        {% if block.type == 'h3' %}
-                                            <h3 class="{{ block.class }}">{{ block.text }}</h3>
-                                        {% elif block.type == 'h4' %}
-                                            <h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
-                                        {% elif block.type == 'p' %}
-                                            <p class="{{ block.class }}">{{ block.text|safe }}</p>
-                                        {% elif block.type == 'img' %}
-                                            <div class="{{ block.class }}">
-                                                <img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy" class="w-100">
-                                            </div>
-                                        {% elif block.type == 'div' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% elif block.type == 'blockquote' %}
-                                            <div class="{{ block.class }}">
-                                                <div class="quo-txt">{{ block.text|safe }}</div>
-                                                <div class="logotxt">長安醫院，關心你</div>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    
-                </section>
-            </div>
-
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script src="{% static 'apps/breast_care_center/js/b-sidenav-loader.js' %}"></script>
-<script src="{% static 'apps/breast_care_center/js/b-treat-article-detail.js' %}"></script>
-{% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->

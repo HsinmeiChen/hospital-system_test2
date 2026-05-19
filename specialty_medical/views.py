@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from collections import defaultdict # 分群套件
 from Pomelo_test.utils import convert_image_to_webp, append_hash_to_filenames
+from health_edu.views import MyPaginator, remove_duplicate_items, get_image_name, get_time_str
 import os, datetime, pymssql, re, glob, calendar, time, smtplib, openpyxl
 
 try:
@@ -161,7 +162,7 @@ class PLSQLAPI:
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # 共用資料夾路徑：醫師-個人介紹
-dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科')
+dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '1_骨科_Orthopedic')
 
 # 共用資料夾路徑：醫師-最新消息、相關文章、影音專區
 NEWS_FOLDER = os.path.join(settings.MEDIA_ROOT, 'news_1')
@@ -1578,7 +1579,7 @@ def health_film(request):
 # 後: 衛教園地 - 分組資料並進行排序 (取得的資料可給 health_edu_api 及 ort_health_edu 使用)
 def get_health_edu_items():
 	"""取得衛教園地分組後的資料（list of (title, [images])）"""
-	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科', '骨科')
+	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '骨科_Orthopedic')
 	image_files = [f for f in os.listdir(base_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
 	grouped_images = defaultdict(list)
@@ -1604,7 +1605,7 @@ def health_edu_api(request):
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, per_page)
 	page_obj = paginator.get_page(page)
-	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科/骨科/'
+	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/骨科_Orthopedic/'
 	data = [{
 		'title': title,
 		'images': [media_url + img for img in images],
@@ -1618,13 +1619,160 @@ def health_edu_api(request):
 
 # ==================== 前端模板 ====================
 def ort_health_edu(request):
-	all_items, base_path = get_health_edu_items()
-	paginator = Paginator(all_items, 8)
-	page_number = request.GET.get('page')
-	page_obj = paginator.get_page(page_number)
+	_dir = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '骨科_Orthopedic')
+	if not os.path.exists(_dir):
+		context = {
+			'showfile': '外科',
+			'sub_item_chinese': '骨科',
+			'sub_item_en': 'Orthopedic',
+			'message_lists_cut': [],
+			'contacts_2': None,
+			'paginator_2': None,
+			'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png"
+		}
+		return render(request, 'specialty_medical/orthopedics/health-edu.html', context)
+
+	pic_lists = []
+	message_lists = []
+	data = os.listdir(_dir)
+
+	i = 0
+	for file in data:
+		if ".jpg" in file.lower() and '_' in file:
+			file_path = os.path.join(_dir, file)
+			unix_time = os.path.getmtime(file_path)
+			datetimeObj = datetime.datetime.fromtimestamp(unix_time)
+			dateStr = datetimeObj.strftime('%Y-%m-%d')
+
+			pic_lists.append(file.split("_"))
+			pic_lists[i].insert(0, "D00" + str(i))
+			pic_lists[i].append(file)
+			pic_lists[i].append(dateStr)
+			i += 1
+	pic_lists.sort(key=get_image_name)
+
+	for p in pic_lists:
+		temp_arr = []
+		for f in pic_lists:
+			if get_image_name(p) in f[1]:
+				temp_arr.append(f[3])
+		import hashlib
+		name_hash = hashlib.md5(get_image_name(p).encode('utf-8')).hexdigest()[:8]
+		message_lists.append({
+			"index": p[0],
+			"name": get_image_name(p),
+			"hash": name_hash,
+			"arr": temp_arr,
+			"time": get_time_str(p)
+		})
+	message_lists = remove_duplicate_items(message_lists, "name")
+	message_lists.sort(key=lambda x: (x["time"], x["name"]), reverse=True)
+
+	page_limit = 12
+	paginator_2 = MyPaginator(message_lists, page_limit)
+	page_2 = request.GET.get('page', 1)
+	contacts_2 = paginator_2.page(page_2)
+
+	message_lists_cut = contacts_2
+	MEDIA_URL = settings.MEDIA_URL
 	context = {
-		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科/骨科/',
-		'page_obj': page_obj,
+		'showfile': '外科',
+		'sub_item_chinese': '骨科',
+		'sub_item_en': 'Orthopedic',
+		'message_lists_cut': message_lists_cut,
+		'contacts_2': contacts_2,
+		'paginator_2': paginator_2,
+		'MEDIA_URL': MEDIA_URL,
 		'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png"
 	}
 	return render(request, 'specialty_medical/orthopedics/health-edu.html', context)
+
+
+def ort_health_edu_detail(request, title_name):
+	_dir = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '骨科_Orthopedic')
+	if not os.path.exists(_dir):
+		return redirect('/specialty_medical/ort-health-edu/')
+
+	# 尋找與傳入 hash 值相符的中文標題
+	import hashlib
+	real_title = None
+	all_files = os.listdir(_dir)
+	for file in all_files:
+		if file.lower().endswith('.jpg') and '_' in file:
+			prefix = file.split('_')[0]
+			computed_hash = hashlib.md5(prefix.encode('utf-8')).hexdigest()[:8]
+			if computed_hash == title_name:
+				real_title = prefix
+				break
+
+	# 備案：若傳入的本來就是中文標題 (相容舊網址)
+	if not real_title:
+		for file in all_files:
+			if file.lower().endswith('.jpg') and file.startswith(title_name + '_'):
+				real_title = title_name
+				break
+
+	# 若皆找不到，導回列表頁
+	if not real_title:
+		return redirect('/specialty_medical/ort-health-edu/')
+
+	jpg_files = []
+	for file in all_files:
+		if file.lower().endswith('.jpg') and file.startswith(real_title + '_'):
+			jpg_files.append(file)
+
+	# 按照 page 序號排序
+	def get_suffix_num(filename):
+		parts = filename.split("_")
+		if len(parts) > 1:
+			suffix = os.path.splitext(parts[1])[0] # e.g. "page-0001"
+			nums = re.findall(r'\d+', suffix)
+			if nums:
+				return int(nums[0])
+		return 9999
+
+	jpg_files.sort(key=get_suffix_num)
+
+	# 進行 webp 轉換並將連結加入
+	_webp_dir = os.path.join(_dir, 'webp')
+	os.makedirs(_webp_dir, exist_ok=True)
+
+	image_list = []
+	for file in jpg_files:
+		jpg_path = os.path.join(_dir, file)
+		base_name = os.path.splitext(file)[0]
+		webp_name = base_name + '.webp'
+		webp_path = os.path.join(_webp_dir, webp_name)
+
+		# 進行轉換
+		has_webp = True
+		if not os.path.exists(webp_path):
+			try:
+				from PIL import Image
+				with Image.open(jpg_path) as img:
+					img.save(webp_path, 'WEBP', quality=85)
+			except Exception as e:
+				has_webp = False
+
+		MEDIA_URL = settings.MEDIA_URL
+		jpg_url = f"{MEDIA_URL}health_edu/Doc/1_外科_Surgery/骨科_Orthopedic/{file}"
+		if has_webp:
+			webp_url = f"{MEDIA_URL}health_edu/Doc/1_外科_Surgery/骨科_Orthopedic/webp/{webp_name}"
+		else:
+			webp_url = jpg_url
+
+		image_list.append({
+			'jpg_url': jpg_url,
+			'webp_url': webp_url,
+			'has_webp': has_webp
+		})
+
+	return render(request, "specialty_medical/orthopedics/health-edu-detail.html", {
+		'showfile': '外科',
+		'sub_item_chinese': '骨科',
+		'sub_item_en': 'Orthopedic',
+		'title_name': real_title,
+		'image_list': image_list,
+		'MEDIA_URL': MEDIA_URL,
+		'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png"
+	})

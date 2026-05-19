@@ -1,81 +1,246 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "specialty_medical/base.html" %}
-
-{% block title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}衛教園地 | 長安骨科微創手術中心{% endblock %}
-{% block meta_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
-{% block og_title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block og_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
-
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
-        </header>
-        {% spaceless %}
-        <main>
-            <!-- ■■■ Banner、bread-crumbs ■■■ -->
-            <section class="top-banner-grid">
-                <div class="page-banner">
-                    <div class="page-banner-inner fade-in-card">
-                        <!-- (1)、Title -->
-                        <div class="page-banner-title-div">
-                            <div class="page-banner-title">衛教園地</div>
-                            <div class="page-banner-title-en">Health Education</div>
-                        </div>
-                        <!-- (2)、Bread-crumbs -->
-                        <div>
-                            <ul class="bc-nav">
-                                <li><a href="/specialty_medical/ort-main/"><i class="fas fa-home"></i> 首頁</a></li>
-                                <li>衛教園地</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- ■■■ Health-Edu ■■■ -->
-
-            <section class="main-bg">
-                <div class="section-grid health-edu">
-                    <!-- (1)、Health-Edu -->
-                    <div class="row" id="edu-list"></div>
-                    <!-- (2)、Pagination -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center" id="pagination-list"></ul>
-                    </nav>
-                </div>            
-            </section>
-
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script src="{% static 'apps/specialty_medical/js/health-edu.js' %}"></script>
-{% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->
+{% extends "specialty_medical/base.html" %}
+
+{% block title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
+{% block title_1 %}衛教園地 | 長安骨科微創手術中心{% endblock %}
+{% block meta_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
+{% block og_title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
+{% block og_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <!-- ▼▼▼ GA ▼▼▼ -->
+    {% include 'GA_noscript.html' %}
+    <!-- ▲▲▲ GA End ▲▲▲ -->
+
+    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+    <div class="wrapper">
+        <!-- ■■■ Logo、Navbar ■■■ -->
+        <header>
+			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
+        </header>
+        {% spaceless %}
+        <main>
+            <!-- ■■■ Banner、bread-crumbs ■■■ -->
+            <section class="top-banner-grid">
+                <div class="page-banner">
+                    <div class="page-banner-inner fade-in-card">
+                        <!-- (1)、Title -->
+                        <div class="page-banner-title-div">
+                            <div class="page-banner-title">衛教園地</div>
+                            <div class="page-banner-title-en">Health Education</div>
+                        </div>
+                        <!-- (2)、Bread-crumbs -->
+                        <div>
+                            <ul class="bc-nav">
+                                <li><a href="/specialty_medical/ort-main/"><i class="fas fa-home"></i> 首頁</a></li>
+                                <li>衛教園地</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ■■■ Health-Edu ■■■ -->
+            <section class="main-bg">
+                <div class="section-grid health-edu">
+                    <!-- 衛教文件卡片網格 -->
+                    <div class="row">
+                        {% for m in message_lists_cut %}
+                            <div class="col-12 col-md-6 col-lg-4 mt-4 fade-in-card">
+                                <a href="{% url 'ort_health_edu_detail' title_name=m.hash %}" class="article-card-link">
+                                    <div class="article-card-btn d-flex flex-column h-100">
+                                        <div class="badge-wrapper">
+                                            <span class="badge-dept">{{ sub_item_chinese }}</span>
+                                            <span class="badge-main-cat"><i class="fas fa-hospital"></i> {{ showfile }}</span>
+                                        </div>
+                                        <h4 class="article-title my-2">{{ m.name }}</h4>
+                                        <div class="mt-auto pt-3 d-flex align-items-center justify-content-between">
+                                            <small class="text-muted"><i class="far fa-calendar-alt mr-1"></i> {{ m.time }}</small>
+                                            <span class="article-arrow-wrapper">
+                                                <i class="fas fa-arrow-right"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <div class="col-12 py-5 text-center bg-white border border-light">
+                                <i class="fas fa-folder-open font-40 text-muted mb-3"></i>
+                                <p class="text-muted mb-0">此科別目前尚無上傳衛教文章。</p>
+                            </div>
+                        {% endfor %} 
+                    </div>
+
+                    <!-- 分頁功能 -->
+                    {% if paginator_2.count > paginator_2.per_page %}
+                    <div class="row mt-4">
+                        <div class="col-12 d-flex justify-content-center align-items-center">
+                            <ul class="pagination align-items-center">
+                                <!-- << First Page -->
+                                <li class="page-item {% if not contacts_2.has_previous %}disabled{% endif %}">
+                                    <a class="page-link" href="?page=1" aria-label="First">«</a>
+                                </li>
+                                
+                                <!-- < Previous Page -->
+                                <li class="page-item {% if not contacts_2.has_previous %}disabled{% endif %}">
+                                    <a class="page-link" href="?page={% if contacts_2.has_previous %}{{ contacts_2.previous_page_number }}{% else %}1{% endif %}" aria-label="Previous">‹</a>
+                                </li>
+
+                                <!-- Dropdown Selection (第 {{ 頁碼 }} 頁) -->
+                                <li class="page-item">
+                                    <select class="form-control pagination-select" onchange="location.href='?page='+this.value;" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white); padding: 0 10px;">
+                                        {% for p in paginator_2.page_range %}
+                                            <option value="{{ p }}" {% if p == contacts_2.number %}selected{% endif %}>第 {{ p }} 頁</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+
+                                <!-- > Next Page -->
+                                <li class="page-item {% if not contacts_2.has_next %}disabled{% endif %}">
+                                    <a class="page-link" href="?page={% if contacts_2.has_next %}{{ contacts_2.next_page_number }}{% else %}{{ paginator_2.num_pages }}{% endif %}" aria-label="Next">›</a>
+                                </li>
+
+                                <!-- >> Last Page -->
+                                <li class="page-item {% if not contacts_2.has_next %}disabled{% endif %}">
+                                    <a class="page-link" href="?page={{ paginator_2.num_pages }}" aria-label="Last">»</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>            
+            </section>
+
+        </main>
+        {% endspaceless %}
+    </div>
+    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+    <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% include 'footer-2.html' %}
+    <!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+<style>
+/* 衛教園地科別頁客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+.article-card-link {
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.article-card-btn {
+    flex-grow: 1; /* 強制填滿剩餘高度 */
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 !important; /* 強制直角 */
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.article-card-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--color-primary, #75482b);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.article-card-link:hover .article-card-btn {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
+    border-color: var(--color-primary, #75482b);
+}
+
+.article-card-link:hover .article-card-btn::before {
+    opacity: 1;
+}
+
+.badge-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.badge-dept {
+    background-color: #f7f7f7;
+    color: var(--color-primary, #75482b);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 0; /* 直角 */
+    border: 1px solid #ffdec9;
+}
+
+.badge-main-cat {
+    color: #888;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-main-cat i {
+    margin-right: 4px;
+}
+
+.article-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+    
+    /* 限制最多兩行並自動截斷 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    /* 固定最小高度，確保單行或兩行標題時卡片高度完全齊平 */
+    min-height: 3.36rem; 
+}
+
+.article-card-link:hover .article-title {
+    color: var(--color-primary, #75482b);
+}
+
+.article-arrow-wrapper {
+    color: #ccc;
+    font-size: 1.1rem;
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.article-card-link:hover .article-arrow-wrapper {
+    transform: translateX(0);
+    opacity: 1;
+    color: var(--color-primary, #75482b);
+}
+</style>
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

@@ -2416,7 +2416,7 @@ def convert_about_image_to_webp(original_filename):
 # --- [ Mapping Cache 對照表快取機制] ---
 _DEPT_DR_MAP_CACHE = None
 
-def _get_dept_dr_map():
+def _get_dept_dr_map(): # 取得科別與醫師對照表（動態掃描並快取）
 	global _DEPT_DR_MAP_CACHE
 	if _DEPT_DR_MAP_CACHE is not None:
 		return _DEPT_DR_MAP_CACHE
@@ -3200,7 +3200,7 @@ def A002_consultation_progress(request):
 
 	# 格式化 now 為顯示用
 	now_display = datetime.datetime.now()
-	now_display = datetime.datetime.strftime(now_display, "%Y-%m-%d %H:%M:%S")
+	now_display = datetime.datetime.strftime(now_display, "%H:%M:%S")
 	
 	return render(request, "consultation_progress.html", {
 		'modals': modals,

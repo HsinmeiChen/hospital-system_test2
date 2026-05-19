@@ -3,8 +3,9 @@
 {% load static %}
 
 <!-- === Meta ================================== -->
-{% block title %}看診進度 | {{ block.super }}{% endblock %}
-{% block og_title %}看診進度 | {{ block.super }}{% endblock %}
+{% block title %}看診進度｜{{ block.super }}{% endblock %}
+{% block og_title %}看診進度｜{{ block.super }}{% endblock %}
+{% block twitter_title %}看診進度｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -101,82 +102,93 @@
     <h2 class="c-onsale-heading">看診進度</h2>
 </header>
 <div class="l-main-content__body">
-	<div>
-		<div class="see_memo">
-			<div class="media">
-				<div>
+	<div class="see_memo">
+
+		<div class="row">
+
+				<!-- 早、午、晚診 按鈕 -->
+				<div class="col-lg-4">
 					<ul class="nav nav-pills nav-fill font-weight-bold" role="tablist">
 					{% if now_status == "1" %}
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mor_a">
-							<input type="submit" name="shiftno_h" class="nav-link active" value="早診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mx-2 noon_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="午診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item night_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="晚診">
-						</li>
-					</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mor_a">
+								<input type="submit" name="shiftno_h" class="nav-link active" value="早診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mx-2 noon_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="午診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item night_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="晚診">
+							</li>
+						</form>
 					{% elif now_status == "2" %}
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mor_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="早診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mx-2 noon_a">
-							<input type="submit" name="shiftno_h" class="nav-link active" value="午診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item night_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="晚診">
-						</li>
-					</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mor_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="早診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mx-2 noon_a">
+								<input type="submit" name="shiftno_h" class="nav-link active" value="午診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item night_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="晚診">
+							</li>
+						</form>
 					{% elif now_status == "3" %}
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mor_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="早診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item mx-2 noon_a">
-							<input type="submit" name="shiftno_h" class="nav-link" value="午診">
-						</li>
-					</form>
-					<form action="" method="GET" class="flex-fill">
-						<li class="nav-item night_a">
-							<input type="submit" name="shiftno_h" class="nav-link active" value="晚診">
-						</li>
-					</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mor_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="早診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item mx-2 noon_a">
+								<input type="submit" name="shiftno_h" class="nav-link" value="午診">
+							</li>
+						</form>
+						<form action="" method="GET" class="flex-fill">
+							<li class="nav-item night_a">
+								<input type="submit" name="shiftno_h" class="nav-link active" value="晚診">
+							</li>
+						</form>
 					{% endif %}
 					</ul>
 					<div class="text_memo">最近更新時間 (每3分鐘更新一次)：{{ now }}</div>
 				</div>
-				<div class="media-body align-self-center">
-					<div class="see_time">看診時間
-						<br class="d-block d-sm-none">
-						<span class="morning">診</span> 08:30~12:00
-						<br class="d-block d-sm-none">
-						<span class="afteroon">診</span> 13:30~17:00
-						<br class="d-block d-sm-none">
-						<span class="evening">診</span> 17:30~21:00
-					</div>
-					<div class="text-danger">
-						<strong>提醒您！</strong> 看診進度為參考值，實際現場進度為主，若有疑問請洽診間，謝謝。
+
+				<!-- 看診說明 -->
+				<div class="col-lg-8">
+					<div class="clinic-guide">
+						<div class="see_time mb-1">看診時間
+							<br class="d-block d-sm-none">
+							<span class="morning">診</span> 08:30~12:00
+							<br class="d-block d-sm-none">
+							<span class="afteroon">診</span> 13:30~17:00
+							<br class="d-block d-sm-none">
+							<span class="evening">診</span> 17:30~21:00
+						</div>
+						<div class="clinic-guide-text">
+						提醒您！看診進度為參考值，實際現場進度為主，若有疑問請洽診間，謝謝。
+						</div>
 					</div>
 				</div>
-			</div>
-			<div>
-				<!-- Tab panes -->
-				<div class="tab-content">
-					{% if now_status == "1" %}
-					<div id="menu1" class="tab-pane active">
+
+		</div>
+
+		<hr class="my-2" />
+
+		<div>
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<!-- 早診 -->
+				{% if now_status == "1" %}
+				<div id="menu1" class="tab-pane active">
 						<div class="my-3 px-1"></div>
 						<div class="Div_out morning_which_doc">
 							{% for number_list in number_lists %}
@@ -188,16 +200,16 @@
 													<div class="d-inline-flex see_title mor_a">
 														<h5>{{ number_list.1 }}</h5>
 													</div>
-													<div class="media d-flex mt-3 mb-2">
-														<div class="media-body see_num" style="border-left: 0px solid !important;">
+													<div class="media d-flex">
+														<div class="media-body see_num">
 															<h3 class="see_room_no">{{ number_list.0|slice:"3" }}</h3>
 															<span>診間</span>
 														</div>
-														<div class="media-body see_num px-3">
+														<div class="media-body see_num">
 															<h3>{{ number_list.2 }}</h3>
 															<span>醫師</span>
 														</div>
-														<div class="media-body see_num px-1">
+														<div class="media-body see_num">
 															<h3 class="see_num_no">{{ number_list.3|default:"" }}</h3>
 															<span>目前診號</span>
 														</div>
@@ -212,9 +224,10 @@
 								</div>
 							{% endfor %}
 						</div>
-					</div>
-					{% elif now_status == "2" %}
-					<div id="menu1" class="tab-pane active">
+				</div>
+				<!-- 午診 -->
+				{% elif now_status == "2" %}
+				<div id="menu1" class="tab-pane active">
 						<div class="my-3 px-1"></div>
 						<div class="Div_out noon_which_doc">
 							{% for number_list in number_lists %}
@@ -224,218 +237,76 @@
 											<div class="card-content">
 												<div class="card-body p-0">
 													<div class="d-inline-flex see_title noon_a">
-
-
 														<h5>{{ number_list.1 }}</h5>
-
-
 													</div>
-
-
-													<div class="media d-flex mt-3 mb-2">
-
-
-														<div class="media-body see_num" style="border-left: 0px solid !important;">
-
-
+													<div class="media d-flex">
+														<div class="media-body see_num">
 															<h3 class="see_room_no">{{ number_list.0|slice:"3" }}</h3>
-
-
 															<span>診間</span>
-
-
 														</div>
-
-
-														<div class="media-body see_num px-3">
-
-
+														<div class="media-body see_num">
 															<h3>{{ number_list.2 }}</h3>
-
-
 															<span>醫師</span>
-
-
 														</div>
-
-
-														<div class="media-body see_num px-1">
-
-
+														<div class="media-body see_num">
 															<h3 class="see_num_no">{{ number_list.3|default:"" }}</h3>
-
-
 															<span>目前診號</span>
-
-
 														</div>
-
-
 													</div>
-
-
 												</div>
-
-
 												<div class="card-footer p-0">
-
-
 													<div class="see_detail btn noon_c" data-toggle="modal" data-target="#M{{ number_list.4 }}">詳細資料</div>
-
-
 												</div>
-
-
 											</div>
-
-
 										</div>
-
-
 									</div>
-
-
 								</div>
-
-
 							{% endfor %}
-
-
 						</div>
-
-
-					</div>
-
-
-					{% elif now_status == "3" %}
-
-
-					<div id="menu1" class="tab-pane active">
-
-
-						<div class="my-3 px-1"></div>
-
-
-						<div class="Div_out night_which_doc">
-
-
-							{% for number_list in number_lists %}
-
-
-							<div class="Div_box">
-
-
-								<div class="Div_body">
-
-
-									<div class="card rounded-0">
-
-
-										<div class="card-content">
-
-
-											<div class="card-body p-0">
-
-
-												<div class="d-inline-flex see_title night_a">
-
-
-													<h5>{{ number_list.1 }}</h5>
-
-
-												</div>
-
-
-												<div class="media d-flex mt-3 mb-2">
-
-
-													<div class="media-body see_num" style="border-left: 0px solid !important;">
-
-
-														<h3 class="see_room_no">{{ number_list.0|slice:"3" }}</h3>
-
-
-														<span>診間</span>
-
-
-													</div>
-
-
-													<div class="media-body see_num px-3">
-
-
-														<h3>{{ number_list.2 }}</h3>
-
-
-														<span>醫師</span>
-
-
-													</div>
-
-
-													<div class="media-body see_num px-1">
-
-
-														<h3 class="see_num_no">{{ number_list.3|default:"" }}</h3>
-
-
-														<span>目前診號</span>
-
-
-													</div>
-
-
-												</div>
-
-
-											</div>
-
-
-											<div class="card-footer p-0">
-
-
-												<div class="see_detail btn night_c" data-toggle="modal" data-target="#M{{ number_list.4 }}">詳細資料</div>
-
-
-											</div>
-
-
-										</div>
-
-
-									</div>
-
-
-								</div>
-
-
-							</div>
-
-
-							{% endfor %}
-
-
-						</div>
-
-
-					</div>
-
-
-					{% endif %}
-
-
 				</div>
-
-
+				<!-- 晚診 -->
+				{% elif now_status == "3" %}
+				<div id="menu1" class="tab-pane active">
+						<div class="my-3 px-1"></div>
+						<div class="Div_out night_which_doc">
+							{% for number_list in number_lists %}
+							<div class="Div_box">
+								<div class="Div_body">
+									<div class="card rounded-0">
+										<div class="card-content">
+											<div class="card-body p-0">
+												<div class="d-inline-flex see_title night_a">
+													<h5>{{ number_list.1 }}</h5>
+												</div>
+												<div class="media d-flex">
+													<div class="media-body see_num">
+														<h3 class="see_room_no">{{ number_list.0|slice:"3" }}</h3>
+														<span>診間</span>
+													</div>
+													<div class="media-body see_num">
+														<h3>{{ number_list.2 }}</h3>
+														<span>醫師</span>
+													</div>
+													<div class="media-body see_num">
+														<h3 class="see_num_no">{{ number_list.3|default:"" }}</h3>
+														<span>目前診號</span>
+													</div>
+												</div>
+											</div>
+											<div class="card-footer p-0">
+												<div class="see_detail btn night_c" data-toggle="modal" data-target="#M{{ number_list.4 }}">詳細資料</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+				</div>
+				{% endif %}
 			</div>
-
-
 		</div>
-
-
 	</div>
-
-
 </div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
@@ -449,6 +320,32 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.nav-item > input{
+		width:100%;
+	}
+	.clinic-guide{
+		align-self: center;					
+		border-top: 1px solid var(--color-border-light);
+		margin-top: 10px;
+		padding: 10px 10px 0 10px;
+		text-align: center;			
+	}
+	.clinic-guide-text{
+		font-size: .9rem;
+		color: red;
+		font-weight: bold;
+	}
+	@media (min-width: 1200px) {
+		.clinic-guide{
+			border-top: none;
+			border-left: 1px solid var(--color-border-light);
+			line-height: 30px;
+			padding: 0 25px;
+			text-align: left;	
+		}
+	}
+</style>
 {% endblock %}
 
 
