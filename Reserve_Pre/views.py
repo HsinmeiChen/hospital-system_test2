@@ -114,6 +114,7 @@ def A007_Reserve_pre_reserve(request):
 	data_info = request.session.get("data_info")
 	breakdata = request.session.get("breakdata")
 	stop_date = request.session.get("stop_date")
+	mark = request.session.get("mark") # 115/05/19 新增
 	#-----------拿出資訊--------------------------
 
 	# breaktime = len(breakdata)

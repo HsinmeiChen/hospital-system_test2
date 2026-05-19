@@ -5,7 +5,7 @@
 {% block content %}
     {% block page_modals %}{% endblock %} <!-- 存放 Modal -->
     <div class="l-wrapper l-sub__bg">
-        <header>
+        <header class="l-sub-header-group">
             {% include 'header.html' %}
             <div class="online_nav_bg">
                 <div class="online_nav">
@@ -34,6 +34,15 @@
             <style>
                 body.swal2-height-auto{
                     height: 100% !important;
+                }
+                .l-sub-header-group {
+                    display: contents;
+                }
+                .online_nav_bg {
+                    position: -webkit-sticky;
+                    position: sticky;
+                    top: var(--header-height, 70px);
+                    z-index: 9;
                 }
             </style>
         </header>

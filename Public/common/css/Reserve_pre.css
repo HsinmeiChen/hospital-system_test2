@@ -400,12 +400,19 @@ input[type="radio"].c-radio-table__radio {
     line-height: 25px;
     font-weight: bold;
     text-align: center;
-    color: #754826;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+.c-radio-table__label:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg-white);
+    border-color: var(--color-primary);
 }
 input[type="radio"].c-radio-table__radio:checked + .c-radio-table__label {
-    color: #ffffff;
-    background-color: #75482b;
-    border-color: #75482b;
+    color: var(--color-bg-white);
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 /* 【----- 各科細項-預約成功 -----】 */
 .message-icon{
@@ -539,8 +546,7 @@ input[type="radio"].c-radio-table__radio:checked + .c-radio-table__label {
 .Cancel_data .css_th{
     text-align-last: justify;
     text-align: justify;
-    text-align: distribute-all-lines;
-    width: 130px;
+    width: 150px;
     padding: 5px 10px;
 }
 
