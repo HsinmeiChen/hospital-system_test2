@@ -3845,8 +3845,12 @@ def A006_Online_Booking_0(request):
 					return redirect("/A006_Online_Booking_first/")
 				else:
 					del request.session["referrer"]
-
+					# 如果前一網頁是預約確認頁但目前沒有預約資料，則導向選單頁 (115/05/19 新增)
+					if "A006_Online_Booking_check" in referrer and not "A006_user_visitdt" in request.session:
+						return redirect("/A006_Online_Booking_0_0/")
 					return redirect(referrer)
+
+					# --- (115/05/19) ---
 		else:
 			if ("first" in request.GET):
 				A006_first = request.GET.get("first", None)
@@ -4029,6 +4033,24 @@ def A006_Online_Booking_check(request):
 		request.session["referrer"] = str(url)
 		return redirect("/A006_Online_Booking_0/")
 
+	# 檢查是否有預約日期等必要資訊，若無則轉回掛號首頁 (115/05/19 新增)
+	if not ("A006_user_visitdt" in request.session):
+		return redirect("/A006_Online_Booking_0/")
+
+	# 複診病人必須要先登入才有 patid (115/05/19 新增)
+	if (request.session.get("A006_first") == "0") and not ("A006_patid" in request.session):
+		return redirect("/A006_Online_Booking_login/")
+
+	# 預先定義變數以避免 UnboundLocalError  (115/05/19 新增)
+	stop_reserve_on = False
+	repeat_data_on = False
+	specialSectno = False
+	pat_data = None
+	pat_name = ""
+	pat_id = ""
+	# --- (115/05/19 新增) ---
+
+
 	if (request.session["A006_first"] == "0"):
 		visitdt = request.session["A006_user_visitdt"]
 		n_visitdt = visitdt[:4] + "-" + visitdt[4:6] + "-" + visitdt[6:8]
@@ -4134,13 +4156,21 @@ def A006_Online_Booking_check(request):
 # 網路掛號_掛號資料查詢、取消
 def A006_Online_Booking_data(request):
 	A006_True = "True"
+	n_data = []  # 115/05/19 新增初始化預設值，防範 UnboundLocalError
+	no_patid = False  # 115/05/19 新增初始化預設值，防範 UnboundLocalError
 	# if not ("A006_first" in request.session):
 	# 	url = request.get_full_path()
 	# 	request.session["referrer"] = str(url)
 	# 	return redirect("/A006_Online_Booking_0/")
 
 	# 20250922 新增初診掛號顯示判斷，若為臨時病歷號，則顯示需要先去填寫初診單
-	# 如果有抓到正確的診號，則彈出取到的診號
+
+	# 如果有抓到正確的診號，則彈出取到的診號 (115/05/19 新增)
+	showalert = None
+	visitno = None
+	showfancybox = None
+	# --- (115/05/19) ---
+
 	if ("visitno" in request.GET):
 		visitno = request.GET.get("visitno")
 		visitno = int(int(visitno) / 10)
@@ -4196,15 +4226,19 @@ def A006_Online_Booking_data(request):
 		return redirect("/A006_Online_Booking_login/")
 
 	# 20250922 新增初診掛號顯示判斷，Patient_Guide_2_3_v2
-	showalert = None
-	visitno = None
-	showfancybox = None
-	if 'showalert' in locals():
-		showalert = locals().get('showalert')
-	if 'visitno' in locals():
-		visitno = locals().get('visitno')
-	if 'showfancybox' in locals():
-		showfancybox = locals().get('showfancybox')
+
+	# --- (115/05/19 移除此段) ---
+	# showalert = None
+	# visitno = None
+	# showfancybox = None
+	# if 'showalert' in locals():
+	# 	showalert = locals().get('showalert')
+	# if 'visitno' in locals():
+	# 	visitno = locals().get('visitno')
+	# if 'showfancybox' in locals():
+	# 	showfancybox = locals().get('showfancybox')
+	# --- (115/05/19 移除此段 End) ---
+
 	return render(request, "Patient_Guide/Patient_Guide_2_3.html", {
 		'A006_True': A006_True,
 		'showalert': showalert,

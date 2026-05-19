@@ -5,20 +5,12 @@
 <!-- === Meta ================================== -->
 {% block title %}掛號查詢與取消｜網路掛號｜{{ block.super }}{% endblock %}
 {% block og_title %}掛號查詢與取消｜網路掛號｜{{ block.super }}{% endblock %}
+{% block twitter_title %}掛號查詢與取消｜網路掛號｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block guide_content %}
-<!-- ▼▼▼ Content ▼▼▼-->
-<div {% if showalert %} onload="show_visitno('{{ visitno }}');" {% endif %}>
-
-<header id="content_h">
-    <h2 class="c-onsale-heading">掛號查詢與取消</h2>
-</header>
-<div class="l-main-content__body">
-
-<!-- ======= 本頁 Modal Area ======= -->
-		{% for d in n_data %}
+{% block page_modals %}
+{% for d in n_data %}
 			<div id="dialog-content-{{ d.2 }}-{{ d.8 }}" class="Cancel_data">
 				<div class="message-icon message-warning message-icon-show">
 					<div class="message-icon-content">!</div>
@@ -83,8 +75,16 @@
 			    </div>
 			</div>
 		</div>
-<!-- ======= 本頁 Modal Area End ======= -->
+{% endblock %}
 
+
+
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">掛號查詢與取消</h2>
+</header>
+<div class="l-main-content__body">
 		<div>
 			<!-- <div class="text-right text-info font-weight-bold" style="font-size: 18px;line-height: 30px;">註：若診號為「等待」狀態，請重新整理頁面 </div> -->
 			<table class="rwd-table">
@@ -168,8 +168,6 @@
 		{% endif %} -->
 
 </div>
-
-</div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
@@ -206,6 +204,13 @@
 	        closeButton: "inside"
 	      }
 	    }]);
+	  });
+	</script>
+	{% endif %}
+	{% if showalert %}
+	<script>
+	  document.addEventListener("DOMContentLoaded", function () {
+	    show_visitno('{{ visitno }}');
 	  });
 	</script>
 	{% endif %}

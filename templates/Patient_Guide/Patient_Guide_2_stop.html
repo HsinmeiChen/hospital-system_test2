@@ -4,23 +4,48 @@
 <!-- === Meta ================================== -->
 {% block title %}網路掛號停機公告｜{{ block.super }}{% endblock %}
 {% block og_title %}網路掛號停機公告｜{{ block.super }}{% endblock %}
+{% block twitter_title %}網路掛號停機公告｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
-<!-- ▼▼▼ Breadcrumb ▼▼▼-->
-{% block breadcrumbs %}{% endblock %}
-<!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
 <div class="l-main-content__body">
-	<center><h1 class="cen">網路掛號停機公告</h1></center>
-	<center>
-		<h3>您好，為提供更好的網路掛號服務，<br> 本院預計5/4（六）下午3點到4點，<br> 暫停服務一小時，進行系統優化作業，<br>期間內若您有掛號需求，<br> 請撥(04)-36113611 #9 由總機為您服務，<br> 造成您的不便，請見諒，謝謝。</h3>
-	</center>
+	<div class="login_title">網路掛號停機公告</div>
+	<div class="maintenance-card">
+		<div class="maintenance-icon-wrapper">
+			<i class="fas fa-tools maintenance-icon"></i>
+		</div>
+		
+		<p class="maintenance-greeting">您好，為提供更好的網路掛號服務：</p>
+		
+		<div class="maintenance-time-box">
+			<div class="maintenance-time-title">
+				<i class="far fa-calendar-alt"></i> 系統維護暫停服務時間
+			</div>
+			<div class="maintenance-time-content">
+				<span class="highlight-date">5/4（六）</span>
+				<span class="highlight-time">下午 3:00 至 4:00</span>
+			</div>
+			<div class="maintenance-duration">
+				( 暫停服務一小時，進行系統優化作業 )
+			</div>
+		</div>
+		
+		<div class="maintenance-contact-box">
+			<p class="contact-text">期間內若您有掛號需求，請撥打本院服務專線：</p>
+			<a href="tel:04-36113611" class="contact-phone-btn">
+				<i class="fas fa-phone-alt animate-phone"></i> (04) 3611-3611 <span class="ext-num">轉 #9</span>
+			</a>
+			<p class="contact-hint">將由總機專員為您服務</p>
+		</div>
+		
+		<p class="maintenance-apology">造成您的不便，敬請見諒，謝謝。</p>
+	</div>
 </div>
-<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
 
 
 <!-- === Schema JSON-LD ======================== -->
@@ -31,6 +56,194 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.login_title{
+		font-size: 2.2rem;
+		line-height: 4rem;
+	}
+	.l-container-panel {
+		max-width: 800px;
+		width: 100%;
+		padding-top: 2rem !important;
+	}
+
+	.maintenance-card {
+		max-width: 600px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.maintenance-icon-wrapper {
+		width: 76px;
+		height: 76px;
+		background: #fff8f0;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto 1.5rem auto;
+		border: 2px solid var(--color-accent-peach, #f6c689);
+		animation: pulse-orange 2s infinite;
+	}
+
+	@keyframes pulse-orange {
+		0% {
+			box-shadow: 0 0 0 0 rgba(245, 150, 29, 0.4);
+		}
+		70% {
+			box-shadow: 0 0 0 10px rgba(245, 150, 29, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(245, 150, 29, 0);
+		}
+	}
+
+	.maintenance-icon {
+		font-size: 2.2rem;
+		color: var(--color-secondary, #f5961d);
+	}
+
+	.maintenance-greeting {
+		font-size: 1.15rem;
+		color: var(--color-primary, #75482b);
+		font-weight: 600;
+		margin-bottom: 1.5rem;
+		letter-spacing: 0.5px;
+	}
+
+	.maintenance-time-box {
+		background: linear-gradient(135deg, #fdfbf7 0%, #f6f0e9 100%);
+		border: 1px solid var(--color-border-light, #e3e1e1);
+		border-radius: 12px;
+		padding: 1rem 1.25rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.maintenance-time-title {
+		font-size: 0.95rem;
+		color: var(--color-text-light, #6c757d);
+		margin-bottom: 0.75rem;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		letter-spacing: 1px;
+	}
+
+	.maintenance-time-content {
+		font-size: 1.45rem;
+		color: var(--color-primary, #75482b);
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.highlight-date {
+		color: var(--color-danger, #f05a2b);
+		background: rgba(240, 90, 43, 0.08);
+		padding: 2px 10px;
+		border-radius: 6px;
+		font-size: 1.35rem;
+		letter-spacing: 0.5px;
+	}
+
+	.highlight-time {
+		color: var(--color-primary, #75482b);
+		letter-spacing: 0.5px;
+	}
+
+	.maintenance-duration {
+		font-size: 0.95rem;
+		color: var(--color-neutral-brown, #876b61);
+		font-weight: 500;
+		letter-spacing: 0.5px;
+	}
+
+	.maintenance-contact-box {
+		border-top: 1px dashed var(--color-border, #dbd5d5);
+		padding-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.contact-text {
+		font-size: 1rem;
+		color: var(--color-text, #121212);
+		margin-bottom: 1rem;
+	}
+
+	.contact-phone-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		background-color: var(--color-primary, #75482b);
+		color: #ffffff !important;
+		font-size: 1.3rem;
+		font-weight: bold;
+		padding: 0.8rem 2rem;
+		border-radius: 50px;
+		box-shadow: 0 4px 12px rgba(117, 72, 43, 0.2);
+		transition: all 0.2s ease-in-out;
+		letter-spacing: 0.5px;
+	}
+
+	.contact-phone-btn:hover {
+		background-color: var(--color-primary-hover, #593823);
+		transform: translateY(-2px);
+		box-shadow: 0 6px 15px rgba(117, 72, 43, 0.3);
+	}
+
+	.contact-phone-btn:hover .animate-phone {
+		animation: ring 0.5s ease-in-out infinite;
+	}
+
+	@keyframes ring {
+		0% { transform: rotate(0); }
+		20% { transform: rotate(15deg); }
+		40% { transform: rotate(-15deg); }
+		60% { transform: rotate(10deg); }
+		80% { transform: rotate(-10deg); }
+		100% { transform: rotate(0); }
+	}
+
+	.contact-phone-btn i {
+		font-size: 1.15rem;
+	}
+
+	.ext-num {
+		background-color: var(--color-secondary, #f5961d);
+		color: #ffffff;
+		font-size: 0.9rem;
+		padding: 2px 10px;
+		border-radius: 20px;
+		margin-left: 6px;
+		font-weight: 600;
+	}
+
+	.contact-hint {
+		font-size: 0.88rem;
+		color: var(--color-text-light, #6c757d);
+		margin-top: 0.6rem;
+		margin-bottom: 0;
+		letter-spacing: 0.5px;
+	}
+
+	.maintenance-apology {
+		font-size: 0.95rem;
+		color: var(--color-neutral-brown, #876b61);
+		font-weight: 500;
+		margin-top: 1.25rem;
+		margin-bottom: 0;
+		border-top: 1px solid var(--color-bg-light, #f6f0e9);
+		padding-top: 1.25rem;
+		letter-spacing: 0.5px;
+	}
+</style>
 {% endblock %}
 
 

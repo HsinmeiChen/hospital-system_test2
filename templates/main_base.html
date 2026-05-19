@@ -71,6 +71,7 @@
     <!-- 共同引用 nav.footer.menu 對應內容 套件 -->
     <script src="{% static 'common/js/ajax_share_kit.js' %}"></script>
     <script src="{% static 'common/js/main-loading.js' %}"></script>
+    
 
     <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
     {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
@@ -387,6 +388,7 @@
     <script src="{% static 'common/js/site-main.js' %}" defer></script>
 
     <!-- ※※※ 共用 JS Tool End ※※※ -->
+    
     
     <!-- ※※※ 子頁面可額外加 JS ※※※ -->
     {% block extra_js %}{% endblock %}

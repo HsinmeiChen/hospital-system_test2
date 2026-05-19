@@ -5,16 +5,13 @@
 <!-- === Meta ================================== -->
 {% block title %}登入｜網路掛號｜{{ block.super }}{% endblock %}
 {% block og_title %}登入｜網路掛號｜{{ block.super }}{% endblock %}
+{% block twitter_title %}登入｜網路掛號｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block guide_content %}
-<!-- ▼▼▼ Content ▼▼▼-->
-<div {% if errorMessageOn %} onload="error_message('{{ errorMessage }}');" {% endif %}>
 
-<div class="l-main-content__body">
-
-<!-- ======= 本頁 Modal Area ======= -->
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}
 <div id="dialog-content" class="Booking_login">
 	<!-- 登入失敗：是否要填初診資料進行預約 -->
 	<div id="login_fair_to_first">
@@ -29,8 +26,12 @@
 		</div>
 	</div>
 </div>
-<!-- ======= 本頁 Modal Area End ======= -->
+{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
 
+{% block guide_content %}
+<!-- ▼▼▼ Content ▼▼▼-->
+<div class="l-main-content__body">
 	<!-- ▼▼▼▼▼▼▼▼ 登入功能 ▼▼▼▼▼▼▼▼ -->
 	<div id="booking_login">
 		<div class="login_title">登入</div>
@@ -76,96 +77,13 @@
 				<!-- <div class="Confirm_btn_100 mt-1">
 					<input type="submit" class="btn btn-success" value="登入失敗" data-fancybox data-src="#dialog-content">
 				</div> -->
-			</form>
-			<script>
-				function CheckInput() {
-				   if ( ! checkID( document.Form1.ID_card.value ) ){
-				      window.alert( "身份證字號錯誤!" );
-				  	  return false;
-				  	}
-				   else if ( ! checkBirthday( document.Form1.Birthday.value ) ){
-				      window.alert( "生日格式錯誤!" );
-				  	  return false;
-				   }
-				   else{
-				   	  return true;
-				   	}
-				}
-
-				function checkID( idStr ) {
-					// 依照字母的編號排列，存入陣列備用。
-					var letters = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z', 'I', 'O');
-
-					// 儲存各個乘數
-					var multiply = new Array(1, 9, 8, 7, 6, 5, 4, 3, 2, 1);
-					var nums = new Array(2);
-					var firstChar;
-					var firstNum;
-					var lastNum;
-					var total = 0;
-					// 撰寫「正規表達式」。第一個字為英文字母，
-					// 第二個字為1或2，後面跟著8個數字，不分大小寫。
-					var regExpID=/^[a-z](1|2)\d{8}$/i;
-
-					// 使用「正規表達式」檢驗格式
-					if (idStr.search(regExpID)==-1) {
-						// 2025/1/16 為了讓外籍人士可以登陸掛號，先不判斷身分證字號格式
-						return true;
-					} else {
-						// 取出第一個字元和最後一個數字。
-						firstChar = idStr.charAt(0).toUpperCase();
-						lastNum = idStr.charAt(9);
-					}
-
-					// 找出第一個字母對應的數字，並轉換成兩位數數字。
-					for (var i=0; i<26; i++) {
-						if (firstChar == letters[i]) {
-						  firstNum = i + 10;
-						  nums[0] = Math.floor(firstNum / 10);
-						  nums[1] = firstNum - (nums[0] * 10);
-						  break;
-						}
-					}
-
-					// 執行加總計算
-					for(var i=0; i<multiply.length; i++){
-					  if (i<2) {
-					    total += nums[i] * multiply[i];
-					  } else {
-					    total += parseInt(idStr.charAt(i-1)) * multiply[i];
-					  }
-					}
-
-					// 和最後一個數字比對
-					if (((10 - (total % 10))%10) != lastNum) {
-						return false;
-					}
-					return true;
-				}
-
-				function checkBirthday( birthDay ){
-					var nowYear = new Date().getFullYear() - 1911;
-					if (birthDay.substring(0,3) > nowYear){
-						return false;
-					}
-
-					if ( ! (parseInt(birthDay.substring(3,5)) > 0) || ! (parseInt(birthDay.substring(3,5)) < 13)) {
-						return false;
-					}
-
-					if ( ! (parseInt(birthDay.substring(5,7)) > 0) || ! (parseInt(birthDay.substring(5,7)) < 32)) {
-						return false;
-					}
-					return true;
-				}
-			</script>
+			</form>			
 		</div>
 	</div>
 </div>
-
-</div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
+
 
 
 <!-- === Schema JSON-LD ======================== -->
@@ -175,10 +93,107 @@
 
 
 <!-- === Sub Extra CSS ========================= -->
-{% block sub_extra_css %}  
+{% block sub_extra_css %}
+<style>
+	.l-container-panel{
+		max-width: 800px;
+		width: 100%;
+	}
+</style>
 {% endblock %}
 
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
+	<script>
+	/* 判斷身份證字號與生日是否符合規範條件格式 */
+		function CheckInput() {
+		   if ( ! checkID( document.Form1.ID_card.value ) ){
+			  window.alert( "身份證字號錯誤！" );
+			  return false;
+			}
+			else if ( ! checkBirthday( document.Form1.Birthday.value ) ){
+			  window.alert( "生日格式錯誤！" );
+			  return false;
+		    }
+		    else{
+			   return true;
+		    }
+		}
+		function checkID( idStr ) {
+		// 依照字母的編號排列，存入陣列備用。
+			var letters = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z', 'I', 'O');
+			// 儲存各個乘數
+			var multiply = new Array(1, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+			var nums = new Array(2);
+			var firstChar;
+			var firstNum;
+			var lastNum;
+			var total = 0;
+			// 撰寫「正規表達式」。第一個字為英文字母，
+			// 第二個字為1或2，後面跟著8個數字，不分大小寫。
+			var regExpID=/^[a-z](1|2)\d{8}$/i;
+			// 使用「正規表達式」檢驗格式
+			if (idStr.search(regExpID)==-1) {
+				// 2025/1/16 為了讓外籍人士可以登陸掛號，先不判斷身分證字號格式
+				return true;
+			} else {
+				// 取出第一個字元和最後一個數字。
+				firstChar = idStr.charAt(0).toUpperCase();
+				lastNum = idStr.charAt(9);
+			}
+
+			// 找出第一個字母對應的數字，並轉換成兩位數數字。
+			for (var i=0; i<26; i++) {
+				if (firstChar == letters[i]) {
+					firstNum = i + 10;
+					nums[0] = Math.floor(firstNum / 10);
+					nums[1] = firstNum - (nums[0] * 10);
+					break;
+				}
+			}
+
+			// 執行加總計算
+			for(var i=0; i<multiply.length; i++){
+				if (i<2) {
+					total += nums[i] * multiply[i];
+				} else {
+					total += parseInt(idStr.charAt(i-1)) * multiply[i];
+				}
+			}
+
+			// 和最後一個數字比對
+			if (((10 - (total % 10))%10) != lastNum) {
+				return false;
+			}
+			return true;
+		}
+
+		/* 判斷生日條件格式是否合理 */
+		function checkBirthday( birthDay ){
+			// 不得大於今年
+			var nowYear = new Date().getFullYear() - 1911;
+			if (birthDay.substring(0,3) > nowYear){
+				return false;
+			}
+			// 月份不得大於12且小於1
+			if ( ! (parseInt(birthDay.substring(3,5)) > 0) || ! (parseInt(birthDay.substring(3,5)) < 13)) {
+				return false;
+			}
+			// 日不得大於31且小於1
+			if ( ! (parseInt(birthDay.substring(5,7)) > 0) || ! (parseInt(birthDay.substring(5,7)) < 32)) {
+				return false;
+			}
+			return true;
+		}
+	</script>
+
+	<!-- 錯誤訊息-資料比對 -->
+	{% if errorMessageOn %}
+	<script>
+	  document.addEventListener("DOMContentLoaded", function () {
+	    error_message('{{ errorMessage }}');
+	  });
+	</script>
+	{% endif %}
 {% endblock %}

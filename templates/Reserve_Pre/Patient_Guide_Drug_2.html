@@ -27,7 +27,6 @@
 {% endblock %}
 <!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
-{% block guide_content %}
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 <!-- Modal﹔領藥規則及說明 -->
@@ -114,7 +113,7 @@
 	</form>
 	{% if data_info %}
 	{% for da in data_info %}
-	<div id="Drugs_booking_day-{{da.0}}-{{da.10}}" class="F_box">
+	<div id="Drugs_booking_day-{{da.0}}-{{da.10}}" class="F_box" data-selectable="true">
 		<div class="login_title mb-3 p-2">
 			{% if da.10 == '2' %}
 			<div>第 2 次預約</div>
@@ -130,7 +129,8 @@
 		{% else %}
 			<div class="d-flex flex-wrap">
 				{% for date in da.13 %}
-				<input class="c-radio-table__radio" name="radio-{{da.0}}" id="radio-{{da.0}}-{{date}}" type="radio" value="{{ date }}">
+				<!-- 新增:data-group="{{da.0}}"，用以在前端穩定儲存慢箋單號，不受單號字串特殊格式（如 -）的干擾。 -->
+				<input class="c-radio-table__radio" name="radio-{{da.0}}" id="radio-{{da.0}}-{{date}}" type="radio" value="{{ date }}" data-group="{{da.0}}">
 				<label class="c-radio-table__label" for="radio-{{da.0}}-{{date}}">{{date}}</label>
 				{% endfor %}
 			</div>
@@ -238,6 +238,7 @@
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
+{% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
 <header id="content_h">
 	<div class="Drugs_booking_Title">

@@ -5,6 +5,7 @@
 <!-- === Meta ================================== -->
 {% block title %}網路掛號｜{{ block.super }}{% endblock %}
 {% block og_title %}網路掛號｜{{ block.super }}{% endblock %}
+{% block twitter_title %}網路掛號｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -12,13 +13,13 @@
 {% block breadcrumbs %}{% endblock %}
 <!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
+
 {% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
-<div {% if A006_Stop %} onload="show_stop_text();" {% endif %}>	
 <div class="l-main-content__body">
 	<div class="row items_div items_div_w mt-5">
 		{% autoescape off %}
-		<form action="" method="GET" id="first1" class="col-lg-6 d-flex justify-content-center">
+		<form action="" method="GET" id="first1" class="col-lg-6 d-flex justify-content-end">
 			<input type="hidden" name="first" value="1">
 			{% if referrer %}
 				<input type="hidden" name="referrer" value="{{ referrer }}">
@@ -37,7 +38,7 @@
 				</div>
 			</div>
 		</form>
-		<form action="" method="GET" id="first2" class="col-lg-6 d-flex justify-content-center">
+		<form action="" method="GET" id="first2" class="col-lg-6 d-flex justify-content-start">
 			<input type="hidden" name="first" value="0">
 			{% if referrer %}
 				<input type="hidden" name="referrer" value="{{ referrer }}">
@@ -59,7 +60,6 @@
 		{% endautoescape %}
 	</div>
 </div>
-</div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
@@ -72,15 +72,35 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-	<style>
-		.swal2-html-container{
-			margin: 0.3em 1.6em 0em !important;
-			font-size: 1em !important;
-		}
-	</style>
+<style>
+	.swal2-html-container{
+		margin: 0.3em 1.6em 0em !important;
+		font-size: 1em !important;
+	}
+	.l-main-content{
+		background-color: transparent;
+		border: 0px solid var(--color-accent-peach);
+		padding: 0;
+	}
+	.l-main-content__body{
+		background-color: transparent;
+	}
+	.l-container-panel{
+		background-color: transparent;
+		box-shadow: none;
+		border: 0px;
+	}
+</style>
 {% endblock %}
 
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
+	{% if A006_Stop %}
+	<script>
+	  document.addEventListener("DOMContentLoaded", function () {
+	    show_stop_text();
+	  });
+	</script>
+	{% endif %}
 {% endblock %}

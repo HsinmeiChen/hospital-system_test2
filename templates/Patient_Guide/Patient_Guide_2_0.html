@@ -4,6 +4,7 @@
 <!-- === Meta ================================== -->
 {% block title %}網路掛號｜{{ block.super }}{% endblock %}
 {% block og_title %}網路掛號｜{{ block.super }}{% endblock %}
+{% block twitter_title %}網路掛號｜{{ block.super }}{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -12,16 +13,18 @@
 {% block breadcrumbs %}{% endblock %}
 <!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
-{% block guide_content %}
+
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 	<div id="dialog-content" class="Booking_login"></div>
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
+
 <!-- ▼▼▼ Content ▼▼▼-->
-<div class="l-main-content__body" style="background-color: transparent;">
-	<div class="row items_div">
+{% block guide_content %}
+<div class="l-main-content__body">
+	<div class="row items_div items_div_w mt-5">
 
 		<div class="col-lg-4 d-flex justify-content-center">
 			<div class="A_card trasition_site" onclick="location.href='/A006_Online_Booking_1/';">
@@ -67,8 +70,8 @@
 
 	</div>
 </div>
-<!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
 
 
 <!-- === Schema JSON-LD ======================== -->
@@ -79,6 +82,21 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.l-main-content{
+		background-color: transparent;
+		border: 0px solid var(--color-accent-peach);
+		padding: 0;
+	}
+	.l-main-content__body{
+		background-color: transparent;
+	}
+	.l-container-panel{
+		background-color: transparent;
+		box-shadow: none;
+		border: 0px;
+	}
+</style>
 {% endblock %}
 
 

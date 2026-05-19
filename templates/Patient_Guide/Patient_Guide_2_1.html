@@ -8,7 +8,7 @@
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block guide_content %}
+
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 	<!-- ※※※ Fancy box ※※※ -->
@@ -16,7 +16,9 @@
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
+
 <!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
 <header id="content_h">
     <h2 class="c-onsale-heading">選擇科別</h2>
 </header>
@@ -54,6 +56,7 @@
 	{% endfor %}
 </div>
 {% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
 
 
 <!-- === Schema JSON-LD ======================== -->

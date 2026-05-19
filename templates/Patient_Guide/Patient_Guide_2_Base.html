@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+    {% block page_modals %}{% endblock %} <!-- 存放 Modal -->
     <div class="l-wrapper l-sub__bg">
         <header>
             {% include 'header.html' %}
@@ -12,7 +13,7 @@
                         <!-- 新增使用者名稱區塊 -->
                         <span class="flex-fill">網路掛號</span>
                         {% if request.session.A006_patname %}
-                            <div class="mx-1 user_icon flex-fill"><div>{{ request.session.A006_patname }}</div>，您好</div>
+                        <div class="mx-1 user_icon flex-fill"><div>{{ request.session.A006_patname }}</div>，您好</div>
                         {% endif %}
                         <!-- 新增使用者名稱區塊 -->
                     </div>
@@ -41,7 +42,7 @@
                 <article>
                     <!-- 讓子頁面決定是否要用預設的麵包屑 -->
                     {% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %} <!-- 麵包屑自動化 -->
-                    <div class="l-main-content u-panel-pure" style="background-color: transparent;">
+                    <div class="l-main-content u-panel-pure">
                         {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
                     </div>
                 </article>

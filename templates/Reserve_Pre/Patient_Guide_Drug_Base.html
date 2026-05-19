@@ -85,13 +85,7 @@
 
 
 <!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-    <!-- ════ Fancy Box ════ -->
-    <script src="{% static 'common/js/fancybox.umd.js' %}" defer></script>
-    <!-- ════ Sweet alert2 ════ -->
-    <script src="{% static 'common/js/sweetalert2.all.min.js' %}" defer></script>
-    <!-- ════ Fancy alert2 ════ -->
-    <script src="{% static 'common/js/fancy_alert_mes_set.js' %}" defer></script>
+{% block extra_js %}    
     {% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
 {% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

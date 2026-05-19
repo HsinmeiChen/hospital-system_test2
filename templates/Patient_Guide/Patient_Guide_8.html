@@ -7,8 +7,6 @@
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block guide_content %}
-
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 	<!-- Modal:資料申請-病歷 -->
@@ -102,7 +100,9 @@
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
+
 <!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
 <header id="content_h">
     <h2 class="c-onsale-heading">資料申請</h2>
 </header>
@@ -258,9 +258,8 @@
 		</table>
 	</div>
 </div>
-<!-- ▲▲▲ Content ▲▲▲-->
-
 {% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
 
 
 <!-- === Schema JSON-LD ======================== -->
