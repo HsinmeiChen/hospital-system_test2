@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="zh-Hant-TW" prefix="og: http://ogp.me/ns#">
+
 <head>
     <!-- Basic ====================== -->
     <meta charset="UTF-8">
@@ -10,7 +11,8 @@
     <!-- SEO ======================== -->
     <title>{% block title %}長安醫院{% endblock %}</title>
     <meta name="keywords" content="{% block keywords %}長安醫院、太平醫院、急診、骨科、眼科、復健、體檢、健康檢查、假日門診{% endblock %}">
-    <meta name="description" content="{% block meta_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+    <meta name="description"
+        content="{% block meta_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
     <link rel="canonical" href="{{ SITE_DOMAIN }}{{ request.path }}">
     <meta name="robots" content="index, follow">
 
@@ -21,19 +23,21 @@
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:site_name" content="長安醫院">
     <meta property="og:title" content="{% block og_title %}長安醫院{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
     <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
     <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
 
     <!-- Twitter Card (ChatGPT / Perplexity / line / DC) ====== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}長安醫院{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
+    <meta name="twitter:description"
+        content="{% block twitter_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
 
     <meta name="twitter:image" content="{% block twitter_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
 
     <!-- Google 網站驗證（Google Site Verification）用的標記 === -->
-    <meta name="google-site-verification" content="cxRGjKaWmPVHZpRnEEhMaxvpAhqe3tqxOjwtAKkd5TA" />    
+    <meta name="google-site-verification" content="cxRGjKaWmPVHZpRnEEhMaxvpAhqe3tqxOjwtAKkd5TA" />
 
     <!-- Web-icon =========================== -->
     <link rel="icon" href="{% static 'common/img/favicon.ico' %}" type="image/x-icon">
@@ -44,7 +48,7 @@
 
     <!-- 外部套件 CSS ======================= -->
     <!-- Fancy Box -->
-    <link rel="stylesheet" href="{% static 'common/css/fancybox.css' %}">    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'common/css/fancybox.css' %}"> <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{% static 'common/css/sweetalert2.min.css' %}">
 
     <!-- 導航列 css ======================= -->
@@ -71,26 +75,26 @@
     <!-- 共同引用 nav.footer.menu 對應內容 套件 -->
     <script src="{% static 'common/js/ajax_share_kit.js' %}"></script>
     <script src="{% static 'common/js/main-loading.js' %}"></script>
-    
+
 
     <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
     {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
-        {% if final_gtm_id %}
-        <script>
-            (function (w, d, s, l, i) {
-                w[l] = w[l] || []; w[l].push({
-                    'gtm.start':
-                        new Date().getTime(), event: 'gtm.js'
-                }); var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', '{{ final_gtm_id }}');
-        </script>
-        {% endif %}
+    {% if final_gtm_id %}
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', '{{ final_gtm_id }}');
+    </script>
+    {% endif %}
     {% endwith %}
 
-<!-- 網站資料結構 Schema.org -->
-<script type="application/ld+json">
+    <!-- 網站資料結構 Schema.org -->
+    <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": ["Hospital","MedicalOrganization"],
@@ -337,10 +341,12 @@
     }
 </script>
 </head>
+
 <body>
     <!-- ▼▼▼ Google Tag Manager (noscript) ▼▼▼ -->
     <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TMHQ84N" height="0" width="0" style="display:none;visibility:hidden" sandbox="allow-same-origin allow-scripts"></iframe>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TMHQ84N" height="0" width="0"
+            style="display:none;visibility:hidden" sandbox="allow-same-origin allow-scripts"></iframe>
     </noscript>
     <!-- ▲▲▲ Google Tag Manager (noscript) End ▲▲▲ -->
 
@@ -349,17 +355,20 @@
     <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
 
     <!-- ■■■ Go To Top (Web Only) ■■■ -->
-    <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" class="c-back-to-top" title="回到最上方" role="button" aria-label="回到最上方">
+    <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" class="c-back-to-top" title="回到最上方" role="button"
+        aria-label="回到最上方">
         <i class="fas fa-chevron-up"></i>
     </a>
 
     <!-- ※※※ Web Content ※※※ -->
     {% spaceless %}
-       {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
     {% endspaceless %}
 
     <!-- ▼▼▼ Footer Start ▼▼▼ -->
+    {% block footer %}
     {% include 'footer.html' %}
+    {% endblock %}
     <!-- ▲▲▲ Footer End ▲▲▲ -->
 
     <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
@@ -383,15 +392,16 @@
     </nav> -->
 
     <!-- ※※※ 共用 JS Tool Start ※※※ -->
-    
+
     <!-- ════ 全站核心工具 (整合 Gotop, Sidebar, PDF工具) ════ -->
     <script src="{% static 'common/js/site-main.js' %}" defer></script>
 
     <!-- ※※※ 共用 JS Tool End ※※※ -->
-    
-    
+
+
     <!-- ※※※ 子頁面可額外加 JS ※※※ -->
     {% block extra_js %}{% endblock %}
 
 </body>
+
 </html>

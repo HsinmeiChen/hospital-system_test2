@@ -46,8 +46,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 # CSRF_TRUSTED_ORIGINS = ['https://front.bluemix.net/'] # 2025/12/30 上 EECP 跟健管先註解
 CSRF_TRUSTED_ORIGINS = [
-    # 'https://front.bluemix.net',
-    'https://web.everanhospital.com.tw',
+	# 'https://front.bluemix.net',
+	'https://web.everanhospital.com.tw',
 ]
 
 CORS_REPLACE_HTTPS_REFERER = True
@@ -58,14 +58,14 @@ CORS_REPLACE_HTTPS_REFERER = True
 
 # 跨域驗證，如果是 http、或開發環境 就設 False
 if DEBUG == True:
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
+	CSRF_COOKIE_SECURE = False
+	SESSION_COOKIE_SECURE = False
 else:
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+	CSRF_COOKIE_SECURE = True
+	SESSION_COOKIE_SECURE = True
 
 # 改為依 DEBUG 或環境決定（本機開發不設定 domain）
-    CSRF_COOKIE_DOMAIN = None
+	CSRF_COOKIE_DOMAIN = None
 
 # 若使用 Nginx 轉發 HTTPS，需加上此設定告知 Django 來源為 HTTPS
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -81,69 +81,69 @@ else:
 # Application definition
 # 網站後台功能登錄區域設定
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
-    'django.contrib.staticfiles',
-    'Pomelo_API',
-    "sslserver",
-    "specialty_medical",
-    "specialty_health",
-    "EECP",
-    "Breast_Care_Center",
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'whitenoise.runserver_nostatic',
+	'django.contrib.staticfiles',
+	'Pomelo_API',
+	"sslserver",
+	"specialty_medical",
+	"specialty_health",
+	"EECP",
+	"Breast_Care_Center",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'whitenoise.middleware.WhiteNoiseMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'ERROR',
-    }
+	'version': 1,
+	'disable_existing_loggers': False,
+	'handlers': {
+		'console': {
+			'class': 'logging.StreamHandler',
+		},
+	},
+	'root': {
+		'handlers': ['console'],
+		'level': 'ERROR',
+	}
 }
 
 ROOT_URLCONF = 'Pomelo_test.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #修改前
-        # 'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  #讓 server 找得到 html 的位置
-        #修改後: 指向新的 templates 目錄
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.media',
-                'django.contrib.messages.context_processors.messages',
-                # 共用 GA, GTM, og-image, breadcrumb 設定於 context_processors.py
-                'Pomelo_test.context_processors.default_tracking_ids',
-                'Pomelo_test.context_processors.breadcrumb_processor'
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		#修改前
+		# 'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  #讓 server 找得到 html 的位置
+		#修改後: 指向新的 templates 目錄
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.template.context_processors.media',
+				'django.contrib.messages.context_processors.messages',
+				# 共用 GA, GTM, og-image, breadcrumb 設定於 context_processors.py
+				'Pomelo_test.context_processors.default_tracking_ids',
+				'Pomelo_test.context_processors.breadcrumb_processor'
+			],
+		},
+	},
 ]
 
 WSGI_APPLICATION = 'Pomelo_test.wsgi.application'
@@ -153,10 +153,10 @@ WSGI_APPLICATION = 'Pomelo_test.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': BASE_DIR / 'db.sqlite3',
+	}
 }
 
 
@@ -164,18 +164,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 
@@ -202,31 +202,31 @@ STATIC_URL = '/Public/'   # STATIC 放置所有靜態檔，例 css/js/ html
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 if DEBUG:
-    # === [開發模式] ===
-    # 請根據您的啟動方式，選擇保留一個區塊，並註解掉另一個。
+	# === [開發模式] ===
+	# 請根據您的啟動方式，選擇保留一個區塊，並註解掉另一個。
 
-    # [模式 A] 使用 python manage.py runserver 啟動 (預設)
-    # 特點：不需要 Nginx，Django 會自動處理靜態檔與媒體檔。
-    # 為了讓開發時能看到 /Public/ 下的媒體圖片，這裡把 media 也加入搜尋路徑。
-    # STATICFILES_DIRS = [
-    #     os.path.join(BASE_DIR, 'Public'),
-    #     os.path.join(BASE_DIR, 'media'),
-    # ]
+	# [模式 A] 使用 python manage.py runserver 啟動 (預設)
+	# 特點：不需要 Nginx，Django 會自動處理靜態檔與媒體檔。
+	# 為了讓開發時能看到 /Public/ 下的媒體圖片，這裡把 media 也加入搜尋路徑。
+	# STATICFILES_DIRS = [
+	#     os.path.join(BASE_DIR, 'Public'),
+	#     os.path.join(BASE_DIR, 'media'),
+	# ]
 
-    # [模式 B] 使用 Nginx + Django 啟動
-    # 特點：模擬正式環境，靜態檔由 Nginx 處理。
-    # 執行 collectstatic 時不應該包含 media，以免複製大量圖片。
-    # 若要使用此模式，請打開下方註解，並註解掉上方 [模式 A]
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'Public'),
-    ]
+	# [模式 B] 使用 Nginx + Django 啟動
+	# 特點：模擬正式環境，靜態檔由 Nginx 處理。
+	# 執行 collectstatic 時不應該包含 media，以免複製大量圖片。
+	# 若要使用此模式，請打開下方註解，並註解掉上方 [模式 A]
+	STATICFILES_DIRS = [
+		os.path.join(BASE_DIR, 'Public'),
+	]
 
 else:
-    # === [正式/模擬正式模式] (DEBUG=False) ===
-    # 必須使用 Nginx + collectstatic
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'Public'),
-    ]
+	# === [正式/模擬正式模式] (DEBUG=False) ===
+	# 必須使用 Nginx + collectstatic
+	STATICFILES_DIRS = [
+		os.path.join(BASE_DIR, 'Public'),
+	]
 
 # 針對靜態檔案做壓縮、打包（Brotli/Gzip）與雜湊值機制(效能優化)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

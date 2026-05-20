@@ -18,40 +18,40 @@
 </header>
 <div class="l-main-content__body">
     <div class="row">
-		{% for subject, doctor in datas %}
-		<div class="col-12">
-			<div class="category-group-header">
-				<h3 class="category-group-title">
-					<i class="fas fa-stethoscope"></i>
-					{{ subject }}
-				</h3>
-				<div class="title-bottom-decorator"></div>
-			</div>
-		</div>
-		<div class="col-12">
-			<div class="row">
-				{% for d, path, dept_en, dr_id in doctor %}
-				<div class="col-12 col-md-6 col-lg-4 mb-4">
-					<a href="/A001_department_doctor/{{ dept_en }}/{{ dr_id }}/" class="dr-card-link">
-						<div class="dr-card-btn d-flex align-items-center">
-							<div class="dr-icon-wrapper">
-								<i class="fas fa-user-md"></i>
-							</div>
-							<div class="dr-info-wrapper ml-3">
-								<span class="dr-name-zh">{{ d }}</span>
-								<span class="dr-dept-zh">{{ subject }}</span>
-							</div>
-							<div class="dr-arrow-wrapper ml-auto">
-								<i class="fas fa-arrow-right"></i>
-							</div>
-						</div>
-					</a>
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-		{% endfor %}
-	</div>
+        {% for subject, doctor in datas %}
+        <div class="col-12">
+            <div class="category-group-header">
+                <h3 class="category-group-title">
+                    <i class="fas fa-stethoscope"></i>
+                    {{ subject }}
+                </h3>
+                <div class="title-bottom-decorator"></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                {% for d, path, dept_en, dr_id in doctor %}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <a href="/A001_department_doctor/{{ dept_en }}/{{ dr_id }}/" class="dr-card-link">
+                        <div class="dr-card-btn d-flex align-items-center">
+                            <div class="dr-icon-wrapper">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="dr-info-wrapper ml-3">
+                                <span class="dr-name-zh">{{ d }}</span>
+                                <span class="dr-dept-zh">{{ subject }}</span>
+                            </div>
+                            <div class="dr-arrow-wrapper ml-auto">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 <!-- ▲▲▲ Content ▲▲▲-->
 
@@ -60,130 +60,132 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-    {% include 'schema_article.html' with headline="醫師查詢" %}
+{% include 'schema_article.html' with headline="醫師查詢" %}
 {% endblock %}
 
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
-/* 醫師查詢客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
-.category-group-header {
-    position: relative;
-    margin-top: 24px;
-}
+    /* 醫師查詢客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
+    .category-group-header {
+        position: relative;
+        margin-top: 24px;
+    }
 
-.category-group-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--color-text-dark);
-    display: flex;
-    align-items: center;
-}
+    .category-group-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--color-text-dark);
+        display: flex;
+        align-items: center;
+    }
 
-.category-group-title i {
-    margin-right: 10px;
-    color: var(--color-primary);
-    font-size: 1.3rem;
-}
+    .category-group-title i {
+        margin-right: 10px;
+        color: var(--color-primary);
+        font-size: 1.3rem;
+    }
 
-.title-bottom-decorator {
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent-peach));
-    border-radius: 2px;
-    margin-top: 8px;
-    margin-bottom: 24px;
-}
+    .title-bottom-decorator {
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-accent-peach));
+        border-radius: 2px;
+        margin-top: 8px;
+        margin-bottom: 24px;
+    }
 
-.dr-card-link {
-    text-decoration: none !important;
-    display: block;
-}
+    .dr-card-link {
+        text-decoration: none !important;
+        display: block;
+    }
 
-.dr-card-btn {
-    background: var(--color-bg-white);
-    border: 1px solid var(--color-border-light);
-    border-radius: 0 !important; /* 強制俐落直角 */
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    position: relative;
-    overflow: hidden;
-}
+    .dr-card-btn {
+        background: var(--color-bg-white);
+        border: 1px solid var(--color-border-light);
+        border-radius: 0 !important;
+        /* 強制俐落直角 */
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+    }
 
-.dr-card-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background-color: var(--color-primary);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+    .dr-card-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: var(--color-primary);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
 
-.dr-card-link:hover .dr-card-btn {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
-    border-color: var(--color-primary);
-}
+    .dr-card-link:hover .dr-card-btn {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px rgba(117, 72, 43, 0.08);
+        border-color: var(--color-primary);
+    }
 
-.dr-card-link:hover .dr-card-btn::before {
-    opacity: 1;
-}
+    .dr-card-link:hover .dr-card-btn::before {
+        opacity: 1;
+    }
 
-.dr-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    background-color: var(--color-border-light);
-    border-radius: 50%; /* 圓形徽章，增強專業立體感 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-neutral-brown);
-    font-size: 1.3rem;
-    transition: all 0.3s ease;
-}
+    .dr-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        background-color: var(--color-bg-light);
+        border-radius: 50%;
+        /* 圓形徽章，增強專業立體感 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-neutral-brown);
+        font-size: 1.3rem;
+        transition: all 0.3s ease;
+    }
 
-.dr-card-link:hover .dr-icon-wrapper {
-    background-color: var(--color-bg-light);
-    color: var(--color-primary);
-}
+    .dr-card-link:hover .dr-icon-wrapper {
+        background-color: var(--color-primary);
+        color: var(--color-bg-white);
+    }
 
-.dr-info-wrapper {
-    display: flex;
-    flex-direction: column;
-}
+    .dr-info-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
 
-.dr-name-zh {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--color-text-dark);
-    line-height: 1.2;
-    margin-bottom: 2px;
-}
+    .dr-name-zh {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--color-text-dark);
+        line-height: 1.2;
+        margin-bottom: 2px;
+    }
 
-.dr-dept-zh {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-light);
-}
+    .dr-dept-zh {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--color-text-light);
+    }
 
-.dr-arrow-wrapper {
-    color: var(--color-border);
-    font-size: 1rem;
-    transform: translateX(-4px);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
+    .dr-arrow-wrapper {
+        color: var(--color-border);
+        font-size: 1rem;
+        transform: translateX(-4px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
 
-.dr-card-link:hover .dr-arrow-wrapper {
-    transform: translateX(0);
-    opacity: 1;
-    color: var(--color-primary);
-}
+    .dr-card-link:hover .dr-arrow-wrapper {
+        transform: translateX(0);
+        opacity: 1;
+        color: var(--color-primary);
+    }
 </style>
 {% endblock %}
 

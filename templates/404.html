@@ -1,43 +1,50 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "main-base.html" %}
-
-{% block title %}404！找不到網頁_長安醫院 | {{ block.super }}{% endblock %}
-{% block title_1 %}404！找不到網頁_長安醫院{% endblock %}
-{% block og_title %}404！找不到網頁_長安醫院 | {{ block.super }}{% endblock %}
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-<!-- ▼▼▼ GA ▼▼▼ -->
-{% include 'GA_noscript.html' %}
-<!-- ▲▲▲ GA End ▲▲▲ -->
-
-<!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-<div class="L_sub_main_bg Error_Page">
-	<div class="Not_Found">
-		<div><img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院"></div>
-		<h1 class="Error">404</h1>
-		<div>Oops！Page Not Found</div>
-		<div class="page">抱歉，這個頁面不存在！</div>
-		<a class="back-home" href="{% url 'main_home' %}" title="本院首頁">回到本院首頁</a>
-	</div>
-</div>
-<!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-<!-- ▼▼▼ Footer Start ▼▼▼ -->
-<!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-{% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->
+{% extends "One_Page_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}404！找不到網頁｜{{ block.super }}{% endblock %}
+{% block og_title %}404！找不到網頁｜{{ block.super }}{% endblock %}
+{% block twitter_title %}404！找不到網頁｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+<!-- ▼▼▼ header & footer (不顯示) ▼▼▼-->
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+<!-- ▲▲▲ header & footer ▲▲▲-->
+
+<!-- ▼▼▼ Breadcrumb (不顯示) ▼▼▼-->
+{% block breadcrumbs %}{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+    <div class="Not_Found Error_Page">
+        <div class="mt-4"><img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院 logo" title="長安醫院 logo"></div>
+        <h1 class="Error">404</h1>
+        <div>Oops！Page Not Found</div>
+        <div class="page">抱歉，這個頁面不存在！</div>
+        <a class="back-home mb-2" href="/index/" title="本院首頁">回到本院首頁</a>
+    </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="404！找不到網頁" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-error-page.css' %}">
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================= -->
+{% block sub_extra_js %}
+{% endblock %}

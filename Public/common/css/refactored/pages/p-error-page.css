@@ -1,0 +1,128 @@
+/* ==========================================================================
+   404、505 報錯頁面 - p-error-page.css 
+   ========================================================================== */
+body {
+    padding-top: 0;
+}
+
+.l-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.l-sub-layout__main {
+    width: 100%;
+}
+
+.l-container-panel {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+#Error_Page {
+    padding-top: 0px;
+}
+
+.Error_Page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.Error_Page>div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Error_Page .Error {
+    font-size: clamp(8rem, 30vw, 15rem);
+    /* 自動縮放：最小 6rem，隨螢幕寬度 30vw 變動，最大 15rem */
+    background-color: transparent;
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: 1.05;
+}
+
+.Error+div {
+    margin-bottom: 8px;
+    font-size: 20px;
+    color: #666;
+}
+
+.Error_Page .page {
+    margin: 0 0 1.1rem 0;
+    font-size: 25px;
+    font-weight: 600;
+    color: #444;
+}
+
+.back-home {
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.75rem 1rem 0.75rem;
+    transition: all 0.2s linear;
+    box-shadow: 0 15px 15px -11px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+
+.back-home:hover {
+    color: #fff;
+}
+
+.Not_Found .Error {
+    color: #f5961d;
+    text-shadow:
+        1px 1px 1px #c67b18,
+        2px 2px 1px #c67b18,
+        3px 3px 1px #c67b18,
+        4px 4px 1px #c67b18,
+        5px 5px 1px #c67b18,
+        6px 6px 1px #c67b18,
+        7px 7px 1px #c67b18,
+        8px 8px 1px #c67b18,
+        18px 18px 7px rgba(0, 0, 0, 0.2);
+}
+
+.Not_Found .back-home {
+    border: 2px solid #754826;
+    background: #754826;
+}
+
+.Not_Found .back-home:hover {
+    background: #307233;
+    border: 2px solid #307233;
+}
+
+.Server_Error .Error {
+    color: #75482b;
+    text-shadow:
+        1px 1px 1px #593620,
+        2px 2px 1px #593620,
+        3px 3px 1px #593620,
+        4px 4px 1px #593620,
+        5px 5px 1px #593620,
+        6px 6px 1px #593620,
+        7px 7px 1px #593620,
+        8px 8px 1px #593620,
+        18px 18px 7px rgba(0, 0, 0, 0.2);
+}
+
+.Server_Error .back-home {
+    background: #307233;
+    border: 2px solid #307233;
+}
+
+.Server_Error .back-home:hover {
+    background: #f5961d;
+    border: 2px solid #f5961d;
+}

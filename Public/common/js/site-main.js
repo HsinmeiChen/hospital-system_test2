@@ -57,18 +57,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- 4. PDF 原頁面開啟工具 (InfullPDF) ---
+    // --- 4. PDF 開啟工具 ---
     document.addEventListener('click', function(e) {
         const pdfLink = e.target.closest('a[href$=".pdf"]');
         if (pdfLink) {
-            // 阻止預設行為，統一由 JS 處理以確保歷史紀錄乾淨
-            e.preventDefault();
-
-            // 確保在原頁開啟，移除 target="_blank"
-            pdfLink.removeAttribute('target');
-            
-            // 執行跳轉
-            openInFullScreenWin(pdfLink.href);
+            // 為了解決「按上一頁需要點兩次」的瀏覽器 PDF 閱讀器歷史紀錄問題，
+            // 最佳的作法是統一加上 target="_blank" 讓 PDF 在新分頁開啟。
+            pdfLink.setAttribute('target', '_blank');
+            // 不阻擋預設行為，讓瀏覽器自然開啟新分頁
         }
     });
 

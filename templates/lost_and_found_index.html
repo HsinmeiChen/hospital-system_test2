@@ -1,0 +1,74 @@
+{% extends "One_Page_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}失物招領｜{{ block.super }}{% endblock %}
+{% block og_title %}失物招領｜{{ block.super }}{% endblock %}
+{% block twitter_title %}失物招領｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+    <div class="row">
+        <div class="col-12 media_info">
+            {% for data_line in data_lines %}
+            {% if "<h>" in data_line %}
+                <div class="article_h">{{ data_line|cut:"<h>"|safe }}</div>
+                {% endif %}
+
+                {% if "<in_date>" in data_line %}
+                    <div class="text-date"><small>{{ data_line|cut:"<in_date>"|safe }}</small></div>
+                {% endif %}
+
+                {% if "<yt>" in data_line %}
+                    <div class="info_iframe">
+                        <iframe src="{{ data_line|cut:'<yt>'|safe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+                    </div>
+                {% endif %}
+
+                {% if "<t>" in data_line %}
+                    <p>{{ data_line|cut:"<t>"|safe }}</p>
+                {% endif %}
+
+                {% if "<dot>" in data_line %}
+                    <div class="triangle">{{ data_line|cut:"<dot>"|safe }}</div>
+                {% endif %}
+
+                {% if "<cap>" in data_line %}
+                    <div class="caption">{{ data_line|cut:"<cap>"|safe }}</div>
+                {% endif %}
+
+                {% if "<img1>" in data_line %}
+                    <div class="info_img">
+                        <img class="img-fluid w-100" src="/Public/news_4/img/{{ data_line|cut:'<img1>'|safe }}" alt="" height="345">
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<style>
+    .media_info > p > a{
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="失物招領" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================= -->
+{% block sub_extra_js %}
+{% endblock %}

@@ -1,40 +1,70 @@
 /* ==========================================================================
-   Utilities (Spacing, Typography, Visibility)
-   ========================================================================== */
+	 Utilities (Spacing, Typography, Visibility)
+	 ========================================================================== */
 
 /* Spacing */
-.u-margin-bottom-xs { margin-bottom: var(--spacing-xs) !important; }
-.u-margin-bottom-sm { margin-bottom: var(--spacing-sm) !important; }
-.u-margin-bottom-md { margin-bottom: var(--spacing-md) !important; }
-.u-margin-bottom-lg { margin-bottom: var(--spacing-lg) !important; }
-.u-margin-bottom-xl { margin-bottom: var(--spacing-xl) !important; }
+.u-margin-bottom-xs {
+	margin-bottom: var(--spacing-xs) !important;
+}
 
-.u-padding-all-md { padding: var(--spacing-md) !important; }
+.u-margin-bottom-sm {
+	margin-bottom: var(--spacing-sm) !important;
+}
+
+.u-margin-bottom-md {
+	margin-bottom: var(--spacing-md) !important;
+}
+
+.u-margin-bottom-lg {
+	margin-bottom: var(--spacing-lg) !important;
+}
+
+.u-margin-bottom-xl {
+	margin-bottom: var(--spacing-xl) !important;
+}
+
+.u-padding-all-md {
+	padding: var(--spacing-md) !important;
+}
 
 /* Typography Helpers */
 .u-text-indent {
-  text-indent: 2em;
-  letter-spacing: 2px;
-  line-height: 30px;
-  text-align: justify;
+	text-indent: 2em;
+	letter-spacing: 2px;
+	line-height: 30px;
+	text-align: justify;
 }
 
 
-.u-font-size-lg { font-size: var(--font-size-lg) !important; }
-.u-font-size-sm { font-size: var(--font-size-sm) !important; }
+.u-font-size-lg {
+	font-size: var(--font-size-lg) !important;
+}
+
+.u-font-size-sm {
+	font-size: var(--font-size-sm) !important;
+}
 
 /* Visibility */
 .u-hide-mobile {
-  display: none !important; /* Mobile Default */
+	display: none !important;
+	/* Mobile Default */
 }
 
 .u-show-mobile {
-  display: block !important; /* Mobile Default */
+	display: block !important;
+	/* Mobile Default */
 }
 
 /* Color Helpers */
 .cofe-word {
-  color: var(--color-primary);
+	color: var(--color-primary);
+}
+
+/* 圖片 */
+img {
+	max-width: 100%;
+	height: auto;
+	margin-left: -10px;
 }
 
 
@@ -42,41 +72,42 @@
 
 /* 單行截斷 */
 .u-text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* 多行截斷共用基礎 */
 .u-text-ellipsis--2,
-.u-text-ellipsis--3{
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-all;
-  overflow-wrap: break-word;
-  white-space: normal;
-  line-height: 1.5rem;
+.u-text-ellipsis--3 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-all;
+	overflow-wrap: break-word;
+	white-space: normal;
+	line-height: 1.5rem;
 }
 
 /* 二行截斷 */
-.u-text-ellipsis--2{
-  -webkit-line-clamp: 2;
+.u-text-ellipsis--2 {
+	-webkit-line-clamp: 2;
 }
 
 /* 三行截斷 */
 .u-text-ellipsis--3 {
-  -webkit-line-clamp: 3;
+	-webkit-line-clamp: 3;
 }
 
 
 /* === RWD === */
 
 @media (min-width: 768px) {
-  .u-hide-mobile {
-    display: block !important;
-  }
-  .u-show-mobile {
-    display: none !important;
-  }
+	.u-hide-mobile {
+		display: block !important;
+	}
+
+	.u-show-mobile {
+		display: none !important;
+	}
 }

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from dateutil.relativedelta import relativedelta
 import pandas as pd
-import os, datetime, re, glob, calendar, time, smtplib, openpyxl
+import os, datetime, re, glob, calendar, time, smtplib, openpyxl, textwrap
 from django.conf import settings
 
 # --- 導入共用圖片轉 .webp 格式 與清理舊檔案函式 ---
@@ -1568,7 +1568,7 @@ class MyPaginator(Paginator):
 
 # 功能(一)、首頁
 
-# --- [ 最新消息:解析檔名(slug / hash) ] ---
+# ---【 ADD-最新消息:解析檔名 (slug / hash) 】---
 def _get_news_1_list():
 	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
 	news_lists = []
@@ -1590,7 +1590,8 @@ def _get_news_1_list():
 	news_lists.sort(key=get_year, reverse=True)
 	return news_lists
 
-# --- [ 媒體報導:解析檔名(slug / hash) ] ---
+# ---【 ADD-最新消息:解析檔名 (slug / hash) 】End ---
+# ---【 ADD-媒體報導:解析檔名(slug / hash)】---
 def _get_news_2_list():
 	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
 	medias_split_box = []
@@ -1655,9 +1656,11 @@ def _parse_news_2_items(items):
 		item.append(img_name)   # Index [10]
 		item.append(excerpt)    # Index [11]
 		item.append(webp_path)  # Index [12]
-
+# ---【 ADD-媒體報導:解析檔名(slug / hash)】End ---
 
 def index(request):
+
+	# ---【 ADD-首頁：最新消息、媒體報導】Start ---
 	# 1. 沿用並引入共用資料邏輯（僅取最新發布前 5 筆）
 	news_lists_5 = _get_news_1_list()[:5]
 
@@ -1665,8 +1668,10 @@ def index(request):
 	medias_split_box = _get_news_2_list()
 	media_reports_6 = medias_split_box[:6]
 	_parse_news_2_items(media_reports_6)
-
+	
 	MEDIA_URL = settings.MEDIA_URL
+	# ---【 ADD-首頁：最新消息、媒體報導】End ---
+
 
 	# 3. 影音消息
 	_dir=os.path.join(settings.MEDIA_ROOT, 'news_3')
@@ -1729,6 +1734,7 @@ def index(request):
 	message_lists_4=list(filter(lambda x: x['video_type'] == '4',message_lists))[:4]
 
 
+# ------【 ADD-首頁：醫療資訊】Start ------
 	# 4. 醫療資訊對接 Mapping Cache 取得極速緩存 (僅顯示最新 4 筆)
 	mapping = _get_medical_map()
 	media_page_list = mapping['list_data'][:4]
@@ -1744,14 +1750,17 @@ def index(request):
 		'contacts': media_page_list, # 增加 contacts 變數以相容於 news_4_card_single.html 的 data 參照
 		'MEDIA_URL': MEDIA_URL,
 	})
+# ------【 ADD-首頁：醫療資訊】End ------
+
 
 # =========================================A000(醫院公告)=========================================
 
 # 功能(二)、子頁-最新消息
 def get_year(element):
-	return element[6]
+	return element[6] # ------【 ADD-改成 6】------
 
-# 最新消息 (清單頁)
+
+# ------【 ADD-最新消息(清單頁)】Start ------
 def new_news(request, page=None):
 	# 沿用並引入共用最新消息資料邏輯，確保未來更新同步！
 	news_lists = _get_news_1_list()
@@ -1773,8 +1782,10 @@ def new_news(request, page=None):
 			'paginator': paginator,
 			'MEDIA_URL': settings.MEDIA_URL,
 		})
+# ------【 ADD-最新消息(清單頁)】End ------
 
-# 最新消息 (文章內容頁)
+
+# ------【 ADD-最新消息(文章內容頁)】Start ------
 def new_news_detail(request, slug):
 	# --- 在資料夾中尋找符合該 slug 的檔案 ---
 	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
@@ -1843,13 +1854,14 @@ def new_news_detail(request, slug):
 		'has_h_tag': has_h_tag,
 		'MEDIA_URL': settings.MEDIA_URL,
 	})
-
+# ------【 ADD-首頁：醫療資訊】End ------
 
 
 # 功能(三)、子頁-媒體報導
 def get_m_year(element):
-	return element[6]  #指取資料第 6 個位置值
+	return element[6]  # ------【 ADD-改成 6】------
 
+# ------【 ADD-媒體報導(清單頁)】Start ------
 def new_medias(request, page=None):
 	# 沿用並引入共用媒體報導資料邏輯，確保未來更新同步！
 	medias_split_box = _get_news_2_list()
@@ -1874,9 +1886,10 @@ def new_medias(request, page=None):
 			'paginator': paginator,
 			'MEDIA_URL': settings.MEDIA_URL,
 		})
+# ------【 ADD-媒體報導(清單頁)】End ------
 
 
-# 媒體報導 (文章內容頁)
+# ------【 ADD-媒體報導(文章內容頁)】Start ------
 def new_media_detail(request, slug):
 
 	# --- 根據 slug (例如 2025-07-21_HA01830) 找尋結尾匹配的檔案 ---
@@ -1942,7 +1955,7 @@ def new_media_detail(request, slug):
 		'has_h_tag': has_h_tag,
 		'MEDIA_URL': settings.MEDIA_URL,
 	})
-
+# ------【 ADD-媒體報導(文章內容頁)】End ------
 
 
 # 功能(三)、子頁-停休診公告
@@ -2123,6 +2136,7 @@ def new_video(request):
 
 # 功能(五)、子頁-醫療資訊
 
+# ------【 ADD-醫療資訊 (清單頁) 】Start ------
 # --- [ 檔案加上 hash 值 (slug)、新舊網址對照表快取 ] ---
 
 _MEDICAL_MAP_CACHE = None
@@ -2261,8 +2275,9 @@ def medical_pages(request):
 			return redirect(f"/A000_medical_info/{new_slug}/", permanent=True)
 			
 	return redirect("/A000_medical_info/", permanent=True)
+# ------【 ADD-醫療資訊 (清單頁) 】End ------
 
-
+# ------【 ADD-醫療資訊 (詳細頁)】Start ------
 # 【醫療資訊 - 極短網址詳細頁】
 def medical_pages_detail(request, slug):
 	mapping = _get_medical_map()
@@ -2347,6 +2362,7 @@ def medical_pages_detail(request, slug):
 		'MEDIA_URL': MEDIA_URL,
 		'SITE_DOMAIN': settings.SITE_DOMAIN,
 	})
+# ------【 ADD-醫療資訊 (詳細頁)】End ------
 
 
 # =========================================A001(科室介紹)=========================================
@@ -2364,19 +2380,25 @@ def A001_department_overview(request):
 			subjects.append(re_dir[2])
 			django_subjects.append(s_dir)
 
-	mapping = _get_dept_dr_map() # 115/05/17短網址-新增部分
+	# ------【 ADD-科室總覽(短網址)】Start ------
+	mapping = _get_dept_dr_map()
+	# ------【 ADD-科室總覽(短網址)】End ------
 
 	for subject in django_subjects:
 		django_departments = []
 		django_departments2 = []
-		django_dept_ens = [] # 115/05/17短網址-新增部分
+
+		# ------【 ADD-科室總覽(短網址)】Start ------
+		django_dept_ens = []
+		# ------【 ADD-科室總覽(短網址)】End ------
+	
 		d_dirs = os.listdir(os.path.join(settings.MEDIA_ROOT, 'department', str(subject)))
 
 		for d_dir in d_dirs:
 			red_dir = d_dir.split("_")
 			django_departments.append(red_dir[1])
 
-			# 115/05/17短網址-新增部分
+			# ------【 ADD-科室總覽(短網址)】Start ------
 			path_id = str(subject).split("_")[1] + "_" + str(d_dir).split("_")[0]
 			django_departments2.append(path_id)
 
@@ -2386,34 +2408,38 @@ def A001_department_overview(request):
 			django_dept_ens.append(dept_en)
 			
 			z_departments = zip(django_departments, django_departments2, django_dept_ens)
-			# 115/05/17短網址-新增部分
+			# ------【 ADD-科室總覽(短網址)】End ------
 
 		departments.append(z_departments)
 
 	datas = zip(subjects, departments)
 
+	# ------【 ADD-科室總覽(短網址)】Start ------
 	MEDIA_URL = settings.MEDIA_URL
 	return render(request, "department/department_index.html", {
 		'datas': datas,
 		'MEDIA_URL': MEDIA_URL,
 	})
+	# ------【 ADD-科室總覽(短網址)】End ------
 
 # 科室介紹
 
-# --- [ 圖片轉 WebP 專用包裝函數] ---
+# ------【 ADD-圖片轉 WebP 專用包裝函數 】Start ------
 def convert_doctor_image_to_webp(original_filename):
 	"""專用：轉換醫師大頭照為 WebP，儲存於 department/img/doc-webp，壓縮品質 80%"""
 	source_dir = os.path.join(settings.MEDIA_ROOT, 'department', 'img')
 	target_dir = os.path.join(source_dir, 'doc-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
+
 def convert_about_image_to_webp(original_filename):
 	"""專用：轉換長安簡介圖片為 WebP，儲存於 A004/img/about-webp，壓縮品質 80%"""
 	source_dir = os.path.join(settings.MEDIA_ROOT, 'A004', 'img')
 	target_dir = os.path.join(source_dir, 'about-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
+# ------【 ADD-圖片轉 WebP 專用包裝函數 】End ------
 
-# --- [ Mapping Cache 對照表快取機制] ---
+# ------【 ADD-Mapping Cache 對照表快取機制 】Start ------
 _DEPT_DR_MAP_CACHE = None
 
 def _get_dept_dr_map(): # 取得科別與醫師對照表（動態掃描並快取）
@@ -2467,8 +2493,9 @@ def _get_dept_dr_map(): # 取得科別與醫師對照表（動態掃描並快取
 								mapping['doctors'][f"{dept_en}_{dr_id}"] = doc_data
 	_DEPT_DR_MAP_CACHE = mapping
 	return mapping
+# ------【 ADD-Mapping Cache 對照表快取機制 】End ------
 
-# --- [ 醫師-短網址轉接頭 ] ---
+# ------【 ADD-醫師-短網址轉接頭 】Start ------
 def A001_department_doctor_short(request, dept_en, dr_id):
 	mapping = _get_dept_dr_map()
 	# 優先使用「科別英文_醫師ID」組合鍵比對，避免跨科別同工號衝突
@@ -2478,9 +2505,9 @@ def A001_department_doctor_short(request, dept_en, dr_id):
 	request.GET['dr_search'] = 'true'
 	request.GET['open_info_path'] = doc_info['path_id']
 	return A001_department_doctor(request)
+# ------【 ADD-醫師-短網址轉接頭 】End ------
 
-
-# --- [ 科別-短網址轉接頭 ] ---
+# ------【 ADD-科別-短網址轉接頭 】Start ------
 def A001_department_part_short(request, dept_en):
 	mapping = _get_dept_dr_map()
 	dept_id = mapping['dept_en_to_id'].get(dept_en)
@@ -2488,13 +2515,13 @@ def A001_department_part_short(request, dept_en):
 	request.GET = request.GET.copy()
 	request.GET['open_info_name'] = dept_id
 	return A001_department_part(request)
-
+# ------【 ADD-科別-短網址轉接頭 】End ------
 
 
 # @csrf_exempt
 def A001_department_part(request):
 
-	# 新增部分 Start (修正轉址迴圈) --------------------------------
+	# ------【 ADD-修正轉址迴圈 】Start ------
 	# 只有當請求路徑是舊路徑時，才執行轉址
 	if request.path == '/A001_department_part/':
 		if "open_info_name" in request.GET:
@@ -2511,7 +2538,7 @@ def A001_department_part(request):
 	introduction_list = []
 	doctors = []
 	disable_X = False
-	# 新增部分 End --------------------------------
+	# ------【 ADD-修正轉址迴圈 】End ------
 
 	if ("open_info_name" in request.GET):
 		path = request.GET.get("open_info_name")
@@ -2520,8 +2547,7 @@ def A001_department_part(request):
 	if ("path" in request.session):
 		path = request.session['path']
 
-		# 新增部分 Start --------------------------------
-		# 使用對照表快取機制取得科室資訊
+		# ------【 ADD-使用對照表快取機制 】Start ------
 		mapping = _get_dept_dr_map()
 
 		pathFile = ""
@@ -2549,12 +2575,10 @@ def A001_department_part(request):
 		disablePath = os.path.basename(pathFile).split("_") if pathFile else []
 
 
-		# 新增部分 end --------------------------------
+		# ------【 ADD-使用對照表快取機制 】End ------
 
-		# department = path.split("\\")[6].split("_")[1]
-		# disablePath = path.split("\\")[6].split("_")
 		disable_X = False
-		if "x" in disablePath: # 只要包含 x 標記就生效
+		if "x" in disablePath: # ADD-只要包含 x 標記就生效
 			disable_X = True
 
 
@@ -2574,13 +2598,15 @@ def A001_department_part(request):
 		doctor_list7 = []
 		# 醫師員編
 		doctor_list8 = []
-		# 醫師 WebP 大頭照列表
+		# --- ADD-科室介紹 WebP 圖檔列表 Start ---
 		doctor_webp_list = []
 		# 科室介紹內容
 		introduction_list = []
+		# --- ADD-科室介紹 WebP 圖檔列表 End ---
 
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
 		# files = os.listdir(path)
+
 		if pathFile:
 			files = os.listdir(pathFile)
 		else:
@@ -3553,6 +3579,24 @@ def A004_hos_intro(request):
 # 交通資訊
 def A004_hos_traffic_info(request):
 	return render(request, "department/m_intro_1.html", {})
+
+# 失物招領
+def A004_hos_lost_info(request):
+	announcementPath = os.path.join(settings.MEDIA_ROOT, "lost_and_found", "announcement.txt")
+	filePath = os.path.join(settings.MEDIA_ROOT, "lost_and_found", "lost_and_found_file.xlsx")
+
+	try:
+		data = open(announcementPath, "r", encoding="utf-8-sig")
+		data_lines = data.readlines()
+	except:
+		return render(request, "404.html", status = 404)
+
+	return render(request, "lost_and_found_index.html", locals()) # 秀出網頁
+
+# 意見反映
+def A004_contact_us(request):
+	return render(request, "Contact_us.html", {})
+
 
 # =========================================A005(收費標準)=============================================
 
@@ -5071,34 +5115,218 @@ def A100_search_sename(request):
 
 # 新官網占床率（JS）
 def A101_search_bed(request):
-	# 連線MSSQL資料庫
-	try:
-		connection = pymssql.connect(
-			host = settings.MSSQL_51_45_HOST,
-			user = settings.MSSQL_51_45_USER,
-			password = settings.MSSQL_51_45_PWD,
-			database = settings.MSSQL_51_45_DB,
-			charset = 'UTF-8',
-			tds_version = '7.0'
-		)
+	stats = {
+		"BEDS1": 0,     # 急性一般病床 占床數
+		"BEDS2": 0,     # 急性一般病床 空床數
+		"BEDS3": 0,     # 急性一般病床 總床數
+		"BEDS4": 0,     # 急性收差額病床 占床數
+		"BEDS5": 0,     # 急性收差額病床 空床數
+		"BEDS6": 0,     # 急性收差額病床 總床數
+		"BEDS7": 0,     # 急診觀察床 占床數
+		"BEDS8": 0,     # 急診觀察床 空床數
+		"BEDS9": 0,     # 急診觀察床 總床數
+		"BEDS10": 0,    # 加護病床 總床數
+		"BEDS11": 0,    # 加護病床 總床數
+		"BEDS12": 0,    # 加護病床 總床數
+		"EBDSdate": 0,  #
+	}
 
-		# 輸入你要查找的資料表語法
-		sql = "SELECT * FROM OLAP_EMPTY_BED_SUMMY"
+	# 取得當前的日期和時間
+	days_ago_30 = datetime.datetime.now() - datetime.timedelta(days=30)
+	days_ago_30_string = days_ago_30.strftime("%Y%m%d")
 
-		# 定義資料庫游標
-		c = connection.cursor(as_dict = True)
-		c.execute(sql)
 
-		rows = c.fetchone()
+	# 連線Oracle資料庫
+	connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
-		c.close()
-		connection.close()
-	except Exception as e:
-		print(f"A101_search_bed DB Error: {e}")
-		return JsonResponse({"error": "Database connection failed", "details": str(e)}, status=500)
+	# 輸入你要查找的資料表語法
+	sql = textwrap.dedent(f"""
+			SELECT NBD_BEDNO, NBD_BEDKIND, NBD_BDSTATUS, IBAP_BEDNO, NBD_BEDGRADE
+			FROM NSTBED LEFT JOIN INPBAP
+				ON NBD_BEDNO = IBAP_BEDNO
+				AND SUBSTR(IBAP_INPDTTM, 1, 8) >= '{days_ago_30_string}'
+				AND IBAP_APPSTATUS in ('N','R')
+				AND IBAP_BEDNO <> ' '
+			WHERE NBD_NRCODE <> '5A'
+			""").strip()
 
-	return JsonResponse(rows, safe=False, json_dumps_params={'ensure_ascii': False})
+	# 定義資料庫游標
+	cursor = connection.cursor()
+	cursor.execute(sql)
+
+	for row in cursor:
+		bed_no, bed_kind, bed_status, reserve_bed_no, bed_grade = row[0], row[1], row[2], row[3], row[4]
+
+		if bed_kind == "1":  # 一般病床
+			if bed_status == "0":
+				is_empty = True
+			else:
+				is_empty = False
+
+			if not "ER" in bed_no:
+				if bed_grade in ["P","A","O","H"]:  # 健保病床
+					if is_empty:
+						stats["BEDS2"] += 1  # 空床
+					else:
+						stats["BEDS1"] += 1  # 占床
+				else:                               # 自費病床
+					if is_empty:
+						stats["BEDS5"] += 1  # 空床
+					else:
+						stats["BEDS4"] += 1  # 占床
+
+		elif bed_kind == "5":  # 留觀床
+			if bed_status == "0":
+				stats["BEDS8"] += 1  # 空床
+			else:
+				stats["BEDS7"] += 1  # 占床
+
+		elif bed_kind == "3":  # 加護病床
+			if bed_status == "0":
+				is_empty = True
+			else:
+				is_empty = False
+
+			if is_empty:
+				stats["BEDS11"] += 1  # 空床
+			else:
+				stats["BEDS10"] += 1  # 占床
+
+	stats["BEDS3"] = stats["BEDS1"] + stats["BEDS2"]
+	stats["BEDS6"] = stats["BEDS4"] + stats["BEDS5"]
+	stats["BEDS9"] = stats["BEDS7"] + stats["BEDS8"]
+	stats["BEDS12"] = stats["BEDS10"] + stats["BEDS11"]
+	stats["EBDSdate"] = datetime.datetime.now()
+
+	cursor.close()
+	connection.close()
+
+	response = JsonResponse(stats, safe=False, json_dumps_params={'ensure_ascii': False})
+	response["Access-Control-Allow-Origin"] = "http://192.168.66.147:4114"
+
+	return response
 
 # =========================================A102(資通安全政策聲明)=============================================
 def A102_Safe_ISMS(request):
-	return render(request, "Safe_ISMS.html", {})
+	return render(request, "Safe_ISMS.html", locals()) # 秀出網頁
+
+# =========================================A103(院內住院占床數)=============================================
+def A103_search_ITH_bed(request):
+	x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+	if x_forwarded_for:
+		user_ip = x_forwarded_for.split(',')[0]  # 多層代理時只取第一個真實 IP
+	else:
+		user_ip = request.META.get('REMOTE_ADDR')
+
+	print(user_ip)
+
+	if "192.168." in user_ip:
+		"""
+		連線到 HIS 資料庫，查詢並計算即時病床狀況。
+		"""
+		stats = {
+			"general_occupied": 0,  # 一般病床 佔床
+			"general_empty": 0,     # 一般病床 空床
+			"double_occupied": 0,   # 雙人床 佔床
+			"double_empty": 0,      # 雙人床 空床
+			"single_occupied": 0,   # 單人床 佔床
+			"single_empty": 0,      # 單人床 空床
+			"nhi_occupied": 0,      # 健保床 佔床
+			"nhi_empty": 0,         # 健保床 空床
+			"icu_occupied": 0,      # ICU 佔床
+			"icu_empty": 0,         # ICU 空床
+		}
+
+		# SQL 查詢，模仿 OLAP_PATIENT_IPD_DAYS.ASP 中的邏輯
+		# - NBD_BEDKIND = '1' 代表 '一般病床'
+		# - NBD_BEDKIND = '3' 代表 'ICU'
+		# - NBD_BDSTATUS = '0' 代表 '空床'
+		# - NBD_BEDGRADE 用來區分 '雙人床', '單人床', '健保床'
+
+		# 1. 取得當前的日期和時間
+		days_ago_30 = datetime.datetime.now() - datetime.timedelta(days=30)
+
+		# 2. 使用 strftime() 方法將 datetime 物件格式化為指定的字串格式
+		# %Y: 四位數的年份 (e.g., 2025)
+		# %m: 兩位數的月份 (e.g., 09)
+		# %d: 兩位數的日期 (e.g., 26)
+		days_ago_30_string = days_ago_30.strftime("%Y%m%d")
+		stations = ["6A", "7A", "ICU", "5FICU"]
+		stations_str = ", ".join([f"'{s}'" for s in stations])  # SQL 的字串用單引號
+
+		# 連線Oracle資料庫
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
+			,encoding='UTF-8', nencoding='UTF-8')
+
+		sql = textwrap.dedent(f"""
+			SELECT NBD_BEDNO, NBD_BEDKIND, NBD_BDSTATUS, IBAP_BEDNO, NBD_BEDGRADE
+			FROM NSTBED LEFT JOIN INPBAP
+				ON NBD_BEDNO = IBAP_BEDNO
+				AND SUBSTR(IBAP_INPDTTM, 1, 8) >= '{days_ago_30_string}'
+				AND IBAP_APPSTATUS in ('N','R')
+				AND IBAP_BEDNO <> ' '
+			WHERE NBD_NRCODE IN ({stations_str})
+			""").strip()
+
+		# 定義資料庫游標
+		cursor = connection.cursor()
+		cursor.execute(sql)
+
+		for row in cursor:
+			bed_no, bed_kind, bed_status, reserve_bed_no, bed_grade = row[0], row[1], row[2], row[3], row[4]
+
+			if bed_kind == "1":  # 一般病床
+				"""
+				NBD_BEDKIND -> 1 一般病床; 3 ICU病床
+				雙人床 -> NBD_BEDGRADE IN ('D', 'K')
+				單人床 -> NBD_BEDGRADE IN ('E')
+				健保床 -> NBD_BEDGRADE IN ('A', 'H', 'O', 'P')
+
+				D -> 雙人差額病床(靠窗)
+				K -> 雙人差額病床(不靠窗)
+				E -> 單人病房
+				A -> 四人健保病床(靠窗)
+				H -> 四人健保病床(不靠窗)
+				O -> 雙人健保病床(靠窗)
+				P -> 雙人健保病床(不靠窗)
+				"""
+				bed_kind = str()
+
+				if bed_status == "0":
+					if reserve_bed_no:  # 代表已預約
+						is_empty = False  # True 代表空床，False 代表佔床
+					else:
+						is_empty = True
+				else:
+					is_empty = False
+
+				if bed_grade == "D" or bed_grade == "K":
+					if is_empty:
+						stats["double_empty"] += 1
+					else:
+						stats["double_occupied"] += 1
+				elif bed_grade == "E":
+					if is_empty:
+						stats["single_empty"] += 1
+					else:
+						stats["single_occupied"] += 1
+				elif bed_grade == "A" or bed_grade == "H" or bed_grade == "O" or bed_grade == "P":
+					if is_empty:
+						stats["nhi_empty"] += 1
+					else:
+						stats["nhi_occupied"] += 1
+			else:  # ICU
+				if bed_status == "0":
+					if reserve_bed_no:  # 代表已預約
+						stats["icu_occupied"] += 1
+					else:
+						stats["icu_empty"] += 1
+				else:
+					stats["icu_occupied"] += 1
+
+		stats["general_empty"] = stats["double_empty"] + stats["single_empty"] + stats["nhi_empty"]
+		stats["general_occupied"] = stats["double_occupied"] + stats["single_occupied"] + stats["nhi_occupied"]
+
+		return render(request, "ITH_BED.html", locals()) # 秀出網頁
+	else:
+		return render(request, "404.html", status=404) # 秀出網頁

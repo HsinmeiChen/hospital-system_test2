@@ -1,214 +1,262 @@
-<!-- 占床率 Modal -->
-<script type="text/javascript">
-$( function () {
-		$("#bed_show").click(function(){
-			$.getJSON("/A101_search_bed/",function(result){
-				var EBDS1 = result.EBDS1;
-				var EBDS2 = result.EBDS2;
-				var EBDS3 = result.EBDS3;
-				var EBDS4 = result.EBDS4;
-				var EBDS5 = result.EBDS5;
-				var EBDS6 = result.EBDS6;
-				var EBDS7 = result.EBDS7;
-				var EBDS8 = result.EBDS8;
-				var EBDS9 = result.EBDS9;
-				var EBDSdate = result.EBDSdate;
+<!-- 占床率 -->
+		<script type="text/javascript">
+		$( function () {
+				$("#bed_show").click(function(){
+					$.getJSON("/A101_search_bed/",function(result){
+						var BEDS1 = result.BEDS1;
+						var BEDS2 = result.BEDS2;
+						var BEDS3 = result.BEDS3;
+						var BEDS4 = result.BEDS4;
+						var BEDS5 = result.BEDS5;
+						var BEDS6 = result.BEDS6;
+						var BEDS7 = result.BEDS7;
+						var BEDS8 = result.BEDS8;
+						var BEDS9 = result.BEDS9;
+						var BEDS10 = result.BEDS10;
+						var BEDS11 = result.BEDS11;
+						var BEDS12 = result.BEDS12;
+						var EBDSdate = result.EBDSdate;
 
-				$('#bed_RT').html(EBDS8);
-				var EBDS8S9 = EBDS8 - EBDS9;
-				$('#bed_RO').html(EBDS8S9);
-				$('#bed_RE').html(EBDS9);
+						$('#bed_RT').html(BEDS3);
+						$('#bed_RO').html(BEDS1);
+						$('#bed_RE').html(BEDS2);
 
-				var EBDS1S8 = EBDS1 - EBDS8;
-				var EBDS2S9 = EBDS2 - EBDS9;
-				$('#bed_DT').html(EBDS1S8);
-				var EBDDO = EBDS1S8 - EBDS2S9;
-				$('#bed_DO').html(EBDDO);
-				$('#bed_DE').html(EBDS2S9);
+						$('#bed_DT').html(BEDS6);
+						$('#bed_DO').html(BEDS4);
+						$('#bed_DE').html(BEDS5);
 
-				$('#bed_ER1').html(EBDS5);
-				var EBDS5S6 = EBDS5 - EBDS6;
-				$('#bed_ER2').html(EBDS5S6);
-				$('#bed_ER3').html(EBDS6);
+						$('#bed_ER1').html(BEDS9);
+						$('#bed_ER2').html(BEDS7);
+						$('#bed_ER3').html(BEDS8);
 
-				$('#bed_ICU1').html(EBDS3);
-				var EBDS3S4 = EBDS3 - EBDS4;
-				$('#bed_ICU2').html(EBDS3S4);
-				$('#bed_ICU3').html(EBDS4);
+						$('#bed_ICU1').html(BEDS12);
+						$('#bed_ICU2').html(BEDS10);
+						$('#bed_ICU3').html(BEDS11);
 
-				var EBDS_01 = parseInt(EBDS8) + parseInt(EBDS1S8);
-				$('#bed_01').html(EBDS_01);
-				$('#bed_02').html(EBDS5);
-				$('#bed_03').html(6);
-				$('#bed_04').html(3);
-				$('#bed_05').html(32);
-				$('#bed_06').html(EBDS3);
-				$('#bed_07').html(EBDS7);
+						// var EBDS_01 = parseInt(EBDS8) + parseInt(EBDS1S8);
+						// $('#bed_01').html(EBDS_01);
+						// $('#bed_02').html(EBDS5);
+						// $('#bed_03').html(6);
+						// $('#bed_04').html(3);
+						// $('#bed_05').html(32);
+						// $('#bed_06').html(EBDS3);
+						// $('#bed_07').html(EBDS7);
 
-				$('#bed_LMD').html(EBDSdate);
+						var BEDS1_4 = parseInt(BEDS1) + parseInt(BEDS4);
+						var BEDS3_6 = parseInt(BEDS3) + parseInt(BEDS6);
+						var EBDS_RD_p = ((parseFloat(BEDS1_4) / parseFloat(BEDS3_6)) * 100).toFixed(0);
+						$('#bed_RD_p').html(EBDS_RD_p);
+						var EBDS_ER_p = ((parseFloat(BEDS7) / parseFloat(BEDS9)) * 100).toFixed(0);
+						$('#bed_ER_p').html(EBDS_ER_p);
+						var EBDS_ICU_p = ((parseFloat(BEDS10) / parseFloat(BEDS12)) * 100).toFixed(0);
+						$('#bed_ICU_p').html(EBDS_ICU_p);
 
-				var EBDS_S8S9_DO = parseInt(EBDS8S9) + parseInt(EBDDO);
-				var EBDS_RD_p = ((parseFloat(EBDS_S8S9_DO) / parseFloat(EBDS_01)) * 100).toFixed(0);
-				$('#bed_RD_p').html(EBDS_RD_p);
-				var EBDS_ER_p = ((parseFloat(EBDS5S6) / parseFloat(EBDS5)) * 100).toFixed(0);
-				$('#bed_ER_p').html(EBDS_ER_p);
-				var EBDS_ICU_p = ((parseFloat(EBDS3S4) / parseFloat(EBDS3)) * 100).toFixed(0);
-				$('#bed_ICU_p').html(EBDS_ICU_p);
+						const now = new Date();
+						$('#bed_LMD').html(now.toLocaleString());
 
+					});
+				});
 			});
-		});
-	});
-</script>
+		</script>
+		<div class="modal fade" id="bed_rate" role="dialog">
+			<div class="modal-dialog" style="width: 100%;max-width: 900px;">
+				<div class="modal-content">
+					<div class="modal-header">
+							<h4 class="modal-title">占床率</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<!-- <div class="title_01">醫院規模</div>
+						<p>急性一般病床<span id="bed_01"></span>床、
+							急診觀察床<span id="bed_02"></span>床、
+							加護病床<span id="bed_06"></span>床、
+							手術台<span id="bed_03"></span>床、
+							手術恢復床<span id="bed_04"></span>床、
+							(門診)診療室<span id="bed_05"></span>床、
+							血液透析床<span id="bed_07"></span>床。</p>
+						<div class="title_01" style="font-style: normal; font-weight: 400;">&nbsp;
+						</div> -->
+						<style>
+							.Div_w_20{
+								width: calc(20% - 1%);
+							}
+							.Div_w_80{
+								width: calc(80% - 1%);
+							}
+							.bed_occ .Div_body,
+							.bed_occ .Div_body{
+								padding: 0;
+							}
+							.see_num{
+								width: 100%;
+							}
+							.column {
+								float: left;
+								width: 16.6%;
+							}
 
-<div class="modal fade" id="bed_rate" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-					<h4 class="modal-title">占床率</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<div class="modal-body">
-
-				<div class="p-2 title-bg text-center" style="margin: 0 .5%;">
-					<h4 class="cofe-word mb-0">醫院規模</h4>
-				</div>
-				<div class="Div_out bed_occ">
-					<div class="Div_box Div_w_20">
-						<div class="Div_body">
-							<div class="card-content">
-								<div class="card-body p-0">
-									<div class="d-inline-flex see_title noon_a">
-										<h5>急性一般病床</h5>
+							/* Responsive columns */
+							@media screen and (max-width: 992px) {
+								.Div_w_20,.Div_w_80{
+									width: calc(100% - 1%);
+								}
+								.column {
+									width: 33.3%;
+									display: block;
+									margin-bottom: 10px;
+								}
+							}
+						</style>
+						<div class="p-2 title-bg text-center" style="margin: 0 .5%;">
+							<h4 class="cofe-word mb-0"><a href="#" target="_blank" style="color: #fff;">醫院規模</a></h4>
+						</div>
+						<div class="Div_out bed_occ">
+							<div class="Div_box Div_w_20">
+								<div class="Div_body">
+									<div class="card-content">
+										<div class="card-body p-0">
+											<div class="d-inline-flex see_title noon_a">
+												<h5>急性一般病床</h5>
+											</div>
+											<div class="media my-3">
+												<div class="media-body see_num">
+													<h3 class="see_room_no" style="font-size: 1.8rem;">99 床</h3>
+													<!-- <span>加護病床</span> -->
+												</div>
+											</div>
+										</div>
 									</div>
-									<div class="media my-3">
-										<div class="media-body see_num">
-											<h3 class="see_room_no" style="font-size: 1.8rem;">99 床</h3>
+								</div>
+							</div>
+							<div class="Div_box Div_w_80">
+								<div class="Div_body">
+									<div class="d-inline-flex see_title noon_a">
+										<h5>特殊病床 93 床</h5>
+									</div>
+									<div class="mx-auto mt-3 mb-1">
+										<div class="column">
+											<div class="see_num" style="border-left: 0px solid !important;">
+												<h3 class="see_room_no">24 床</h3>
+												<span>加護病床</span>
+											</div>
+										</div>						
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">1 床</h3>
+												<span>負壓隔離病床</span>
+											</div>
+										</div>							
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">45 床</h3>
+												<span>洗腎治療床</span>
+											</div>
+										</div>						
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">14 床</h3>
+												<span>急診觀察床</span>
+											</div>
+										</div>
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">6 間</h3>
+												<span>手術室</span>
+											</div>
+										</div>
+										<div class="column">
+											<div class="see_num">
+												<h3 class="see_room_no">3 床</h3>
+												<span>手術恢復室</span>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="Div_box Div_w_80">
-						<div class="Div_body">
-							<div class="d-inline-flex see_title noon_a">
-								<h5>特殊病床 93 床</h5>
-							</div>
-							<div class="mx-auto mt-3 mb-1">
-								<div class="column">
-									<div class="see_num" style="border-left: 0px solid !important;">
-										<h3 class="see_room_no">24 床</h3>
-										<span>加護病床</span>
-									</div>
-								</div>						
-								<div class="column">
-									<div class="see_num">
-										<h3 class="see_room_no">1 床</h3>
-										<span>負壓隔離病床</span>
-									</div>
-								</div>							
-								<div class="column">
-									<div class="see_num">
-										<h3 class="see_room_no">45 床</h3>
-										<span>洗腎治療床</span>
-									</div>
-								</div>						
-								<div class="column">
-									<div class="see_num">
-										<h3 class="see_room_no">14 床</h3>
-										<span>急診觀察床</span>
-									</div>
-								</div>
-								<div class="column">
-									<div class="see_num">
-										<h3 class="see_room_no">6 間</h3>
-										<span>手術室</span>
-									</div>
-								</div>
-								<div class="column">
-									<div class="see_num">
-										<h3 class="see_room_no">3 床</h3>
-										<span>手術恢復室</span>
-									</div>
-								</div>
-							</div>
+						<div style="margin: 0 .5%;">
+							<table class="table table-bordered table-striped text-center mb-0">
+								<thead>
+									<tr>
+										<th class="align-middle title-bg">病床類別</th>
+										<th class="align-middle title-bg">總床數</th>
+										<th class="align-middle title-bg">占床數</th>
+										<th class="align-middle title-bg">空床數</th>
+										<th class="align-middle title-bg">占床率</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="text-left font-weight-bold">急性一般病床</td>
+										<td><span id="bed_RT"></span>床</td>
+										<td><span id="bed_RO"></span>床</td>
+										<td><span id="bed_RE"></span>床</td>
+										<td rowspan="2"><span id="bed_RD_p"></span>%</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">急性收差額病床</td>
+										<td><span id="bed_DT"></span>床</td>
+										<td><span id="bed_DO"></span>床</td>
+										<td><span id="bed_DE"></span>床</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">急診觀察床</td>
+										<td><span id="bed_ER1"></span>床</td>
+										<td><span id="bed_ER2"></span>床</td>
+										<td><span id="bed_ER3"></span>床</td>
+										<td><span id="bed_ER_p"></span>%</td>
+									</tr>
+									<tr>
+										<td class="text-left font-weight-bold">加護病床</td>
+										<td><span id="bed_ICU1"></span>床</td>
+										<td><span id="bed_ICU2"></span>床</td>
+										<td><span id="bed_ICU3"></span>床</td>
+										<td><span id="bed_ICU_p"></span>%</td>
+									</tr>
+									<tr>
+										<td rowspan="2" colspan="3" class="font-weight-bold">差額病床收費 (健保)</td>
+										<td class="text-nowrap">單人房</td>
+										<td class="text-nowrap">5,000 元</td>
+									</tr>
+									<tr style="background-color: #f6f0e9;">
+										<td class="text-nowrap">雙人房</td>
+										<td class="text-nowrap">2,500 元</td>
+									</tr>
+
+									<tr style="background-color: #fff;">
+										<td rowspan="3" colspan="3" class="font-weight-bold">差額病床收費 (自費)</td>
+										<td class="text-nowrap">單人房</td>
+										<td class="text-nowrap">7,300 元</td>
+									</tr>
+									<tr>
+										<td class="text-nowrap">雙人房</td>
+										<td class="text-nowrap">4,800 元</td>
+									</tr>
+									<tr style="background-color: #fff;">
+										<td class="text-nowrap">健保房</td>
+										<td class="text-nowrap">1,780 元</td>
+									</tr>									
+									<!-- <tr>
+										<td colspan="4">保險床比率：<span id="bed_PC"></span>%</td>
+									</tr> -->
+									<tr style="background-color: #f6f0e9;">
+										<td colspan="5">保險病床比率：60%，每日占床數及空床數僅供參考，仍以住院服務中心實際床位分配為主。</td>
+									</tr>
+									<!-- <tr>
+										<td colspan="5">急性一般病床之全日平均配置比率 : <span id="bed_EV"></span>月份全日平均護病比12.1</td>
+									</tr> -->
+									<tr style="background-color: #fff;">
+										<td colspan="5">資料更新時間：
+											<span id="bed_LMD"></span>
+										</td>
+									</tr>								
+								</tbody>
+							</table>
 						</div>
 					</div>
-				</div>
-				<div style="margin: 0 .5%;">
-					<table class="table table-bordered table-striped text-center mb-0">
-						<thead>
-							<tr>
-								<th class="align-middle title-bg">病床類別</th>
-								<th class="align-middle title-bg">總床數</th>
-								<th class="align-middle title-bg">占床數</th>
-								<th class="align-middle title-bg">空床數</th>
-								<th class="align-middle title-bg">占床率</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="text-left font-weight-bold">急性一般病床</td>
-								<td><span id="bed_RT"></span>床</td>
-								<td><span id="bed_RO"></span>床</td>
-								<td><span id="bed_RE"></span>床</td>
-								<td rowspan="2"><span id="bed_RD_p"></span>%</td>
-							</tr>
-							<tr>
-								<td class="text-left font-weight-bold">急性收差額病床</td>
-								<td><span id="bed_DT"></span>床</td>
-								<td><span id="bed_DO"></span>床</td>
-								<td><span id="bed_DE"></span>床</td>
-							</tr>
-							<tr>
-								<td class="text-left font-weight-bold">急診觀察床</td>
-								<td><span id="bed_ER1"></span>床</td>
-								<td><span id="bed_ER2"></span>床</td>
-								<td><span id="bed_ER3"></span>床</td>
-								<td><span id="bed_ER_p"></span>%</td>
-							</tr>
-							<tr>
-								<td class="text-left font-weight-bold">加護病床</td>
-								<td><span id="bed_ICU1"></span>床</td>
-								<td><span id="bed_ICU2"></span>床</td>
-								<td><span id="bed_ICU3"></span>床</td>
-								<td><span id="bed_ICU_p"></span>%</td>
-							</tr>
-							<tr>
-								<td rowspan="2" colspan="3" class="font-weight-bold">差額病床收費 (健保)</td>
-								<td class="text-nowrap">單人房</td>
-								<td class="text-nowrap">5,000 元</td>
-							</tr>
-							<tr style="background-color: #f6f0e9;">
-								<td class="text-nowrap">雙人房</td>
-								<td class="text-nowrap">2,500 元</td>
-							</tr>
-
-							<tr style="background-color: #fff;">
-								<td rowspan="3" colspan="3" class="font-weight-bold">差額病床收費 (自費)</td>
-								<td class="text-nowrap">單人房</td>
-								<td class="text-nowrap">7,300 元</td>
-							</tr>
-							<tr>
-								<td class="text-nowrap">雙人房</td>
-								<td class="text-nowrap">4,800 元</td>
-							</tr>
-							<tr style="background-color: #fff;">
-								<td class="text-nowrap">健保房</td>
-								<td class="text-nowrap">1,780 元</td>
-							</tr>									
-							<tr style="background-color: #f6f0e9;">
-								<td colspan="5">保險病床比率：60%，每日占床數及空床數僅供參考，仍以住院服務中心實際床位分配為主。</td>
-							</tr>
-							<tr style="background-color: #fff;">
-								<td colspan="5">資料更新時間：
-									<span id="bed_LMD"></span>
-								</td>
-							</tr>								
-						</tbody>
-					</table>
+					<!-- <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">關閉視窗</button>
+					</div> -->
 				</div>
 			</div>
 		</div>
-	</div>
-</div>

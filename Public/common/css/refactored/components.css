@@ -4,19 +4,21 @@
 
 /* Breadcrumb */
 .breadcrumb {
-   padding: 0.75rem 0.2rem;
-   background-color: transparent;
-   margin-bottom: 0;
+  padding: 0.75rem 0.2rem;
+  background-color: transparent;
+  margin-bottom: 0;
 }
 
 /* Buttons (Read More / Action) */
 .c-btn-more {
   display: inline-block;
-  padding: 0.6875rem 0.9375rem; /* 11px 15px */
+  padding: 0.6875rem 0.9375rem;
+  /* 11px 15px */
   cursor: pointer;
   border: 1px solid var(--color-border-dark);
   font-weight: bold;
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;
+  /* 20px */
   line-height: 1rem;
   text-decoration: none;
   white-space: nowrap;
@@ -104,7 +106,7 @@
   transition: transform 0.48s ease-in-out;
 }
 
-.c-card__body{
+.c-card__body {
   height: 155px;
   position: relative;
 }
@@ -114,7 +116,7 @@
   transition: color 0.3s;
   word-break: break-all;
   word-wrap: break-word;
-  max-width: 550px;  
+  max-width: 550px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -155,7 +157,7 @@
   font-size: .9rem;
 }
 
-.c-card:hover .c-card__title{
+.c-card:hover .c-card__title {
   color: var(--color-secondary);
 }
 
@@ -203,10 +205,11 @@
 }
 
 /* Onsale Heading (Ribbon) */
-#content_h{
+#content_h {
   border-bottom: 1px solid var(--color-border);
   margin-bottom: 1rem;
 }
+
 .c-onsale-heading {
   font-size: 1.9rem;
   line-height: 40px;
@@ -313,11 +316,13 @@
 }
 
 .Div_w_20 {
-  width: calc(100% - 1%); /* Mobile Default */
+  width: calc(100% - 1%);
+  /* Mobile Default */
 }
 
 .Div_w_80 {
-  width: calc(100% - 1%); /* Mobile Default */
+  width: calc(100% - 1%);
+  /* Mobile Default */
 }
 
 .bed_occ .Div_body {
@@ -361,7 +366,8 @@
 
 .column {
   float: left;
-  width: 33.3%; /* Mobile Default */
+  width: 33.3%;
+  /* Mobile Default */
   display: block;
   margin-bottom: 10px;
 }
@@ -371,8 +377,10 @@
 .c-back-to-top {
   display: none;
   position: fixed;
-  bottom: 60px; /* Mobile Default */
-  right: 5px;   /* Mobile Default */
+  bottom: 60px;
+  /* Mobile Default */
+  right: 5px;
+  /* Mobile Default */
   z-index: 999;
   font-size: 1.1rem;
   border: none;
@@ -525,7 +533,7 @@
   z-index: 1100;
   transition: right 0.4s ease;
   padding: 2rem;
-  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-menu.active {
@@ -543,12 +551,15 @@
   .Div_w_20 {
     width: calc(20% - 1%);
   }
+
   .Div_w_80 {
     width: calc(80% - 1%);
   }
+
   .column {
     width: 16.6%;
   }
+
   .hamburger {
     display: none;
   }
@@ -559,76 +570,84 @@
    ========================================================================== */
 
 /* 文字標題 */
-.title-bg{
-    background-image: url(/Public/common/img/title-bg4.webp);
-    border: 1px solid #896750;
-    color: #f6f0e9;
+.title-bg {
+  background-image: url(/Public/common/img/title-bg4.webp);
+  border: 1px solid #896750;
+  color: #f6f0e9;
 }
-.title-bg h1, .title-bg h4, .title-bg h3{
-    color: #f6f0e9;
-    font-weight: bolder;
+
+.title-bg h1,
+.title-bg h4,
+.title-bg h3 {
+  color: #f6f0e9;
+  font-weight: bolder;
 }
 
 /* list-style (橘色圓點) */
 .list-bullets {
-    list-style: none;
-    font-size: 16px;
-    margin-bottom: 0;
+  list-style: none;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  line-height: 2rem;
 }
+
 .list-bullets li {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 5px;
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 5px;
 }
+
 .list-bullets li::before {
-    content: '';
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #f5961d;
-    /* border: 2px solid #754826; */
-    display: block;
-    margin-right: 1rem;
-    padding-right: 0.8rem;
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f5961d;
+  /* border: 2px solid #754826; */
+  display: block;
+  margin-right: 1rem;
+  padding-right: 0.8rem;
 }
 
 /* 醫師介紹-文字 */
 .about-text h4 {
-    font-size: 35px;
-    font-weight: 700;
-    margin: 0 0 6px;
+  font-size: 35px;
+  font-weight: 700;
+  margin: 0 0 6px;
 }
 
 
 
 
 /* Fancybox 樣式 */
-.fancybox__backdrop{
-    background: rgba(24, 24, 27, 0.7);
+.fancybox__backdrop {
+  background: rgba(24, 24, 27, 0.7);
 }
 
 /* Sweet alert2 樣式 */
-.swal2-styled{
-    padding: .5em 1.1em !important;
+.swal2-styled {
+  padding: .5em 1.1em !important;
 }
+
 .swal2-styled.swal2-confirm,
-.swal2-styled.swal2-cancel{
-    border-radius: 0 !important;
-    font-size: 20px !important;
-    font-weight: bold;
+.swal2-styled.swal2-cancel {
+  border-radius: 0 !important;
+  font-size: 20px !important;
+  font-weight: bold;
 }
-.swal2-styled.swal2-confirm{
-    background-color: #28a745 !important;
+
+.swal2-styled.swal2-confirm {
+  background-color: #28a745 !important;
 }
 
 
 
 /* |======== RWD 設定 ========| */
 
-@media only screen and (min-width: 576px){
-    .login_form label{
-        text-align: right;
-    }
+@media only screen and (min-width: 576px) {
+  .login_form label {
+    text-align: right;
+  }
 }
 
 
@@ -636,71 +655,73 @@
    長安醫院共用自訂 AJAX 下拉選單分頁元件 (40px 等高)
    ========================================================================== */
 .pagination {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    padding-left: 0 !important;
-    list-style: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  padding-left: 0 !important;
+  list-style: none !important;
 }
 
 .pagination .page-link {
-    width: 40px !important;
-    height: 40px !important;
-    padding: 0 !important;
-    font-size: 1.1rem !important;
-    border: 1px solid var(--color-border-light, #ddd) !important;
-    color: var(--color-text-dark, #333) !important;
-    background-color: var(--color-bg-white, #fff) !important;
-    border-radius: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.2s ease !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  font-size: 1.1rem !important;
+  border: 1px solid var(--color-border-light, #ddd) !important;
+  color: var(--color-text-dark, #333) !important;
+  background-color: var(--color-bg-white, #fff) !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: var(--color-primary, #754826) !important;
-    border-color: var(--color-primary, #754826) !important;
-    color: var(--color-bg-white, #fff) !important;
+  background-color: var(--color-primary, #754826) !important;
+  border-color: var(--color-primary, #754826) !important;
+  color: var(--color-bg-white, #fff) !important;
 }
 
 .pagination .page-link:hover {
-    background-color: var(--color-bg-light, #f8f9fa);
-    border-color: var(--color-border, #ccc);
-    color: var(--color-primary, #754826);
+  background-color: var(--color-bg-light, #f8f9fa);
+  border-color: var(--color-border, #ccc);
+  color: var(--color-primary, #754826);
 }
 
 .pagination .page-item.disabled .page-link {
-    color: var(--color-text-light, #999) !important;
-    pointer-events: none !important;
-    background-color: var(--color-bg-light, #f8f9fa) !important;
-    border-color: var(--color-border-light, #ddd) !important;
-    opacity: 0.6 !important;
+  color: var(--color-text-light, #999) !important;
+  pointer-events: none !important;
+  background-color: var(--color-bg-light, #f8f9fa) !important;
+  border-color: var(--color-border-light, #ddd) !important;
+  opacity: 0.6 !important;
 }
 
 /* 下拉選單客製樣式 */
 .pagination-select {
-    padding: 0 28px 0 12px;
-    height: 40px;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: 1px solid var(--color-border-light, #ddd);
-    background: var(--color-bg-white, #fff) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center/10px 10px;
+  padding: 0 28px 0 12px;
+  height: 40px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid var(--color-border-light, #ddd);
+  background: var(--color-bg-white, #fff) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center/10px 10px;
 }
+
 .pagination-select:focus {
-    border-color: var(--color-primary, #754826) !important;
-    box-shadow: none !important;
+  border-color: var(--color-primary, #754826) !important;
+  box-shadow: none !important;
 }
 
 /* AJAX 容器漸變過渡效果 */
 .ajax-fade-container {
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  opacity: 1;
 }
+
 .ajax-fade-container.fade-out {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }

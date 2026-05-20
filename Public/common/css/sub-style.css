@@ -861,7 +861,7 @@ article a, article a:hover {
 /* Unordered list with custom numbers style */
 ol.custom-numbers {
     list-style: none;
-    font-size: 16px;
+    font-size: 1.1rem;
 }
 ol.custom-numbers li {
     counter-increment: my-awesome-counter;
@@ -1016,9 +1016,6 @@ ol.custom-numbers li::before {
 .see_num{
     text-align: center;
     border-left: 1px solid #dee2e6!important;
-}
-.see_num:nth-child(1), .see_num:nth-child(3) {
-    width: 25%;
 }
 .see_num:nth-child(2) {
     width: 50%;
@@ -1434,10 +1431,10 @@ ol.custom-numbers li::before {
 /* 文章內文-項目列表 */
 .triangle {
     position: relative;
-    padding-left: 15px;
+    padding-left: 20px;
     font-weight: bold;
-    margin: 10px;
-    line-height: 20px
+    margin: 10px 10px 10px 0;
+    line-height: 30px
 }
 .triangle::before {
     position: absolute;
