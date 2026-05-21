@@ -1,152 +1,193 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
 {% extends "specialty_health/h-base.html" %}
 
-{% block title %}聯絡我們 | 長安健康管理中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}聯絡我們 | 長安健康管理中心{% endblock %}
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}聯絡我們｜{{ block.super }}{% endblock %}
 {% block meta_description %}若您對長安健康管理中心有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
-{% block og_title %}聯絡我們 | 長安健康管理中心 | {{ block.super }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}聯絡我們｜{{ block.super }}{% endblock %}
 {% block og_description %}若您對長安健康管理中心有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
 
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}聯絡我們｜{{ block.super }}{% endblock %}
+{% block twitter_description %}若您對長安健康管理中心有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
 
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
 
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_health/h-health-header.html' %}
-        </header>
-        {% spaceless %}
+<!-- === 子頁細節內容 =========================== -->
 
-        <main class="contact-div">
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+<style>
+    .contact-div{
+        padding: 0;
+    }
+</style>
+<main class="contact-div">
             <section class="top-banner-grid">
                 <div class="page-banner">
                     <div class="section-grid">
                         <!-- ■■■ Title ■■■ -->
-                        <div class="fade-in-card">                            
+                        <div class="animate-fade-in-up">                            
                             <div class="title-underline-sm">
                                 <h2>聯絡我們 <span>Contact</span></h2>
                                 <p>若您對「長安健康管理中心」有任何疑問或服務需求，歡迎透過本頁與我們聯繫，我們將盡快提供專業協助與回覆。</p>
                             </div>
                         </div>
                         <!-- ■■■ Contact ■■■ -->
-                        <div class="card fade-in-card">
-                            <div class="row no-gutters">
-                                <!-- (1)、聯絡資訊 -->
-                                <div class="col-lg-5 l-box">
-                                    <div class="item">
-                                        <h2 class="item-ttl">諮詢時間</h2>
-                                        <div>
-                                            <div class="tel-ttl">週一至週五，08:00~11:30、13:00~16:30</div>
-                                            <div class="text-only">(如遇週六、國定假日請詳見門診表或事先來電詢問)</div>
+                        <div class="row">
+                            <!-- (1)、聯絡資訊 (Left Side Column) -->
+                            <div class="col-lg-5 mb-4 mb-lg-0 animate-fade-in-up">
+                                <!-- 諮詢時間卡片 -->
+                                <div class="modern-card info-card mb-4">
+                                    <h5 class="section-title mb-4">
+                                        <i class="far fa-clock mr-2 text-theme"></i>服務諮詢時間
+                                    </h5>
+                                    <div class="info-card-content">
+                                        <div class="d-flex align-items-start mb-4">
+                                            <div class="info-icon-wrapper mr-3 mt-1">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </div>
+                                            <div class="info-text">
+                                                <span class="d-block font-weight-bold font-16 text-dark mb-2">週一至週五</span>
+                                                <span class="d-block text-theme font-weight-bold font-20 line-height-14">08:00 ~ 11:30</span>
+                                                <span class="d-block text-theme font-weight-bold font-20 line-height-14 mt-1">13:00 ~ 16:30</span>
+                                            </div>
+                                        </div>
+                                        <div class="helper-box bg-light p-3 rounded-lg border">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-exclamation-circle text-theme mr-2 mt-1 font-16"></i>
+                                                <p class="font-13 text-muted mb-0">如遇週六、國定假日請詳見門診表或事先來電詢問。</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="item">
-                                        <h2 class="item-ttl">電話諮詢</h2>
-                                        <div>
-                                            <a href="tel:0436113611" class="tel">
-                                                <img decoding="async" src="https://hara-hospital.jp/wp-content/themes/hara-hospital-jp/images/share/icon_tel.svg" alt="電話" width="30" height="30">
+                                </div>
+
+                                <!-- 電話諮詢卡片 -->
+                                <div class="modern-card info-card">
+                                    <h5 class="section-title mb-4">
+                                        <i class="fas fa-phone-alt mr-2 text-theme"></i>電話諮詢專線
+                                    </h5>
+                                    <div class="info-card-content">
+                                        <div class="phone-main-box mb-4">
+                                            <span class="font-14 text-muted d-block mb-2">代表專線 (請撥電話)：</span>
+                                            <a href="tel:0436113611" class="tel-number-link d-inline-flex align-items-center">
+                                                <i class="fas fa-phone-alt mr-2 font-20"></i>
                                                 <span>04-3611-3611</span>
                                             </a>
                                         </div>
-                                        <div class="text-only">【高階自費健檢】分機 3875、3876</div>
-                                        <div class="text-only">【一般勞工體檢、成人健檢、樂齡長青健檢、五癌篩檢】分機 3151、3153、3700</div>
-                                    </div>
-                                </div>
-                                <!-- (2)、聯絡表單 -->
-                                <div class="col-lg-7 r-box">
-                                    <div class="modern-contact-wrapper">
-                                        <!-- 訊息提示區塊 -->
-                                        {% if messages %}
-                                            <div class="message-alerts mb-4 animate-fade-in">
-                                                {% for message in messages %}
-                                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm modern-alert" role="alert">
-                                                        <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
-                                                        <strong>系統提示：</strong> {{ message }}
-                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                {% endfor %}
+                                        
+                                        <div class="ext-group">
+                                            <div class="ext-item mb-3">
+                                                <div class="ext-badge mb-1"><i class="fas fa-user-shield mr-1"></i>高階自費健檢</div>
+                                                <div class="ext-number font-weight-bold">分機 3875、3876</div>
                                             </div>
-                                        {% endif %}
-
-                                        <!-- Form Card -->
-                                        <div class="modern-card animate-fade-in-up">
-                                            <form id="contactForm" method="post" action="{% url 'health_send_mail' %}" class="needs-validation" novalidate>
-                                                {% csrf_token %}
-
-                                                <!-- 聯絡資訊 -->
-                                                <div class="form-section mb-4">
-                                                    <h5 class="section-title mb-4"><i class="fas fa-user-circle mr-2 text-theme"></i>聯絡資訊</h5>
-                                                    <div class="row">
-                                                        <div class="col-md-6 mb-4">
-                                                            <div class="modern-input-group position-relative">
-                                                                <label for="{{ form.name.id_for_label }}">姓名 <span class="text-danger">*</span></label>
-                                                                {{ form.name }}
-                                                                <div class="invalid-feedback">請填寫您的姓名。</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-4">
-                                                            <div class="modern-input-group position-relative">
-                                                                <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
-                                                                {{ form.email }}
-                                                                <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-4">
-                                                            <div class="modern-input-group position-relative">
-                                                                <label for="{{ form.phone.id_for_label }}">聯絡電話 <span class="text-danger">*</span></label>
-                                                                {{ form.phone }}
-                                                                <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 mb-4">
-                                                            <div class="modern-input-group position-relative">
-                                                                <label for="{{ form.subject.id_for_label }}">主旨 <span class="text-danger">*</span></label>
-                                                                {{ form.subject }}
-                                                                <div class="invalid-feedback">請填寫主旨。</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- 反應內容 -->
-                                                <div class="form-section mb-4">
-                                                    <h5 class="section-title mb-4"><i class="fas fa-comment-dots mr-2 text-theme"></i>諮詢內容 <span class="text-danger">*</span></h5>
-                                                    <div class="modern-input-group position-relative">
-                                                        {{ form.message }}
-                                                        <div class="invalid-feedback">請詳細填寫內容。</div>
-                                                        <div class="char-counter text-right mt-2 font-14 text-muted">
-                                                            ※ 還可輸入 <span id="rchars" class="font-weight-bold text-theme">500</span> 字
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- 驗證碼 -->
-                                                <div class="form-section modern-captcha-section mb-4 p-4 rounded-lg bg-light border position-relative">
-                                                    <h5 class="section-title mb-3"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證</h5>
-                                                    {% include 'components/_captcha_input.html' %}
-                                                </div>
-
-                                                <!-- 按鈕 -->
-                                                <div class="modern-actions d-flex flex-column flex-md-row justify-content-center align-items-center mt-4 gap-3">
-                                                    <button type="submit" class="btn modern-btn-primary btn-lg shadow-sm" id="submit">
-                                                        <i class="fas fa-paper-plane mr-2"></i> 確定送出
-                                                    </button>
-                                                    <button type="reset" class="btn modern-btn-outline btn-lg mt-3 mt-md-0">
-                                                        <i class="fas fa-redo-alt mr-2"></i> 清空重填
-                                                    </button>
-                                                </div>
-                                            </form>
+                                            
+                                            <div class="ext-item mb-3">
+                                                <div class="ext-badge mb-1"><i class="fas fa-notes-medical mr-1"></i>一般體檢 / 癌篩</div>
+                                                <div class="ext-number font-weight-bold">分機 3151、3153、3700</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="helper-box bg-light p-3 rounded-lg border mt-3">
+                                            <div class="d-flex align-items-start">
+                                                <i class="fas fa-info-circle text-theme mr-2 mt-1 font-16"></i>
+                                                <p class="font-13 text-muted mb-0">包含勞工體檢、成人健檢、樂齡長青健檢、五癌篩檢。</p>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- (2)、聯絡表單 (Right Side Column) -->
+                            <div class="col-lg-7 animate-fade-in-up delay-1">
+                                <div class="modern-card form-card">
+                                    <!-- 訊息提示區塊 -->
+                                    {% if messages %}
+                                        <div class="message-alerts mb-4 animate-fade-in">
+                                            {% for message in messages %}
+                                                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm modern-alert" role="alert">
+                                                    <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
+                                                    <strong>系統提示：</strong> {{ message }}
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Form Body -->
+                                    <form id="contactForm" method="post" action="{% url 'health_send_mail' %}" class="needs-validation" novalidate>
+                                        {% csrf_token %}
+
+                                        <!-- 聯絡資訊 -->
+                                        <div class="form-section mb-4">
+                                            <h5 class="section-title mb-4"><i class="fas fa-user-circle mr-2 text-theme"></i>聯絡資訊</h5>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="modern-input-group position-relative">
+                                                        <label for="{{ form.name.id_for_label }}">姓名 <span class="text-danger">*</span></label>
+                                                        {{ form.name }}
+                                                        <div class="invalid-feedback">請填寫您的姓名。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="modern-input-group position-relative">
+                                                        <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
+                                                        {{ form.email }}
+                                                        <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="modern-input-group position-relative">
+                                                        <label for="{{ form.phone.id_for_label }}">聯絡電話 <span class="text-danger">*</span></label>
+                                                        {{ form.phone }}
+                                                        <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="modern-input-group position-relative">
+                                                        <label for="{{ form.subject.id_for_label }}">主旨 <span class="text-danger">*</span></label>
+                                                        {{ form.subject }}
+                                                        <div class="invalid-feedback">請填寫主旨。</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 反應內容 -->
+                                        <div class="form-section mb-4">
+                                            <h5 class="section-title mb-4"><i class="fas fa-comment-dots mr-2 text-theme"></i>諮詢內容 <span class="text-danger">*</span></h5>
+                                            <div class="modern-input-group position-relative">
+                                                {{ form.message }}
+                                                <div class="invalid-feedback">請詳細填寫內容。</div>
+                                                <div class="char-counter text-right mt-2 font-14 text-muted">
+                                                    ※ 還可輸入 <span id="rchars" class="font-weight-bold text-theme">500</span> 字
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 驗證碼 -->
+                                        <div class="form-section modern-captcha-section mb-4 p-4 rounded-lg bg-light border position-relative">
+                                            <h5 class="section-title mb-3"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證</h5>
+                                            {% include 'components/_captcha_input.html' %}
+                                        </div>
+
+                                        <!-- 按鈕 -->
+                                        <div class="modern-actions d-flex flex-column flex-md-row justify-content-center align-items-center mt-4 gap-3">
+                                            <button type="submit" class="btn modern-btn-primary btn-lg shadow-sm" id="submit">
+                                                <i class="fas fa-paper-plane mr-2"></i> 確定送出
+                                            </button>
+                                            <button type="reset" class="btn modern-btn-outline btn-lg mt-3 mt-md-0">
+                                                <i class="fas fa-redo-alt mr-2"></i> 清空重填
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -154,28 +195,27 @@
                 </div>
             </section>
         </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
 
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
+
+</div>
 {% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
 
 
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="聯絡我們｜健康管理中心" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
 <style>
-    /* =========================================
-       Modern UI/UX Design System (Green Theme)
-       ========================================= */
     :root {
         --theme-primary: #10B981;
         --theme-primary-hover: #059669;
         --theme-secondary: #064e3b;
-        --bg-color: #fcfcfd;
+        --theme-light: #ECFDF5;
+        --bg-color: #f8fafc;
         --card-bg: #ffffff;
         --input-border: #e2e8f0;
         --input-focus-ring: rgba(16, 185, 129, 0.25);
@@ -183,76 +223,178 @@
         --text-muted: #64748b;
         --radius-sm: 8px;
         --radius-md: 12px;
-        --radius-xl: 20px;
+        --radius-xl: 24px;
         --transition-fast: 0.2s ease;
         --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .modern-contact-wrapper {
-        font-family: 'Inter', 'Noto Sans TC', sans-serif;
-        color: var(--text-main);
+    body {
+        background-color: var(--bg-color);
+    }
+
+    .contact-div {
+        padding: 4rem 0;
+        background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.05) 0%, rgba(248, 250, 252, 0) 70%);
     }
 
     .text-theme { color: var(--theme-primary) !important; }
+    .line-height-14 { line-height: 1.4; }
 
-    /* Hero Section */
-    .icon-wrapper {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 100px;
-        height: 100px;
+    /* Page Title Underline */
+    .title-underline-sm {
+        text-align: center;
+        margin-bottom: 3.5rem;
     }
-    .icon-bg-glow {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
-        border-radius: 50%;
-        filter: blur(10px);
-        transform: scale(1.2);
-    }
-    .text-gradient {
-        font-size: 3.5rem;
-        background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        position: relative;
-        z-index: 1;
-    }
-    .modern-title {
+    .title-underline-sm h2 {
+        font-size: 2.25rem;
+        font-weight: 800;
         color: var(--theme-secondary);
-        letter-spacing: -0.5px;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 12px;
+        letter-spacing: 1px;
     }
-    .modern-subtitle {
+    .title-underline-sm h2 span {
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        margin-left: 10px;
+        letter-spacing: 2px;
+    }
+    .title-underline-sm h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--theme-primary), #34d399);
+        border-radius: 2px;
+    }
+    .title-underline-sm p {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        max-width: 600px;
+        margin: 15px auto 0;
         line-height: 1.6;
     }
 
-    /* Cards & Layout */
+    /* Decoupled Floating Cards */
     .modern-card {
-        border-radius: var(--radius-xl);
-        border: 1px solid rgba(0,0,0,0.03);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.04) !important;
-        background-color: var(--card-bg);
-        padding: 2.5rem;
+        border-radius: var(--radius-xl) !important;
+        border: 1px solid rgba(0, 0, 0, 0.03) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03) !important;
+        background-color: var(--card-bg) !important;
+        transition: var(--transition-smooth);
     }
-    @media (max-width: 768px) {
-        .modern-card {
-            padding: 1.5rem;
-        }
+    .modern-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.06) !important;
     }
+    
+    .info-card {
+        padding: 2.2rem;
+    }
+    
+    .form-card {
+        padding: 3rem;
+    }
+
+    /* Section Title with Left Accent Bar */
     .section-title {
         color: var(--theme-secondary);
         font-weight: 700;
-        font-size: 1.15rem;
-        border-bottom: 2px solid var(--input-border);
-        padding-bottom: 0.75rem;
+        font-size: 1.25rem;
+        border-bottom: none !important;
+        border-left: 5px solid var(--theme-primary);
+        padding-left: 12px;
+        padding-bottom: 0 !important;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
     }
-    .modern-divider {
-        border-top: 1px dashed var(--input-border);
-        opacity: 0.6;
+    .section-title i {
+        margin-right: 8px;
     }
+
+    /* Left Info Column Elements */
+    .info-icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background-color: var(--theme-light);
+        color: var(--theme-primary);
+        border-radius: 50%;
+        font-size: 1.3rem;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+        transition: var(--transition-smooth);
+    }
+    .modern-card:hover .info-icon-wrapper {
+        background-color: var(--theme-primary);
+        color: #ffffff;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        transform: scale(1.08);
+    }
+
+    .tel-number-link {
+        color: var(--theme-primary) !important;
+        font-size: 1.8rem;
+        font-weight: 800;
+        text-decoration: none !important;
+        transition: var(--transition-smooth);
+        border-bottom: 2px dashed rgba(16, 185, 129, 0.3);
+        padding-bottom: 2px;
+    }
+    .tel-number-link:hover {
+        color: var(--theme-primary-hover) !important;
+        border-bottom-color: var(--theme-primary-hover);
+        transform: scale(1.02);
+    }
+
+    /* Extensions info card list */
+    .ext-item {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7;
+        border-left: 4px solid var(--theme-primary);
+        border-radius: var(--radius-md);
+        padding: 1rem 1.2rem;
+        transition: var(--transition-smooth);
+    }
+    .ext-item:hover {
+        background-color: var(--theme-light);
+        border-color: rgba(16, 185, 129, 0.15);
+        transform: translateX(4px);
+    }
+    .ext-badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--theme-secondary);
+    }
+    .ext-badge i {
+        color: var(--theme-primary);
+    }
+    .ext-number {
+        font-size: 1.05rem;
+        color: var(--theme-primary);
+        margin-top: 4px;
+    }
+
+    /* Helper notification box */
+    .helper-box {
+        border-color: #f1f5f9 !important;
+        transition: var(--transition-smooth);
+    }
+    .helper-box:hover {
+        background-color: var(--theme-light) !important;
+        border-color: rgba(16, 185, 129, 0.15) !important;
+    }
+    .font-20 { font-size: 1.25rem; }
 
     /* Input Groups */
     .modern-input-group label {
@@ -270,41 +412,71 @@
         font-size: 1rem;
         transition: var(--transition-smooth);
         background-color: #f8fafc;
-        box-shadow: none !important;
+        color: var(--text-main);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.01) !important;
     }
     .modern-input-group input.form-control:focus,
     .modern-input-group select.form-control:focus,
     .modern-input-group textarea.form-control:focus {
         border-color: var(--theme-primary);
-        background-color: #fff;
-        box-shadow: 0 0 0 4px var(--input-focus-ring) !important;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px var(--input-focus-ring), 0 4px 10px rgba(16, 185, 129, 0.05) !important;
     }
     .modern-input-group textarea.form-control {
-        min-height: 150px;
+        min-height: 140px;
         resize: vertical;
     }
 
     /* Validation Styles */
-    .form-control.is-invalid {
-        border-color: #dc3545 !important;
+    .was-validated .form-control:invalid {
+        border-color: #ef4444 !important;
+        background-image: none;
     }
-    .form-control.is-valid {
-        border-color: #28a745 !important;
+    .was-validated .form-control:valid {
+        border-color: #10b981 !important;
+        background-image: none;
+    }
+    .invalid-feedback {
+        font-weight: 500;
+        color: #ef4444;
+        margin-top: 0.35rem;
+        font-size: 0.85rem;
+    }
+
+    /* Captcha Section Redesign */
+    .modern-captcha-section {
+        background-color: #f8fafc !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: var(--radius-md) !important;
+    }
+    .modern-captcha-section .section-title {
+        border-left: none !important;
+        padding-left: 0 !important;
+        font-size: 1.1rem;
+    }
+    .modern-captcha-section input.form-control {
+        background-color: #ffffff;
+        border: 2px solid var(--input-border);
+    }
+    .modern-captcha-section input.form-control:focus {
+        border-color: var(--theme-primary);
     }
 
     /* Buttons */
     .modern-actions {
-        gap: 16px;
+        display: flex;
+        gap: 1rem;
     }
     .modern-btn-primary {
         background: linear-gradient(135deg, var(--theme-primary), #059669);
-        color: white !important;
+        color: #ffffff !important;
         border: none;
         border-radius: 50px;
-        padding: 0.8rem 2.5rem;
+        padding: 0.9rem 2.5rem;
         font-weight: 700;
         letter-spacing: 0.5px;
         transition: var(--transition-smooth);
+        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
     }
     .modern-btn-primary:hover {
         transform: translateY(-2px);
@@ -312,39 +484,33 @@
     }
     .modern-btn-outline {
         background: transparent;
-        color: var(--theme-secondary) !important;
+        color: var(--text-muted) !important;
         border: 2px solid var(--input-border);
         border-radius: 50px;
-        padding: 0.8rem 2.5rem;
+        padding: 0.9rem 2.5rem;
         font-weight: 600;
         transition: var(--transition-smooth);
     }
     .modern-btn-outline:hover {
         border-color: var(--theme-secondary);
-        background-color: rgba(6, 78, 59, 0.05);
+        color: var(--theme-secondary) !important;
+        background-color: rgba(6, 78, 59, 0.03);
     }
 
-    /* Captcha Section Fixes */
-    .modern-captcha-section {
-        border-color: var(--input-border) !important;
-    }
-    .modern-captcha-section input {
-        border: 2px solid var(--input-border);
-        border-radius: var(--radius-sm);
-        padding: 0.5rem 1rem;
-        transition: var(--transition-fast);
-    }
-    .modern-captcha-section input:focus {
-        border-color: var(--theme-primary);
-        outline: none;
+    /* Alert Styling */
+    .modern-alert {
+        border-radius: var(--radius-md);
+        border: none;
+        font-weight: 500;
     }
 
-    /* Flexbox gap utilities fallback */
-    .gap-2 {
-        gap: 0.5rem;
+    /* Grid layout limits */
+    .top-banner-grid {
+        padding: 0 15px;
     }
-    .gap-3 {
-        gap: 1rem;
+    .section-grid {
+        max-width: 1140px;
+        margin: 0 auto;
     }
 
     /* Animations */
@@ -360,14 +526,23 @@
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Responsiveness */
+    @media (max-width: 991px) {
+        .form-card {
+            padding: 2.2rem 1.5rem;
+        }
+        .info-card {
+            padding: 1.8rem 1.5rem;
+        }
+    }
 </style>
 {% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
 
 
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-    <script>
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_js %}
+<script>
         // 提供給 health-contact.js 讀取的設定，統一收攏在 HTML 方便後端塞值
         window.HEALTH_CONTACT_CONFIG = {
             refreshCaptchaUrl: "/api/captcha/refresh/",
@@ -419,4 +594,3 @@
     });
 </script>
 {% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->

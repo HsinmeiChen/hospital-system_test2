@@ -1,128 +1,119 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "specialty_health/h-base.html" %}
-
-{% block title %}{{ item_a_title }} - 健檢專案 | 長安健康管理中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}{{ item_a_title }} - 健檢專案 | 長安健康管理中心{% endblock %}
-{% block meta_description %}{{ item_summary }}...{% endblock %}
-{% block og_title %}{{ item_a_title }} - 健檢專案 | 長安健康管理中心 | {{ block.super }}{% endblock %}
-{% block og_description %}{{ item_summary }}...{% endblock %}
-
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_health/h-health-header.html' %}
-        </header>
-        {% spaceless %}
-        <main class="treat-article-detail">
-
-            <div>
-                <!-- ■■■ Banner、Bread-crumbs ■■■ -->
-                <section class="section-grid">
-                    <div>
-                        <ul class="bc-nav">
-                            <li><a href="{% url 'health_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                            <li><a href="{% url 'health_treatment_list' %}">健檢專案</a></li>
-                            <li>{{ item_title }}</li>
-                        </ul>
-                    </div>
-                </section>
-                <!-- ■■■ Item-Articles ■■■ -->
-                <section class="section-grid shadow-4">             
-                    <div class="row">
-                        <!-- (1)、側邊選單-健檢專案列表 -->
-                        <aside class="col-xl-3 fade-in-card">
-                            <input type="checkbox" id="menu-toggle" />
-                            <label for="menu-toggle" class="menu-icon">☰ 其他健檢專案</label>
-                            <nav class="sidenav">
-                                <div class="menu-heading">
-                                    <span>健檢專案 </span>
-                                    <small>Wellness Health Packages</small>
-                                </div>
-                                <div id="treatment-sidenav" class="treatment-sidenav"></div>
-                            </nav>
-                        </aside>
-                        <!-- (2)、健檢專案介紹 -->
-                        <section class="col-xl-9 fade-in-card">
-                            <div class="pb-2">
-                                <div class="article_h">{{ item_a_title }}</div>
-                                {% if siblings %}
-                                    <!-- ■■■ 若專案項目有子專案，顯示可切換按鈕 ■■■ -->
-                                    <div class="d-flex flex-wrap align-items-center justify-content-end">
-                                        <div class="d-flex flex-wrap gap-2">
-                                            {% for sibling in siblings %}
-                                                <a href="{% url 'health_treatment_article' sibling.url_name %}" class="btn btn-sm btn-outline-brown my-1">
-                                                    {{ sibling.title }} <i class="fas fa-angle-right"></i>
-                                                </a>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="article-body">
-                                    {% for block in blocks %}
-                                        {% if block.type == 'h1' %}
-                                            <h1 class="{{ block.class }} border-bottom">{{ block.text }}</h1>
-                                        {% elif block.type == 'h3' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% elif block.type == 'ul' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% elif block.type == 'li' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% elif block.type == 'p' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% elif block.type == 'img' %}
-                                            <div class="{{ block.class }}">
-                                                <img src="/media/{{ block.item_article_src }}" alt="{{ item_a_title }}" loading="lazy" class="w-100">
-                                            </div>
-                                        {% elif block.type == 'download' %}
-                                            <div class="{{ block.class }}">
-                                                <a href="{% url 'health_view_pdf_file' block.download_type block.filename %}" class="btn btn-link" target="_blank" rel="noopener noreferrer">
-                                                    <i class="fas fa-file-pdf"></i> {{ item_a_title }}{% if block.serial %}-{{ block.serial }}{% endif %}
-                                                </a>
-                                            </div>
-                                        {% elif block.type == 'div' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-
-                            </div>
-                        </section>
-                    </div>
-                    
-                </section>
-            </div>
-
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script src="{% static 'apps/specialty_health/js/sidenav-loader.js' %}"></script>
-<script src="{% static 'apps/specialty_health/js/treat-article-detail.js' %}"></script>
-{% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->
+{% extends "specialty_health/h-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ item_a_title }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ item_summary }}...{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ item_a_title }}｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ item_summary }}...{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ item_a_title }}｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ item_summary }}...{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+ <main class="treat-article-detail">
+            <div>
+                <!-- ■■■ Banner、Bread-crumbs ■■■ -->
+                <section class="section-grid">
+                    <div>
+                        <ul class="bc-nav">
+                            <li><a href="{% url 'health_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                            <li><a href="{% url 'health_treatment_list' %}">健檢專案</a></li>
+                            <li>{{ item_title }}</li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- ■■■ Item-Articles ■■■ -->
+                <section class="section-grid shadow-4">             
+                    <div class="row">
+                        <!-- (1)、側邊選單-健檢專案列表 -->
+                        <aside class="col-xl-3 fade-in-card">
+                            <input type="checkbox" id="menu-toggle" />
+                            <label for="menu-toggle" class="menu-icon">☰ 其他健檢專案</label>
+                            <nav class="sidenav">
+                                <div class="menu-heading">
+                                    <span>健檢專案 </span>
+                                    <small>Wellness Health Packages</small>
+                                </div>
+                                <div id="treatment-sidenav" class="treatment-sidenav"></div>
+                            </nav>
+                        </aside>
+                        <!-- (2)、健檢專案介紹 -->
+                        <section class="col-xl-9 fade-in-card">
+                            <div class="pb-2">
+                                <div class="article_h">{{ item_a_title }}</div>
+                                {% if siblings %}
+                                    <!-- ■■■ 若專案項目有子專案，顯示可切換按鈕 ■■■ -->
+                                    <div class="d-flex flex-wrap align-items-center justify-content-end">
+                                        <div class="d-flex flex-wrap gap-2">
+                                            {% for sibling in siblings %}
+                                                <a href="{% url 'health_treatment_article' sibling.url_name %}" class="btn btn-sm btn-outline-brown my-1">
+                                                    {{ sibling.title }} <i class="fas fa-angle-right"></i>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="article-body">
+                                    {% for block in blocks %}
+                                        {% if block.type == 'h1' %}
+                                            <h1 class="{{ block.class }} border-bottom">{{ block.text }}</h1>
+                                        {% elif block.type == 'h3' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'ul' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'li' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'p' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% elif block.type == 'img' %}
+                                            <div class="{{ block.class }}">
+                                                <img src="/media/{{ block.item_article_src }}" alt="{{ item_a_title }}" loading="lazy" class="w-100">
+                                            </div>
+                                        {% elif block.type == 'download' %}
+                                            <div class="{{ block.class }}">
+                                                <a href="{% url 'health_view_pdf_file' block.download_type block.filename %}" class="btn btn-link" target="_blank" rel="noopener noreferrer">
+                                                    <i class="fas fa-file-pdf"></i> {{ item_a_title }}{% if block.serial %}-{{ block.serial }}{% endif %}
+                                                </a>
+                                            </div>
+                                        {% elif block.type == 'div' %}
+                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </main>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline=item_a_title|add:"｜健康管理中心" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'apps/specialty_health/js/sidenav-loader.js' %}"></script>
+<script src="{% static 'apps/specialty_health/js/treat-article-detail.js' %}"></script>
+{% endblock %}

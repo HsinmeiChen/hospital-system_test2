@@ -81,7 +81,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    padding-top: 4.6em;
+    /* padding-top: 4.6em; */
     color: var(--brown1);
     /* padding-bottom: 3em; */
 }
@@ -93,15 +93,6 @@ body {
 
 
 /* 【----- Header-Navbar -----】 */
-nav::before{
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background-color: var(--brown1);
-}
 .navbar{
     height: 92px;
     background-color: var(--white);
@@ -291,176 +282,10 @@ nav.navbar.scrolled {
 
 /* 【----- Main -----】 */
 main {
-    background-color: var(--white);
+    /* background-color: var(--white); */
     /* padding-top: 20px; */
 }
 
-
-/* 【----- Footer -----】 */
-footer{
-    background: url("/Public/common/img/footer_bg.webp") no-repeat;
-    color: var(--white);
-    font-size: 1.15rem;
-    background-size: cover;
-    border-top: 1px solid var(--brown1);
-    padding: 30px 10px 10px 10px;
-}
-.footer{
-    padding-bottom: 60px;
-}
-.footer-box{
-    width: 98%;
-    margin: 0 auto;
-}
-#footer h4{
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    padding-bottom: 12px;
-}
-#footer h4::before{
-    right: 0;
-    background: var(--cream);
-}
-#footer h4::after{
-    background: var(--cream);
-    width: 60px;
-}
-#footer h4::before, 
-#footer h4::after{
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 2px;
-}
-.footer-links,
-.footer-contact,
-.footer-newsletter{
-    padding: 0 20px;
-}
-.footer-links ul,
-.footer-contact ul{
-    list-style: none;
-    padding: 5px 0 0 0;
-    margin: 0;
-}
-.footer-links ul li,
-.footer-contact ul li{
-    padding: 0 0 15px 0;
-    font-size: 1rem;
-}
-.footer-contact ul li:nth-child(2){
-    font-size: 0.8rem;
-}
-.footer-links ul a{
-    color: var(--white);
-    transition: 0.3s;
-}
-.footer-links ul a:hover{
-    color: var(--warning);
-    font-weight: bold;
-}
-.footer-contact p{
-    line-height: 26px;
-}
-.footer-newsletter input[type="email"]{
-    border: 0;
-    padding: 6px 8px;
-    width: 65%;
-    border-radius: 4px 0 0 4px;
-}
-.footer-newsletter input[type="submit"]{
-    background: var(--brown1);
-    border: 0;
-    border-radius: 0 4px 4px 0;
-    width: 35%;
-    padding: 6px 0;
-    text-align: center;
-    color: var(--white);
-    transition: 0.3s;
-    cursor: pointer;
-}
-.footer-contact,
-.footer-newsletter{
-    margin-top: 15px;
-}
-.footer-contact-info > div{
-    padding-bottom: 10px;
-}
-.footer-contact-info > div:nth-child(2){
-    font-size: 0.9rem;
-}
-.copyright{
-    text-align: center;
-    padding: .7rem 0 0.1rem 0;
-    font-size: .85rem;
-    color: var(--white);
-}
-.copyright strong > a{
-    color: var(--white);
-}
-.copyright strong > a:hover{
-    text-decoration: underline !important;
-}
-.credits{
-    font-weight: 500;
-    text-align: center;
-    text-align: justify;
-    font-size: 1rem;
-}
-.social-links{
-    text-align: left;
-    margin-top: 0.9rem;
-}
-.social-links a{
-    font-size: 35px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    background: var(--cream);
-    line-height: 40px;
-    padding: 0;
-    margin-right: 4px;
-    border-radius: 50%;
-    text-align: center;
-    transition: 0.3s;
-}
-#footer .social-links a:hover{
-    text-decoration: none;
-}
-#footer .fab.fa-youtube{
-    color: var(--youtube);  
-}
-#footer .fab.fa-youtube:hover{
-    color: var(--ythover);
-}
-#footer .fab.fa-facebook{
-    color: var(--facebook);
-}
-#footer .fab.fa-facebook:hover{
-    color: var(--fbhover);
-}
-#footer .fab.fa-line{
-    color: var(--line);
-}
-#footer .fab.fa-line:hover{
-    color: var(--linehover);
-}
-#footer .fas.fa-map-marker-alt{
-    color: var(--map);
-}
-#footer .fas.fa-map-marker-alt:hover{
-    color: var(--maphover);
-}
-.fo_solid{
-    border-top: 1px solid var(--brown4);
-    padding: 0;
-    margin-top: 30px;
-}
 
 
 /* 【----- Bottom Nav (Mobile Only) -----】 */
@@ -3821,4 +3646,49 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
         width: 80%;
     }
 }
+
+/* ==========================================
+   Header Special Buttons Style Overrides
+   ========================================== */
+.m-nav__item #emailBtn.m-nav__link,
+.m-nav__item #homeBtn.m-nav__link {
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: var(--white) !important;
+}
+
+.m-nav__item #emailBtn.m-nav__link::after,
+.m-nav__item #homeBtn.m-nav__link::after {
+    display: none !important; /* 隱藏底線 */
+}
+
+/* 針對 homeBtn 圓形按鈕 */
+.m-nav__item #homeBtn.btn-icon-circle {
+    width: 43px;
+    height: 43px;
+    padding: 0 !important;
+    border-radius: 50%;
+}
+
+.m-nav__item--btn {
+    padding: 0 10px;
+}
+
+/* ==========================================
+   Header Logo Prominence Styles
+   ========================================== */
+.m-header__logo img,
+.m-mobile-logo img {
+    width: auto !important;
+    max-height: 100% !important;
+    margin-left: 0;
+    height: 70px;
+    margin-right: 0;
+}
+
+
 

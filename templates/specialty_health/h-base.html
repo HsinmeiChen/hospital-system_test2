@@ -1,111 +1,108 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- SEO Basic ======================== -->
-        <title>{% block title %}健康管理中心 | {{ block.super }}{% endblock %}</title>
-        <meta name="title" content="{% block title_1 %}健康管理中心{% endblock %}">
-        <meta name="keywords" content="{% block keywords %}健康檢查,台中,健檢,腸胃鏡,公教,低劑量,電腦斷層,全身檢查,癌症檢查,癌症檢查,高階健檢套餐,長安健檢,一般健檢,勞工體檢,心肌梗塞,腦中風{% endblock %}">
-        <meta name="description" content="{% block meta_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}">
-
-        <!-- Open Graph (Facebook Share) ======== -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="{% block og_title %}健康管理中心 | {{ block.super }}{% endblock %}">
-        <meta property="og:description" content="{% block og_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}">
-        <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
-        <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
-
-        <!-- Web-icon =========================== -->
-        <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
-        <!-- CSS ================================ -->
-        <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
-        <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
-        <!-- style -->
-        <link rel="stylesheet" href="{% static 'apps/specialty_health/css/special-health.css' %}">
-        <!-- js ================================= -->
-        <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
-        <script src="{% static 'common/js/popper.min.js' %}"></script>
-        <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
-
-        <!-- GA (fallback to settings.DEFAULT_GA_ID) -->
-        {% with ga_id|default:DEFAULT_GA_ID as final_ga_id %}
-            {% if final_ga_id %}
-                <script async src="https://www.googletagmanager.com/gtag/js?id={{ final_ga_id }}"></script>
-                <script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', '{{ final_ga_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-        <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
-        {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
-            {% if final_gtm_id %}
-                <script>
-                    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                    })(window,document,'script','dataLayer','{{ final_gtm_id }}');
-                </script>
-            {% endif %}
-        {% endwith %}
-
-    </head>
-    <body>
-        <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
-        {% include 'specialty_health/health-loading.html' %}
-        <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
-        
-        <!-- ■■■ Go To Top (Web Only) ■■■ -->
-        <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" title="回到最上方" role="button" aria-label="回到最上方">
-            <i class="fas fa-chevron-up"></i>
-        </a>
-        
-        <!-- ※※※ Web Content ※※※ -->
-        {% block content %}
-        {% endblock %}
-
-        <!-- ■■■ Bottom Navigation (RWD 小螢幕顯示) ■■■ -->
-        <nav id="bottomNav" class="bottom-nav">
-            <!-- <a href="http://m.me/everanhospital" class="bottom-nav-item" title="FB 客服">
-                <i class="fab fa-facebook"></i>
-                <span>FB 客服</span>
-            </a> -->
-            <a href="https://line.me/ti/p/l_4BCwgh6F" class="bottom-nav-item" title="健檢預約" target="_blank">
-                <i class="far fa-calendar-alt"></i>
-                <span>健檢預約</span>
-            </a>
-            <a href="https://line.me/ti/p/mc-kMbGtpv" class="bottom-nav-item" title="立即諮詢" target="_blank">
-                <i class="fab fa-line"></i>
-                <span>立即諮詢</span>
-            </a>
-            <a href="{% url 'health_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
-                <i class="fas fa-envelope"></i>
-                <span>聯絡我們</span>
-            </a>
-            <a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
-                <i class="fas fa-arrow-up"></i>
-                <span>回到最上方</span>
-            </a>
-        </nav>
-
-        <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
-        {% block extra_css %}{% endblock %}
-
-        <!-- ※※※ 共用 JS Tool Start ※※※ -->
-        <script src="{% static 'apps/specialty_health/js/nav-bar.js' %}"></script>
-        <script src="{% static 'apps/specialty_health/js/rwd-gotop.js' %}"></script>
-        <script src="{% static 'apps/specialty_health/js/page-loading.js' %}"></script>
-
-        <!-- ※※※ 子頁面可額外加 JS ※※※ -->
-        {% block extra_js %}{% endblock %}
-        
-    </body>
-</html>
+{% extends "main_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}健康管理中心｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title }}健康管理中心｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}健康管理中心｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
+
+
+{% block content %}
+	<style>
+		.m-header{
+			background: #fff;
+			border-bottom: 0px;
+		}
+		.l-container-panel{
+			padding:0;
+			max-width: 100%;
+			box-shadow: none;
+			border: 0px;
+		}
+		.l-main-content{
+			border: 0px;
+			padding: 0;
+		}
+		@media (min-width: 992px) {
+		.l-sub-layout__main, .l-main-content{
+				padding:0;
+			}
+		}
+	</style>
+
+	<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+	<!-- {% block loading_page %}
+	{% include 'specialty_health/health-loading.html' %}
+	{% endblock %} -->
+	<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+	
+	{% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+	<div class="l-wrapper l-sub__bg">
+		<header>{% include 'specialty_health/h-health-header.html' %}</header>
+		<main class="l-sub-layout__main" role="main">
+			<div class="l-container-panel">
+				<article>
+					<!-- 讓子頁面決定是否要用預設的麵包屑 -->
+					{% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %} <!-- 麵包屑自動化 -->
+					<div class="l-main-content u-panel-pure" style="background-color: transparent;">
+						{% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+					</div>
+				</article>
+			</div>
+		</main>
+	</div>
+
+	<!-- ▼▼▼ Bottom Nav (Mobile Only) ▼▼▼ -->
+	{% block bottomNav %}
+	<nav id="bottomNav" class="bottom-nav">
+		<a href="https://line.me/ti/p/l_4BCwgh6F" class="bottom-nav-item" title="健檢預約" target="_blank">
+			<i class="far fa-calendar-alt" aria-hidden="true"></i>
+			<span>健檢預約</span>
+		</a>
+		<a href="https://line.me/ti/p/mc-kMbGtpv" class="bottom-nav-item" title="立即諮詢" target="_blank">
+			<i class="fab fa-line" aria-hidden="true"></i>
+			<span>立即諮詢</span>
+		</a>
+		<a href="{% url 'health_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
+			<i class="fas fa-envelope" aria-hidden="true"></i>
+			<span>聯絡我們</span>
+		</a>
+		<a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
+			<i class="fas fa-arrow-up" aria-hidden="true"></i>
+			<span>回到最上方</span>
+		</a>
+	</nav>
+	{% endblock %}
+	<!-- ▲▲▲ Bottom Nav (Mobile Only) ▲▲▲ -->
+
+	<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+	{% block guide_seo %}{% endblock %}
+	<!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+{% endblock %}
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+	<link rel="stylesheet" href="{% static 'apps/specialty_health/css/special-health.css' %}">
+	{% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+	<script src="{% static 'apps/specialty_health/js/nav-bar.js' %}"></script>
+	<script src="{% static 'apps/specialty_health/js/rwd-gotop.js' %}"></script>
+	<script src="{% static 'apps/specialty_health/js/page-loading.js' %}"></script>
+	{% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

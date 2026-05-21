@@ -126,7 +126,7 @@
 
 .l-footer__link {
   color: rgba(255, 255, 255, 0.90);
-  font-size: 1.3125rem; /* 21px */
+  font-size: 1rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -159,7 +159,7 @@
 }
 
 .l-footer__contact-main {
-  font-size: 1.3125rem; /* 21px */
+  font-size: 1.1rem;
   color: var(--color-bg-white);
   font-weight: 600;
   margin: 0 0 2px 0;
@@ -173,7 +173,7 @@
 }
 
 .l-footer__credits {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.1rem; /* 20px */
   color: rgba(255, 255, 255, 0.88);
   line-height: 1.8;
 }
@@ -219,7 +219,7 @@
 
 .l-footer__copyright {
   text-align: center;
-  font-size: 1.125rem; /* 18px */
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.80);
   line-height: 1.6;
   margin-bottom: 0;
