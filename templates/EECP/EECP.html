@@ -837,21 +837,24 @@
                                         <h3 class="form-title">保存您的測驗結果</h3>
                                         <p class="form-description">請提供您的聯繫方式，我們會根據您的評估結果與您聯繫</p>
                                         
-                                        <form id="quizContactForm">
+                                        <form id="quizContactForm" class="needs-validation" novalidate>
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 <label for="userName">請輸入您的姓名</label>
                                                 <input type="text" id="userName" name="userName" required>
+                                                <div class="invalid-feedback">請填寫您的姓名。</div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <label for="userPhone">請輸入您的電話</label>
                                                 <input type="tel" id="userPhone" name="userPhone" pattern="^\+?\d{8,15}$" title="請輸入 8~15 碼數字，國際格式可加 + 號於開頭" maxlength="16" required>
+                                                <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <label for="userEmail">請輸入您的 Email</label>
                                                 <input type="email" id="userEmail" name="userEmail" required>
+                                                <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
                                             </div>
                                             
                                             <div class="form-result-display">
@@ -869,7 +872,8 @@
                                                     </button>
                                                     <small id="quiz-captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="quiz-countdown">1:00</span> 後失效</small>
                                                 </div>
-                                                <div class="errorlist" id="quiz-captcha-error"></div>
+                                                <div class="invalid-feedback captcha-feedback" id="quiz-captcha-error" style="display: none;">請輸入驗證碼。</div>
+                                                <div class="errorlist" style="display: none;"></div>
                                             </div>
                                             
                                             <div class="form-buttons">
@@ -1143,26 +1147,31 @@
                                     </div>
                                     <div class="contact-form-list">
                                         <!-- 使用 Django 表單套件 -->
-                                        <form method="post" action="" class="row" id="contactForm">
+                                        <form method="post" action="" class="row needs-validation" novalidate id="contactForm">
                                             {% csrf_token %}
                                             <div class="form-group col-12">
                                                 {{ form.name.label_tag }} {{ form.name }}
+                                                <div class="invalid-feedback">請填寫您的姓名。</div>
                                                 {{ form.name.errors }}
                                             </div>
                                             <div class="form-group col-12">
                                                 {{ form.phone.label_tag }} {{ form.phone }}
+                                                <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
                                                 {{ form.phone.errors }}
                                             </div>
                                             <div class="form-group col-12">
                                                 {{ form.email.label_tag }} {{ form.email }}
+                                                <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
                                                 {{ form.email.errors }}
                                             </div>                                            
                                             <div class="form-group col-12">
                                                 {{ form.appointment_date.label_tag }} {{ form.appointment_date }}
+                                                <div class="invalid-feedback">請選擇希望預約時間。</div>
                                                 {{ form.appointment_date.errors }}
                                             </div>
                                             <div class="form-group col-12">
                                                 {{ form.message.label_tag }} {{ form.message }}
+                                                <div class="invalid-feedback">請詳細填寫您的需求。</div>
                                                 {{ form.message.errors }}
                                             </div>
 
@@ -1180,6 +1189,7 @@
                                                     </div>
                                                 </div>     
                                                 {{ form.captcha.errors }}
+                                                <div class="invalid-feedback captcha-feedback" style="display:none; color:#dc3545; font-size: 80%; margin-top: .25rem;">請輸入驗證碼。</div>
                                                 <div class="errorlist" id="contact-captcha-error" style="display: none;"></div>
                                             </div>
                                             <div class="col-12">

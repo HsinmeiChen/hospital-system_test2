@@ -135,9 +135,6 @@
                 <div class="form-section modern-captcha-section mb-5 p-4 rounded-lg bg-light border position-relative">
                     <h5 class="section-title mb-3"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證</h5>
                     {% include 'components/_captcha_input.html' %}
-                    <div class="invalid-feedback captcha-feedback" style="display:none; color:#dc3545; font-size: 80%; margin-top: .25rem;">
-                        請輸入驗證碼。
-                    </div>
                 </div>
 
                 <!-- 按鈕 -->
@@ -274,13 +271,15 @@
     }
 
     /* Validation Styles */
-    .was-validated .form-control:invalid {
-        border-color: #dc3545;
-        background-image: none;
+    .form-control.is-invalid {
+        border-color: #dc3545 !important;
     }
-    .was-validated .modern-radio-group.is-invalid .modern-radio-label {
-        border-color: #dc3545;
-        color: #dc3545;
+    .form-control.is-valid {
+        border-color: #28a745 !important;
+    }
+    .modern-radio-group.is-invalid .modern-radio-label {
+        border-color: #dc3545 !important;
+        color: #dc3545 !important;
     }
 
     /* Modern Radio Pills */
@@ -381,16 +380,9 @@
 
 <!-- ※※※ Sub Extra JS Start ※※※ -->
 {% block sub_extra_js %}
+<script src="{% static 'common/js/common-contact.js' %}"></script>
 <script>
 $(document).ready(function() {
-        // 0. 檢查是否有成功送出標記
-        if (sessionStorage.getItem('contactSubmitted') === 'true') {
-            var message = sessionStorage.getItem('contactMessage') || '您的意見已成功送出，我們會盡快處理！';
-            sessionStorage.removeItem('contactSubmitted');
-            sessionStorage.removeItem('contactMessage');
-            alert(message);
-        }
-
         // 1. 計算剩餘字數 & 動態更新 UI (修正綁定的 ID 為 msgus)
         var maxLength = 500;
         $('#msgus').on('input', function() {
@@ -425,8 +417,7 @@ $(document).ready(function() {
             $('#id_incident_time').val(timeStr);
         }
 
-        // 3. & 4. 表單驗證與格式判斷 (HTML5 Validation + JS)
-        // 加上 required 與 pattern 屬性
+        // 3. 加上 required 與 pattern 屬性
         $('#id_name').prop('required', true);
         $('#msgus').prop('required', true);
         $('#id_phone').attr('pattern', '^\\+?\\d{8,15}$');
@@ -440,123 +431,17 @@ $(document).ready(function() {
         // 幫 Django 產生的 Input 加上 form-control class
         $('.modern-input-group input:not([type="radio"]):not([type="checkbox"]), .modern-input-group select, .modern-input-group textarea').addClass('form-control');
 
-        // 當驗證碼輸入時或焦點移開時，進行簡易檢查
-        captchaInput.on('input', function() {
-            if ($(this).val().trim()) {
-                $('.captcha-feedback').hide().text('');
-                $(this).removeClass('is-invalid');
-                if (this.setCustomValidity) {
-                    this.setCustomValidity('');
-                }
-            }
-        });
-
-        // 點擊驗證碼或刷新按鈕時清空錯誤與輸入
-        $('#captcha-img, #refresh-captcha-btn').on('click', function() {
-            $('.captcha-feedback').hide().text('');
-            captchaInput.removeClass('is-invalid');
-            if (captchaInput.length > 0) {
-                captchaInput.val('');
-                if (captchaInput[0].setCustomValidity) {
-                    captchaInput[0].setCustomValidity('');
-                }
-            }
-        });
-
-        // 表單送出前的驗證與 AJAX 提交
-        var form = document.getElementById('contact_us');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var isValid = true;
-
-            // 檢查 Radio Group 是否有選擇
-            if ($('input[name="category"]:checked').length === 0) {
-                isValid = false;
-                $('#category-error').removeClass('d-none').addClass('d-block');
-                $('.modern-radio-group').addClass('is-invalid');
-            } else {
-                $('#category-error').removeClass('d-block').addClass('d-none');
-                $('.modern-radio-group').removeClass('is-invalid');
-            }
-
-            // 檢查 Captcha (如果欄位是空的，我們手動顯示錯誤提示)
-            if(captchaInput.length > 0 && !captchaInput.val().trim()){
-                $('.captcha-feedback').text('請輸入驗證碼。').show();
-                captchaInput.addClass('is-invalid');
-                isValid = false;
-            }
-
-            // 原生 HTML5 驗證
-            if (form.checkValidity() === false || !isValid) {
-                form.classList.add('was-validated');
-                return false;
-            }
-            form.classList.add('was-validated');
-
-            // 進入 AJAX 送出流程
-            var submitBtn = document.getElementById('submit');
-            var originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> 送出中...';
-
-            var formData = new FormData(form);
-            fetch(form.action || window.location.href, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val(),
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                if (data.success) {
-                    sessionStorage.setItem('contactSubmitted', 'true');
-                    sessionStorage.setItem('contactMessage', data.message || '您的意見已成功送出，我們會盡快處理！');
-                    window.location.reload();
-                } else {
-                    if (data.errors) {
-                        if (data.errors.captcha) {
-                            $('.captcha-feedback').text(data.errors.captcha).show();
-                            captchaInput.addClass('is-invalid');
-                            if (captchaInput.length > 0 && captchaInput[0].setCustomValidity) {
-                                captchaInput[0].setCustomValidity(data.errors.captcha);
-                            }
-                        } else {
-                            var errorMsg = data.message || '送出失敗，請檢查您的輸入並重試。';
-                            if (Object.keys(data.errors).length > 0) {
-                                errorMsg += '\n';
-                                for (var field in data.errors) {
-                                    errorMsg += '\n' + data.errors[field];
-                                }
-                            }
-                            alert(errorMsg);
-                        }
-                    } else {
-                        alert(data.message || '送出失敗，請稍後再試。');
-                    }
-                }
-            })
-            .catch(function(error) {
-                console.error('送出錯誤:', error);
-                alert('網路錯誤或系統忙碌中，請稍後再試。');
-            })
-            .finally(function() {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-        }, false);
-
         // 當 radio 改變時移除錯誤提示
         $('input[name="category"]').on('change', function() {
             $('#category-error').removeClass('d-block').addClass('d-none');
             $('.modern-radio-group').removeClass('is-invalid');
         });
-    });
+
+        // 初始化共通聯絡表單邏輯
+        initCommonContactForm({
+            formId: 'contact_us'
+        });
+});
 </script>
 {% endblock %}
 <!-- ※※※ Sub Extra JS End ※※※ -->

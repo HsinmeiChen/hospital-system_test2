@@ -37,14 +37,14 @@ ALLOWED_HOSTS = ['*']
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 60 * 10
 
-# CORS_ALLOW_CREDENTIALS = True  # 2025.12.30 上 EECP 跟健管先註解
+# CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_CREDENTIALS = True
 
 
-# CSRF_TRUSTED_ORIGINS = ['https://front.bluemix.net/'] # 2025/12/30 上 EECP 跟健管先註解
+# CSRF_TRUSTED_ORIGINS = ['https://front.bluemix.net/']
 CSRF_TRUSTED_ORIGINS = [
 	# 'https://front.bluemix.net',
 	'https://web.everanhospital.com.tw',
@@ -52,9 +52,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_REPLACE_HTTPS_REFERER = True
 
-# CSRF_COOKIE_DOMAIN = 'bluemix.net' # 2025/12/30 上 EECP 跟健管先註解
-
-# ================== 2025.12.30 上 EECP 跟健管新增 Start ==================
+# CSRF_COOKIE_DOMAIN = 'bluemix.net'
 
 # 跨域驗證，如果是 http、或開發環境 就設 False
 if DEBUG == True:
@@ -69,7 +67,6 @@ else:
 
 # 若使用 Nginx 轉發 HTTPS，需加上此設定告知 Django 來源為 HTTPS
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# ================== 2025.12.30 上 EECP 跟健管新增 End ==================
 
 # CORS_ORIGIN_WHITELIST = (
 #     'https://front.bluemix.net/',
@@ -126,9 +123,9 @@ ROOT_URLCONF = 'Pomelo_test.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		#修改前
-		# 'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  #讓 server 找得到 html 的位置
-		#修改後: 指向新的 templates 目錄
+		# 修改前
+		# 'DIRS': [os.path.join(BASE_DIR, 'Public', 'html')],  # 讓 server 找得到 html 的位置
+		# 修改後: 指向新的 templates 目錄
 		'DIRS': [os.path.join(BASE_DIR, 'templates')],
 		'APP_DIRS': True,
 		'OPTIONS': {
@@ -138,7 +135,7 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.template.context_processors.media',
 				'django.contrib.messages.context_processors.messages',
-				# 共用 GA, GTM, og-image, breadcrumb 設定於 context_processors.py
+				# GA, GTM, og-image, breadcrumb 設定於 context_processors.py
 				'Pomelo_test.context_processors.default_tracking_ids',
 				'Pomelo_test.context_processors.breadcrumb_processor'
 			],
@@ -194,8 +191,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 MEDIA_URL = '/media/'   # MEDIA 是放上傳/下載檔案用
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  #絕對路徑;os.path-指路徑導向的副函數
-SITE_DOMAIN = "https://web.everanhospital.com.tw" #Site Domain (固定給 og:url / og:image 用)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 絕對路徑;os.path-指路徑導向的副函數
+SITE_DOMAIN = "https://web.everanhospital.com.tw" # Site Domain (固定給 og:url / og:image 用)
 STATIC_URL = '/Public/'   # STATIC 放置所有靜態檔，例 css/js/ html
 
 # 設定 collectstatic 收集目的地 (Nginx 指向這裡)
@@ -284,7 +281,6 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# ================== 2025.12.30 上 EECP 跟健管新增 Start ==================
 # Send-Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'mail.everanhospital.com.tw') # SMTP 伺服器位址 (預設值僅供參考，應使用 .env)
@@ -310,6 +306,3 @@ CONTACT_EMAIL_RECIPIENTS_EECP = _parse_contact_recipients('CONTACT_EMAIL_RECIPIE
 CONTACT_EMAIL_RECIPIENTS_HEALTH = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_HEALTH', NOTIFY_EMAIL_RECIPIENTS)  # 健管中心
 CONTACT_EMAIL_RECIPIENTS_BREAST = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_BREAST', NOTIFY_EMAIL_RECIPIENTS)   # 乳房中心
 CONTACT_EMAIL_RECIPIENTS_MAIN = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_MAIN', NOTIFY_EMAIL_RECIPIENTS)     # 主站意見反映
-
-# ================== 2025.12.30 上 EECP 跟健管新增 End ==================
-

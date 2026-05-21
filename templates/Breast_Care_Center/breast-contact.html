@@ -62,26 +62,31 @@
                             <div class="col-xl-7 r-box">
                                 <div class="contact-form">
                                     <!-- 使用 Django 表單套件 -->
-                                    <form id="contactForm" method="post" action="{% url 'breast_send_mail' %}" class="row">
+                                    <form id="contactForm" method="post" action="{% url 'breast_send_mail' %}" class="row needs-validation" novalidate>
                                         {% csrf_token %}
                                         <div class="form-group col-12 col-xl-6">
                                             {{ form.name.label_tag }} {{ form.name }}
+                                            <div class="invalid-feedback">請填寫您的姓名。</div>
                                             {{ form.name.errors }}
                                         </div>
                                         <div class="form-group col-12 col-xl-6">
                                             {{ form.email.label_tag }} {{ form.email }}
+                                            <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
                                             {{ form.email.errors }}
                                         </div>
                                         <div class="form-group col-12 col-xl-6">
                                             {{ form.phone.label_tag }} {{ form.phone }}
+                                            <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
                                             {{ form.phone.errors }}
                                         </div>
                                         <div class="form-group col-12 col-xl-6">
                                             {{ form.subject.label_tag }} {{ form.subject }}
+                                            <div class="invalid-feedback">請填寫主旨。</div>
                                             {{ form.subject.errors }}
                                         </div>
                                         <div class="form-group col-12">
                                             {{ form.message.label_tag }} {{ form.message }}
+                                            <div class="invalid-feedback">請詳細填寫內容。</div>
                                             {{ form.message.errors }}
                                         </div>
 
@@ -97,6 +102,7 @@
                                             </div>
                                             <small id="captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="countdown">2:00</span> 後失效</small>
                                             {{ form.captcha.errors }}
+                                            <div class="invalid-feedback captcha-feedback" style="display:none; color:#dc3545; font-size: 80%; margin-top: .25rem;">請輸入驗證碼。</div>
                                             <div class="errorlist" id="contact-captcha-error" style="display: none;"></div>
                                         </div>
                                         <div class="col-12">

@@ -29,6 +29,18 @@ class FeedbackBaseForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.captcha_answer = kwargs.pop('captcha_answer', None)
         super().__init__(*args, **kwargs)
+        self.fields['phone'].widget.attrs.update({
+            'pattern': r'^\+?\d{8,15}$',
+            'title': '請輸入 8~15 碼數字，國際格式可加 + 號於開頭',
+            'maxlength': '16',
+        })
+        self.fields['captcha'].widget.attrs.update({
+            'placeholder': '請輸入5位數字驗證碼',
+            'autocomplete': 'off',
+            'maxlength': '5',
+            'pattern': '[0-9]{5}',
+            'title': '請輸入5位數字驗證碼'
+        })
 
     def clean_captcha(self):
         user_input = self.cleaned_data.get('captcha', '').strip()

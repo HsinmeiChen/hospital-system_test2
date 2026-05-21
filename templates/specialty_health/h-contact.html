@@ -61,57 +61,91 @@
                                 </div>
                                 <!-- (2)、聯絡表單 -->
                                 <div class="col-lg-7 r-box">
-                                    <div class="contact-form">
-                                        <!-- 使用 Django 表單套件 -->
-                                        <form id="contactForm" method="post" action="{% url 'health_send_mail' %}" class="row">
-                                            {% csrf_token %}
-                                            <div class="form-group col-12 col-xl-6">
-                                                {{ form.name.label_tag }} {{ form.name }}
-                                                {{ form.name.errors }}
-                                            </div>
-                                            <div class="form-group col-12 col-xl-6">
-                                                {{ form.email.label_tag }} {{ form.email }}
-                                                {{ form.email.errors }}
-                                            </div>
-                                            <div class="form-group col-12 col-xl-6">
-                                                {{ form.phone.label_tag }} {{ form.phone }}
-                                                {{ form.phone.errors }}
-                                            </div>
-                                            <div class="form-group col-12 col-xl-6">
-                                                {{ form.subject.label_tag }} {{ form.subject }}
-                                                {{ form.subject.errors }}
-                                            </div>
-                                            <div class="form-group col-12">
-                                                {{ form.message.label_tag }} {{ form.message }}
-                                                {{ form.message.errors }}
-                                            </div>
-
-                                            <!-- 驗證碼 -->
-                                            <div class="form-group col-12">
-                                                {{ form.captcha.label_tag }}
-                                                <div class="d-flex align-items-center flex-wrap">
-                                                    {{ form.captcha }}
-                                                    <img id="captcha-image" src="/api/captcha/image/?t={{ captcha_answer }}" alt="驗證碼" class="captcha-img">
-                                                    <button type="button" id="refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <small id="captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="countdown">1:00</span> 後失效</small>
-                                                </div>     
-                                                {{ form.captcha.errors }}
-                                                <div class="errorlist" id="contact-captcha-error" style="display: none;"></div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button type="submit" class="btnn green btn-submit" title="送出">送出</button>
-                                            </div>
-                                        </form>
-                                        <!-- 顯示 Django messages (發送結果) -->
+                                    <div class="modern-contact-wrapper">
+                                        <!-- 訊息提示區塊 -->
                                         {% if messages %}
-                                            <div class="pt-3">
+                                            <div class="message-alerts mb-4 animate-fade-in">
                                                 {% for message in messages %}
-                                                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} text-center font-weight-bold mb-0" role="alert">{{ message }}</div>
+                                                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm modern-alert" role="alert">
+                                                        <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
+                                                        <strong>系統提示：</strong> {{ message }}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
                                                 {% endfor %}
                                             </div>
                                         {% endif %}
+
+                                        <!-- Form Card -->
+                                        <div class="modern-card animate-fade-in-up">
+                                            <form id="contactForm" method="post" action="{% url 'health_send_mail' %}" class="needs-validation" novalidate>
+                                                {% csrf_token %}
+
+                                                <!-- 聯絡資訊 -->
+                                                <div class="form-section mb-4">
+                                                    <h5 class="section-title mb-4"><i class="fas fa-user-circle mr-2 text-theme"></i>聯絡資訊</h5>
+                                                    <div class="row">
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="modern-input-group position-relative">
+                                                                <label for="{{ form.name.id_for_label }}">姓名 <span class="text-danger">*</span></label>
+                                                                {{ form.name }}
+                                                                <div class="invalid-feedback">請填寫您的姓名。</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="modern-input-group position-relative">
+                                                                <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
+                                                                {{ form.email }}
+                                                                <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="modern-input-group position-relative">
+                                                                <label for="{{ form.phone.id_for_label }}">聯絡電話 <span class="text-danger">*</span></label>
+                                                                {{ form.phone }}
+                                                                <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 mb-4">
+                                                            <div class="modern-input-group position-relative">
+                                                                <label for="{{ form.subject.id_for_label }}">主旨 <span class="text-danger">*</span></label>
+                                                                {{ form.subject }}
+                                                                <div class="invalid-feedback">請填寫主旨。</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 反應內容 -->
+                                                <div class="form-section mb-4">
+                                                    <h5 class="section-title mb-4"><i class="fas fa-comment-dots mr-2 text-theme"></i>諮詢內容 <span class="text-danger">*</span></h5>
+                                                    <div class="modern-input-group position-relative">
+                                                        {{ form.message }}
+                                                        <div class="invalid-feedback">請詳細填寫內容。</div>
+                                                        <div class="char-counter text-right mt-2 font-14 text-muted">
+                                                            ※ 還可輸入 <span id="rchars" class="font-weight-bold text-theme">500</span> 字
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- 驗證碼 -->
+                                                <div class="form-section modern-captcha-section mb-4 p-4 rounded-lg bg-light border position-relative">
+                                                    <h5 class="section-title mb-3"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證</h5>
+                                                    {% include 'components/_captcha_input.html' %}
+                                                </div>
+
+                                                <!-- 按鈕 -->
+                                                <div class="modern-actions d-flex flex-column flex-md-row justify-content-center align-items-center mt-4 gap-3">
+                                                    <button type="submit" class="btn modern-btn-primary btn-lg shadow-sm" id="submit">
+                                                        <i class="fas fa-paper-plane mr-2"></i> 確定送出
+                                                    </button>
+                                                    <button type="reset" class="btn modern-btn-outline btn-lg mt-3 mt-md-0">
+                                                        <i class="fas fa-redo-alt mr-2"></i> 清空重填
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +167,200 @@
 
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
+<style>
+    /* =========================================
+       Modern UI/UX Design System (Green Theme)
+       ========================================= */
+    :root {
+        --theme-primary: #10B981;
+        --theme-primary-hover: #059669;
+        --theme-secondary: #064e3b;
+        --bg-color: #fcfcfd;
+        --card-bg: #ffffff;
+        --input-border: #e2e8f0;
+        --input-focus-ring: rgba(16, 185, 129, 0.25);
+        --text-main: #334155;
+        --text-muted: #64748b;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-xl: 20px;
+        --transition-fast: 0.2s ease;
+        --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modern-contact-wrapper {
+        font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        color: var(--text-main);
+    }
+
+    .text-theme { color: var(--theme-primary) !important; }
+
+    /* Hero Section */
+    .icon-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+    }
+    .icon-bg-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
+        border-radius: 50%;
+        filter: blur(10px);
+        transform: scale(1.2);
+    }
+    .text-gradient {
+        font-size: 3.5rem;
+        background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        z-index: 1;
+    }
+    .modern-title {
+        color: var(--theme-secondary);
+        letter-spacing: -0.5px;
+    }
+    .modern-subtitle {
+        line-height: 1.6;
+    }
+
+    /* Cards & Layout */
+    .modern-card {
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(0,0,0,0.03);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.04) !important;
+        background-color: var(--card-bg);
+        padding: 2.5rem;
+    }
+    @media (max-width: 768px) {
+        .modern-card {
+            padding: 1.5rem;
+        }
+    }
+    .section-title {
+        color: var(--theme-secondary);
+        font-weight: 700;
+        font-size: 1.15rem;
+        border-bottom: 2px solid var(--input-border);
+        padding-bottom: 0.75rem;
+    }
+    .modern-divider {
+        border-top: 1px dashed var(--input-border);
+        opacity: 0.6;
+    }
+
+    /* Input Groups */
+    .modern-input-group label {
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+    .modern-input-group input.form-control,
+    .modern-input-group select.form-control,
+    .modern-input-group textarea.form-control {
+        border: 2px solid var(--input-border);
+        border-radius: var(--radius-md);
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        transition: var(--transition-smooth);
+        background-color: #f8fafc;
+        box-shadow: none !important;
+    }
+    .modern-input-group input.form-control:focus,
+    .modern-input-group select.form-control:focus,
+    .modern-input-group textarea.form-control:focus {
+        border-color: var(--theme-primary);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px var(--input-focus-ring) !important;
+    }
+    .modern-input-group textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    /* Validation Styles */
+    .form-control.is-invalid {
+        border-color: #dc3545 !important;
+    }
+    .form-control.is-valid {
+        border-color: #28a745 !important;
+    }
+
+    /* Buttons */
+    .modern-actions {
+        gap: 16px;
+    }
+    .modern-btn-primary {
+        background: linear-gradient(135deg, var(--theme-primary), #059669);
+        color: white !important;
+        border: none;
+        border-radius: 50px;
+        padding: 0.8rem 2.5rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: var(--transition-smooth);
+    }
+    .modern-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3) !important;
+    }
+    .modern-btn-outline {
+        background: transparent;
+        color: var(--theme-secondary) !important;
+        border: 2px solid var(--input-border);
+        border-radius: 50px;
+        padding: 0.8rem 2.5rem;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+    }
+    .modern-btn-outline:hover {
+        border-color: var(--theme-secondary);
+        background-color: rgba(6, 78, 59, 0.05);
+    }
+
+    /* Captcha Section Fixes */
+    .modern-captcha-section {
+        border-color: var(--input-border) !important;
+    }
+    .modern-captcha-section input {
+        border: 2px solid var(--input-border);
+        border-radius: var(--radius-sm);
+        padding: 0.5rem 1rem;
+        transition: var(--transition-fast);
+    }
+    .modern-captcha-section input:focus {
+        border-color: var(--theme-primary);
+        outline: none;
+    }
+
+    /* Flexbox gap utilities fallback */
+    .gap-2 {
+        gap: 0.5rem;
+    }
+    .gap-3 {
+        gap: 1rem;
+    }
+
+    /* Animations */
+    .animate-fade-in { animation: fadeIn 0.6s ease forwards; }
+    .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .delay-1 { animation-delay: 0.15s; opacity: 0; }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->
 
@@ -148,8 +376,46 @@
     </script>
 <script src="{% static 'common/js/common-contact.js' %}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        initCommonContactForm({ formId: 'contactForm' });
+    $(document).ready(function() {
+        // 1. 計算剩餘字數 & 動態更新 UI
+        var maxLength = 500;
+        var updateCounter = function() {
+            var length = $(this).val().length;
+            var remaining = maxLength - length;
+            var $counter = $('#rchars');
+            
+            $counter.text(remaining);
+            
+            if(remaining < 50) {
+                $counter.removeClass('text-theme').addClass('text-danger');
+            } else {
+                $counter.removeClass('text-danger').addClass('text-theme');
+            }
+        };
+        $('#id_message, #msgus').on('input', updateCounter);
+        // 初始化字數
+        $('#id_message, #msgus').each(updateCounter);
+
+        // 2. 加上 required 與 pattern 屬性
+        $('#id_name').prop('required', true);
+        $('#id_email').prop('required', true);
+        $('#id_phone').prop('required', true).attr('pattern', '^\\+?\\d{8,15}$');
+        $('#id_subject').prop('required', true);
+        $('#id_message, #msgus').prop('required', true);
+        
+        // 尋找 Captcha 的輸入框並設為必填
+        var captchaInput = $('.modern-captcha-section input[type="text"]:not([readonly])');
+        if(captchaInput.length > 0) {
+            captchaInput.prop('required', true);
+        }
+
+        // 幫 Django 產生的 Input 加上 form-control class
+        $('.modern-input-group input:not([type="radio"]):not([type="checkbox"]), .modern-input-group select, .modern-input-group textarea').addClass('form-control');
+
+        // 初始化共通聯絡表單邏輯
+        initCommonContactForm({
+            formId: 'contactForm'
+        });
     });
 </script>
 {% endblock %}

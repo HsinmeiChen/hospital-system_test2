@@ -18,6 +18,8 @@ let currentQuestionNumber = 1;
 let answers = {};
 let totalScore = 0;
 let resultText = '';
+let quizCountdownInterval;
+const quizExpiryTime = 120; // 預設 2 分鐘 (120秒)
 
 function initQuiz() {
     // 選項點擊事件
@@ -217,17 +219,25 @@ function backToResult() {
 
 function submitQuizForm(event) {
     event.preventDefault();
+    event.stopPropagation();
     
+    const quizContactForm = document.getElementById('quizContactForm');
+    if (!quizContactForm) return;
+
     const submitBtn = document.getElementById('quiz-submit-btn');
     const captchaError = document.getElementById('quiz-captcha-error');
     const captchaInput = document.getElementById('quizCaptcha');
     
-    if (captchaError) {
-        captchaError.textContent = '';
-        captchaError.style.display = 'none';
+    // 啟用送出後即時驗證機制
+    quizContactForm.dataset.submittedOnce = 'true';
+    
+    // 執行表單驗證
+    const isFormValid = validateQuizForm();
+    if (!isFormValid) {
+        return false;
     }
     
-    // 檢查驗證碼輸入框狀態
+    // 檢查驗證碼輸入框狀態 (是否被外部邏輯標記為唯讀等)
     if (captchaInput && captchaInput.readOnly) {
         alert('驗證碼已失效，請點擊刷新圖示重新取得驗證碼');
         const quizRefreshBtn = document.getElementById('quiz-refresh-captcha-btn');
@@ -239,7 +249,8 @@ function submitQuizForm(event) {
     
     // 禁用提交按鈕避免重複提交
     submitBtn.disabled = true;
-    submitBtn.textContent = '送出中...';
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> 送出中...';
     
     const formData = new FormData();
     formData.append('name', document.getElementById('userName').value);
@@ -261,7 +272,12 @@ function submitQuizForm(event) {
         },
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok && response.status !== 400 && response.status !== 403 && response.status !== 429) {
+            throw new Error('伺服器傳回錯誤代碼: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             // 儲存成功訊息到 sessionStorage
@@ -272,18 +288,38 @@ function submitQuizForm(event) {
         } else {
             // 顯示錯誤訊息
             if (data.errors) {
-                if (data.errors.quiz_captcha || data.errors.captcha) {
-                    captchaError.textContent = data.errors.quiz_captcha || data.errors.captcha;
-                    captchaError.style.display = 'block';
-                } else {
-                    let errorMsg = data.message || '送出失敗，請檢查您的輸入並重試。';
-                    if (Object.keys(data.errors).length > 0) {
-                        errorMsg += '\n';
-                        for (let field in data.errors) {
-                            errorMsg += '\n' + data.errors[field];
+                let hasMapped = false;
+                for (let field in data.errors) {
+                    // 對應欄位（對應 HTML5 input 元素）
+                    let fieldInput = null;
+                    if (field === 'name') fieldInput = document.getElementById('userName');
+                    else if (field === 'phone') fieldInput = document.getElementById('userPhone');
+                    else if (field === 'email') fieldInput = document.getElementById('userEmail');
+                    else if (field === 'quiz_captcha' || field === 'captcha') fieldInput = document.getElementById('quizCaptcha');
+                    
+                    if (fieldInput) {
+                        hasMapped = true;
+                        fieldInput.classList.add('is-invalid');
+                        
+                        let feedback = fieldInput.nextElementSibling;
+                        while (feedback && !feedback.classList.contains('invalid-feedback') && !feedback.classList.contains('errorlist')) {
+                            feedback = feedback.nextElementSibling;
+                        }
+                        if (!feedback) {
+                            feedback = fieldInput.parentNode.querySelector('.invalid-feedback') || 
+                                       fieldInput.parentNode.querySelector('.errorlist') ||
+                                       (fieldInput.id === 'quizCaptcha' ? captchaError : null);
+                        }
+                        if (feedback) {
+                            feedback.textContent = data.errors[field];
+                            feedback.style.display = 'block';
+                            feedback.classList.remove('d-none');
                         }
                     }
-                    alert(errorMsg);
+                }
+                
+                if (!hasMapped || data.message) {
+                    alert(data.message || '表單填寫有誤，請檢查後再試。');
                 }
             } else {
                 alert(data.message || '送出失敗，請稍後再試。');
@@ -292,13 +328,125 @@ function submitQuizForm(event) {
     })
     .catch(error => {
         console.error('提交錯誤:', error);
-        alert('網絡錯誤，請檢查您的網絡連接後再試。');
+        alert('網路錯誤或系統忙碌中，請檢查您的網路連接後再試。');
     })
     .finally(() => {
         // 重新啟用提交按鈕
         submitBtn.disabled = false;
-        submitBtn.textContent = '送出';
+        submitBtn.innerHTML = originalText;
     });
+}
+
+// 驗證單一欄位
+function validateQuizField(input) {
+    if (input.type === 'hidden' || input.type === 'submit' || input.type === 'button' || input.type === 'reset') {
+        return true;
+    }
+
+    let isValid = true;
+    let errorMessage = '';
+
+    // 尋找對應的提示訊息元素
+    let feedback = input.nextElementSibling;
+    while (feedback && !feedback.classList.contains('invalid-feedback') && !feedback.classList.contains('errorlist') && !feedback.classList.contains('captcha-feedback')) {
+        feedback = feedback.nextElementSibling;
+    }
+    if (!feedback) {
+        feedback = input.parentNode.querySelector('.invalid-feedback') || 
+                   input.parentNode.querySelector('.errorlist') ||
+                   input.parentNode.querySelector('.captcha-feedback') ||
+                   document.getElementById('quiz-captcha-error');
+    }
+
+    // 保存原始錯誤訊息（若無）
+    if (feedback && !feedback.dataset.originalText) {
+        feedback.dataset.originalText = feedback.textContent.trim();
+    }
+
+    // 1. 驗證碼獨立驗證
+    if (input.id === 'quizCaptcha') {
+        const val = input.value.trim();
+        if (input.readOnly) {
+            isValid = false;
+            errorMessage = '驗證碼已過期，請重新輸入';
+        } else if (!val) {
+            isValid = false;
+            errorMessage = '請輸入驗證碼。';
+        } else if (val.length !== 5) {
+            isValid = false;
+            errorMessage = '驗證碼字數不對';
+        } else if (!/^\d{5}$/.test(val)) {
+            isValid = false;
+            errorMessage = '請輸入5位數字驗證碼';
+        }
+    } 
+    // 2. 一般欄位 HTML5 約束驗證與 E-mail 嚴格校驗
+    else {
+        // 如果非必填且完全未填，則為中立狀態，不顯示綠框或紅框
+        if (!input.hasAttribute('required') && !input.value.trim()) {
+            input.classList.remove('is-invalid');
+            input.classList.remove('is-valid');
+            if (feedback) {
+                feedback.style.display = 'none';
+                feedback.classList.add('d-none');
+            }
+            return true;
+        }
+
+        if (input.type === 'email') {
+            const emailVal = input.value.trim();
+            // 嚴格信箱格式：要求域名部分必須有點號及 TLD (e.g., .com)
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            isValid = emailRegex.test(emailVal);
+        } else {
+            isValid = input.checkValidity();
+        }
+        
+        if (!isValid) {
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                errorMessage = (feedback && feedback.dataset.originalText) || '此欄位為必填。';
+            } else {
+                errorMessage = (feedback && feedback.dataset.originalText) || '請輸入正確的 E-mail 格式。';
+            }
+        }
+    }
+
+    if (isValid) {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        if (feedback) {
+            feedback.style.display = 'none';
+            feedback.classList.add('d-none');
+        }
+    } else {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        if (feedback) {
+            if (errorMessage) {
+                feedback.textContent = errorMessage;
+            }
+            feedback.style.display = 'block';
+            feedback.classList.remove('d-none');
+        }
+    }
+
+    return isValid;
+}
+
+// 驗證整張表單
+function validateQuizForm() {
+    let isFormValid = true;
+    const quizContactForm = document.getElementById('quizContactForm');
+    if (!quizContactForm) return false;
+
+    const inputs = quizContactForm.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        if (!validateQuizField(input)) {
+            isFormValid = false;
+        }
+    });
+
+    return isFormValid;
 }
 
 // 測驗表單驗證碼刷新功能
@@ -340,28 +488,81 @@ function refreshQuizCaptcha() {
         });
 }
 
-// 測驗表單驗證碼初始化狀態（已取消倒數計時）
+// 測驗表單驗證碼初始化狀態（啟動 120 秒倒數計時）
 function startQuizCaptchaCountdown() {
-    const captchaTimer = document.getElementById('quiz-captcha-timer');
-    const captchaInput = document.getElementById('quizCaptcha');
-    const captchaImage = document.getElementById('quiz-captcha-image');
-    
-    // 隱藏倒數計時提示元件
-    if (captchaTimer) {
-        captchaTimer.style.display = 'none';
+    if (quizCountdownInterval) {
+        clearInterval(quizCountdownInterval);
     }
     
+    const captchaTimer = document.getElementById('quiz-captcha-timer');
+    const countdownSpan = document.getElementById('quiz-countdown');
+    const captchaInput = document.getElementById('quizCaptcha');
+    const captchaImage = document.getElementById('quiz-captcha-image');
+    const captchaError = document.getElementById('quiz-captcha-error');
+
     if (captchaInput) {
+        captchaInput.placeholder = '請輸入5位數字驗證碼';
         captchaInput.disabled = false;
         captchaInput.readOnly = false;
-        captchaInput.placeholder = '請輸入5位數字驗證碼';
         captchaInput.style.cursor = '';
         captchaInput.style.backgroundColor = '';
+        captchaInput.classList.remove('is-invalid', 'is-valid');
     }
     
     if (captchaImage) {
         captchaImage.style.opacity = '1';
     }
+    
+    if (captchaError) {
+        captchaError.textContent = '';
+        captchaError.style.display = 'none';
+        captchaError.classList.add('d-none');
+    }
+
+    let secondsRemaining = quizExpiryTime;
+
+    function updateQuizTimerDisplay() {
+        if (secondsRemaining <= 0) {
+            clearInterval(quizCountdownInterval);
+            if (captchaTimer) {
+                captchaTimer.style.display = 'none';
+            }
+            if (captchaInput) {
+                captchaInput.readOnly = true;
+                captchaInput.placeholder = '驗證碼已失效，請點擊刷新圖示';
+                captchaInput.style.cursor = 'not-allowed';
+                captchaInput.style.backgroundColor = '#e9ecef';
+                
+                const quizContactForm = document.getElementById('quizContactForm');
+                if (quizContactForm && quizContactForm.dataset.submittedOnce === 'true') {
+                    captchaInput.classList.remove('is-valid');
+                    captchaInput.classList.add('is-invalid');
+                    if (captchaError) {
+                        captchaError.textContent = '驗證碼已過期，請重新輸入';
+                        captchaError.style.display = 'block';
+                        captchaError.classList.remove('d-none');
+                    }
+                }
+            }
+            if (captchaImage) {
+                captchaImage.style.opacity = '0.3';
+            }
+        } else {
+            if (captchaTimer) {
+                captchaTimer.style.display = 'block';
+                captchaTimer.classList.remove('d-none');
+            }
+            if (countdownSpan) {
+                const minutes = Math.floor(secondsRemaining / 60);
+                const seconds = secondsRemaining % 60;
+                countdownSpan.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+            secondsRemaining--;
+        }
+    }
+
+    updateQuizTimerDisplay();
+    quizCountdownInterval = setInterval(updateQuizTimerDisplay, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -385,16 +586,52 @@ document.addEventListener('DOMContentLoaded', function() {
         // 測驗表單提交
         const quizContactForm = document.getElementById('quizContactForm');
         if (quizContactForm) {
+            quizContactForm.dataset.submittedOnce = 'false';
+            
+            quizContactForm.querySelectorAll('input, select, textarea').forEach(input => {
+                const handleInputEvent = function() {
+                    let feedback = this.nextElementSibling;
+                    while (feedback && !feedback.classList.contains('invalid-feedback') && !feedback.classList.contains('errorlist') && !feedback.classList.contains('captcha-feedback')) {
+                        feedback = feedback.nextElementSibling;
+                    }
+                    if (!feedback) {
+                        feedback = this.parentNode.querySelector('.invalid-feedback') || 
+                                   this.parentNode.querySelector('.errorlist') ||
+                                   this.parentNode.querySelector('.captcha-feedback') ||
+                                   document.getElementById('quiz-captcha-error');
+                    }
+
+                    if (quizContactForm.dataset.submittedOnce === 'true') {
+                        validateQuizField(this);
+                    } else {
+                        this.classList.remove('is-invalid');
+                        this.classList.remove('is-valid');
+                        if (feedback) {
+                            feedback.style.display = 'none';
+                            feedback.classList.add('d-none');
+                        }
+                    }
+                };
+                input.addEventListener('input', handleInputEvent);
+                input.addEventListener('change', handleInputEvent);
+            });
+
             quizContactForm.addEventListener('submit', submitQuizForm);
         }
         
         // 測驗表單驗證碼刷新按鈕
         const quizRefreshBtn = document.getElementById('quiz-refresh-captcha-btn');
+        const quizCaptchaImage = document.getElementById('quiz-captcha-image');
         if (quizRefreshBtn) {
             quizRefreshBtn.addEventListener('click', function() {
                 this.style.transform = 'rotate(360deg)';
                 setTimeout(() => this.style.transform = '', 300);
                 refreshQuizCaptcha();
+            });
+        }
+        if (quizCaptchaImage && quizRefreshBtn) {
+            quizCaptchaImage.addEventListener('click', function() {
+                quizRefreshBtn.click();
             });
         }
     }

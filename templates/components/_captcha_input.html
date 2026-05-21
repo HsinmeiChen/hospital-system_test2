@@ -4,6 +4,10 @@
     </label>
     <div class="col-12 col-md-4 mb-2 mb-md-0">
         {{ form.captcha }}
+        <small id="captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="countdown">2:00</span> 後失效</small>
+        <div class="invalid-feedback captcha-feedback" style="display:none; color:#dc3545; font-size: 80%; margin-top: .25rem;">
+            請輸入驗證碼。
+        </div>
         {% if form.captcha.errors %}
             <div class="invalid-feedback d-block">{{ form.captcha.errors.0 }}</div>
         {% endif %}
@@ -17,26 +21,3 @@
         </button>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    function refreshCaptcha() {
-        fetch('/api/captcha/refresh/')
-            .then(response => response.json())
-            .then(data => {
-                if(data.captcha_url) {
-                    document.getElementById('captcha-img').src = data.captcha_url;
-                    // 清空原本輸入的驗證碼
-                    const captchaInput = document.getElementById('{{ form.captcha.id_for_label }}') || document.querySelector('input[name="captcha"]');
-                    if (captchaInput) {
-                        captchaInput.value = '';
-                    }
-                }
-            })
-            .catch(err => console.error('Error refreshing captcha:', err));
-    }
-    
-    document.getElementById('captcha-img').addEventListener('click', refreshCaptcha);
-    document.getElementById('refresh-captcha-btn').addEventListener('click', refreshCaptcha);
-});
-</script>
