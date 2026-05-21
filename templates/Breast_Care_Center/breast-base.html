@@ -1,106 +1,105 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Basic ======================== -->
-    <title>{% block title %}全方位乳房中心{% endblock %}</title>
-    <meta name="title" content="{% block title_1 %}全方位乳房中心{% endblock %}">
-    <meta name="keywords" content="{% block keywords %}長安醫院,全方位乳房中心,乳房健康,乳癌,乳房腫瘤,乳房外科,乳房攝影,乳房超音波,乳房衛教{% endblock %}">
-    <meta name="description"
-        content="{% block meta_description %}長安醫院位於台中市太平區，由專業乳癌治療團隊成立全方位乳房中心，團隊成員包含乳房外科及專業乳癌專科護理師，提供乳房腫瘤個案管理，藉由密切聯繫達到診療共識，本院設備齊全（包含乳房攝影、乳房超音波、核磁共振攝影、電腦斷層），醫療團隊堅強，並致力於多科整合性團隊醫療評估，能提供婦癌患者最完整的醫療資訊與服務。 乳房外科診療服務項目：乳房腫瘤微創手術、乳房攝影疑似鈣化點立體定位微創手術、整形式乳房保留手術、乳房全切除並植入式重建手術、乳癌雙標靶加化療輔助治療、乳癌整合治療、乳房檢測、乳房良性腫塊、男性女乳癥、甲狀腺。{% endblock %}">
-
-    <!-- Open Graph (Facebook Share) ======== -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{% block og_title %}全方位乳房中心{% endblock %}">
-    <meta property="og:description"
-        content="{% block og_description %}長安醫院位於台中市太平區，由專業乳癌治療團隊成立全方位乳房中心，團隊成員包含乳房外科及專業乳癌專科護理師，提供乳房腫瘤個案管理，藉由密切聯繫達到診療共識，本院設備齊全（包含乳房攝影、乳房超音波、核磁共振攝影、電腦斷層），醫療團隊堅強，並致力於多科整合性團隊醫療評估，能提供婦癌患者最完整的醫療資訊與服務。 乳房外科診療服務項目：乳房腫瘤微創手術、乳房攝影疑似鈣化點立體定位微創手術、整形式乳房保留手術、乳房全切除並植入式重建手術、乳癌雙標靶加化療輔助治療、乳癌整合治療、乳房檢測、乳房良性腫塊、男性女乳癥、甲狀腺。{% endblock %}">
-    <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
-    <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
-
-    <!-- Web-icon =========================== -->
-    <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
-    <!-- CSS ================================ -->
-    <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
-    <!-- style -->
-    <link rel="stylesheet" href="{% static 'apps/breast_care_center/css/breast-style.css' %}">
-
-
-    <!-- js ================================= -->
-    <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
-    <script src="{% static 'common/js/popper.min.js' %}"></script>
-    <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
-
-    <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
-    {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
-    {% if final_gtm_id %}
-    <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', '{{ final_gtm_id }}');
-    </script>
-    {% endif %}
-    {% endwith %}
-
-</head>
-
-<body>
-    <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
-    {% include 'Breast_Care_Center/breast-loading.html' %}
-    <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
-
-    <!-- ■■■ Go To Top (Web Only) ■■■ -->
-    <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" title="回到最上方" role="button" aria-label="回到最上方">
-        <i class="fas fa-chevron-up"></i>
-    </a>
-
-    <!-- ※※※ Web Content ※※※ -->
-    {% block content %}
-    {% endblock %}
-
-    <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
-    <nav id="bottomNav" class="bottom-nav">
-        <a href="http://m.me/everanhospital" class="bottom-nav-item" title="FB 客服">
-            <i class="fab fa-facebook"></i>
-            <span>FB 客服</span>
-        </a>
-        <a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="LINE 客服" target="_blank">
-            <i class="fab fa-line"></i>
-            <span>LINE 客服</span>
-        </a>
-        <a href="{% url 'breast_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
-            <i class="fas fa-envelope"></i>
-            <span>聯絡我們</span>
-        </a>
-        <a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button"
-            aria-label="回到最上方">
-            <i class="fas fa-arrow-up"></i>
-            <span>回到最上方</span>
-        </a>
-    </nav>
-
-    <!-- ※※※ 子頁面可額外加 CSS ※※※ -->
-    {% block extra_css %}{% endblock %}
-
-    <!-- ※※※ 共用 JS Tool Start ※※※ -->
-
-    <script src="{% static 'apps/breast_care_center/js/nav-bar.js' %}"></script>
-    <script src="{% static 'apps/breast_care_center/js/rwd-gotop.js' %}"></script>
-    <script src="{% static 'apps/breast_care_center/js/page-loading.js' %}"></script>
-
-    <!-- ※※※ 子頁面可額外加 JS ※※※ -->
-    {% block extra_js %}{% endblock %}
-
-</body>
-
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-TW" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- SEO Basic ======================== -->
+    <title>{% block title %}全方位乳房中心{% endblock %}</title>
+    <meta name="title" content="{% block title_1 %}全方位乳房中心{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}長安醫院,全方位乳房中心,乳房健康,乳癌,乳房腫瘤,乳房外科,乳房攝影,乳房超音波,乳房衛教{% endblock %}">
+
+    <meta name="description"
+        content="{% block meta_description %}長安醫院位於台中市太平區，由專業乳癌治療團隊成立全方位乳房中心，團隊成員包含乳房外科及專業乳癌專科護理師，提供乳房腫瘤個案管理，藉由密切聯繫達到診療共識，本院設備齊全（包含乳房攝影、乳房超音波、核磁共振攝影、電腦斷層），醫療團隊堅強，並致力於多科整合性團隊醫療評估，能提供婦癌患者最完整的醫療資訊與服務。 乳房外科診療服務項目：乳房腫瘤微創手術、乳房攝影疑似鈣化點立體定位微創手術、整形式乳房保留手術、乳房全切除並植入式重建手術、乳癌雙標靶加化療輔助治療、乳癌整合治療、乳房檢測、乳房良性腫塊、男性女乳癥、甲狀腺。{% endblock %}">
+
+    <!-- Open Graph (Facebook Share) ======== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}全方位乳房中心{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}長安醫院位於台中市太平區，由專業乳癌治療團隊成立全方位乳房中心，團隊成員包含乳房外科及專業乳癌專科護理師，提供乳房腫瘤個案管理，藉由密切聯繫達到診療共識，本院設備齊全（包含乳房攝影、乳房超音波、核磁共振攝影、電腦斷層），醫療團隊堅強，並致力於多科整合性團隊醫療評估，能提供婦癌患者最完整的醫療資訊與服務。 乳房外科診療服務項目：乳房腫瘤微創手術、乳房攝影疑似鈣化點立體定位微創手術、整形式乳房保留手術、乳房全切除並植入式重建手術、乳癌雙標靶加化療輔助治療、乳癌整合治療、乳房檢測、乳房良性腫塊、男性女乳癥、甲狀腺。{% endblock %}">
+    <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
+    <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+
+    <!-- Web-icon =========================== -->
+    <link rel="icon" href="{% static 'common/img/favicon.ico' %}">
+
+    <!-- CSS ================================ -->
+    <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
+    <!-- style -->
+    <link rel="stylesheet" href="{% static 'apps/breast_care_center/css/breast-style.css' %}">
+
+    <!-- js ================================= -->
+    <script src="{% static 'common/js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'common/js/popper.min.js' %}"></script>
+    <script src="{% static 'common/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- GTM (fallback to settings.DEFAULT_GTM_ID) -->
+
+    {% with gtm_id|default:DEFAULT_GTM_ID as final_gtm_id %}
+
+    {% if final_gtm_id %}
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src ='https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', '{{ final_gtm_id }}');
+    </script>
+    {% endif %}
+    {% endwith %}
+
+</head>
+<body>
+    <!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+    {% include 'Breast_Care_Center/breast-loading.html' %}
+    <!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+
+    <!-- ■■■ Go To Top (Web Only) ■■■ -->
+    <a href="javascript:void(0)" onclick="topFunction()" id="myBtn" title="回到最上方" role="button" aria-label="回到最上方">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <!-- ※※※ Web Content ※※※ -->
+    {% block content %}
+    {% endblock %}
+    <!-- ■■■ Bottom Navigation (Mobile Only) ■■■ -->
+    <nav id="bottomNav" class="bottom-nav">
+        <a href="http://m.me/everanhospital" class="bottom-nav-item" title="FB 客服">
+            <i class="fab fa-facebook"></i>
+            <span>FB 客服</span>
+        </a>
+        <a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="LINE 客服" target="_blank">
+            <i class="fab fa-line"></i>
+            <span>LINE 客服</span>
+        </a>
+        <a href="{% url 'breast_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
+            <i class="fas fa-envelope"></i>
+            <span>聯絡我們</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button"
+
+            aria-label="回到最上方">
+            <i class="fas fa-arrow-up"></i>
+            <span>回到最上方</span>
+        </a>
+    </nav>
+<!-- ※※※ 子頁面可額外加 CSS ※※※ -->
+{% block extra_css %}{% endblock %}
+
+<!-- ※※※ 共用 JS Tool Start ※※※ -->
+<script src="{% static 'apps/breast_care_center/js/nav-bar.js' %}"></script>
+<script src="{% static 'apps/breast_care_center/js/rwd-gotop.js' %}"></script>
+<script src="{% static 'apps/breast_care_center/js/page-loading.js' %}"></script>
+
+
+<!-- ※※※ 子頁面可額外加 JS ※※※ -->
+{% block extra_js %}{% endblock %}
+</body>
 </html>

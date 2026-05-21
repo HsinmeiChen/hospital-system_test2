@@ -1,0 +1,42 @@
+<div class="form-group mb-4 row align-items-center">
+    <label for="{{ form.captcha.id_for_label }}" class="col-12 col-md-3 font-18 cofe-word mark_arrow_title mb-2 mb-md-0">
+        <h5 class="font-weight-bold mb-0">驗證碼<span class="text-danger">*</span></h5>
+    </label>
+    <div class="col-12 col-md-4 mb-2 mb-md-0">
+        {{ form.captcha }}
+        {% if form.captcha.errors %}
+            <div class="invalid-feedback d-block">{{ form.captcha.errors.0 }}</div>
+        {% endif %}
+    </div>
+    <div class="col-7 col-md-3 text-center">
+        <img id="captcha-img" src="/api/captcha/image/" alt="驗證碼圖片" class="img-fluid border" style="cursor: pointer;" title="點擊刷新驗證碼">
+    </div>
+    <div class="col-5 col-md-2 text-md-left text-right">
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="refresh-captcha-btn">
+            <i class="fas fa-sync-alt"></i> 刷新
+        </button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function refreshCaptcha() {
+        fetch('/api/captcha/refresh/')
+            .then(response => response.json())
+            .then(data => {
+                if(data.captcha_url) {
+                    document.getElementById('captcha-img').src = data.captcha_url;
+                    // 清空原本輸入的驗證碼
+                    const captchaInput = document.getElementById('{{ form.captcha.id_for_label }}') || document.querySelector('input[name="captcha"]');
+                    if (captchaInput) {
+                        captchaInput.value = '';
+                    }
+                }
+            })
+            .catch(err => console.error('Error refreshing captcha:', err));
+    }
+    
+    document.getElementById('captcha-img').addEventListener('click', refreshCaptcha);
+    document.getElementById('refresh-captcha-btn').addEventListener('click', refreshCaptcha);
+});
+</script>

@@ -3593,9 +3593,125 @@ def A004_hos_lost_info(request):
 
 	return render(request, "lost_and_found_index.html", locals()) # 秀出網頁
 
+from django.contrib import messages
+from Pomelo_test.forms import ContactUsForm
+from Pomelo_test.utils import send_generic_html_email
+from Pomelo_test.decorators import ratelimit_form_submit, captcha_failure_limit
+from django.conf import settings
+
 # 意見反映
+@ratelimit_form_submit(max_requests=5, window=300, redirect_url='/A004_contact_us/')
+@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='/A004_contact_us/', captcha_field='captcha')
 def A004_contact_us(request):
-	return render(request, "Contact_us.html", {})
+	if request.method == 'POST':
+		import time
+		session_captcha = request.session.get('common_captcha_code', '')
+		captcha_ts = request.session.get('common_captcha_timestamp', 0)
+		
+		# 檢查是否為 AJAX 請求
+		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
+		
+		# 驗證碼有效時間改為 120 秒 (2分鐘)
+		is_expired = (time.time() - captcha_ts > 120)
+		
+		if is_expired or not session_captcha:
+			# 呼叫 cache 增加失敗次數 (由 captcha_failure_limit 處理 lockout)
+			from django.core.cache import cache
+			key = f"captcha_fail:{request.META.get('REMOTE_ADDR', '')}"
+			data = cache.get(key) or {'count': 0, 'locked_until': 0}
+			data['count'] += 1
+			if data['count'] >= 5:
+				data['locked_until'] = time.time() + 300
+			cache.set(key, data, timeout=300)
+			
+			if is_ajax:
+				return JsonResponse({
+					'success': False,
+					'message': '驗證碼已過期，請重新輸入',
+					'errors': {'captcha': '驗證碼已過期，請重新輸入'}
+				})
+			else:
+				messages.error(request, '驗證碼已過期，請重新輸入。')
+				form = ContactUsForm(request.POST)
+				return render(request, "contact_us.html", {'form': form})
+		
+		# 將驗證碼答案帶入表單以供 clean_captcha() 做自動校驗
+		form = ContactUsForm(request.POST, captcha_answer=session_captcha)
+		if form.is_valid():
+			# 驗證成功，寄信
+			subject = f"[意見反映] 來自 {form.cleaned_data.get('name')} 的表單"
+			
+			# 將 form.cleaned_data 轉換為適合呈現的格式
+			form_data_display = {
+				'事件類別': form.cleaned_data.get('category'),
+				'姓名': form.cleaned_data.get('name'),
+				'聯絡電話': form.cleaned_data.get('phone'),
+				'Email': form.cleaned_data.get('email'),
+				'事件日期': form.cleaned_data.get('incident_date'),
+				'事件時間': form.cleaned_data.get('incident_time'),
+				'發生地點': form.cleaned_data.get('place'),
+				'反應內容': form.cleaned_data.get('message'),
+			}
+			
+			success = send_generic_html_email(
+				subject=subject,
+				template_name='email/common_feedback_email.html',
+				context={'form_data': form_data_display, 'subject_title': subject},
+				recipient_list=settings.CONTACT_EMAIL_RECIPIENTS_MAIN
+			)
+			
+			if success:
+				# 清除驗證碼，防止重複使用
+				if 'common_captcha_code' in request.session:
+					del request.session['common_captcha_code']
+				if 'common_captcha_timestamp' in request.session:
+					del request.session['common_captcha_timestamp']
+				
+				if is_ajax:
+					return JsonResponse({
+						'success': True,
+						'message': '您的意見已成功送出，我們會盡快處理！'
+					})
+				else:
+					messages.success(request, '您的意見已成功送出，我們會盡快處理！')
+					return redirect('/A004_contact_us/')
+			else:
+				if is_ajax:
+					return JsonResponse({
+						'success': False,
+						'message': '系統發生錯誤，信件發送失敗，請稍後再試。'
+					})
+				else:
+					messages.error(request, '系統發生錯誤，信件發送失敗，請稍後再試。')
+		else:
+			# 表單驗證失敗
+			# 若是驗證碼輸入錯誤，呼叫 cache 增加失敗次數 (由 captcha_failure_limit 處理 lockout)
+			if 'captcha' in form.errors:
+				from django.core.cache import cache
+				key = f"captcha_fail:{request.META.get('REMOTE_ADDR', '')}"
+				data = cache.get(key) or {'count': 0, 'locked_until': 0}
+				data['count'] += 1
+				if data['count'] >= 5:
+					data['locked_until'] = time.time() + 300
+				cache.set(key, data, timeout=300)
+			
+			if is_ajax:
+				errors = {}
+				for field, error_list in form.errors.items():
+					errors[field] = error_list[0] if error_list else '此欄位有誤'
+				return JsonResponse({
+					'success': False,
+					'message': '表單驗證失敗，請檢查您的輸入',
+					'errors': errors
+				})
+			else:
+				if 'captcha' in form.errors:
+					messages.error(request, form.errors['captcha'][0])
+	else:
+		form = ContactUsForm()
+		
+	return render(request, "contact_us.html", {'form': form})
+
 
 
 # =========================================A005(收費標準)=============================================
@@ -5208,7 +5324,7 @@ def A101_search_bed(request):
 
 # =========================================A102(資通安全政策聲明)=============================================
 def A102_Safe_ISMS(request):
-	return render(request, "Safe_ISMS.html", locals()) # 秀出網頁
+	return render(request, "safe_isms.html", locals()) # 秀出網頁
 
 # =========================================A103(院內住院占床數)=============================================
 def A103_search_ITH_bed(request):

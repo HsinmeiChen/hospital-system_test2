@@ -57,6 +57,4 @@ urlpatterns = [
     path('view-pdf/<str:download_type>/<str:filename>/', views.view_pdf_file, name='health_view_pdf_file'),  # 安全下載 PDF 檔案
 
     path('contact/', views.send_mail, name='health_send_mail'), # 聯絡我們-表單頁面
-    path('api/refresh-captcha/', views.refresh_captcha, name='health_refresh_captcha'),  # 聯絡我們-AJAX 刷新驗證碼
-    path('api/captcha-image/', views.generate_captcha_image, name='health_captcha_image'),  # 聯絡我們-新增驗證碼圖片 API (pillow 產生圖片)
 ]

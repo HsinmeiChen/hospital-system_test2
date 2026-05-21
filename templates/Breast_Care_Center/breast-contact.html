@@ -1,167 +1,171 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "Breast_Care_Center/breast-base.html" %}
-
-{% block title %}聯絡我們-全方位乳房中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}聯絡我們-全方位乳房中心{% endblock %}
-{% block meta_description %}若您對【長安醫院-全方位乳房中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
-{% block og_title %}聯絡我們-全方位乳房中心 | {{ block.super }}{% endblock %}
-{% block og_description %}若您對【長安醫院-全方位乳房中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
-
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
-{% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-<!-- ▼▼▼ GA ▼▼▼ -->
-{% include 'GA_noscript.html' %}
-<!-- ▲▲▲ GA End ▲▲▲ -->
-
-<!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-<div class="wrapper">
-    <!-- ■■■ Logo、Navbar ■■■ -->
-    <header>
-        {% include 'Breast_Care_Center/breast-header.html' %}
-    </header>
-    {% spaceless %}
-
-    <main class="contact-div">
-        <section class="top-banner-grid">
-            <div class="page-banner">
-                <div class="section-grid">
-                    <!-- ■■■ Title ■■■ -->
-                    <div class="fade-in-card">
-                        <div class="title-underline-sm">
-                            <h2>聯絡我們 <span>Contact</span></h2>
-                            <p>若您對「長安醫院-全方位乳房中心」有任何疑問或服務需求，歡迎透過本頁與我們聯繫，我們將盡快提供專業協助與回覆。</p>
-                        </div>
-                    </div>
-                    <!-- ■■■ Contact ■■■ -->
-                    <div class="card fade-in-card">
-                        <div class="row no-gutters">
-                            <!-- (1)、聯絡資訊 -->
-                            <div class="col-xl-5 l-box">
-                                <div class="item">
-                                    <!-- (1-1)、交通地圖 -->
-                                    <h2 class="item-ttl">交通地圖</h2>
-                                    <div id="map" class="fade-in-card">
-                                        <div class="card shadow-sm">
-                                            <div class="card-body p-1">
-                                                <div class="map-container" data-map-loaded="false">
-                                                    <div class="map-placeholder text-center text-muted py-5">地圖載入中...</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-5">
-                                        <img src="/media/Breast_Care_Center/traffic-map.webp" class="img-fluid" alt="交通地圖" title="交通地圖">
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <!-- (2)、聯絡表單 -->
-                            <div class="col-xl-7 r-box">
-                                <div class="contact-form">
-                                    <!-- 使用 Django 表單套件 -->
-                                    <form id="contactForm" method="post" action="{% url 'breast_send_mail' %}"
-                                        class="row">
-                                        {% csrf_token %}
-                                        <div class="form-group col-12 col-xl-6">
-                                            {{ form.name.label_tag }} {{ form.name }}
-                                            {{ form.name.errors }}
-                                        </div>
-                                        <div class="form-group col-12 col-xl-6">
-                                            {{ form.email.label_tag }} {{ form.email }}
-                                            {{ form.email.errors }}
-                                        </div>
-                                        <div class="form-group col-12 col-xl-6">
-                                            {{ form.phone.label_tag }} {{ form.phone }}
-                                            {{ form.phone.errors }}
-                                        </div>
-                                        <div class="form-group col-12 col-xl-6">
-                                            {{ form.subject.label_tag }} {{ form.subject }}
-                                            {{ form.subject.errors }}
-                                        </div>
-                                        <div class="form-group col-12">
-                                            {{ form.message.label_tag }} {{ form.message }}
-                                            {{ form.message.errors }}
-                                        </div>
-
-                                        <!-- 驗證碼 -->
-                                        <div class="form-group col-12">
-                                            {{ form.captcha.label_tag }}
-                                            <div class="section-captcha">
-                                                <div class="captcha-input">{{ form.captcha }}</div>
-                                                <div class="captcha-actions">
-                                                    <img id="captcha-image"
-                                                        src="{% url 'breast_captcha_image' %}?t={{ captcha_answer }}"
-                                                        alt="驗證碼" class="captcha-img">
-                                                    <button type="button" id="refresh-captcha-btn" class="btn-refresh"
-                                                        title="重新刷新驗證碼">
-                                                        <i class="fas fa-sync-alt"></i>
-                                                    </button>
-                                                    <small id="captcha-timer" class="form-text text-muted">驗證碼將於 <span
-                                                            id="countdown">2:00</span> 後失效</small>
-                                                    {{ form.captcha.errors }}
-                                                    <div class="errorlist" id="contact-captcha-error"
-                                                        style="display: none;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" id="contact-submit-btn" class="btnn green btn-submit"
-                                                title="送出">送出</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-    </main>
-    {% endspaceless %}
-</div>
-<!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-<!-- ▼▼▼ Footer Start ▼▼▼ -->
-{% include 'footer-2.html' %}
-<!-- ▲▲▲ Footer End ▲▲▲ -->
-{% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-
-
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
-{% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-
-
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
-<script>
-    // Google Map 延遲載入
-    document.addEventListener("DOMContentLoaded", () => {
-        const mapSection = document.querySelector("#map .map-container");
-        if (!mapSection) return;
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && mapSection.dataset.mapLoaded === "false") {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3641.1555465604415!2d120.71709177534782!3d24.13117497841248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346922c9a6996b67%3A0xa9f0b272143823e6!2z6ZW35a6J6Yar6Zmi!5e0!3m2!1szh-TW!2stw!4v1754482945439!5m2!1szh-TW!2stw";
-                    iframe.allowFullscreen = "";
-                    iframe.loading = "lazy";
-                    mapSection.innerHTML = "";
-                    mapSection.appendChild(iframe);
-                    mapSection.dataset.mapLoaded = "true";
-                    obs.unobserve(mapSection);
-                }
-            });
-        }, { threshold: 0.1 });
-        observer.observe(mapSection);
-    });
-</script>
-<script src="{% static 'apps/breast_care_center/js/breast-contact.js' %}"></script>
-{% endblock %}
+<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
+{% extends "Breast_Care_Center/breast-base.html" %}
+
+{% block title %}聯絡我們-全方位乳房中心 | {{ block.super }}{% endblock %}
+{% block title_1 %}聯絡我們-全方位乳房中心{% endblock %}
+{% block meta_description %}若您對【長安醫院-全方位乳房中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+{% block og_title %}聯絡我們-全方位乳房中心 | {{ block.super }}{% endblock %}
+{% block og_description %}若您對【長安醫院-全方位乳房中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+
+{% load static %}
+<!-- ※※※ Web Content Start ※※※ -->
+{% block content %}
+<!-- ▼▼▼ GA ▼▼▼ -->
+{% include 'GA_noscript.html' %}
+<!-- ▲▲▲ GA End ▲▲▲ -->
+
+<!-- ▼▼▼ Main-Content Start ▼▼▼ -->
+<div class="wrapper">
+    <!-- ■■■ Logo、Navbar ■■■ -->
+    <header>
+        {% include 'Breast_Care_Center/breast-header.html' %}
+    </header>
+    {% spaceless %}
+
+    <main class="contact-div">
+        <section class="top-banner-grid">
+            <div class="page-banner">
+                <div class="section-grid">
+                    <!-- ■■■ Title ■■■ -->
+                    <div class="fade-in-card">
+                        <div class="title-underline-sm">
+                            <h2>聯絡我們 <span>Contact</span></h2>
+                            <p>若您對「長安醫院-全方位乳房中心」有任何疑問或服務需求，歡迎透過本頁與我們聯繫，我們將盡快提供專業協助與回覆。</p>
+                        </div>
+                    </div>
+                    <!-- ■■■ Contact ■■■ -->
+                    <div class="card fade-in-card">
+                        <div class="row no-gutters">
+                            <!-- (1)、聯絡資訊 -->
+                            <div class="col-xl-5 l-box">
+                                <div class="item">
+                                    <!-- (1-1)、交通地圖 -->
+                                    <h2 class="item-ttl">交通地圖</h2>
+                                    <div id="map" class="fade-in-card">
+                                        <div class="card shadow-sm">
+                                            <div class="card-body p-1">
+                                                <div class="map-container" data-map-loaded="false">
+                                                    <div class="map-placeholder text-center text-muted py-5">地圖載入中...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5">
+                                        <img src="/media/Breast_Care_Center/traffic-map.webp" class="img-fluid" alt="交通地圖" title="交通地圖">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <!-- (2)、聯絡表單 -->
+                            <div class="col-xl-7 r-box">
+                                <div class="contact-form">
+                                    <!-- 使用 Django 表單套件 -->
+                                    <form id="contactForm" method="post" action="{% url 'breast_send_mail' %}" class="row">
+                                        {% csrf_token %}
+                                        <div class="form-group col-12 col-xl-6">
+                                            {{ form.name.label_tag }} {{ form.name }}
+                                            {{ form.name.errors }}
+                                        </div>
+                                        <div class="form-group col-12 col-xl-6">
+                                            {{ form.email.label_tag }} {{ form.email }}
+                                            {{ form.email.errors }}
+                                        </div>
+                                        <div class="form-group col-12 col-xl-6">
+                                            {{ form.phone.label_tag }} {{ form.phone }}
+                                            {{ form.phone.errors }}
+                                        </div>
+                                        <div class="form-group col-12 col-xl-6">
+                                            {{ form.subject.label_tag }} {{ form.subject }}
+                                            {{ form.subject.errors }}
+                                        </div>
+                                        <div class="form-group col-12">
+                                            {{ form.message.label_tag }} {{ form.message }}
+                                            {{ form.message.errors }}
+                                        </div>
+
+                                        <!-- 驗證碼 -->
+                                        <div class="form-group col-12">
+                                            {{ form.captcha.label_tag }}
+                                            <div class="d-flex align-items-center flex-wrap">
+                                                {{ form.captcha }}
+                                                <img id="captcha-image" src="/api/captcha/image/" alt="驗證碼" class="captcha-img">
+                                                <button type="button" id="refresh-captcha-btn" class="btn-refresh" title="重新刷新驗證碼">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </button>
+                                            </div>
+                                            <small id="captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="countdown">2:00</span> 後失效</small>
+                                            {{ form.captcha.errors }}
+                                            <div class="errorlist" id="contact-captcha-error" style="display: none;"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" id="contact-submit-btn" class="btnn green btn-submit" title="送出">送出</button>
+                                        </div>
+                                    </form>
+                                    <!-- 顯示 Django messages (發送結果) -->
+                                    {% if messages %}
+                                        <div class="pt-3">
+                                            {% for message in messages %}
+                                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} text-center font-weight-bold mb-0" role="alert">{{ message }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endspaceless %}
+</div>
+<!-- ▲▲▲ Main-Content End ▲▲▲ -->
+
+<!-- ▼▼▼ Footer Start ▼▼▼ -->
+{% include 'footer-2.html' %}
+<!-- ▲▲▲ Footer End ▲▲▲ -->
+{% endblock %}
+<!-- ※※※ Web Content End ※※※ -->
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+<script>
+    // Google Map 延遲載入
+    document.addEventListener("DOMContentLoaded", () => {
+        const mapSection = document.querySelector("#map .map-container");
+        if (!mapSection) return;
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && mapSection.dataset.mapLoaded === "false") {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3641.1555465604415!2d120.71709177534782!3d24.13117497841248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346922c9a6996b67%3A0xa9f0b272143823e6!2z6ZW35a6J6Yar6Zmi!5e0!3m2!1szh-TW!2stw!4v1754482945439!5m2!1szh-TW!2stw";
+                    iframe.allowFullscreen = "";
+                    iframe.loading = "lazy";
+                    mapSection.innerHTML = "";
+                    mapSection.appendChild(iframe);
+                    mapSection.dataset.mapLoaded = "true";
+                    obs.unobserve(mapSection);
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(mapSection);
+    });
+</script>
+<script src="{% static 'common/js/common-contact.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initCommonContactForm({ formId: 'contactForm' });
+    });
+</script>
+{% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

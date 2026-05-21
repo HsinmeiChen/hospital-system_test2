@@ -121,22 +121,6 @@ class PLSQLAPI:
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 聯絡我們 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-def generate_captcha(request):
-	"""產生新的驗證碼並儲存到 session（5位純數字）"""
-	# 只使用數字1-9（排除0避免混淆）
-	digits = '123456789'
-	captcha_code = ''.join(random.choices(digits, k=5))
-	request.session['captcha_answer'] = captcha_code
-	request.session['captcha_timestamp'] = time.time()  # 記錄產生時間
-	request.session['captcha_failures'] = request.session.get('captcha_failures', 0)  # 初始化失敗次數
-	return captcha_code
-
-def breast_generate_captcha_image(request):
-	"""生成干擾驗證碼圖片（PNG 格式，統一第一種風格：網格＋多色點＋多色干擾線）"""
-	code = str(request.session.get('captcha_answer', '12345'))
-	png_bytes = generate_captcha_image_bytes(code)
-	return HttpResponse(png_bytes, content_type='image/png')
-
 @ratelimit_form_submit(max_requests=5, window=300, redirect_url='breast_send_mail')  # 5 分鐘內最多 5 次提交
 @captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='breast_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
 def breast_send_mail(request):
@@ -148,15 +132,14 @@ def breast_send_mail(request):
 	CAPTCHA_EXPIRY = 120  # 驗證碼有效時間（秒，2分鐘）
 
 	if request.method == "POST":
-		captcha_answer = request.session.get('captcha_answer')
-		captcha_timestamp = request.session.get('captcha_timestamp', 0)
+		captcha_answer = request.session.get('common_captcha_code')
+		captcha_timestamp = request.session.get('common_captcha_timestamp', 0)
 		
 		# 檢查是否為 AJAX 請求
-		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'multipart/form-data'
+		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
 		
 		# 檢查驗證碼是否過期
 		if time.time() - captcha_timestamp > CAPTCHA_EXPIRY:
-			generate_captcha(request)
 			if is_ajax:
 				return JsonResponse({
 					'success': False,
@@ -168,7 +151,6 @@ def breast_send_mail(request):
 				form = ContactForm()
 				return render(request, "Breast_Care_Center/breast-contact.html", {
 					"form": form,
-					"captcha_answer": request.session.get('captcha_answer'),
 					'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 					'ga_id': '',
 					'gtm_id': ''
@@ -181,10 +163,10 @@ def breast_send_mail(request):
 				send_email_to_client(form.cleaned_data)
 				
 				# 清除 session 中的驗證碼
-				if 'captcha_answer' in request.session:
-					del request.session['captcha_answer']
-				if 'captcha_timestamp' in request.session:
-					del request.session['captcha_timestamp']
+				if 'common_captcha_code' in request.session:
+					del request.session['common_captcha_code']
+				if 'common_captcha_timestamp' in request.session:
+					del request.session['common_captcha_timestamp']
 				
 				if is_ajax:
 					return JsonResponse({
@@ -197,7 +179,6 @@ def breast_send_mail(request):
 			except Exception as e:
 				import logging
 				logging.exception("send_mail failed in health contact view")
-				generate_captcha(request)
 				if is_ajax:
 					return JsonResponse({
 						'success': False,
@@ -207,7 +188,6 @@ def breast_send_mail(request):
 					messages.error(request, "郵件寄送失敗，請稍後再試。")
 		else:
 			# 表單驗證失敗
-			generate_captcha(request)
 			if is_ajax:
 				errors = {}
 				for field, error_list in form.errors.items():
@@ -222,35 +202,19 @@ def breast_send_mail(request):
 		if not is_ajax:
 			return render(request, "Breast_Care_Center/breast-contact.html", {
 				"form": form,
-				"captcha_answer": request.session.get('captcha_answer'),
 				'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 				'ga_id': '',
 				'gtm_id': ''
 			})
 	else:
-		# GET 請求：產生新驗證碼並顯示空表單
-		generate_captcha(request)
+		# GET 請求：顯示空表單
 		form = ContactForm()
 
 	return render(request, "Breast_Care_Center/breast-contact.html", {
 		"form": form,
-		"captcha_answer": request.session.get('captcha_answer'),
 		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
 		'ga_id': '',
 		'gtm_id': ''
-	})
-
-# 新增：AJAX 刷新驗證碼端點
-@require_GET
-@ratelimit_captcha(max_requests=10, window=60)  # 1 分鐘內最多 10 次刷新
-def breast_refresh_captcha(request):
-	"""提供前端 AJAX 刷新驗證碼"""
-	captcha_code = generate_captcha(request)
-	# 回傳時間戳記，讓前端知道何時產生
-	return JsonResponse({
-		'success': True,
-		'captcha': captcha_code,
-		'timestamp': time.time()
 	})
 
 

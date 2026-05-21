@@ -19,9 +19,7 @@ from . import views
 
 urlpatterns = [
     path('', view=views.eecp, name="eecp"),
-    # 驗證碼相關 API（供 EECP 頁面使用）
-    path('api/refresh-captcha/', views.refresh_captcha, name='refresh_captcha'),  # AJAX 刷新驗證碼
-    path('api/captcha-image/', views.generate_captcha_image, name='captcha_image'),  # 驗證碼圖片 API (pillow 產生圖片)
+    # 驗證碼相關 API（供 EECP 頁面使用） - 已移至共用 API
     # 測驗結果提交 API
     path('api/submit-quiz-result/', views.submit_quiz_result, name='submit_quiz_result'),  # 測驗結果提交
 ]

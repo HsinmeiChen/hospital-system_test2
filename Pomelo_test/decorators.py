@@ -30,6 +30,9 @@ def ratelimit_form_submit(max_requests=5, window=300, redirect_url='breast_send_
 	def decorator(view_func):
 		@wraps(view_func)
 		def _wrapped_view(request, *args, **kwargs):
+			if request.method != 'POST':
+				return view_func(request, *args, **kwargs)
+				
 			from django.core.cache import cache
 			import time
 			key = f"form_submit:{request.META.get('REMOTE_ADDR', '')}"
@@ -40,6 +43,15 @@ def ratelimit_form_submit(max_requests=5, window=300, redirect_url='breast_send_
 			data['count'] += 1
 			cache.set(key, data, timeout=window)
 			if data['count'] > max_requests:
+				is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
+				if is_ajax:
+					from django.http import JsonResponse
+					return JsonResponse({
+						'success': False,
+						'message': '您送出表單的頻率過高，請稍後再試。'
+					}, status=429)
+				from django.contrib import messages
+				messages.error(request, '您送出表單的頻率過高，請稍後再試。')
 				return redirect(redirect_url)
 			return view_func(request, *args, **kwargs)
 		return _wrapped_view
@@ -59,6 +71,13 @@ def captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='breast
 			data = cache.get(key) or {'count': 0, 'locked_until': 0}
 			now = time.time()
 			if now < data['locked_until']:
+				is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
+				if is_ajax:
+					from django.http import JsonResponse
+					return JsonResponse({
+						'success': False,
+						'message': '驗證碼錯誤次數過多，已暫時鎖定，請稍後再試。'
+					}, status=403)
 				return redirect(redirect_url)
 			# 只在不成功時增加計數（在 view 內表單 invalid 時由 view 自己呼叫 cache 增加）
 			# 此裝飾器僅做「鎖定期間內直接 redirect」

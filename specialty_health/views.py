@@ -11,6 +11,7 @@ from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框�
 
 # 新修改 (圖片轉 WebP、PDF 轉 WebP 工具)
 from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
+from Pomelo_test.decorators import ratelimit_form_submit, captcha_failure_limit
 
 from .forms import ContactForm, send_email_to_client
 # ContactForm：Django 表單類別，用來驗證使用者輸入（name/email/subject/message 等）
@@ -137,94 +138,99 @@ class PLSQLAPI:
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 聯絡我們 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-def generate_captcha(request):
-	"""產生新的驗證碼並儲存到 session（5位純數字）"""
-	digits = '123456789'
-	captcha_code = ''.join(random.choices(digits, k=5))
-	request.session['captcha_answer'] = captcha_code
-	request.session['captcha_timestamp'] = time.time()  # 記錄產生時間
-	return captcha_code
-
-def generate_captcha_image(request):
-	"""生成干擾驗證碼圖片（PNG 格式，統一第一種風格：網格＋多色點＋多色干擾線）"""
-	code = str(request.session.get('captcha_answer', '12345'))
-	png_bytes = generate_captcha_image_bytes(code)
-	return HttpResponse(png_bytes, content_type='image/png')
-
-
+@ratelimit_form_submit(max_requests=5, window=300, redirect_url='send_mail')  # 5 分鐘內最多 5 次提交
+@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
 def send_mail(request):
 	"""
-	GET: 顯示表單並產生驗證碼
-	POST: 驗證表單並寄信，成功發送後，重導向到 GET 頁面（避免 F5 重複提交）
+	GET: 顯示表單
+	POST: 驗證表單並寄信（支援 AJAX 和普通提交）
 	"""
 
-	CAPTCHA_EXPIRY = 60  # 驗證碼有效時間（秒），1 分鐘 = 60 秒
+	CAPTCHA_EXPIRY = 120  # 驗證碼有效時間（秒），改為 2 分鐘
 
 	if request.method == "POST":
-		captcha_answer = request.session.get('captcha_answer')
-		captcha_timestamp = request.session.get('captcha_timestamp', 0)
+		captcha_answer = request.session.get('common_captcha_code')
+		captcha_timestamp = request.session.get('common_captcha_timestamp', 0)
 		
+		# 檢查是否為 AJAX 請求
+		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
+		
+		# 檢查驗證碼是否過期
 		if time.time() - captcha_timestamp > CAPTCHA_EXPIRY:
-			messages.error(request, "驗證碼已過期，請重新整理後再試")
-			generate_captcha(request)
-			form = ContactForm()
-			return render(request, "specialty_health/h-contact.html", {
-				"form": form,
-				"captcha_answer": request.session.get('captcha_answer'),
-				'og_image': '',
-				'ga_id': '',
-				'gtm_id': ''
-			})
+			if is_ajax:
+				return JsonResponse({
+					'success': False,
+					'message': '驗證碼已過期，請重新輸入',
+					'errors': {'captcha': '驗證碼已過期，請重新輸入'}
+				})
+			else:
+				messages.error(request, "驗證碼已過期，請重新整理後再試")
+				form = ContactForm()
+				return render(request, "specialty_health/h-contact.html", {
+					"form": form,
+					'og_image': '',
+					'ga_id': '',
+					'gtm_id': ''
+				})
 		
 		form = ContactForm(request.POST, captcha_answer=captcha_answer)
 		
 		if form.is_valid():
 			try:
 				send_email_to_client(form.cleaned_data)
-				messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
 				
-				if 'captcha_answer' in request.session:
-					del request.session['captcha_answer']
-				if 'captcha_timestamp' in request.session:
-					del request.session['captcha_timestamp']
+				# 清除 session 中的驗證碼
+				if 'common_captcha_code' in request.session:
+					del request.session['common_captcha_code']
+				if 'common_captcha_timestamp' in request.session:
+					del request.session['common_captcha_timestamp']
 				
-				return redirect('send_mail')
+				if is_ajax:
+					return JsonResponse({
+						'success': True,
+						'message': '您的訊息已成功送出，感謝您的聯繫！'
+					})
+				else:
+					messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
+					return redirect('health_send_mail')
 			except Exception as e:
 				import logging
-				logging.exception("send_mail failed")
-				messages.error(request, "郵件寄送失敗，請稍後再試。")
-				generate_captcha(request)
+				logging.exception("send_mail failed in health contact view")
+				if is_ajax:
+					return JsonResponse({
+						'success': False,
+						'message': '郵件寄送失敗，請稍後再試。'
+					})
+				else:
+					messages.error(request, "郵件寄送失敗，請稍後再試。")
 		else:
-			generate_captcha(request)
+			# 表單驗證失敗
+			if is_ajax:
+				errors = {}
+				for field, error_list in form.errors.items():
+					errors[field] = error_list[0] if error_list else '此欄位有誤'
+				
+				return JsonResponse({
+					'success': False,
+					'message': '表單驗證失敗，請檢查您的輸入',
+					'errors': errors
+				})
 		
-		return render(request, "specialty_health/h-contact.html", {
-			"form": form,
-			"captcha_answer": request.session.get('captcha_answer'),
-			'og_image': '',
-			'ga_id': '',
-			'gtm_id': ''
-		})
+		if not is_ajax:
+			return render(request, "specialty_health/h-contact.html", {
+				"form": form,
+				'og_image': '',
+				'ga_id': '',
+				'gtm_id': ''
+			})
 	else:
-		generate_captcha(request)
 		form = ContactForm()
 
 	return render(request, "specialty_health/h-contact.html", {
 		"form": form,
-		"captcha_answer": request.session.get('captcha_answer'),
 		'og_image': '',
 		'ga_id': '',
 		'gtm_id': ''
-	})
-
-# 新增：AJAX 刷新驗證碼端點
-@require_GET
-def refresh_captcha(request):
-	"""提供前端 AJAX 刷新驗證碼"""
-	captcha_code = generate_captcha(request)
-	# 回傳時間戳記，讓前端知道何時產生
-	return JsonResponse({
-		'captcha': captcha_code,
-		'timestamp': time.time()
 	})
 
 

@@ -2,52 +2,40 @@ from django import forms
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-import re
 from django.core.exceptions import ValidationError
+from Pomelo_test.forms import FeedbackBaseForm, validate_phone_number
 
-
-def validate_phone_number(value):
-	"""
-	電話號碼驗證：
-	- 允許數字和 + 號（國際格式）
-	- + 號只能出現在開頭
-	- 長度限制：8 到 15 碼（不含 + 號）
-	"""
-	if not value:
-		return
-	if not re.match(r'^\+?\d+$', value):
-		raise ValidationError("電話號碼僅可包含數字，+ 號只能在開頭。")
-	# 計算純數字長度（排除 +）
-	digits = re.sub(r'\D', '', value)
-	if len(digits) < 8 or len(digits) > 15:
-		raise ValidationError("電話號碼需為 8 到 15 碼。")
-
-class ContactForm(forms.Form):
-	name = forms.CharField(
-		label="姓名",
-		max_length=100,
-		widget=forms.TextInput(attrs={
-			'placeholder': '請輸入您的姓名'
-		})
-	)
-	email = forms.EmailField(
-		label="電子郵件",
-		widget=forms.EmailInput(attrs={
-			'placeholder': '請輸入您的 Email'
-		})
-	)
-	phone = forms.CharField(
-		label="聯絡電話",
-		max_length=16,  # 15 碼數字 + 1 個 + 號
-		# required=False,
-		validators=[validate_phone_number],
-		widget=forms.TextInput(attrs={
+class ContactForm(FeedbackBaseForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		# 保留 EECP 專屬的 Placeholder 客製化
+		self.fields['name'].widget.attrs.update({'placeholder': '請輸入您的姓名'})
+		self.fields['email'].widget.attrs.update({'placeholder': '請輸入您的 Email'})
+		self.fields['phone'].widget.attrs.update({
 			'pattern': r'^\+?\d{8,15}$',
 			'title': '請輸入 8~15 碼數字，國際格式可加 + 號於開頭',
 			'maxlength': '16',
 			'placeholder': '請輸入您的聯絡電話'
 		})
-	)
+		self.fields['message'].label = '其他需求或問題'
+		self.fields['message'].widget.attrs.update({
+			'placeholder': '請告訴我們您的需求...',
+			'rows': 4
+		})
+		self.fields['captcha'].widget.attrs.update({
+			'placeholder': '請輸入5位數字驗證碼',
+			'autocomplete': 'off',
+			'maxlength': '5',
+			'pattern': '[0-9]{5}',
+			'title': '請輸入5位數字驗證碼'
+		})
+		
+		# 限制希望預約時間不能選擇過去的日期
+		from datetime import date
+		self.fields['appointment_date'].widget.attrs.update({
+			'min': date.today().isoformat()
+		})
+
 	appointment_date = forms.DateField(
 		label="希望預約時間",
 		widget=forms.DateInput(attrs={
@@ -55,42 +43,12 @@ class ContactForm(forms.Form):
 			'placeholder': '請選擇日期'
 		})
 	)
-	message = forms.CharField(
-		label="其他需求或問題", widget=forms.Textarea(attrs={
-			'placeholder': '請告訴我們您的需求...',
-			'rows': 4
-		})
-	)
-
-	# 新增驗證碼欄位
-	captcha = forms.CharField(
-		label="驗證碼",
-		max_length=5,
-		min_length=5,
-		widget=forms.TextInput(attrs={
-			'placeholder': '請輸入5位數字驗證碼',
-			'autocomplete': 'off',
-			'maxlength': '5',
-			'pattern': '[0-9]{5}',
-			'title': '請輸入5位數字驗證碼'
-		})
-	)
-
-	def __init__(self, *args, **kwargs):
-		self.captcha_answer = kwargs.pop('captcha_answer', None)
-		super().__init__(*args, **kwargs)
-
-	def clean_captcha(self):
-		user_input = self.cleaned_data.get('captcha', '').strip()
-		if user_input != str(self.captcha_answer):
-			raise ValidationError("驗證碼錯誤，請重新輸入")
-		return user_input
 
 def send_email_to_client(cleaned_data):
 	"""
 	cleaned_data: ContactForm.cleaned_data
 	寄信到內部收件者，使用 HTML template 格式
-    """    
+	"""    
 	subject = f"[長安醫院-EECP 體外反搏治療中心 - 預約諮詢] {cleaned_data['name']}"
 
 	# 用 Django template 渲染 HTML
@@ -113,17 +71,19 @@ def send_email_to_client(cleaned_data):
 	email.send(fail_silently=False)
 
 
-# 測驗結果表單
+# 測驗結果表單 (無 message 欄位，故不繼承 FeedbackBaseForm，但共用 validate_phone_number)
 class QuizResultForm(forms.Form):
 	name = forms.CharField(
 		label="姓名",
 		max_length=100,
+		error_messages={'required': '請填寫您的姓名'},
 		widget=forms.TextInput(attrs={
 			'placeholder': '請輸入您的姓名'
 		})
 	)
 	email = forms.EmailField(
 		label="電子郵件",
+		error_messages={'invalid': '請輸入正確的 E-mail 格式', 'required': '請填寫您的 Email'},
 		widget=forms.EmailInput(attrs={
 			'placeholder': '請輸入您的 Email'
 		})
@@ -132,6 +92,7 @@ class QuizResultForm(forms.Form):
 		label="聯絡電話",
 		max_length=16,
 		validators=[validate_phone_number],
+		error_messages={'required': '請填寫您的聯絡電話'},
 		widget=forms.TextInput(attrs={
 			'pattern': r'^\+?\d{8,15}$',
 			'title': '請輸入 8~15 碼數字，國際格式可加 + 號於開頭',
@@ -168,7 +129,7 @@ class QuizResultForm(forms.Form):
 
 	def clean_quiz_captcha(self):
 		user_input = self.cleaned_data.get('quiz_captcha', '').strip()
-		if user_input != str(self.captcha_answer):
+		if not self.captcha_answer or user_input != str(self.captcha_answer):
 			raise ValidationError("驗證碼錯誤，請重新輸入")
 		return user_input
 

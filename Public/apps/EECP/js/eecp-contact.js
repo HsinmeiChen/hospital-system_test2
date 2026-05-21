@@ -222,6 +222,11 @@ function submitQuizForm(event) {
     const captchaError = document.getElementById('quiz-captcha-error');
     const captchaInput = document.getElementById('quizCaptcha');
     
+    if (captchaError) {
+        captchaError.textContent = '';
+        captchaError.style.display = 'none';
+    }
+    
     // 檢查驗證碼輸入框狀態
     if (captchaInput && captchaInput.readOnly) {
         alert('驗證碼已失效，請點擊刷新圖示重新取得驗證碼');
@@ -251,7 +256,8 @@ function submitQuizForm(event) {
     fetch('/EECP/api/submit-quiz-result/', {
         method: 'POST',
         headers: {
-            'X-CSRFToken': csrfToken
+            'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
         },
         body: formData
     })
@@ -269,11 +275,15 @@ function submitQuizForm(event) {
                 if (data.errors.quiz_captcha || data.errors.captcha) {
                     captchaError.textContent = data.errors.quiz_captcha || data.errors.captcha;
                     captchaError.style.display = 'block';
-                    
-                    // 刷新驗證碼
-                    refreshQuizCaptcha();
                 } else {
-                    alert(data.message || '送出失敗，請檢查您的輸入並重試。');
+                    let errorMsg = data.message || '送出失敗，請檢查您的輸入並重試。';
+                    if (Object.keys(data.errors).length > 0) {
+                        errorMsg += '\n';
+                        for (let field in data.errors) {
+                            errorMsg += '\n' + data.errors[field];
+                        }
+                    }
+                    alert(errorMsg);
                 }
             } else {
                 alert(data.message || '送出失敗，請稍後再試。');
@@ -293,16 +303,36 @@ function submitQuizForm(event) {
 
 // 測驗表單驗證碼刷新功能
 function refreshQuizCaptcha() {
-    const refreshUrl = '/EECP/api/refresh-captcha/';
-    const imageUrl = '/EECP/api/captcha-image/';
+    const refreshUrl = '/api/captcha/refresh/';
     const captchaImage = document.getElementById('quiz-captcha-image');
     const captchaInput = document.getElementById('quizCaptcha');
     
+    // 隱藏錯誤提示訊息
+    const captchaError = document.getElementById('quiz-captcha-error');
+    if (captchaError) {
+        captchaError.textContent = '';
+        captchaError.style.display = 'none';
+    }
+    
     fetch(refreshUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP error! status: ' + response.status);
+            }
+            return response.json();
+        })
         .then(data => {
-            captchaImage.src = imageUrl + "?t=" + data.timestamp;
-            captchaInput.value = '';
+            if (data.success === false) {
+                alert(data.message || '刷新次數過多，請稍後再試');
+                return;
+            }
+            // 使用後端回傳的 captcha_url 確保圖片真正更新
+            if (captchaImage) {
+                captchaImage.src = data.captcha_url || ('/api/captcha/image/?t=' + data.timestamp);
+            }
+            if (captchaInput) {
+                captchaInput.value = '';
+            }
             startQuizCaptchaCountdown();
         })
         .catch(error => {
@@ -310,90 +340,32 @@ function refreshQuizCaptcha() {
         });
 }
 
-// 測驗表單驗證碼倒數計時
-let quizCountdownInterval;
+// 測驗表單驗證碼初始化狀態（已取消倒數計時）
 function startQuizCaptchaCountdown() {
-    clearInterval(quizCountdownInterval);
-    let remaining = 30; // 30 秒
-    
     const captchaTimer = document.getElementById('quiz-captcha-timer');
     const captchaInput = document.getElementById('quizCaptcha');
     const captchaImage = document.getElementById('quiz-captcha-image');
     
-    // 檢查必要元素是否存在
-    if (!captchaTimer || !captchaInput || !captchaImage) {
-        console.warn('測驗表單驗證碼元素未找到');
-        return;
+    // 隱藏倒數計時提示元件
+    if (captchaTimer) {
+        captchaTimer.style.display = 'none';
     }
     
-    // 重置為初始狀態
-    captchaTimer.innerHTML = '驗證碼將於 <span id="quiz-countdown">0:30</span> 後失效';
-    captchaTimer.className = 'form-text text-muted';  // 重置為灰色文字
-    captchaTimer.style.display = 'block';
-    captchaInput.disabled = false;
-    captchaInput.readOnly = false;  // 確保移除 readonly
-    captchaInput.placeholder = '請輸入5位數字驗證碼';
-    captchaInput.style.cursor = '';
-    captchaInput.style.backgroundColor = '';  // 重置背景色
-    captchaImage.style.opacity = '1';
-    
-    console.log('測驗表單驗證碼倒數開始');
-    
-    quizCountdownInterval = setInterval(() => {
-        const minutes = Math.floor(remaining / 60);
-        const seconds = remaining % 60;
-        
-        // 每次都重新獲取元素（防止 DOM 更新）
-        const countdownEl = document.getElementById('quiz-countdown');
-        if (countdownEl) {
-            countdownEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        if (remaining === 0) {
-            clearInterval(quizCountdownInterval);
-            console.log('測驗表單驗證碼已過期');
-            
-            // 更新計時器顯示為失效訊息
-            captchaTimer.innerHTML = '驗證碼已失效，請點擊刷新圖示重新取得';
-            captchaTimer.className = 'form-text text-danger';
-            captchaTimer.style.display = 'block';
-            
-            // 使用 readonly 代替 disabled（readonly 可以顯示 placeholder）
-            captchaInput.readOnly = true;
-            captchaInput.disabled = false;  // 確保不是 disabled 狀態
-            // captchaInput.placeholder = '驗證碼已失效，請點擊刷新圖示';
-            captchaInput.value = '';
-            captchaInput.style.cursor = 'not-allowed';
-            captchaInput.style.backgroundColor = '#f5f5f5';
-            captchaImage.style.opacity = '0.5';
-            
-            console.log('已設置測驗表單 placeholder:', captchaInput.placeholder);
-        }
-        
-        remaining--;
-    }, 1000);
-}
-
-// ========================================
-// 預約諮詢表單驗證碼功能
-// ========================================
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+    if (captchaInput) {
+        captchaInput.disabled = false;
+        captchaInput.readOnly = false;
+        captchaInput.placeholder = '請輸入5位數字驗證碼';
+        captchaInput.style.cursor = '';
+        captchaInput.style.backgroundColor = '';
     }
-    return cookieValue;
+    
+    if (captchaImage) {
+        captchaImage.style.opacity = '1';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 檢查是否有表單提交成功的標記
+    // 檢查是否有測驗表單提交成功的標記
     if (sessionStorage.getItem('quizSubmitted') === 'true') {
         sessionStorage.removeItem('quizSubmitted');
         alert('感謝您完成測驗，我們會儘快與您聯繫。');
@@ -404,251 +376,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }, 100);
-    }
-    
-    if (sessionStorage.getItem('contactSubmitted') === 'true') {
-        const message = sessionStorage.getItem('contactMessage') || '您的訊息已成功送出，感謝您的聯繫！';
-        sessionStorage.removeItem('contactSubmitted');
-        sessionStorage.removeItem('contactMessage');
-        alert(message);
-        // 平滑滾動到聯絡表單區域
-        setTimeout(() => {
-            const contactSection = document.getElementById('contact-area');
-            if (contactSection) {
-                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }, 100);
-    }
-    
-    const refreshBtn = document.getElementById('refresh-captcha-btn');
-    const captchaImage = document.getElementById('captcha-image');
-    // 更完整的選擇器，確保能找到 Django 表單渲染的 input
-    // 使用父容器 #contactForm 確保選到正確的表單
-    let captchaInput = document.querySelector('#contactForm input[name="captcha"]') || 
-                       document.querySelector('#contactForm #id_captcha') ||
-                       document.querySelector('input[type="text"][placeholder*="驗證碼"]');
-    const captchaTimer = document.getElementById('captcha-timer');
-    
-    let expiryTime = 30; // 30 秒
-    let countdownInterval;
-
-    function startCountdown() {
-        clearInterval(countdownInterval);
-        let remaining = expiryTime;
-        
-        // 重新獲取驗證碼輸入框（防止 DOM 更新後丟失引用）
-        // 使用父容器 #contactForm 確保選到正確的表單
-        captchaInput = document.querySelector('#contactForm input[name="captcha"]') || 
-                      document.querySelector('#contactForm #id_captcha') ||
-                      document.querySelector('input[type="text"][placeholder*="驗證碼"]');
-        
-        // 檢查元素是否存在
-        if (!captchaTimer) {
-            console.warn('預約表單驗證碼計時器未找到');
-            return;
-        }
-        
-        if (!captchaInput) {
-            console.warn('預約表單驗證碼輸入欄位未找到，請檢查 HTML 結構');
-            return;
-        }
-        
-        console.log('預約表單驗證碼倒數開始，輸入框:', captchaInput);
-        
-        // 重置為初始狀態
-        captchaTimer.innerHTML = '驗證碼將於 <span id="countdown">0:30</span> 後失效';
-        captchaTimer.className = 'form-text text-muted';
-        captchaTimer.style.display = 'block';
-        captchaInput.placeholder = '請輸入5位數字驗證碼';
-        captchaInput.disabled = false;
-        captchaInput.readOnly = false;  // 確保移除 readonly
-        captchaInput.style.cursor = '';
-        captchaInput.style.backgroundColor = '';  // 重置背景色
-        if (captchaImage) {
-            captchaImage.style.opacity = '1';
-        }
-        
-        countdownInterval = setInterval(() => {
-            const minutes = Math.floor(remaining / 60);
-            const seconds = remaining % 60;
-            
-            // 每次都重新獲取倒數元素
-            const countdownEl = document.getElementById('countdown');
-            if (countdownEl) {
-                countdownEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            if (remaining === 0) {
-                clearInterval(countdownInterval);
-                console.log('預約表單驗證碼已過期');
-                
-                // 重新獲取輸入框（確保引用最新）
-                const currentInput = document.querySelector('#contactForm input[name="captcha"]') || 
-                                    document.querySelector('#contactForm #id_captcha') ||
-                                    document.querySelector('input[type="text"][placeholder*="驗證碼"]');
-                
-                // 更新計時器顯示為失效訊息
-                captchaTimer.innerHTML = '驗證碼已失效，請點擊刷新圖示重新取得';
-                captchaTimer.className = 'form-text text-danger';
-                captchaTimer.style.display = 'block';
-                
-                // 使用 readonly 代替 disabled（readonly 可以顯示 placeholder）
-                if (currentInput) {
-                    currentInput.readOnly = true;
-                    currentInput.disabled = false;  // 確保不是 disabled 狀態
-                    // currentInput.placeholder = '驗證碼已失效，請點擊刷新圖示';
-                    currentInput.value = '';
-                    currentInput.style.cursor = 'not-allowed';
-                    currentInput.style.backgroundColor = '#f5f5f5';
-                    console.log('已設置預約表單 placeholder:', currentInput.placeholder);
-                } else {
-                    console.warn('預約表單過期時無法找到輸入框');
-                }
-                
-                // 調整圖片透明度
-                if (captchaImage) {
-                    captchaImage.style.opacity = '0.5';
-                }
-            }
-            
-            remaining--;
-        }, 1000);
-    }
-
-    // 刷新驗證碼圖片
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', function() {
-            this.style.transform = 'rotate(360deg)';
-            setTimeout(() => this.style.transform = '', 300);
-            
-            const refreshUrl = '/EECP/api/refresh-captcha/';
-            const imageUrl = '/EECP/api/captcha-image/';
-            
-            console.log('開始刷新驗證碼...');
-            
-            fetch(refreshUrl)
-                .then(response => {
-                    console.log('Response status:', response.status);
-                    if (!response.ok) {
-                        throw new Error('HTTP error! status: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('收到數據:', data);
-                    if (captchaImage) {
-                        captchaImage.src = imageUrl + "?t=" + data.timestamp;
-                    }
-                    
-                    // 重新獲取驗證碼輸入框
-                    if (!captchaInput) {
-                        captchaInput = document.querySelector('input[name="captcha"]') || 
-                                      document.querySelector('#id_captcha') ||
-                                      document.querySelector('input[type="text"][placeholder*="驗證碼"]');
-                    }
-                    
-                    if (captchaInput) {
-                        captchaInput.value = '';
-                    }
-                    startCountdown();
-                })
-                .catch(error => {
-                    console.error('刷新驗證碼失敗:', error);
-                    alert('無法刷新驗證碼：' + error.message);
-                });
-        });
-    }
-
-    startCountdown();
-    
-    // 預約諮詢表單 AJAX 提交
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('contact-submit-btn');
-            const captchaError = document.getElementById('contact-captcha-error');
-            
-            // 檢查驗證碼輸入框狀態
-            const captchaInput = document.querySelector('#contactForm input[name="captcha"]') || 
-                                document.querySelector('#contactForm #id_captcha');
-            
-            if (captchaInput && captchaInput.readOnly) {
-                alert('驗證碼已失效，請點擊刷新圖示重新取得驗證碼');
-                if (refreshBtn) {
-                    refreshBtn.focus();
-                }
-                return false;
-            }
-            
-            // 禁用提交按鈕避免重複提交
-            submitBtn.disabled = true;
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span>送出中...</span>';
-            
-            const formData = new FormData(contactForm);
-            
-            // 取得 CSRF Token
-            const csrftoken = getCookie('csrftoken');
-
-            // 使用 fetch API 發送 AJAX 請求
-            fetch(contactForm.action || window.location.href, {
-                method: 'POST',
-                credentials: 'include',  // 關鍵：強制傳輸Cookie
-                body: formData,
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken')  // 手動加入CSRF
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // 儲存成功訊息到 sessionStorage
-                    sessionStorage.setItem('contactSubmitted', 'true');
-                    sessionStorage.setItem('contactMessage', data.message || '您的訊息已成功送出，感謝您的聯繫！');
-                    
-                    // 重新整理頁面
-                    window.location.reload();
-                } else {
-                    // 顯示錯誤訊息
-                    if (data.errors) {
-                        if (data.errors.captcha) {
-                            if (captchaError) {
-                                captchaError.textContent = data.errors.captcha;
-                                captchaError.style.display = 'block';
-                            }
-                            
-                            // 刷新驗證碼
-                            if (refreshBtn) {
-                                refreshBtn.click();
-                            }
-                        } else {
-                            // 顯示其他錯誤
-                            let errorMsg = data.message || '送出失敗，請檢查您的輸入並重試。';
-                            if (Object.keys(data.errors).length > 0) {
-                                errorMsg += '\n';
-                                for (let field in data.errors) {
-                                    errorMsg += '\n' + data.errors[field];
-                                }
-                            }
-                            alert(errorMsg);
-                        }
-                    } else {
-                        alert(data.message || '送出失敗，請稍後再試。');
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('送出錯誤:', error);
-                alert('網路錯誤，請檢查您的網路連接後再試。');
-            })
-            .finally(() => {
-                // 重新啟用提交按鈕
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-        });
     }
     
     // 初始化 EECP 測驗功能
@@ -671,9 +398,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    
-    // 啟動預約表單驗證碼倒數計時
-    startCountdown();
     
     // EECP 影片點擊播放
     const eecpVideoPlayer = document.querySelector('.youtube-player[data-id="QdQPjEKfsoI"]');

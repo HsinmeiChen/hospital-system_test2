@@ -309,5 +309,7 @@ def _parse_contact_recipients(env_key, default_list):
 CONTACT_EMAIL_RECIPIENTS_EECP = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_EECP', NOTIFY_EMAIL_RECIPIENTS)
 CONTACT_EMAIL_RECIPIENTS_HEALTH = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_HEALTH', NOTIFY_EMAIL_RECIPIENTS)  # 健管中心
 CONTACT_EMAIL_RECIPIENTS_BREAST = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_BREAST', NOTIFY_EMAIL_RECIPIENTS)   # 乳房中心
+CONTACT_EMAIL_RECIPIENTS_MAIN = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_MAIN', NOTIFY_EMAIL_RECIPIENTS)     # 主站意見反映
+
 # ================== 2025.12.30 上 EECP 跟健管新增 End ==================
 

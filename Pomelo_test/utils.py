@@ -306,5 +306,72 @@ def safe_cleanup_webp_cache(source_dir, target_dir):
 					os.remove(webp_filepath)
 					if os.path.exists(lock_filepath):
 						os.remove(lock_filepath)
-				except Exception:
+				except OSError:
 					pass
+# =========================================================================
+# 通用寄信模組
+# =========================================================================
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
+def send_generic_html_email(subject, template_name, context, recipient_list):
+	"""
+	通用寄信函式
+	- subject: 信件主旨
+	- template_name: HTML 版型路徑 (例如 'email/common_feedback_email.html')
+	- context: 傳入版型的參數字典 (例如 {'form_data': {'姓名': '王大明', ...}})
+	- recipient_list: 收件者列表
+	"""
+	if not recipient_list:
+		return False
+	
+	try:
+		html_message = render_to_string(template_name, context)
+		email = EmailMessage(
+			subject=subject,
+			body=html_message,
+			from_email=settings.DEFAULT_FROM_EMAIL,
+			to=recipient_list,
+		)
+		email.content_subtype = "html"  # 重要: 設為 HTML 格式
+		email.send(fail_silently=False)
+		return True
+	except Exception as e:
+		print(f"[Email Error] 寄信失敗: {e}")
+		return False
+
+# =========================================================================
+# 共用驗證碼 HTTP API 端點 (原於 views.py，為避免混淆移至此)
+# =========================================================================
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.cache import never_cache
+from Pomelo_test.decorators import ratelimit_captcha
+import time
+# random 已在上方 import
+
+@never_cache
+def common_captcha_img(request):
+	"""回傳驗證碼 PNG 圖片供全站共用"""
+	try:
+		# 生成 5 位數字驗證碼
+		code = "".join(str(random.randint(0, 9)) for _ in range(5))
+		# 存入 session，設定統一的 captcha key
+		request.session['common_captcha_code'] = code
+		# 設定驗證碼產生時間，用於計算是否過期
+		request.session['common_captcha_timestamp'] = time.time()
+		
+		image_bytes = generate_captcha_image_bytes(code)
+		return HttpResponse(image_bytes, content_type='image/png')
+	except Exception as e:
+		return HttpResponse(status=500)
+
+@never_cache
+@ratelimit_captcha(max_requests=10, window=60)
+def common_refresh_captcha(request):
+	"""刷新驗證碼並回傳新的圖片 URL"""
+	# 回傳加上時間戳記以避免瀏覽器快取
+	return JsonResponse({
+		'success': True,
+		'captcha_url': f'/api/captcha/image/?t={int(time.time())}'
+	})
+

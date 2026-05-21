@@ -50,6 +50,4 @@ urlpatterns = [
 
     # ═════════════ 聯絡我們 ═════════════
     path('contact/', views.breast_send_mail, name='breast_send_mail'),
-    path('api/breast-refresh-captcha/', views.breast_refresh_captcha, name='breast_refresh_captcha'),
-    path('api/breast-captcha-image/', views.breast_generate_captcha_image, name='breast_captcha_image'),
 ]
