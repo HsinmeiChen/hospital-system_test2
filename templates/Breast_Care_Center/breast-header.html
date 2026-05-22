@@ -1,141 +1,103 @@
 {% load static %}
-
-<nav class="navbar navbar-expand-lg fixed-top">
-
-    <div class="nav-box">
-
-        <div class="v-center">
-
-            <div class="header-item item-left">
-
-                <div class="logo">
-
-                    <a href="{% url 'breast_home' %}">
-
-                        <img src="/media/Breast_Care_Center/breast-care-center.webp" alt="長安醫院-全方位乳房中心">
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            <!-- menu start here -->
-
-            <div class="header-item item-center">
-
-                <div class="menu-overlay"></div>
-
-                <div class="menu">
-
-                    <div class="mobile-menu-head">
-
-                        <div class="go-back"><i class="fa fa-angle-left"></i></div>
-
-                        <div class="current-menu-title"></div>
-
-                        <div class="mobile-menu-close">&times;</div>
-
-                    </div>
-
-                    <ul class="menu-main">
-
-                        <li>
-
-                            <a href="{% url 'breast_about' %}">關於我們</a>
-
-                        </li>
-
-                        <li>
-
-                            <a href="{% url 'breast_doctor_list' %}">醫師陣容</a>
-
-                        </li>
-
-                        <li>
-
-                            <a href="{% url 'breast_treatment_list' %}">治療項目</a>
-
-                        </li>
-
-                        <li class="menu-item-has-children">
-
-                            <a href="#">案例分享 <i class="fas fa-angle-down"></i></a>
-
-                            <div class="sub-menu single-column-menu">
-
-                                <ul style="margin-top: 0;">
-
-                                    <li><a href="{% url 'breast_media' %}">媒體報導</a></li>
-
-                                    <li><a href="{% url 'breast_film' %}">影音專區</a></li>
-
-                                </ul>
-
-                            </div>
-
-                        </li>
-
-                        <li>
-
-                            <a href="{% url 'breast_edu' %}">衛教園地</a>
-
-                        </li>
-
-                        <li>
-
-                            <a href="/A006_Online_Booking_1_part/BreastSurgery/" target="_blank">線上掛號</a>
-
-                        </li>
-
-                        <li>
-
-                            <div class="navbar-btns-div">
-
-                                <div>
-
-                                    <a href="{% url 'breast_send_mail' %}" id="emailBtn" title="聯絡我們">                                
-
-                                        <span><i class="fas fa-envelope"></i> 聯絡我們</span>
-
-                                    </a>
-
-                                </div>
-
-                                <div>
-
-                                    <a href="/index/" id="homeBtn" class="btn-icon-circle" title="回長安醫院">
-
-                                        <i class="fas fa-home"></i>
-
-                                        <span class="btn-icon-text">長安<br/>醫院</span>
-
-                                    </a>
-
-                                </div>
-
-
-
-                            </div>
-
-                        </li>
-
-                    </ul>
-
-                </div>
-
-                <!-- mobile menu trigger -->
-
-                <div class="mobile-menu-trigger">
-
-                    <span></span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</nav>
+<div id="m-header-root">
+	<header class="m-header" id="m-header">
+		<div class="m-header__container">
+			<!-- Logo (GEO: 在地標記強化) -->
+			<div class="m-header__logo">
+				<a href="/specialty_health/" title="長安醫院-全方位乳房中心">
+					<img src="{% get_media_prefix %}Breast_Care_Center/breast-care-center.webp" alt="長安醫院-全方位乳房中心">
+				</a>
+			</div>
+
+			<!-- Desktop Nav (SEO: Schema.org 結構) -->
+			<nav class="m-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
+				<ul class="m-nav__list">
+
+					<!-- 1. 關於我們 -->
+					<li class="m-nav__item">
+						<a href="/breast-care-center/breast-about/" class="m-nav__link" itemprop="url" title="關於我們">
+							<span itemprop="name">關於我們</span>
+						</a>
+					</li>
+
+					<!-- 2. 醫師陣容 -->
+					<li class="m-nav__item">
+						<a href="/breast-care-center/breast-doctor/" class="m-nav__link" itemprop="url" title="醫師陣容">
+							<span itemprop="name">醫師陣容</span>
+						</a>
+					</li>
+
+					<!-- 3. 治療項目 -->
+					<li class="m-nav__item">
+						<a href="/breast-care-center/breast-treatment/" class="m-nav__link" itemprop="url" title="治療項目">
+							<span itemprop="name">治療項目</span>
+						</a>
+					</li>
+
+					<!-- 4. 案例分享 -->                    
+                    <li class="m-nav__item m-nav__item--dropdown">
+						<a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="案例分享" alt="案例分享">
+							<span itemprop="name">案例分享</span>
+						</a>
+						<div class="m-mega">
+							<ul class="m-mega__list">
+								<li>
+									<a href="/breast-care-center/breast-media/" itemprop="url" title="媒體報導" alt="媒體報導">媒體報導</a>
+								</li>
+								<li>
+									<a href="/breast-care-center/breast-film/" itemprop="url" title="影音專區" alt="影音專區">影音專區</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+
+					<!-- 5. 衛教園地 -->
+					<li class="m-nav__item">
+						<a href="/breast-care-center/breast-edu/" class="m-nav__link" itemprop="url" title="衛教園地">
+							<span itemprop="name">衛教園地</span>
+						</a>
+					</li>
+
+                    <!-- 6. 線上掛號 -->
+					<li class="m-nav__item">
+						<a href="/A006_Online_Booking_1_part/BreastSurgery/" class="m-nav__link" itemprop="url" title="線上掛號">
+							<span itemprop="name">線上掛號</span>
+						</a>
+					</li>
+
+					<!-- 7. 聯絡我們 -->
+					<li class="m-nav__item m-nav__item--btn">
+						<a href="/breast-care-center/contact/" id="emailBtn" title="聯絡我們" itemprop="url" class="m-nav__link">                      
+							<span itemprop="name">
+								<i class="fas fa-envelope" aria-hidden="true"></i> 聯絡我們
+							</span>
+						</a>
+					</li>
+
+					<!-- 8. 回長安醫院 -->
+					<li class="m-nav__item m-nav__item--btn">
+						<a href="/index/" id="homeBtn" class="m-nav__link btn-icon-circle" title="回長安醫院" itemprop="url">
+							<i class="fas fa-home" aria-hidden="true"></i>
+							<span class="btn-icon-text" itemprop="name">長安<br/>醫院</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
+			<!-- 行動版切換器 -->
+			<button class="m-hamburger" id="m-toggle" aria-label="切換導覽選單">
+				<span></span><span></span><span></span>
+			</button>
+		</div>
+	</header>
+
+	<!-- 行動版側邊導覽 -->
+	<div class="m-overlay" id="m-overlay"></div>
+	<nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行動版導覽">
+		<div class="m-mobile-container" id="m-mobile-container">
+			<!-- 行動版選單由 site_main.js 自動根據桌機版選單同步生成 -->
+			<!-- 僅需維護上面的 <nav class="m-nav"> 即可同步更新行動版 -->
+
+		</div>
+	</nav>
+</div>

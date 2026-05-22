@@ -7,13 +7,19 @@
 {% block meta_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ title }}健康管理中心｜{{ block.super }}{% endblock %}
+{% block og_title %}健康管理中心｜{{ block.super }}{% endblock %}
 {% block og_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ title }}健康管理中心｜{{ block.super }}{% endblock %}
+{% block twitter_title %}健康管理中心｜{{ block.super }}{% endblock %}
 {% block twitter_description %}長安醫院「健康管理中心」提供「成老人預防保健」、「企業團體健檢」、「五癌篩檢」等多元健檢項目，並且務求提供專業健檢一條龍服務，從健康管理顧問、高階影像儀器檢查、資深檢驗專科醫師判讀、家醫科整合說明、至客製化的專屬醫療解決方案，全面守護每一位民眾的健康。{% endblock %}
 
+
+<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+{% block loading_page %}
+{% include 'specialty_health/health-loading.html' %}
+{% endblock %}
+<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
 
 {% block content %}
 	<style>
@@ -38,12 +44,6 @@
 		}
 	</style>
 
-	<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
-	{% block loading_page %}
-	{% include 'specialty_health/health-loading.html' %}
-	{% endblock %}
-	<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
-	
 	{% block page_modals %}{% endblock %} <!-- 存放 Modal -->
 	<div class="l-wrapper l-sub__bg">
 		<header>{% include 'specialty_health/h-health-header.html' %}</header>
@@ -68,15 +68,15 @@
 <!-- ▼▼▼ Bottom Nav (Mobile Only) ▼▼▼ -->
 {% block bottomNav %}
 <nav id="bottomNav" class="bottom-nav">
-	<a href="https://line.me/ti/p/l_4BCwgh6F" class="bottom-nav-item" title="健檢預約" target="_blank">
+	<a href="https://line.me/ti/p/l_4BCwgh6F" class="bottom-nav-item" title="長安健康管理中心-健檢預約" target="_blank" alt="長安健康管理中心-健檢預約">
 		<i class="far fa-calendar-alt" aria-hidden="true"></i>
 		<span>健檢預約</span>
 	</a>
-	<a href="https://line.me/ti/p/mc-kMbGtpv" class="bottom-nav-item" title="立即諮詢" target="_blank">
+	<a href="https://line.me/ti/p/mc-kMbGtpv" class="bottom-nav-item" title="長安健康管理中心-立即諮詢" target="_blank" alt="長安健康管理中心-立即諮詢">
 		<i class="fab fa-line" aria-hidden="true"></i>
 		<span>立即諮詢</span>
 	</a>
-	<a href="{% url 'health_send_mail' %}" class="bottom-nav-item" title="聯絡我們">
+	<a href="{% url 'health_send_mail' %}" class="bottom-nav-item" title="長安健康管理中心-聯絡我們" alt="長安健康管理中心-聯絡我們">
 		<i class="fas fa-envelope" aria-hidden="true"></i>
 		<span>聯絡我們</span>
 	</a>
@@ -101,7 +101,6 @@
 
 <!-- ※※※ Extra JS Start ※※※ -->
 {% block extra_js %}
-	<script src="{% static 'apps/specialty_health/js/nav-bar.js' %}"></script>
 	<script src="{% static 'apps/specialty_health/js/rwd-gotop.js' %}"></script>
 	{% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
 {% endblock %}

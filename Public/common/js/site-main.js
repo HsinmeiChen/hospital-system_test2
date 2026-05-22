@@ -204,45 +204,80 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     subContent += `</div>`;
                 } else {
-                    // 一般列表 (可能是多欄位)
+                    // 一般列表 (可能是多欄位或是單一列表)
                     const columns = mega.querySelectorAll('.m-mega__column');
-                    columns.forEach(col => {
-                        const colTitleEl = col.querySelector('.m-mega__title');
-                        const colTitle = colTitleEl ? colTitleEl.textContent.trim() : '';
-                        subContent += `
-                            <div class="m-mobile-group">
-                                ${colTitle ? `<h5 class="m-mobile-group__title" title="${colTitle}">${colTitle}</h5>` : ''}
-                                <ul class="m-mobile-sub-list">
-                        `;
-                        
-                        // 強化：支援所有嵌套層級的列表 (Nested Sub-lists)
-                        const topLevelLis = col.querySelectorAll('.m-mega__list > li');
-                        topLevelLis.forEach(li => {
-                            const mainA = li.querySelector(':scope > a');
-                            if (!mainA) return;
+                    if (columns.length > 0) {
+                        columns.forEach(col => {
+                            const colTitleEl = col.querySelector('.m-mega__title');
+                            const colTitle = colTitleEl ? colTitleEl.textContent.trim() : '';
+                            subContent += `
+                                <div class="m-mobile-group">
+                                    ${colTitle ? `<h5 class="m-mobile-group__title" title="${colTitle}">${colTitle}</h5>` : ''}
+                                    <ul class="m-mobile-sub-list">
+                            `;
                             
-                            const subUl = li.querySelector(':scope > ul');
-                            if (subUl) {
-                                // 產生行動版折疊結構
-                                const title = mainA.textContent.trim();
-                                subContent += `
-                                    <li class="m-mobile-sub-item-has-child">
-                                        <a href="javascript:void(0)" class="m-mobile-sub-link js-mega-sub-toggle" title="${title}">
-                                            ${title}
-                                        </a>
-                                        <ul class="m-mega__sub-list">
-                                `;
-                                subUl.querySelectorAll('li a').forEach(subA => {
-                                    subContent += `<li><a href="${subA.getAttribute('href')}" class="m-mobile-sub-link" title="${subA.textContent.trim()}">${subA.textContent.trim()}</a></li>`;
-                                });
-                                subContent += `</ul></li>`;
-                            } else {
-                                // 一般單層項目
-                                subContent += `<li><a href="${mainA.getAttribute('href')}" class="m-mobile-sub-link" title="${mainA.textContent.trim()}">${mainA.textContent.trim()}</a></li>`;
-                            }
+                            // 強化：支援所有嵌套層級的列表 (Nested Sub-lists)
+                            const topLevelLis = col.querySelectorAll('.m-mega__list > li');
+                            topLevelLis.forEach(li => {
+                                const mainA = li.querySelector(':scope > a');
+                                if (!mainA) return;
+                                
+                                const subUl = li.querySelector(':scope > ul');
+                                if (subUl) {
+                                    // 產生行動版折疊結構
+                                    const title = mainA.textContent.trim();
+                                    subContent += `
+                                        <li class="m-mobile-sub-item-has-child">
+                                            <a href="javascript:void(0)" class="m-mobile-sub-link js-mega-sub-toggle" title="${title}">
+                                                ${title}
+                                            </a>
+                                            <ul class="m-mega__sub-list">
+                                    `;
+                                    subUl.querySelectorAll('li a').forEach(subA => {
+                                        subContent += `<li><a href="${subA.getAttribute('href')}" class="m-mobile-sub-link" title="${subA.textContent.trim()}">${subA.textContent.trim()}</a></li>`;
+                                    });
+                                    subContent += `</ul></li>`;
+                                } else {
+                                    // 一般單層項目
+                                    subContent += `<li><a href="${mainA.getAttribute('href')}" class="m-mobile-sub-link" title="${mainA.textContent.trim()}">${mainA.textContent.trim()}</a></li>`;
+                                }
+                            });
+                            subContent += `</ul></div>`;
                         });
-                        subContent += `</ul></div>`;
-                    });
+                    } else {
+                        // 簡單單一列表 (沒有 .m-mega__column，例如 m-nav__item--dropdown)
+                        const simpleList = mega.querySelector('.m-mega__list');
+                        if (simpleList) {
+                            subContent += `
+                                <div class="m-mobile-group">
+                                    <ul class="m-mobile-sub-list">
+                            `;
+                            const topLevelLis = simpleList.querySelectorAll(':scope > li');
+                            topLevelLis.forEach(li => {
+                                const mainA = li.querySelector(':scope > a');
+                                if (!mainA) return;
+                                
+                                const subUl = li.querySelector(':scope > ul');
+                                if (subUl) {
+                                    const title = mainA.textContent.trim();
+                                    subContent += `
+                                        <li class="m-mobile-sub-item-has-child">
+                                            <a href="javascript:void(0)" class="m-mobile-sub-link js-mega-sub-toggle" title="${title}">
+                                                ${title}
+                                            </a>
+                                            <ul class="m-mega__sub-list">
+                                    `;
+                                    subUl.querySelectorAll('li a').forEach(subA => {
+                                        subContent += `<li><a href="${subA.getAttribute('href')}" class="m-mobile-sub-link" title="${subA.textContent.trim()}">${subA.textContent.trim()}</a></li>`;
+                                    });
+                                    subContent += `</ul></li>`;
+                                } else {
+                                    subContent += `<li><a href="${mainA.getAttribute('href')}" class="m-mobile-sub-link" title="${mainA.textContent.trim()}">${mainA.textContent.trim()}</a></li>`;
+                                }
+                            });
+                            subContent += `</ul></div>`;
+                        }
+                    }
                 }
 
                 subLayer.innerHTML = `

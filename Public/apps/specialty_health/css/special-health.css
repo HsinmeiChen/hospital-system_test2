@@ -53,239 +53,12 @@
     --pale-lilac: #f5effb;
     --dark-purple: #552F97;
     --bright-green: #8FC21F;
-    --line: #00B300;
-    --linehover: #1b8d1b;
-    --facebook: #155ab4;
-    --fbhover: #104181;
-    --map: #EA4335;
-    --maphover: #a13228;
-    --youtube: #FF0000;
-    --ythover: #a10c0c;
 }
 
 
 /* ---------------------------------------------------
     系統主架構 / 排版
 ----------------------------------------------------- */
-html, body{
-    height: 100%;
-    margin: 0;
-}
-html{
-    font-size: var(--font18);
-}
-body {
-    font-family: var(--open-sans);
-    /* background-color: var(--cream); */
-    background-color: var(--white);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    /* padding-top: 4.6em; */
-    color: var(--brown1);
-    /* padding-bottom: 3em; */
-}
-.wrapper {
-    flex-grow: 1;
-    /* background: #f5f5f5 url("/Public/common/img/ever_bg.webp") fixed no-repeat center 75%;
-    background-size: cover; */
-}
-
-
-/* 【----- Header-Navbar -----】 */
-.navbar{
-    height: 92px;
-    background-color: var(--white);
-    padding: 6px 10px;
-    /* box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.30);
-    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.30);
-    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.30); */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    transition: all 0.3s ease;  /* 平滑過渡 */
-}
-nav.navbar.scrolled {
-    height: 80px;
-    padding: 6px 10px;               /* 縮小，產生拉伸感 */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-
-/* 【----- Logo -----】 */
-.logo {
-    width: 380px;
-    height: 40px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-.logo img {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-}
-.v-center{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-}
-.v-center ul{
-    list-style: none;
-    margin:0;
-    padding:0;
-}
-.v-center a{
-    text-decoration: none;
-}
-.nav-box{
-    width: 98%;
-    margin: 0 auto;
-}
-.nav-box .item-left{
-    flex:0 0 17%;
-}
-.nav-box .logo a{
-    font-size: 1.25rem;
-    color: var(--brown-black);
-    font-weight: 700;
-    text-decoration: none;
-    padding: .3125rem 0;
-    display: inline-block;
-}
-.nav-box .item-center{
-    flex:0 0 66%;
-    display: flex;
-    justify-content: right;
-}
-
-/* 【--- Navbar-Three Div Use ---】 */
-/* .nav-box .item-right{
-    flex:0 0 17%;
-    display: flex;
-    justify-content: flex-end;
-}
-.nav-box .item-right a{ 
-    text-decoration: none;
-    font-size: 16px;
-    color:#555555;
-    display: inline-block;
-    margin-left: 10px;
-    transition: color 0.3s ease;
-} */
-.nav-box .menu > ul > li{
-    display: inline-block;
-}
-.nav-box .menu > ul > li{
-    margin-left: 25px;
-}
-.nav-box .menu > ul > li > a{
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--brown1);
-    position: relative;
-    text-transform: capitalize;
-    transition: color 0.3s ease;
-}
-.nav-box .menu > ul > li .sub-menu{
-    position: absolute;
-    z-index: 500;
-    background-color: var(--white);
-    box-shadow: -2px 2px 70px -25px rgba(0,0,0,0.3); 
-    transition: all 0.5s ease;
-    margin-top:25px;
-    opacity:0;
-    visibility: hidden;
-}
-.nav-box .menu > ul > li .sub-menu > ul > li{
-    line-height: 1.5;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    padding: 0 15px;
-}
-.nav-box .menu > ul > li .sub-menu > ul > li > a{
-    display: inline-block;
-    padding: 10px 0;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    text-decoration: none;
-    text-transform: capitalize;
-    font-size: 0.9rem;
-}
-.nav-box .menu > ul > li .single-column-menu{
-    min-width: 280px;
-    max-width: 350px;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu > .list-item > ul > li{
-    line-height: 1;
-    display: block; 
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu > .list-item > ul > li > a {
-    padding:10px 0;
-    display: inline-block;
-    font-size: var(--font16);
-    color:#555555;
-    transition: color 0.3s ease;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu{ 
-    right: 50%;
-    transform: translateX(50%);	
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu-column-4{
-    max-width: 1100px;
-    width: 100%; 	
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px 15px;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu-column-4 > .list-item{
-    flex:0 0 25%;
-    padding:0 15px;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu-column-4 > .list-item .title{
-    font-size: 16px;
-    color:#ea4636;
-    font-weight: 500;
-    line-height: 1;
-    padding:10px 0;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu-column-4 > .list-item.text-center .title{
-    text-align: center;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu-column-4 > .list-item img{
-    max-width: 100%;
-    width: 100%;
-    vertical-align: middle;
-    margin-top: 10px;
-    height: 300px;
-    object-fit: cover;
-}
-.nav-box .menu > ul > li .sub-menu.mega-menu > .list-item > ul > li > a:hover,
-.nav-box .menu > ul > li .sub-menu > ul > li > a:hover,
-.nav-box .item-right a:hover,
-.nav-box .menu > ul > li:hover > a{
-    color: var(--orange1);
-}
-.navbar-btns-div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin: 10px 0;
-}
-.mobile-menu-head,
-.mobile-menu-trigger{
-    display: none;
-}
-
-
-/* 【----- Main -----】 */
-main {
-    /* background-color: var(--white); */
-    /* padding-top: 20px; */
-}
-
 
 
 /* 【----- Bottom Nav (Mobile Only) -----】 */
@@ -335,98 +108,6 @@ nav.bottom-nav::before{
 }
 .bottom-nav-item.active i {
     color: var(--primary-brown);
-}
-
-
-/* ---------------------------------------------------
-    Loading 轉頁效果
------------------------------------------------------ */
-#page-loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    transition: 
-        opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-        visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 1;
-    visibility: visible;
-    /* ✅ 保險機制：5秒後自動隱藏 */
-    animation: auto-hide-fallback 5s forwards;
-}
-
-#page-loading.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    /* ✅ 當手動觸發淡出時，取消自動隱藏動畫 */
-    animation: none;
-}
-
-.loading-content {
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
-}
-
-.loading-logo {
-    width: 85%;
-    margin: 0 auto 15px;
-    animation: pulse-logo 2s ease-in-out infinite;
-    will-change: transform; /* 強制啟動 GPU 加速 */
-}
-
-.loading-logo img {
-    width: 100%;
-    height: auto;
-}
-
-.loading-progress-container {
-    width: 200px;
-    margin: 0 auto 20px;
-    height: 4px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.loading-progress-bar {
-    width: 80%;
-    height: 100%;
-    background-color: var(--orange1);
-    border-radius: 10px;
-    animation: progress-move 2s linear infinite; /* 改為等速線性，解決卡頓感 */
-    will-change: transform; /* 強制啟動 GPU 加速 */
-}
-
-.loading-text {
-    font-size: 1rem;
-    color: var(--main-color);
-    letter-spacing: 2px;
-    font-weight: 500;
-    opacity: 0.8;
-}
-
-@keyframes progress-move {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(120%); } /* 簡化關鍵幀，移動更順滑 */
-}
-
-@keyframes pulse-logo {
-    0% { transform: scale(0.98); opacity: 0.85; }
-    50% { transform: scale(1.02); opacity: 1; }
-    100% { transform: scale(0.98); opacity: 0.85; }
-}
-
-/* ✅ 保險機制動畫：5秒後自動隱藏（僅在 JS 失效時使用） */
-@keyframes auto-hide-fallback {
-    0%, 95% { opacity: 1; visibility: visible; }
-    100% { opacity: 0; visibility: hidden; }
 }
 
 
@@ -3420,15 +3101,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
         margin-top: 0px;
     }
 
-    /* 【-- Footer --】 */
-    .footer{
-        padding-bottom: 0;
-    }
-    .footer-contact,
-    .footer-newsletter{
-        margin-top: 0px;
-    }
-
     /* 【-- Side Nav --】 */
     .side-nav-btns {
         display: block;
@@ -3570,12 +3242,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
         font-size: 1.7rem;
     }
 
-    /* 【-- Footer --】 */
-    .footer-links,
-    .footer-contact,
-    .footer-newsletter{
-        padding: 0 50px;
-    }
 }
 
 @media (min-width: 1400px) {
@@ -3594,11 +3260,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
     }
     .team-section .team-section-cnt{
         padding-left: 0;
-    }
-
-    /* 【-- Footer --】 */
-    .footer-box{
-        width: 80%;
     }
 }
 
@@ -3684,6 +3345,3 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
     height: 70px;
     margin-right: 0;
 }
-
-
-

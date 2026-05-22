@@ -50,10 +50,16 @@ case_plsql_pwd = settings.CASE_PLSQL_PWD
 
 # HIS資料庫相關程式
 class PLSQLAPI:
+	@staticmethod
+	def get_connection():
+		return cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+
+	@staticmethod
 	def Search_Stop_Show(date):
+		connection = None
 		try:
 			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			connection = PLSQLAPI.get_connection()
 		except Exception as e:
 			print(f"Oracle connection failed in Search_Stop_Show: {e}")
 			return []
@@ -93,13 +99,17 @@ class PLSQLAPI:
 				pass
 			return []
 
-	def Search_Stop_Show_by_Dr(patid):
-		try:
-			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		except Exception as e:
-			print(f"Oracle connection failed in Search_Stop_Show_by_Dr: {e}")
-			return []
+	@staticmethod
+	def Search_Stop_Show_by_Dr(patid, connection=None):
+		should_close = False
+		if connection is None:
+			try:
+				# 連線Oracle資料庫
+				connection = PLSQLAPI.get_connection()
+				should_close = True
+			except Exception as e:
+				print(f"Oracle connection failed in Search_Stop_Show_by_Dr: {e}")
+				return []
 
 		today = datetime.datetime.now()
 		n_date = today.strftime("%Y%m%d")
@@ -143,7 +153,8 @@ class PLSQLAPI:
 				i += 1
 
 			c.close()
-			connection.close()
+			if should_close:
+				connection.close()
 
 			# 回傳第一比查詢資料(rows[0])
 			return(datas)
@@ -153,10 +164,11 @@ class PLSQLAPI:
 				c.close()
 			except:
 				pass
-			try:
-				connection.close()
-			except:
-				pass
+			if should_close:
+				try:
+					connection.close()
+				except:
+					pass
 			return []
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -214,7 +226,7 @@ def render_custom_tags(line, img_url):
 	return line
 
 # === txt 標籤內容拆解：負責逐行處理 <t>、<yt>、<img1>等開頭的段落 ===
-def parse_article_txt(filepath):
+def parse_article_txt(filepath, detail=True):
 	'''
 	將 txt 裡面的標籤進行拆解處理，讓之後其他程式讀取檔案進來時，加入這段函式，就可以依照各個標籤設置不同 css
 	目前用於：醫師「相關文章-卡片項目、文章獨立頁內容」、媒體報導、最新消息、治療項目
@@ -241,6 +253,8 @@ def parse_article_txt(filepath):
 	news_image = ""
 	treat_article_image = ""
 	content_blocks = []
+	summary = ""
+	has_first_img = False
 
 	for line in lines:
 		line = line.strip()
@@ -253,6 +267,8 @@ def parse_article_txt(filepath):
 
 		# (2) 處理主要圖片
 		elif line.startswith('<img1>'):
+			if not detail and has_first_img:
+				continue
 			original_image = line.replace('<img1>', '').strip() # 原圖.jpg
 			
 			# 依來源資料夾只跑對應功能轉換圖片 (轉 webp 格式)-避免處理任何有 <img1> 標籤時，都會同時觸發四個不同路徑的 WebP 圖片轉換
@@ -269,16 +285,21 @@ def parse_article_txt(filepath):
 				# 「治療項目」文章內文圖片
 				treat_article_image = convert_treat_article_image_to_webp(original_image)
 			
-			content_blocks.append({
-				'type': 'img',
-				'class': 'a-img',
-				'src': card_image,
-				'article_src': article_image,
-				'news_src': news_image,
-				'treat_article_src': treat_article_image
-			})
+			has_first_img = True
+
+			if detail:
+				content_blocks.append({
+					'type': 'img',
+					'class': 'a-img',
+					'src': card_image,
+					'article_src': article_image,
+					'news_src': news_image,
+					'treat_article_src': treat_article_image
+				})
 
 		elif line.startswith('<yt>'):
+			if not detail:
+				continue
 			yt_url = line.replace('<yt>', '').strip()
 			iframe_html = f'<iframe width="100%" height="315" src="{yt_url}" frameborder="0" allowfullscreen></iframe>'
 			content_blocks.append({
@@ -291,49 +312,53 @@ def parse_article_txt(filepath):
 			treat_a_title = line.replace('<h01>', '').strip()
 
 		elif line.startswith('<h>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'h2',
 				'class': 'article_h',
 				'text': line.replace('<h>', '').strip()
 			})
 		elif line.startswith('<cap>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'h3',
 				'class': 'title-02',
 				'text': line.replace('<cap>', '').strip()
 			})
 		elif line.startswith('<li-t>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'ul',
 				'class': 'list-title',
 				'text': line.replace('<li-t>', '').strip()
 			})
 		elif line.startswith('<li-p>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'li',
 				'class': 'list-text',
 				'text': line.replace('<li-p>', '').strip()
 			})
 		elif line.startswith('<li-q>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'ul',
 				'class': 'list-question',
 				'text': line.replace('<li-q>', '').strip()
 			})
 		elif line.startswith('<li-a>'):
+			if not detail:
+				continue
 			content_blocks.append({
 				'type': 'li',
 				'class': 'list-answer',
 				'text': line.replace('<li-a>', '').strip()
 			})
-		# elif line.startswith('<row-2>'):
-		# 	col_text = line.replace('<row-2>', '').strip()
-		# 	col_text = render_custom_tags(col_text, img_url=img_url)
-		# 	content_blocks.append({
-		# 		'type': 'div',
-		# 		'class': 'col-flex',
-		# 		'text': col_text
-		# 	})
 		elif line.startswith('<t>'):
 			# 過濾整段含有「含有<a>的預約掛號」的 <t> 標籤
 			if 'news_2' in filepath:  # 指定檔案來源是 news_2 才進行不顯示的程式
@@ -341,7 +366,18 @@ def parse_article_txt(filepath):
 					continue
 
 			text = line.replace('<t>', '').strip() # 解析到 <t> 開頭，又得到文字含 <img1> 或 <yt> 呼叫 render_custom_tags(text, ...)
-			text = render_custom_tags(text, img_url=img_url) # img_url-自動判斷資料夾來源；
+			
+			if not detail and summary:
+				continue
+
+			if detail:
+				text = render_custom_tags(text, img_url=img_url) # img_url-自動判斷資料夾來源；
+			
+			if not summary:
+				summary = text[:50]
+
+			if not detail:
+				continue
 
 			if text.startswith('新聞連結'):
 				# 抓出所有 <a href="...">文字</a>
@@ -361,13 +397,6 @@ def parse_article_txt(filepath):
 					'class': 'a-paragraph',
 					'text': text
 				})
-
-	# 摘要取第一個 <t> 的前50字
-	summary = ""
-	for block in content_blocks:
-		if block['type'] == 'p':
-			summary = block['text'][:50]
-			break
 
 	return {
 		'thumb_img': thumb_img,
@@ -530,18 +559,26 @@ def ort_media_home_api(request):
 
 		web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"
 		path = os.path.join(article_dir, post_filename)
-		parsed = parse_article_txt(path)
 
 		all_articles.append({
 			'title': parts[2],
-			'pub_date': pub_date.strftime('%Y-%m-%d'),
-			'image': parsed['image'],
-			'summary': parsed['summary'],
+			'pub_date': pub_date,
+			'pub_date_str': pub_date.strftime('%Y-%m-%d'),
+			'path': path,
 			'url': f"/specialty_medical/articles/{web_url}"
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
-	latest_articles = all_articles[:3]
+	latest_articles = []
+	for item in all_articles[:3]:
+		parsed = parse_article_txt(item['path'], detail=False)
+		latest_articles.append({
+			'title': item['title'],
+			'pub_date': item['pub_date_str'],
+			'image': parsed['image'],
+			'summary': parsed['summary'],
+			'url': item['url']
+		})
 
 	return JsonResponse({'articles': latest_articles})
 
@@ -588,7 +625,7 @@ def ort_main(request):
 				url_name = parts[3].replace('.txt', '')
 
 				treat_path = os.path.join(ort_treat_dir, treat_filename)
-				treat_parsed = parse_article_txt(treat_path)
+				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
 					'title': treat_title,
@@ -760,7 +797,7 @@ def get_related_articles(employee_id):
 
 			web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"  # 簡短網址
 			path = os.path.join(article_dir, post_filename)
-			parsed = parse_article_txt(path)
+			parsed = parse_article_txt(path, detail=False)
 
 			doc_articles.append({
 				'title': title,
@@ -835,7 +872,7 @@ def get_related_articles_api(request, employee_id):
 def random_health_reports_api(request):
 	"""隨機取得 5 筆媒體報導文章（供 article_detail 側欄卡片用）"""
 	employee_ids = get_active_doctor_ids()
-	all_articles = []
+	candidate_files = []
 
 	for post_filename in os.listdir(article_dir):
 		if not post_filename.endswith('.txt'):
@@ -852,11 +889,18 @@ def random_health_reports_api(request):
 		except ValueError:
 			continue
 
+		candidate_files.append((post_filename, parts, pub_date))
+
+	# 隨機挑選最多 5 筆
+	sampled_files = random.sample(candidate_files, min(5, len(candidate_files)))
+
+	random_articles = []
+	for post_filename, parts, pub_date in sampled_files:
 		web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"
 		path = os.path.join(article_dir, post_filename)
-		parsed = parse_article_txt(path)
+		parsed = parse_article_txt(path, detail=False)
 
-		all_articles.append({
+		random_articles.append({
 			'title': parts[2],
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
@@ -865,8 +909,6 @@ def random_health_reports_api(request):
 			'filename': web_url
 		})
 
-	# 隨機挑選 5 筆
-	random_articles = random.sample(all_articles, min(5, len(all_articles)))
 	return JsonResponse({'articles': random_articles})
 
 
@@ -945,40 +987,54 @@ def doctor_list(request):
 	doctors = []
 	doc_dirs = os.listdir(dir)  # ← 每次 request 重新取得
 
-	for doc_filename in doc_dirs:
-		if doc_filename.endswith('.txt') and ("D000" in doc_filename):
+	conn = None
+	try:
+		conn = PLSQLAPI.get_connection()
+	except Exception as conn_err:
+		print(f"Failed to establish Oracle connection in doctor_list: {conn_err}")
+
+	try:
+		for doc_filename in doc_dirs:
+			if doc_filename.endswith('.txt') and ("D000" in doc_filename):
+				try:
+					parts = doc_filename.rsplit('_', 1)				
+					employee_id = parts[1].replace('.txt', '')
+					name_and_title = parts[0].split('_', 2)[-1]
+					# 以空白為界，分離並取得姓名與職稱
+					name_parts = name_and_title.split(' ')
+					name = name_parts[0]
+					job_title = name_parts[1] if len(name_parts) > 1 else ''
+
+					with open(os.path.join(dir, doc_filename), 'r', encoding='utf-8') as f:
+						parsed = parse_doctor_txt(f.read())
+
+					# 讀取停休診日期時間
+					stop_raw = PLSQLAPI.Search_Stop_Show_by_Dr(employee_id, connection=conn)
+					# 「停休診日期時間」按月份分群組
+					stop_grouped = group_stops_by_month(stop_raw) if stop_raw else {}
+					# 醫師照轉 webp，若沒有則帶 parsed['image']
+					webp_image = convert_doctor_image_to_webp(parsed['image']) if parsed['image'] else ''
+
+					doctors.append({
+						'employee_id': employee_id,
+						'name_and_title': name_and_title,
+						'name': name,
+						'job_title': job_title,
+						'expertise': parsed['expertise'],
+						'image': parsed['image'],
+						'image_webp': webp_image,
+						'stop_info': stop_grouped,
+					})
+				except Exception as e:
+					print(f"錯誤解析 {doc_filename}：{e}")
+					continue
+	finally:
+		if conn:
 			try:
-				parts = doc_filename.rsplit('_', 1)				
-				employee_id = parts[1].replace('.txt', '')
-				name_and_title = parts[0].split('_', 2)[-1]
-				# 以空白為界，分離並取得姓名與職稱
-				name_parts = name_and_title.split(' ')
-				name = name_parts[0]
-				job_title = name_parts[1] if len(name_parts) > 1 else ''
+				conn.close()
+			except:
+				pass
 
-				with open(os.path.join(dir, doc_filename), 'r', encoding='utf-8') as f:
-					parsed = parse_doctor_txt(f.read())
-
-				# 讀取停休診日期時間
-				stop_raw = PLSQLAPI.Search_Stop_Show_by_Dr(employee_id)
-				# 「停休診日期時間」按月份分群組
-				stop_grouped = group_stops_by_month(stop_raw) if stop_raw else {}
-				# 醫師照轉 webp，若沒有則帶 parsed['image']
-				webp_image = convert_doctor_image_to_webp(parsed['image']) if parsed['image'] else ''
-
-				doctors.append({
-					'employee_id': employee_id,
-					'name_and_title': name_and_title,
-					'name': name,
-					'job_title': job_title,
-					'expertise': parsed['expertise'],
-					'image': parsed['image'],
-					'image_webp': webp_image,
-					'stop_info': stop_grouped,
-				})
-			except Exception as e:
-				print(f"錯誤解析 {doc_filename}：{e}")
-				continue
 	return render(request, 'specialty_medical/orthopedics/doctor_list.html', {
 		'doctors': doctors,
 		'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png",
@@ -1168,7 +1224,7 @@ def treatment_list(request):
 
 				# 共用 parse_article_txt 這個函式解析 txt 內容 (函式已有 with open，所以根據參數 filepath 提供檔案路徑)
 				treat_path = os.path.join(ort_treat_dir, treat_filename)
-				treat_parsed = parse_article_txt(treat_path)
+				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
 					'title': treat_title,
@@ -1391,13 +1447,12 @@ def ort_media_api(request):
 
 		web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"
 		path = os.path.join(article_dir, post_filename)
-		parsed = parse_article_txt(path)
 
 		all_articles.append({
 			'title': parts[2],
-			'pub_date': pub_date.strftime('%Y-%m-%d'),
-			'image': parsed['image'],
-			'summary': parsed['summary'],
+			'pub_date': pub_date,
+			'pub_date_str': pub_date.strftime('%Y-%m-%d'),
+			'path': path,
 			'url': f"/specialty_medical/articles/{web_url}"
 		})
 
@@ -1406,8 +1461,19 @@ def ort_media_api(request):
 	page = int(request.GET.get("page", 1))
 	page_obj = paginator.get_page(page)
 
+	paginated_articles = []
+	for item in page_obj.object_list:
+		parsed = parse_article_txt(item['path'], detail=False)
+		paginated_articles.append({
+			'title': item['title'],
+			'pub_date': item['pub_date_str'],
+			'image': parsed['image'],
+			'summary': parsed['summary'],
+			'url': item['url']
+		})
+
 	return JsonResponse({
-		'articles': page_obj.object_list,
+		'articles': paginated_articles,
 		'current_page': page_obj.number,
 		'total_pages': paginator.num_pages
 	})
@@ -1457,14 +1523,12 @@ def ort_media(request):
 
 		web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"  # 文章連結用縮網址
 		path = os.path.join(article_dir, post_filename)
-		parsed = parse_article_txt(path)
 
 		all_articles.append({
 			'title': title,
 			'pub_date': pub_date,
-			'image': parsed['image'],
-			'summary': parsed['summary'],
 			'filename': web_url,
+			'path': path
 		})
 
 	# Step 3：依日期由新到舊排序，只排序一次
@@ -1474,6 +1538,19 @@ def ort_media(request):
 	paginator = Paginator(all_articles, 8)
 	page = request.GET.get('page', 1)
 	page_obj = paginator.get_page(page)
+
+	# Only parse files for the items in page_obj
+	paginated_articles = []
+	for item in page_obj.object_list:
+		parsed = parse_article_txt(item['path'], detail=False)
+		paginated_articles.append({
+			'title': item['title'],
+			'pub_date': item['pub_date'],
+			'image': parsed['image'],
+			'summary': parsed['summary'],
+			'filename': item['filename'],
+		})
+	page_obj.object_list = paginated_articles
 
 	# SEO meta：以當前第一筆為代表
 	meta_title = page_obj.object_list[0]['title'] if page_obj.object_list else "媒體報導"

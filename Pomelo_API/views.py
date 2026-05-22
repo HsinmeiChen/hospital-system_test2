@@ -149,16 +149,28 @@ class PLSQLAPI:
 				pass
 			return []
 
-	def Search_Stop_Show_by_Dr(patid):
+	def get_connection():
+		if cx_Oracle is None:
+			print("cx_Oracle driver not installed.")
+			return None
+		try:
+			return cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		except Exception as e:
+			print(f"Oracle connection failed: {e}")
+			return None
+
+	def Search_Stop_Show_by_Dr(patid, connection=None):
 		if cx_Oracle is None:
 			print("cx_Oracle driver not installed.")
 			return []
-		try:
-			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
-		except Exception as e:
-			print(f"Oracle connection failed: {e}")
-			return []
+		is_shared = (connection is not None)
+		if not is_shared:
+			try:
+				# 連線Oracle資料庫
+				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			except Exception as e:
+				print(f"Oracle connection failed: {e}")
+				return []
 		today = datetime.datetime.now()
 		n_date = today.strftime("%Y%m%d")
 		e_date = (today + datetime.timedelta(days = 60)).strftime("%Y%m%d")
@@ -201,7 +213,8 @@ class PLSQLAPI:
 				i += 1
 
 			c.close()
-			connection.close()
+			if not is_shared:
+				connection.close()
 
 			# 回傳第一比查詢資料(rows[0])
 			return(datas)
@@ -211,10 +224,11 @@ class PLSQLAPI:
 				c.close()
 			except:
 				pass
-			try:
-				connection.close()
-			except:
-				pass
+			if not is_shared:
+				try:
+					connection.close()
+				except:
+					pass
 			return []
 
 	def A002_Search_Room_All_Number(shiftno, roomno):
@@ -2612,48 +2626,56 @@ def A001_department_part(request):
 		else:
 			files = []
 
-		for file in files:
-			if (".txt" in file) and ("I000" in file):
+		conn = PLSQLAPI.get_connection()
+		try:
+			for file in files:
+				if (".txt" in file) and ("I000" in file):
 
-				content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
-				introduction_list = content.readlines()
-				content.close()
+					content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
+					introduction_list = content.readlines()
+					content.close()
 
-			if (".txt" in file) and ("D000" in file):
-				re_file = file.split("_")
-				# 醫師所屬科別代碼
-				d_sectno = MSSQLAPI.Search_Dr_SECTNO(department)
-				if (d_sectno != None):
-					sectno = d_sectno[0]
-				else:
-					sectno = " "
+				if (".txt" in file) and ("D000" in file):
+					re_file = file.split("_")
+					# 醫師所屬科別代碼
+					d_sectno = MSSQLAPI.Search_Dr_SECTNO(department)
+					if (d_sectno != None):
+						sectno = d_sectno[0]
+					else:
+						sectno = " "
 
-				doctor_list.append(re_file[2])
-				doctor_list4.append(re_file[1])
-				"""20250715 改抓檔案序號"""
-				# doctor_list5.append(file)
-				doctor_list5.append(path.split("_")[0] + "_" + path.split("_")[1] + "_" + re_file[1])
-				"""20250715 改抓檔案序號"""
-				doctor_list6.append(PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt","")))
-				doctor_list7.append(sectno)
-				doctor_list8.append(re_file[3].replace(".txt",""))
+					doctor_list.append(re_file[2])
+					doctor_list4.append(re_file[1])
+					"""20250715 改抓檔案序號"""
+					# doctor_list5.append(file)
+					doctor_list5.append(path.split("_")[0] + "_" + path.split("_")[1] + "_" + re_file[1])
+					"""20250715 改抓檔案序號"""
+					doctor_list6.append(PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""), connection=conn))
+					doctor_list7.append(sectno)
+					doctor_list8.append(re_file[3].replace(".txt",""))
 
-				content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
-				has_img = False
-				for c in content.readlines():
-					if ("<e>" in c):
-						doctor_list2.append(c.replace("<e>",""))
-					if ("<img1>" in c):
-						img_name = c.replace("<img1>","").strip()
-						doctor_list3.append(img_name)
-						# 呼叫底層自動進行轉檔並加入列表
-						webp_name = convert_doctor_image_to_webp(img_name) if img_name else ""
-						doctor_webp_list.append(webp_name)
-						has_img = True
-				if not has_img:
-					doctor_list3.append("")
-					doctor_webp_list.append("")
-				content.close()
+					content = open(os.path.join(pathFile, file), "r", encoding="utf-8-sig")
+					has_img = False
+					for c in content.readlines():
+						if ("<e>" in c):
+							doctor_list2.append(c.replace("<e>",""))
+						if ("<img1>" in c):
+							img_name = c.replace("<img1>","").strip()
+							doctor_list3.append(img_name)
+							# 呼叫底層自動進行轉檔並加入列表
+							webp_name = convert_doctor_image_to_webp(img_name) if img_name else ""
+							doctor_webp_list.append(webp_name)
+							has_img = True
+					if not has_img:
+						doctor_list3.append("")
+						doctor_webp_list.append("")
+					content.close()
+		finally:
+			if conn:
+				try:
+					conn.close()
+				except:
+					pass
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
 		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8, doctor_webp_list)
 		modals = zip(doctor_list4, doctor_list6)
