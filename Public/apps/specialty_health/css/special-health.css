@@ -293,10 +293,8 @@ nav.bottom-nav::before{
     background-color: transparent;
 }
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -2243,9 +2241,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
 }
 #health-film .article-area-Inner > .col-xl-9{
     max-width: initial;
-}
-#health-reports, #health-film{
-    margin-bottom: 60px;
 }
 
 /* 首頁-地圖 */

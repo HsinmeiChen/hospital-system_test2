@@ -1,199 +1,204 @@
 {% load static %}
 <div id="m-header-root">
-    <header class="m-header" id="m-header">
-        <div class="m-header__container">
-            <!-- Logo (GEO: 在地標記強化) -->
-            <div class="m-header__logo">
-                <a href="/index/" title="回首頁 - 長安醫院">
-                    <img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院" title="回首頁 - 長安醫院">
-                </a>
-            </div>
+	<style>
+		img {
+			margin-left: -10px;
+		}
+	</style>
+	<header class="m-header" id="m-header">
+		<div class="m-header__container">
+			<!-- Logo (GEO: 在地標記強化) -->
+			<div class="m-header__logo">
+				<a href="/index/" title="回首頁 - 長安醫院">
+					<img src="{% static 'common/img/Everan_logo.webp' %}" alt="長安醫院" title="回首頁 - 長安醫院">
+				</a>
+			</div>
 
-            <!-- Desktop Nav (SEO: Schema.org 結構) -->
-            <nav class="m-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
-                <ul class="m-nav__list">
+			<!-- Desktop Nav (SEO: Schema.org 結構) -->
+			<nav class="m-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
+				<ul class="m-nav__list">
 
-                    <!-- 1. 認識長安 -->
-                    <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="認識長安">
-                            <span itemprop="name">認識長安</span>
-                        </a>
-                        <div class="m-mega">
-                            <div class="m-mega__container">
-                                <div class="m-mega__nav-side">
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">關於長安</h4>
-                                        <ul class="m-mega__list">
-                                            <li>
-                                                <a href="/A004_hos_intro/" itemprop="url" title="長安簡介">長安簡介</a>
-                                            </li>
-                                            <li>
-                                                <a href="/A004_hos_traffic_info/" itemprop="url" title="交通資訊">交通資訊</a>
-                                            </li>
-                                        </ul>
-                                    </section>
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">醫療團隊</h4>
-                                        <ul class="m-mega__list">
-                                            <li><a href="/A001_department_overview/" itemprop="url"
-                                                    title="醫療科室介紹">醫療科室介紹</a></li>
-                                            <li><a href="/A003_Medical_Support/" itemprop="url" title="醫療支援">醫療支援</a>
-                                            </li>
-                                        </ul>
-                                    </section>
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">服務諮詢</h4>
-                                        <ul class="m-mega__list">
-                                            <li><a href="#" data-toggle="modal" data-target="#bed_rate" title="占床數查詢"
-                                                    id="bed_show">占床數查詢</a></li>
-                                            <li><a href="/A004_contact_us/" itemprop="url" title="意見反映">意見反映</a></li>
-                                            <li><a href="/A004_hos_lost_info/" title="失物招領">失物招領</a></li>
-                                        </ul>
-                                    </section>
-                                </div>
-                                <div class="m-mega__promo-side">
-                                    <img src="{% static 'common/img/everan2.webp' %}" alt="認識長安"
-                                        class="m-mega__promo-img" title="認識長安">
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+					<!-- 1. 認識長安 -->
+					<li class="m-nav__item">
+						<a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="認識長安">
+							<span itemprop="name">認識長安</span>
+						</a>
+						<div class="m-mega">
+							<div class="m-mega__container">
+								<div class="m-mega__nav-side">
+									<section class="m-mega__column">
+										<h4 class="m-mega__title">關於長安</h4>
+										<ul class="m-mega__list">
+											<li>
+												<a href="/A004_hos_intro/" itemprop="url" title="長安簡介">長安簡介</a>
+											</li>
+											<li>
+												<a href="/A004_hos_traffic_info/" itemprop="url" title="交通資訊">交通資訊</a>
+											</li>
+										</ul>
+									</section>
+									<section class="m-mega__column">
+										<h4 class="m-mega__title">醫療團隊</h4>
+										<ul class="m-mega__list">
+											<li><a href="/A001_department_overview/" itemprop="url"
+													title="醫療科室介紹">醫療科室介紹</a></li>
+											<li><a href="/A003_Medical_Support/" itemprop="url" title="醫療支援">醫療支援</a>
+											</li>
+										</ul>
+									</section>
+									<section class="m-mega__column">
+										<h4 class="m-mega__title">服務諮詢</h4>
+										<ul class="m-mega__list">
+											<li><a href="#" data-toggle="modal" data-target="#bed_rate" title="占床數查詢"
+													id="bed_show">占床數查詢</a></li>
+											<li><a href="/A004_contact_us/" itemprop="url" title="意見反映">意見反映</a></li>
+											<li><a href="/A004_hos_lost_info/" title="失物招領">失物招領</a></li>
+										</ul>
+									</section>
+								</div>
+								<div class="m-mega__promo-side">
+									<img src="{% static 'common/img/everan2.webp' %}" alt="認識長安"
+										class="m-mega__promo-img" title="認識長安">
+								</div>
+							</div>
+						</div>
+					</li>
 
-                    <!-- 2. 醫療服務 -->
-                    <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="醫療服務">
-                            <span itemprop="name">醫療服務</span>
-                        </a>
-                        <div class="m-mega">
-                            <div class="m-mega__container">
-                                <div class="m-mega__nav-side" style="grid-template-columns: 2fr 1fr;">
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">就醫指南</h4>
-                                        <div class="m-grid-guideline">
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A002_registration_notice/" itemprop="url" title="掛號須知">掛號須知</a></li>
-                                                <li><a href="/A002_clinic_time/" itemprop="url" title="門診時刻表">門診時刻表</a></li>
-                                                <li><a href="/A006_Online_Booking_0/" itemprop="url" title="網路掛號">網路掛號</a></li>
-                                            </ul>
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A002_which_disease/" itemprop="url" title="我該看哪一科">我該看哪一科</a></li>
-                                                <li><a href="/A002_data_apply/" itemprop="url" title="資料申請">資料申請</a></li>
-                                                <li><a href="/A002_consultation_progress/" itemprop="url" title="看診進度">看診進度</a></li>
-                                            </ul>
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A007_Reserve_pre/login/" itemprop="url" title="預約慢性病處方箋">預約慢性病處方箋</a></li>
-                                                <!-- <li><a href="/A002_payment_machine/" itemprop="url" title="繳費機介紹">繳費機介紹</a></li> -->
-                                                <li><a href="/A002_self_service/" itemprop="url" title="自助掛號機介紹">自助掛號機介紹</a></li>
-                                                <li><a href="{% static 'common/doc/EMR_Announcement/emr_announcement.pdf' %}" itemprop="url" title="電子病歷公告">電子病歷公告</a></li>                                         
-                                            </ul>
-                                        </div>
-                                    </section>
-                                    <section class="m-mega__column">
-                                        <h4 class="m-mega__title">收費標準</h4>
-                                        <div class="m-grid-guideline" style="grid-template-columns: repeat(2, 1fr);">
-                                            <ul class="m-mega__list">
-                                                <li><a href="{% static 'common/doc/Self_fee/Self_fee.pdf' %}" itemprop="url" title="自費項目明細">自費項目明細</a></li>
-                                                <li><a href="{% static 'common/doc/Diff_fee/special_material_info.pdf' %}" title="自費特材公開資訊">自費特材公開資訊</a></li>
-                                            </ul>
-                                            <ul class="m-mega__list">
-                                                <li><a href="/A005_ward_mes_0/" itemprop="url" title="病房訊息">病房訊息</a></li>
-                                                <li><a href="{% static 'common/doc/Withdrawal_rules/Withdrawal_rules.pdf' %}" title="自費藥品退藥規定">自費藥品退藥規定</li>
-                                            </ul>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+					<!-- 2. 醫療服務 -->
+					<li class="m-nav__item">
+						<a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="醫療服務">
+							<span itemprop="name">醫療服務</span>
+						</a>
+						<div class="m-mega">
+							<div class="m-mega__container">
+								<div class="m-mega__nav-side" style="grid-template-columns: 2fr 1fr;">
+									<section class="m-mega__column">
+										<h4 class="m-mega__title">就醫指南</h4>
+										<div class="m-grid-guideline">
+											<ul class="m-mega__list">
+												<li><a href="/A002_registration_notice/" itemprop="url" title="掛號須知">掛號須知</a></li>
+												<li><a href="/A002_clinic_time/" itemprop="url" title="門診時刻表">門診時刻表</a></li>
+												<li><a href="/A006_Online_Booking_0/" itemprop="url" title="網路掛號">網路掛號</a></li>
+											</ul>
+											<ul class="m-mega__list">
+												<li><a href="/A002_which_disease/" itemprop="url" title="我該看哪一科">我該看哪一科</a></li>
+												<li><a href="/A002_data_apply/" itemprop="url" title="資料申請">資料申請</a></li>
+												<li><a href="/A002_consultation_progress/" itemprop="url" title="看診進度">看診進度</a></li>
+											</ul>
+											<ul class="m-mega__list">
+												<li><a href="/A007_Reserve_pre/login/" itemprop="url" title="預約慢性病處方箋">預約慢性病處方箋</a></li>
+												<!-- <li><a href="/A002_payment_machine/" itemprop="url" title="繳費機介紹">繳費機介紹</a></li> -->
+												<li><a href="/A002_self_service/" itemprop="url" title="自助掛號機介紹">自助掛號機介紹</a></li>
+												<li><a href="{% static 'common/doc/EMR_Announcement/emr_announcement.pdf' %}" itemprop="url" title="電子病歷公告">電子病歷公告</a></li>                                         
+											</ul>
+										</div>
+									</section>
+									<section class="m-mega__column">
+										<h4 class="m-mega__title">收費標準</h4>
+										<div class="m-grid-guideline" style="grid-template-columns: repeat(2, 1fr);">
+											<ul class="m-mega__list">
+												<li><a href="{% static 'common/doc/Self_fee/Self_fee.pdf' %}" itemprop="url" title="自費項目明細">自費項目明細</a></li>
+												<li><a href="{% static 'common/doc/Diff_fee/special_material_info.pdf' %}" title="自費特材公開資訊">自費特材公開資訊</a></li>
+											</ul>
+											<ul class="m-mega__list">
+												<li><a href="/A005_ward_mes_0/" itemprop="url" title="病房訊息">病房訊息</a></li>
+												<li><a href="{% static 'common/doc/Withdrawal_rules/Withdrawal_rules.pdf' %}" title="自費藥品退藥規定">自費藥品退藥規定</li>
+											</ul>
+										</div>
+									</section>
+								</div>
+							</div>
+						</div>
+					</li>
 
-                    <!-- 3. 重點醫療 -->
-                    <li class="m-nav__item">
-                        <a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="重點醫療">
-                            <span itemprop="name">重點醫療</span>
-                        </a>
-                        <div class="m-mega m-mega--subtle-bg">
-                            <div class="m-medical-grid" itemscope itemtype="http://schema.org/ItemList"
-                                style="padding: 40px 0;">
-                                <!-- 1. 骨科微創手術中心 -->
-                                <a href="/specialty_medical/ort-main/" class="m-medical-card" itemprop="url"
-                                    title="骨科微創手術中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/bone_center.webp' %}" alt="骨科微創手術中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">骨科微創<br />手術中心</div>
-                                </a>
-                                <!-- 2. 全方位乳房中心 -->
-                                <a href="/breast-care-center" class="m-medical-card" itemprop="url" title="全方位乳房中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/breast_center.webp' %}" alt="全方位乳房中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">全方位乳房中心</div>
-                                </a>
-                                <!-- 3. 神經醫學中心 -->
-                                <a href="http://www.everanhospital.com.tw/neuro/" target="_blank" class="m-medical-card"
-                                    itemprop="url" title="神經醫學中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/Neurology_center.webp' %}" alt="神經醫學中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">神經醫學中心</div>
-                                </a>
-                                <!-- 4. 心血管中心 -->
-                                <a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="m-medical-card"
-                                    itemprop="url" title="心血管中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/CVD_center.webp' %}" alt="心血管中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">心血管中心</div>
-                                </a>
-                                <!-- 5. 健康管理中心 -->
-                                <a href="/specialty_health/" class="m-medical-card" itemprop="url" title="健康管理中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/health_center.webp' %}" alt="健康管理中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">健康管理中心</div>
-                                </a>
-                                <!-- 6. EECP 體外反搏治療中心 -->
-                                <a href="/EECP/" class="m-medical-card" itemprop="url" title="EECP 體外反搏治療中心">
-                                    <div class="m-medical-card__img-box">
-                                        <img src="{% static 'common/img/eecp_center.webp' %}" alt="EECP 體外反搏治療中心"
-                                            class="m-medical-card__img">
-                                    </div>
-                                    <div class="m-medical-card__title" itemprop="name">EECP 體外反搏治療中心</div>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
+					<!-- 3. 重點醫療 -->
+					<li class="m-nav__item">
+						<a href="javascript:void(0)" class="m-nav__link" itemprop="url" title="重點醫療">
+							<span itemprop="name">重點醫療</span>
+						</a>
+						<div class="m-mega m-mega--subtle-bg">
+							<div class="m-medical-grid" itemscope itemtype="http://schema.org/ItemList"
+								style="padding: 40px 0;">
+								<!-- 1. 骨科微創手術中心 -->
+								<a href="/specialty_medical/ort-main/" class="m-medical-card" itemprop="url"
+									title="骨科微創手術中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/bone_center.webp' %}" alt="骨科微創手術中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">骨科微創<br />手術中心</div>
+								</a>
+								<!-- 2. 全方位乳房中心 -->
+								<a href="/breast-care-center" class="m-medical-card" itemprop="url" title="全方位乳房中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/breast_center.webp' %}" alt="全方位乳房中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">全方位乳房中心</div>
+								</a>
+								<!-- 3. 神經醫學中心 -->
+								<a href="http://www.everanhospital.com.tw/neuro/" target="_blank" class="m-medical-card"
+									itemprop="url" title="神經醫學中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/Neurology_center.webp' %}" alt="神經醫學中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">神經醫學中心</div>
+								</a>
+								<!-- 4. 心血管中心 -->
+								<a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="m-medical-card"
+									itemprop="url" title="心血管中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/CVD_center.webp' %}" alt="心血管中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">心血管中心</div>
+								</a>
+								<!-- 5. 健康管理中心 -->
+								<a href="/specialty_health/" class="m-medical-card" itemprop="url" title="健康管理中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/health_center.webp' %}" alt="健康管理中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">健康管理中心</div>
+								</a>
+								<!-- 6. EECP 體外反搏治療中心 -->
+								<a href="/EECP/" class="m-medical-card" itemprop="url" title="EECP 體外反搏治療中心">
+									<div class="m-medical-card__img-box">
+										<img src="{% static 'common/img/eecp_center.webp' %}" alt="EECP 體外反搏治療中心"
+											class="m-medical-card__img">
+									</div>
+									<div class="m-medical-card__title" itemprop="name">EECP 體外反搏治療中心</div>
+								</a>
+							</div>
+						</div>
+					</li>
 
-                    <li class="m-nav__item">
-                        <a href="/A003_health_edu/" class="m-nav__link" itemprop="url" title="衛教園地">
-                            <span itemprop="name">衛教園地</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+					<li class="m-nav__item">
+						<a href="/A003_health_edu/" class="m-nav__link" itemprop="url" title="衛教園地">
+							<span itemprop="name">衛教園地</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
 
-            <!-- 行動版切換器 -->
-            <button class="m-hamburger" id="m-toggle" aria-label="切換導覽選單">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </header>
+			<!-- 行動版切換器 -->
+			<button class="m-hamburger" id="m-toggle" aria-label="切換導覽選單">
+				<span></span><span></span><span></span>
+			</button>
+		</div>
+	</header>
 
-    <!-- 行動版側邊導覽 -->
-    <div class="m-overlay" id="m-overlay"></div>
-    <nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行動版導覽">
-        <div class="m-mobile-container" id="m-mobile-container">
-            <!-- 行動版選單由 site_main.js 自動根據桌機版選單同步生成 -->
-            <!-- 僅需維護上面的 <nav class="m-nav"> 即可同步更新行動版 -->
+	<!-- 行動版側邊導覽 -->
+	<div class="m-overlay" id="m-overlay"></div>
+	<nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行動版導覽">
+		<div class="m-mobile-container" id="m-mobile-container">
+			<!-- 行動版選單由 site_main.js 自動根據桌機版選單同步生成 -->
+			<!-- 僅需維護上面的 <nav class="m-nav"> 即可同步更新行動版 -->
 
-        </div>
-    </nav>
+		</div>
+	</nav>
 
-    <!-- Modal 共用區塊 -->
-    {% include 'modals/bed_rate_modal.html' %}
+	<!-- Modal 共用區塊 -->
+	{% include 'modals/bed_rate_modal.html' %}
 </div>
