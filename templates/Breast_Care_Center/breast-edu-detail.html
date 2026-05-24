@@ -2,15 +2,15 @@
 
 {% load static %}
 <!-- === Meta ================================== -->
-{% block title %}{{ title }} - 衛教園地｜全方位乳房中心｜{{ block.super }}{% endblock %}
+{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
 {% block meta_description %}長安醫院-全方位乳房中心衛教園地：{{ title }}{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ title }} - 衛教園地｜全方位乳房中心｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
 {% block og_description %}長安醫院-全方位乳房中心衛教園地：{{ title }}{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ title }} - 衛教園地｜全方位乳房中心｜{{ block.super }}{% endblock %}
+{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
 {% block twitter_description %}長安醫院-全方位乳房中心衛教園地：{{ title }}{% endblock %}
 
 <!-- === 子頁細節內容 =========================== -->
@@ -69,6 +69,19 @@
                                 {% endif %}
                             {% endfor %}
                             </div>
+                        {% else %}
+                            <div class="health-edu-images-container text-center">
+                                {% for img in image_list %}
+                                <div class="mb-4">
+                                    <picture>
+                                        {% if img.has_webp %}
+                                        <source srcset="{{ img.webp_url }}" type="image/webp">
+                                        {% endif %}
+                                        <img src="{{ img.jpg_url }}" class="img-fluid w-100" alt="{{ title }} (第 {{ forloop.counter }} 頁)" loading="lazy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                                    </picture>
+                                </div>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                         </article>
                     </div>
@@ -102,7 +115,6 @@
 {% block sub_extra_js %}
 <script>
     window.eduTitle = "{{ title|escapejs }}";
-    window.eduImages = "{{ images|safe }}";
 </script>
 <script src="{% static 'apps/breast_care_center/js/breast-edu-detail.js' %}"></script>
 <script src="{% static 'apps/breast_care_center/js/b-sidebar-random-articles.js' %}"></script>

@@ -14,21 +14,38 @@ window.openInFullScreenWin = function(url) {
     window.location.href = url;
 };
 
+// --- 1. 回到最上方 (Gotop) ---
+window.topFunction = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     
-    // --- 1. 回到最上方 (Gotop) ---
+    // --- 1.1 回到最上方按鈕顯示邏輯 ---
     const mybutton = document.getElementById('myBtn');
     if (mybutton) {
-        window.addEventListener('scroll', () => {
+        function updateMyBtnVisibility() {
+            // 如果畫面寬度小於 992px 且頁面上有 .bottom-nav，則隱藏預設的 #myBtn
+            if (window.innerWidth < 992 && document.querySelector('.bottom-nav')) {
+                mybutton.style.display = 'none';
+                return;
+            }
+            
             if (window.scrollY > 20) {
                 mybutton.style.display = 'block';
             } else {
                 mybutton.style.display = 'none';
             }
-        });
+        }
+
+        window.addEventListener('scroll', updateMyBtnVisibility);
+        window.addEventListener('resize', updateMyBtnVisibility);
+        
+        // 初始載入時檢查一次
+        updateMyBtnVisibility();
 
         mybutton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.topFunction();
         });
     }
 
@@ -534,4 +551,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     }
 })();
+
+
 

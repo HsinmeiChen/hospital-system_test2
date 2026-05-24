@@ -67,63 +67,6 @@
 ----------------------------------------------------- */
 
 
-/* 【----- Bottom Nav (Mobile Only) -----】 */
-nav.bottom-nav::before {
-    background-color: transparent;
-}
-
-.bottom-nav {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--white);
-    border-top: 1px solid var(--grey11);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-}
-
-.bottom-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--grey3);
-    text-decoration: none;
-    font-size: 12px;
-    padding: 8px 12px;
-    transition: all 0.3s ease;
-    flex: 1;
-}
-
-.bottom-nav-item i {
-    font-size: 24px;
-    margin-bottom: 4px;
-}
-
-.bottom-nav-item .fa-facebook {
-    color: var(--facebook);
-}
-
-.bottom-nav-item .fa-envelope {
-    color: var(--orange);
-}
-
-.bottom-nav-item .fa-line {
-    color: var(--line);
-}
-
-.bottom-nav-item:hover,
-.bottom-nav-item.active {
-    color: var(--primary-brown);
-}
-
-.bottom-nav-item.active i {
-    color: var(--primary-brown);
-}
 
 
 /* ---------------------------------------------------
@@ -3548,10 +3491,7 @@ table {
         display: block;
     }
 
-    /* 【-- Bottom Nav --】 */
-    .bottom-nav {
-        display: none;
-    }
+
 }
 
 @media (min-width: 1200px) {
@@ -3830,4 +3770,115 @@ table {
 
 .m-nav__item--btn {
     padding: 0 10px;
+}
+
+/* ---------------------------------------------------
+    衛教園地卡片 - A+B+C 複合圖示設計
+----------------------------------------------------- */
+.edu-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.edu-card-custom {
+    border: none;
+    border-radius: var(--card-corner);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--white);
+    padding-top: 15px; /* 預留上方 Badge 的空間 */
+}
+
+.edu-card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(211, 112, 121, 0.2) !important; /* 對應 --secondary-color 的軟陰影 */
+    border-color: var(--secondary-color);
+}
+
+/* --- 方案 C: 上方主題 Badge --- */
+.edu-card-badge {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    background-color: var(--pale-lilac); 
+    color: var(--secondary-color);
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.edu-card-custom:hover .edu-card-badge {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+/* --- 方案 A: 左側圓底圖示 --- */
+.edu-card-icon-left {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(252 232 230); /* rgb(255, 208, 203) */
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+}
+
+.edu-card-custom:hover .edu-card-icon-left {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* --- 標題樣式 --- */
+.edu-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--brown-black);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+.edu-card-custom:hover .edu-card-title {
+    color: var(--secondary-color);
+}
+
+/* --- 方案 B: 右側動態引導箭頭 --- */
+.edu-card-arrow-right {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--grey-white);
+    color: var(--grey3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.edu-card-custom:hover .edu-card-arrow-right {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: translateX(5px);
 }

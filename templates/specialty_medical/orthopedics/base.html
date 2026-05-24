@@ -1,0 +1,108 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}骨科微創手術中心｜{{ block.super }}{% endblock %}
+{% block keywords %}長安醫院,Mako機器人關節置換手術, MIS微創關節置換手術, PRP關節注射療法, 微創關節鏡手術{% endblock %}
+{% block meta_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}長安骨科微創手術中心｜{{ block.super }}{% endblock %}
+{% block og_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}長安骨科微創手術中心｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安骨科微創手術中心為針對局部退化性關節炎或全膝關節、髖骨關節退化患者成立之全方位關節治療中心，提供各式療法，如:Mako機器人膝髋關節置換術、MIS微創膝髋關節置換術、PRP關節注射療法、微創關節鏡手術等，是關節退化患者的最佳選擇。{% endblock %}
+
+
+<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+{% block loading_page %}
+{% include 'specialty_medical/orthopedics/ort-loading.html' %}
+{% endblock %}
+<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+
+{% block content %}
+
+	{% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+	<div class="l-wrapper l-sub__bg">
+		<header>{% include 'specialty_medical/orthopedics/ortz-header.html' %}</header>
+		<main class="l-sub-layout__main" role="main">
+			<div class="l-container-panel">
+				<article>
+					<!-- 讓子頁面決定是否要用預設的麵包屑 -->
+					{% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %} <!-- 麵包屑自動化 -->
+					<div class="l-main-content u-panel-pure" style="background-color: transparent;">
+						{% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+					</div>
+				</article>
+			</div>
+		</main>
+	</div>
+
+	<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+	{% block guide_seo %}{% endblock %}
+	<!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+{% endblock %}
+
+<!-- ▼▼▼ Bottom Nav (Mobile Only) ▼▼▼ -->
+{% block bottomNav %}
+<nav id="bottomNav" class="bottom-nav">
+	<a href="http://m.me/everanhospital" class="bottom-nav-item" title="長安骨科微創手術中心-FB 客服" target="_blank" alt="長安骨科微創手術中心-FB 客服">
+		<i class="fab fa-facebook" aria-hidden="true"></i>
+		<span>FB 客服</span>
+	</a>
+	<a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="長安骨科微創手術中心-LINE 客服" target="_blank" alt="長安骨科微創手術中心-LINE 客服">
+		<i class="fab fa-line" aria-hidden="true"></i>
+		<span>LINE 客服</span>
+	</a>
+	<a href="/specialty_medical/orthopedics/contact/" class="bottom-nav-item" title="長安骨科微創手術中心-聯絡我們" alt="長安骨科微創手術中心-聯絡我們">
+		<i class="fas fa-envelope" aria-hidden="true"></i>
+		<span>聯絡我們</span>
+	</a>
+	<a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
+		<i class="fas fa-arrow-up" aria-hidden="true"></i>
+		<span>回到最上方</span>
+	</a>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Bottom Nav (Mobile Only) ▲▲▲ -->
+
+
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+	<style>
+		.m-header{
+			background: var(--color-bg-white);
+			border-bottom: 0px;
+		}
+		.l-container-panel{
+			padding:0;
+			max-width: 100%;
+			box-shadow: none;
+			border: 0px;
+		}
+		.l-main-content{
+			border: 0px;
+			padding: 0;
+		}
+		@media (min-width: 992px) {
+		.l-sub-layout__main, .l-main-content{
+				padding:0;
+			}
+		}
+	</style>
+	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+	<link rel="stylesheet" href="{% static 'apps/breast_care_center/css/breast-style.css' %}">
+	<link rel="stylesheet" href="{% static 'apps/specialty_medical/css/special-main.css' %}">	
+	{% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+	{% block sub_extra_js %}{% endblock %} <!-- 預留給子頁面加 JS -->
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

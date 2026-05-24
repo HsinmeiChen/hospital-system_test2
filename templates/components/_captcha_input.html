@@ -1,10 +1,10 @@
-<div class="form-group mb-4 row align-items-center">
-    <label for="{{ form.captcha.id_for_label }}" class="col-12 col-md-3 font-18 cofe-word mark_arrow_title mb-2 mb-md-0">
-        <h5 class="font-weight-bold mb-0">驗證碼<span class="text-danger">*</span></h5>
+<div class="form-group row align-items-center mb-0">
+    <label for="{{ form.captcha.id_for_label }}" class="col-12 col-md-2 mark_arrow_title mb-2 mb-md-0">
+        <h5 class="font-weight-bold mb-0" style="font-size: 1.1rem;">驗證碼<span class="text-danger">*</span></h5>
     </label>
-    <div class="col-12 col-md-4 mb-2 mb-md-0">
+    <div class="col-12 col-md-6 mb-2 mb-md-0">
         {{ form.captcha }}
-        <small id="captcha-timer" class="form-text text-muted" style="display: none;">驗證碼將於 <span id="countdown">2:00</span> 後失效</small>
+        <small id="captcha-timer" class="form-text text-muted" style="display: block;margin-right: .5rem;text-align: right;">驗證碼將於 <span id="countdown">2:00</span> 後失效</small>
         <div class="invalid-feedback captcha-feedback" style="display:none; color:#dc3545; font-size: 80%; margin-top: .25rem;">
             請輸入驗證碼。
         </div>
@@ -15,9 +15,9 @@
     <div class="col-7 col-md-3 text-center">
         <img id="captcha-img" src="/api/captcha/image/" alt="驗證碼圖片" class="img-fluid border" style="cursor: pointer;" title="點擊刷新驗證碼">
     </div>
-    <div class="col-5 col-md-2 text-md-left text-right">
+    <div class="col-5 col-md-1 text-left">
         <button type="button" class="btn btn-sm btn-outline-secondary" id="refresh-captcha-btn">
-            <i class="fas fa-sync-alt"></i> 刷新
+            <i class="fas fa-sync-alt" title="點擊刷新驗證碼"></i>
         </button>
     </div>
 </div>

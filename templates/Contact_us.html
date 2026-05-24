@@ -10,12 +10,13 @@
 <div class="modern-contact-wrapper l-main-content__body py-4">
     <div>
 		<style>
-			.l-sub-layout__main{
-				max-width: 800px;
-				width: 100%;
-				margin: 0 auto;
-			}
-		</style>
+    .l-sub-layout__main{
+    				max-width: 1000px;
+    				width: 100%;
+    				margin: 0 auto;
+    			}
+
+</style>
         
         <!-- Hero / Intro Section -->
         <div class="modern-hero text-center mb-5 animate-fade-in-up">
@@ -46,7 +47,7 @@
         {% endif %}
 
         <!-- Form Card -->
-        <div class="modern-card animate-fade-in-up delay-1">
+        <div class="animate-fade-in-up delay-1">
             <form id="contact_us" action="/A004_contact_us/" method="POST" name="form1" class="needs-validation" novalidate>
                 {% csrf_token %}
                 
@@ -221,13 +222,6 @@
     .modern-subtitle {
         line-height: 1.6;
     }
-
-    /* Cards & Layout */
-    /* .modern-card {
-        border-radius: var(--radius-xl);
-        border: 1px solid rgba(0,0,0,0.03);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.04) !important;
-    } */
     .section-title {
         color: var(--theme-secondary);
         font-weight: 700;
@@ -251,8 +245,8 @@
     .modern-input-group select.form-control,
     .modern-input-group textarea.form-control {
         border: 2px solid var(--input-border);
-        border-radius: var(--radius-md);
-        padding: 0.8rem 1.2rem;
+        border-radius: 0;
+        padding: 0.5rem;
         font-size: 1rem;
         transition: var(--transition-smooth);
         background-color: #f8fafc;

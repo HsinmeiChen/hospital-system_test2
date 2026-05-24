@@ -61,55 +61,6 @@
 ----------------------------------------------------- */
 
 
-/* 【----- Bottom Nav (Mobile Only) -----】 */
-nav.bottom-nav::before{
-    background-color: transparent;
-}
-.bottom-nav {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--white);
-    border-top: 1px solid var(--grey11);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-}
-.bottom-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--grey3);
-    text-decoration: none;
-    font-size: 12px;
-    padding: 8px 12px;
-    transition: all 0.3s ease;
-    flex: 1;
-}
-.bottom-nav-item i {
-    font-size: 24px;
-    margin-bottom: 4px;
-}
-.bottom-nav-item .fa-facebook,
-.bottom-nav-item .fa-calendar-alt{
-    color: var(--facebook);
-}
-.bottom-nav-item .fa-envelope{
-    color: var(--orange);
-}
-.bottom-nav-item .fa-line{
-    color: var(--line);
-}
-.bottom-nav-item:hover,
-.bottom-nav-item.active {
-    color: var(--primary-brown);
-}
-.bottom-nav-item.active i {
-    color: var(--primary-brown);
-}
-
 
 /* ---------------------------------------------------
     UI 共用排版間距
@@ -169,6 +120,9 @@ h5 a:hover, h6 a:hover{
 }
 .main-bg{
     background: url(/Public/common/img/bg_grid.png) center top;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 .danger-bg{
     background-color: var(--pink) !important;
@@ -1119,9 +1073,8 @@ nav.sidenav::before{
 
 /* 【----- list-圓形項目 -----】 */
 .circle-items{
-    /* margin-top: 40px; */
     margin-bottom: 0;
-    padding: 6% 0;
+    padding: 2% 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -2529,159 +2482,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
 }
 
 
-/* 【----- 聯絡我們 Contact -----】 */
-.contact-div .top-banner-grid{
-    padding: 0;
-}
-.contact-div .page-banner{
-    background-size: cover;
-    border-radius: 0px;
-}
-.contact-div .section-grid{
-    padding-bottom: 1.8rem;
-}
-.contact-div .section-grid > .card{
-    border-radius: 25px;
-}
-.contact-div .section-grid > .card > .row.no-gutters{
-    padding: 3% 5% 7% 5%;
-}
-.l-box{
-    font-size: 1.1rem;
-    line-height: 1.5rem;
-}
-.l-box .item{
-    margin: 5% 0 15% 0;
-}
-.tel-ttl {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-}
-.text-only {
-    font-size: .8rem;
-    font-weight: 500;
-    color: var(--grey3);
-}
-/* .tel-ttl::before {
-    content: "";
-    background-color: #22AD73;
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    display: block;
-    margin-left: 10px;
-} */
-.tel {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    font-size: 1.2rem;
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-.contact-form{
-    border-top: 1px solid var(--grey6);
-    padding-top: 30px;
-}                
-.contact-form .form-group label{
-    font-weight: 800;
-    line-height: 1.5;
-    font-size: 1.2rem;
-}
-.contact-form input[type=text],
-.contact-form input[type=email],
-.contact-form input[type=tel],
-.contact-form input[type=number],
-.contact-form input[type=date],
-.contact-form select,
-.contact-form textarea {
-    -webkit-appearance: none;
-    appearance: none;
-    background: var(--soft-beige);
-    border: none;
-    border-radius: 3px;
-    color: var(--grey7);
-    font-size: 16px;
-    padding: 10px;
-    margin: 0;
-    width: 100%;
-    min-height: 50px;
-}
-.contact-form input[type=text]:focus,
-.contact-form input[type=email]:focus,
-.contact-form input[type=tel]:focus,
-.contact-form input[type=number]:focus,
-.contact-form input[type=file]:focus,
-.contact-form textarea:focus,
-.contact-form select:focus {
-    outline: 2px solid var(--orange2);
-}
-.contact-form .btn-submit {
-    width: 100%;
-    font-size: 1.2rem;
-}
-#id_captcha{
-    width: 100%;
-    transition: all 0.3s;
-}
-/* 禁用狀態樣式 */
-#id_captcha:disabled {
-    cursor: not-allowed !important;
-    background-color: #f5f5f5;
-    color: #999;
-    border-color: #ddd;
-}
-
-/* 禁用時的 placeholder 樣式 */
-#id_captcha:disabled::placeholder {
-    color: #dc3545;
-    font-weight: bold;
-    opacity: 1;
-}
-/* 隱藏驗證碼 label */
-.contact-form label[for="id_captcha"] {
-    display: none;
-}
-.contact-form .captcha-img {
-    margin-top: 20px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    cursor: not-allowed;
-    width: 160px;
-    height: 50px;
-    transition: all 0.3s;
-}
-.contact-form .btn-refresh {
-    background: var(--white);
-    border: 0px solid ;
-    color: var(--grey6);
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1.2rem;
-}
-.contact-form .btn-refresh:hover {
-    color: var(--grey0);
-}
-/* 驗證碼錯誤訊息樣式（純紅色文字） */
-.contact-form .form-group .errorlist {
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    background: none;
-    border: none;
-    padding: 0;
-    list-style: none;
-    margin-bottom: 0 !important;
-}
-.contact-form .btn-refresh,
-.contact-form .form-text {
-    margin-top: 30px;
-}
-
 
 /* ---------------------------------------------------
     RWD
@@ -2997,11 +2797,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
     .treat-article-detail .bc-nav{
         margin: 0 0 15px 0;
     }
-    /* 【-- 聯絡我們 --】 */
-    #id_captcha{
-        width: 30%;
-        transition: all 0.3s;
-    }
 }
 
 @media (min-width: 992px) {
@@ -3071,45 +2866,11 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
         padding-right: 45px;
     }
 
-    /* 【-- 聯絡我們 --】 */
-    .contact-div .section-grid > .card > .row.no-gutters{
-        padding: 2%;
-    }
-    .l-box{
-        padding-right:  40px !important;
-    }
-    .r-box{
-        padding-left: 40px !important;
-        border-left: 1px solid var(--grey6);
-    }
-    .l-box .item{
-        margin: 1% 2% 15% 2%;
-    }
-    .contact-form{
-        border-top: 0px solid var(--grey6);
-        padding-top: 0;
-    }
-    #id_captcha{
-        width: 50%;
-    }
-    .contact-form .captcha-img {
-        margin-left: 15px;
-    }
-    .contact-form .captcha-img,
-    .contact-form .btn-refresh,
-    .contact-form .form-text {
-        margin-top: 0px;
-    }
-
     /* 【-- Side Nav --】 */
     .side-nav-btns {
         display: block;
     }
 
-    /* 【-- Bottom Nav --】 */
-    .bottom-nav {
-        display: none;
-    }
 }
 
 @media (min-width: 1200px) {
@@ -3347,6 +3108,6 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
     width: auto !important;
     max-height: 100% !important;
     margin-left: 0;
-    height: 70px;
+    height: 55px;
     margin-right: 0;
 }

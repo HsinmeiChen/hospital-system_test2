@@ -2096,13 +2096,46 @@ def breast_edu_detail(request, title_id):
 			'og_image': f"{settings.SITE_DOMAIN}{og_image_path}" if og_image_path else '',
 		})
 	else:
-		# 純圖片模式
-		image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
-		full_images = [image_media_url + img for img in content]
+		# 純圖片模式，比照 health_edu 邏輯加入 webp 轉換
+		_dir = base_path
+		_webp_dir = os.path.join(_dir, 'webp')
+		os.makedirs(_webp_dir, exist_ok=True)
+
+		image_list = []
+		MEDIA_URL = settings.MEDIA_URL
+		base_url_path = "health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery"
+
+		for file in content:
+			jpg_path = os.path.join(_dir, file)
+			base_name = os.path.splitext(file)[0]
+			webp_name = base_name + '.webp'
+			webp_path = os.path.join(_webp_dir, webp_name)
+
+			# 進行轉換
+			has_webp = True
+			if not os.path.exists(webp_path):
+				try:
+					from PIL import Image
+					with Image.open(jpg_path) as img:
+						img.save(webp_path, 'WEBP', quality=85)
+				except Exception as e:
+					has_webp = False
+
+			jpg_url = f"{MEDIA_URL}{base_url_path}/{file}"
+			if has_webp:
+				webp_url = f"{MEDIA_URL}{base_url_path}/webp/{webp_name}"
+			else:
+				webp_url = jpg_url
+
+			image_list.append({
+				'jpg_url': jpg_url,
+				'webp_url': webp_url,
+				'has_webp': has_webp
+			})
 
 		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {
 			'title': title,
-			'images': full_images,
+			'image_list': image_list,
 			'is_txt': False,
-			'og_image': f"{settings.SITE_DOMAIN}{full_images[0]}" if full_images else '',
+			'og_image': f"{settings.SITE_DOMAIN}{image_list[0]['jpg_url']}" if image_list else '',
 		})

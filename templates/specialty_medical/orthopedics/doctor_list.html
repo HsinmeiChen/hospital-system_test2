@@ -1,25 +1,25 @@
-<!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
-{% extends "specialty_medical/base.html" %}
-{% block title %}醫師介紹一覽 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}醫師介紹一覽 | 長安骨科微創手術中心{% endblock %}
-{% block meta_description %}「長安骨科微創手術中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
-{% block og_title %}醫師介紹一覽 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block og_description %}「長安骨科微創手術中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
+{% extends "specialty_medical/orthopedics/base.html" %}
+
 {% load static %}
-<!-- ※※※ Web Content Start ※※※ -->
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
-        </header>
-        {% spaceless %}
-        <main>
+<!-- === Meta ================================== -->
+{% block title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block meta_description %}「長安醫院-骨科微創手術中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block og_description %}「長安醫院-骨科微創手術中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block twitter_description %}「長安醫院-骨科微創手術中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+<div>
             <!-- ■■■ Banner、Bread-crumbs ■■■ -->
             <section class="top-banner-grid">
                 <div class="page-banner">
@@ -86,21 +86,24 @@
                     </ul>
                 </div>
             </section>
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
+        </div>
+</div>
 {% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="醫師介紹一覽｜骨科微創手術中心" %}
 {% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
 <script src="{% static 'apps/specialty_medical/js/doctor-intro-use.js' %}"></script>
 {% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->

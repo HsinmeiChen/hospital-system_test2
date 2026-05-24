@@ -1,26 +1,25 @@
-{% extends "specialty_medical/base.html" %}
-
-{% block title %}{{ title_name }} | 衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}{{ title_name }} | 長安骨科微創手術中心{% endblock %}
-{% block meta_description %}長安骨科微創手術中心{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，提供日常保健、疾病預防與照護指引。{% endblock %}
-{% block og_title %}{{ title_name }} | 衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block og_description %}長安骨科微創手術中心{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，提供日常保健、疾病預防與照護指引。{% endblock %}
-{% block og_image %}{% if image_list %}{{ SITE_DOMAIN }}{{ image_list.0.jpg_url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+{% extends "specialty_medical/orthopedics/base.html" %}
 
 {% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ title_name }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安骨科微創手術中心{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，提供日常保健、疾病預防與照護指引。{% endblock %}
 
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title_name }}｜{{ block.super }}{% endblock %}
+{% block og_description %}長安骨科微創手術中心{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，提供日常保健、疾病預防與照護指引。{% endblock %}
 
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
-        </header>
-        {% spaceless %}
-        <main>
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title_name }}｜骨科微創手術中心｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安骨科微創手術中心{{ sub_item_chinese }}提供『{{ title_name }}』專業衛教圖文說明，透過淺顯易懂的醫療護理圖文手冊，提供日常保健、疾病預防與照護指引。{% endblock %}
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+<div>
             <!-- ■■■ Banner、bread-crumbs ■■■ -->
             <section class="top-banner-grid">
                 <div class="page-banner">
@@ -69,14 +68,23 @@
                 </div>            
             </section>
 
-        </main>
-        {% endspaceless %}
-    </div>
+        </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
 
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline=title|add:"｜骨科微創手術中心" datePublished=date folder="news_2" article_img=image %}
 {% endblock %}
 
-{% block extra_css %}
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
 {% endblock %}

@@ -1,26 +1,26 @@
-{% extends "specialty_medical/base.html" %}
-
-{% block title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block title_1 %}衛教園地 | 長安骨科微創手術中心{% endblock %}
-{% block meta_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
-{% block og_title %}衛教園地 | 長安骨科微創手術中心 | {{ block.super }}{% endblock %}
-{% block og_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
+{% extends "specialty_medical/orthopedics/base.html" %}
 
 {% load static %}
+<!-- === Meta ================================== -->
+{% block title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
 
-{% block content %}
-    <!-- ▼▼▼ GA ▼▼▼ -->
-    {% include 'GA_noscript.html' %}
-    <!-- ▲▲▲ GA End ▲▲▲ -->
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block og_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
 
-    <!-- ▼▼▼ Main-Content Start ▼▼▼ -->
-    <div class="wrapper">
-        <!-- ■■■ Logo、Navbar ■■■ -->
-        <header>
-			{% include 'specialty_medical/orthopedics/ortz-header.html' %}
-        </header>
-        {% spaceless %}
-        <main>
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安骨科微創手術中心衛教園地，提供骨科相關健康知識、復健建議與術後照護重點，協助病患與家屬了解疾病成因與日常保健，提升生活品質。{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+ <div>
             <!-- ■■■ Banner、bread-crumbs ■■■ -->
             <section class="top-banner-grid">
                 <div class="page-banner">
@@ -111,21 +111,20 @@
                     {% endif %}
                 </div>            
             </section>
-
-        </main>
-        {% endspaceless %}
-    </div>
-    <!-- ▲▲▲ Main-Content End ▲▲▲ -->
-
-    <!-- ▼▼▼ Footer Start ▼▼▼ -->
-    {% include 'footer-2.html' %}
-    <!-- ▲▲▲ Footer End ▲▲▲ -->
+        </div>
+</div>
 {% endblock %}
-<!-- ※※※ Web Content End ※※※ -->
+<!-- ▲▲▲ Content ▲▲▲-->
 
 
-<!-- ※※※ Extra CSS Start ※※※ -->
-{% block extra_css %}
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="衛教園地｜骨科微創手術中心" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
 <style>
 /* 衛教園地科別頁客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
 .article-card-link {
@@ -237,10 +236,8 @@
 }
 </style>
 {% endblock %}
-<!-- ※※※ Extra CSS End ※※※ -->
 
 
-<!-- ※※※ Extra JS Start ※※※ -->
-{% block extra_js %}
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
 {% endblock %}
-<!-- ※※※ Extra JS End ※※※ -->

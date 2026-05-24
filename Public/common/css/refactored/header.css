@@ -69,7 +69,7 @@
     }
     .m-header__logo img,
 	.m-mobile-logo img {
-        height: 65px;
+        height: 55px;
         transition: var(--transition);
     }
 
@@ -384,6 +384,10 @@
         .m-header__container{
             max-width: 80%;
         }
+        .m-header__logo img,
+	    .m-mobile-logo img {
+            height: 70px;
+        }
         .m-nav { display: flex; }
         .m-hamburger { display: none; }
         .m-header__logo > a:nth-of-type(2) > div{
@@ -449,7 +453,7 @@
     
     .m-mobile-header {
         height: 75px;
-		padding: 0 20px;
+		padding: 0 15px;
 		display: flex;
 		align-items: center;
         justify-content: space-between;
