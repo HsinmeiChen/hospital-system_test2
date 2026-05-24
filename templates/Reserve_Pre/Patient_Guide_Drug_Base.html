@@ -47,17 +47,6 @@
                 </div>
             </div>
             {% endif %}
-            <style>
-                .l-sub-header-group {
-                    display: contents;
-                }
-                .online_nav_bg {
-                    position: -webkit-sticky;
-                    position: sticky;
-                    top: var(--header-height, 70px);
-                    z-index: 9;
-                }
-            </style>
         </header>
         <main class="l-sub-layout__main" role="main">
             <div class="l-container-panel p-3">
@@ -82,6 +71,24 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
     <link rel="stylesheet" href="{% static 'common/css/Reserve_pre.css' %}">
+    <style>
+        .l-sub-header-group {
+            display: contents;
+        }
+        .online_nav_bg {
+            position: -webkit-sticky;
+            position: sticky;
+            top: var(--header-height, 70px);
+            z-index: 9;
+        }
+        .l-sub-layout__main {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: center;
+            padding: 0 !important;
+        }
+    </style>
     {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->

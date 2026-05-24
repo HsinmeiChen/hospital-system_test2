@@ -43,7 +43,7 @@
                     position: sticky;
                     top: var(--header-height, 70px);
                     z-index: 9;
-                }
+                }                
             </style>
         </header>
         <main class="l-sub-layout__main" role="main">
@@ -66,6 +66,17 @@
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+    
+    <style>
+        .l-sub-layout__main {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: center;
+            padding: 0 !important;
+        }
+    </style>
+    
     {% block sub_extra_css %}{% endblock %} <!-- 預留給子頁面加 CSS -->
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->

@@ -10,7 +10,7 @@ import os, oracledb, datetime, re, time, random # 用於掃描資料夾與讀取
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
 
 # 新修改 (圖片轉 WebP、PDF 轉 WebP 工具)
-from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
+from Pomelo_test.utils import generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
 from Pomelo_test.decorators import ratelimit_form_submit, captcha_failure_limit
 
 from .forms import ContactForm, send_email_to_client
@@ -273,9 +273,6 @@ news_img_dir = os.path.join(special_base_dir, 'h-news', 'img')
 Films_Dir = os.path.join(special_base_dir, 'h-films')
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 (記得要呼叫才會啟動) ■■■■■■■■■■■■■■■■■■■■■■■■■■
-def append_crc32_to_filenames():
-	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -1642,8 +1639,6 @@ def get_all_health_news():
 
 # ==================== 前端模板 ====================
 def health_news_list_view(request):
-	append_crc32_to_filenames() # 呼叫執行-新增 CRC32 Hash 值至圖片檔名的函式
-
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
 	# 新檔名格式不需 append_crc32_to_filenames()
 	return render(request, "specialty_health/h-health-news.html", {

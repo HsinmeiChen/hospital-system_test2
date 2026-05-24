@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from collections import defaultdict # 分群套件
-from Pomelo_test.utils import convert_image_to_webp, append_hash_to_filenames
+from Pomelo_test.utils import convert_image_to_webp
 from health_edu.views import MyPaginator, remove_duplicate_items, get_image_name, get_time_str
 import os, datetime, pymssql, re, glob, calendar, time, smtplib, openpyxl
 
@@ -196,8 +196,7 @@ ort_treat_dir = os.path.join(special_base_dir, 'ort', 'treat-articles')
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 NEWS_DIR = os.path.join(BASE_DIR, '..', '..', 'media', 'news_1')  # 根據實際結構調整
 
-def append_crc32_to_filenames():
-	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
+
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■

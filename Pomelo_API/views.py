@@ -116,6 +116,7 @@ class PLSQLAPI:
 			# SUBSTR(SCD_VISITDT,7,2) 從第7個字符開始取2個字符，獲取日期部分（DD）
 			# TO_CHAR(SCD_SHIFTNO) 將時段轉換為字符串格式
 			# 在 Python 中構建完整的 LIKE 模式，避免 Oracle 綁定變量問題
+			# ---【 Modify-多綁定科別-ON SCD_SECTNO = SEC_SECTNO 】---
 			date_pattern = date + '%'
 			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SUBSTR(SCD_VISITDT,7,2),TO_CHAR(SCD_SHIFTNO),SCD_ROOMNO FROM REGSCD
 			INNER JOIN BASEMP
@@ -159,7 +160,7 @@ class PLSQLAPI:
 			print(f"Oracle connection failed: {e}")
 			return None
 
-	def Search_Stop_Show_by_Dr(patid, connection=None):
+	def Search_Stop_Show_by_Dr(patid, sectno=None, connection=None): # ---【 Modify-多綁定科別 】---
 		if cx_Oracle is None:
 			print("cx_Oracle driver not installed.")
 			return []
@@ -177,20 +178,29 @@ class PLSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
-			# 使用 :param_name 作為佔位符
-			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			# ---【 Modify-根據是否有傳入 sectno 決定 SQL 條件 】Start 至 REGSCD End ---
+			# ---【 ADD-多綁科別-{sectno_cond}】
+			sectno_cond = "AND SCD_SECTNO = :sectno" if sectno and str(sectno).strip() else ""
+
+			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
-				ON EMP_SECTNO = SEC_SECTNO
+				ON SCD_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
 				AND SCD_EMPNO = :patid
+				{sectno_cond}
 				AND SCD_VISITDT BETWEEN :n_date AND :e_date
 				AND EMP_DC = 'N'
 			ORDER BY SCD_VISITDT'''
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
+			# ---【 ADD-動態參數綁定：若前端有傳入 sectno 才加入字典，避免 SQL 報錯 Start 】---
+			params = {'patid': patid, 'n_date': n_date, 'e_date': e_date}
+			if sectno and str(sectno).strip():
+				params['sectno'] = sectno
+			c.execute(sql, params)
+			# ---【 ADD-動態參數綁定 End 】---
 
 			rows = c.fetchall()
 			datas = []
@@ -1585,6 +1595,9 @@ class MyPaginator(Paginator):
 # ---【 ADD-最新消息:解析檔名 (slug / hash) 】---
 def _get_news_1_list():
 	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
+	from Pomelo_test.utils import append_hash_to_filenames
+	append_hash_to_filenames(os.path.join(settings.MEDIA_ROOT, 'news_1'), extension='.txt', separator='^')
+
 	news_lists = []
 	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
 
@@ -1605,6 +1618,7 @@ def _get_news_1_list():
 	return news_lists
 
 # ---【 ADD-最新消息:解析檔名 (slug / hash) 】End ---
+
 # ---【 ADD-媒體報導:解析檔名(slug / hash)】---
 def _get_news_2_list():
 	"""負責高速度掃描文章檔名、自動提取 Slug/Hash 識別碼、由新到舊排序"""
@@ -2650,7 +2664,9 @@ def A001_department_part(request):
 					# doctor_list5.append(file)
 					doctor_list5.append(path.split("_")[0] + "_" + path.split("_")[1] + "_" + re_file[1])
 					"""20250715 改抓檔案序號"""
-					doctor_list6.append(PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""), connection=conn))
+					# ---【 Modify-帶入 sectno：只拉取該醫師在「當前科別」的停休診紀錄 Start 】---
+					doctor_list6.append(PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""), sectno=sectno, connection=conn))
+					# ---【 Modify-帶入 sectno End 】---
 					doctor_list7.append(sectno)
 					doctor_list8.append(re_file[3].replace(".txt",""))
 
@@ -2678,7 +2694,7 @@ def A001_department_part(request):
 					pass
 		"""20250715 path改pathFile 格式為 大科室序號_科別序號"""
 		doctors = zip(doctor_list, doctor_list2, doctor_list3, doctor_list4, doctor_list5, doctor_list7, doctor_list8, doctor_webp_list)
-		modals = zip(doctor_list4, doctor_list6)
+		modals = zip(doctor_list4, doctor_list6, doctor_list)
 
 		# 新增部分 Start --------------------------------
 		mapping = _get_dept_dr_map()
@@ -2838,7 +2854,9 @@ def A001_department_doctor(request):
 		doctor_name = re_file[2]
 		department_doctor_id = re_file[3].replace(".txt", "")
 		docno = department_doctor_id
-		stop_datas = PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""))
+		# ---【 Modify-帶入 sectno：過濾掉該醫師其他兼診科別的停休診紀錄 Start 】---
+		stop_datas = PLSQLAPI.Search_Stop_Show_by_Dr(str(re_file[3]).replace(".txt",""), sectno=sectno)
+		# ---【 Modify-帶入 sectno End 】---
 
 		content = open(pathFile + "\\" + filename, "r", encoding="utf-8-sig")
 		for c in content.readlines():

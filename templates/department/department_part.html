@@ -14,12 +14,12 @@
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 <!-- Modal﹔停休診時間 -->
-{% for number,stop_datas in modals %}
+{% for number,stop_datas,name in modals %}
 	<div class="modal fade" id="M{{ number }}" tabindex="-1" role="dialog" aria-labelledby="stop_time" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">停休診時間</h5>
+					<h5 class="modal-title">{{ name }} - 停休診時間</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -145,8 +145,6 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
-/* 團隊介紹醫師卡片專屬樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
-
 /* 團隊介紹毛玻璃漸層標題條 */
 .title-bg-brand {
     background: linear-gradient(135deg, var(--color-bg-light) 0%, rgba(219, 213, 213, 0.2) 100%) !important;

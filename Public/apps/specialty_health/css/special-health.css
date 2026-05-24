@@ -3319,7 +3319,12 @@ a.list-group-item.list-group-item-action[data-toggle="collapse"] {
 
 .m-nav__item #emailBtn.m-nav__link::after,
 .m-nav__item #homeBtn.m-nav__link::after {
-    display: none !important; /* 隱藏底線 */
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    left: 0 !important;
+    bottom: 0 !important;
 }
 
 /* 針對 homeBtn 圓形按鈕 */

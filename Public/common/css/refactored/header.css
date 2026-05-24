@@ -19,12 +19,13 @@
         left: 0;
         width: 100%;
         height: var(--header-height);
-        background: var(--color-bg-light);
+        background: var(--color-bg-white);
+        /* background: var(--color-bg-light); */
         box-shadow: none;
         z-index: 10;
         font-family: Arial, 'Microsoft JhengHei', sans-serif;
         transition: var(--transition);
-        border-bottom: 1px solid var(--color-primary-light);
+        /* border-bottom: 1px solid var(--color-primary-light); */
         margin: 0;
     }
 
@@ -34,7 +35,7 @@
     }
 
     .m-header__container {
-        max-width: 1450px;
+        max-width: 100%;
         margin: 0 auto;
         height: 100%;
         display: flex;
@@ -68,9 +69,8 @@
     }
     .m-header__logo img,
 	.m-mobile-logo img {
-        height: auto;
+        height: 65px;
         transition: var(--transition);
-		margin-left: -10px;
     }
 
     /* 桌機導覽清單 */
@@ -381,6 +381,9 @@
 	}
 
     @media (min-width: 992px) {
+        .m-header__container{
+            max-width: 80%;
+        }
         .m-nav { display: flex; }
         .m-hamburger { display: none; }
         .m-header__logo > a:nth-of-type(2) > div{
