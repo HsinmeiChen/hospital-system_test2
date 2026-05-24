@@ -40,7 +40,9 @@ import random # 隨機選擇 5 筆文章
 import zlib # 計算 CRC32 hash 值
 import traceback # 除錯（debug） 或 記錄錯誤訊息（logging）
 
-
+from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
+from .forms import ContactForm, send_email_to_client
+from Pomelo_test.decorators import ratelimit_captcha, ratelimit_form_submit, captcha_failure_limit
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 資料庫設定 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 case_plsql_host = settings.CASE_PLSQL_HOST
 case_plsql_db = settings.CASE_PLSQL_DB
@@ -591,30 +593,95 @@ def ort_media_home_api(request):
 	return JsonResponse({'articles': latest_articles})
 
 # 後:首頁「聯繫我們」
-@require_POST
-@csrf_exempt  # 如果你使用 CSRF token，可移除這行
-def contact_form_view(request):
-	name = request.POST.get('name')
-	email = request.POST.get('email')
-	phone = request.POST.get('phone')
-	subject = request.POST.get('subject')
-	message = request.POST.get('message')
-
-	full_message = f"""姓名：{name}信箱：{email}電話：{phone}主旨：{subject}內容：{message}
+@ratelimit_form_submit(max_requests=5, window=300, redirect_url='ort_send_mail')  # 5 分鐘內最多 5 次提交
+@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='ort_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
+def ort_send_mail(request):
 	"""
+	聯絡我們頁面 - 包含表單功能
+	GET: 顯示頁面和表單
+	POST: 處理表單提交（支援 AJAX 和普通提交）
+	"""
+	CAPTCHA_EXPIRY = 120  # 驗證碼有效時間（秒，2分鐘）
 
-	try:
-		email_msg = EmailMessage(
-			subject=f"網站聯絡表單：{subject}",
-			body=full_message,
-			from_email='no-reply@yourdomain.com',
-			to=['ha01633@everanhospital.com.tw'],
-			reply_to=[email],
-		)
-		email_msg.send()
-		return JsonResponse({'success': True})
-	except Exception as e:
-		return JsonResponse({'success': False, 'error': str(e)})
+	if request.method == "POST":
+		captcha_answer = request.session.get('common_captcha_code')
+		captcha_timestamp = request.session.get('common_captcha_timestamp', 0)
+		
+		# 檢查是否為 AJAX 請求
+		is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' or (request.content_type and request.content_type.startswith('multipart/form-data'))
+		
+		# 檢查驗證碼是否過期
+		if time.time() - captcha_timestamp > CAPTCHA_EXPIRY:
+			if is_ajax:
+				return JsonResponse({
+					'success': False,
+					'message': '驗證碼已過期，請重新輸入',
+					'errors': {'captcha': '驗證碼已過期，請重新輸入'}
+				})
+			else:
+				messages.error(request, "驗證碼已過期，請重新整理後再試")
+				form = ContactForm()
+				return render(request, "specialty_medical/orthopedics/ortz-contact.html", {
+					"form": form,
+					'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png",
+				})
+		
+		form = ContactForm(request.POST, captcha_answer=captcha_answer)
+		
+		if form.is_valid():
+			try:
+				send_email_to_client(form.cleaned_data)
+				
+				# 清除 session 中的驗證碼
+				if 'common_captcha_code' in request.session:
+					del request.session['common_captcha_code']
+				if 'common_captcha_timestamp' in request.session:
+					del request.session['common_captcha_timestamp']
+				
+				if is_ajax:
+					return JsonResponse({
+						'success': True,
+						'message': '您的訊息已成功送出，感謝您的聯繫！'
+					})
+				else:
+					messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
+					return redirect('ort_send_mail')
+			except Exception as e:
+				import logging
+				logging.exception("send_mail failed in specialty_medical contact view")
+				if is_ajax:
+					return JsonResponse({
+						'success': False,
+						'message': '郵件寄送失敗，請稍後再試。'
+					})
+				else:
+					messages.error(request, "郵件寄送失敗，請稍後再試。")
+		else:
+			# 表單驗證失敗
+			if is_ajax:
+				errors = {}
+				for field, error_list in form.errors.items():
+					errors[field] = error_list[0] if error_list else '此欄位有誤'
+				
+				return JsonResponse({
+					'success': False,
+					'message': '表單驗證失敗，請檢查您的輸入',
+					'errors': errors
+				})
+		
+		if not is_ajax:
+			return render(request, "specialty_medical/orthopedics/ortz-contact.html", {
+				"form": form,
+				'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png",
+			})
+	else:
+		# GET 請求：顯示空表單
+		form = ContactForm()
+
+	return render(request, "specialty_medical/orthopedics/ortz-contact.html", {
+		"form": form,
+		'og_image': f"{settings.SITE_DOMAIN}/media/specialty_medical/ort/everan2.png",
+	})
 
 
 # ======================= 前端模板 ======================

@@ -24,7 +24,7 @@ urlpatterns = [
     path('api/health-news-home/', views.health_news_home_api, name='health_news_home_api'), # 首頁-最新消息
     path('api/health-film-home/', views.health_film_home_api, name='health_film_home_api'), # 首頁-影音專區
     path('api/ort-media-home/', views.ort_media_home_api, name='ort_media_home_api'), # 首頁-媒體報導
-    path('api/contact/', views.contact_form_view, name='contact_form'), # 首頁-聯繫我們
+    path('contact/', views.ort_send_mail, name='ort_send_mail'), # 首頁-聯繫我們
     path('ort-about/', view=views.ort_about),
 
     path('ort-news/', view=views.health_news_list_view, name='health_news'), # 最新消息列表-主頁
