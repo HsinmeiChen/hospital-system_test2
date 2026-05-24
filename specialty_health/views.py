@@ -5,7 +5,7 @@ from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger # 用�
 from collections import defaultdict, OrderedDict # 用於分群或累加資料 / 用於需要穩定排序的回傳資料
 from django.utils.html import escape # 用於轉義 HTML 字元，避免 XSS 攻擊
 from django.views.decorators.http import require_GET # 限制只能用 GET 方法存取的裝飾器
-import os, oracledb, datetime, re, time, random # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
+import os, oracledb, datetime, re, time, random, traceback # 用於掃描資料夾與讀取 txt 檔 / 連接 Oracle 資料庫 / 處理日期時間 / 解析檔名、從文字抽出影片 id 或標籤
 
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
 
@@ -77,7 +77,7 @@ class PLSQLAPI:
 			return []
 
 	@staticmethod
-	def Search_Stop_Show_by_Dr(patid, connection=None):
+	def Search_Stop_Show_by_Dr(patid, sectno=None, connection=None): # ---【 Modify-多綁定科別 】---
 		should_close = False
 		if connection is None:
 			try:
@@ -94,20 +94,29 @@ class PLSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
-			# 使用 :param_name 作為佔位符
-			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			# ---【 Modify-根據是否有傳入 sectno 決定 SQL 條件 】Start 至 REGSCD End ---
+			# ---【 ADD-多綁科別-{sectno_cond}】
+			sectno_cond = "AND SCD_SECTNO = :sectno" if sectno and str(sectno).strip() else ""
+
+			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
-				ON EMP_SECTNO = SEC_SECTNO
+				ON SCD_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
 				AND SCD_EMPNO = :patid
+				{sectno_cond}
 				AND SCD_VISITDT BETWEEN :n_date AND :e_date
 				AND EMP_DC = 'N'
 			ORDER BY SCD_VISITDT'''
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
+			# ---【 ADD-動態參數綁定：若前端有傳入 sectno 才加入字典，避免 SQL 報錯 Start 】---
+			params = {'patid': patid, 'n_date': n_date, 'e_date': e_date}
+			if sectno and str(sectno).strip():
+				params['sectno'] = sectno
+			# ---【 ADD-動態參數綁定 End 】---
+			c.execute(sql, params)
 
 			rows = c.fetchall()
 			datas = []
@@ -905,7 +914,7 @@ def parse_doctor_txt(content):
 		'education': '',
 		'education_list': [],
 		'image': ''
-    }
+	}
 	lines = content.strip().splitlines()
 	for line in lines:
 		if line.startswith('i'):
@@ -1240,9 +1249,9 @@ def video_section_ajax(request, employee_id):
 # ======================= 前端模板 =======================
 # 定義科別的顯示順序
 DEPARTMENT_ORDER = {
-    "家醫科": 1,
-    "肝膽腸胃科": 2,
-    "婦科": 3
+	"家醫科": 1,
+	"肝膽腸胃科": 2,
+	"婦科": 3
 }
 def doctor_list(request):
 	'''建立「醫師列表」頁，按科別分類顯示'''

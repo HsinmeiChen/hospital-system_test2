@@ -1,8 +1,6 @@
 <!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
 {% extends "main_base.html" %}
-
 <!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
-
 {% load static %}
 <!-- ※※※ Web Content Start ※※※ -->
 {% block content %}
@@ -11,278 +9,132 @@
     <!-- 引入共享動態影音 Modal 組件 -->
     {% include "modals/shared_video_modal.html" %}
     <!-- ======= 本頁 Modal Area End ======= -->
-
     <!-- ■■■ Logo、Navbar ■■■ -->
     <header>
         {% include 'header.html' %}
     </header>
     {% spaceless %}
     <main>
-
         <!-- ■■■ Banner ■■■ -->
-
         <section id="ad_commercial">
-
             <div id="menucarousel_pc" class="d-none d-md-block">
-
                 <div class="banner">
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-05-12" target="_blank">
-
                                 <img src="{% static 'common/img/banner/D_0001.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2024-01-18" target="_blank">
-
                             <img src="{% static 'common/img/banner/D_0002.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2024-01-10" target="_blank">
-
                             <img src="{% static 'common/img/banner/D_0003.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-07-03" target="_blank">
-
                             <img src="{% static 'common/img/banner/D_0004.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/EECP/" target="_blank">
-
                             <img src="{% static 'common/img/banner/D_0005.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-09-02" target="_blank">
-
                             <img src="{% static 'common/img/banner/D_0006.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
-
-
             <div id="menucarousel_mobile" class="d-block d-md-none">
-
                 <div class="banner">
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-05-12" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0001.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2024-01-18" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0002.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2024-01-10" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0003.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-07-03" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0004.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="https://web.everanhospital.com.tw/A000_medical_pages/?media_page_path=IN001_2024-12-02" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0005.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
                     <div>
-
                         <a href="/A000_medical_pages/?media_page_path=IN001_2025-09-02" target="_blank">
-
                             <img src="{% static 'common/img/banner/M_0006.jpg' %}" class="d-block w-100" alt="">
-
                         </a>
-
                     </div>
-
-
-
                 </div>
-
             </div>
-
         </section>
-
-
-
         <!-- ■■■ 常用服務 ■■■ -->
-
         <section id="speed_tool">
-
             <div class="elem__paragraph-center-large">
-
                 <div class="a_inner hos-services">
-
                     <div class="hos-services-item" onclick="location.href='/A002_clinic_time/'">
-
                         <div class="service">
-
                             <i class="far fa-calendar-alt icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">門診時刻表</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item top-item" onclick="location.href='/A006_Online_Booking_0/'">
-
                         <div class="service">
-
                             <i class="fas fa-notes-medical icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">網路掛號</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item" onclick="location.href='/A002_consultation_progress/'">
-
                         <div class="service">
-
                             <i class="fas fa-hospital-user icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">看診進度</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item" onclick="location.href='/A001_dr_search/'">
-
                         <div class="service">
-
                             <i class="fas fa-user-md icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">醫師查詢</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item" onclick="location.href='/A002_which_disease/'">
-
                         <div class="service">
-
                             <i class="fas fa-person-booth icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">看哪科</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item" onclick="location.href='/A007_Reserve_pre/login/'">
-
                         <div class="service">
-
                             <i class="fas fa-prescription icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">預約慢箋</h4>
-
                         </div>
-
                     </div>
-
                     <div class="hos-services-item" onclick="location.href='/A000_closed_clinic/'">
-
                         <div class="service">
-
                             <i class="fas fa-paste icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
                             <h4 class="cofe-word">停休診訊息</h4>
-
                         </div>
-
                     </div>
-
-                    {% comment %}
-
-                    <div class="col-6 col-md-2" onclick="location.href='{% static 'MedicalSupport/d-support_1.html;' %}'">
-
-                        <div class="service">
-
-                            <i class="fas fa-paste icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
-
-                            <h4 class="cofe-word">資料申請</h4>
-
-                        </div>
-
-                    </div>
-
-                    {% endcomment %}
-
                 </div>
-
             </div>
-
         </section>
-
-
-
         <!-- ■■■ 最新消息 ■■■ -->
         <section id="News" class="a_bg">
             <div class="a_inner">
@@ -319,12 +171,7 @@
                 </div>                    
             </div>                   
         </section>
-
-
-
-
         <!-- ■■■ 媒體報導 ■■■ -->
-
                 <!-- ■■■ 媒體報導 ■■■ -->
         <section id="media_reports" class="a_bg_img">
             <div class="a_inner">
@@ -368,21 +215,16 @@
                 </div>
             </div>
         </section>
-
         <!-- ■■■ 醫療資訊 ■■■ -->
         <section id="medical_info" class="a_bg_grid">
             <div class="a_inner">
                 <div class="a_tit">
-
                     <h2>醫療資訊<span> <br class="d-block d-lg-none">Medical Information</span></h2>
-
                 </div>
-
                 <!-- === 醫療資訊專區 (無 JS, 純 CSS 現代橫向捲動) === -->
                 <div class="medical_info">
                     {% include "news_4_partial.html" with is_index=True %}
                 </div>
-
                 <!-- 專屬無阻礙 CSS 樣式 (電腦版 4 欄，平板 3 欄，手機 2 欄，橫向滑動不折行) -->
                 <style>
                 /* 強制將原本的 medical_info 改為 Flex 橫向捲動排版 */
@@ -396,12 +238,10 @@
                     margin: 0 !important;
                     width: 100% !important;
                 }
-
                 /* 隱藏滾動條，保持極簡高級感 */
                 .medical_info::-webkit-scrollbar, .media_reports::-webkit-scrollbar {
                     display: none !important;
                 }
-
                 /* 【Mobile-First 行動裝置優先設計】 */
                 /* 預設：576px 以下顯示 1 欄 */
                 .medical_info .spacing_mp, .media_reports .spacing_mp {
@@ -409,39 +249,33 @@
                     scroll-snap-align: start !important;
                     display: block !important; /* 覆蓋 slick 預設 display */
                 }
-
                 /* 確保圖片外框有穩定高度，防止 collapsed 跑版 */
                 .medical_info .spacing_mp .c-card__img-wrapper, .media_reports .spacing_mp .c-card__img-wrapper {
                     height: 220px !important;
                 }
-
                 /* 修正 picture 元件在原生 CSS 中的 inline 塌陷問題，確保撐滿容器 */
                 .medical_info .spacing_mp .c-card__img-wrapper picture, .media_reports .spacing_mp .c-card__img-wrapper picture {
                     display: block !important;
                     width: 100% !important;
                     height: 100% !important;
                 }
-
                 .medical_info .spacing_mp .c-card__img-wrapper img, .media_reports .spacing_mp .c-card__img-wrapper img {
                     width: 100% !important;
                     height: 100% !important;
                     object-fit: cover !important;
                 }
-
                 /* 576px 以上（包含直向平板、768px 以上）顯示 2 欄 */
                 @media (min-width: 768px) {
                     .medical_info .spacing_mp, .media_reports .spacing_mp {
                         flex: 0 0 calc(50% - 10px) !important;
                     }
                 }
-
                 /* 大型電腦桌機版 (992px 以上) 顯示 3 欄 */
                 @media (min-width: 992px) {
                     .medical_info .spacing_mp, .media_reports .spacing_mp {
                         flex: 0 0 calc(33.33% - 15px) !important;
                     }
                 }
-
                 /* 大型電腦桌機版 (1400px 以上) 顯示 4 欄 */
                 @media (min-width: 1400px) {
                     .medical_info .spacing_mp, .media_reports .spacing_mp {
@@ -456,456 +290,236 @@
                 </div>
             </div>
         </section>
-
-
-
         <!-- ■■■ 影音消息 ■■■ -->
-
         <section id="report_mov" class="a_bg">
-
             <div class="a_inner">
-
                 <div class="a_inn_div">
-
                     <div class="a_tit">
-
                         <h2>影音消息<span> <br class="d-block d-lg-none">Motion Media</span></h2>
-
                     </div>
-
                     <div class="a_content_div">
-
                         <div class="tab_list">
-
                             <div class="tabs_a">
-
                                 <div class="tab-button-outer">
-
                                     <ul id="tab-button_a">
-
                                         <li>
-
                                             <a href="#story">長安的故事</a>
-
                                         </li>
-
                                         <li>
-
                                             <a href="#health_room">長安保健室</a>
-
                                         </li>
-
                                         <li>
-
                                             <a href="#home_rehabilitation">長安居家復健輕鬆做</a>
-
                                         </li>
-
                                         <li>
-
                                             <a href="#interview">專訪</a>
-
                                         </li>
-
                                     </ul>
-
                                 </div>
-
                                 <div class="tab-select-outer">
-
                                     <select id="tab-select" class="form-control form-control-lg">
-
                                         <option value="#story">長安的故事</option>
-
                                         <option value="#health_room">長安保健室</option>
-
                                         <option value="#home_rehabilitation">長安居家復健輕鬆做</option>
-
                                         <option value="#interview">專訪</option>
-
                                     </select>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="tabs_pages">
-
                             <!-- 長安的故事 -->
-
                             <div class="tab-contents_a" id="story">
-
                                 <div class="Div_out">
-
                                     {% for m in message_lists_1 %}
-
                                     <div class="Div_box c-card transform_result">
-
                                         <div class="Div_body" style="padding: 1rem;">
-
                                             <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
-
                                                 <div class="c-card__img-wrapper">
-
                                                     <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
-
                                                 </div>
-
                                                 <div class="c-card__body">
-
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
-
                                                     <h5 class="c-card__title">{{m.name}}</h5> 
-
                                                     <div class="c-card__date">{{m.date}}</div>
-
                                                 </div>
-
                                             </a>
-
                                         </div>
-
                                     </div>
-
                                     {% endfor %}
-
                                 </div>
-
                             </div>
-
                             <!-- 長安保健室 -->
-
                             <div class="tab-contents_a" id="health_room">
-
                                 <div class="Div_out">
-
                                     {% for m in message_lists_2 %}
-
                                     <div class="Div_box c-card transform_result">
-
                                         <div class="Div_body" style="padding: 1rem;">
-
                                             <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
-
                                                 <div class="c-card__img-wrapper">
-
                                                     <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
-
                                                 </div>
-
                                                 <div class="c-card__body">
-
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
-
                                                     <h5 class="c-card__title">{{m.name}}</h5>
-
                                                     <div class="c-card__date">{{m.date}}</div>
-
                                                 </div>
-
                                             </a>
-
                                         </div>
-
                                     </div>
-
                                     {% endfor %}
-
                                 </div>
-
                             </div>
-
                             <!-- 長安居家復健輕鬆做 -->
-
                             <div class="tab-contents_a" id="home_rehabilitation">
-
                                 <div class="Div_out">
-
                                     {% for m in message_lists_3 %}
-
                                     <div class="Div_box c-card transform_result">
-
                                         <div class="Div_body" style="padding: 1rem;">
-
                                             <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
-
                                                 <div class="c-card__img-wrapper">
-
                                                     <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
-
                                                 </div>
-
                                                 <div class="c-card__body">
-
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
-
                                                     <h5 class="c-card__title">{{m.name}}</h5>
-
                                                     <div class="c-card__date">{{m.date}}</div>
-
                                                 </div>
-
                                             </a>
-
                                         </div>
-
                                     </div>
-
                                     {% endfor %}
-
                                 </div>
-
                             </div>
-
                             <!-- 專訪 -->
-
                             <div class="tab-contents_a" id="interview">
-
                                 <div class="Div_out">
-
                                     {% for m in message_lists_4 %}
-
                                     <div class="Div_box c-card transform_result">
-
                                         <div class="Div_body" style="padding: 1rem;">
-
                                             <a href="#" data-toggle="modal" data-target="#shared-video-modal" 
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
-
                                                 <div class="c-card__img-wrapper">
-
                                                     <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
-
                                                 </div>
-
                                                 <div class="c-card__body">
-
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
-
                                                     <h5 class="c-card__title">{{m.name}}</h5>
-
                                                     <div class="c-card__date">{{m.date}}</div>
-
                                                 </div>
-
                                             </a>
-
                                         </div>
-
                                     </div>
-
                                     {% endfor %}
-
                                 </div>
-
                             </div>
-
                             <div class="text-center mt-4">
-
                                 <button type="button" class="c-btn-more" onclick="window.location.href='/A000_video_message/';">
-
                                     查看更多 <i class="fas fa-chevron-right"></i>
-
                                 </button>
-
                             </div>
-
                         </div>
-
-
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
+        <style>
+#special_in{
+    background: url("{% static 'common/img/special_bg.jpg' %}") no-repeat fixed center center;
+}
+</style>
         <!-- ■■■ 重點醫療 ■■■ -->
-
-        <section id="special_in" class="a_bg_img" style="background: url('{% static 'common/img/special_bg.jpg' %}') no-repeat fixed center center;">
-
+        <section id="special_in" class="a_bg_img">
             <div class="a_inner">
-
                 <div class="a_inn_div">
-
                     <div class="a_tit">
-
                         <h2>重點醫療<span><br class="d-block d-lg-none">Specialty Medical</span></h2>
-
                     </div>
-
                     <div class="a_content_div">
-
                         <div class="slider">
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="/specialty_medical/ort-main/" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/bone_center.jpg' %}" alt="骨科微創手術中心" title="骨科微創手術中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>骨科微創手術中心</h2>
-
                                             <p>Orthopaedics Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="http://www.everanhospital.com.tw/neuro/" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/Neurology_center.jpg' %}" alt="神經醫學中心" title="神經醫學中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>神經醫學中心</h2>
-
                                             <p>Neurology Therapy Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/CVD_center.jpg' %}" alt="心血管中心" title="心血管中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>心血管中心</h2>
-
                                             <p>Cardiovascular Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="/breast-care-center" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/breast_center.jpg' %}" alt="全方位乳房中心" title="全方位乳房中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>全方位乳房中心</h2>
-
                                             <p>Breast Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="/specialty_health/" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/health_center.jpg' %}" alt="健康管理中心" title="健康管理中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>健康管理中心</h2>
-
                                             <p>Health Management Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
-
-
                             <div>
-
                                 <div class="spacing_mp">
-
                                     <a href="/EECP/" target="_blank" class="p-home-special border d-block text-decoration-none">
-
                                         <img src="{% static 'common/img/eecp_center.jpg' %}" alt="EECP 體外反搏治療中心" title="EECP 體外反搏治療中心" class="p-home-special__img">
-
                                         <div class="p-home-special__caption">
-
                                             <h2>EECP 體外反搏治療中心</h2>
-
                                             <p>EECP Service Center</p>
-
                                         </div>
-
                                     </a>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
-
     </main>
-
     {% endspaceless %}
-
 </div>
 {% endblock %}
 <!-- ※※※ Web Content End ※※※ -->
-
-
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
     <!-- ★ 首頁專屬的 css ★ -->
@@ -915,7 +529,6 @@
     <link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" />
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->
- 
 <!-- ※※※ Extra JS Start ※※※ -->
 {% block extra_js %}
     <!-- ★ 輪播效果 ★ -->

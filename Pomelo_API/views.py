@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
@@ -837,16 +837,16 @@ class MSSQLAPI:
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
-			    SELECT PAT_PATID,PAT_PATNAME,PAT_BIRTHDATE FROM NRGPAT
-			    WHERE PAT_HOSPAREA='1'
-			    AND (PAT_IDNO=%s OR PAT_PATID=%s)
+				SELECT PAT_PATID,PAT_PATNAME,PAT_BIRTHDATE FROM NRGPAT
+				WHERE PAT_HOSPAREA='1'
+				AND (PAT_IDNO=%s OR PAT_PATID=%s)
 			'''
 
 		sql2 = '''
-			    SELECT TPT_PATID,TPT_PATNAME,TPT_BIRTHDATE FROM NRGPATTEMP
-			    WHERE TPT_HOSPAREA='1'
-			    AND (TPT_IDNO=%s OR TPT_PATID=%s)
-			    AND TPT_PATID <> ' '
+				SELECT TPT_PATID,TPT_PATNAME,TPT_BIRTHDATE FROM NRGPATTEMP
+				WHERE TPT_HOSPAREA='1'
+				AND (TPT_IDNO=%s OR TPT_PATID=%s)
+				AND TPT_PATID <> ' '
 			'''
 
 		#print(sql2)
@@ -1818,11 +1818,11 @@ def new_news_detail(request, slug):
 	# --- 在資料夾中尋找符合該 slug 的檔案 ---
 	n_data = os.listdir(os.path.join(settings.MEDIA_ROOT, 'news_1'))
 	target_file = next((f for f in n_data if f.endswith(f"^{slug}.txt")), None)
-    
+	
 	if not target_file:
 		return redirect('/A000_news/') # 找不到檔案就回列表
 
-    # --- 解析標題與日期 ---
+	# --- 解析標題與日期 ---
 	name_without_ext = target_file.replace(".txt", "")
 	body_part = name_without_ext.split('^')[0]
 	parts = body_part.split("_")

@@ -73,7 +73,7 @@ class PLSQLAPI:
 			print(f"Oracle connection failed: {e}")
 			return None
 
-	def Search_Stop_Show_by_Dr(emp_id, connection=None):
+	def Search_Stop_Show_by_Dr(emp_id, sectno=None, connection=None): # ---【 Modify-多綁定科別 】---
 		is_shared = (connection is not None)
 		if not is_shared:
 			try:
@@ -85,19 +85,31 @@ class PLSQLAPI:
 		n_date = today.strftime("%Y%m%d")
 		e_date = (today + datetime.timedelta(days=60)).strftime("%Y%m%d")
 		try:
-			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			# ---【 Modify-根據是否有傳入 sectno 決定 SQL 條件 】Start 至 REGSCD End ---
+			# ---【 ADD-多綁科別-{sectno_cond}】
+			if sectno and str(sectno).strip():
+				sectno_cond = "AND SCD_SECTNO = :sectno"
+			else:
+				sectno_cond = "AND SCD_SECTNO = 'BZ'"
+
+			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
-				ON EMP_SECTNO = SEC_SECTNO
+				ON SCD_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
 				AND SCD_EMPNO = :emp_id
+				{sectno_cond}
 				AND SCD_VISITDT BETWEEN :n_date AND :e_date
 				AND EMP_DC = 'N'
-				AND SCD_SECTNO = 'BZ'
 			ORDER BY SCD_VISITDT'''
 			c = connection.cursor()
-			c.execute(sql, {'emp_id': emp_id, 'n_date': n_date, 'e_date': e_date})
+			# ---【 ADD-動態參數綁定：若前端有傳入 sectno 才加入字典，避免 SQL 報錯 Start 】---
+			params = {'emp_id': emp_id, 'n_date': n_date, 'e_date': e_date}
+			if sectno and str(sectno).strip():
+				params['sectno'] = sectno
+			# ---【 ADD-動態參數綁定 End 】---
+			c.execute(sql, params)
 			rows = c.fetchall()
 			datas = []
 			for row in rows:
@@ -864,7 +876,7 @@ def parse_doctor_txt(content):
 		'education': '',
 		'education_list': [],
 		'image': ''
-    }
+	}
 	lines = content.strip().splitlines()
 	for line in lines:
 		if line.startswith('i'):

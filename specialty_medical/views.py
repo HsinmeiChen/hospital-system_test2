@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render, Http404
+from django.shortcuts import render, Http404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
@@ -100,7 +100,7 @@ class PLSQLAPI:
 			return []
 
 	@staticmethod
-	def Search_Stop_Show_by_Dr(patid, connection=None):
+	def Search_Stop_Show_by_Dr(patid, sectno=None, connection=None): # ---【 Modify-多綁定科別 】---
 		should_close = False
 		if connection is None:
 			try:
@@ -117,20 +117,29 @@ class PLSQLAPI:
 
 		try:
 			# 輸入你要查找的資料表語法
-			# 使用 :param_name 作為佔位符
-			sql = '''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
+			# ---【 Modify-根據是否有傳入 sectno 決定 SQL 條件 】Start 至 REGSCD End ---
+			# ---【 ADD-多綁科別-{sectno_cond}】
+			sectno_cond = "AND SCD_SECTNO = :sectno" if sectno and str(sectno).strip() else ""
+
+			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
 				ON SCD_EMPNO = EMP_EMPNO 
 			INNER JOIN BASSECT
-				ON EMP_SECTNO = SEC_SECTNO
+				ON SCD_SECTNO = SEC_SECTNO
 			WHERE SCD_CANCEL = 'Q'
 				AND SCD_EMPNO = :patid
+				{sectno_cond}
 				AND SCD_VISITDT BETWEEN :n_date AND :e_date
 				AND EMP_DC = 'N'
 			ORDER BY SCD_VISITDT'''
 			# 定義資料庫游標
 			c = connection.cursor()
-			c.execute(sql, {'patid': patid, 'n_date': n_date, 'e_date': e_date})
+			# ---【 ADD-動態參數綁定：若前端有傳入 sectno 才加入字典，避免 SQL 報錯 Start 】---
+			params = {'patid': patid, 'n_date': n_date, 'e_date': e_date}
+			if sectno and str(sectno).strip():
+				params['sectno'] = sectno
+			# ---【 ADD-動態參數綁定 End 】---
+			c.execute(sql, params)
 
 			rows = c.fetchall()
 			datas = []
@@ -696,7 +705,7 @@ def parse_doctor_txt(content):
 		'education': '',
 		'education_list': [],
 		'image': ''
-    }
+	}
 	lines = content.strip().splitlines()
 	for line in lines:
 		if line.startswith('i'):

@@ -38,7 +38,6 @@ def eecp(request):
 				form = ContactForm()
 				return render(request, "EECP/EECP.html", {
 					"form": form,
-					'og_image': ''
 				})
 		
 		form = ContactForm(request.POST, captcha_answer=captcha_answer)
@@ -87,14 +86,12 @@ def eecp(request):
 		if not is_ajax:
 			return render(request, "EECP/EECP.html", {
 				"form": form,
-				'og_image': ''
 			})
 	else:
 		form = ContactForm()
 
 	return render(request, "EECP/EECP.html", {
 		"form": form,
-		'og_image': ''
 	})
 
 
