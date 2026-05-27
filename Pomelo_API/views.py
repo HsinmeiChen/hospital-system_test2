@@ -4843,6 +4843,8 @@ def A006_Online_Booking_1_part(request):
 		'A006_radio_day_3': A006_radio_day_3,
 		'switch_day2': switch_day2,
 		'I000_day_list': I000_day_list,
+		'c_startdt': c_startdt,
+		'A006_today': A006_today,
 	})
 
 # 網路掛號_選擇醫師
@@ -5256,6 +5258,8 @@ def A006_Online_Booking_2_1(request):
 		'switch_day2': switch_day2,
 		'sectno': sectno,
 		'dr_day_list': dr_day_list,
+		'c_startdt': c_startdt,
+		'A006_today': A006_today,
 	})
 
 # =========================================A100(新官網相關協助查詢頁面)=============================================
