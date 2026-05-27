@@ -9,6 +9,14 @@
 <!-- === 子頁細節內容 =========================== -->
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
+
+<!-- ======= 上下一週切換按鈕 (Mobile) ======= -->
+<div id="weekbtn" class="c_switch_btn_box">
+	<button type="submit" class="btn btn-primary" name="A006_date_sub"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
+	<button type="submit" class="btn btn-success" name="A006_date_add">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
+</div>
+<!-- ======= 上下一週切換按鈕 (Mobile) End ======= -->
+
 <header id="content_h">
     <h2 class="c-onsale-heading">{{ sename }}</h2>
 </header>
@@ -235,9 +243,6 @@
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 0.5rem;
-	}
-	#weekbtn {
-		display: none;
 	}
 	.c_switch_btn_box{
 		position: fixed;
