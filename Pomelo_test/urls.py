@@ -168,7 +168,11 @@ urlpatterns = [
 	re_path('breast-care-center/', include('Breast_Care_Center.urls')), # 特色醫療-乳房中心
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-# 新增 media (讓檔案可下載)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# 新增 media (讓檔案可下載 - 強制在 DEBUG=False 時也能由 Django 提供)
+from django.views.static import serve
+
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
 # handler404 = "Pomelo_API.views.error_404"
 # handler500 = "Pomelo_API.views.error_500"
