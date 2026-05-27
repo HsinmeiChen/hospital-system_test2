@@ -7,6 +7,15 @@
 {% block og_title %}{{ drname }}｜{{ sename }}｜網路掛號｜{{ block.super }}{% endblock %}
 
 
+
+<!-- ======= 上下一週切換按鈕 (Mobile-暫放) ======= -->
+	<div id="weekbtn" class="c_switch_btn_box">
+		<button type="submit" class="btn btn-primary" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上週</button>
+		<button type="submit" class="btn btn-success" name="A006_date_add">下週 <i class="fas fa-chevron-right"></i></button>
+	</div>
+<!-- ======= 上下一週切換按鈕 (Mobile-暫放) End ======= -->
+
+
 <!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
@@ -72,14 +81,14 @@
 					width.value = pageWidth;
 				</script>
 			</form>
-			<form action="" method="GET" class="d-flex justify-content-between align-items-center mb-2">
+			<form action="" method="GET" id="week_switch_btn">
 				<input type="hidden" name="A006_userid" value="{{ userid }}">
 				<input type="hidden" name="A006_sename" value="{{ sename }}">
 				<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0 }}">
 				<div>
 					{% if c_startdt <= A006_today %}
 					{% else %}
-						<button type="submit" class="btn btn-link week_btn" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
 					{% endif %}
 				</div>
 				<!-- <div class="cofe-word this_month">
@@ -89,7 +98,7 @@
 				<div>
 					{% if dr_days_limit_start %}
 					{% else %}
-						<button type="submit" class="btn btn-link week_btn" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
 					{% endif %}
 				</div>
 			</form>
@@ -240,22 +249,63 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-    <style>
+<style>
 		.doctor_wh{
-			height: 295px !important;
-			max-width: 225px !important;
-			margin-bottom: 10px;
+		height: 295px !important;
+		max-width: 225px !important;
+		margin-bottom: 10px;
+	}		
+	.doc_bookable .css_table{
+		min-height: 70px;
+	}
+	.reg_bg .d_intro:hover{
+		background-color: #75482b;
+	}
+	
+	/* 上下一週按鈕 (PC/Mobile) */
+	#week_switch_btn{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.5rem;
+	}
+	#weekbtn {
+		display: none;
+	}
+	.c_switch_btn_box{
+		position: fixed;
+		bottom: 135px;
+		right: 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		width: 40px;
+		z-index: 4;
+	}
+	.c_switch_btn_box > button{
+		border-radius: 0 !important;
+		font-weight: bold;
+		padding: 8px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 3px;
+		font-size: 18px;
+		line-height: 22px;
+		border: 1px solid rgba(255,255,255,0.5);
+	}
+
+	@media only screen and (min-width: 768px) {			
+	  .c_switch_btn_box{
+		   display: none !important;
 		}
-		.doc_bookable .css_table{
-			min-height: 70px;
-		}
-		.reg_bg .d_intro:hover{
-			background-color: #75482b;
-		}
-	</style>
+	}
+</style>
 {% endblock %}
 
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
+<script src="{% static 'common/js/weekbtn.js' %}"></script>
 {% endblock %}

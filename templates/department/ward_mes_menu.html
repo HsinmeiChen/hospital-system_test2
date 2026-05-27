@@ -1,56 +1,51 @@
-{% load static %}
-<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
-	<div class="c-sidebar-trust__header js-sidebar-toggle">
-		<div class="u-badge-small">Ward Info</div>
-		<div class="c-sidebar-trust__title-row">
-			<h3>病房訊息</h3>
-			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
-		</div>
-		<p>Hospital Stay Guide</p>
-	</div>		
-
-	<nav class="c-sidebar-trust__nav" aria-label="長安醫院病房訊息導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
-		<ul class="c-sidebar-trust__list">
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_0/' %}is-active{% endif %}" href="/A005_ward_mes_0/" title="台中長安醫院-病房費用說明" itemprop="url" {% if request.path == '/A005_ward_mes_0/' %}aria-current="page"{% endif %}>
-					<div class="c-sidebar-trust__content">
-						<span class="c-sidebar-trust__text">病房費用</span>
-						<span class="c-sidebar-trust__en">Room Charges</span>
-					</div>
-					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_1/' %}is-active{% endif %}" href="/A005_ward_mes_1/" title="台中長安醫院-病人住院流程" itemprop="url" {% if request.path == '/A005_ward_mes_1/' %}aria-current="page"{% endif %}>
-				    <div class="c-sidebar-trust__content">
-					    <span class="c-sidebar-trust__text">病人住院流程</span>
-					    <span class="c-sidebar-trust__en">Admission Guide</span>
-				    </div>
-				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item" href="{% static 'common/doc/ward_mes/Hos_Reminder.pdf' %}" title="台中長安醫院-住院須知" itemprop="url">
-				    <div class="c-sidebar-trust__content">
-					    <span class="c-sidebar-trust__text">住院須知</span>
-					    <span class="c-sidebar-trust__en">Stay Information</span>
-				    </div>
-				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
-				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_3/' %}is-active{% endif %}" href="/A005_ward_mes_3/" title="台中長安醫院-病人出院流程" itemprop="url" {% if request.path == '/A005_ward_mes_3/' %}aria-current="page"{% endif %}>
-				    <div class="c-sidebar-trust__content">
-					    <span class="c-sidebar-trust__text">病人出院流程</span>
-					    <span class="c-sidebar-trust__en">Discharge Guide</span>
-				    </div>
-				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
-				</a>
-			</li>
-
-		</ul>
-	</nav>
-</div>
+{% load static %}
+<div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
+	<div class="c-sidebar-trust__header js-sidebar-toggle">
+		<div class="u-badge-small">Ward Info</div>
+		<div class="c-sidebar-trust__title-row">
+			<h3>病房訊息</h3>
+			<span class="c-sidebar-trust__toggle-icon"><i class="fas fa-chevron-down"></i></span>
+		</div>
+		<p>Hospital Stay Guide</p>
+	</div>		
+	<nav class="c-sidebar-trust__nav" aria-label="長安醫院病房訊息導覽選單" itemscope itemtype="http://schema.org/SiteNavigationElement">				
+		<ul class="c-sidebar-trust__list">
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_0/' %}is-active{% endif %}" href="/A005_ward_mes_0/" title="台中長安醫院-病房費用說明" itemprop="url" {% if request.path == '/A005_ward_mes_0/' %}aria-current="page"{% endif %}>
+					<div class="c-sidebar-trust__content">
+						<span class="c-sidebar-trust__text">病房費用</span>
+						<span class="c-sidebar-trust__en">Room Charges</span>
+					</div>
+					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_1/' %}is-active{% endif %}" href="/A005_ward_mes_1/" title="台中長安醫院-病人住院流程" itemprop="url" {% if request.path == '/A005_ward_mes_1/' %}aria-current="page"{% endif %}>
+				    <div class="c-sidebar-trust__content">
+					    <span class="c-sidebar-trust__text">病人住院流程</span>
+					    <span class="c-sidebar-trust__en">Admission Guide</span>
+				    </div>
+				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item" href="{% static 'common/doc/ward_mes/Hos_Reminder.pdf' %}" title="台中長安醫院-住院須知" itemprop="url">
+				    <div class="c-sidebar-trust__content">
+					    <span class="c-sidebar-trust__text">住院須知</span>
+					    <span class="c-sidebar-trust__en">Stay Information</span>
+				    </div>
+				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item {% if request.path == '/A005_ward_mes_3/' %}is-active{% endif %}" href="/A005_ward_mes_3/" title="台中長安醫院-病人出院流程" itemprop="url" {% if request.path == '/A005_ward_mes_3/' %}aria-current="page"{% endif %}>
+				    <div class="c-sidebar-trust__content">
+					    <span class="c-sidebar-trust__text">病人出院流程</span>
+					    <span class="c-sidebar-trust__en">Discharge Guide</span>
+				    </div>
+				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>

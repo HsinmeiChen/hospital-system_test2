@@ -32,7 +32,7 @@ def send_email_to_client(cleaned_data):
 	cleaned_data: ContactForm.cleaned_data
 	寄信到內部收件者，使用 HTML template 格式
 	"""    
-	subject = f"[長安健康管理中心-客服信件] {cleaned_data['subject']}"
+	subject = f"【長安醫院-健康管理中心】客服信件 {cleaned_data['subject']}"
 
 	# 用 Django template 渲染 HTML
 	html_body = render_to_string('specialty_health/h-email-content.html', {

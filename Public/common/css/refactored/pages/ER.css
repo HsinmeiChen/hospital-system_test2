@@ -171,13 +171,7 @@ span.txt{
     transform: translate(30%, -35%);
     text-align: center
 }
-.SDG_part{
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.5)), url('../img/ER/AED/AED_img.png') no-repeat 0% 60%/ contain;
-    background-position: center bottom;
-    width: 100%;
-    /* height: 670px; */
-    /* margin-bottom: 30px; */
-}
+
 .SDG_title{
     box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
     border-radius: 10px;
@@ -226,17 +220,7 @@ ol.custom-numbers li::before{
     left: 0;
     right: 0;
 }
-.Oop_COVID-19 th{
-    background-image: url(../img/title-bg4.png);
-    box-shadow: 0 0 10px rgb(0 0 0 / 20%) inset;
-    color: #f6f0e9;
-    vertical-align: middle;
-    font-size: 20px;
-}
-.Oop_COVID-19 td{
-    font-size: 18px;
-    padding: 20px;
-}
+
 
 
 /* 民眾感謝、定期訓練 */
@@ -344,19 +328,7 @@ ol.custom-numbers li::before{
     color: #fff;
     border: 1px solid #fff;
 }
-.ele_thx{
-    background-image: url(../img/ER/Triage/ele_1.png);
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: -40px 240px;
-}
-.ele_train{
-    background-image: url(../img/ER/Triage/ele_train.svg);
-    background-size: 40%;
-    background-repeat: no-repeat;
-    /* background-position: 0px 245px; */
-    background-position: bottom left;
-}
+
 .bbg{
     background-color: #fff;
     background-image: url("https://www.transparenttextures.com/patterns/food.png");

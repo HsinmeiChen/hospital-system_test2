@@ -55,69 +55,8 @@
                 </div>
 
                 <div class="contact-form">
-                        <form id="contactForm" method="post" action="{% url 'breast_send_mail' %}" class="needs-validation" novalidate>
-                            {% csrf_token %}
-                            
-                            <h5 class="section-title mb-4"><i class="fas fa-user-circle mr-2 text-theme"></i>基本資料</h5>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div class="modern-input-group position-relative">
-                                        <label for="{{ form.name.id_for_label }}">姓名 <span class="text-danger">*</span></label>
-                                        {{ form.name }}
-                                        <div class="invalid-feedback">請填寫您的姓名。</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="modern-input-group position-relative">
-                                        <label for="{{ form.phone.id_for_label }}">聯絡電話 <span class="text-danger">*</span></label>
-                                        {{ form.phone }}
-                                        <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-4">
-                                    <div class="modern-input-group position-relative">
-                                        <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
-                                        {{ form.email }}
-                                        <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="section-title mb-4 mt-2"><i class="fas fa-comment-dots mr-2 text-theme"></i>訊息內容</h5>
-
-                            <div class="row">
-                                <div class="col-md-12 mb-4">
-                                    <div class="modern-input-group position-relative">
-                                        <label for="{{ form.subject.id_for_label }}">主旨 <span class="text-danger">*</span></label>
-                                        {{ form.subject }}
-                                        <div class="invalid-feedback">請填寫主旨。</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mb-4">
-                                    <div class="modern-input-group position-relative">
-                                        <label for="{{ form.message.id_for_label }}">詳細內容 <span class="text-danger">*</span></label>
-                                        {{ form.message }}
-                                        <div class="invalid-feedback">請詳細填寫內容。</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 驗證碼區塊 -->
-                            <div class="modern-captcha-section mb-5 p-4 rounded-lg border position-relative">
-                                <h5 class="section-title mb-3 border-0 pb-0"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證 <span class="text-danger">*</span></h5>
-                                {% include 'components/_captcha_input.html' %}
-                            </div>
-
-                            <div class="modern-actions d-flex flex-column flex-md-row justify-content-center align-items-center mt-5">
-                                <button type="submit" id="contact-submit-btn" class="btn modern-btn-primary btn-lg shadow-sm px-5 w-100 w-md-auto mb-3 mb-md-0">
-                                    <i class="fas fa-paper-plane mr-2"></i> 確定送出
-                                </button>
-                                <button type="reset" class="btn modern-btn-outline btn-lg px-5 w-100 w-md-auto ml-md-3">
-                                    <i class="fas fa-redo-alt mr-2"></i> 清空重填
-                                </button>
-                            </div>
-                        </form>
+                        {% url 'breast_send_mail' as my_action_url %}
+                        {% include 'components/_modern_contact_form.html' with action_url=my_action_url show_section_titles=True %}
                 </div>
             </div>
         </div>
@@ -136,36 +75,20 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/modern-contact.css' %}">
 <style>
-    /* =========================================
-       Modern UI/UX Design System (Breast Center Edition)
-       User requested palette:
-       Primary: #f4ada3 (Light Pink)
-       Secondary: #d37079 (Dark Pink / Rose)
-       ========================================= */
     :root {
         --theme-primary: #f4ada3;
         --theme-primary-hover: #f19284;
         --theme-secondary: #d37079;
         --theme-secondary-hover: #c45b64;
-        --input-border: #e2e8f0;
+        --theme-primary-glow: rgba(244, 173, 163, 0.4);
+        --theme-secondary-glow: rgba(211, 112, 121, 0.15);
+        --theme-primary-shadow: rgba(211, 112, 121, 0.3);
         --input-focus-ring: rgba(211, 112, 121, 0.25);
-        --text-main: #334155;
-        --text-muted: #64748b;
-        --radius-sm: 8px;
-        --radius-md: 12px;
-        --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --theme-outline-hover-bg: rgba(211, 112, 121, 0.05);
     }
-
-    .l-container-panel{
-        margin: 2rem auto;
-    }
-
-    .modern-contact-wrapper {
-        font-family: 'Inter', 'Noto Sans TC', sans-serif;
-        color: var(--text-main);
-    }
-
+    
     .l-sub-layout__main {
         max-width: 1000px;
         width: 100%;
@@ -173,142 +96,6 @@
     }
 
     .text-theme { color: var(--theme-secondary) !important; }
-
-    /* Hero Section */
-    .icon-wrapper {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 100px;
-        height: 100px;
-    }
-    .icon-bg-glow {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(244, 173, 163, 0.4), rgba(211, 112, 121, 0.15));
-        border-radius: 50%;
-        filter: blur(10px);
-        transform: scale(1.2);
-    }
-    .text-gradient {
-        font-size: 3.5rem;
-        background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        position: relative;
-        z-index: 1;
-    }
-    .modern-title {
-        color: var(--theme-secondary);
-        letter-spacing: -0.5px;
-    }
-    .modern-title span {
-        font-size: 1rem;
-        font-weight: normal;
-        color: var(--theme-primary);
-        margin-left: 8px;
-    }
-
-    /* Section Title */
-    .section-title {
-        color: var(--theme-secondary);
-        font-weight: 700;
-        font-size: 1.15rem;
-        border-bottom: 2px solid var(--input-border);
-        padding-bottom: 0.75rem;
-    }
-
-    /* Input Groups */
-    .modern-input-group label {
-        font-weight: 600;
-        color: var(--text-main);
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem;
-    }
-    .modern-input-group input.form-control,
-    .modern-input-group textarea.form-control {
-        border: 2px solid var(--input-border);
-        border-radius: var(--radius-sm);
-        padding: 0.6rem 1rem;
-        font-size: 1rem;
-        transition: var(--transition-smooth);
-        background-color: #f8fafc;
-        box-shadow: none !important;
-    }
-    .modern-input-group input.form-control:focus,
-    .modern-input-group textarea.form-control:focus {
-        border-color: var(--theme-secondary);
-        background-color: #fff;
-        box-shadow: 0 0 0 4px var(--input-focus-ring) !important;
-    }
-    .modern-input-group textarea.form-control {
-        min-height: 120px;
-        resize: vertical;
-    }
-
-    .form-control.is-invalid {
-        border-color: #dc3545 !important;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
-        background-repeat: no-repeat !important;
-        background-position: right calc(.375em + .1875rem) center !important;
-        background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
-    }
-    .form-control.is-valid {
-        border-color: #28a745 !important;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") !important;
-        background-repeat: no-repeat !important;
-        background-position: right calc(.375em + .1875rem) center !important;
-        background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
-    }
-
-    /* Captcha Section */
-    .modern-captcha-section input[type="text"] {
-        border: 2px solid var(--input-border);
-        border-radius: var(--radius-sm);
-        padding: 0.5rem 1rem;
-        transition: var(--transition-smooth);
-        width: 100%;
-    }
-    .modern-captcha-section input[type="text"]:focus {
-        border-color: var(--theme-secondary);
-        outline: none;
-        box-shadow: 0 0 0 4px var(--input-focus-ring);
-    }
-
-    /* Buttons */
-    .modern-btn-primary {
-        background: linear-gradient(135deg, var(--theme-secondary), var(--theme-primary));
-        color: white !important;
-        border: none;
-        border-radius: 50px;
-        padding: 0.8rem 2.5rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        transition: var(--transition-smooth);
-    }
-    .modern-btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(211, 112, 121, 0.3) !important;
-        background: linear-gradient(135deg, var(--theme-secondary-hover), var(--theme-primary-hover));
-    }
-    .modern-btn-outline {
-        background: transparent;
-        color: var(--theme-secondary) !important;
-        border: 2px solid var(--input-border);
-        border-radius: 50px;
-        padding: 0.8rem 2.5rem;
-        font-weight: 600;
-        transition: var(--transition-smooth);
-    }
-    .modern-btn-outline:hover {
-        border-color: var(--theme-secondary);
-        background-color: rgba(211, 112, 121, 0.05);
-    }
-    
-    /* Animations using existing components.css classes */
-    .delay-1 { animation-delay: 0.15s; opacity: 0; }
 </style>
 {% endblock %}
 
@@ -316,25 +103,5 @@
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
 <script src="{% static 'common/js/common-contact.js' %}"></script>
-<script>
-    $(document).ready(function() {
-        // 為 Django 產生的 Input 加上 form-control class
-        $('.modern-input-group input, .modern-input-group textarea').addClass('form-control');
-        
-        // 確保某些欄位為必填 (防護)
-        $('#id_name, #id_phone, #id_email, #id_subject, #id_message').prop('required', true);
-        
-        // 電話格式正規表達式
-        $('#id_phone').attr('pattern', '^\\+?\\d{8,15}$');
-        
-        // 驗證碼輸入框 (處理 include 內的結構)
-        var captchaInput = $('.modern-captcha-section input[type="text"]:not([readonly])');
-        if(captchaInput.length > 0) {
-            captchaInput.addClass('form-control').prop('required', true);
-        }
 
-        // 初始化共通聯絡表單邏輯 (利用原有的 form id)
-        initCommonContactForm({ formId: 'contactForm' });
-    });
-</script>
 {% endblock %}

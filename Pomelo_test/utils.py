@@ -311,12 +311,13 @@ def safe_cleanup_webp_cache(source_dir, target_dir):
 # =========================================================================
 # 通用寄信模組
 # =========================================================================
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def send_generic_html_email(subject, template_name, context, recipient_list):
 	"""
-	通用寄信函式
+	通用寄信函式 (同時支援 HTML 與純文字格式，避免企業信箱擋信造成空白)
 	- subject: 信件主旨
 	- template_name: HTML 版型路徑 (例如 'email/common_feedback_email.html')
 	- context: 傳入版型的參數字典 (例如 {'form_data': {'姓名': '王大明', ...}})
@@ -326,14 +327,19 @@ def send_generic_html_email(subject, template_name, context, recipient_list):
 		return False
 	
 	try:
+		# 渲染 HTML 內容
 		html_message = render_to_string(template_name, context)
-		email = EmailMessage(
+		# 將 HTML 轉為純文字做為備案 (Fallback)
+		text_message = strip_tags(html_message)
+		
+		# 使用 EmailMultiAlternatives 同時發送純文字與 HTML 版本
+		email = EmailMultiAlternatives(
 			subject=subject,
-			body=html_message,
+			body=text_message,
 			from_email=settings.DEFAULT_FROM_EMAIL,
 			to=recipient_list,
 		)
-		email.content_subtype = "html"  # 重要: 設為 HTML 格式
+		email.attach_alternative(html_message, "text/html")
 		email.send(fail_silently=False)
 		return True
 	except Exception as e:

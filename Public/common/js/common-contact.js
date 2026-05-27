@@ -418,6 +418,11 @@ function initCommonContactForm(options = {}) {
             // 執行表單驗證
             const isFormValid = validateForm();
             if (!isFormValid) {
+                const firstInvalidInput = contactForm.querySelector('.is-invalid');
+                if (firstInvalidInput) {
+                    firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstInvalidInput.focus();
+                }
                 return false;
             }
             
@@ -486,6 +491,13 @@ function initCommonContactForm(options = {}) {
                         if (!hasMapped || data.message) {
                             alert(data.message || '表單填寫有誤，請檢查後再試。');
                         }
+                        
+                        // 滾動到第一個錯誤的位置
+                        const firstInvalidInput = contactForm.querySelector('.is-invalid');
+                        if (firstInvalidInput) {
+                            firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            firstInvalidInput.focus();
+                        }
                     } else {
                         alert(data.message || '送出失敗，請稍後再試。');
                     }
@@ -504,3 +516,145 @@ function initCommonContactForm(options = {}) {
         });
     }
 }
+
+// ========================================
+// contact_us.html 專屬邏輯 (若存在該表單則執行)
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const contactUsForm = document.getElementById('contact_us');
+    if (contactUsForm) {
+        // 1. 計算剩餘字數 & 動態更新 UI
+        const maxLength = 500;
+        const msgus = document.getElementById('msgus');
+        if (msgus) {
+            msgus.addEventListener('input', function() {
+                const length = this.value.length;
+                const remaining = maxLength - length;
+                const counter = document.getElementById('rchars');
+                
+                if (counter) {
+                    counter.textContent = remaining;
+                    if (remaining < 50) {
+                        counter.classList.remove('text-theme');
+                        counter.classList.add('text-danger');
+                    } else {
+                        counter.classList.remove('text-danger');
+                        counter.classList.add('text-theme');
+                    }
+                }
+            });
+        }
+
+        // 2. 預設帶入當下日期與時間
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        
+        const dateStr = `${yyyy}-${mm}-${dd}`;
+        const timeStr = `${hh}:${min}`;
+
+        const dateInput = document.getElementById('id_incident_date');
+        const timeInput = document.getElementById('id_incident_time');
+        if (dateInput && !dateInput.value) {
+            dateInput.value = dateStr;
+        }
+        if (timeInput && !timeInput.value) {
+            timeInput.value = timeStr;
+        }
+
+        // 3. 加上 required 與 pattern 屬性
+        const idName = document.getElementById('id_name');
+        if (idName) idName.required = true;
+        if (msgus) msgus.required = true;
+        
+        const idPhone = document.getElementById('id_phone');
+        if (idPhone) idPhone.setAttribute('pattern', '^\\+?\\d{8,15}$');
+        
+        // 尋找 Captcha 的輸入框並設為必填
+        const captchaInput = document.querySelector('.modern-captcha-section input[type="text"]:not([readonly])');
+        if (captchaInput) {
+            captchaInput.required = true;
+        }
+
+        // 幫 Django 產生的 Input 加上 form-control class
+        document.querySelectorAll('.modern-input-group input:not([type="radio"]):not([type="checkbox"]), .modern-input-group select, .modern-input-group textarea').forEach(el => {
+            el.classList.add('form-control');
+        });
+
+        // 當 radio 改變時移除錯誤提示
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const error = document.getElementById('category-error');
+                if (error) {
+                    error.classList.remove('d-block');
+                    error.classList.add('d-none');
+                }
+                const group = document.querySelector('.modern-radio-group');
+                if (group) group.classList.remove('is-invalid');
+            });
+        });
+
+        // 初始化共通聯絡表單邏輯
+        initCommonContactForm({
+            formId: 'contact_us'
+        });
+    }
+});
+
+// ========================================
+// 共通聯絡表單 (#contactForm) 初始化邏輯
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        // 計算剩餘字數
+        const maxLength = 500;
+        const msgTextarea = contactForm.querySelector('textarea[name="message"]');
+        if (msgTextarea) {
+            msgTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                const remaining = maxLength - length;
+                const counter = document.getElementById('rchars');
+                
+                if (counter) {
+                    counter.textContent = remaining;
+                    if (remaining < 50) {
+                        counter.classList.remove('text-theme');
+                        counter.classList.add('text-danger');
+                    } else {
+                        counter.classList.remove('text-danger');
+                        counter.classList.add('text-theme');
+                    }
+                }
+            });
+        }
+
+        // 為 Django 產生的 Input 加上 form-control class
+        document.querySelectorAll('.modern-input-group input, .modern-input-group textarea, .modern-input-group select').forEach(el => {
+            el.classList.add('form-control');
+        });
+        
+        // 確保某些欄位為必填 (防護)
+        ['id_name', 'id_phone', 'id_email', 'id_subject', 'msgus', 'id_message'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.required = true;
+        });
+        
+        // 電話格式正規表達式
+        const idPhone = document.getElementById('id_phone');
+        if (idPhone) idPhone.setAttribute('pattern', '^\\+?\\d{8,15}$');
+        
+        // 驗證碼輸入框
+        const captchaInput = document.querySelector('.modern-captcha-section input[type="text"]:not([readonly])');
+        if (captchaInput) {
+            captchaInput.classList.add('form-control');
+            captchaInput.required = true;
+        }
+
+        // 初始化共通聯絡表單邏輯
+        initCommonContactForm({ formId: 'contactForm' });
+    }
+});

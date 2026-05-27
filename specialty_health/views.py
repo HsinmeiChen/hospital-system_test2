@@ -951,8 +951,15 @@ def doctor_sidenav_api(request):
 	'''
 	sidenav_doctors_by_department = []
 
-	# 遍歷所有科別路徑
-	for dir_path in dirs:
+	# 健檢中心專用科別路徑（排除骨科）
+	health_dirs = [
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_4_婦兒科', '1_婦科_Gynecology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '5_肝膽腸胃科_Gastroenterology'),
+		os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '8_家醫科_FamilyMedicine'),
+	]
+
+	# 遍歷健檢中心相關科別路徑（排除骨科）
+	for dir_path in health_dirs:
 		if not os.path.exists(dir_path):
 			continue  # 如果路徑不存在，跳過
 

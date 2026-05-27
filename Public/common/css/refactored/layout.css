@@ -323,7 +323,7 @@ nav.bottom-nav::before {
 
 /* Panel Container (Main Content) */
 .l-container-panel {
-  max-width: 80rem;
+  max-width: 82.5rem;
   width: 100%;
   margin: 0 auto;
   height: auto;

@@ -584,6 +584,7 @@ a .d_intro:hover{
 article a, article a:hover {
     text-decoration: none;
     transition: color 0.3s ease-in-out;
+    margin: 0 5px;
 }	
 .postcard {
     flex-wrap: wrap;
@@ -1590,7 +1591,7 @@ ol.custom-numbers li::before {
 }
 /* 網掛_導航列 */
 .online_nav_bg{
-    background: url(../img/footer_bg.png) no-repeat;
+    background: url("/Public/common/img/footer_bg.webp") no-repeat;
     background-size: cover;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
     padding: 1px 17px 17px 17px;

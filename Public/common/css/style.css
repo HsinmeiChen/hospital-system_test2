@@ -841,13 +841,7 @@ a:hover {
 
 
 
-
-
 /* =============== 子頁主架構 =============== */
-.L_sub_main_bg {
-    background: #f5f5f5 url(../img/Ever_bg.jpg) fixed no-repeat center 75%;
-    background-size: cover;
-}
 
 #main_area {
     /* min-height: 100%; */

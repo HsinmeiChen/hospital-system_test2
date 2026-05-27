@@ -89,7 +89,7 @@
 
                                 <!-- Dropdown Selection (第 {{ 頁碼 }} 頁) -->
                                 <li class="page-item">
-                                    <select class="form-control pagination-select" onchange="location.href='?page='+this.value;" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white); padding: 0 10px;">
+                                    <select class="form-control pagination-select" onchange="location.href='?page='+this.value;">
                                         {% for p in paginator_2.page_range %}
                                             <option value="{{ p }}" {% if p == contacts_2.number %}selected{% endif %}>第 {{ p }} 頁</option>
                                         {% endfor %}

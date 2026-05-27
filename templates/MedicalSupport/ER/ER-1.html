@@ -1,10 +1,8 @@
 {% extends "MedicalSupport/ER/ER-base.html" %}
-
 {% load static %}
 <!-- === Meta ================================== -->
 {% block title %}醫師陣容｜{{ block.super }}急診醫學科{% endblock %}
 {% block og_title %}醫師陣容｜{{ block.super }}急診醫學科{% endblock %}
-
 <!-- === 子頁細節內容 =========================== -->
 {% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
@@ -15,6 +13,37 @@
     <div class="row">
         <div class="col-12">
             <div class="doc_list">
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-廖育聖醫師.jpg' %}" title="急診醫學科-廖育聖主治醫師" alt="急診醫學科-廖育聖主治醫師" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">廖育聖 主治醫師</h4>
+							<div>
+								<ul class="list-group list-group-horizontal-sm">
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>一般急診醫學</li>
+											<li>急重症醫療</li>
+											<li>創傷外科處置</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
+											<li>中國醫藥大學醫學系</li>
+											<li>亞大附醫急診部主治醫師</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row align-items-center border-bottom py-3">
 					<div class="col-12 col-md-4 col-lg-3">
 						<div class="d_img_div">
@@ -35,641 +64,181 @@
 									</li>
 									<li class="list-group-item text-left border-0 w-50">
 										<h5 class="font-weight-bold">學經歷：</h5>
-
-
 										<ul class="gy-word font-18">
-
-
 											<li>中山醫學大學醫學系</li>
-
-
 											<li>國立交通大學生物科技研究所博士</li>
-
-
 											<li>彰化基督教醫院主治醫師</li>
-
-
 										</ul> 
-
-
 									</li>
-
-
 								</ul>
-
-
 							</div>
-
-
 						</div>
-
-
 					</div>
-
-
 				</div>
-
-
-
-
-
-				<div class="row align-items-center border-bottom py-3">
-
-
-					<div class="col-12 col-md-4 col-lg-3">
-
-
-						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-廖育聖醫師.jpg' %}" title="急診醫學科-廖育聖主治醫師" alt="急診醫學科-廖育聖主治醫師" class="img-fluid">
-
-
-						</div>
-
-
-					</div>
-
-
-					<div class="col-12 col-md-8 col-lg-9">
-
-
-						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">廖育聖 主治醫師</h4>
-
-
-							<div>
-
-
-								<ul class="list-group list-group-horizontal-sm">
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">專　長：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>一般急診醫學</li>
-
-
-											<li>急重症醫療</li>
-
-
-											<li>創傷外科處置</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">學經歷：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>中國醫藥大學醫學系</li>
-
-
-											<li>亞大附醫急診部主治醫師</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-								</ul>
-
-
-							</div>
-
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-
-	
-
-
-				<div class="row align-items-center border-bottom py-3">
-
-
-					<div class="col-12 col-md-4 col-lg-3">
-
-
-						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-鍾治華醫師.jpg' %}" title="急診醫學科-鍾治華主任醫師" alt="急診醫學科-鍾治華主任醫師" class="img-fluid">
-
-
-						</div>									
-
-
-					</div>
-
-
-					<div class="col-12 col-md-8 col-lg-9">
-
-
-						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">鍾治華 主治醫師</h4>
-
-
-							<div>
-
-
-								<ul class="list-group list-group-horizontal-sm">
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">專　長：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>急診醫學</li>
-
-
-											<li>緊急醫療救護</li>
-
-
-											<li>災難醫學</li>
-
-
-											<li>急救教育（BLS、EMT教學）</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">學經歷：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>台北醫學大學醫學系</li>
-
-
-											<li>彰化基督教醫院急診主治醫師</li>
-
-
-											<li>員林基督教醫院主治醫師</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-								</ul>
-
-
-							</div>
-
-
-						</div>
-
-
-					</div>													
-
-
-				</div>
-
-
-	
-
-
-				<div class="row align-items-center border-bottom py-3">
-
-
-					<div class="col-12 col-md-4 col-lg-3">
-
-
-						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-劉士豪醫師.jpg' %}" title="急診醫學科-劉士豪主治醫師" alt="急診醫學科-劉士豪主治醫師" class="img-fluid">
-
-
-						</div>
-
-
-					</div>
-
-
-					<div class="col-12 col-md-8 col-lg-9">
-
-
-						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">劉士豪 主治醫師</h4>
-
-
-							<div>
-
-
-								<ul class="list-group list-group-horizontal-sm">
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">專　長：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>高級外傷救命術</li>
-
-
-											<li>高級心臟救命術</li>
-
-
-											<li>急性中毒救命術</li>
-
-
-											<li>急診焦點式超音波</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">學經歷：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>中國醫藥大學醫學系</li>
-
-
-											<li>中國醫藥大學附設醫院急症暨外傷中心急診部主治醫師</li>
-
-
-											<li>中國醫藥大學醫學檢驗暨生物技術學系</li>
-
-
-											<li>高級成人救命術指導員</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-								</ul>
-
-
-							</div>
-
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-
-	
-
-
-				<div class="row align-items-center border-bottom py-3">
-
-
-					<div class="col-12 col-md-4 col-lg-3">
-
-
-						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-楊人翰醫師.jpg' %}" title="急診醫學科-楊人翰主治醫師" alt="急診醫學科-楊人翰主治醫師" class="img-fluid">
-
-
-						</div>
-
-
-					</div>
-
-
-					<div class="col-12 col-md-8 col-lg-9">
-
-
-						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">楊人翰 主治醫師</h4>
-
-
-							<div>
-
-
-								<ul class="list-group list-group-horizontal-sm">
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">專　長：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>急重症醫學</li>
-
-
-											<li>高級外傷救命術</li>
-
-
-											<li>高級心臟救命術</li>
-
-
-											<li>急性中毒救命術</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">學經歷：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>中國醫藥大學醫學系</li>
-
-
-											<li>中國醫藥大學附設醫院急診部主治醫師</li>
-
-
-											<li>衛生福利部臺中醫院急診部主治醫師</li>
-
-
-											<li>台中市消防局醫療指導醫師</li>
-
-
-											<li>台灣急診醫學會超音波指導員</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-								</ul>
-
-
-							</div>
-
-
-						</div>														
-
-
-					</div>
-
-
-				</div>
-
-
-			
-
-
-				<div class="row align-items-center border-bottom py-3">
-
-
-					<div class="col-12 col-md-4 col-lg-3">
-
-
-						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-林長青醫師.jpg' %}" title="急診醫學科-林長青主治醫師" alt="急診醫學科-楊人翰主治醫師" class="img-fluid">
-
-
-						</div>
-
-
-					</div>
-
-
-					<div class="col-12 col-md-8 col-lg-9">
-
-
-						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">林長青 主治醫師</h4>
-
-
-							<div>
-
-
-								<ul class="list-group list-group-horizontal-sm">
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">專　長：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>一般急診醫學</li>
-
-
-											<li>急重症醫療</li>
-
-
-											<li>創傷外科處置</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-									<li class="list-group-item text-left border-0 w-50">
-
-
-										<h5 class="font-weight-bold">學經歷：</h5>
-
-
-										<ul class="gy-word font-18">
-
-
-											<li>中山醫學大學醫學系</li>
-
-
-											<li>衛部彰外科部醫師</li>
-
-
-											<li>中山醫一般醫學醫師</li>
-
-
-											<li>彰化基督教醫院急診部醫師</li>
-
-
-											<li>員林基督教醫院急診部主治醫師</li>
-
-
-										</ul> 
-
-
-									</li>
-
-
-								</ul>
-
-
-							</div>
-
-
-						</div>
-
-
-					</div>
-
-
-				</div>
-
-
 				
-
-
 				<div class="row align-items-center border-bottom py-3">
-
-
 					<div class="col-12 col-md-4 col-lg-3">
-
-
 						<div class="d_img_div">
-
-
-							<img src="{% static 'common/img/ER/ER-莊亦翔醫師.jpg' %}" title="急診醫學科-莊亦翔主治醫師" alt="急診醫學科-莊亦翔主治醫師" class="img-fluid">
-
-
-						</div>
-
-
+							<img src="{% static 'common/img/ER/ER-鍾治華醫師.jpg' %}" title="急診醫學科-鍾治華主任醫師" alt="急診醫學科-鍾治華主任醫師" class="img-fluid">
+						</div>									
 					</div>
-
-
 					<div class="col-12 col-md-8 col-lg-9">
-
-
 						<div class="about-text text-sm-left text-center">
-
-
-							<h4 class="cofe-word">莊亦翔 主治醫師</h4>
-
-
+							<h4 class="cofe-word">鍾治華 主治醫師</h4>
 							<div>
-
-
 								<ul class="list-group list-group-horizontal-sm">
-
-
 									<li class="list-group-item text-left border-0 w-50">
-
-
 										<h5 class="font-weight-bold">專　長：</h5>
-
-
 										<ul class="gy-word font-18">
-
-
-											<li>內外急重症</li>
-
-
-											<li>一般醫學</li>
-
-
-											<li>環境醫學</li>
-
-
-											<li>一般毒化物處理</li>
-
-
+											<li>急診醫學</li>
+											<li>緊急醫療救護</li>
+											<li>災難醫學</li>
+											<li>急救教育（BLS、EMT教學）</li>
 										</ul> 
-
-
 									</li>
-
-
 									<li class="list-group-item text-left border-0 w-50">
-
-
 										<h5 class="font-weight-bold">學經歷：</h5>
-
-
 										<ul class="gy-word font-18">
-
-
+											<li>台北醫學大學醫學系</li>
+											<li>彰化基督教醫院急診主治醫師</li>
+											<li>員林基督教醫院主治醫師</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>													
+				</div>
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-劉士豪醫師.jpg' %}" title="急診醫學科-劉士豪主治醫師" alt="急診醫學科-劉士豪主治醫師" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">劉士豪 主治醫師</h4>
+							<div>
+								<ul class="list-group list-group-horizontal-sm">
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>高級外傷救命術</li>
+											<li>高級心臟救命術</li>
+											<li>急性中毒救命術</li>
+											<li>急診焦點式超音波</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
 											<li>中國醫藥大學醫學系</li>
-
-
+											<li>中國醫藥大學附設醫院急症暨外傷中心急診部主治醫師</li>
+											<li>中國醫藥大學醫學檢驗暨生物技術學系</li>
+											<li>高級成人救命術指導員</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-楊人翰醫師.jpg' %}" title="急診醫學科-楊人翰主治醫師" alt="急診醫學科-楊人翰主治醫師" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">楊人翰 主治醫師</h4>
+							<div>
+								<ul class="list-group list-group-horizontal-sm">
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>急重症醫學</li>
+											<li>高級外傷救命術</li>
+											<li>高級心臟救命術</li>
+											<li>急性中毒救命術</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
+											<li>中國醫藥大學醫學系</li>
+											<li>中國醫藥大學附設醫院急診部主治醫師</li>
+											<li>衛生福利部臺中醫院急診部主治醫師</li>
+											<li>台中市消防局醫療指導醫師</li>
+											<li>台灣急診醫學會超音波指導員</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>														
+					</div>
+				</div>
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-林長青醫師.jpg' %}" title="急診醫學科-林長青主治醫師" alt="急診醫學科-楊人翰主治醫師" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">林長青 主治醫師</h4>
+							<div>
+								<ul class="list-group list-group-horizontal-sm">
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>一般急診醫學</li>
+											<li>急重症醫療</li>
+											<li>創傷外科處置</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
+											<li>中山醫學大學醫學系</li>
+											<li>衛部彰外科部醫師</li>
+											<li>中山醫一般醫學醫師</li>
+											<li>彰化基督教醫院急診部醫師</li>
+											<li>員林基督教醫院急診部主治醫師</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-莊亦翔醫師.jpg' %}" title="急診醫學科-莊亦翔主治醫師" alt="急診醫學科-莊亦翔主治醫師" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">莊亦翔 主治醫師</h4>
+							<div>
+								<ul class="list-group list-group-horizontal-sm">
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>內外急重症</li>
+											<li>一般醫學</li>
+											<li>環境醫學</li>
+											<li>一般毒化物處理</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 w-50">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
+											<li>中國醫藥大學醫學系</li>
 											<li>台中榮民總醫院急診主治醫師</li>
-
-
 											<li>台南新樓醫院急診主治醫師</li>
-
-
 											<li>澄清醫院中港分院急診副主任</li>
-
-
 											<li>秀傳紀念醫院急診主治醫師</li>
 											<li>ACLS、ETTC指導員</li>
 											<li>醫療指導醫師</li>
@@ -680,30 +249,59 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="row align-items-center border-bottom py-3">
+					<div class="col-12 col-md-4 col-lg-3">
+						<div class="d_img_div">
+							<img src="{% static 'common/img/ER/ER-陳俊嘉醫師.jpg' %}" title="急診醫學科-陳俊嘉主治醫師" alt="急診醫學科-陳俊嘉主治醫師" class="img-fluid">
+						</div>																
+					</div>
+					<div class="col-12 col-md-8 col-lg-9">
+						<div class="about-text text-sm-left text-center">
+							<h4 class="cofe-word">陳俊嘉 主治醫師</h4>
+							
+							<div>
+								<ul class="list-group list-group-horizontal-sm row">
+									<li class="list-group-item text-left border-0 col-lg-6">
+										<h5 class="font-weight-bold">專　長：</h5>
+										<ul class="gy-word font-18">
+											<li>急重症醫療</li>
+											<li>高級外傷救命術</li>
+											<li>高級心臟救命術</li>
+										</ul> 
+									</li>
+									<li class="list-group-item text-left border-0 col-lg-6">
+										<h5 class="font-weight-bold">學經歷：</h5>
+										<ul class="gy-word font-18">
+											<li>台北醫學大學醫學系</li>
+											<li>大林慈濟醫院急診科主治醫師</li>
+											<li>澄清醫院中港分院急診科主治醫師</li>
+										</ul> 
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
-
-
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
 {% include 'schema_article.html' with headline="醫師陣容｜急診醫學科" %}
 {% endblock %}
-
-
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
 /* 急診醫學科醫師陣容客製樣式 - 對接系統設計規範 (CSS Variables) - 俐落直角極簡美學 */
-
 /* 醫師列表外框 */
 .doc_list {
     margin-top: 20px;
 }
-
 /* 將原本的 border-bottom 列轉換為高級直角白底名片卡片 */
 .doc_list > .row.align-items-center {
     background: var(--color-bg-white) !important;
@@ -716,15 +314,12 @@
     position: relative !important;
     overflow: hidden !important;
 }
-
 /* Hover 上浮與邊線點亮微動畫 */
 .doc_list > .row.align-items-center:hover {
     transform: translateY(-3px) !important;
     box-shadow: 0 12px 24px rgba(117, 72, 43, 0.06) !important;
     border-color: var(--color-primary) !important;
 }
-
-
 /* 醫師頭像外框 */
 .d_img_div {
     border: 3px solid var(--color-bg-light) !important;
@@ -738,13 +333,11 @@
     margin: 0 auto !important;
     transition: border-color 0.3s ease !important;
 }
-
 .d_img_div img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
 }
-
 /* 醫師姓名與專科徽章標籤 */
 .about-text .cofe-word {
     font-size: 1.35rem !important;
@@ -757,13 +350,11 @@
     flex-wrap: wrap !important;
     gap: 10px !important;
 }
-
 @media (max-width: 575px) {
     .about-text .cofe-word {
         justify-content: center !important;
     }
 }
-
 .about-text .cofe-word::after {
     content: '急診醫學科' !important;
     background-color: var(--color-bg-light) !important;
@@ -775,17 +366,14 @@
     border-radius: 0 !important; /* 強制直角 */
     display: inline-block !important;
 }
-
 /* 專長與經歷區塊美化 */
 .list-group-horizontal-sm {
     background: transparent !important;
 }
-
 .list-group-item {
     background: transparent !important;
     padding: 10px 15px !important;
 }
-
 .list-group-item h5 {
     font-size: 1.05rem !important;
     font-weight: 700 !important;
@@ -794,7 +382,6 @@
     position: relative !important;
     padding-left: 12px !important;
 }
-
 .list-group-item h5::before {
     content: '' !important;
     position: absolute !important;
@@ -804,14 +391,12 @@
     height: 14px !important;
     background-color: var(--color-primary) !important;
 }
-
 /* 金色星芒清單 */
 .list-group-item ul.gy-word {
     list-style: none !important;
     padding-left: 0 !important;
     margin-bottom: 0 !important;
 }
-
 .list-group-item ul.gy-word li {
     position: relative !important;
     padding-left: 20px !important;
@@ -820,7 +405,6 @@
     font-size: 0.98rem !important;
     line-height: 1.5 !important;
 }
-
 .list-group-item ul.gy-word li::before {
     content: '✦' !important;
     position: absolute !important;
@@ -831,8 +415,6 @@
 }
 </style>
 {% endblock %}
-
-
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
 {% endblock %}

@@ -125,12 +125,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     const header = document.getElementById('m-header');
     const toggle = document.getElementById('m-toggle');
     const sidebar = document.getElementById('m-sidebar');
     const overlay = document.getElementById('m-overlay');
     const mobileContainer = document.getElementById('m-mobile-container');
+
+    // 避免在沒有 header 的頁面發生報錯
+    if (!header || !mobileContainer) return;
 
     /**
      * 導航選單自動同步化邏輯 (Sync Navigation)
@@ -421,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.m-nav__item').forEach(item => item.classList.remove('is-active'));
         }
     });
-})();
+});
 
 
 // ==========================================

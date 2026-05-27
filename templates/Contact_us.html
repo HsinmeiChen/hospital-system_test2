@@ -374,67 +374,6 @@
 <!-- ※※※ Sub Extra JS Start ※※※ -->
 {% block sub_extra_js %}
 <script src="{% static 'common/js/common-contact.js' %}"></script>
-<script>
-$(document).ready(function() {
-		// 1. 計算剩餘字數 & 動態更新 UI (修正綁定的 ID 為 msgus)
-		var maxLength = 500;
-		$('#msgus').on('input', function() {
-			var length = $(this).val().length;
-			var remaining = maxLength - length;
-			var $counter = $('#rchars');
-			
-			$counter.text(remaining);
-			
-			if(remaining < 50) {
-				$counter.removeClass('text-theme').addClass('text-danger');
-			} else {
-				$counter.removeClass('text-danger').addClass('text-theme');
-			}
-		});
 
-		// 2. 預設帶入當下日期與時間
-		var now = new Date();
-		var yyyy = now.getFullYear();
-		var mm = String(now.getMonth() + 1).padStart(2, '0');
-		var dd = String(now.getDate()).padStart(2, '0');
-		var hh = String(now.getHours()).padStart(2, '0');
-		var min = String(now.getMinutes()).padStart(2, '0');
-		
-		var dateStr = yyyy + '-' + mm + '-' + dd;
-		var timeStr = hh + ':' + min;
-
-		if(!$('#id_incident_date').val()) {
-			$('#id_incident_date').val(dateStr);
-		}
-		if(!$('#id_incident_time').val()) {
-			$('#id_incident_time').val(timeStr);
-		}
-
-		// 3. 加上 required 與 pattern 屬性
-		$('#id_name').prop('required', true);
-		$('#msgus').prop('required', true);
-		$('#id_phone').attr('pattern', '^\\+?\\d{8,15}$');
-		
-		// 尋找 Captcha 的輸入框並設為必填
-		var captchaInput = $('.modern-captcha-section input[type="text"]:not([readonly])');
-		if(captchaInput.length > 0) {
-			captchaInput.prop('required', true);
-		}
-
-		// 幫 Django 產生的 Input 加上 form-control class
-		$('.modern-input-group input:not([type="radio"]):not([type="checkbox"]), .modern-input-group select, .modern-input-group textarea').addClass('form-control');
-
-		// 當 radio 改變時移除錯誤提示
-		$('input[name="category"]').on('change', function() {
-			$('#category-error').removeClass('d-block').addClass('d-none');
-			$('.modern-radio-group').removeClass('is-invalid');
-		});
-
-		// 初始化共通聯絡表單邏輯
-		initCommonContactForm({
-			formId: 'contact_us'
-		});
-});
-</script>
 {% endblock %}
 <!-- ※※※ Sub Extra JS End ※※※ -->

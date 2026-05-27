@@ -1,0 +1,70 @@
+<form id="contactForm" method="post" action="{{ action_url }}" class="needs-validation" novalidate>
+    {% csrf_token %}
+    
+    {% if show_section_titles %}
+    <h5 class="section-title mb-4"><i class="fas fa-user-circle mr-2 text-theme"></i>基本資料</h5>
+    {% endif %}
+    
+    <div class="row {% if not show_section_titles %}mt-4{% endif %}">
+        <div class="col-md-6 mb-4">
+            <div class="modern-input-group position-relative">
+                <label for="{{ form.name.id_for_label }}">姓名 <span class="text-danger">*</span></label>
+                {{ form.name }}
+                <div class="invalid-feedback">請填寫您的姓名。</div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="modern-input-group position-relative">
+                <label for="{{ form.phone.id_for_label }}">聯絡電話 <span class="text-danger">*</span></label>
+                {{ form.phone }}
+                <div class="invalid-feedback">格式不正確，電話號碼需為 8 到 15 碼數字，可包含+號。</div>
+            </div>
+        </div>
+        <div class="col-md-12 mb-4">
+            <div class="modern-input-group position-relative">
+                <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
+                {{ form.email }}
+                <div class="invalid-feedback">格式不正確，請輸入有效的電子郵件地址。</div>
+            </div>
+        </div>
+    </div>
+
+    {% if show_section_titles %}
+    <h5 class="section-title mb-4 mt-2"><i class="fas fa-comment-dots mr-2 text-theme"></i>訊息內容</h5>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="modern-input-group position-relative">
+                <label for="{{ form.subject.id_for_label }}">主旨 <span class="text-danger">*</span></label>
+                {{ form.subject }}
+                <div class="invalid-feedback">請填寫主旨。</div>
+            </div>
+        </div>
+        <div class="col-md-12 mb-4">
+            <div class="modern-input-group position-relative">
+                <label for="{{ form.message.id_for_label }}">{% if show_section_titles %}詳細內容{% else %}諮詢內容{% endif %} <span class="text-danger">*</span></label>
+                {{ form.message }}
+                <div class="invalid-feedback">請詳細填寫內容。</div>
+                <div class="char-counter text-right mt-2 font-13 text-muted">
+                    ※ 還可輸入 <span id="rchars" class="font-weight-bold text-theme">500</span> 字
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 驗證碼區塊 -->
+    <div class="modern-captcha-section mb-5 p-4 rounded-lg bg-light border position-relative">
+        <h5 class="section-title-sm mb-3 font-weight-bold text-dark border-0 pb-0"><i class="fas fa-shield-alt mr-2 text-theme"></i>安全驗證 <span class="text-danger">*</span></h5>
+        {% include 'components/_captcha_input.html' %}
+    </div>
+
+    <div class="modern-actions d-flex flex-column flex-md-row justify-content-{{ button_align|default:'center' }} align-items-center mt-5">
+        <button type="reset" class="btn modern-btn-outline btn-lg px-5 w-100 w-md-auto mb-3 mb-md-0 mr-md-3">
+            <i class="fas fa-redo-alt mr-2"></i> 清空重填
+        </button>
+        <button type="submit" id="contact-submit-btn" class="btn modern-btn-primary btn-lg shadow-sm px-5 w-100 w-md-auto">
+            <i class="fas fa-paper-plane mr-2"></i> 確定送出
+        </button>
+    </div>
+</form>

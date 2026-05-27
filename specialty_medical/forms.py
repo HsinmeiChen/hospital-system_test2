@@ -26,6 +26,7 @@ class ContactForm(FeedbackBaseForm):
 
 	subject = forms.CharField(label="主旨", max_length=255)
 
+
 def send_email_to_client(cleaned_data):
 	"""
 	cleaned_data: ContactForm.cleaned_data
@@ -33,27 +34,20 @@ def send_email_to_client(cleaned_data):
 	"""    
 	subject = f"【長安醫院-骨科微創手術中心】客服信件 {cleaned_data['subject']}"
 
-	# 用 Django template 渲染 HTML (沿用 Breast_Care_Center 的樣板或自行定義，這裡先直接組合 HTML 字串或建立專屬的 html)
-	html_body = f"""
-	<html>
-		<body>
-			<h2>長安醫院-骨科微創手術中心 聯絡表單通知</h2>
-			<p><strong>姓名：</strong> {cleaned_data.get('name')}</p>
-			<p><strong>信箱：</strong> {cleaned_data.get('email')}</p>
-			<p><strong>電話：</strong> {cleaned_data.get('phone', '未提供')}</p>
-			<p><strong>主旨：</strong> {cleaned_data.get('subject')}</p>
-			<hr>
-			<p><strong>內容：</strong></p>
-			<p>{cleaned_data.get('message').replace(chr(10), '<br>')}</p>
-		</body>
-	</html>
-	"""
+	# 用 Django template 渲染 HTML
+	html_body = render_to_string('specialty_medical/orthopedics/ortz-email-content.html', {
+		'name': cleaned_data['name'],
+		'email': cleaned_data['email'],
+		'phone': cleaned_data.get('phone', ''),
+		'subject': cleaned_data['subject'],
+		'message': cleaned_data['message'],
+	})
 
 	email = EmailMessage(
 		subject=subject,
 		body=html_body,
-		from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'no-reply@everanhospital.com.tw'),
-		to=['ha01633@everanhospital.com.tw'],
+		from_email=settings.DEFAULT_FROM_EMAIL,
+		to=settings.CONTACT_EMAIL_RECIPIENTS_ORT,
 		reply_to=[cleaned_data['email']],
 	)
 	email.content_subtype = 'html' # 設定郵件內容為 HTML 格式 (避免 html 標籤被當成純文字顯示)

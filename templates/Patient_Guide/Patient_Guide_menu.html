@@ -1,3 +1,4 @@
+{% load static %}
 <div class="c-sidebar-trust js-sidebar-wrapper" id="sidebarMenu">			
 	<div class="c-sidebar-trust__header js-sidebar-toggle">
 		<div class="u-badge-small">SERVICE</div>
@@ -80,7 +81,7 @@
 				</a>
 			</li>
 
-			<li class="c-sidebar-trust__item-wrapper">
+			<!-- <li class="c-sidebar-trust__item-wrapper">
 				<a class="c-sidebar-trust__item {% if request.path == '/A002_payment_machine/' %}is-active{% endif %}" href="/A002_payment_machine/" title="台中長安醫院-繳費機介紹" itemprop="url" {% if request.path == '/A002_payment_machine/' %}aria-current="page"{% endif %}>
 					<div class="c-sidebar-trust__content">
 						<span class="c-sidebar-trust__text" itemprop="name">繳費機介紹</span>
@@ -88,7 +89,7 @@
 					</div>
 					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
 				</a>
-			</li>
+			</li> -->
 
 			<li class="c-sidebar-trust__item-wrapper">
 				<a class="c-sidebar-trust__item {% if request.path == '/A002_self_service/' %}is-active{% endif %}" href="/A002_self_service/" title="台中長安醫院-自助掛號機" itemprop="url" {% if request.path == '/A002_self_service/' %}aria-current="page"{% endif %}>
@@ -99,6 +100,17 @@
 					<div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right" aria-hidden="true"></i></div>
 				</a>
 			</li>
+
+			<li itemprop="name" class="c-sidebar-trust__item-wrapper">
+				<a class="c-sidebar-trust__item" href="{% static 'common/doc/EMR_Announcement/emr_announcement.pdf' %}" title="台中長安醫院-電子病歷公告" itemprop="url">
+				    <div class="c-sidebar-trust__content">
+					    <span class="c-sidebar-trust__text">電子病歷公告</span>
+					    <span class="c-sidebar-trust__en">EMR Info</span>
+				    </div>
+				    <div class="c-sidebar-trust__arrow"><i class="fas fa-angle-right"></i></div>
+				</a>
+			</li>
+
 		</ul>
 	</nav>
 </div>
