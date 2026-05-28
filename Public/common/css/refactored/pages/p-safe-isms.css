@@ -1,7 +1,9 @@
 /* ==========================================================================
-   Safe_ISMS Page Specific Styles (page-safe-isms.css)
+   Safe_ISMS Page Specific Styles (p-safe-isms.css)
    ========================================================================== */
-
+.l-container-panel{
+    padding-top: .5rem;
+}
 .p-safe-isms__content {
     line-height: 30px;
     text-align: justify;

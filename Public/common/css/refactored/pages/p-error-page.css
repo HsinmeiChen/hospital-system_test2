@@ -14,14 +14,17 @@ body {
 
 .l-sub-layout__main {
     width: 100%;
+    flex: none;
+    padding: 0;
+    flex-grow: initial !important;
 }
 
 .l-container-panel {
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
+    flex: none;
 }
-
 
 #Error_Page {
     padding-top: 0px;

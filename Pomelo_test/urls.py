@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,re_path, path
+from django.views.generic import TemplateView
 import Pomelo_API.views as pomelo_views   # 若程式都在同支 view.py，就不用再 import 新的
 import Pomelo_test.utils as pomelo_test_utils
 
@@ -25,7 +26,9 @@ from django.conf.urls.static import static
 
 # URL路徑 (指可設定網址名稱；若沒有定義參數，可用 re_path 路由)
 urlpatterns = [
-	#re_path('admin/', admin.site.urls),
+	# path('test404/', TemplateView.as_view(template_name='404.html')),
+	# path('test500/', TemplateView.as_view(template_name='500.html')),
+	# re_path('admin/', admin.site.urls),
 	re_path('^api/captcha/image/$', pomelo_test_utils.common_captcha_img, name='common_captcha_img'),
 	re_path('^api/captcha/refresh/$', pomelo_test_utils.common_refresh_captcha, name='common_refresh_captcha'),
 	re_path('^$', pomelo_views.index),
