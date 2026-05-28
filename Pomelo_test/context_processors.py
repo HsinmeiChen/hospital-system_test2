@@ -20,7 +20,7 @@ def default_tracking_ids(request):
 		default_og_image = f"{site_domain}/media/EECP/EECP.png"
 	else:
 		# 主要官網 
-		default_og_image = f"{site_domain}/Public/common/img/everan2.png"
+		default_og_image = f"{site_domain}/Public/common/img/everan2.jpg"
 	return {
 		'SITE_DOMAIN': site_domain,
 		'DEFAULT_GA_ID': getattr(settings, 'DEFAULT_GA_ID', 'G-GE353FP9KK'), # GA 追蹤碼

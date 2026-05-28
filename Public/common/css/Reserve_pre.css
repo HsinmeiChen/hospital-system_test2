@@ -3,7 +3,6 @@
 .online_main_list{
     padding-top: 0;
     height: 100%;
-    margin-top: 85px;
 }
 .online_main_list{
     margin-top: 130px;
@@ -595,14 +594,11 @@ input[type="radio"].c-radio-table__radio:checked + .c-radio-table__label {
     /* 【----- 導航列 -----】 */
     .online_main,
     .online_main_list{
-        margin-top: 0px;
-        padding-top: 65px;
         display: flex;
         align-items: center;
     }
     .online_nav_bg{
         padding: 10px 22px 10px 17px;
-        height: 65px;
     }
     .online_nav{						
         max-width: 80rem;

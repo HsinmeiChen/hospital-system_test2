@@ -39,7 +39,7 @@
 
 {% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
-<div class="l-main-content__body online_main" style="padding-top: 40px;background-color: transparent;">
+<div class="l-main-content__body online_main">
 <div class="row Drug_Notes no-gutters">
 	<div class="col-lg-7 py-2">
 		<div class="content">
@@ -221,6 +221,45 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.online_main, .online_main_list{
+		margin-top: 0px;
+	}
+	.content > .d-flex{
+		flex-direction:  column;
+	}
+	.content > .d-flex > .Note_title{
+		max-width:  100%;
+		margin-bottom: 10px;
+	}
+	.ribbon br{
+		display:  none;
+	}
+	.Drug_Notes .ribbon{
+		--r: 0;
+		padding: .3rem;
+	}
+	@media (min-width: 992px){
+		.l-main-content__body{
+			background-color: transparent;			
+		}
+		.online_main, .online_main_list{
+			margin-top: 40px;
+		}
+		.content > .d-flex{
+			flex-direction:  row;
+		}
+		.content > .d-flex > .Note_title{
+			max-width: 60px;
+		}
+		.ribbon br{
+			display:  block;
+		}
+		.Drug_Notes .ribbon{
+			--r: .8em;
+		}
+	}
+</style>
 {% endblock %}
 
 
