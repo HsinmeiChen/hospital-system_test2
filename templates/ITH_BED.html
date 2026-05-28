@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <title>住院及空床</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <style>
+    /* --- 電腦版限制表格寬度、手機版不變 --- */
+    @media (min-width: 768px) {
+      .limit-table-width {
+        max-width: 400px;         /* 你想要多寬就改這裡 */
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* 病房種類字體大小（你之前要的） */
+    .ward-type {
+      font-weight: bold;
+    }
+
+    @media (max-width: 767px) {
+      /* 手機版：病房種類字小一點 */
+      .ward-type {
+        font-size: 2.0rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5" align="center">
+   <h3 class="text-primary">住院及空床</h3>
+</div>
+
+<div class="container mt-3 limit-table-width">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white text-center py-3">
+      <h4 class="mb-0" style="color: #6f42c1; font-weight: bold;">病床狀況即時資訊</h4>
+    </div>
+    <div class="card-body p-0">
+      <!-- 在這裡加 .limit-table-width 限制寬度（只在 ≥768px 生效） -->
+      <table class="table mb-0 text-center" style="font-size: 2.0rem;">
+        <thead style="background-color: #f8f9fa;">
+          <tr>
+            <th class="text-left pl-4 ward-type">病房種類</th>
+            <th>佔床</th>
+            <th>空床</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 一般病床 (Parent) -->
+          <tr style="font-weight: bold; background-color: #ffffff;">
+            <td class="text-left pl-4 ward-type">一般病床</td>
+            <td>{{ stats.general_occupied }}</td>
+            <td>{{ stats.general_empty }}</td>
+          </tr>
+          <!-- 雙人床 (Child) -->
+          <tr style="background-color: #f1f3f5; color: #495057;">
+            <td class="text-left pl-5 ward-type">雙人床</td>
+            <td>{{ stats.double_occupied }}</td>
+            <td>{{ stats.double_empty }}</td>
+          </tr>
+          <!-- 單人床 (Child) -->
+          <tr style="background-color: #ffffff; color: #495057;">
+            <td class="text-left pl-5 ward-type">單人床</td>
+            <td>{{ stats.single_occupied }}</td>
+            <td>{{ stats.single_empty }}</td>
+          </tr>
+          <!-- 健保床 (Child) -->
+          <tr style="background-color: #f1f3f5; color: #495057;">
+            <td class="text-left pl-5 ward-type">健保床</td>
+            <td>{{ stats.nhi_occupied }}</td>
+            <td>{{ stats.nhi_empty }}</td>
+          </tr>
+          <!-- ICU 床 -->
+          <tr style="font-weight: bold; border-top: 2px solid #dee2e6;">
+            <td class="text-left pl-4 ward-type">ICU床</td>
+            <td>{{ stats.icu_occupied }}</td>
+            <td>{{ stats.icu_empty }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer bg-dark text-white text-center py-2" style="font-size: 0.9rem;">
+      數據資料更新時間：<br>
+      <span style="font-size: 1.3rem;">{% now "Y-m-d H:i:s" %}</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

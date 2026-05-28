@@ -5415,8 +5415,7 @@ def A103_search_ITH_bed(request):
 		stations_str = ", ".join([f"'{s}'" for s in stations])  # SQL 的字串用單引號
 
 		# 連線Oracle資料庫
-		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db
-			,encoding='UTF-8', nencoding='UTF-8')
+		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
 
 		sql = textwrap.dedent(f"""
 			SELECT NBD_BEDNO, NBD_BEDKIND, NBD_BDSTATUS, IBAP_BEDNO, NBD_BEDGRADE
