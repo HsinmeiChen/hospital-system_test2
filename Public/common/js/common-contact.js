@@ -19,6 +19,15 @@ function getCookie(name) {
 
 function initCommonContactForm(options = {}) {
     const formId = options.formId || 'contactForm';
+    const contactForm = document.getElementById(formId);
+    if (!contactForm) return;
+
+    // 避免重複初始化
+    if (contactForm.dataset.initialized === 'true') {
+        return;
+    }
+    contactForm.dataset.initialized = 'true';
+
     // 允許從全域變數讀取配置 (為了與原來的架構兼容)
     const formConfig = window[options.configName || 'HEALTH_CONTACT_CONFIG'] || window.HEALTH_CONTACT_CONFIG || {};
     const refreshCaptchaUrl = formConfig.refreshCaptchaUrl || '/api/captcha/refresh/';
@@ -42,8 +51,6 @@ function initCommonContactForm(options = {}) {
             }
         }, 100);
     }
-    
-    const contactForm = document.getElementById(formId);
     const refreshBtn = document.getElementById('refresh-captcha-btn');
     const captchaImage = document.getElementById('captcha-image') || document.getElementById('captcha-img');
     let captchaInput = document.querySelector(`#${formId} input[name="captcha_1"]`) || 
