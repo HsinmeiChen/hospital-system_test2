@@ -12,8 +12,14 @@
 
 <!-- ======= 上下一週切換按鈕 (Mobile) ======= -->
 <div id="weekbtn" class="c_switch_btn_box">
-	<button type="submit" class="btn btn-primary" name="A006_date_sub"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
-	<button type="submit" class="btn btn-success" name="A006_date_add">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
+	{% if c_startdt <= A006_today %}
+	{% else %}
+		<button type="submit" class="btn btn-primary" onclick="document.getElementsByName('A006_date_sub')[0].click()"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
+	{%% endif %}
+	{% if I000_days_limit_start %}
+	{% else %}
+		<button type="submit" class="btn btn-success" onclick="document.getElementsByName('A006_date_add')[0].click()">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
+	{% endif %}
 </div>
 <!-- ======= 上下一週切換按鈕 (Mobile) End ======= -->
 
