@@ -14,11 +14,11 @@
 <div id="weekbtn" class="c_switch_btn_box">
 	{% if c_startdt <= A006_today %}
 	{% else %}
-		<button type="submit" class="btn btn-primary" onclick="document.getElementsByName('A006_date_sub')[0].click()"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
-	{%% endif %}
+		<button type="submit" class="btn btn-primary" onclick="document.getElementById('A006_date_sub').click()"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
+	{% endif %}
 	{% if dr_days_limit_start %}
 	{% else %}
-		<button type="submit" class="btn btn-success" onclick="document.getElementsByName('A006_date_add')[0].click()">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
+		<button type="submit" class="btn btn-success" onclick="document.getElementById('A006_date_add').click()">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
 	{% endif %}
 </div>
 <!-- ======= 上下一週切換按鈕 (Mobile) End ======= -->
@@ -53,9 +53,9 @@
 		<hr class="mt-1"/>
 		<div class="booking_sys">
 			<form action="" method="GET">
-				<input type="hidden" name="A006_userid" value="{{ userid }}">
-				<input type="hidden" name="A006_sename" value="{{ sename }}">
-				<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0 }}">
+				<!-- <input type="hidden" name="A006_userid" value="{{ userid }}">
+				<input type="hidden" name="A006_sename" value="{{ sename }}"> -->
+				<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0|cut:"/" }}">
 				<input type="hidden" name="A006_width" id="A006_width">
 				<p ></p>
 				<div class="tab-button-outer">
@@ -86,14 +86,17 @@
 					width.value = pageWidth;
 				</script>
 			</form>
-			<form action="" method="GET" id="week_switch_btn">
-				<input type="hidden" name="A006_userid" value="{{ userid }}">
-				<input type="hidden" name="A006_sename" value="{{ sename }}">
-				<input type="hidden" name="A006_date_check" value="{{ dr_day_list.0 }}">
+			<div id="week_switch_btn">
+				<!-- <input type="hidden" name="A006_userid" value="{{ userid }}">
+				<input type="hidden" name="A006_sename" value="{{ sename }}"> -->
+				<!-- <input type="hidden" name="A006_date_check" value="{{ dr_day_list.0|cut:"/" }}"> -->
 				<div>
 					{% if c_startdt <= A006_today %}
 					{% else %}
-						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" name="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+					<form action="" method="GET">
+						<input type="hidden" name="A006_date_check_sub" value="{{ dr_day_list.0|cut:"/" }}">
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+					</form>
 					{% endif %}
 				</div>
 				<!-- <div class="cofe-word this_month">
@@ -103,10 +106,13 @@
 				<div>
 					{% if dr_days_limit_start %}
 					{% else %}
-						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" name="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+					<form action="" method="GET">
+						<input type="hidden" name="A006_date_check_add" value="{{ dr_day_list.0|cut:"/" }}">
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+					</form>
 					{% endif %}
 				</div>
-			</form>
+			</div>
 		</div>
 		<div class="doc_bookable">
 			<table class="table table-bordered table-hover">

@@ -4566,24 +4566,24 @@ def A006_Online_Booking_1_part(request):
 
 	# 一週起始日的判斷
 	# 上線前要增加3個月的限制
-	if ("A006_date_add" in request.GET):
-		A006_now_date = request.GET.get("A006_date_check")
-		I000_days = datetime.datetime.strptime(A006_now_date, "%Y/%m/%d")
+	if ("A006_date_check_add" in request.GET):
+		A006_now_date = request.GET.get("A006_date_check_add")
+		I000_days = datetime.datetime.strptime(A006_now_date, "%Y%m%d")
 		I000_days_limit = datetime.datetime.now()
 		I000_days_limit = I000_days_limit + datetime.timedelta(days=90)
 		I000_days = I000_days + datetime.timedelta(days=7)
 		if (I000_days > I000_days_limit):
 			I000_days_limit_start = True
 			I000_days = I000_days_limit
-	elif ("A006_date_sub" in request.GET):
-		A006_now_date = request.GET.get("A006_date_check")
-		A006_today = datetime.date.today().strftime("%Y/%m/%d")
+	elif ("A006_date_check_sub" in request.GET):
+		A006_now_date = request.GET.get("A006_date_check_sub")
+		A006_today = datetime.date.today().strftime("%Y%m%d")
 		if (A006_today == A006_now_date):
 			I000_days = datetime.date.today()
 			day_sub = I000_days.isoweekday() - 1
 			I000_days = I000_days - datetime.timedelta(days=day_sub)
 		else:
-			I000_days = datetime.datetime.strptime(A006_now_date, "%Y/%m/%d")
+			I000_days = datetime.datetime.strptime(A006_now_date, "%Y%m%d")
 			I000_days = I000_days - datetime.timedelta(days=7)
 	# 醫師介面選擇的月份
 	elif ("switch_day" in request.GET) and (A006_width > 768):
@@ -4637,6 +4637,7 @@ def A006_Online_Booking_1_part(request):
 		I000_days = I000_days - datetime.timedelta(days=day_sub)
 
 	# 當週該科醫師掛號資料
+	I000_days = I000_days - datetime.timedelta(days=I000_days.weekday())
 	startdt = I000_days
 	c_startdt = startdt.strftime("%Y%m%d")
 	enddt = startdt + datetime.timedelta(days=6)
@@ -5012,9 +5013,9 @@ def A006_Online_Booking_2_1(request):
 
 	# 醫師介面下一周
 	# 上線前要增加3個月的限制
-	if ("A006_date_add" in request.GET):
-		A006_now_date = request.GET.get("A006_date_check")
-		dr_days = datetime.datetime.strptime(A006_now_date, "%Y/%m/%d")
+	if ("A006_date_check_add" in request.GET):
+		A006_now_date = request.GET.get("A006_date_check_add")
+		dr_days = datetime.datetime.strptime(A006_now_date, "%Y%m%d")
 		dr_days_limit = datetime.datetime.now()
 		dr_days_limit = dr_days_limit + datetime.timedelta(days=90)
 		dr_days = dr_days + datetime.timedelta(days=7)
@@ -5022,15 +5023,15 @@ def A006_Online_Booking_2_1(request):
 			dr_days_limit_start = True
 			dr_days = dr_days_limit
 	# 醫師介面上一周
-	elif ("A006_date_sub" in request.GET):
-		A006_now_date = request.GET.get("A006_date_check")
-		A006_today = datetime.date.today().strftime("%Y/%m/%d")
+	elif ("A006_date_check_sub" in request.GET):
+		A006_now_date = request.GET.get("A006_date_check_sub")
+		A006_today = datetime.date.today().strftime("%Y%m%d")
 		if (A006_today == A006_now_date):
 			dr_days = datetime.date.today()
 			day_sub = dr_days.isoweekday() - 1
 			dr_days = dr_days - datetime.timedelta(days=day_sub)
 		else:
-			dr_days = datetime.datetime.strptime(A006_now_date, "%Y/%m/%d")
+			dr_days = datetime.datetime.strptime(A006_now_date, "%Y%m%d")
 			dr_days = dr_days - datetime.timedelta(days=7)
 	# 別的介面跳轉過來的保存選擇日期
 	elif ("A006_date_select" in request.GET):
@@ -5091,6 +5092,7 @@ def A006_Online_Booking_2_1(request):
 		dr_days = dr_days - datetime.timedelta(days=day_sub)
 
 	# 醫師掛號資料
+	dr_days = dr_days - datetime.timedelta(days=dr_days.weekday())
 	startdt = dr_days
 	c_startdt = startdt.strftime("%Y%m%d")
 	enddt = startdt + datetime.timedelta(days=6)
