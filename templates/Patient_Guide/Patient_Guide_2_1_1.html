@@ -15,7 +15,7 @@
 	{% if c_startdt <= A006_today %}
 	{% else %}
 		<button type="submit" class="btn btn-primary" onclick="document.getElementsByName('A006_date_sub')[0].click()"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
-	{%% endif %}
+	{% endif %}
 	{% if I000_days_limit_start %}
 	{% else %}
 		<button type="submit" class="btn btn-success" onclick="document.getElementsByName('A006_date_add')[0].click()">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
