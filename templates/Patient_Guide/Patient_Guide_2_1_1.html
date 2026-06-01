@@ -91,7 +91,7 @@
 			{% if c_startdt <= A006_today %}
 				{% else %}
 					<form action="" method="GET">
-						<input type="hidden" name="A006_date_check_sub" value="{{ dr_day_list.0|cut:"/" }}">
+						<input type="hidden" name="A006_date_check_sub" value="{{ I000_day_list.0|cut:"/" }}">
 						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A006_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
 					</form>
 				{% endif %}
@@ -100,7 +100,7 @@
 			{% if I000_days_limit_start %}
 				{% else %}
 					<form action="" method="GET">
-						<input type="hidden" name="A006_date_check_add" value="{{ dr_day_list.0|cut:"/" }}">
+						<input type="hidden" name="A006_date_check_add" value="{{ I000_day_list.0|cut:"/" }}">
 						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A006_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
 					</form>
 				{% endif %}
