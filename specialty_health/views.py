@@ -10,7 +10,7 @@ import os, oracledb, datetime, re, time, random, traceback # 用於掃描資料�
 from django.contrib import messages # Django 內建訊息 (成功 / 失敗) 框架
 
 # 新修改 (圖片轉 WebP、PDF 轉 WebP 工具)
-from Pomelo_test.utils import generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
+from Pomelo_test.utils import append_hash_to_filenames, generate_captcha_image_bytes, convert_image_to_webp, convert_pdf_to_webp
 from Pomelo_test.decorators import ratelimit_form_submit, captcha_failure_limit
 
 from .forms import ContactForm, send_email_to_client
@@ -280,6 +280,11 @@ news_img_dir = os.path.join(special_base_dir, 'h-news', 'img')
 
 # 健檢專網獨立(衛教資訊)：
 Films_Dir = os.path.join(special_base_dir, 'h-films')
+
+
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 ■■■■■■■■■■■■■■■■■■■■■■■■■■
+def append_crc32_to_filenames():
+	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
 
 
 
@@ -1622,6 +1627,7 @@ def health_news_api(request):
 # 後：共用邏輯-取得所有最新消息（已排序，for 頁面/API 使用/)
 def get_all_health_news():
 	"""共用邏輯：取得所有最新消息（已排序，for 頁面/API 使用） - 支援新檔名格式 N001_類別_標題_YYYY-MM-DD.txt"""
+	append_crc32_to_filenames()
 	news_items = []
 
 	for fname in os.listdir(NEWS_DIR):
@@ -1656,7 +1662,7 @@ def get_all_health_news():
 # ==================== 前端模板 ====================
 def health_news_list_view(request):
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
-	# 新檔名格式不需 append_crc32_to_filenames()
+	append_crc32_to_filenames()  # 自動將尚未有 hash 的消息 txt 檔案命名為 ...^hash.txt
 	return render(request, "specialty_health/h-health-news.html", {
 		'og_image': '',
 		# "meta_title": "",

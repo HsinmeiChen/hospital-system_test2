@@ -144,9 +144,9 @@ class PLSQLAPI:
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 聯絡我們 ■■■■■■■■■■■■■■■■■■■■■■■■■■
-@ratelimit_form_submit(max_requests=5, window=300, redirect_url='breast_send_mail')  # 5 分鐘內最多 5 次提交
-@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='breast_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
-def breast_send_mail(request):
+@ratelimit_form_submit(max_requests=5, window=300, redirect_url='neuro_send_mail')  # 5 分鐘內最多 5 次提交
+@captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='neuro_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
+def neuro_send_mail(request):
 	"""
 	聯絡我們頁面 - 包含表單功能
 	GET: 顯示頁面和表單
@@ -172,9 +172,9 @@ def breast_send_mail(request):
 			else:
 				messages.error(request, "驗證碼已過期，請重新整理後再試")
 				form = ContactForm()
-				return render(request, "Breast_Care_Center/breast-contact.html", {
+				return render(request, "Neurology_Center/neuro-contact.html", {
 					"form": form,
-					'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+					'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 					'ga_id': '',
 					'gtm_id': ''
 				})
@@ -198,7 +198,7 @@ def breast_send_mail(request):
 					})
 				else:
 					messages.success(request, "您的訊息已成功送出，感謝您的聯繫！")
-					return redirect('breast_send_mail')
+					return redirect('neuro_send_mail')
 			except Exception as e:
 				import logging
 				logging.exception("send_mail failed in health contact view")
@@ -223,9 +223,9 @@ def breast_send_mail(request):
 				})
 		
 		if not is_ajax:
-			return render(request, "Breast_Care_Center/breast-contact.html", {
+			return render(request, "Neurology_Center/neuro-contact.html", {
 				"form": form,
-				'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+				'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 				'ga_id': '',
 				'gtm_id': ''
 			})
@@ -233,9 +233,9 @@ def breast_send_mail(request):
 		# GET 請求：顯示空表單
 		form = ContactForm()
 
-	return render(request, "Breast_Care_Center/breast-contact.html", {
+	return render(request, "Neurology_Center/neuro-contact.html", {
 		"form": form,
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -245,7 +245,7 @@ def breast_send_mail(request):
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用檔案路徑 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # 連動官網：醫師-個人介紹（依專案 MEDIA_ROOT，勿硬編碼）
-dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_1_外科', '3_乳房外科_BreastSurgery')
+dir = os.path.join(settings.MEDIA_ROOT, 'department', 'D000_2_內科', '6_神經科_Neurology')
 
 # 連動官網：醫師-最新消息、相關文章、影音專區
 NEWS_FOLDER = os.path.join(settings.MEDIA_ROOT, 'news_1')
@@ -257,23 +257,39 @@ news_img_dir = os.path.join(settings.MEDIA_ROOT, 'news_1', 'img')
 media_base_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
 
 # 乳房中心-專網主資料夾設定
-special_base_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center')
+special_base_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center')
 
 # 乳房中心-專網：治療文章
 
-breast_treat_dir = os.path.join(special_base_dir, 'treat-articles')
+neuro_treat_dir = os.path.join(special_base_dir, 'neuro-treat-articles')
 
 # 乳房中心-專網：影音專區
-Films_Dir = os.path.join(special_base_dir, 'breast-films')
+Films_Dir = os.path.join(special_base_dir, 'neuro-films')
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 NEWS_DIR = os.path.join(settings.MEDIA_ROOT, 'news_1')
-BREAST_EDU_DIR = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+NEURO_EDU_DIR = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
 
 def append_crc32_to_filenames():
 	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
-	append_hash_to_filenames(BREAST_EDU_DIR, extension='.txt', separator='^')
+	append_hash_to_filenames(NEURO_EDU_DIR, extension='.txt', separator='^')
+	append_hash_to_filenames(video_dir, extension='.txt', separator='^')
+	append_hash_to_filenames(Films_Dir, extension='.txt', separator='^')
+
+def get_iso_duration(duration_str):
+	"""將 05:30 格式的時長轉換成 ISO 8601 的 PT5M30S 格式，利於出現在 Google 搜尋結果的 「影片 (Videos)」分頁"""
+	if not duration_str:
+		return "PT5M"
+	parts = duration_str.split(':')
+	try:
+		if len(parts) == 2:
+			return f"PT{int(parts[0])}M{int(parts[1])}S"
+		elif len(parts) == 3:
+			return f"PT{int(parts[0])}H{int(parts[1])}M{int(parts[2])}S"
+	except ValueError:
+		pass
+	return "PT5M"
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 共用函式 ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -289,7 +305,7 @@ def render_custom_tags(line, img_url, filepath=""):
 		for part in parts[1:]:
 			filename = part.strip().split()[0].split('</')[0]
 			# 根據檔案路徑自動選擇正確的 WebP 轉換函式
-			if 'breast-edu' in filepath:
+			if 'neuro-edu' in filepath:
 				webp_path = convert_edu_article_image_to_webp(filename)
 			elif 'treat-articles-img' in filepath:
 				webp_path = convert_treat_article_image_to_webp(filename)
@@ -325,9 +341,9 @@ def parse_article_txt(filepath, detail=True):
 	elif 'news_1' in filepath:
 		img_url = '/media/news_1/img'
 	elif 'treat-articles-img' in filepath:
-		img_url = '/media/Breast_Care_Center/treat-articles/treat-articles-img/img_webp_article'
-	elif 'breast-edu' in filepath:
-		img_url = '/media/Breast_Care_Center/breast-edu/edu-article/'
+		img_url = '/media/neuro-center/neuro-treat-articles/treat-articles-img/img_webp_article'
+	elif 'neuro-edu' in filepath:
+		img_url = '/media/neuro-center/neuro-edu/edu-article/'
 	else:
 		img_url = '/media'
 
@@ -351,7 +367,7 @@ def parse_article_txt(filepath, detail=True):
 		if line.startswith('<thumb-img>'):
 			org_thumb_img = line.replace('<thumb-img>', '').strip()
 			# 治療項目/衛教園地縮圖 (轉 webp 格式)
-			if 'breast-edu' in filepath:
+			if 'neuro-edu' in filepath:
 				thumb_img = convert_edu_icon_image_to_webp(org_thumb_img)
 			else:
 				thumb_img = convert_treat_icon_image_to_webp(org_thumb_img)
@@ -376,7 +392,7 @@ def parse_article_txt(filepath, detail=True):
 				# 「治療項目」文章內文圖片
 				treat_article_image = convert_treat_article_image_to_webp(original_image)
 			
-			elif 'breast-edu' in filepath:
+			elif 'neuro-edu' in filepath:
 				# 「衛教園地」文章內文圖片
 				edu_article_image = convert_edu_article_image_to_webp(original_image)
 			
@@ -585,22 +601,22 @@ def parse_article_txt(filepath, detail=True):
 	}
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 首頁 (breast_main) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 首頁 (neuro_main) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ======================= 後端處理 ======================
 # 後:首頁「Banner」
 def convert_banner_image_to_webp(original_filename):
 	"""
 	專用：轉換 Banner 圖片為 WebP
-	儲存路徑：media/Breast_Care_Center/banner/banner-webp
+	儲存路徑：media/neuro-center/neuro-banner/banner-webp
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'banner')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-banner')
 	target_dir = os.path.join(source_dir, 'banner-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
-def breast_banner_api(request):
-	banner_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'banner')
+def neuro_banner_api(request):
+	banner_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-banner')
 	files = os.listdir(banner_dir)
 
 	image_dict = {}
@@ -647,7 +663,7 @@ def breast_banner_api(request):
 
 # 後:首頁「最新消息」
 @require_GET
-def breast_news_home_api(request):
+def neuro_news_home_api(request):
 	"""首頁用：取得最新 5 筆最新消息"""
 	try:
 		all_news = get_all_health_news()
@@ -669,10 +685,11 @@ def breast_news_home_api(request):
 
 # 後:首頁「影音專區」
 @require_GET
-def breast_film_home_api(request):
-	"""首頁「影音專區」專用 API：取得最新 7 筆影片"""
+def neuro_film_home_api(request):
+	"""首頁「影音專區」專用 API：取得分類與過濾後的影音"""
 	employee_ids = get_active_doctor_ids()
-	all_videos = []
+	left_candidates = []
+	right_candidates = []
 
 	# 需要掃描的資料夾（原本的 video_dir 與 新增的 Films_Dir）
 	search_dirs = [video_dir, Films_Dir]
@@ -698,8 +715,16 @@ def breast_film_home_api(request):
 				'date': '',
 				'doctor_id': '',
 				'youtube_url': '',
-				'youtube_image': ''
+				'youtube_image': '',
+				'index_val': '',
+				'youtube_id': ''
 			}
+
+			# 解析檔名索引值 (C003_xxx_2_xxx.txt)
+			name = video_filename.replace('.txt', '')
+			parts = name.split('_')
+			if len(parts) >= 3:
+				video_data['index_val'] = parts[2].strip()
 
 			for line in lines:
 				if line.startswith('<yh>'):
@@ -716,37 +741,49 @@ def breast_film_home_api(request):
 					# 嘗試從不同格式的 youtube url 取得影片 id
 					ytb_id = ''
 					if 'v=' in ytb_url:
-						# watch?v=xxxx 或有其他參數
 						m = re.search(r'v=([^&]+)', ytb_url)
 						if m:
 							ytb_id = m.group(1)
 					elif 'embed/' in ytb_url:
 						ytb_id = ytb_url.split('embed/')[-1].split('?')[0]
 					else:
-						# 取最後一段 (短網址或 /vi/...)
 						ytb_id = ytb_url.rstrip('/').split('/')[-1].split('?')[0]
 
 					if ytb_id:
-						video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/hqdefault.jpg'
+						video_data['youtube_id'] = ytb_id
+						video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
-			# 若檔案內沒提供標題，嘗試從檔名取得（例如：F003_加入「糖尿病共照網」 免費檢查好處多多.txt）
+			# 若檔案內沒提供標題，嘗試從檔名取得
 			if not video_data['title']:
-				name = video_filename.replace('.txt', '')
 				if '_' in name:
 					video_data['title'] = name.split('_', 1)[1]
 				else:
 					video_data['title'] = name
-			all_videos.append(video_data)
 
-	# 按 date（字串）或無日期的項目排序，若沒有 date，會排在後面；取最新 3 筆
-	all_videos.sort(key=lambda x: x.get('date', ''), reverse=True)
-	latest_videos = all_videos[:3]
+			# 根據索引值分類
+			if video_data['index_val'] == '2':
+				left_candidates.append(video_data)
+			elif video_data['index_val'] in ['4', '1']:
+				right_candidates.append(video_data)
+
+	# 按 date 降序排列
+	left_candidates.sort(key=lambda x: x.get('date', ''), reverse=True)
+	right_candidates.sort(key=lambda x: x.get('date', ''), reverse=True)
+
+	# 取左側 1 個最新影音，右側 1 個最新影音
+	left_video = left_candidates[0] if left_candidates else None
+	right_videos = right_candidates[:1]
+
+	latest_videos = []
+	if left_video:
+		latest_videos.append(left_video)
+	latest_videos.extend(right_videos)
 
 	return JsonResponse({'videos': latest_videos})
 
 # 後:首頁「媒體報導」
 @require_GET
-def breast_media_home_api(request):
+def neuro_media_home_api(request):
 	"""首頁「媒體報導」專用：只回傳最新前 3 筆媒體報導文章"""
 	employee_ids = get_active_doctor_ids()
 	all_articles = []
@@ -782,18 +819,19 @@ def breast_media_home_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/breast-care-center/articles/{web_url}"
+			'url': f"/neuro-center/articles/{web_url}"
 		})
 
 	return JsonResponse({'articles': all_articles})
 
 
 # ======================= 前端模板 ======================
-def breast_main(request):
+def neuro_main(request):
+	# ════════════ 1. 治療項目 ════════════
 	treatments = []
-	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
+	neuro_t_dirs = os.listdir(neuro_treat_dir)  # ← 每次 request 重新取得
 
-	for treat_filename in breast_t_dirs:
+	for treat_filename in neuro_t_dirs:
 		if treat_filename.endswith('.txt') and ("treat" in treat_filename):
 			try:
 				match = re.search(r'T(\d+)', treat_filename)
@@ -803,13 +841,14 @@ def breast_main(request):
 				treat_title = parts[2]
 				url_name = parts[3].replace('.txt', '')
 
-				treat_path = os.path.join(breast_treat_dir, treat_filename)
+				treat_path = os.path.join(neuro_treat_dir, treat_filename)
 				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
 					'title': treat_title,
 					'url_name': url_name,
 					'thumb_img': treat_parsed['thumb_img'],
+					'summary': treat_parsed['summary'],
 					'order': order_num
 				})
 			except Exception as e:
@@ -817,16 +856,112 @@ def breast_main(request):
 				continue
 
 	treatments.sort(key=lambda x: x['order'])
-	return render(request, "Breast_Care_Center/breast-index.html", {
+
+	# ════════════ 2. 媒體報導 (最新 5 筆) ════════════
+	media_layer1_1 = None
+	media_layer1_2 = None
+	media_layer2 = []
+	try:
+		employee_ids = get_active_doctor_ids()
+		valid_files = []
+		for post_filename in os.listdir(article_dir):
+			if not post_filename.endswith('.txt'):
+				continue
+			if not any(emp_id in post_filename for emp_id in employee_ids):
+				continue
+			parts = post_filename.split('_')
+			if len(parts) < 8:
+				continue
+			try:
+				pub_date = datetime.datetime.strptime(parts[6], "%Y-%m-%d")
+				valid_files.append((pub_date, post_filename, parts))
+			except ValueError:
+				continue
+		valid_files.sort(key=lambda x: x[0], reverse=True)
+		media_articles = []
+		for pub_date, post_filename, parts in valid_files[:5]:
+			web_url = f"{parts[-2]}_{parts[-1].replace('.txt', '')}"
+			path = os.path.join(article_dir, post_filename)
+			parsed = parse_article_txt(path, detail=False)
+			media_articles.append({
+				'title': parts[2],
+				'pub_date': pub_date.strftime('%Y.%m.%d'),
+				'image': parsed['image'],
+				'summary': parsed['summary'],
+				'url': f"/neuro-center/articles/{web_url}"
+			})
+		if len(media_articles) > 0:
+			media_layer1_1 = media_articles[0]
+		if len(media_articles) > 1:
+			media_layer1_2 = media_articles[1]
+		if len(media_articles) > 2:
+			media_layer2 = media_articles[2:5]
+	except Exception as e:
+		print(f"[首頁媒體報導解析失敗]：{e}")
+
+	# ════════════ 3. 衛教園地 (隨機 3 筆) ════════════
+	random_edus = []
+	try:
+		all_items, base_path = get_health_edu_items()
+		if all_items:
+			chosen_items = random.sample(all_items, min(3, len(all_items)))
+			for item in chosen_items:
+				title, title_hash, content, is_txt, thumb = item
+				pub_date = ""
+				summary = ""
+				
+				if is_txt:
+					# content 為檔名，例如: E001_edu_xxx_2025-05-16^hash.txt
+					image_url = settings.MEDIA_URL + thumb if thumb else ''
+					name_part = content.split('^')[0]
+					parts = name_part.split('_')
+					if len(parts) >= 4:
+						raw_date = parts[3]
+						try:
+							dt = datetime.datetime.strptime(raw_date, "%Y-%m-%d")
+							pub_date = dt.strftime("%Y.%m.%d")
+						except ValueError:
+							pub_date = raw_date.replace('-', '.')
+					
+					try:
+						edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
+						filepath = os.path.join(edu_txt_dir, content)
+						parsed = parse_article_txt(filepath, detail=False)
+						summary = parsed.get('summary', '')
+					except Exception as e:
+						print(f"[首頁衛教文章摘要解析失敗]：{e}")
+				else:
+					# 舊圖片組
+					thumb_image = content[0] if content else ''
+					image_url = f"{settings.MEDIA_URL}health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology/{thumb_image}" if thumb_image else ''
+					pub_date = "衛教分享"
+					summary = "點擊瀏覽完整衛教圖文內容。"
+				
+				random_edus.append({
+					'title': title,
+					'image': image_url,
+					'pub_date': pub_date,
+					'summary': summary,
+					'url': f"/neuro-center/neuro-edu/{title_hash}/"
+				})
+	except Exception as e:
+		print(f"[首頁衛教資訊隨機取得失敗]：{e}")
+
+	# ════════════ 4. 回傳至前端 ════════════
+	return render(request, "Neurology_Center/neuro-index.html", {
 		'treatments': treatments,
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'media_layer1_1': media_layer1_1,
+		'media_layer1_2': media_layer1_2,
+		'media_layer2': media_layer2,
+		'random_edus': random_edus,
 	})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (breast_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
-def breast_about(request):
-	return render(request, "Breast_Care_Center/breast-about.html", {
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (neuro_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+def neuro_about(request):
+	return render(request, "Neurology_Center/neuro-about.html", {   
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 	})
 
 
@@ -1034,7 +1169,7 @@ def get_related_articles_api(request, employee_id):
 			'summary': a['summary'],
 			'image': a['image'],
 			'pub_date': a['pub_date'].strftime('%Y-%m-%d'),
-			'url': f"/breast-care-center/articles/{a['filename']}"
+			'url': f"/neuro-center/articles/{a['filename']}"
 		} for a in page_obj]
 
 		return JsonResponse({
@@ -1046,10 +1181,10 @@ def get_related_articles_api(request, employee_id):
 		return JsonResponse({'error': str(e)}, status=500)
 
 
-# 後：隨機取得 5 筆媒體報導文章（供 breast-article-detail 側欄卡片用）
+# 後：隨機取得 5 筆媒體報導文章（供 neuro-article-detail 側欄卡片用）
 @require_GET
-def random_breast_reports_api(request):
-	"""隨機取得 5 筆媒體報導文章（供 breast-article-detail 側欄卡片用）"""
+def random_neuro_reports_api(request):
+	"""隨機取得 5 筆媒體報導文章（供 neuro-article-detail 側欄卡片用）"""
 	employee_ids = get_active_doctor_ids()
 	all_articles = []
 	valid_files = []
@@ -1083,7 +1218,7 @@ def random_breast_reports_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/breast-care-center/articles/{web_url}",
+			'url': f"/neuro-center/articles/{web_url}",
 			'filename': web_url
 		})
 
@@ -1194,6 +1329,7 @@ def doctor_list(request):
 						'name': name,
 						'job_title': job_title,
 						'expertise': parsed['expertise'],
+						'expertise_list': parsed['expertise_list'],
 						'image': parsed['image'],
 						'image_webp': webp_image,
 						'stop_info': stop_grouped,
@@ -1207,10 +1343,10 @@ def doctor_list(request):
 				conn.close()
 			except Exception:
 				pass
-	return render(request, 'Breast_Care_Center/breast-doctor-list.html', {
+	return render(request, 'Neurology_Center/neuro-doctor-list.html', {
 		'doctors': doctors,
-		'dept_en': 'BreastSurgery',
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'dept_en': 'Neurology',
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
@@ -1277,7 +1413,7 @@ def doctor_profile(request, employee_id):
 	has_articles = bool(related_articles)
 	has_videos = bool(related_videos)
 
-	return render(request, 'Breast_Care_Center/breast-doctor-profile.html', {
+	return render(request, 'Neurology_Center/neuro-doctor-profile.html', {
 		'name_and_title': name_and_title,
 		'name': name,
 		'job_title': job_title,
@@ -1294,7 +1430,7 @@ def doctor_profile(request, employee_id):
 		'has_articles': has_articles,
 		'has_videos': has_videos,
 		'doctors': doctors, # 側邊欄清單
-		'dept_en': 'BreastSurgery',
+		'dept_en': 'Neurology',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -1333,9 +1469,9 @@ def article_share_view(request, get_filename):
 		'summary': parsed['summary'],
 		'tags': extract_tags_from_blocks(parsed['blocks']),
 		'og_image': f"{settings.SITE_DOMAIN}/media/news_2/img/{parsed['og_img']}",
-		'dept_en': 'BreastSurgery',
+		'dept_en': 'Neurology',
 	}
-	return render(request, 'Breast_Care_Center/breast-article-detail.html', context)
+	return render(request, 'Neurology_Center/neuro-article-detail.html', context)
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 治療項目 (treatment_list / treatment_article) ■■■■■■■■■■■■■■■■■■■■■■■■■■
@@ -1345,40 +1481,40 @@ def article_share_view(request, get_filename):
 def convert_treat_icon_image_to_webp(original_filename):
 	"""
 	專用：轉換「治療項目-卡片縮圖」為 WebP
-	儲存路徑：media/Breast_Care_Center/treat-articles/treat-icon/thumb-webp
+	儲存路徑：media/neuro-center/treat-articles/treat-icon/thumb-webp
 	壓縮品質：50%
 	"""
-	source_dir = os.path.join(breast_treat_dir, 'treat-icon')
+	source_dir = os.path.join(neuro_treat_dir, 'treat-icon')
 	target_dir = os.path.join(source_dir, 'thumb-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=50)
 
 def convert_edu_icon_image_to_webp(original_filename):
 	"""
 	專用：轉換「衛教園地-卡片縮圖」為 WebP
-	儲存路徑：media/Breast_Care_Center/breast-edu/edu-icon/thumb-webp
+	儲存路徑：media/neuro-center/neuro-edu/edu-icon/thumb-webp
 	壓縮品質：50%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu', 'edu-icon')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu', 'edu-icon')
 	target_dir = os.path.join(source_dir, 'thumb-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=50)
 
 def convert_treat_article_image_to_webp(original_filename):
 	"""
 	專用：轉換「治療項目-內文圖片」為 WebP
-	儲存路徑：media/Breast_Care_Center/treat-articles/treat-articles-img/img_webp_article
+	儲存路徑：media/neuro-center/treat-articles/treat-articles-img/img_webp_article
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(breast_treat_dir, 'treat-articles-img')
+	source_dir = os.path.join(neuro_treat_dir, 'treat-articles-img')
 	target_dir = os.path.join(source_dir, 'img_webp_article')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
 def convert_edu_article_image_to_webp(original_filename):
 	"""
 	專用：轉換「衛教園地-內文圖片」為 WebP
-	儲存路徑：media/Breast_Care_Center/breast-edu/edu-article/article-webp
+	儲存路徑：media/neuro-center/neuro-edu/edu-article/article-webp
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu', 'edu-article')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu', 'edu-article')
 	target_dir = os.path.join(source_dir, 'article-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
@@ -1387,8 +1523,8 @@ def convert_edu_article_image_to_webp(original_filename):
 def treatment_sidenav_api(request):
 	'''「治療項目文章頁-AJAX 載入側邊選單 / 可切換文章頁面」'''
 	treatments = []
-	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得(如果放在全域變數，只會在伺服器啟動時執行一次，之後異動檔案不會更新--因 ajaxao6)
-	for treat_filename in breast_t_dirs:
+	neuro_t_dirs = os.listdir(neuro_treat_dir)  # ← 每次 request 重新取得(如果放在全域變數，只會在伺服器啟動時執行一次，之後異動檔案不會更新--因 ajaxao6)
+	for treat_filename in neuro_t_dirs:
 		if treat_filename.endswith('.txt') and "treat" in treat_filename:
 			try:
 				parts = treat_filename.rsplit('_', 3)
@@ -1407,9 +1543,9 @@ def treatment_sidenav_api(request):
 def treatment_list(request):
 	'''建立「治療項目」頁'''
 	treatments = []
-	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
+	neuro_t_dirs = os.listdir(neuro_treat_dir)  # ← 每次 request 重新取得
 
-	for treat_filename in breast_t_dirs:
+	for treat_filename in neuro_t_dirs:
 		if treat_filename.endswith('.txt') and ("treat" in treat_filename): # 例.T001_treat_髖關節置換_mako01.txt
 			try:
 				# 抓出 T001 裡面的數字 → 1
@@ -1421,7 +1557,7 @@ def treatment_list(request):
 				url_name = parts[3].replace('.txt', '') # 選索引值位於 3；url_name = "mako01"
 
 				# 共用 parse_article_txt 這個函式解析 txt 內容 (函式已有 with open，所以根據參數 filepath 提供檔案路徑)
-				treat_path = os.path.join(breast_treat_dir, treat_filename)
+				treat_path = os.path.join(neuro_treat_dir, treat_filename)
 				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
@@ -1437,9 +1573,9 @@ def treatment_list(request):
 	# 根據 'order' 由小到大排序
 	treatments.sort(key=lambda x: x['order'])
 			
-	return render(request, 'Breast_Care_Center/breast-treatment-list.html', {
+	return render(request, 'Neurology_Center/neuro-treatment-list.html', {
 		'treatments': treatments,
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
@@ -1447,11 +1583,11 @@ def treatment_list(request):
 
 def treatment_article(request, url_name):
 	'''「治療項目文章頁」'''
-	breast_t_dirs = os.listdir(breast_treat_dir)  # ← 每次 request 重新取得
+	neuro_t_dirs = os.listdir(neuro_treat_dir)  # ← 每次 request 重新取得
 	matched_treat_file = None
 	# treat_name = None
 
-	for treat_filename in breast_t_dirs:
+	for treat_filename in neuro_t_dirs:
 		if treat_filename.endswith('.txt') and treat_filename.endswith(f"{url_name}.txt"):
 			matched_treat_file = treat_filename
 			treat_name = treat_filename.rsplit('_', 2)[1]
@@ -1461,7 +1597,7 @@ def treatment_article(request, url_name):
 		raise Http404("找不到文章")
 
 	# 引入 parse_article_txt 函式，解析 txt 內容
-	treat_path = os.path.join(breast_treat_dir, matched_treat_file)
+	treat_path = os.path.join(neuro_treat_dir, matched_treat_file)
 	treat_parsed = parse_article_txt(treat_path)
 
 	context = {
@@ -1471,12 +1607,12 @@ def treatment_article(request, url_name):
 		'image': treat_parsed['image'],
 		'treat_summary': treat_parsed['summary'],
 		'tags': extract_tags_from_blocks(treat_parsed['blocks']),
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/treat-articles/treat-icon/{treat_parsed['og_img_treat']}",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/treat-articles/treat-icon/{treat_parsed['og_img_treat']}",
 	}
-	return render(request, 'Breast_Care_Center/breast-treat-article-detail.html', context)
+	return render(request, 'Neurology_Center/neuro-treat-article-detail.html', context)
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 最新消息 (breast_news) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 最新消息 (neuro_news) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 # 後: 最新消息 - 圖片轉 WebP
@@ -1492,7 +1628,7 @@ def convert_news_image_to_webp(original_filename):
 
 # 後: 最新消息 - 支援 ajax 分頁
 @require_GET
-def breast_news_api(request):
+def neuro_news_api(request):
 	"""後端 API - 支援最新消息 Ajax 分頁"""
 	try:
 		page = int(request.GET.get("page", 1))
@@ -1539,7 +1675,7 @@ def get_all_health_news():
 				'title': title,
 				'date': pub_date,
 				'key': key,
-				'url': f"/breast-care-center/breast-news/{key}/"
+				'url': f"/neuro-center/neuro-news/{key}/"
 			})
 
 		except Exception as e:
@@ -1551,15 +1687,15 @@ def get_all_health_news():
 
 
 # ==================== 前端模板 ====================
-def breast_news_list_view(request):
+def neuro_news_list_view(request):
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
-	return render(request, "Breast_Care_Center/breast-news.html", {
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+	return render(request, "Neurology_Center/neuro-news.html", {
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		# "meta_title": "",
 		# "meta_summary": ""
 	})
 
-def breast_news_detail_view(request, key):
+def neuro_news_detail_view(request, key):
 	try:
 		matched_file = None
 		for filename in os.listdir(NEWS_FOLDER):
@@ -1568,7 +1704,7 @@ def breast_news_detail_view(request, key):
 				break
 
 		if not matched_file or not os.path.exists(matched_file):
-			return render(request, 'Breast_Care_Center/breast-news-detail.html', {
+			return render(request, 'Neurology_Center/neuro-news-detail.html', {
 				'error': True,
 				'message': '找不到該則消息內容'
 			})
@@ -1583,7 +1719,7 @@ def breast_news_detail_view(request, key):
 		title = sub_parts[2] if len(sub_parts) >= 3 else '未命名'
 		date = sub_parts[6] if len(sub_parts) >= 7 else ''
 
-		return render(request, 'Breast_Care_Center/breast-news-detail.html', {
+		return render(request, 'Neurology_Center/neuro-news-detail.html', {
 			'data': {
 				**parsed_data,
 				'title': title
@@ -1593,13 +1729,13 @@ def breast_news_detail_view(request, key):
 
 	except Exception as e:
 		traceback.print_exc()
-		return render(request, 'Breast_Care_Center/breast-news-detail.html', {
+		return render(request, 'Neurology_Center/neuro-news-detail.html', {
 			'error': True,
 			'message': '資料載入失敗，請稍後再試'
 		})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 媒體報導 (breast_media) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 媒體報導 (neuro_media) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 
@@ -1623,8 +1759,8 @@ def get_active_doctor_ids():
 
 # 後: 媒體報導主頁 - AJAX 載入分頁 (只更新文章區塊，不重新刷頁)
 @require_GET
-def breast_media_api(request):
-	""" Ajax 回傳 doctor-list 中乳房外科醫師的所有文章（支援分頁）"""
+def neuro_media_api(request):
+	""" Ajax 回傳 doctor-list 中神經內外科醫師的所有文章（支援分頁）"""
 	employee_ids = get_active_doctor_ids() # 快取有效醫師
 	all_articles = []
 
@@ -1651,7 +1787,7 @@ def breast_media_api(request):
 			'pub_date': pub_date,
 			'pub_date_str': pub_date.strftime('%Y-%m-%d'),
 			'path': path,
-			'url': f"/breast-care-center/articles/{web_url}"
+			'url': f"/neuro-center/articles/{web_url}"
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
@@ -1678,7 +1814,7 @@ def breast_media_api(request):
 
 
 # ==================== 前端模板 ====================
-def breast_media(request):
+def neuro_media(request):
 	''' 媒體報導主頁 '''
 	all_articles = []
 	employee_ids = []
@@ -1755,26 +1891,61 @@ def breast_media(request):
 	meta_summary = page_obj.object_list[0]['summary'] if page_obj.object_list else ""
 	meta_image = page_obj.object_list[0]['image'] if page_obj.object_list else ""
 
-	return render(request, "Breast_Care_Center/breast-reports.html", {
+	return render(request, "Neurology_Center/neuro-reports.html", {
 		'page_obj': page_obj,
 		'meta_title': meta_title,
 		'meta_summary': meta_summary,
 		'meta_image': meta_image,
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		'ga_id': '',
 		'gtm_id': ''
 	})
 
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 影音專區 (breast_film) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 影音專區 (neuro_film) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
 
 # ==== 若單位有增刪醫師，要重啟程式，再刷新網頁 ====
 
+def fetch_youtube_duration_on_the_fly(yt_id):
+	"""向 YouTube 網頁抓取影片真實播放長度，並返回分:秒格式"""
+	import urllib.request
+	import urllib.parse
+	import re
+	url = f"https://www.youtube.com/watch?v={yt_id}"
+	req = urllib.request.Request(
+		url, 
+		headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+	)
+	try:
+		with urllib.request.urlopen(req, timeout=5) as response:
+			html = response.read().decode('utf-8', errors='ignore')
+			m = re.search(r'<meta itemprop="duration" content="([^"]+)">', html)
+			if m:
+				m_dur = re.search(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', m.group(1))
+				if m_dur:
+					hours = int(m_dur.group(1)) if m_dur.group(1) else 0
+					minutes = int(m_dur.group(2)) if m_dur.group(2) else 0
+					seconds = int(m_dur.group(3)) if m_dur.group(3) else 0
+					if hours > 0:
+						return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+					else:
+						return f"{minutes:02d}:{seconds:02d}"
+			
+			m_ms = re.search(r'"approxDurationMs":"(\d+)"', html)
+			if m_ms:
+				total_seconds = int(m_ms.group(1)) // 1000
+				minutes = total_seconds // 60
+				seconds = total_seconds % 60
+				return f"{minutes:02d}:{seconds:02d}"
+	except Exception as e:
+		print(f"Error fetching YouTube duration for {yt_id}: {e}")
+	return None
+
 # 後: 影音專區 - 回傳乳房外科醫師影音專區影片（支援 ajax 分頁）
 @require_GET
-def breast_film_api(request):
+def neuro_film_api(request):
 	"""Ajax 回傳影音專區影片（同時掃描 video_dir 與 Films_Dir，video_dir 仍以 doctor-list 過濾）"""
 	try:
 		employee_ids = get_active_doctor_ids()  # 取 doctor-list 中的乳房外科醫師 employee_id
@@ -1799,22 +1970,40 @@ def breast_film_api(request):
 				with open(filepath, 'r', encoding='utf-8-sig') as f:
 					lines = f.read().splitlines()
 
+				# 優先拿掉 ^hash 後綴以還原乾淨檔名，並取得 video_key
+				name = video_filename.replace('.txt', '')
+				video_key = ""
+				if '^' in name:
+					name_clean, video_key = name.split('^', 1)
+				else:
+					name_clean = name
+
 				video_data = {
 					'title': '',
 					'date': '',
 					'doctor_id': '',
 					'youtube_url': '',
-					'youtube_image': ''
+					'youtube_image': '',
+					'duration': '',
+					'category_index': None,
+					'description': '',
+					'video_key': video_key,
+					'duration_iso': ''
 				}
 
 				for line in lines:
 					if line.startswith('<yh>'):
 						full_title = line.replace('<yh>', '').strip()
-						video_data['title'] = re.split(r'[／/]', full_title)[0].strip()
+						title_parts = re.split(r'[／/]', full_title)
+						video_data['title'] = title_parts[0].strip()
+						if len(title_parts) > 1:
+							video_data['description'] = title_parts[1].strip()
 					elif line.startswith('<yd>'):
 						video_data['date'] = line.replace('<yd>', '').strip()
 					elif line.startswith('<dr>'):
 						video_data['doctor_id'] = line.replace('<dr>', '').strip()
+					elif line.startswith('<vd>'):
+						video_data['duration'] = line.replace('<vd>', '').strip()
 					elif line.startswith('<ytb>'):
 						ytb_url = line.replace('<ytb>', '').strip()
 						video_data['youtube_url'] = ytb_url
@@ -1833,15 +2022,14 @@ def breast_film_api(request):
 							ytb_id = ytb_url.rstrip('/').split('/')[-1].split('?')[0]
 
 						if ytb_id:
-							video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/hqdefault.jpg'
+							video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
-				# 若檔案內沒提供標題，嘗試從檔名取得（例如：F003_加入「糖尿病共照網」 免費檢查好處多多.txt）
+				# 若檔案內沒提供標題，嘗試從檔名取得
 				if not video_data['title']:
-					name = video_filename.replace('.txt', '')
-					if '_' in name:
-						video_data['title'] = name.split('_', 1)[1]
+					if '_' in name_clean:
+						video_data['title'] = name_clean.split('_', 1)[1]
 					else:
-						video_data['title'] = name
+						video_data['title'] = name_clean
 
 				# 若沒有 youtube_image，但有 youtube_url，嘗試再以 regex 解析一次
 				if not video_data['youtube_image'] and video_data['youtube_url']:
@@ -1849,7 +2037,38 @@ def breast_film_api(request):
 					m = re.search(r'(?:v=|embed/|youtu\.be/)([^&\s?/]+)', u)
 					if m:
 						ytb_id = m.group(1)
-						video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/hqdefault.jpg'
+						video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
+
+				# 若讀取後缺乏時長資料，則自動動態向 YouTube 抓取並回寫檔案
+				if not video_data['duration'] and video_data['youtube_url']:
+					u = video_data['youtube_url']
+					m = re.search(r'(?:v=|embed/|youtu\.be/)([^&\s?/]+)', u)
+					if m:
+						ytb_id = m.group(1)
+						duration = fetch_youtube_duration_on_the_fly(ytb_id)
+						if duration:
+							video_data['duration'] = duration
+							try:
+								with open(filepath, 'r', encoding='utf-8-sig') as f_read:
+									orig_content = f_read.read()
+								ending = "" if orig_content.endswith('\n') else "\n"
+								with open(filepath, 'a', encoding='utf-8') as f_write:
+									f_write.write(f"{ending}<vd>{duration}\n")
+							except Exception as write_err:
+								print(f"Error auto-writing duration to {filepath}: {write_err}")
+
+				# 解析分類索引值
+				category_index = None
+				parts = name_clean.split('_')
+				if len(parts) >= 2:
+					if parts[-1].isdigit():
+						category_index = int(parts[-1])
+					elif len(parts) >= 3 and parts[-2].isdigit():
+						category_index = int(parts[-2])
+				video_data['category_index'] = category_index
+
+				# 計算 ISO 時長
+				video_data['duration_iso'] = get_iso_duration(video_data['duration'])
 
 				all_videos.append(video_data)
 
@@ -1865,8 +2084,18 @@ def breast_film_api(request):
 		# 以 date 欄位排序（字串），空日期會排到後面
 		all_videos.sort(key=lambda x: x.get('date', ''), reverse=True)
 
+		# 支援不分頁載入所有影片
+		per_page_param = request.GET.get("per_page")
+		if per_page_param == 'all':
+			return JsonResponse({
+				'videos': all_videos,
+				'current_page': 1,
+				'total_pages': 1
+			})
+
 		# 分頁，每頁 20 筆
-		paginator = Paginator(all_videos, 20)
+		per_page = int(per_page_param) if per_page_param and per_page_param.isdigit() else 20
+		paginator = Paginator(all_videos, per_page)
 		page = int(request.GET.get("page", 1))
 		page_obj = paginator.get_page(page)
 
@@ -1881,31 +2110,98 @@ def breast_film_api(request):
 
 
 # ==================== 前端模板 ====================
-def breast_film(request):
+def neuro_film(request):
 	"""影音專區主頁，初始渲染不載入影片內容，由 AJAX 呼叫 health_film_api 動態載入；附帶回傳是否存在 Films_Dir 的簡單狀態供前端使用"""
+	append_crc32_to_filenames()  # 自動將尚未有 hash 的影片 txt 命名為 ...^hash.txt
 	has_films_dir = os.path.exists(Films_Dir) and any(f.endswith('.txt') for f in os.listdir(Films_Dir))
-	return render(request, "Breast_Care_Center/breast-film.html", {
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+	return render(request, "Neurology_Center/neuro-film.html", {
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 		'ga_id': '',
 		'gtm_id': '',
 		'has_films_dir': has_films_dir
 	})
 
+def neuro_film_detail(request, video_key):
+	"""影音專區-爬蟲與直接瀏覽專用獨立詳細頁 (O(1) 效能定位)"""
+	search_dirs = [video_dir, Films_Dir]
+	found_filepath = None
 
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 衛教園地 (breast_edu) ■■■■■■■■■■■■■■■■■■■■■■■■■■
+	# 使用 os.listdir 比對檔名，避免開啟所有檔案，維持高載入效能
+	for d in search_dirs:
+		if not os.path.exists(d):
+			continue
+		for fname in os.listdir(d):
+			if fname.endswith(f"^{video_key}.txt"):
+				found_filepath = os.path.join(d, fname)
+				break
+		if found_filepath:
+			break
+
+	if not found_filepath:
+		raise Http404("找不到該影音文章")
+
+	with open(found_filepath, 'r', encoding='utf-8-sig') as f:
+		lines = f.read().splitlines()
+
+	video = {
+		'title': '',
+		'date': '',
+		'doctor_id': '',
+		'duration': '',
+		'youtube_url': '',
+		'youtube_id': '',
+		'youtube_image': '',
+		'description': '',
+		'video_key': video_key,
+		'duration_iso': ''
+	}
+
+	for line in lines:
+		if line.startswith('<yh>'):
+			full_title = line.replace('<yh>', '').strip()
+			title_parts = re.split(r'[／/]', full_title)
+			video['title'] = title_parts[0].strip()
+			if len(title_parts) > 1:
+				video['description'] = title_parts[1].strip()
+		elif line.startswith('<yd>'):
+			video['date'] = line.replace('<yd>', '').strip()
+		elif line.startswith('<dr>'):
+			video['doctor_id'] = line.replace('<dr>', '').strip()
+		elif line.startswith('<vd>'):
+			video['duration'] = line.replace('<vd>', '').strip()
+		elif line.startswith('<ytb>'):
+			ytb_url = line.replace('<ytb>', '').strip()
+			video['youtube_url'] = ytb_url
+
+			m = re.search(r'(?:v=|embed/|youtu\.be/)([^&\s?/]+)', ytb_url)
+			if m:
+				ytb_id = m.group(1)
+				video['youtube_id'] = ytb_id
+				video['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
+
+	if not video['title']:
+		name = os.path.basename(found_filepath).replace('.txt', '').split('^')[0]
+		video['title'] = name.split('_', 1)[1] if '_' in name else name
+
+	video['duration_iso'] = get_iso_duration(video['duration'])
+
+	return render(request, "Neurology_Center/neuro-film-detail.html", {'video': video})
+
+
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■ 衛教園地 (neuro_edu) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 # ==================== 後端處理 ====================
-# 後: 衛教園地 - 分組資料並進行排序 (取得的資料可給 breast_edu_api 及 breast_edu 使用)
+# 後: 衛教園地 - 分組資料並進行排序 (取得的資料可給 neuro_edu_api 及 neuro_edu 使用)
 def get_health_edu_items():
 	"""取得衛教園地分組後的資料（list of (title, title_hash, images, [optional] is_txt, [optional] thumb)）"""
 	# 優化：先從快取中尋找資料
-	cache_key = 'breast_edu_items_metadata_v3' # 檔名邏輯更新，更新快取 key
+	cache_key = 'neuro_edu_items_metadata_v4' # 檔名邏輯更新，更新快取 key
 	cached_data = cache.get(cache_key)
 	if cached_data:
-		return cached_data, os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '乳房外科_BreastSurgery')
+		return cached_data, os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '0_內科_InternalMedicine', '神經科_Neurology')
 
 	# 1. 處理舊有的純圖片衛教資料
-	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '1_外科_Surgery', '乳房外科_BreastSurgery')
+	base_path = os.path.join(settings.MEDIA_ROOT, 'health_edu', 'Doc', '0_內科_InternalMedicine', '神經科_Neurology')
 	image_files = [f for f in os.listdir(base_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
 
 	grouped_images = defaultdict(list)
@@ -1922,7 +2218,7 @@ def get_health_edu_items():
 		formatted_items.append((title, title_hash, images, False, None))
 
 	# 2. 處理新的 E001 .txt 衛教文章
-	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
 	edu_icon_dir = os.path.join(edu_txt_dir, 'edu-icon')
 	
 	# 先讀取所有目前的 icon 檔名，用於快速比對
@@ -1973,20 +2269,20 @@ def get_health_edu_items():
 
 # 後: 衛教園地 - 支援 ajax 分頁
 @require_GET
-def breast_edu_api(request):
+def neuro_edu_api(request):
 	page = int(request.GET.get("page", 1))
 	per_page = int(request.GET.get("per_page", 20))
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, per_page)
 	page_obj = paginator.get_page(page)
 	
-	image_media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
+	image_media_url = settings.MEDIA_URL + 'health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology/'
 	
 	data = []
 	for item in page_obj:
 		title, title_hash, content, is_txt, thumb = item
 		if is_txt:
-			# 此處 thumb 已經是 media 相對路徑，例如 "Breast_Care_Center/breast-edu/edu-icon/thumb-webp/xxx.webp"
+			# 此處 thumb 已經是 media 相對路徑，例如 "neuro-center/neuro-edu/edu-icon/thumb-webp/xxx.webp"
 			data.append({
 				'title': title,
 				'titleId': title_hash,
@@ -2008,12 +2304,12 @@ def breast_edu_api(request):
 		'num_pages': paginator.num_pages,
 	})
 
-# 後: 衛教園地 - 隨機取得 5 筆衛教項目（供 breast-article-detail 側欄卡片用）
+# 後: 衛教園地 - 隨機取得 5 筆衛教項目（供 neuro-article-detail 側欄卡片用）
 @require_GET
-def random_breast_edus_api(request):
-	"""隨機取得 5 筆衛教園地項目（供 breast-article-detail 側欄卡片用）"""
+def random_neuro_edus_api(request):
+	"""隨機取得 5 筆衛教園地項目（供 neuro-article-detail 側欄卡片用）"""
 	all_items, base_path = get_health_edu_items()
-	media_url = settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/'
+	media_url = settings.MEDIA_URL + 'health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology/'
 
 	# 隨機挑選最多 5 筆
 	random_items = random.sample(all_items, min(5, len(all_items)))
@@ -2041,21 +2337,21 @@ def random_breast_edus_api(request):
 
 
 # ==================== 前端模板 ====================
-def breast_edu(request):
+def neuro_edu(request):
 	append_crc32_to_filenames() # 自動重命名衛教文章檔案 (加上 ^hash)
 	all_items, base_path = get_health_edu_items()
 	paginator = Paginator(all_items, 20)
 	page_number = request.GET.get('page')
 	page_obj = paginator.get_page(page_number)
 	context = {
-		'media_url': settings.MEDIA_URL + 'health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery/',
+		'media_url': settings.MEDIA_URL + 'health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology/',
 		'page_obj': page_obj,
-		'og_image': f"{settings.SITE_DOMAIN}/media/Breast_Care_Center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
 	}
-	return render(request, 'Breast_Care_Center/breast-edu.html', context)
+	return render(request, 'Neurology_Center/neuro-edu.html', context)
 
 @require_GET
-def breast_edu_detail(request, title_id):
+def neuro_edu_detail(request, title_id):
 	"""衛教園地詳細頁面"""
 	all_items, base_path = get_health_edu_items()
 	
@@ -2077,7 +2373,7 @@ def breast_edu_detail(request, title_id):
 	
 	if is_txt:
 		# 文字檔模式
-		edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'Breast_Care_Center', 'breast-edu')
+		edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
 		filepath = os.path.join(edu_txt_dir, content)
 		parsed = parse_article_txt(filepath)
 		
@@ -2088,7 +2384,7 @@ def breast_edu_detail(request, title_id):
 				og_image_path = f"/media/{block['edu_article_src']}"
 				break
 
-		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {
+		return render(request, 'Neurology_Center/neuro-edu-detail.html', {
 			'title': title,
 			'blocks': parsed['blocks'],
 			'is_txt': True,
@@ -2103,7 +2399,7 @@ def breast_edu_detail(request, title_id):
 
 		image_list = []
 		MEDIA_URL = settings.MEDIA_URL
-		base_url_path = "health_edu/Doc/1_外科_Surgery/乳房外科_BreastSurgery"
+		base_url_path = "health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology"
 
 		for file in content:
 			jpg_path = os.path.join(_dir, file)
@@ -2133,7 +2429,7 @@ def breast_edu_detail(request, title_id):
 				'has_webp': has_webp
 			})
 
-		return render(request, 'Breast_Care_Center/breast-edu-detail.html', {
+		return render(request, 'Neurology_Center/neuro-edu-detail.html', {
 			'title': title,
 			'image_list': image_list,
 			'is_txt': False,

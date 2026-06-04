@@ -1,0 +1,16 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "{{ video.title }}",
+  "description": "{{ video.title }}。主講：{{ video.description|default:'長安醫院醫療團隊' }}。",
+  "thumbnailUrl": "{{ video.youtube_image }}",
+  "uploadDate": "{{ video.date|default:'2026-01-01' }}T00:00:00+08:00",
+  "embedUrl": "https://www.youtube.com/embed/{{ video.youtube_id }}",
+  "duration": "{{ video.duration_iso|default:'PT5M' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ video.description|default:'長安醫院神經醫學中心' }}"
+  }
+}
+</script>

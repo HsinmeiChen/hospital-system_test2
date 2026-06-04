@@ -8,6 +8,14 @@ from Pomelo_API.views import _get_dept_dr_map
 def default_tracking_ids(request):
 	# 先抓取網域，若沒有則預設空字串
 	site_domain = getattr(settings, 'SITE_DOMAIN', '')
+	if not request or not hasattr(request, 'path'):
+		return {
+			'SITE_DOMAIN': site_domain,
+			'DEFAULT_GA_ID': getattr(settings, 'DEFAULT_GA_ID', 'G-GE353FP9KK'), # GA 追蹤碼
+			'DEFAULT_GTM_ID': getattr(settings, 'DEFAULT_GTM_ID', 'GTM-TMHQ84N'), # GTM 追蹤碼
+			'DEFAULT_OG_IMAGE': f"{site_domain}/Public/common/img/everan2.jpg", # 預設分享圖片
+		}
+
 	path = request.path # 取得目前網址路徑
 
 	if path.startswith('/specialty_medical/'): # 骨科微創中心
@@ -18,6 +26,8 @@ def default_tracking_ids(request):
 		default_og_image = f"{site_domain}/media/Breast_Care_Center/everan2.png"
 	elif path.startswith('/EECP/'): # EECP
 		default_og_image = f"{site_domain}/media/EECP/EECP.png"
+	elif path.startswith('/neuro-center/'): # 神經醫學中心
+		default_og_image = f"{site_domain}/media/neuro-center/og-neuro-center.jpg"
 	else:
 		# 主要官網 
 		default_og_image = f"{site_domain}/Public/common/img/everan2.jpg"
@@ -125,6 +135,14 @@ def get_dynamic_name(segment, request):
 
 def breadcrumb_processor(request):
 	# 1. 取得當前網址路徑
+	if not request or not hasattr(request, 'path'):
+		return {
+			"breadcrumbs": [],
+			"side_doctors": [],
+			"side_dept_name": "",
+			"side_dept_url": "",
+			"current_dr_id": None
+		}
 	path_segments = request.path.strip("/").split("/")
 
 	# 移除分頁路徑片段，避免影響麵包屑生成

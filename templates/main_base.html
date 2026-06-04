@@ -13,7 +13,11 @@
     <meta name="keywords" content="{% block keywords %}長安醫院、太平醫院、急診、骨科、眼科、復健、體檢、健康檢查、假日門診{% endblock %}">
     <meta name="description"
         content="{% block meta_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
-    <link rel="canonical" href="{{ SITE_DOMAIN }}{{ request.path }}">
+    {% if request %}
+    <link rel="canonical" href="{{ SITE_DOMAIN|default:"" }}{{ request.path }}">
+    {% else %}
+    <link rel="canonical" href="{{ SITE_DOMAIN|default:"" }}">
+    {% endif %}
     <meta name="robots" content="index, follow">
 
     <!-- 語系 ======================== -->
@@ -25,8 +29,12 @@
     <meta property="og:title" content="{% block og_title %}長安醫院{% endblock %}">
     <meta property="og:description"
         content="{% block og_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
-    <meta property="og:url" content="{{ SITE_DOMAIN }}{{ request.get_full_path }}">
-    <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+    {% if request %}
+    <meta property="og:url" content="{{ SITE_DOMAIN|default:"" }}{{ request.get_full_path }}">
+    {% else %}
+    <meta property="og:url" content="{{ SITE_DOMAIN|default:"" }}">
+    {% endif %}
+    <meta property="og:image" content="{% block og_image %}{{ og_image|default:DEFAULT_OG_IMAGE|default:"" }}{% endblock %}">
 
     <!-- Twitter Card (ChatGPT / Perplexity / line / DC) ====== -->
     <meta name="twitter:card" content="summary_large_image">
@@ -34,7 +42,7 @@
     <meta name="twitter:description"
         content="{% block twitter_description %}長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務。{% endblock %}">
 
-    <meta name="twitter:image" content="{% block twitter_image %}{{ og_image|default:DEFAULT_OG_IMAGE }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ og_image|default:DEFAULT_OG_IMAGE|default:"" }}{% endblock %}">
 
     <!-- Google 網站驗證（Google Site Verification）用的標記 === -->
     <meta name="google-site-verification" content="cxRGjKaWmPVHZpRnEEhMaxvpAhqe3tqxOjwtAKkd5TA" />
@@ -46,18 +54,11 @@
     <link rel="stylesheet" href="{% static 'common/icon/css/all.css' %}">
     <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
 
-    <!-- 外部套件 CSS ======================= -->
-    <!-- Fancy Box -->
-    <link rel="stylesheet" href="{% static 'common/css/fancybox.css' %}"> <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{% static 'common/css/sweetalert2.min.css' %}">
-
     <!-- 導航列 css ======================= -->
     <link rel="stylesheet" type="text/css" href="{% static 'common/css/reset.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'common/css/style.min.css' %}">
 
     <!-- 模組化 CSS ======================= -->
-    <link rel="stylesheet" href="{% static 'common/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'common/css/sub-style.css' %}">
     <link rel="stylesheet" href="{% static 'common/css/refactored/base.css' %}">
     <link rel="stylesheet" href="{% static 'common/css/refactored/header.css' %}">
     <link rel="stylesheet" href="{% static 'common/css/refactored/layout.css' %}">

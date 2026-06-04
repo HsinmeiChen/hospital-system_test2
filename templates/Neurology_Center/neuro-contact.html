@@ -1,0 +1,107 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}聯絡我們｜{{ block.super }}{% endblock %}
+{% block meta_description %}若您對【長安醫院-神經醫學中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}聯絡我們｜{{ block.super }}{% endblock %}
+{% block og_description %}若您對【長安醫院-神經醫學中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}聯絡我們｜{{ block.super }}{% endblock %}
+{% block twitter_description %}若您對【長安醫院-神經醫學中心】有任何問題或需求，歡迎透過此頁聯絡我們，我們將提供專業協助與回覆。{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="modern-contact-wrapper l-main-content__body">
+    <div class="l-sub-layout__main">
+
+        <!-- 訊息提示區塊 -->
+        {% if messages %}
+            <div class="message-alerts mb-4 animate-fade-in">
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm modern-alert text-center font-weight-bold mb-0" role="alert">
+                        <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} mr-2"></i>
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Form Container -->
+        <div class="mx-auto animate-fade-in-up">
+            <div class="p-4 p-md-5">
+                
+                <!-- Hero / Intro Section -->
+                <div class="modern-hero text-center mb-5">
+                    <div class="icon-wrapper mb-4">
+                        <div class="icon-bg-glow"></div>
+                        <i class="far fa-envelope text-gradient"></i>
+                    </div>
+                    <h2 class="modern-title font-weight-bold mb-3">聯絡我們 <span>Contact</span></h2>
+                    <p class="modern-subtitle text-muted font-18">
+                        若您對「神經醫學中心」有任何疑問或服務需求，<br class="d-none d-md-block">
+                        歡迎透過本頁與我們聯繫，我們將盡快提供專業協助與回覆。
+                    </p>
+                </div>
+
+                <div class="contact-form">
+                        {% url 'neuro_send_mail' as my_action_url %}
+                        {% include 'components/_modern_contact_form.html' with action_url=my_action_url show_section_titles=True %}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="聯絡我們｜神經醫學中心" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/modern-contact.css' %}">
+<style>
+    :root {
+        --theme-primary: #f4ada3;
+        --theme-primary-hover: #f19284;
+        --theme-secondary: #d37079;
+        --theme-secondary-hover: #c45b64;
+        --theme-primary-glow: rgba(244, 173, 163, 0.4);
+        --theme-secondary-glow: rgba(211, 112, 121, 0.15);
+        --theme-primary-shadow: rgba(211, 112, 121, 0.3);
+        --input-focus-ring: rgba(211, 112, 121, 0.25);
+        --theme-outline-hover-bg: rgba(211, 112, 121, 0.05);
+    }
+    
+    .l-sub-layout__main {
+        max-width: 1000px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .text-theme { color: var(--theme-secondary) !important; }
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'common/js/common-contact.js' %}"></script>
+
+{% endblock %}

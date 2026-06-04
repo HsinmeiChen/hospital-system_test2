@@ -1,0 +1,109 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}神經醫學中心｜{{ block.super }}{% endblock %}
+{% block keywords %}長安醫院,神經醫學中心,神經內科,腦中風,巴金森氏症,失智症,自律神經失調,偏頭痛,頭痛,頭暈,眩暈,癲癇,手腳麻木,周邊神經病變,記憶力衰退,失眠,顫抖{% endblock %}
+{% block meta_description %}長安醫院神經醫學中心提供神經內科專業診療，涵蓋腦中風、失智症、巴金森氏症、頭痛、眩暈、自律神經失調、癲癇、手腳麻木及周邊神經疾病等常見神經系統疾病，打造完整且精準的醫療照護服務。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}神經醫學中心｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院神經醫學中心提供神經內科專業診療，涵蓋腦中風、失智症、巴金森氏症、頭痛、眩暈、自律神經失調、癲癇、手腳麻木及周邊神經疾病等常見神經系統疾病，打造完整且精準的醫療照護服務。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}神經醫學中心｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院神經醫學中心提供神經內科專業診療，涵蓋腦中風、失智症、巴金森氏症、頭痛、眩暈、自律神經失調、癲癇、手腳麻木及周邊神經疾病等常見神經系統疾病，打造完整且精準的醫療照護服務。{% endblock %}
+
+<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+{% block loading_page %}
+{% include 'Neurology_Center/neuro-loading.html' %}
+{% endblock %}
+<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+
+{% block content %}
+	{% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+	<div class="l-wrapper l-sub__bg">
+		{% include 'Neurology_Center/neuro-header.html' %}
+		<main class="l-sub-layout__main" role="main">
+			<div class="l-container-panel">
+				<article>
+					<!-- 麵包屑 -->
+					{% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %}
+					<div class="l-main-content u-panel-pure" style="background-color: transparent;">
+						{% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
+					</div>
+				</article>
+			</div>
+		</main>
+	</div>
+
+	<!-- ▼▼▼ SEO/GEO ▼▼▼-->
+	{% block guide_seo %}{% endblock %}
+	<!-- ▲▲▲ SEO/GEO End ▲▲▲ -->
+{% endblock %}
+
+<!-- ▼▼▼ Bottom Nav (Mobile Only) ▼▼▼ -->
+{% block bottomNav %}
+<nav id="bottomNav" class="bottom-nav">
+	<a href="http://m.me/everanhospital" class="bottom-nav-item" title="長安神經醫學中心-FB 客服" target="_blank" alt="長安神經醫學中心-FB 客服">
+		<i class="fab fa-facebook" aria-hidden="true"></i>
+		<span>FB 客服</span>
+	</a>
+	<a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="長安醫院-LINE 客服" target="_blank" alt="長安醫院-LINE 客服">
+		<i class="fab fa-line" aria-hidden="true"></i>
+		<span>LINE 客服</span>
+	</a>
+	<a href="/neuro-center/contact/" class="bottom-nav-item" title="聯絡我們" alt="聯絡我們">
+		<i class="fas fa-envelope" aria-hidden="true"></i>
+		<span>聯絡我們</span>
+	</a>
+	<a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
+		<i class="fas fa-arrow-up" aria-hidden="true"></i>
+		<span>回到最上方</span>
+	</a>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Bottom Nav (Mobile Only) ▲▲▲ -->
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+	<style>
+		/* .m-header {
+			background: var(--color-bg-white);
+			border-bottom: 0px;
+		} */
+		/* .l-container-panel {
+			padding: 0;
+			max-width: 100%;
+			box-shadow: none;
+			border: 0px;
+		} */
+		.l-main-content {
+			border: 0px;
+			padding: 0;
+		}
+		.l-main-content__body{
+			border: 0px;
+			background-color: transparent;
+		}
+		/* .l-footer{
+			background: var(--inverse-surface);
+		} */
+		/* @media (min-width: 992px) {
+			.l-sub-layout__main, .l-main-content {
+				padding: 0;;
+			}
+		} */
+	</style>
+	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro.css' %}">
+	{% block sub_extra_css %}{% endblock %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+	{% block sub_extra_js %}{% endblock %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

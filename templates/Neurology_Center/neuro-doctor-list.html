@@ -1,0 +1,110 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block meta_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block og_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block twitter_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+<!-- ■■■ Banner、Bread-crumbs ■■■ -->
+		<section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
+			<div class="page-banner">
+				<div class="page-banner-inner fade-in-card">
+					<!-- (1)、Title -->
+					<div class="page-banner-title-div">
+						<h1 class="page-banner-title">醫師陣容</h1>
+						<div class="page-banner-title-en">Medical Team</div>
+					</div>
+					<!-- (2)、Bread-crumbs -->
+					<div class="page-banner-breadcrumb">
+						<ul class="bc-nav">
+							<li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+							<li>醫師陣容</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	<div class="neuro-subpage-container">
+
+		<!-- ■■■ Doctors List ■■■ -->
+		<section class="neuro-doctors-section">
+			<div class="doctors-area">
+				<ul class="row mb-0 no-gutters neuro-dr-list">
+					{% for doctor in doctors %}
+					<li class="fade-in-card col-md-6 col-xl-6">
+						<div class="neuro-dr-card">
+							<div class="neuro-dr-img-wrapper">
+								{% if doctor.image_webp %}
+									<img src="/media/{{ doctor.image_webp }}" alt="{{ doctor.name }} 醫師照片" loading="lazy" class="neuro-dr-img">
+								{% elif doctor.image %}
+									<img src="/media/department/img/{{ doctor.image }}" alt="{{ doctor.name }} 醫師照片" loading="lazy" class="neuro-dr-img">
+								{% endif %}
+							</div>
+							<div class="neuro-dr-info">
+								<div class="neuro-dr-header">
+									<h3 class="neuro-dr-name">{{ doctor.name }}</h3>
+									<span class="neuro-dr-job">{{ doctor.job_title }}</span>
+								</div>
+								<div class="neuro-dr-tags">
+									{% for tag in doctor.expertise_list|slice:":4" %}
+										<span class="neuro-dr-tag">{{ tag }}</span>
+									{% empty %}
+										<span class="neuro-dr-tag-empty">一般神經學</span>
+									{% endfor %}
+								</div>
+								<div class="neuro-dr-actions">
+									<a href="{% url 'neuro_doctor_profile' doctor.employee_id %}" class="neuro-dr-btn neuro-dr-btn-details" title="{{ doctor.name }} 醫師-詳細介紹">
+										<i class="far fa-id-card"></i><span> 詳細資料</span>
+									</a>
+									<button class="open-stop-modal neuro-dr-btn neuro-dr-btn-schedule" data-id="{{ doctor.employee_id }}" data-name="{{ doctor.name }}" title="{{ doctor.name }} 醫師-停休診時間">
+										<i class="far fa-calendar-times"></i><span> 停休診時間</span>
+									</button>
+									<a class="neuro-dr-btn neuro-dr-btn-booking" href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ doctor.employee_id }}/" target="_blank" title="{{ doctor.name }} 醫師-網路掛號">
+										<i class="fas fa-notes-medical"></i><span> 網路掛號</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</section>
+	</div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline="醫師介紹一覽｜神經醫學中心" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'apps/neurology_center/js/ne-doctor-list-use.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安醫院-神經醫學中心衛教園地：{{ title }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院-神經醫學中心衛教園地：{{ title }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院-神經醫學中心衛教園地：{{ title }}{% endblock %}
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+    <!-- ■■■ Banner、bread-crumbs ■■■ -->
+    <section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
+        <div class="page-banner">
+            <div class="page-banner-inner fade-in-card">
+                <!-- (1)、Title -->
+                <div class="page-banner-title-div">
+                    <h1 class="page-banner-title">{{ title }}</h1>
+                    <!-- <div class="page-banner-title-en">Media Reports</div> -->
+                </div>
+                <!-- (2)、Bread-crumbs -->
+                <div>
+                    <ul class="bc-nav">
+                        <li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                        <li><a href="{% url 'neuro_edu' %}">衛教園地</a></li>
+                        <li>{{ title }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="neuro-subpage-container">
+        <!-- ■■■ Edu-Articles ■■■ -->
+            <section class="section-grid">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9">
+                        <article id="edu-article" class="article_border p-4 my-3 fade-in-card">
+                        {% if is_txt %}
+                            <div class="article-body">
+                                <h2 class="article_h">{{ title }}</h2>
+                            {% for block in blocks %}
+                                {% if block.type == 'h3' %}
+                                    <h3 class="{{ block.class }}">{{ block.text }}</h3>
+                                {% elif block.type == 'h4' %}
+                                    <h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+                                {% elif block.type == 'p' %}
+                                    <p class="{{ block.class }}">{{ block.text|safe }}</p>
+                                {% elif block.type == 'img' %}
+                                    <div class="{{ block.class }}">
+                                        <img src="/media/{{ block.edu_article_src }}" alt="{{ title }}" loading="lazy">
+                                    </div>
+                                {% elif block.type == 'div' %}
+                                    <div class="{{ block.class }}">{{ block.text|safe }}</div>
+                                {% elif block.type == 'blockquote' %}
+                                    <div class="{{ block.class }}">
+                                        <div class="quo-txt">{{ block.text|safe }}</div>
+                                        <div class="logotxt">長安醫院，關心你</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="health-edu-images-container text-center">
+                                {% for img in image_list %}
+                                <div class="mb-4">
+                                    <picture>
+                                        {% if img.has_webp %}
+                                        <source srcset="{{ img.webp_url }}" type="image/webp">
+                                        {% endif %}
+                                        <img src="{{ img.jpg_url }}" class="img-fluid w-100" alt="{{ title }} (第 {{ forloop.counter }} 頁)" loading="lazy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                                    </picture>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        </article>
+                    </div>
+                    <div class="col-xl-3">
+                        <div>
+                            <h2 class="title-03 title-03-under-line fade-in-card"><i class="fas fa-book-open"></i> 延伸閱讀</h2>
+                        </div>
+                        <div id="random-breast-edus" class="row">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline=title|add:"｜神經醫學中心" datePublished=date folder="news_2" article_img=image %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script>
+    window.eduTitle = "{{ title|escapejs }}";
+</script>
+<script src="{% static 'apps/neurology_center/js/neuro-edu-detail.js' %}"></script>
+<script src="{% static 'apps/neurology_center/js/ne-sidebar-random-articles.js' %}"></script>
+{% endblock %}

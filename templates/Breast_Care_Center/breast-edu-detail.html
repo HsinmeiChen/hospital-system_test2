@@ -49,23 +49,41 @@
                             <div class="article-body">
                                 <h2 class="article_h">{{ title }}</h2>
                             {% for block in blocks %}
-                                {% if block.type == 'h3' %}
+                                {% if block.semantic == 'section_title' %}
                                     <h3 class="{{ block.class }}">{{ block.text }}</h3>
-                                {% elif block.type == 'h4' %}
+                                {% elif block.semantic == 'sub_title' %}
                                     <h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
-                                {% elif block.type == 'p' %}
+                                {% elif block.semantic == 'paragraph' %}
                                     <p class="{{ block.class }}">{{ block.text|safe }}</p>
-                                {% elif block.type == 'img' %}
-                                    <div class="{{ block.class }}">
-                                        <img src="/media/{{ block.edu_article_src }}" alt="{{ title }}" loading="lazy">
-                                    </div>
-                                {% elif block.type == 'div' %}
-                                    <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                {% elif block.type == 'blockquote' %}
+                                {% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
+                                    {% if block.type == 'ol' %}
+                                        <ol class="{{ block.class }}">
+                                    {% else %}
+                                        <ul class="{{ block.class }} pl-0">
+                                    {% endif %}
+                                        {% for item in block.items %}
+                                            <li class="{{ item.class }}">{{ item.text|safe }}</li>
+                                        {% endfor %}
+                                    {% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+                                {% elif block.semantic == 'faq_question' %}
+                                    <h4 class="{{ block.class }}">{{ block.text }}</h4>
+                                {% elif block.semantic == 'faq_answer' %}
+                                    <p class="{{ block.class }}">{{ block.text|safe }}</p>
+                                {% elif block.semantic == 'quote' %}
                                     <div class="{{ block.class }}">
                                         <div class="quo-txt">{{ block.text|safe }}</div>
                                         <div class="logotxt">長安醫院，關心你</div>
                                     </div>
+                                {% elif block.semantic == 'image' %}
+                                    <div class="{{ block.class }}">
+                                        <img src="/media/{{ block.edu_article_src }}" alt="{{ title }}" loading="lazy">
+                                    </div>
+                                {% elif block.semantic == 'video' %}
+                                    <div class="{{ block.class }}">
+                                        {{ block.text|safe }}
+                                    </div>
+                                {% elif block.type == 'div' %}
+                                    <div class="{{ block.class }}">{{ block.text|safe }}</div>
                                 {% endif %}
                             {% endfor %}
                             </div>

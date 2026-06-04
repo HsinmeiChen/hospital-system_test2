@@ -1,0 +1,99 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+    <!-- ■■■ Banner、bread-crumbs ■■■ -->
+    <section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
+        <div class="page-banner">
+            <div class="page-banner-inner fade-in-card">
+                <!-- (1)、Title -->
+                <div class="page-banner-title-div">
+                    <h1 class="page-banner-title">{{ title }}</h1>
+                    <!-- <div class="page-banner-title-en">Media Reports</div> -->
+                </div>
+                <!-- (2)、Bread-crumbs -->
+                <div>
+                    <ul class="bc-nav">
+                        <li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                        <li><a href="{% url 'neuro_media' %}">媒體報導</a></li>
+                        <li>發表於 {{ date }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="neuro-subpage-container">
+        <!-- ■■■ Articles ■■■ -->
+            <section class="section-grid">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9 px-3 fade-in-card">
+                        <div class="article-body">
+                        {% for block in blocks %}
+                            {% if block.semantic == 'section_title' %}
+                                <h2 class="{{ block.class }}">{{ block.text }}</h2>
+                            {% elif block.semantic == 'paragraph' %}
+                                <p class="{{ block.class }}">{{ block.text|safe }}</p>
+                            {% elif block.semantic == 'image' %}
+                                <div class="{{ block.class }}">
+                                    <img src="/media/{{ block.article_src }}" alt="{{ title }}" loading="lazy" title="{{ title }}">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <div class="text-center">
+                            <div class="booking-btn">
+                                <a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank">
+                                    <button type="button" class="btnn green"><i class="fas fa-hand-point-right"></i> 我要預約掛號</button>
+                                </a>
+                            </div>
+                        </div>             
+                    </div>
+                    <div class="col-xl-3">
+                        <div>
+                            <h2 class="title-03 title-03-under-line fade-in-card"><i class="fas fa-book-open"></i> 推薦文章</h2>
+                        </div>
+                        <div id="random-breast-reports" class="row">
+                            <!-- 隨機媒體報導卡片將由 JS 動態載入 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline=title|add:"｜神經醫學中心" datePublished=date folder="news_2" article_img=image %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'apps/neurology_center/js/ne-sidebar-random-articles.js' %}"></script>
+{% endblock %}

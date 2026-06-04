@@ -1,0 +1,92 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ video.title }}。主講：{{ video.description|default:"醫療團隊" }}。長安醫院神經醫學中心專業衛教影片分享。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ video.title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
+{% block og_image %}{{ video.youtube_image }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ video.title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
+{% block twitter_image %}{{ video.youtube_image }}{% endblock %}
+
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}    
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end mb-4 border-bottom" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_home' %}" itemprop="item">
+				<span itemprop="name" class="font-weight-bold">
+					<i class="fas fa-home" aria-hidden="true"></i> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_film' %}" itemprop="item">
+				<span itemprop="name" class="font-weight-bold">影音專區</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ video.title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="video-detail-container">
+	<h1 class="video-detail-title mb-3 font-weight-bold">{{ video.title }}</h1>
+	<div class="video-meta-info mb-4 text-muted">
+		<span class="mr-4"><i class="material-symbols-outlined align-middle mr-1 video-meta-icon">person</i>主講：{{ video.description|default:"神經醫學團隊" }}</span>
+		<span><i class="material-symbols-outlined align-middle mr-1 video-meta-icon">calendar_month</i>上架時間：{{ video.date }}</span>
+	</div>
+
+	<!-- 實體嵌入 YouTube 播放器 -->
+	<div class="video-player-wrapper embed-responsive embed-responsive-16by9 rounded-lg shadow-sm overflow-hidden mb-4">
+		<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="{{ video.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+	</div>
+	
+	<div class="video-article-summary p-4 rounded-sm">
+		<h4 class="video-summary-title font-weight-bold mb-2">衛教說明</h4>
+		<p class="video-summary-text text-secondary mb-0">
+			本影片由長安醫院神經醫學中心專業醫師主講，為您深入淺出解析疾病成因、日常照護要點與預防關鍵。如果您或您的家人有相關神經系統症狀，請及早預約門診諮詢。
+		</p>
+	</div>
+
+	<div class="mt-4 pt-4 text-center border-top">
+		<a href="/neuro-center/neuro-film/" class="btn btn-warning btn-lg rounded-0" title="台中長安醫院神經醫學中心-衛教影音列表頁" aria-current="page" aria-label="台中長安醫院神經醫學中心-衛教影音列表頁">回影音專區</a>
+	</div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_video.html' with video=video %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro-film-detail.css' %}">
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

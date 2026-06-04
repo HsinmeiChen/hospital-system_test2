@@ -1,0 +1,321 @@
+{% extends "Neurology_Center/neuro-base.html" %}
+
+{% load static %}
+
+<!-- === 子頁細節內容 =========================== -->
+
+{% block breadcrumbs %}{% endblock %}
+
+
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}
+<div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header align-items-center">
+        <!-- <h3 class="modal-title font-weight-bold" id="videoModalLabel"></h3> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetVideo()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe id="videoFrame" class="embed-responsive-item" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <!-- <div class="text-muted text-right mt-3" id="videoModalDate"></div> -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+    <!-- FRO SEO / GEO -->
+    <h1 class="u-visually-hidden">長安醫院神經醫學中心</h1>
+    <div>
+        <!-- ■■■ Banner ■■■ (用 p-neurology.css) -->
+        <section id="banner" class="neuro-banner">
+            <!-- 圖片輪播區 -->
+            <div class="banner-carousel" id="banner-carousel">
+                <!-- 圖片們與文字遮罩由 JS 動態載入 -->
+                <!-- 左右箭頭 -->
+                <button id="prevBanner" class="banner-arrow left" aria-label="上一張">&#10094;</button>
+                <button id="nextBanner" class="banner-arrow right" aria-label="下一張">&#10095;</button>
+            </div>
+            <!-- 導覽圓點 -->
+            <div id="banner-dots" class="banner-dots"></div>
+        </section>
+
+        <!-- ■■■ Treatment ■■■ -->
+        <section class="core-services-section container">
+            <div class="section-header-center">
+                <h2 class="section-header-title">核心醫療服務</h2>
+                <div class="section-header-line"></div>
+            </div>
+            <div class="services-grid">
+                <a href="/neuro-center/neuro-treatment/ILIB-1/" class="service-card" title="看更多關於 靜脈雷射治療 (ILIB)">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">bloodtype</span>
+                    </div>
+                    <h3 class="service-title">靜脈雷射治療<br><span class="service-subtitle">(ILIB)</span></h3>
+                    <p class="u-visually-hidden">靜脈雷射治療 (ILIB) 透過導入低能量氦氖雷射光至體內，促進紅血球活性與血液攜氧量，能有效改善新陳代謝、調節免疫系統，常應用於腦中風後復健與三高慢性病調理。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/headache/" class="service-card" title="看更多關於 偏頭痛/長期頭痛治療">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+                    </div>
+                    <h3 class="service-title service-title--sm">偏頭痛/長期頭痛<br><span class="service-subtitle service-subtitle--sm">(CGRP單株抗體)</span></h3>
+                    <p class="u-visually-hidden">專為偏頭痛及慢性長期頭痛患者設計，引進新型 CGRP 單株抗體標靶治療藥物，能精準阻斷大腦痛覺傳導，大幅降低頭痛發作頻率與嚴重度。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/Dementia/" class="service-card" title="看更多關於 失智症 (Dementia)">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">memory</span>
+                    </div>
+                    <h3 class="service-title">失智症<br><span class="service-subtitle">(Dementia)</span></h3>
+                    <p class="u-visually-hidden">針對阿茲海默症、血管性失智症等各類型認知功能衰退，提供早期篩檢、精準診斷與個人化藥物配合認知治療，守護長者的腦部健康。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/CAM/" class="service-card" title="看更多關於 輔助醫學">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">health_and_safety</span>
+                    </div>
+                    <h3 class="service-title">輔助醫學</h3>
+                    <p class="u-visually-hidden">結合主流醫學與多種非侵入性輔助療法，如電磁刺激、整合性照護，為常規治療成效不佳的慢性神經疾病提供全方位的輔助解決方案。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/IVNT/" class="service-card" title="看更多關於 靜脈營養療法 (IVNT)">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">vaccines</span>
+                    </div>
+                    <h3 class="service-title">靜脈營養療法<br><span class="service-subtitle">(IVNT)</span></h3>
+                    <p class="u-visually-hidden">靜脈營養療法 (IVNT) 依病患體質與臨床需求調配高濃度維生素、礦物質及抗氧化營養素，經靜脈直接吸收，快速提升身體修復力、緩解神經疲勞。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/FSM/" class="service-card" title="看更多關於 FSM 頻率共振微電流治療">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">waves</span>
+                    </div>
+                    <h3 class="service-title">FSM<br><span class="service-subtitle">頻率共振微電流治療</span></h3>
+                    <p class="u-visually-hidden">FSM 頻率共振微電流治療利用特定頻率的微弱電流與人體細胞共振，可有效抑制神經性疼痛、消除軟組織發炎，促進受損神經的自我修復。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/Aromatherapy/" class="service-card" title="看更多關於 芳香療法 (Aromatherapy)">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">spa</span>
+                    </div>
+                    <h3 class="service-title">芳香療法<br><span class="service-subtitle">(Aromatherapy)</span></h3>
+                    <p class="u-visually-hidden">精選醫療級天然植物精油，輔以專業按摩或吸入法，能有效安撫神經系統、減緩焦慮及改善睡眠品質，為神經疾患患者提供溫和的整合式身心舒壓。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽腦血管退化性疾病治療資訊">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">neurology</span>
+                    </div>
+                    <h3 class="service-title service-title--xs">腦血管退化性疾病<br><span class="service-subtitle service-subtitle--xs">中風/動脈瘤/帕金森/腦出血等</span></h3>
+                    <p class="u-visually-hidden">針對腦中風、動脈瘤、巴金森氏症、腦出血等急慢性腦血管與神經退化疾患，提供從急性期精密診療至後期積極功能復健的全程整合照護。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽脊髓/周邊神經損傷治療資訊">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">accessibility_new</span>
+                    </div>
+                    <h3 class="service-title service-title--sm">脊髓/周邊<br>神經損傷</h3>
+                    <p class="u-visually-hidden">針對脊髓壓迫、坐骨神經痛、腕隧道症候群及各式周邊神經損傷，提供精密神經檢查、減壓治療與神經再生復健，重建病患肢體運動及感覺功能。</p>
+                </a>
+                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽功能醫學 (Functional Medicine) 介紹">
+                    <div class="service-icon-wrapper">
+                        <span class="material-symbols-outlined">science</span>
+                    </div>
+                    <h3 class="service-title">功能醫學<br><span class="service-subtitle">(Functional Medicine)</span></h3>
+                    <p class="u-visually-hidden">功能醫學從根源出發，分析病患的環境毒素、腸胃道、荷爾蒙與營養代謝平衡，找出引發神經系統發炎或退化的根本原因，給予個人化的健康調理方針。</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- ■■■ Media Reports ■■■ -->
+        <section class="news-section-asym">
+            <div class="container">
+                <div class="section-header-center" style="margin-bottom: 3rem;">
+                    <h2 class="section-header-title">最新醫療情報</h2>
+                    <div class="section-header-line"></div>
+                </div>
+                
+                <!-- 第一層 - 採 2:1 兩區塊分布 -->
+                <div class="neuro-news-layer1">
+                    <!-- 占比2 - 放"媒體報導"最新日期 (排列方式-左側日期/標題/摘要文字，右側圖片) -->
+                    {% if media_layer1_1 %}
+                    <a href="{{ media_layer1_1.url }}" class="news-card-2">
+                        <div class="card-img-wrapper">
+                            {% if media_layer1_1.image %}
+                                <img src="/media/{{ media_layer1_1.image }}" alt="{{ media_layer1_1.title }}" class="card-img">
+                            {% else %}
+                                <img src="/media/neuro-center/everan2.png" alt="{{ media_layer1_1.title }}" class="card-img">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <span class="news-tag tag-tertiary">媒體報導</span>
+                            <span class="news-card-date">{{ media_layer1_1.pub_date }}</span>
+                            <h4 class="news-card-title">{{ media_layer1_1.title }}</h4>
+                            <p class="news-card-desc">{{ media_layer1_1.summary }}</p>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="news-card-2" style="justify-content: center; align-items: center; min-height: 200px;">
+                        <div class="card-body" style="text-align: center;">
+                            <span class="news-tag tag-tertiary">媒體報導</span>
+                            <h4 class="news-card-title">目前暫無最新媒體報導</h4>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- 占比1 - 放"媒體報導"第二新的日期 (排列方式-上側日期/標題/摘要文字，下側圖片) -->
+                    {% if media_layer1_2 %}
+                    <a href="{{ media_layer1_2.url }}" class="news-card-1">
+                        <div class="card-img-wrapper">
+                            {% if media_layer1_2.image %}
+                                <img src="/media/{{ media_layer1_2.image }}" alt="{{ media_layer1_2.title }}" class="card-img">
+                            {% else %}
+                                <img src="/media/neuro-center/everan2.png" alt="{{ media_layer1_2.title }}" class="card-img">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <span class="news-tag tag-tertiary">媒體報導</span>
+                            <span class="news-card-date">{{ media_layer1_2.pub_date }}</span>
+                            <h4 class="news-card-title">{{ media_layer1_2.title }}</h4>
+                            <p class="news-card-desc">{{ media_layer1_2.summary }}</p>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="news-card-1" style="justify-content: center; align-items: center; min-height: 200px;">
+                        <div class="card-body" style="text-align: center;">
+                            <span class="news-tag tag-tertiary">媒體報導</span>
+                            <h4 class="news-card-title">目前暫無第二新的媒體報導</h4>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- 第二層 - 採 1:1:1 三區塊分布，個別顯示"媒體報導"第3、4、5 新的媒體報導 -->
+                <div class="neuro-news-layer2">
+                    {% for article in media_layer2 %}
+                    <a href="{{ article.url }}" class="news-card-three">
+                        <div class="card-img-wrapper">
+                            {% if article.image %}
+                                <img src="/media/{{ article.image }}" alt="{{ article.title }}" class="card-img">
+                            {% else %}
+                                <img src="/media/neuro-center/everan2.png" alt="{{ article.title }}" class="card-img">
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <span class="news-tag tag-tertiary">媒體報導</span>
+                            <span class="news-card-date">{{ article.pub_date }}</span>
+                            <h4 class="news-card-title">{{ article.title }}</h4>
+                            <p class="news-card-desc">{{ article.summary }}</p>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- (第三層已挪移至下方的影音衛教與衛教資訊並排區塊) -->
+
+                <div style="text-align: center; margin-top: 3.5rem;">
+                    <a href="{% url 'neuro_media' %}" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                        查看全部消息 <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ■■■ 影音專區 (Video Section) ■■■ -->
+        <section class="neuro-video-section">
+            <div class="neuro-section-header container">
+                <div>
+                    <h2 class="section-header-title">影音衛教專區</h2>
+                    <p class="mb-0" style="color: var(--on-surface-variant); font-size: 0.9rem;">由神經醫學團隊提供之專業影音衛教內容。</p>
+                </div>
+                <a href="{% url 'neuro_film' %}" style="color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                    瀏覽影片庫 <span class="material-symbols-outlined">smart_display</span>
+                </a>
+            </div>
+            <div class="video-row-layout container" id="video-list-home">
+                <!-- Video Cards-AJAX 動態載入 -->
+            </div>
+        </section>
+
+        <!-- ■■■ 衛教資訊專區 (Health Education Section) ■■■ -->
+        <section class="neuro-edu-section">
+            <div class="neuro-section-header container">
+                <div>
+                    <h2 class="section-header-title">衛教資訊專區</h2>
+                    <p class="mb-0" style="color: var(--on-surface-variant); font-size: 0.9rem;">精選實用健康衛教知識，守護您的健康生活。</p>
+                </div>
+                <a href="{% url 'neuro_edu' %}" style="color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                    查看更多衛教 <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+            <div class="edu-row-grid container">
+                {% for edu in random_edus %}
+                <a href="{{ edu.url }}" class="news-card-edu">
+                    <!-- <div class="card-img-wrapper">
+                        {% if edu.image %}
+                            <img src="{{ edu.image }}" alt="{{ edu.title }}" class="card-img">
+                        {% else %}
+                            <img src="/media/neuro-center/everan2.png" alt="{{ edu.title }}" class="card-img">
+                        {% endif %}
+                    </div> -->
+                    <div class="card-body">
+                        <span class="news-tag tag-primary">衛教園地</span>
+                        {% if edu.pub_date %}
+                        <span class="news-card-date">{{ edu.pub_date }}</span>
+                        {% endif %}
+                        <h4 class="news-card-title">{{ edu.title }}</h4>
+                        <p class="news-card-desc">{{ edu.summary }}</p>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="news-card-edu" style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+                    <h4 class="news-card-title">目前暫無衛教園地資訊</h4>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+<!-- Neuro MedicalWebPage -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "@id": "{{ SITE_DOMAIN }}{{ request.path }}#webpage",
+    "url": "{{ SITE_DOMAIN }}{{ request.path }}",
+    "name": "神經醫學中心｜長安醫院",
+    "description": "長安醫院神經醫學中心提供神經內科專業診療，涵蓋腦中風、失智症、巴金森氏症、頭痛、眩暈、自律神經失調、癲癇、手腳麻木及周邊神經疾病等常見神經系統疾病，打造完整且精準的醫療照護服務。",
+    "inLanguage": "zh-TW",
+    "about": [
+        {
+            "@type": "MedicalSpecialty",
+            "name": "Neurology",
+            "description": "神經內科"
+        },
+    ],
+    "provider": {
+        "@type": "Hospital",
+        "@id": "{{ SITE_DOMAIN }}/#hospital"
+    }
+}
+</script>
+{% endblock %}
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro-index.css' %}">
+{% endblock %}
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'apps/neurology_center/js/ne-film-modal.js' %}"></script>
+<script src="{% static 'apps/neurology_center/js/ne-index.js' %}"></script>
+{% endblock %}

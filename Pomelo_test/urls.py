@@ -22,6 +22,7 @@ import Pomelo_test.utils as pomelo_test_utils
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 
 # URL路徑 (指可設定網址名稱；若沒有定義參數，可用 re_path 路由)
@@ -169,12 +170,14 @@ urlpatterns = [
 	re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
 	re_path('specialty_health/', include('specialty_health.urls')), # 特色醫療-健管
 	re_path('breast-care-center/', include('Breast_Care_Center.urls')), # 特色醫療-乳房中心
+	re_path('neuro-center/', include('Neurology_Center.urls')), # 特色醫療-神經醫學中心
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # 新增 media (讓檔案可下載 - 強制在 DEBUG=False 時也能由 Django 提供)
 from django.views.static import serve
 
 urlpatterns += [
+	re_path('favicon.ico', RedirectView.as_view(url='/static/common/img/favicon.ico', permanent=True)),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 # handler404 = "Pomelo_API.views.error_404"
