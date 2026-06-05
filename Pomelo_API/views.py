@@ -3385,7 +3385,20 @@ def A003_Laboratory(request):
 	return render(request, "MedicalSupport/Laboratory/labor-index.html", {})
 
 def A003_Laboratory_1(request):
-	return render(request, "MedicalSupport/Laboratory/labor-1.html", {})
+	newFileList = sorted(glob.glob(os.path.join(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'jpg'), '*.jpg')), reverse=True)
+
+	showData = []
+	for newFile in newFileList:
+		reNewFile = newFile.split("\\")[7].split("_")
+
+		showDate = reNewFile[0]
+		showCreateDate = reNewFile[1]
+		showName = reNewFile[2]
+		showPath = r"/media/lab/lab-new/jpg/" + reNewFile[0] + "_" + reNewFile[1] + "_" + reNewFile[2]
+
+		showData.append({ 'date': showDate, 'create_date': showCreateDate, 'name': showName, 'path': showPath })
+
+	return render(request, "MedicalSupport/Laboratory/labor-1.html", {'showData': showData})
 
 def A003_Laboratory_2(request):
 	return render(request, "MedicalSupport/Laboratory/labor-2.html", {})

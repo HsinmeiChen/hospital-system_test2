@@ -70,7 +70,7 @@ urlpatterns = [
 	re_path('A003_Story_1/', pomelo_views.A003_Story_1),
 	re_path('A003_Story_2/', pomelo_views.A003_Story_2),
 	re_path('A003_Laboratory/', pomelo_views.A003_Laboratory),
-	re_path('A003_Laboratory_1/', pomelo_views.A003_Laboratory_1), # 未開放-最新公告
+	re_path('A003_Laboratory_1/', pomelo_views.A003_Laboratory_1),
 	re_path('A003_Laboratory_2/', pomelo_views.A003_Laboratory_2),
 	# re_path('A003_Laboratory_3/', pomelo_views.A003_Laboratory_3), # 未開放-抱怨程序
 	re_path('A003_Laboratory_4/', pomelo_views.A003_Laboratory_4),

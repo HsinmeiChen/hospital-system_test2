@@ -12,7 +12,25 @@
 
 
 <!-- ▼▼▼ Modal ▼▼▼-->
-{% block page_modals %}{% endblock %}
+{% block page_modals %}
+	{% for data in showData %}
+		<div class="modal fade" id="labor_news{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="labor_news{{ forloop.counter }}Label" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="labor_news{{ forloop.counter }}Label">{{ data.name|cut:".jpg" }}</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<img src="{{ data.path }}" alt="{{ data.name|cut:".jpg" }}" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
 
@@ -26,6 +44,24 @@
 	<div class="row">																			
 		<div class="col-12">		
 			<!-- 內容放置處 -->			
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>說明</th>
+						<th>生效日期</th>
+						<th>公告日期</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for data in showData %}
+						<tr>
+							<td><a href="#" data-toggle="modal" data-target="#labor_news{{ forloop.counter }}">{{ data.name|cut:".jpg" }}</a></td>
+							<td>{{ data.date }}</td>
+							<td>{{ data.create_date }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>	
 </div>
