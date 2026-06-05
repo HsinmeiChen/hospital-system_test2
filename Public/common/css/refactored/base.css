@@ -21,7 +21,7 @@
   /* Background Images */
   --bg-sub-page: url(../../img/everan5.webp);
   --bg-footer: url(../../img/footer_bg.webp);
-  --bg-Lab: url(../../img/Lab/lab-banner.jpg);
+  --bg-Lab: url(/media/lab/lab-img/lab-banner.jpg);
   
   /* Additional Semantic Colors */
   --color-selection-bg: #ac8c36;

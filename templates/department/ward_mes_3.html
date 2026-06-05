@@ -22,8 +22,8 @@
     <div class="row">
 		<div class="col-12">
 			<picture>
-    			<source srcset="{% static 'common/img/ward_mes/ward-webp/dis_process.webp' %}" type="image/webp">
-    			<img class="w-100" src="{% static 'common/img/ward_mes/dis_process.jpg' %}" alt="病人出院流程">
+    			<source srcset="{% get_media_prefix %}ward_mes/ward-webp/dis_process.webp" type="image/webp">
+    			<img class="w-100" src="{% get_media_prefix %}ward_mes/dis_process.jpg" alt="病人出院流程" title="病人出院流程">
 			</picture>
 		</div>
 	</div>
