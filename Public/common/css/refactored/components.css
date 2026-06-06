@@ -252,7 +252,7 @@
 }
 
 .c-sidebar-menu__header {
-  background-image: url(../../img/title-bg4.png);
+  background-image: url(../../img/title-bg4.webp);
   border: 1px solid var(--color-primary);
 }
 
@@ -565,94 +565,10 @@
   }
 }
 
-/* ==========================================================================
-   原有的樣式 (待美化)
-   ========================================================================== */
-
-/* 文字標題 */
-.title-bg {
-  background-image: url(/Public/common/img/title-bg4.webp);
-  border: 1px solid #896750;
-  color: #f6f0e9;
-}
-
-.title-bg h1,
-.title-bg h4,
-.title-bg h3 {
-  color: #f6f0e9;
-  font-weight: bolder;
-}
-
-/* list-style (橘色圓點) */
-.list-bullets {
-  list-style: none;
-  font-size: 1.2rem;
-  margin-bottom: 0;
-  line-height: 2rem;
-}
-
-.list-bullets li {
-  display: flex;
-  align-items: baseline;
-  margin-bottom: 5px;
-}
-
-.list-bullets li::before {
-  content: '';
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #f5961d;
-  /* border: 2px solid #754826; */
-  display: block;
-  margin-right: 1rem;
-  padding-right: 0.8rem;
-}
-
-/* 醫師介紹-文字 */
-.about-text h4 {
-  font-size: 35px;
-  font-weight: 700;
-  margin: 0 0 6px;
-}
-
-
-
-
-/* Fancybox 樣式 */
-.fancybox__backdrop {
-  background: rgba(24, 24, 27, 0.7);
-}
-
-/* Sweet alert2 樣式 */
-.swal2-styled {
-  padding: .5em 1.1em !important;
-}
-
-.swal2-styled.swal2-confirm,
-.swal2-styled.swal2-cancel {
-  border-radius: 0 !important;
-  font-size: 20px !important;
-  font-weight: bold;
-}
-
-.swal2-styled.swal2-confirm {
-  background-color: #28a745 !important;
-}
-
-
-
-/* |======== RWD 設定 ========| */
-
-@media only screen and (min-width: 576px) {
-  .login_form label {
-    text-align: right;
-  }
-}
 
 
 /* ==========================================================================
-   長安醫院共用自訂 AJAX 下拉選單分頁元件 (40px 等高)
+   AJAX 下拉選單分頁元件 (40px 等高)
    ========================================================================== */
 .pagination {
   display: flex !important;
@@ -724,8 +640,8 @@
 
 .ajax-fade-container.fade-out {
   opacity: 0 !important;
-} 
- 
+}
+
 
 /* =========================================
    Modern UI/UX Design System (Shared Components)
@@ -966,4 +882,116 @@
     .form-card { padding: 2.5rem 1.5rem; }
     .info-card { padding: 2rem 1.5rem; }
 }
+
+
+/* =========================================
+   Table style
+   ========================================= */
+table th{
+	background-image: url(../../img/title-bg4.webp);
+	color: var(--color-bg-light);
+}
+table td, table th{
+	padding: .5rem !important;
+	text-align: center;
+  vertical-align: middle !important;
+}
+.table-hover tbody tr:hover {
+    background-color: var(--color-bg-offwhite);
+}
+.table-bordered{
+	border:  1px solid var(--color-primary-light);
+}
+.table-striped tbody tr:nth-of-type(odd){
+	background-color: var(--color-bg-light); 
+}
+
+
+/* ==========================================================================
+   原有的樣式 (待美化)
+   ========================================================================== */
+
+/* 文字標題 */
+.title-bg {
+  background-image: url(/Public/common/img/title-bg4.webp);
+  border: 1px solid #896750;
+  color: #f6f0e9;
+}
+
+.title-bg h1,
+.title-bg h4,
+.title-bg h3 {
+  color: #f6f0e9;
+  font-weight: bolder;
+}
+
+/* list-style (橘色圓點) */
+.list-bullets {
+  list-style: none;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  line-height: 2rem;
+}
+
+.list-bullets li {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.list-bullets li::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f5961d;
+  /* border: 2px solid #754826; */
+  display: block;
+  margin-right: 1rem;
+  padding-right: 0.8rem;
+}
+
+/* 醫師介紹-文字 */
+.about-text h4 {
+  font-size: 35px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+
+
+
+/* Fancybox 樣式 */
+.fancybox__backdrop {
+  background: rgba(24, 24, 27, 0.7);
+}
+
+/* Sweet alert2 樣式 */
+.swal2-styled {
+  padding: .5em 1.1em !important;
+}
+
+.swal2-styled.swal2-confirm,
+.swal2-styled.swal2-cancel {
+  border-radius: 0 !important;
+  font-size: 20px !important;
+  font-weight: bold;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: #28a745 !important;
+}
+
+
+
+/* |======== RWD 設定 ========| */
+
+@media only screen and (min-width: 576px) {
+  .login_form label {
+    text-align: right;
+  }
+}
+
+
+
 

@@ -1191,14 +1191,6 @@ a:hover {
     border-bottom: 0px;
 }
 
-.table {
-    background-color: transparent;
-}
-
-.table-bordered td,
-.table-bordered th {
-    border: 1px solid #c3a18a;
-}
 
 /******** 分隔線 ********/
 .line:not(.active) {
@@ -1907,23 +1899,6 @@ video {
 }*/
 
 /********* table RWD排版 *********/
-.table-hover tbody tr:hover {
-    background-color: #f5f4f0;
-}
-
-.table>thead>tr>th {
-    vertical-align: middle;
-    /* background-color: #666; */
-    padding: 5px;
-    color: #fff;
-}
-
-.table>tbody>tr>td {
-    vertical-align: middle;
-    /*     word-wrap: break-word; */
-    word-break: break-all;
-    padding: 5px
-}
 
 /* ug_divtable (有框)*/
 .ug_table {
@@ -2052,9 +2027,7 @@ video {
     border-bottom: 1px solid #dee2e6;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f6f0e9;
-}
+
 
 
 /* DIV 畫表格 (多個div等高) */

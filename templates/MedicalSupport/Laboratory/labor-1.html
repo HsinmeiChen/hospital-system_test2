@@ -7,29 +7,11 @@
 {% block og_title %}最新公告｜{{ block.super }}檢驗科{% endblock %}
 
 
-
 <!-- === 子頁細節內容 =========================== -->
 
 
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
-	{% for data in showData %}
-		<div class="modal fade" id="labor_news{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="labor_news{{ forloop.counter }}Label" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="labor_news{{ forloop.counter }}Label">{{ data.name|cut:".jpg" }}</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<img src="{{ data.path }}" alt="{{ data.name|cut:".jpg" }}" class="img-fluid">
-					</div>
-				</div>
-			</div>
-		</div>
-	{% endfor %}
 {% endblock %}
 <!-- ▲▲▲ Modal ▲▲▲-->
 
@@ -42,26 +24,8 @@
 </header>
 <div class="l-main-content__body">
 	<div class="row">																			
-		<div class="col-12">		
-			<!-- 內容放置處 -->			
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>說明</th>
-						<th>生效日期</th>
-						<th>公告日期</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for data in showData %}
-						<tr>
-							<td><a href="#" data-toggle="modal" data-target="#labor_news{{ forloop.counter }}">{{ data.name|cut:".jpg" }}</a></td>
-							<td>{{ data.date }}</td>
-							<td>{{ data.create_date }}</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+		<div class="col-12 ajax-fade-container" id="ajax-paginated-section">		
+			{% include "MedicalSupport/Laboratory/labor-1_partial.html" %}
 		</div>
 	</div>	
 </div>
@@ -82,9 +46,38 @@
 
 <!-- === Sub Extra JS ========================== -->
 {% block sub_extra_js %}
-<!-- <script>
-	$(function () { 
-    	$(".content_labor_news").load("../../../MedicalSupport/Laboratory/bulletinboard.asp");
-	});
-</script> -->
+<script>
+function openLaborModal(el) {
+    const imagePath = el.getAttribute('data-path');
+    const title = el.getAttribute('data-name');
+    
+    // 1. 如果已存在則先移除（避免重複）
+    $('#laborNewsModal').remove();
+    // 2. 動態生成公告 Modal HTML 結構
+    const modalHtml = `
+    <div class="modal fade" id="laborNewsModal" tabindex="-1" role="dialog" aria-labelledby="laborNewsTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" id="laborNewsTitle">${title}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="${imagePath}" alt="${title}" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+    // 3. 插入 Body 並顯示
+    $('body').append(modalHtml);
+    $('#laborNewsModal').modal('show');
+    // 4. 關閉後徹底從 DOM 中移除，節省記憶體與效能
+    $('#laborNewsModal').on('hidden.bs.modal', function () {
+        $('#laborNewsModal').remove();
+    });
+}
+</script>
 {% endblock %}

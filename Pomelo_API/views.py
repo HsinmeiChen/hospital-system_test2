@@ -3385,8 +3385,7 @@ def A003_Laboratory(request):
 	return render(request, "MedicalSupport/Laboratory/labor-index.html", {})
 
 def A003_Laboratory_1(request):
-	newFileList = sorted(glob.glob(os.path.join(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'jpg'), '*.jpg')), reverse=True)
-
+	newFileList = sorted(glob.glob(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'jpg', '*.jpg')), reverse=True)
 	showData = []
 	for newFile in newFileList:
 		reNewFile = newFile.split("\\")[7].split("_")
@@ -3398,7 +3397,22 @@ def A003_Laboratory_1(request):
 
 		showData.append({ 'date': showDate, 'create_date': showCreateDate, 'name': showName, 'path': showPath })
 
-	return render(request, "MedicalSupport/Laboratory/labor-1.html", {'showData': showData})
+	# 分頁功能：每頁最多顯示 15 筆
+	paginator = Paginator(showData, 15)
+	page = request.GET.get('page') or 1
+	contacts = paginator.get_page(page)
+
+	# --- 判斷是否為 AJAX 請求，回傳局部模板 ---
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+		return render(request, "MedicalSupport/Laboratory/labor-1_partial.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+		})
+	else:
+		return render(request, "MedicalSupport/Laboratory/labor-1.html", {
+			'contacts': contacts,
+			'paginator': paginator,
+		})
 
 def A003_Laboratory_2(request):
 	return render(request, "MedicalSupport/Laboratory/labor-2.html", {})

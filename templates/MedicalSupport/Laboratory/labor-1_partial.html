@@ -1,0 +1,65 @@
+{% load static %}
+<div>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>說明</th>
+				<th width="160">生效日期</th>
+				<th width="160">公告日期</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for data in contacts %}
+				<tr>
+					<td class="text-left">
+						<a href="javascript:void(0);" data-path="{{ data.path }}" data-name="{{ data.name|cut:'.jpg' }}" onclick="openLaborModal(this)">{{ data.name|cut:".jpg" }}</a>
+					</td>
+					<td>{{ data.date }}</td>
+					<td>{{ data.create_date }}</td>
+				</tr>
+			{% empty %}
+				<tr>
+					<td colspan="3" class="text-center text-muted py-4">目前無最新公告。</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<!-- === AJAX 全局分頁頁碼 === -->
+{% if contacts.paginator.count > contacts.paginator.per_page %}
+<div class="row w-100 mx-0 mt-4">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <ul class="pagination align-items-center">
+            <!-- << First Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+               <a class="page-link" href="?page=1" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="First">«</a>
+            </li>
+            
+            <!-- < Previous Page -->
+            <li class="page-item {% if not contacts.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_previous %}{{ contacts.previous_page_number }}{% else %}1{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Previous">‹</a>
+            </li>
+            
+            <!-- Dropdown Selection -->
+            <li class="page-item">
+                <select class="form-control pagination-select" data-param-name="page" data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" style="display: inline-block; width: auto; height: 40px; border-radius: 0; border: 1px solid var(--color-border-light); font-size: 0.9rem; color: var(--color-text-dark); background-color: var(--color-bg-white);">
+                    {% for p in contacts.paginator.page_range %}
+                        <option value="{{ p }}" {% if p == contacts.number %}selected{% endif %}>第 {{ p }} 頁</option>
+                    {% endfor %}
+                </select>
+            </li>
+            
+            <!-- > Next Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={% if contacts.has_next %}{{ contacts.next_page_number }}{% else %}{{ contacts.paginator.num_pages }}{% endif %}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Next">›</a>
+            </li>
+            
+            <!-- >> Last Page -->
+            <li class="page-item {% if not contacts.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?page={{ contacts.paginator.num_pages }}" data-no-loading data-ajax-target="#ajax-paginated-section" data-ajax-scroll="#content_h" data-ajax-pushstate="true" aria-label="Last">»</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}
