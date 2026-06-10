@@ -3393,7 +3393,7 @@ def A003_Laboratory_1(request):
 		showDate = reNewFile[0]
 		showCreateDate = reNewFile[1]
 		showName = reNewFile[2]
-		showPath = r"/media/lab/lab-new/jpg/" + reNewFile[0] + "_" + reNewFile[1] + "_" + reNewFile[2]
+		showPath = r"/media/lab/lab-new/jpg/processed/" + reNewFile[0] + "_" + reNewFile[1] + "_" + reNewFile[2]
 
 		showData.append({ 'date': showDate, 'create_date': showCreateDate, 'name': showName, 'path': showPath })
 
