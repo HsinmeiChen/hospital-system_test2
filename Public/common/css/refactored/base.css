@@ -99,8 +99,6 @@ a:hover {
   color: var(--color-secondary);
   text-decoration: none;
 }
-
-
 /* Selection */
 ::selection {
   background: var(--color-selection-bg);
@@ -116,5 +114,3 @@ a:hover {
 body.swal2-height-auto {
   height: 100% !important;
 }
-
-

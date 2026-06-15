@@ -19,7 +19,7 @@
 <div class="l-main-content__body">
 	<div class="row items_div items_div_w mt-5">
 		{% autoescape off %}
-		<form action="" method="GET" id="first1" class="col-lg-6 d-flex justify-content-end">
+		<form action="" method="GET" id="first1" class="col-lg-6 d-flex">
 			<input type="hidden" name="first" value="1">
 			{% if referrer %}
 				<input type="hidden" name="referrer" value="{{ referrer }}">
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		</form>
-		<form action="" method="GET" id="first2" class="col-lg-6 d-flex justify-content-start">
+		<form action="" method="GET" id="first2" class="col-lg-6 d-flex">
 			<input type="hidden" name="first" value="0">
 			{% if referrer %}
 				<input type="hidden" name="referrer" value="{{ referrer }}">
@@ -89,6 +89,17 @@
 		background-color: transparent;
 		box-shadow: none;
 		border: 0px;
+	}
+	#first1, #first2{
+		justify-content: center;
+	}
+	@media (min-width: 1200px){
+		#first1{
+			justify-content: end;
+		}
+		#first2{
+			justify-content: start;
+		}
 	}
 </style>
 {% endblock %}

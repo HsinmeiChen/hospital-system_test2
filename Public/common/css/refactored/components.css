@@ -887,7 +887,7 @@
 /* =========================================
    Table style
    ========================================= */
-table th{
+table thead th{
 	background-image: url(../../img/title-bg4.webp);
 	color: var(--color-bg-light);
 }
