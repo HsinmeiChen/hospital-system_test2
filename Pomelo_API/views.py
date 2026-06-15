@@ -77,9 +77,13 @@ mssql_200_211_pwd = settings.MSSQL_200_211_PWD
 s_time = datetime.datetime.strptime("2000/01/01 00:00:00", "%Y/%m/%d %H:%M:%S")
 e_time = datetime.datetime.strptime("2000/01/01 00:00:01", "%Y/%m/%d %H:%M:%S")
 
+# 2026/06/11 新增過濾HA02660，因為該醫師還未就職
+datenow = datetime.datetime.now()
+dateStr = "2026-07-31 00:00:00"
+targetTime = datetime.datetime.strptime(dateStr, "%Y-%m-%d %H:%M:%S")
+
 
 def error_update_send_mail(e):
-	print(e)
 	# Mail設定
 	message = MIMEMultipart()
 	message['Subject'] = Header('網路掛號錯誤提示（本郵件為自動發送，請勿回覆）', 'utf-8')
@@ -2651,6 +2655,9 @@ def A001_department_part(request):
 
 				if (".txt" in file) and ("D000" in file):
 					re_file = file.split("_")
+					# 2026/6/11 新增過濾HA02660，因為該醫師還未就職
+					if ("HA02660" in re_file[3]) and (datenow < targetTime):
+						continue
 					# 醫師所屬科別代碼
 					d_sectno = MSSQLAPI.Search_Dr_SECTNO(department)
 					if (d_sectno != None):
@@ -3036,6 +3043,9 @@ def A001_dr_search(request):
 			for dd_dir in dd_dirs:
 				if ("D000" in dd_dir):
 					red_dir = dd_dir.split("_")
+					# 2026/6/11 新增過濾HA02660，因為該醫師還未就職
+					if (red_dir[3].replace(".txt", "") == "HA02660") and (datenow < targetTime):
+						continue
 					django_doctors.append(red_dir[2].split(" ")[0])
 
 					# 新增部分 Start --------------------------------
@@ -3236,9 +3246,6 @@ def A002_consultation_progress(request):
 			all_number_list = []
 			for number_list in number_lists:
 				all_number_list.append(PLSQLAPI.A002_Search_Room_All_Number("3", number_list[4]))
-				print(number_list[4])
-				if (number_list[4] == '501'):
-					print(PLSQLAPI.A002_Search_Room_All_Number("3", number_list[4]))
 			all_count_list = []
 			all_completed_list = []
 			all_no_completed_list = []
@@ -3899,7 +3906,7 @@ def A006_register(request):
 					# while(insert_ok):
 					MSSQLAPI.A006_Update_NRGRGS_RECNO(visitdt)
 						# try:
-					print(987654321)
+					print("===開始掛號(初診)===")
 					insert_ok = False
 					MSSQLAPI.Insert_LOG_WEB(patid, idno, visitdt, recno, shiftno, roomno, sectno, doccd)
 					resluet1 = MSSQLAPI.A006_Insert_NRGRGB_0(patid, visitdt, recno, shiftno, roomno, sectno, doccd)
@@ -3934,7 +3941,6 @@ def A006_register(request):
 			else:
 				# 查詢當日資料序號（需使用交易機制?）
 				recno = MSSQLAPI.A006_Search_NRGRGS_RECNO(visitdt)
-				# print(recno)
 				if (recno == None):
 					MSSQLAPI.A006_Insert_NRGRGS_RECNO(visitdt)
 					recno = 1
@@ -3949,12 +3955,11 @@ def A006_register(request):
 					resluet3 = MSSQLAPI.A006_Update_NRGRGS_RECNO(visitdt)
 						# try:
 
-					print(123456789)
+					print("===開始掛號(複診)===")
 					insert_ok = False
 					MSSQLAPI.Insert_LOG_WEB(patid, pat_id, visitdt, recno, shiftno, roomno, sectno, doccd)
 
 					resluet1 = MSSQLAPI.A006_Insert_NRGRGB_0(patid, visitdt, recno, shiftno, roomno, sectno, doccd)
-					# print(resluet1)
 					resluet2 = MSSQLAPI.A006_Insert_NRGPATTEMP(visitdt, recno, pat_id, pat_name, pat_sex, birthday, pat_phone)
 					request.session["A006_user_recno"] = recno
 						# except:
@@ -4700,6 +4705,10 @@ def A006_Online_Booking_1_part(request):
 	I000_lookday_list_aa = []
 	I000_lookday_list_nn = []
 	for lookday_data in I000_lookday_data:
+		# 2026/6/11 新增過濾HA02660，因為該醫師還未就職
+		if (lookday_data[2] == "HA02660") and (datenow < targetTime):
+			continue
+
 		if (lookday_data[1] == "1"):
 			I000_lookday_list_ss.append([lookday_data[0], lookday_data[2], lookday_data[4]])
 		elif (lookday_data[1] == "2"):
@@ -4911,10 +4920,14 @@ def A006_Online_Booking_2(request):
 				for dd_dir in dd_dirs:
 					if ("D000" in dd_dir):
 						red_dir = dd_dir.split("_")
+						# 2026/6/11 新增過濾HA02660，因為該醫師還未就職
+						if (red_dir[3].replace(".txt", "") == "HA02660") and (datenow < targetTime):
+							continue
 						django_doctors.append(red_dir[2].split(" ")[0])
 						django_doctors2.append(red_dir[3].replace(".txt", ""))
 						django_doctors3.append(sename)
 						django_doctors4.append(dept_en)
+						
 						z_doctors = zip(django_doctors, django_doctors2, django_doctors3, django_doctors4)
 
 				doctors.append(z_doctors)
@@ -5254,7 +5267,6 @@ def A006_Online_Booking_2_1(request):
 				dr_lookday_list_n.append(dr_lookday_n_data)
 		else:
 			dr_lookday_list_n.append(["N"])
-		print(dr_lookday_list_n)
 	dr_clinic_list = zip(dr_day_list, dr_weekday_list, dr_lookday_list_s, dr_lookday_list_a, dr_lookday_list_n)
 
 	# 確保變數有預設值（如果未定義）
@@ -5406,8 +5418,6 @@ def A103_search_ITH_bed(request):
 		user_ip = x_forwarded_for.split(',')[0]  # 多層代理時只取第一個真實 IP
 	else:
 		user_ip = request.META.get('REMOTE_ADDR')
-
-	print(user_ip)
 
 	if "192.168." in user_ip:
 		"""
