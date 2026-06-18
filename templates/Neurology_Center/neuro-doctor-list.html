@@ -3,15 +3,15 @@
 {% load static %}
 <!-- === Meta ================================== -->
 {% block title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
-{% block meta_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+{% block meta_description %}長安醫院神經醫學中心專業醫師陣容。我們集結專精於腦中風、失智症、巴金森氏症、頭痛、神經病變等各類神經系統疾病的主治醫師，提供精準診斷與全方位照護，並提供線上快速預約掛號服務。{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
 {% block og_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
-{% block og_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+{% block og_description %}長安醫院神經醫學中心專業醫師陣容。我們集結專精於腦中風、失智症、巴金森氏症、頭痛、神經病變等各類神經系統疾病的主治醫師，提供精準診斷與全方位照護，並提供線上快速預約掛號服務。{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
 {% block twitter_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
-{% block twitter_description %}「長安醫院-神經醫學中心」專業團隊涵蓋各領域資深主治醫師，歡迎點閱詳細資訊。{% endblock %}
+{% block twitter_description %}長安醫院神經醫學中心專業醫師陣容。我們集結專精於腦中風、失智症、巴金森氏症、頭痛、神經病變等各類神經系統疾病的主治醫師，提供精準診斷與全方位照護，並提供線上快速預約掛號服務。{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -20,74 +20,79 @@
 
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
+
+<section class="u-hero-header">
+	<div>
+		<div class="u-hero-header__content">
+			<span class="u-tag-primary">EXPERT PHYSICIANS</span>
+			<h1 class="u-hero-title"><span class="u-visually-hidden">長安醫院神經醫學中心 </span>專業醫師陣容 ‧ 精準照護</h1>
+			<p class="u-hero-desc">集結神經醫學領域專業醫師，為您提供精準、溫暖且全方位的照護。我們結合先進技術與人文關懷，守護您的神經健康。</p>
+		</div>
+	</div>
+</section>
+
 <div class="l-main-content__body">
-<!-- ■■■ Banner、Bread-crumbs ■■■ -->
-		<section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
-			<div class="page-banner">
-				<div class="page-banner-inner fade-in-card">
-					<!-- (1)、Title -->
-					<div class="page-banner-title-div">
-						<h1 class="page-banner-title">醫師陣容</h1>
-						<div class="page-banner-title-en">Medical Team</div>
-					</div>
-					<!-- (2)、Bread-crumbs -->
-					<div class="page-banner-breadcrumb">
-						<ul class="bc-nav">
-							<li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-							<li>醫師陣容</li>
-						</ul>
+	<!-- Doctors Bento Grid -->
+	<div class="grid l-doctor-grid" id="doctor-grid">
+		<!-- Doctor Card -->
+		{% for doctor in doctors %}
+		<div class="doctor-card">
+			<figure class="doctor-img-wrapper">
+				<picture>
+					{% if doctor.image_webp %}
+						<source srcset="/media/{{ doctor.image_webp }}" type="image/webp">
+					{% endif %}
+					{% if doctor.image %}
+						<img class="doctor-img"
+							 src="/media/department/img/{{ doctor.image }}" 
+							 alt="長安醫院神經醫學中心 {{ doctor.name }} {{ doctor.job_title }}" 
+							 title="{{ doctor.name }} 醫師 - 專業神經醫學"
+							 loading="lazy">
+					{% endif %}
+				</picture>
+				<figcaption class="doctor-badge">{{ doctor.job_title }}</figcaption>
+			</figure>
+			<div class="doctor-info">
+				<div class="doctor-name-wrapper">
+					<h3 class="doctor-name">{{ doctor.name }} 醫師</h3>
+				</div>
+				<div class="doctor-expertise">
+					<span class="material-symbols-outlined doctor-expertise-icon">workspace_premium</span>
+					{% if doctor.expertise_list %}
+						<span class="doctor-expertise-text doctor-expertise-text--truncate" title="{{ doctor.expertise_list|join:'、' }}">{{ doctor.expertise_list|join:"、" }}</span>
+					{% else %}
+						<span class="doctor-expertise-text">一般神經學</span>
+					{% endif %}
+				</div>
+				<div class="doctor-actions-wrapper">
+					<div class="doctor-actions-grid">
+						<a class="btn-outline-primary" href="{% url 'neuro_doctor_profile' doctor.employee_id %}" title="{{ doctor.name }} 醫師-詳細介紹">
+							<i class="far fa-id-card"></i><span>詳細資料</span>
+						</a>
+						<button class="open-stop-modal btn-outline-primary" data-id="{{ doctor.employee_id }}" data-name="{{ doctor.name }}" title="{{ doctor.name }} 醫師-停休診時間">
+							<i class="far fa-calendar-times"></i><span>停休診</span>
+						</button>
+						<a class="btn-primary-full btn-hover-effect" href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ doctor.employee_id }}/" target="_blank" title="{{ doctor.name }} 醫師-網路掛號">
+							<i class="fas fa-notes-medical"></i><span>網路掛號</span>
+						</a>
 					</div>
 				</div>
 			</div>
-		</section>
-
-	<div class="neuro-subpage-container">
-
-		<!-- ■■■ Doctors List ■■■ -->
-		<section class="neuro-doctors-section">
-			<div class="doctors-area">
-				<ul class="row mb-0 no-gutters neuro-dr-list">
-					{% for doctor in doctors %}
-					<li class="fade-in-card col-md-6 col-xl-6">
-						<div class="neuro-dr-card">
-							<div class="neuro-dr-img-wrapper">
-								{% if doctor.image_webp %}
-									<img src="/media/{{ doctor.image_webp }}" alt="{{ doctor.name }} 醫師照片" loading="lazy" class="neuro-dr-img">
-								{% elif doctor.image %}
-									<img src="/media/department/img/{{ doctor.image }}" alt="{{ doctor.name }} 醫師照片" loading="lazy" class="neuro-dr-img">
-								{% endif %}
-							</div>
-							<div class="neuro-dr-info">
-								<div class="neuro-dr-header">
-									<h3 class="neuro-dr-name">{{ doctor.name }}</h3>
-									<span class="neuro-dr-job">{{ doctor.job_title }}</span>
-								</div>
-								<div class="neuro-dr-tags">
-									{% for tag in doctor.expertise_list|slice:":4" %}
-										<span class="neuro-dr-tag">{{ tag }}</span>
-									{% empty %}
-										<span class="neuro-dr-tag-empty">一般神經學</span>
-									{% endfor %}
-								</div>
-								<div class="neuro-dr-actions">
-									<a href="{% url 'neuro_doctor_profile' doctor.employee_id %}" class="neuro-dr-btn neuro-dr-btn-details" title="{{ doctor.name }} 醫師-詳細介紹">
-										<i class="far fa-id-card"></i><span> 詳細資料</span>
-									</a>
-									<button class="open-stop-modal neuro-dr-btn neuro-dr-btn-schedule" data-id="{{ doctor.employee_id }}" data-name="{{ doctor.name }}" title="{{ doctor.name }} 醫師-停休診時間">
-										<i class="far fa-calendar-times"></i><span> 停休診時間</span>
-									</button>
-									<a class="neuro-dr-btn neuro-dr-btn-booking" href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ doctor.employee_id }}/" target="_blank" title="{{ doctor.name }} 醫師-網路掛號">
-										<i class="fas fa-notes-medical"></i><span> 網路掛號</span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</section>
+		</div>
+		{% endfor %}
 	</div>
+
+	<!-- Appointment Call to Action -->
+	<section class="neuro-cta-section neuro-cta-center">
+		<div class="neuro-cta-content">
+			<h2 class="neuro-cta-title">需要進一步的諮詢？</h2>
+			<p class="neuro-cta-desc">我們的醫療團隊隨時準備為您提供專業的診斷與建議。</p>
+		</div>
+		<div class="neuro-cta-action">
+			<button class="btn-neuro-white" onclick="location.href='/A006_Online_Booking_1_part/Neurology/'">線上掛號</button>
+		</div>
+	</section>
+
 </div>
 {% endblock %}
 <!-- ▲▲▲ Content ▲▲▲-->
@@ -95,12 +100,149 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="醫師介紹一覽｜神經醫學中心" %}
+{% for doctor in doctors %}
+	{% include 'schema_physician.html' with name=doctor.name image=doctor.image specialty="神經內科" description=doctor.expertise_list|join:'、' expertise=doctor.expertise_list center_name='神經醫學中心' %}
+{% endfor %}
 {% endblock %}
 
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.l-sub-layout__main{
+		padding: 0;
+	}
+	.l-container-panel{
+		background-color: transparent;
+		border: 0px solid var(--color-border-light);
+		padding: 0;
+		box-shadow:  none;
+		max-width: none;
+	}
+	.l-main-content{
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+	.u-hero-header{
+		padding: 1.5rem 0;
+	}
+	.u-hero-title{
+		font-weight: 600;
+		color: var(--primary);
+		font-size: 2.5rem;
+	}
+	.l-main-content__body{
+		background-color: transparent;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	}
+
+	
+	/* --- Doctor List Styles --- */
+	.l-doctor-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+		gap: 2rem;
+		border: 1px solid var(--color-accent-peach);
+		background-color: rgba(255, 255, 255, 0.8);
+		margin: 0 auto;
+	}
+	.doctor-name-wrapper {
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+	.doctor-name {
+		font-size: 1.8rem;
+		font-weight: 600;
+		color: var(--primary);
+	}
+	.doctor-expertise {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.doctor-expertise-icon {
+		color: var(--secondary);
+	}
+	.doctor-expertise-text {
+		color: var(--on-surface-variant);
+	}
+	.doctor-expertise-text--truncate {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.doctor-actions-wrapper {
+		margin-top: auto;
+		border-top: 1px solid var(--surface-container-high);
+		padding-top: 1rem;
+	}
+	.doctor-actions-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.5rem;
+	}
+	.btn-outline-primary {
+		padding: 0.75rem;
+		border: 1px solid var(--primary);
+		color: var(--primary);
+		background-color: transparent;
+		font-weight: 700;
+		text-align: center;
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+		transition: all 0.2s ease;
+		cursor: pointer;
+	}
+	.btn-outline-primary:hover {
+		background-color: #fbf3e1;
+		color: var(--primary);
+		border-color: var(--primary);
+	}
+	.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle{
+		background-color: var(--primary);
+		color: var(--on-white);
+		border-color: var(--primary);
+	}
+	.btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus{
+		box-shadow: 0 0 0 .2rem rgba(254, 156, 8, 0.5);
+	}
+	.btn-primary-full {
+		grid-column: span 2;
+		padding: 0.75rem;
+		border: none;
+		background-color: var(--primary);
+		color: var(--on-white);
+		font-weight: 700;
+		text-align: center;
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		transition: all 0.2s ease;
+		box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+	}
+	.btn-primary-full:hover {
+		filter: brightness(1.1);
+	}
+	.neuro-cta-section{
+		flex-direction: column;
+		margin-top: 0;
+	}
+	@media (min-width: 1200px){
+		.l-doctor-grid{
+			max-width: 82.5rem;
+			padding: 2rem;
+		}
+		.neuro-cta-section{
+			margin-top: var(--space-lg);
+		}
+	}
+</style>
 {% endblock %}
 
 

@@ -2,40 +2,65 @@
 
 {% load static %}
 <!-- === Meta ================================== -->
-{% block title %}{{ name }} - 醫師介紹｜{{ block.super }}{% endblock %}
-{% block meta_description %}{{ expertise|truncatechars:80 }}{% endblock %}
+{% block title %}{{ name }} 醫師介紹 - 台中神經醫學推薦｜{{ block.super }}{% endblock %}
+{% block meta_description %}台中長安醫院神經醫學中心 {{ name }} 醫師，專長為{{ expertise|truncatechars:40 }}...。提供專業的神經醫學診療服務，歡迎線上預約掛號。{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ name }} - 醫師介紹｜{{ block.super }}{% endblock %}
-{% block og_description %}{{ expertise|truncatechars:80 }}{% endblock %}
+{% block og_title %}{{ name }} 醫師介紹 - 台中神經醫學推薦｜{{ block.super }}{% endblock %}
+{% block og_description %}台中長安醫院神經醫學中心 {{ name }} 醫師，專長為{{ expertise|truncatechars:40 }}...。提供專業的神經醫學診療服務，歡迎線上預約掛號。{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ name }} - 醫師介紹｜{{ block.super }}{% endblock %}
-{% block twitter_description %}{{ expertise|truncatechars:80 }}{% endblock %}
+{% block twitter_title %}{{ name }} 醫師介紹 - 台中神經醫學推薦｜{{ block.super }}{% endblock %}
+{% block twitter_description %}台中長安醫院神經醫學中心 {{ name }} 醫師，專長為{{ expertise|truncatechars:40 }}...。提供專業的神經醫學診療服務，歡迎線上預約掛號。{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block breadcrumbs %}{% endblock %}
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end mb-4 border-bottom" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_home' %}" itemprop="item" title="回神經醫學中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_doctor_list' %}" itemprop="item" title="醫師陣容">
+				<span itemprop="name" class="font-weight-bold">醫師陣容</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ name_and_title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
 
 <!-- ▼▼▼ Modal ▼▼▼-->
 {% block page_modals %}
 <!-- 共用 Modal -->
 <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header align-items-center">
-        <!-- <h3 class="modal-title font-weight-bold" id="videoModalLabel"></h3> -->
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetVideo()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe id="videoFrame" class="embed-responsive-item" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <!-- <div class="text-muted text-right mt-3" id="videoModalDate"></div> -->
-      </div>
-    </div>
+	<div class="modal-content">
+	  <div class="modal-header align-items-center">
+		<!-- <h3 class="modal-title font-weight-bold" id="videoModalLabel"></h3> -->
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetVideo()">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <div class="modal-body">
+		<div class="embed-responsive embed-responsive-16by9">
+		  <iframe id="videoFrame" class="embed-responsive-item" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+		</div>
+		<!-- <div class="text-muted text-right mt-3" id="videoModalDate"></div> -->
+	  </div>
+	</div>
   </div>
 </div>
 {% endblock %}
@@ -44,136 +69,393 @@
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
 <div class="l-main-content__body">
-<!-- ■■■ Banner、Bread-crumbs ■■■ -->
-		<section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
-			<div class="page-banner">
-				<div class="page-banner-inner fade-in-card">
-					<!-- (1)、Title -->
-					<div class="page-banner-title-div">
-						<h1 class="page-banner-title">{{ name }}</h1>
-						<div class="page-banner-title-en">{{ job_title }}</div>
+
+<style>
+		:root {
+			/* 顏色、間距、圓角等已共用 neuro-style.css 的變數 */
+			
+			/* Typography 專用變數 */
+			--font-family: 'Manrope', sans-serif;
+			--label-md-size: 16px; --label-md-lh: 1.2; --label-md-weight: 600; --label-md-ls: 0.01em;
+			--display-lg-size: 48px; --display-lg-lh: 1.2; --display-lg-weight: 700; --display-lg-ls: -0.02em;
+			--headline-lg-size: 32px; --headline-lg-lh: 1.3; --headline-lg-weight: 700;
+			--headline-md-size: 24px; --headline-md-lh: 1.4; --headline-md-weight: 600;
+		}
+
+		/* --- Reset & Base 已共用 neuro-style.css --- */
+		ul { list-style: none; }
+
+		/* --- Typography Helpers --- */
+		.text-white { color: white; }
+		
+		.font-bold { font-weight: 700; }
+		.text-center { text-align: center; }
+		
+		.font-label-md { font-size: var(--label-md-size); line-height: var(--label-md-lh); font-weight: var(--label-md-weight); letter-spacing: var(--label-md-ls); }
+		.font-headline-lg { font-size: var(--headline-lg-size); line-height: var(--headline-lg-lh); font-weight: var(--headline-lg-weight); }
+		.font-headline-md { font-size: var(--headline-md-size); line-height: var(--headline-md-lh); font-weight: var(--headline-md-weight);color: var(--primary);margin-bottom: 1rem; }
+		.text-sm { font-size: 14px; }
+		.text-5xl { font-size: 3rem; }
+
+		/* --- Layout Helpers --- */
+		.flex { display: flex; }
+		.flex-col { flex-direction: column; }
+		.items-center { align-items: center; }
+		.justify-between { justify-content: space-between; }
+		.flex-wrap { flex-wrap: wrap; }
+		.shrink-0 { flex-shrink: 0; }
+		
+		.gap-2 { gap: 0.5rem; }
+		.gap-3 { gap: 0.75rem; }
+		.gap-4 { gap: 1rem; }
+		.gap-sm { gap: var(--space-sm); }
+		.gap-md { gap: var(--space-md); }
+		.gap-lg { gap: var(--space-lg); }
+
+		.h-full { height: 100%; }
+		.object-cover { object-fit: cover; }
+		.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+		.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+		.relative { position: relative; }
+		
+		/* --- Grids & Responsive --- */
+		.grid { display: grid; }
+		.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+		
+		@media (min-width: 640px) {
+			.sm-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+			.sm-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+		}
+		
+		@media (min-width: 1200px) {
+			.md-flex-row { flex-direction: row; }
+			.md-w-1-4 { width: 25%; }
+			.md-items-start { align-items: flex-start; }
+			.md-justify-start { justify-content: flex-start; }
+		}
+
+		/* --- Components --- */
+		
+		/* Sidebar Doctor Menu */
+		.doctor-sidebar {
+			position: sticky;
+			top: 6rem;
+			background-color: var(--surface-container-low);
+			padding: var(--space-md);
+			box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+			border: 1px solid rgba(189, 201, 198, 0.3);
+		}
+		.doctor-list-container {
+			max-height: 614px;
+			overflow-y: auto;
+		}
+		.doctor-list-container::-webkit-scrollbar { width: 4px; }
+		.doctor-list-container::-webkit-scrollbar-track { background: transparent; }
+		.doctor-list-container::-webkit-scrollbar-thumb { background: var(--outline-variant); border-radius: 10px; }
+		
+		.doctor-btn {
+			display: flex; align-items: center; gap: 0.75rem;
+			padding: .6rem; text-align: left;
+			transition: all 0.2s; border: 1px solid var(--outline-variant);
+			background-color: var(--on-white);
+			color: var(--on-surface-variant);
+			width: 100%;
+		}
+		.doctor-btn:hover {
+			border: 1px solid var(--primary);
+		}
+		.doctor-btn .material-symbols-outlined { transition: color 0.2s; }
+		.doctor-btn:hover .material-symbols-outlined { color: var(--primary); }
+
+		.doctor-btn.is-active {
+			background-color: var(--primary);
+			color: var(--on-white);
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+			border-color: transparent;
+		}
+		.doctor-btn.is-active:hover {
+			background-color: var(--primary);
+		}
+		.doctor-btn.is-active .material-symbols-outlined {
+			color: var(--on-white);
+		}
+
+		/* Profile Section */
+		.profile-card {
+			background-color: var(--on-white);
+			padding: var(--space-md);
+			border-radius: var(--radius-2xl);
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+			border: 1px solid rgba(189, 201, 198, 0.2);
+			transition: box-shadow 0.3s ease;
+		}
+		.profile-card:hover {
+			box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		}
+		@media (min-width: 1200px) {
+			.l-container-panel{ padding: 0.5rem 2rem 2rem 2rem;}
+			.profile-card { padding: 2.5rem; } 
+		}
+		
+		.profile-img-container {
+			overflow: hidden;
+			box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+			border: 6px solid var(--on-white);
+			background-color: var(--surface-variant);
+			position: relative;
+		}
+		
+		.doctor-badge-floating {
+			position: absolute;
+			bottom: -1rem;
+			background-color: var(--secondary);
+			color: var(--on-white);
+			padding: 0.3rem 1rem;
+			border-radius: var(--radius-full);
+			font-weight: 700;
+			font-size: .8rem;
+			box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+			letter-spacing: 0.05em;
+			white-space: nowrap;
+			border: 3px solid white;
+			z-index: 10;
+		}
+
+		.ne-tag {
+			display: flex; align-items: center; gap: 0.35rem;
+			background-color: var(--surface-container-low);
+			color: var(--on-surface);
+			padding: 0.3rem 0.6rem; border-radius: var(--radius-sm);
+			border: 1px solid var(--outline-variant);
+			transition: all 0.2s;
+		}
+		.ne-tag:hover {
+			transform: translateY(-2px);
+		}
+		.ne-tag .material-symbols-outlined { transform: scale(0.9); }
+
+		/* Profile Action Buttons */
+		.profile-action-btn {
+			display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+			padding: 0.75rem 1rem;
+			border-radius: var(--radius-full);
+			transition: all 0.3s ease;
+			border: none;
+			cursor: pointer;
+			width: 100%;
+			font-weight: 700;
+			text-decoration: none;
+		}
+		.btn-main {
+			background-color: var(--primary);
+			color: var(--on-white);
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		}
+		.btn-main .material-symbols-outlined {
+			color: var(--on-white);
+		}
+		.btn-main:hover {
+			background-color: var(--color-secondary);
+			color: var(--on-white);
+			transform: translateY(-2px);
+			box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		}
+		.btn-sub {
+			background-color: var(--on-white);
+			color: var(--on-surface);
+			border: 2px solid var(--outline-variant);
+		}
+		.btn-sub:hover {
+			background-color: #fbf3e1;
+			border-color: var(--primary);
+			color: var(--primary);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+		}
+
+
+		.bento-box {
+			background-color: var(--on-white);
+			padding: var(--space-sm);
+			box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+			border: 1px solid rgba(189, 201, 198, 0.2);
+		}
+
+		@media (min-width: 1200px) {
+			.bento-box { padding: var(--space-md);}
+		}
+		@media (min-width: 1600px) {
+			.btn-main, .btn-sub {width: 30%;}
+		}
+	
+		.timeline-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+		.timeline-dot { width: 8px; height: 8px; border-radius: var(--radius-full); margin-top: 10px; flex-shrink: 0; }
+		.timeline-dot.secondary { background-color: var(--secondary); }
+		.timeline-dot.color-secondary { background-color: var(--color-secondary); }
+		.timeline-dot.primary { background-color: var(--primary); }
+
+		/* Article Cards */
+		.article-card {
+			background-color: var(--on-white);
+			overflow: hidden; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+			transition: all 0.3s; border: 1px solid rgba(189, 201, 198, 0.1); cursor: pointer;
+		}
+		.article-card:hover { background-color: var(--on-white); }
+		.article-img-wrapper { height: 15rem; overflow: hidden; }
+		.article-img { transition: transform 0.5s; width: 100%; height: 100%; object-fit: cover; }
+		.article-card:hover .article-img { transform: scale(1.05); }
+		.article-content { padding: 1rem; }
+		.article-title { transition: color 0.2s; margin-bottom: 0.5rem; font-weight: 700; color: var(--on-surface); }
+		.article-card:hover .article-title { color: var(--primary); }
+
+		/* Video Cards */
+		.video-card {
+			aspect-ratio: 16 / 9;
+			overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+			cursor: pointer; position: relative;
+		}
+		.video-overlay {
+			position: absolute; inset: 0;
+			background-color: rgba(0, 0, 0, 0.3);
+			display: flex; align-items: center; justify-content: center;
+			transition: background-color 0.2s;
+		}
+		.video-card:hover .video-overlay { background-color: rgba(0, 0, 0, 0.1); }
+		.video-icon { opacity: 0.8; transition: transform 0.2s; font-variation-settings: 'FILL' 1 !important; color: white; }
+		.video-card:hover .video-icon { transform: scale(1.1); }
+		.video-caption {
+			position: absolute; bottom: 0; left: 0; right: 0;
+			background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+			padding: 0.75rem;
+		}
+
+	</style>
+
+		<div class="flex flex-col md-flex-row gap-lg" id="doctor-main" data-employee-id="{{ employee_id }}">
+			
+			<!-- Left Column: Doctor Menu -->
+			<aside class="w-full md-w-1-4 shrink-0">
+				<div class="doctor-sidebar">
+					<h2 class="font-headline-md  flex items-center gap-2" style="margin-bottom: var(--spacing-md);">
+						<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+						醫師團隊
+					</h2>
+					<div class="flex flex-col gap-sm doctor-list-container" id="doctor-sidenav">
 					</div>
-					<!-- (2)、Bread-crumbs -->
-					<div class="page-banner-breadcrumb">
-						<ul class="bc-nav">
-							<li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-							<li><a href="{% url 'neuro_doctor_list' %}">醫師陣容</a></li>
-							<li>{{ name_and_title }}</li>
+				</div>
+			</aside>
+
+			<!-- Right Column: Doctor Content -->
+			<div class="flex flex-col gap-lg">				
+				<!-- Profile Header -->
+				<section class="profile-card flex flex-col md-flex-row gap-lg items-center md-items-start">
+					<!-- 左側：照片與按鈕 -->
+					<div class="flex flex-col gap-4 items-center shrink-0" style="max-width: 100%; width: 18rem;">
+						<figure class="m-0 relative flex flex-col items-center">
+							<div class="profile-img-container doctor-img">
+								<picture class="w-full h-full block">
+									{% if image_webp %}
+										<source srcset="/media/{{ image_webp }}" type="image/webp">
+									{% endif %}
+									{% if image %}
+										<img class="w-full h-full object-cover doctor-img"
+											src="/media/department/img/{{ image }}" 
+											alt="台中長安醫院神經醫學中心 {{ name }} {{ job_title }}" 
+											title="台中長安醫院 {{ name }} 醫師 - 專業神經醫學"
+											loading="lazy">
+									{% endif %}
+								</picture>
+							</div>
+							<figcaption class="doctor-badge-floating">{{ job_title }}</figcaption>
+						</figure>
+
+						<div class="text-center w-full mt-3">
+							<h1 class="font-headline-lg font-bold" style="margin-bottom: 0.5rem; color: var(--on-surface);">{{ name }} <small>醫師</small></h1>
+						</div>
+					</div>
+					
+					<!-- 右側：專長領域 -->
+					<div class="flex flex-col gap-4">
+						<div class="flex gap-3 justify-content-end border-bottom pb-3">
+							<button class="open-stop-modal profile-action-btn btn-sub font-label-md neuro-dr-btn neuro-dr-btn-schedule" data-id="{{ employee_id }}" data-name="{{ name }}" title="{{ name }} 醫師-停休診時間">
+								<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span> 停休診時間
+							</button>
+							<button class="profile-action-btn btn-main font-label-md" onclick="window.location.href='/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/'" title="{{ name }} 醫師-網路掛號">
+								<span class="material-symbols-outlined" data-icon="event_available">event_available</span> 網路掛號
+							</button>							
+						</div>
+						<h3 class="font-headline-md flex items-center gap-2 justify-center md-justify-start" style="color: var(--primary); margin-bottom: 0.5rem;">
+							<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+							專長領域
+						</h3>
+						<div class="flex flex-wrap gap-3 justify-center md-justify-start">
+							{% for item in expertise_list %}
+								<span class="ne-tag font-label-md">
+									<span class="material-symbols-outlined" data-icon="check_circle" style="color: var(--primary);">check_circle</span>
+									{{ item }}
+								</span>
+							{% endfor %}
+						</div>
+					</div>
+				</section>
+
+				<!-- Education & Experience Bento -->
+				<section class="grid grid-cols-1 gap-md">
+					<div class="bento-box">
+						<h3 class="font-headline-md  flex items-center gap-2" style="margin-bottom: var(--spacing-md); color: var(--primary);">
+							<span class="material-symbols-outlined" data-icon="school">school</span>
+							學經歷背景
+						</h3>
+						<ul class="row mx-1 mb-0">
+							{% for item in education_list %}
+							<li class="timeline-item col-lg-6 mb-3">
+								<div class="timeline-dot {% cycle 'secondary' 'color-secondary' %}"></div>
+								<div>
+									<div class="timeline-title">{{ item }}</div>
+								</div>
+							</li>
+							{% endfor %}
 						</ul>
 					</div>
-				</div>
-			</div>
-		</section>
+				</section>
 
-	<div id="doctor-main" class="neuro-subpage-container" data-employee-id="{{ employee_id }}">
-
-		<!-- ■■■ Doctors Profile Layout ■■■ -->
-		<section class="neuro-profile-section">
-			<div class="doctor-profile">
-				<div class="row no-gutters">
-					<!-- (1)、側邊選單-醫師列表 (Boutique Sidebar Navigation) -->
-					<aside class="col-xl-3 fade-in-card">
-						<input type="checkbox" id="menu-toggle" />
-						<label for="menu-toggle" class="menu-icon">☰ 其他醫師介紹</label>
-						<nav class="sidenav neuro-sidenav">
-							<div class="menu-heading">
-								<div class="menu-heading-main">醫師陣容</div>
-								<small class="menu-heading-sub">Medical Team</small>
-							</div>
-							<div id="doctor-sidenav" class="list-group neuro-sidenav-list"></div>
-						</nav>
-					</aside>
-
-					<!-- (2)、醫師個人介紹 (Main Profile Details) -->
-					<section class="col-xl-9 neuro-profile-main">
-						<div class="row">
-							<!-- Left Sticky Profile Column -->
-							<div class="col-lg-4 mb-4">
-								<div class="neuro-dr-profile-card fade-in-card">
-									<div class="neuro-dr-profile-img-wrapper">
-										{% if image_webp %}
-											<img src="/media/{{ image_webp }}" alt="{{ name }} 醫師照片" loading="lazy" class="neuro-dr-profile-img">
-										{% elif image %}
-											<img src="/media/department/img/{{ image }}" alt="{{ name }} 醫師照片" loading="lazy" class="neuro-dr-profile-img">
-										{% endif %}
-									</div>
-									<div class="neuro-dr-profile-meta">
-										<h2 class="neuro-dr-profile-name">{{ name }}</h2>
-										<span class="neuro-dr-profile-job">{{ job_title }}</span>
-									</div>
-									<div class="neuro-dr-profile-actions">
-										<button class="open-stop-modal neuro-dr-btn neuro-dr-btn-schedule" data-id="{{ employee_id }}" data-name="{{ name }}" title="{{ name }} 醫師-停休診時間">
-											<i class="far fa-calendar-times"></i> 停休診時間
-										</button>
-										<a class="neuro-dr-btn neuro-dr-btn-booking" href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank" title="{{ name }} 醫師-網路掛號">
-											<i class="fas fa-notes-medical"></i> 網路掛號
-										</a>
-									</div>
-								</div>
-							</div>
-
-							<!-- Right Details Column -->
-							<div class="col-lg-8 fade-in-card">
-								<div class="neuro-dr-details-block">
-									<!-- Section: Specialties -->
-									<div class="neuro-dr-detail-section">
-										<h3 class="neuro-dr-detail-title">
-											<span class="neuro-title-icon"><i class="fas fa-certificate"></i></span>
-											<span>專長領域</span>
-										</h3>
-										<div class="neuro-dr-detail-content">
-											<ul class="neuro-dr-expertise-list">
-												{% for item in expertise_list %}
-													<li><span class="neuro-bullet"></span>{{ item }}</li>
-												{% endfor %}
-											</ul>
-										</div>
-									</div>
-
-									<!-- Section: Education & Experience -->
-									<div class="neuro-dr-detail-section mt-4">
-										<h3 class="neuro-dr-detail-title">
-											<span class="neuro-title-icon"><i class="fas fa-graduation-cap"></i></span>
-											<span>學經歷</span>
-										</h3>
-										<div class="neuro-dr-detail-content">
-											<ul class="neuro-dr-education-list">
-												{% for item in education_list %}
-													<li><span class="neuro-dot-indicator"></span>{{ item }}</li>
-												{% endfor %}
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Bottom Related Section -->
-							<div class="col-12 fade-in-card mt-5">
-								{% if related_articles %}
-									<div class="neuro-related-block">
-										<h3 class="neuro-related-title">相關文章</h3>
-										<div id="related-articles-container" class="row"></div>
-										<div class="neuro-pagination-wrapper">
-											<ul id="pagination" class="pagination justify-content-center"></ul>
-										</div>
-									</div>
-								{% endif %}
-								{% if related_videos %}
-									<div class="neuro-related-block mt-5">
-										<h3 class="neuro-related-title">影音專區</h3>
-										<div id="related-videos-container" class="row"></div>
-										<div class="neuro-pagination-wrapper">
-											<ul id="video-pagination" class="pagination justify-content-center"></ul>
-										</div>
-									</div>
-								{% endif %}
-							</div>
+				<!-- Related Content -->
+				<section class="flex flex-col gap-md">
+					<div class="bento-box">
+						<div class="flex justify-between items-center">
+							<h3 class="font-headline-md  flex items-center gap-2">
+								<span class="material-symbols-outlined" data-icon="article">article</span>
+								相關衛教文章
+							</h3>
 						</div>
-					</section>
-				</div>
+						{% if related_articles %}
+						<div class="grid grid-cols-1 sm-grid-cols-2 gap-md" id="related-articles-container"></div>
+						<div class="neuro-pagination-wrapper">
+							<ul id="pagination" class="pagination justify-content-center"></ul>
+						</div>
+						{% endif %}
+					</div>
+				</section>
+
+				<!-- Video Content -->
+				<section class="flex flex-col gap-md">
+					<div class="bento-box">
+						<h3 class="font-headline-md  flex items-center gap-2">
+							<span class="material-symbols-outlined" data-icon="video_library">video_library</span>
+							醫師衛教影音
+						</h3>
+						{% if related_videos %}
+						<div class="grid grid-cols-1 sm-grid-cols-3 gap-md" id="related-videos-container"></div>
+						<div class="neuro-pagination-wrapper">
+							<ul id="video-pagination" class="pagination justify-content-center pt-5"></ul>
+						</div>
+						{% endif %}
+					</div>
+				</section>
+
 			</div>
-		</section>
-	</div>
+		</div>
 </div>
 {% endblock %}
 <!-- ▲▲▲ Content ▲▲▲-->
@@ -181,7 +463,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline=name|add:"｜神經醫學中心" datePublished=date folder="news_2" article_img=image %}
+{% include 'schema_physician.html' with name=name image=image specialty="神經內科" description=expertise expertise=expertise_list center_name='神經醫學中心' %}
 {% endblock %}
 
 

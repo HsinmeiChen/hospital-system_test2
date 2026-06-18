@@ -62,6 +62,19 @@
                         {% endfor %}
                     </div>
 
+                    <!-- 新增社群分享按鈕 (LINE / FB) -->
+                    <div class="d-flex justify-content-center align-items-center mt-5 mb-4">
+                        <span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
+                        <!-- LINE Share -->
+                        <a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #00B900; border-color: #00B900; text-decoration: none;" title="分享到 LINE">
+                            <i class="fab fa-line text-white" style="font-size: 1.8rem;"></i>
+                        </a>
+                        <!-- FB Share -->
+                        <a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #1877F2; border-color: #1877F2; text-decoration: none;" title="分享到 Facebook">
+                            <i class="fab fa-facebook-f text-white" style="font-size: 1.5rem;"></i>
+                        </a>
+                    </div>
+
                     <div class="mt-5 pt-4 text-center border-top">
                         <a href="/specialty_medical/ort-health-edu/" class="btn btn-outline-warning btn-lg rounded-0 px-5" title="回衛教園地列表頁">回列表頁</a>
                     </div>
@@ -76,7 +89,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline=title|add:"｜骨科微創手術中心" datePublished=date folder="news_2" article_img=image %}
+{% include 'schema_medical_edu.html' with title=title_name center_name='骨科微創手術中心' %}
 {% endblock %}
 
 

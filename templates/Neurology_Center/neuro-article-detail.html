@@ -15,81 +15,142 @@
 
 
 <!-- === 子頁細節內容 =========================== -->
-{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_home' %}" itemprop="item" title="回神經醫學中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_media' %}" itemprop="item" title="媒體報導">
+				<span itemprop="name" class="font-weight-bold">媒體報導</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
 <div class="l-main-content__body">
-    <!-- ■■■ Banner、bread-crumbs ■■■ -->
-    <section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
-        <div class="page-banner">
-            <div class="page-banner-inner fade-in-card">
-                <!-- (1)、Title -->
-                <div class="page-banner-title-div">
-                    <h1 class="page-banner-title">{{ title }}</h1>
-                    <!-- <div class="page-banner-title-en">Media Reports</div> -->
-                </div>
-                <!-- (2)、Bread-crumbs -->
-                <div>
-                    <ul class="bc-nav">
-                        <li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                        <li><a href="{% url 'neuro_media' %}">媒體報導</a></li>
-                        <li>發表於 {{ date }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="posts-detail-container">
+				<h1 class="posts-detail-title">{{ title }}</h1>
+				<div class="posts-meta-info mb-4 text-muted text-right">
+					<span class="mr-4">
+						<i class="material-symbols-outlined align-middle mr-1">person</i>{% if doctor_name %}{{ doctor_name }} 醫師{% else %}神經醫學團隊{% endif %}
+					</span>
+					<span>
+						<i class="material-symbols-outlined align-middle mr-1">calendar_month</i>{{ date }}
+					</span>
+				</div>
 
-    <div class="neuro-subpage-container">
-        <!-- ■■■ Articles ■■■ -->
-            <section class="section-grid">
-                <div class="row justify-content-center">
-                    <div class="col-xl-9 px-3 fade-in-card">
-                        <div class="article-body">
-                        {% for block in blocks %}
-                            {% if block.semantic == 'section_title' %}
-                                <h2 class="{{ block.class }}">{{ block.text }}</h2>
-                            {% elif block.semantic == 'paragraph' %}
-                                <p class="{{ block.class }}">{{ block.text|safe }}</p>
-                            {% elif block.semantic == 'image' %}
-                                <div class="{{ block.class }}">
-                                    <img src="/media/{{ block.article_src }}" alt="{{ title }}" loading="lazy" title="{{ title }}">
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                        </div>
-                        <div class="text-center">
-                            <div class="booking-btn">
-                                <a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank">
-                                    <button type="button" class="btnn green"><i class="fas fa-hand-point-right"></i> 我要預約掛號</button>
-                                </a>
-                            </div>
-                        </div>             
-                    </div>
-                    <div class="col-xl-3">
-                        <div>
-                            <h2 class="title-03 title-03-under-line fade-in-card"><i class="fas fa-book-open"></i> 推薦文章</h2>
-                        </div>
-                        <div id="random-breast-reports" class="row">
-                            <!-- 隨機媒體報導卡片將由 JS 動態載入 -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+				<!-- 文章內容 -->
+				<div style="color: var(--color-text-dark);text-align: justify;">
+					{% for block in blocks %}
+						{% if block.semantic == 'section_title' %}
+							<h2 class="{{ block.class }}">{{ block.text }}</h2>
+						{% elif block.semantic == 'paragraph' %}
+							<p class="{{ block.class }}">{{ block.text|safe }}</p>
+						{% elif block.semantic == 'image' %}
+							<div class="{{ block.class }}">
+								<img src="/media/{{ block.article_src }}" alt="{{ title }}" loading="lazy" title="{{ title }}">
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="mt-4 pt-4 border-top" style="gap: 10px;display: flex;justify-content: center;">
+					<a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank" class="btn btn-primary btn-lg rounded-0" aria-label="我要預約掛號" title="我要預約掛號">我要預約掛號</a>
+					<a href="{% url 'neuro_media' %}" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院神經醫學中心-媒體報導列表頁" aria-current="page" aria-label="台中長安醫院神經醫學中心-媒體報導列表頁">回媒體報導</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="related-posts">
+				<div class="_popIn_recommend_header">
+					<i class="fas fa-book-reader mr-2" style="color: var(--secondary);"></i>推薦閱讀
+				</div>
+				<div id="random-neuro-edus" class="row">
+					<!-- 隨機衛教文章卡片將由 JS 動態載入 -->
+				</div>
+				<div class="_popIn_recommend_header"><i class="fas fa-fire mr-2 text-danger"></i>熱門文章</div>
+
+				<div id="random-neuro-reports" class="row">
+					<!-- 隨機媒體報導卡片將由 JS 動態載入 -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
+
 {% endblock %}
 <!-- ▲▲▲ Content ▲▲▲-->
 
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline=title|add:"｜神經醫學中心" datePublished=date folder="news_2" article_img=image %}
+{% include 'schema_article.html' with headline=title datePublished=date folder="news_2" article_img=image center_name='神經醫學中心' %}
 {% endblock %}
 
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>	
+	.l-main-content { padding: 1.5rem; border: 1px solid var(--color-accent-peach); background-color: var(--on-white) !important; }
+	._popIn_recommend_header {
+		font-weight: bold;
+		letter-spacing: 1px;
+		color: var(--primary);
+		font-size: 1.3rem;
+		padding-bottom: 1rem;
+	}
+	.posts-detail-container .btn-lg{
+		font-size: 1.1rem;
+	}
+	.posts-detail-title{
+		font-size: 1.85rem;
+		color: #17a2b8;
+		font-weight: bold;
+		border-bottom: solid 1px #dee2e6;
+		text-align: justify;
+		margin-bottom: 15px;
+		padding: 0 0 1rem 0;
+		line-height: 45px;
+		text-align: center;
+	}
+
+	@media (min-width: 992px) {
+		.l-container-panel { padding: 0.5rem 2rem 2rem 2rem; }
+		.l-main-content { padding: 1.5rem 2.5rem; }
+		.col-lg-8{
+			border-right: 1px solid #dee2e6;
+		}
+		.posts-detail-container{
+			margin-right: 1.5rem;
+		}
+		.posts-detail-container .btn-lg{
+			font-size: 1.25rem;
+		}
+		.related-posts{
+			margin-left: 1rem;
+		}
+	}
+</style>
 {% endblock %}
 
 

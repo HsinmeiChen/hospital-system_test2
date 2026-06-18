@@ -20,24 +20,119 @@ function loadMediaArticles(page = 1) {
                 return;
             }
 
-            data.articles.forEach(article => {
-                container.innerHTML += `
-                    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <a href="${article.url}">
-                            <figure class="card h-100 shadow-sm fade-in-card article-card">
-                                <div class="img-container">
-                                    <img src="/media/${article.image}" class="card-img-top" alt="${article.title}" loading="lazy">
+            if (data.articles && data.articles.length > 0) {
+                let html = '<div class="newspaper-grid">';
+                
+                data.articles.forEach((article, index) => {
+                    const pubDate = article.pub_date || '';
+                    const title = article.title || '';
+                    const summary = article.summary || '';
+                    const img = `/media/${article.image}`;
+                    const url = article.url || '#';
+
+                    // 採用 10 篇一循環的報紙排版
+                    const patternIndex = index % 10;
+
+                    if (patternIndex === 0 || patternIndex === 6) {
+                        // 1. 頭條大版面 (The Lead Story) - Span 2x2
+                        html += `
+                            <a href="${url}" class="np-card np-hero">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <div class="np-meta">頭條報導</div>
+                                    <h2 class="np-title">${title}</h2>
+                                    <p class="np-desc">${summary}</p>
+                                    <div class="np-date">${pubDate}</div>
                                 </div>
-                                <figcaption class="card-body d-flex flex-column">
-                                    <h5 class="card-title">${article.title}</h5>
-                                    <p class="card-text">${article.summary}</p>
-                                    <small class="text-muted mt-auto ml-auto">發表日期：${article.pub_date}</small>
-                                </figcaption>
-                            </figure>
-                        </a>
-                    </div>
-                `;
-            });
+                            </a>
+                        `;
+                    } else if (patternIndex === 1) {
+                        // 2. 側邊直欄專題 (Sidebar Feature) - Span 1x2
+                        html += `
+                            <a href="${url}" class="np-card np-sidebar">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <div class="np-meta">深度專欄</div>
+                                    <h3 class="np-title">${title}</h3>
+                                    <p class="np-desc">${summary}</p>
+                                    <div class="np-date">${pubDate}</div>
+                                </div>
+                            </a>
+                        `;
+                    } else if (patternIndex === 2) {
+                        // 3. 焦點快訊 (Text-Only Brief) - Span 1x1
+                        html += `
+                            <a href="${url}" class="np-card np-brief">
+                                <div class="np-meta" style="color: var(--on-surface-variant);">最新快訊</div>
+                                <h3 class="np-title">${title}</h3>
+                                <p class="np-desc">${summary}</p>
+                                <div class="np-date">${pubDate}</div>
+                            </a>
+                        `;
+                    } else if (patternIndex === 3) {
+                        // 4. 圖片短訊 (Sub-feature) - Span 1x1
+                        html += `
+                            <a href="${url}" class="np-card np-sub">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <h4 class="np-title">${title}</h4>
+                                    <div class="np-date">${pubDate}</div>
+                                </div>
+                            </a>
+                        `;
+                    } else if (patternIndex === 4) {
+                        // 5. 橫幅分隔報導 (Horizontal Banner) - Span 3x1
+                        html += `
+                            <a href="${url}" class="np-card np-banner">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <div class="np-meta">特別企劃</div>
+                                    <h3 class="np-title">${title}</h3>
+                                    <p class="np-desc" style="-webkit-line-clamp: 2;">${summary}</p>
+                                    <div class="np-date">${pubDate}</div>
+                                </div>
+                            </a>
+                        `;
+                    } else if (patternIndex === 7) {
+                        // 6. 暗黑快訊 (Dark Brief) - Span 1x1
+                        html += `
+                            <a href="${url}" class="np-card np-brief-dark">
+                                <div class="np-meta" style="color: var(--on-primary);">編輯精選</div>
+                                <h3 class="np-title">${title}</h3>
+                                <p class="np-desc">${summary}</p>
+                                <div class="np-date" style="color: var(--surface-container);">${pubDate}</div>
+                            </a>
+                        `;
+                    } else if (patternIndex === 9) {
+                        // 7. 半橫幅報導 (Half Banner) - Span 2x1
+                        html += `
+                            <a href="${url}" class="np-card np-banner-half">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <div class="np-meta">觀點</div>
+                                    <h3 class="np-title">${title}</h3>
+                                    <div class="np-date">${pubDate}</div>
+                                </div>
+                            </a>
+                        `;
+                    } else {
+                        // 8. 標準卡 (Standard Columns) - patternIndex 5, 8 - Span 1x1
+                        html += `
+                            <a href="${url}" class="np-card np-standard">
+                                <img src="${img}" alt="${title}" loading="lazy">
+                                <div class="np-content">
+                                    <div class="np-meta" style="color: var(--secondary);">媒體報導</div>
+                                    <h4 class="np-title">${title}</h4>
+                                    <div class="np-date">${pubDate}</div>
+                                </div>
+                            </a>
+                        `;
+                    }
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+            }
 
             const pagination = document.getElementById('pagination-list');
             pagination.innerHTML = '';

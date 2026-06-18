@@ -4,13 +4,13 @@
 {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "{% if headline %}{{ headline }}｜{% endif %}長安醫院",
+    "headline": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
     "inLanguage": "zh-TW",
     "datePublished": "{{ datePublished|default:'2022-02-22' }}",
     "dateModified": "{% if dateModified %}{{ dateModified }}{% else %}{% now 'Y-m-d' %}{% endif %}",
     "author": {
         "@type": "Organization",
-        "name": "長安醫院",
+        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
         "url": "{{ SITE_DOMAIN }}"
     },
     "publisher": {
@@ -24,3 +24,28 @@
     "image": "{% if article_img %}{{ SITE_DOMAIN }}{{ MEDIA_URL }}{{ folder }}/img/{{ article_img }}{% else %}{{ SITE_DOMAIN }}{{ DEFAULT_OG_IMAGE }}{% endif %}"
 }
 </script>
+
+<!-- 自動偵測：若有多張圖片 (圖庫)，則附加 ImageGallery 結構 -->
+{% if image_list %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "{% firstof title title_name %} - 相關圖解",
+  "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}：{% firstof title title_name %} 的相關圖文說明。",
+  "publisher": {
+    "@type": "Organization",
+    "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
+  },
+  "image": [
+    {% for img in image_list %}
+    {
+      "@type": "ImageObject",
+      "url": "{{ SITE_DOMAIN }}{{ img.jpg_url }}",
+      "caption": "{% firstof title title_name %} - 圖解內容 (第 {{ forloop.counter }} 頁)"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

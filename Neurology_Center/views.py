@@ -90,7 +90,7 @@ class PLSQLAPI:
 			if sectno and str(sectno).strip():
 				sectno_cond = "AND SCD_SECTNO = :sectno"
 			else:
-				sectno_cond = "AND SCD_SECTNO = 'BZ'"
+				sectno_cond = "AND SCD_SECTNO = '12'"
 
 			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
@@ -174,7 +174,7 @@ def neuro_send_mail(request):
 				form = ContactForm()
 				return render(request, "Neurology_Center/neuro-contact.html", {
 					"form": form,
-					'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+					'og_image': '',
 					'ga_id': '',
 					'gtm_id': ''
 				})
@@ -225,7 +225,7 @@ def neuro_send_mail(request):
 		if not is_ajax:
 			return render(request, "Neurology_Center/neuro-contact.html", {
 				"form": form,
-				'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+				'og_image': '',
 				'ga_id': '',
 				'gtm_id': ''
 			})
@@ -235,7 +235,7 @@ def neuro_send_mail(request):
 
 	return render(request, "Neurology_Center/neuro-contact.html", {
 		"form": form,
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -256,20 +256,19 @@ video_dir = os.path.join(settings.MEDIA_ROOT, 'news_3')
 news_img_dir = os.path.join(settings.MEDIA_ROOT, 'news_1', 'img')
 media_base_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
 
-# 乳房中心-專網主資料夾設定
-special_base_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center')
+# 神經醫學中心-專網主資料夾設定
+special_base_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center')
 
-# 乳房中心-專網：治療文章
+# 神經醫學中心-專網：治療文章
+neuro_treat_dir = os.path.join(special_base_dir, 'neuro-treat')
 
-neuro_treat_dir = os.path.join(special_base_dir, 'neuro-treat-articles')
-
-# 乳房中心-專網：影音專區
+# 神經醫學中心-專網：影音專區
 Films_Dir = os.path.join(special_base_dir, 'neuro-films')
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 處理 txt 檔產生 hash 值使用 ■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 NEWS_DIR = os.path.join(settings.MEDIA_ROOT, 'news_1')
-NEURO_EDU_DIR = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
+NEURO_EDU_DIR = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu')
 
 def append_crc32_to_filenames():
 	append_hash_to_filenames(NEWS_DIR, extension='.txt', separator='^')
@@ -341,9 +340,9 @@ def parse_article_txt(filepath, detail=True):
 	elif 'news_1' in filepath:
 		img_url = '/media/news_1/img'
 	elif 'treat-articles-img' in filepath:
-		img_url = '/media/neuro-center/neuro-treat-articles/treat-articles-img/img_webp_article'
+		img_url = '/media/neuro_center/neuro-treat-articles/treat-articles-img/img_webp_article'
 	elif 'neuro-edu' in filepath:
-		img_url = '/media/neuro-center/neuro-edu/edu-article/'
+		img_url = '/media/neuro_center/neuro-edu/edu-article/'
 	else:
 		img_url = '/media'
 
@@ -608,15 +607,15 @@ def parse_article_txt(filepath, detail=True):
 def convert_banner_image_to_webp(original_filename):
 	"""
 	專用：轉換 Banner 圖片為 WebP
-	儲存路徑：media/neuro-center/neuro-banner/banner-webp
+	儲存路徑：media/neuro_center/neuro-banner/banner-webp
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-banner')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-banner')
 	target_dir = os.path.join(source_dir, 'banner-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
 def neuro_banner_api(request):
-	banner_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-banner')
+	banner_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-banner')
 	files = os.listdir(banner_dir)
 
 	image_dict = {}
@@ -829,7 +828,7 @@ def neuro_media_home_api(request):
 def neuro_main(request):
 	# ════════════ 1. 治療項目 ════════════
 	treatments = []
-	neuro_t_dirs = os.listdir(neuro_treat_dir)  # ← 每次 request 重新取得
+	neuro_t_dirs = os.listdir(neuro_treat_dir) if os.path.exists(neuro_treat_dir) else []  # ← 每次 request 重新取得
 
 	for treat_filename in neuro_t_dirs:
 		if treat_filename.endswith('.txt') and ("treat" in treat_filename):
@@ -924,7 +923,7 @@ def neuro_main(request):
 							pub_date = raw_date.replace('-', '.')
 					
 					try:
-						edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
+						edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu')
 						filepath = os.path.join(edu_txt_dir, content)
 						parsed = parse_article_txt(filepath, detail=False)
 						summary = parsed.get('summary', '')
@@ -950,7 +949,7 @@ def neuro_main(request):
 	# ════════════ 4. 回傳至前端 ════════════
 	return render(request, "Neurology_Center/neuro-index.html", {
 		'treatments': treatments,
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': f"{settings.SITE_DOMAIN}/media/neuro_center/everan2.png",
 		'media_layer1_1': media_layer1_1,
 		'media_layer1_2': media_layer1_2,
 		'media_layer2': media_layer2,
@@ -961,7 +960,7 @@ def neuro_main(request):
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 關於我們 (neuro_about) ■■■■■■■■■■■■■■■■■■■■■■■■■■
 def neuro_about(request):
 	return render(request, "Neurology_Center/neuro-about.html", {   
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': "",
 	})
 
 
@@ -1232,7 +1231,8 @@ def get_related_video(employee_id):
 
 	for video_filename in os.listdir(video_dir):
 		if video_filename.endswith('.txt'):
-			parts = video_filename.replace('.txt', '').split('_')
+			base_name = video_filename.replace('.txt', '').split('^')[0]
+			parts = base_name.split('_')
 			if len(parts) >= 4 and parts[-1] == employee_id:
 				filepath = os.path.join(video_dir, video_filename)
 				with open(filepath, 'r', encoding='utf-8-sig') as f: # 原 utf-8 開啟 .txt 檔案讀取第一行帶入的亂碼 (清除 BOM-順利取<yh>值)
@@ -1346,7 +1346,7 @@ def doctor_list(request):
 	return render(request, 'Neurology_Center/neuro-doctor-list.html', {
 		'doctors': doctors,
 		'dept_en': 'Neurology',
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
@@ -1459,11 +1459,26 @@ def article_share_view(request, get_filename):
 	meta = parse_article_filename(full_filename)
 	parsed = parse_article_txt(article_path)
 
+	# 根據 employee_id 取得醫師名稱
+	doctor_name = ""
+	employee_id = meta.get('employee_id', '')
+	if employee_id:
+		try:
+			# doc_dirs 從前面定義的 dir (醫師資料夾) 取得
+			for doc_filename in os.listdir(dir):
+				if doc_filename.endswith('.txt') and doc_filename.endswith(f"{employee_id}.txt"):
+					name_and_title = doc_filename.rsplit('_', 1)[0].split('_', 2)[-1]
+					doctor_name = name_and_title.split(' ')[0]
+					break
+		except Exception as e:
+			pass
+
 	context = {
 		'title': meta['title'],
 		# 'category': meta['category'],
 		'date': meta['pub_date'],
-		'employee_id': meta['employee_id'],
+		'employee_id': employee_id,
+		'doctor_name': doctor_name,
 		'blocks': parsed['blocks'],  # 使用 parse_article_txt() 並傳入 blocks 給模板
 		'image': parsed['image'],
 		'summary': parsed['summary'],
@@ -1481,7 +1496,7 @@ def article_share_view(request, get_filename):
 def convert_treat_icon_image_to_webp(original_filename):
 	"""
 	專用：轉換「治療項目-卡片縮圖」為 WebP
-	儲存路徑：media/neuro-center/treat-articles/treat-icon/thumb-webp
+	儲存路徑：media/neuro_center/treat-articles/treat-icon/thumb-webp
 	壓縮品質：50%
 	"""
 	source_dir = os.path.join(neuro_treat_dir, 'treat-icon')
@@ -1491,17 +1506,17 @@ def convert_treat_icon_image_to_webp(original_filename):
 def convert_edu_icon_image_to_webp(original_filename):
 	"""
 	專用：轉換「衛教園地-卡片縮圖」為 WebP
-	儲存路徑：media/neuro-center/neuro-edu/edu-icon/thumb-webp
+	儲存路徑：media/neuro_center/neuro-edu/edu-icon/thumb-webp
 	壓縮品質：50%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu', 'edu-icon')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu', 'edu-icon')
 	target_dir = os.path.join(source_dir, 'thumb-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=50)
 
 def convert_treat_article_image_to_webp(original_filename):
 	"""
 	專用：轉換「治療項目-內文圖片」為 WebP
-	儲存路徑：media/neuro-center/treat-articles/treat-articles-img/img_webp_article
+	儲存路徑：media/neuro_center/treat-articles/treat-articles-img/img_webp_article
 	壓縮品質：80%
 	"""
 	source_dir = os.path.join(neuro_treat_dir, 'treat-articles-img')
@@ -1511,10 +1526,10 @@ def convert_treat_article_image_to_webp(original_filename):
 def convert_edu_article_image_to_webp(original_filename):
 	"""
 	專用：轉換「衛教園地-內文圖片」為 WebP
-	儲存路徑：media/neuro-center/neuro-edu/edu-article/article-webp
+	儲存路徑：media/neuro_center/neuro-edu/edu-article/article-webp
 	壓縮品質：80%
 	"""
-	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu', 'edu-article')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu', 'edu-article')
 	target_dir = os.path.join(source_dir, 'article-webp')
 	return convert_image_to_webp(source_dir, target_dir, original_filename, quality=80)
 
@@ -1575,7 +1590,7 @@ def treatment_list(request):
 			
 	return render(request, 'Neurology_Center/neuro-treatment-list.html', {
 		'treatments': treatments,
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		# 若有特定頁面讀其他 GA / GTM 碼，再直接這邊設定 (預設值-context_processors.py)
 		'ga_id': '', 
 		'gtm_id': ''
@@ -1607,7 +1622,7 @@ def treatment_article(request, url_name):
 		'image': treat_parsed['image'],
 		'treat_summary': treat_parsed['summary'],
 		'tags': extract_tags_from_blocks(treat_parsed['blocks']),
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/treat-articles/treat-icon/{treat_parsed['og_img_treat']}",
+		'og_image': '',
 	}
 	return render(request, 'Neurology_Center/neuro-treat-article-detail.html', context)
 
@@ -1690,7 +1705,7 @@ def get_all_health_news():
 def neuro_news_list_view(request):
 	"""health-news.html 列表頁 (前端走 Ajax 載入)"""
 	return render(request, "Neurology_Center/neuro-news.html", {
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		# "meta_title": "",
 		# "meta_summary": ""
 	})
@@ -1791,7 +1806,7 @@ def neuro_media_api(request):
 		})
 
 	all_articles.sort(key=lambda x: x['pub_date'], reverse=True)
-	paginator = Paginator(all_articles, 20)
+	paginator = Paginator(all_articles, 10)
 	page = int(request.GET.get("page", 1))
 	page_obj = paginator.get_page(page)
 
@@ -1896,7 +1911,7 @@ def neuro_media(request):
 		'meta_title': meta_title,
 		'meta_summary': meta_summary,
 		'meta_image': meta_image,
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': ''
 	})
@@ -1984,6 +1999,7 @@ def neuro_film_api(request):
 					'doctor_id': '',
 					'youtube_url': '',
 					'youtube_image': '',
+					'youtube_id': '',
 					'duration': '',
 					'category_index': None,
 					'description': '',
@@ -2022,6 +2038,7 @@ def neuro_film_api(request):
 							ytb_id = ytb_url.rstrip('/').split('/')[-1].split('?')[0]
 
 						if ytb_id:
+							video_data['youtube_id'] = ytb_id
 							video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
 				# 若檔案內沒提供標題，嘗試從檔名取得
@@ -2037,6 +2054,7 @@ def neuro_film_api(request):
 					m = re.search(r'(?:v=|embed/|youtu\.be/)([^&\s?/]+)', u)
 					if m:
 						ytb_id = m.group(1)
+						video_data['youtube_id'] = ytb_id
 						video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
 				# 若讀取後缺乏時長資料，則自動動態向 YouTube 抓取並回寫檔案
@@ -2115,7 +2133,7 @@ def neuro_film(request):
 	append_crc32_to_filenames()  # 自動將尚未有 hash 的影片 txt 命名為 ...^hash.txt
 	has_films_dir = os.path.exists(Films_Dir) and any(f.endswith('.txt') for f in os.listdir(Films_Dir))
 	return render(request, "Neurology_Center/neuro-film.html", {
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 		'ga_id': '',
 		'gtm_id': '',
 		'has_films_dir': has_films_dir
@@ -2218,7 +2236,7 @@ def get_health_edu_items():
 		formatted_items.append((title, title_hash, images, False, None))
 
 	# 2. 處理新的 E001 .txt 衛教文章
-	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
+	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu')
 	edu_icon_dir = os.path.join(edu_txt_dir, 'edu-icon')
 	
 	# 先讀取所有目前的 icon 檔名，用於快速比對
@@ -2282,7 +2300,7 @@ def neuro_edu_api(request):
 	for item in page_obj:
 		title, title_hash, content, is_txt, thumb = item
 		if is_txt:
-			# 此處 thumb 已經是 media 相對路徑，例如 "neuro-center/neuro-edu/edu-icon/thumb-webp/xxx.webp"
+			# 此處 thumb 已經是 media 相對路徑，例如 "neuro_center/neuro-edu/edu-icon/thumb-webp/xxx.webp"
 			data.append({
 				'title': title,
 				'titleId': title_hash,
@@ -2346,7 +2364,7 @@ def neuro_edu(request):
 	context = {
 		'media_url': settings.MEDIA_URL + 'health_edu/Doc/0_內科_InternalMedicine/神經科_Neurology/',
 		'page_obj': page_obj,
-		'og_image': f"{settings.SITE_DOMAIN}/media/neuro-center/everan2.png",
+		'og_image': '',
 	}
 	return render(request, 'Neurology_Center/neuro-edu.html', context)
 
@@ -2373,7 +2391,7 @@ def neuro_edu_detail(request, title_id):
 	
 	if is_txt:
 		# 文字檔模式
-		edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro-center', 'neuro-edu')
+		edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center', 'neuro-edu')
 		filepath = os.path.join(edu_txt_dir, content)
 		parsed = parse_article_txt(filepath)
 		

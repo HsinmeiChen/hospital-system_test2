@@ -7,7 +7,9 @@
   "name": "{{ service_name }}",
   "description": "{{ description|striptags|truncatechars:150 }}",
   "provider": { 
-    "@id": "{{ SITE_DOMAIN }}/#hospital" 
+    "@type": "Hospital",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
+    "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",

@@ -91,20 +91,17 @@
 
 
 	<!-- Call to Action Section -->
-	<section class="video-cta">
-		<div class="video-cta-bg"></div>
-		<div class="video-cta-content">
-			<h2 class="video-cta-title">需要更進一步的專業建議嗎？</h2>
-			<p class="video-cta-desc">
+	<section class="neuro-cta-section">
+		<div class="neuro-cta-bg"></div>
+		<div class="neuro-cta-content">
+			<h2 class="neuro-cta-title">需要更進一步的專業建議嗎？</h2>
+			<p class="neuro-cta-desc">
 				如果您或家屬有神經系統方面的疑慮，歡迎預約我們的門診，由專業醫師團隊為您提供個人化的評估與照護。
 			</p>
 		</div>
-		<div class="video-cta-actions">
-			<button class="btn-white-lg">
+		<div class="neuro-cta-action">
+			<button class="btn-neuro-white" onclick="location.href='/A006_Online_Booking_1_part/Neurology/'">
 				立即預約門診
-			</button>
-			<button class="btn-primary-outline-lg">
-				撥打諮詢專線
 			</button>
 		</div>
 	</section>
@@ -146,12 +143,135 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
+{% include 'schema_article.html' with headline="影音專區" center_name="神經醫學中心" %}
 {% endblock %}
 
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro-film.css' %}">
+<style>
+/* **********************************************************************
+ * 神經醫學中心 (Neurology Center) - 影音專區 (neuro-film) 專屬樣式
+ * ********************************************************************** */
+
+/* ==========================================================================
+	 1. 英雄橫幅與推薦影片區域 (Hero Banner & Featured Video)
+========================================================================== */
+.page-hero {
+	max-width: 48rem;
+	padding-top: var(--space-xl);
+}
+.page-title {
+	font-size: 32px;
+	font-weight: 700;
+	color: var(--primary);
+	margin-bottom: var(--space-md);
+}
+.page-desc {
+	font-size: 20px;
+	color: var(--on-surface-variant);
+	line-height: 1.6;
+}
+
+.section-media {
+	padding-top: var(--space-md);
+}
+.featured-video {
+	display: block;
+	position: relative;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+	margin-bottom: var(--space-lg);
+	cursor: pointer;
+	background-color: var(--surface-container-highest);
+}
+.featured-video img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.7s;
+}
+.featured-video:hover img {
+	transform: scale(1.05);
+}
+.video-overlay {
+	position: absolute;
+	inset: 0;
+	background-color: rgba(0,0,0,0.15); /* 調亮背景遮罩 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s;
+}
+.featured-video:hover .video-overlay {
+	background-color: rgba(0,0,0,0.05); /* 滑鼠懸停時更加透亮 */
+}
+.play-btn-large {
+	background-color: var(--primary);
+	color: var(--on-white);
+	width: 6rem;
+	height: 6rem;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+	transition: transform 0.3s;
+}
+.featured-video:hover .play-btn-large {
+	transform: scale(1.1);
+}
+.video-info {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: var(--space-lg);
+	background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); /* 調淡底部漸層以提高清晰度 */
+}
+.video-info-desc {
+	color: rgba(255,255,255,0.9);
+	font-size: 18px;
+	margin-bottom: var(--space-md);
+	max-width: 42rem;
+}
+.badge-secondary {
+	background-color: var(--secondary);
+	color: var(--on-white);
+	padding: var(--space-xs) var(--space-sm);
+	border-radius: var(--radius-full);
+	font-size: 16px;
+	font-weight: 600;
+	display: inline-block;
+	margin-bottom: var(--space-sm);
+}
+.video-info-title {
+	font-size: 32px;
+	font-weight: 700;
+	color: white;
+}
+.btn-primary-play {
+	background-color: var(--primary-container);
+	color: white;
+	padding: 0.75rem 2rem;
+	border-radius: var(--radius-lg);
+	font-size: 16px;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	transition: transform 0.2s, background-color 0.2s;
+	border: none;
+	cursor: pointer;
+}
+.btn-primary-play:hover {
+	background-color: rgba(15, 118, 110, 0.9);
+	transform: scale(0.98);
+}
+</style>
 {% endblock %}
 
 

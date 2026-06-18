@@ -8,10 +8,14 @@
   "description": "{{ description|striptags|truncatechars:150 }}",
   "startDate": "{{ start_date|default:'2025-01-01T09:00' }}",
   "location": { 
-    "@id": "{{ SITE_DOMAIN }}/#hospital" 
+    "@type": "Hospital",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
+    "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
   },
   "organizer": {
-    "@id": "{{ SITE_DOMAIN }}/#hospital"
+    "@type": "Hospital",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
+    "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",

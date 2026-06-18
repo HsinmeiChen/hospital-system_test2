@@ -54,7 +54,18 @@ function renderFeaturedVideo(v) {
 	container.attr('target', '_blank');
 	container.attr('data-no-loading', 'true');
 	container.attr('data-url', v.youtube_url);
-	$('#featured-video-img').attr('src', v.youtube_image).attr('alt', v.title);
+	const featuredImg = document.getElementById('featured-video-img');
+	if (featuredImg) {
+		featuredImg.removeAttribute('onerror');
+		featuredImg.onload = function() {
+			if (this.naturalWidth <= 120) {
+				this.onload = null;
+				this.src = `https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg`;
+			}
+		};
+		featuredImg.src = v.youtube_image;
+		featuredImg.alt = v.title;
+	}
 	$('#featured-video-title').text(v.title);
 	
 	// 自動使用切分出的醫師資訊作為副標題
@@ -154,7 +165,7 @@ function renderCurrentPage() {
 				<a href="${detailUrl}" target="_blank" data-no-loading="true" class="video-card-wrapper" data-url="${v.youtube_url}">
 					<figure class="video-card" data-url="${v.youtube_url}">
 						<div class="video-thumb">
-							<img src="${v.youtube_image}" class="card-img-top" alt="${v.title}">
+							<img src="${v.youtube_image}" class="card-img-top" alt="${v.title}" onload="if(this.naturalWidth <= 120) { this.onload=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg'; }" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg';">
 							<div class="play-btn-small-overlay">
 								<div class="play-btn-small">
 									<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>

@@ -581,11 +581,11 @@ a .d_intro:hover{
     background-image: -ms-linear-gradient(top, #f7a600, #f7a600);
     background-image: -o-linear-gradient(top, #f7a600, #f7a600);
 }
-article a, article a:hover {
+/* article a, article a:hover {
     text-decoration: none;
     transition: color 0.3s ease-in-out;
     margin: 0 5px;
-}	
+}	 */
 .postcard {
     flex-wrap: wrap;
     display: flex;

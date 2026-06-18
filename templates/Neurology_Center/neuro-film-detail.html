@@ -77,13 +77,36 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_video.html' with video=video %}
+{% include 'schema_video.html' with video=video center_name='神經醫學中心' %}
 {% endblock %}
 
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro-film-detail.css' %}">
+<style>
+/* Page Layout Panel Override */
+.l-container-panel {
+	max-width: 100rem;
+	background-color: var(--on-white);
+}
+
+@media (min-width: 992px) {
+	.l-container-panel {
+		max-width: 75rem;
+		padding: 0.9rem 2rem 2rem 2rem;
+	}
+}
+
+/* Main Container */
+.video-detail-container {
+	width: 95%;
+	height: auto;
+	margin: 0 auto;
+}
+.video-article-summary{	
+    background-color: aliceblue;
+}
+</style>
 {% endblock %}
 
 

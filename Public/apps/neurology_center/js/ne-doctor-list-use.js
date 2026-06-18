@@ -74,16 +74,15 @@ $('.open-stop-modal').on('click', function () {
             });
                 $modalBody.html(content);
             } else {
-                $modalBody.html('<p class="no-data-text">目前無資料。</p>');
+                $modalBody.html('<p class="no-data-text">目前無資料</p>');
             }
         },
         error: function () {
-            $('#modal-body-content').html('<p class="no-data-text">資料載入失敗。</p>');
+            $('#modal-body-content').html('<p class="no-data-text">資料載入失敗</p>');
         }
     });        
         // 顯示 modal（一定要等 append 完才呼叫）
-        const modalInstance = new bootstrap.Modal(document.getElementById('stopModal'));
-        modalInstance.show();
+        $('#stopModal').modal('show');
     });
 });
 

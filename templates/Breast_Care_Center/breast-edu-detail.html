@@ -19,31 +19,31 @@
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
 <div class="l-main-content__body">
-<div>
-            <!-- ■■■ Banner、bread-crumbs ■■■ -->
-            <section class="top-banner-grid">
-                <div class="page-banner">
-                    <div class="page-banner-inner fade-in-card">
-                        <!-- (1)、Title -->
-                        <div class="page-banner-title-div">
-                            <h1 class="page-banner-title">{{ title }}</h1>
-                            <!-- <div class="page-banner-title-en">Media Reports</div> -->
-                        </div>
-                        <!-- (2)、Bread-crumbs -->
-                        <div>
-                            <ul class="bc-nav">
-                                <li><a href="{% url 'breast_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                                <li><a href="{% url 'breast_edu' %}">衛教園地</a></li>
-                                <li>{{ title }}</li>
-                            </ul>
-                        </div>
+    <div>
+        <!-- ■■■ Banner、bread-crumbs ■■■ -->
+        <section class="top-banner-grid">
+            <div class="page-banner">
+                <div class="page-banner-inner fade-in-card">
+                    <!-- (1)、Title -->
+                    <div class="page-banner-title-div">
+                        <h1 class="page-banner-title">{{ title }}</h1>
+                        <!-- <div class="page-banner-title-en">Media Reports</div> -->
+                    </div>
+                    <!-- (2)、Bread-crumbs -->
+                    <div>
+                        <ul class="bc-nav">
+                            <li><a href="{% url 'breast_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
+                            <li><a href="{% url 'breast_edu' %}">衛教園地</a></li>
+                            <li>{{ title }}</li>
+                        </ul>
                     </div>
                 </div>
-            </section>
-            <!-- ■■■ Edu-Articles ■■■ -->
-            <section class="section-grid">
-                <div class="row justify-content-center">
-                    <div class="col-xl-9">
+            </div>
+        </section>
+        <!-- ■■■ Edu-Articles ■■■ -->
+        <section class="section-grid">
+            <div class="row justify-content-center">
+                <div class="col-xl-9">
                         <article id="edu-article" class="article_border p-4 my-3 fade-in-card">
                         {% if is_txt %}
                             <div class="article-body">
@@ -100,6 +100,20 @@
                                 </div>
                                 {% endfor %}
                             </div>
+
+                            <!-- 新增社群分享按鈕 (LINE / FB) -->
+                            <div class="d-flex justify-content-center align-items-center mt-5 mb-4">
+                                <span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
+                                <!-- LINE Share -->
+                                <a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #00B900; border-color: #00B900; text-decoration: none;" title="分享到 LINE">
+                                    <i class="fab fa-line text-white" style="font-size: 1.8rem;"></i>
+                                </a>
+                                <!-- FB Share -->
+                                <a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #1877F2; border-color: #1877F2; text-decoration: none;" title="分享到 Facebook">
+                                    <i class="fab fa-facebook-f text-white" style="font-size: 1.5rem;"></i>
+                                </a>
+                            </div>
+
                         {% endif %}
                         </article>
                     </div>
@@ -120,7 +134,11 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline=title|add:"｜全方位乳房中心" datePublished=date folder="news_2" article_img=image %}
+{% if is_txt %}
+    {% include 'schema_article.html' with headline=title|add:"｜全方位乳房中心" datePublished=date folder="news_2" article_img=image center_name='全方位乳房中心' %}
+{% else %}
+    {% include 'schema_medical_edu.html' with title=title center_name='全方位乳房中心' %}
+{% endif %}
 {% endblock %}
 
 

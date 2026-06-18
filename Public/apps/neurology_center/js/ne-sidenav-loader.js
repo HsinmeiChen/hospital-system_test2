@@ -1,6 +1,6 @@
 // ■■■■■■■■ 共用函式：讀取側邊選單 (若有大量頁需用到，再放到 base.html) ■■■■■■■■
 document.addEventListener("DOMContentLoaded", function () {
-    function loadSidenav({ apiUrl, containerId, isActiveFn, renderTextFn, buildHrefFn }) {
+    function loadSidenav({ apiUrl, containerId, isActiveFn, renderTextFn, buildHrefFn, listClass = 'list-group', itemClass = 'list-group-item list-group-item-action', activeClass = 'active' }) {
         const container = document.getElementById(containerId);
         if (!container) return;
 
@@ -8,18 +8,22 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 const list = document.createElement('div');
-                list.className = 'list-group';
+                if (listClass) {
+                    list.className = listClass;
+                }
 
                 const items = data.doctors || data.treatments || [];
 
                 items.forEach(item => {
                     const link = document.createElement('a');
                     link.href = buildHrefFn(item);
-                    link.className = 'list-group-item list-group-item-action';
+                    if (itemClass) {
+                        link.className = itemClass;
+                    }
                     link.innerHTML = renderTextFn(item);
 
                     if (isActiveFn(item)) {
-                        link.classList.add('active');
+                        link.classList.add(activeClass);
                     }
 
                     list.appendChild(link);

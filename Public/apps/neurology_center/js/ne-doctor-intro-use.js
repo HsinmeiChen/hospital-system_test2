@@ -119,19 +119,65 @@ function initAjaxCardPagination(config) {
             container.innerHTML += renderItem(item);
         });
 
-        // 產生分頁按鈕，並標記目前頁為 active
-        for (let i = 1; i <= data.num_pages; i++) {
-            const li = document.createElement('li');
-            li.className = 'page-item' + (i === data.current_page ? ' active' : '');
-            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-            // 點擊分頁時不跳頁，改由 loadPage(i) 載入對應頁數的資料
-            li.onclick = function (e) {
-            e.preventDefault();
-            loadPage(i);
-            };
-            // 把每個分頁按鈕插入畫面上
-            pagination.appendChild(li);
+        // 如果只有一頁或沒有資料，就不顯示分頁
+        if (data.num_pages <= 1) return;
+
+        const current = data.current_page;
+        const total = data.num_pages;
+        let html = '';
+
+        // 第一頁
+        html += `
+            <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="1">&laquo;</a>
+            </li>
+        `;
+
+        // 上一頁
+        html += `
+            <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current - 1}">&lsaquo;</a>
+            </li>
+        `;
+
+        // 下拉選單頁碼切換
+        let selectHtml = `
+            <li class="page-item">
+                <select class="form-control page-select">
+        `;
+        for (let i = 1; i <= total; i++) {
+            selectHtml += `<option value="${i}" ${i === current ? 'selected' : ''}>第 ${i} 頁 / 共 ${total} 頁</option>`;
         }
+        selectHtml += `</select></li>`;
+        html += selectHtml;
+
+        // 下一頁
+        html += `
+            <li class="page-item ${current === total ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${current + 1}">&rsaquo;</a>
+            </li>
+        `;
+
+        // 最後頁
+        html += `
+            <li class="page-item ${current === total ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${total}">&raquo;</a>
+            </li>
+        `;
+
+        pagination.innerHTML = html;
+
+        // 綁定事件
+        $(pagination).find('.page-link').on('click', function(e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('disabled')) return;
+            const page = $(this).data('page');
+            if (page) loadPage(page);
+        });
+
+        $(pagination).find('.page-select').on('change', function() {
+            loadPage(parseInt($(this).val()));
+        });
         });
     }
 
@@ -150,19 +196,18 @@ document.addEventListener('DOMContentLoaded', function () {
         apiUrl: `/neuro-center/api/doctor/${employeeId}/articles/`,
         containerId: "related-articles-container",
         paginationId: "pagination",
-        perPage: 3,
+        perPage: 2,
         renderItem: function (article) {
         return `
-            <div class="col-md-6 col-lg-4 mb-4">
-                <a href="${article.url}" class="text-decoration-none">
-                    <figure class="card h-100 article-card fade-in-card shadow-sm">
-                        <div class="img-container">
-                            <img src="/media/${article.image}" class="card-img-top" loading="lazy" alt="${article.title}">
+            <div class="h-100">
+                <a href="${article.url}" class="text-decoration-none d-block h-100">
+                    <figure class="article-card h-100 m-0">
+                        <div class="article-img-wrapper">
+                            <img src="/media/${article.image}" class="article-img" loading="lazy" alt="${article.title}">
                         </div>
-                        <figcaption class="card-body">
-                            <h5 class="card-title">${article.title}</h5>
-                            <p class="card-text">${article.summary}...</p>
-                            <small class="text-muted mt-auto ml-auto">發表日期：${article.pub_date}</small>
+                        <figcaption class="article-content">
+                            <h4 class="article-title">${article.title}</h4>
+                            <p class="text-sm line-clamp-2">${article.summary}...</p>
                         </figcaption>
                     </figure>
                 </a>
@@ -179,13 +224,15 @@ document.addEventListener('DOMContentLoaded', function () {
         perPage: 3,
         renderItem: function (video) {
         return `
-            <div class="col-md-6 col-lg-4 mb-4">
-                <button class="open-video-modal h-100" data-toggle="modal" data-target="#videoModal" data-title="${video.ytb_title}" data-date="${video.ytb_date}" data-url="${video.ytb_url}" style="border: 0;background-color: transparent;padding: 0;">
-                    <figure class="card video-card h-100 article-card fade-in-card shadow-sm">
-                        <img class="card-img-top" src="${video.thumb_url}" alt="${video.ytb_title}">
-                        <figcaption class="card-body">
-                            <small class="card-text text-muted">上架時間：${video.ytb_date}</small>
-                            <h5 class="card-title">${video.ytb_title}</h5>                            
+            <div class="video-card">
+                <button class="open-video-modal h-full" data-toggle="modal" data-target="#videoModal" data-title="${video.ytb_title}" data-date="${video.ytb_date}" data-url="${video.ytb_url}">
+                    <figure class="video-card">
+                        <img class="h-full object-cover" src="${video.thumb_url}" alt="${video.ytb_title}">
+                        <div class="video-overlay">
+							<span class="material-symbols-outlined text-5xl video-icon" data-icon="play_circle">play_circle</span>
+						</div>
+                        <figcaption class="video-caption">
+                            <p class="text-white text-sm font-bold truncate">${video.ytb_title}</p>                            
                         </figcaption>
                     </figure>
                 </button>
@@ -221,14 +268,20 @@ $('#videoModal').on('hidden.bs.modal', resetVideo);
 // ■■■■■■■■■■■■■■■■■■■■■■■■■ 醫師側邊選單 ■■■■■■■■■■■■■■■■■■■■■■■■■
 
 document.addEventListener("DOMContentLoaded", function () {
-    const currentDoctorId = document.getElementById('doctor-main') ? document.getElementById('doctor-main').dataset.employeeId : '';
+    const currentDoctorId = document.getElementById('doctor-main') ? String(document.getElementById('doctor-main').dataset.employeeId) : '';
 
     window.loadSidenav({
         apiUrl: '/neuro-center/api/doctor_sidenav/',
         containerId: 'doctor-sidenav',
-        isActiveFn: item => item.employee_id === currentDoctorId,
+        listClass: 'flex flex-col gap-sm w-full',
+        itemClass: 'doctor-btn text-decoration-none',
+        activeClass: 'is-active',
+        isActiveFn: item => String(item.employee_id) === currentDoctorId,
         buildHrefFn: item => `/neuro-center/doctor/${item.employee_id}/`,
-        renderTextFn: item => `<small>${item.job_title}</small><br>${item.name}`
+        renderTextFn: item => `
+            <span class="material-symbols-outlined" data-icon="person">person</span>
+            <div style="font-size: 1.2rem; letter-spacing: 0.01em; font-weight: 600;"><div style="font-size: .8rem;font-weight:500;">${item.job_title}</div>${item.name}</div>
+        `
     });
 });
 

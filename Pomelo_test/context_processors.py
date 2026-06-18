@@ -27,7 +27,7 @@ def default_tracking_ids(request):
 	elif path.startswith('/EECP/'): # EECP
 		default_og_image = f"{site_domain}/media/EECP/EECP.png"
 	elif path.startswith('/neuro-center/'): # 神經醫學中心
-		default_og_image = f"{site_domain}/media/neuro-center/og-neuro-center.jpg"
+		default_og_image = f"{site_domain}/media/neuro_center/og-neuro-center.jpg"
 	else:
 		# 主要官網 
 		default_og_image = f"{site_domain}/Public/common/img/everan2.jpg"
