@@ -30,7 +30,7 @@
 				<article>
 					<!-- 麵包屑 -->
 					{% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %}
-					<div class="l-main-content u-panel-pure" style="background-color: transparent;">
+					<div class="l-main-content u-panel-pure">
 						{% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
 					</div>
 				</article>
@@ -69,16 +69,6 @@
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
 	<style>
-		/* .m-header {
-			background: var(--color-bg-white);
-			border-bottom: 0px;
-		} */
-		/* .l-container-panel {
-			padding: 0;
-			max-width: 100%;
-			box-shadow: none;
-			border: 0px;
-		} */
 		.l-main-content {
 			border: 0px;
 			padding: 0;
@@ -87,14 +77,6 @@
 			border: 0px;
 			background-color: transparent;
 		}
-		/* .l-footer{
-			background: var(--inverse-surface);
-		} */
-		/* @media (min-width: 992px) {
-			.l-sub-layout__main, .l-main-content {
-				padding: 0;;
-			}
-		} */
 	</style>
 	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
 	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/p-neuro.css' %}">

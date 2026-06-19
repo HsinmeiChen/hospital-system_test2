@@ -14,46 +14,25 @@ function loadHealthEdu(page = 1) {
 
             data.items.forEach((item, idx) => {
                 // 若 API 已回傳 titleId，使用它；否則從第一張圖檔名取前綴
-                const titleId = item.titleId || item.images[0].split('/').pop().split('_page')[0];
+                const titleId = item.titleId || (item.images && item.images.length > 0 ? item.images[0].split('/').pop().split('_page')[0] : '');
                 const detailUrl = `/neuro-center/neuro-edu/${titleId}/`;
+                const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '/Public/apps/neurology_center/images/default_article.jpg';
+
                 container.innerHTML += `
-                    <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <a href="${detailUrl}" class="edu-card-link">
-                            <figure class="card h-100 shadow-sm article-card fade-in-card edu-card-custom">
-                                <!-- Top Badge (Option C) -->
-                                <div class="edu-card-badge">
-                                    衛教資訊
+                    <div class="col-md-6 col-lg-4 col-xl-3 mb-5 d-flex align-items-stretch">
+                        <a href="${detailUrl}" class="w-100" style="text-decoration:none; color:inherit; display:block;">
+                            <article class="magazine-card">
+                                <div class="magazine-img-wrapper">
+                                    <img src="${imageUrl}" loading="lazy" alt="${item.title}" onerror="this.src='/Public/apps/neurology_center/images/default_article.jpg'">
                                 </div>
-                                <figcaption class="card-body d-flex align-items-center position-relative mt-2">
-                                    <!-- Left Icon (Option A) -->
-                                    <div class="edu-card-icon-left">
-                                        <i class="fas fa-book-medical"></i>
-                                    </div>
-                                    
-                                    <!-- Title -->
-                                    <h5 class="card-title edu-card-title mb-0 flex-grow-1">${item.title}</h5>
-                                    
-                                    <!-- Right Arrow (Option B) -->
-                                    <div class="edu-card-arrow-right">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </div>
-                                </figcaption>
-                            </figure>
+                                <div class="magazine-content">
+                                    <div class="magazine-meta">Health Education</div>
+                                    <h5 class="magazine-title">${item.title}</h5>
+                                    <div class="magazine-read-more">READ MORE</div>
+                                </div>
+                            </article>
                         </a>
                     </div>
-
-                    <!-- <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <a href="${detailUrl}" class="card-link" style="text-decoration:none;color:inherit;">
-                            <figure class="card h-100 article-card fade-in-card">
-                                <div class="img-container">
-                                    <img src="${item.images[0]}" loading="lazy" alt="${item.title}">
-                                </div>
-                                <figcaption class="card-body justify-content-center">
-                                    <h5 class="card-title">${item.title}</h5>
-                                </figcaption>
-                            </figure>
-                        </a>
-                    </div> -->
                 `;
             });
 
@@ -67,20 +46,20 @@ function loadHealthEdu(page = 1) {
             if (total > 1) {
                 // 第一頁
                 pagination.innerHTML += `
-                    <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="1">&laquo;</a>
+                    <li class="page-item ${current === 1 ? 'disabled' : ''} mx-1">
+                        <a class="page-link page-btn nav-btn" href="#" data-page="1" style="border:none; border-radius:50%;"><i class="fas fa-angle-double-left"></i></a>
                     </li>
                 `;
                 // 上一頁
                 pagination.innerHTML += `
-                    <li class="page-item ${current === 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="${current - 1}">&lsaquo;</a>
+                    <li class="page-item ${current === 1 ? 'disabled' : ''} mx-1">
+                        <a class="page-link page-btn nav-btn" href="#" data-page="${current - 1}" style="border:none; border-radius:50%;"><i class="fas fa-angle-left"></i></a>
                     </li>
                 `;
                 // 下拉選單
                 let selectHtml = `
-                    <li class="page-item">
-                        <select id="edu-page-select" class="form-control form-control-sm h-100" style="width:auto; display:inline-block;">
+                    <li class="page-item mx-2 d-flex align-items-center">
+                        <select id="edu-page-select" class="form-select form-select-sm page-select" style="border-radius: var(--radius-xl); padding-left: 1rem; padding-right: 2rem; cursor: pointer;">
                 `;
                 for (let i = 1; i <= total; i++) {
                     selectHtml += `<option value="${i}" ${i === current ? 'selected' : ''}>第 ${i} 頁</option>`;
@@ -89,14 +68,14 @@ function loadHealthEdu(page = 1) {
                 pagination.innerHTML += selectHtml;
                 // 下一頁
                 pagination.innerHTML += `
-                    <li class="page-item ${current === total ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="${current + 1}">&rsaquo;</a>
+                    <li class="page-item ${current === total ? 'disabled' : ''} mx-1">
+                        <a class="page-link page-btn nav-btn" href="#" data-page="${current + 1}" style="border:none; border-radius:50%;"><i class="fas fa-angle-right"></i></a>
                     </li>
                 `;
                 // 最後頁
                 pagination.innerHTML += `
-                    <li class="page-item ${current === total ? 'disabled' : ''}">
-                        <a class="page-link" href="#" data-page="${total}">&raquo;</a>
+                    <li class="page-item ${current === total ? 'disabled' : ''} mx-1">
+                        <a class="page-link page-btn nav-btn" href="#" data-page="${total}" style="border:none; border-radius:50%;"><i class="fas fa-angle-double-right"></i></a>
                     </li>
                 `;
                 // 下拉事件
