@@ -260,7 +260,7 @@ media_base_dir = os.path.join(settings.MEDIA_ROOT, 'news_2', 'img')
 special_base_dir = os.path.join(settings.MEDIA_ROOT, 'neuro_center')
 
 # 神經醫學中心-專網：治療文章
-neuro_treat_dir = os.path.join(special_base_dir, 'neuro-treat')
+neuro_treat_dir = os.path.join(special_base_dir, 'neuro-treat-articles')
 
 # 神經醫學中心-專網：影音專區
 Films_Dir = os.path.join(special_base_dir, 'neuro-films')
@@ -1579,6 +1579,7 @@ def treatment_list(request):
 					'title': treat_title,
 					'url_name': url_name,
 					'thumb_img': treat_parsed['thumb_img'],
+					'summary': treat_parsed.get('summary', ''),
 					'order': order_num  # 排序用的欄位
 				})
 			except Exception as e:

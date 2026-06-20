@@ -105,21 +105,21 @@
                     <h3 class="service-title">芳香療法<br><span class="service-subtitle">(Aromatherapy)</span></h3>
                     <p class="u-visually-hidden">精選醫療級天然植物精油，輔以專業按摩或吸入法，能有效安撫神經系統、減緩焦慮及改善睡眠品質，為神經疾患患者提供溫和的整合式身心舒壓。</p>
                 </a>
-                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽腦血管退化性疾病治療資訊">
+                <a href="/neuro-center/neuro-treatment/cerebro/" class="service-card" title="瀏覽腦血管退化性疾病治療資訊">
                     <div class="service-icon-wrapper">
                         <span class="material-symbols-outlined">neurology</span>
                     </div>
                     <h3 class="service-title service-title--xs">腦血管退化性疾病<br><span class="service-subtitle service-subtitle--xs">中風/動脈瘤/帕金森/腦出血等</span></h3>
                     <p class="u-visually-hidden">針對腦中風、動脈瘤、巴金森氏症、腦出血等急慢性腦血管與神經退化疾患，提供從急性期精密診療至後期積極功能復健的全程整合照護。</p>
                 </a>
-                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽脊髓/周邊神經損傷治療資訊">
+                <a href="/neuro-center/neuro-treatment/nerve-injury/" class="service-card" title="瀏覽脊髓/周邊神經損傷治療資訊">
                     <div class="service-icon-wrapper">
                         <span class="material-symbols-outlined">accessibility_new</span>
                     </div>
                     <h3 class="service-title service-title--sm">脊髓/周邊<br>神經損傷</h3>
                     <p class="u-visually-hidden">針對脊髓壓迫、坐骨神經痛、腕隧道症候群及各式周邊神經損傷，提供精密神經檢查、減壓治療與神經再生復健，重建病患肢體運動及感覺功能。</p>
                 </a>
-                <a href="/neuro-center/neuro-treatment/" class="service-card" title="瀏覽功能醫學 (Functional Medicine) 介紹">
+                <a href="/neuro-center/neuro-treatment/func-med/" class="service-card" title="瀏覽功能醫學 (Functional Medicine) 介紹">
                     <div class="service-icon-wrapper">
                         <span class="material-symbols-outlined">science</span>
                     </div>
@@ -312,6 +312,16 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
+.l-sub-layout__main{
+    padding: 0;
+}
+.l-container-panel{
+    padding: 0;
+    max-width: 100%;
+}
+.l-main-content{
+    background-color: transparent;
+}
 /* ==========================================================================
    1. Banner Carousel (輪播圖片與遮罩，及左右導覽按鈕與圓點)
 ========================================================================== */
@@ -418,7 +428,7 @@
 
 .banner-arrow:hover {
   background: var(--primary);
-  color: #ffffff;
+  color: var(--on-white);
   border-color: var(--primary);
   box-shadow: 0 8px 25px rgba(15, 118, 110, 0.2);
 }
@@ -565,6 +575,8 @@
     background-color: var(--surface-container-low);
     padding-top: var(--space-xl);
     padding-bottom: var(--space-xl);
+    border-top: 1px solid var(--tertiary-fixed);
+    border-bottom: 1px solid var(--tertiary-fixed);
 }
 
 /* 第一層: 2:1 佈局 */
@@ -703,7 +715,7 @@
 
 .video-row-layout .video-card:hover .play-btn-small-overlay span {
     transform: scale(1.15);
-    color: #fff !important;
+    color: var(--on-white) !important;
 }
 
 @media (min-width: 768px) {
@@ -732,6 +744,7 @@
 /* 衛教資訊排版：排在影音專區下方，橫向排列 */
 .neuro-edu-section{
     background-color: var(--surface);
+    border-top: 1px solid var(--tertiary-fixed);
 }
 .edu-row-grid {
     display: grid;

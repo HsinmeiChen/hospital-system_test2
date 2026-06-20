@@ -15,96 +15,104 @@
 
 
 <!-- === 子頁細節內容 =========================== -->
-
-{% block breadcrumbs %}{% endblock %}
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_home' %}" itemprop="item" title="回神經醫學中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'neuro_treatment_list' %}" itemprop="item" title="治療項目">
+				<span itemprop="name" class="font-weight-bold">治療項目</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ treat_title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
 
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
 <div class="l-main-content__body">
-    <!-- ■■■ Banner、bread-crumbs ■■■ -->
-    <section class="top-banner-grid full-width-banner" style="background-image: url('{% static 'apps/neurology_center/images/neuro_banner_bg.png' %}');">
-        <div class="page-banner">
-            <div class="page-banner-inner fade-in-card">
-                <!-- (1)、Title -->
-                <div class="page-banner-title-div">
-                    <h1 class="page-banner-title">{{ treat_title }}</h1>
-                    <!-- <div class="page-banner-title-en">Treatment</div> -->
-                </div>
-                <!-- (2)、Bread-crumbs -->
-                <div>
-                    <ul class="bc-nav">
-                        <li><a href="{% url 'neuro_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                        <li><a href="{% url 'neuro_treatment_list' %}">治療項目</a></li>
-                        <li>{{ treat_title }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+	<div class="treat-detail-page">
+		<!-- ■■■ Treament-Articles ■■■ -->
+		<section>             
+			<div class="treat-detail-layout">
+				<!-- (1)、側邊選單-治療項目列表 -->
+				<aside class="fade-in-card">
+					<input type="checkbox" id="menu-toggle" />
+					<label for="menu-toggle" class="menu-icon">☰ 其他治療項目</label>
+					<nav class="treat-sidenav-modern">
+						<div class="menu-heading">
+							<span>治療項目 </span>
+							<small>Medical Services</small>
+						</div>
+						<div id="treatment-sidenav" class="treatment-sidenav"></div>
+					</nav>
+				</aside>
+				<!-- (2)、治療項目介紹 -->
+				<section class="fade-in-card">
+					<div class="treat-detail-body">
+						<h1 class="treat-detail-title">{{ treat_a_title }}</h1>                    
+						<div>
+							{% for block in blocks %}
+								{% if block.semantic == 'section_title' %}
+									<h3 class="{{ block.class }}">{{ block.text }}</h3>
+								{% elif block.semantic == 'sub_title' %}
+									<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+								{% elif block.semantic == 'paragraph' %}
+									<p class="{{ block.class }}">{{ block.text|safe }}</p>
+								{% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
+									{% if block.type == 'ol' %}
+										<ol class="{{ block.class }}">
+									{% else %}
+										<ul class="{{ block.class }}">
+									{% endif %}
+										{% for item in block.items %}
+											<li class="{{ item.class }}">{{ item.text|safe }}</li>
+										{% endfor %}
+									{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+								{% elif block.semantic == 'faq_question' %}
+									<h4 class="{{ block.class }}">{{ block.text }}</h4>
+								{% elif block.semantic == 'faq_answer' %}
+									<p class="{{ block.class }}">{{ block.text|safe }}</p>
+								{% elif block.semantic == 'quote' %}
+									<div class="{{ block.class }}">
+										<div class="quo-txt">{{ block.text|safe }}</div>
+										<div class="logotxt">長安醫院神經內科，伴您健康長安 </div>
+									</div>
+								{% elif block.semantic == 'image' %}
+									<div class="treat-img-container {{ block.class }}">
+										<img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy">
+									</div>
+								{% elif block.semantic == 'video' %}
+									<div class="treat-video-container {{ block.class }}">
+										{{ block.text|safe }}
+									</div>
+								{% elif block.type == 'div' %}
+									<div class="{{ block.class }}">{{ block.text|safe }}</div>
+								{% endif %}
+							{% endfor %}
+						</div>
 
-    <div class="neuro-subpage-container">
-        <!-- ■■■ Treament-Articles ■■■ -->
-        <section class="section-grid shadow-4">             
-                    <div class="row pb-4">
-                        <!-- (1)、側邊選單-治療項目列表 -->
-                        <aside class="col-xl-3 fade-in-card">
-                            <input type="checkbox" id="menu-toggle" />
-                            <label for="menu-toggle" class="menu-icon">☰ 其他治療項目</label>
-                            <nav class="sidenav">
-                                <div class="menu-heading">
-                                    <span>治療項目 </span>
-                                    <small>Medical Services</small>
-                                </div>
-                                <div id="treatment-sidenav" class="treatment-sidenav"></div>
-                            </nav>
-                        </aside>
-                        <!-- (2)、治療項目介紹 -->
-                        <section class="col-xl-9 fade-in-card">
-                            <div class="pb-2">
-                                <h1 class="article_h">{{ treat_a_title }}</h1>                    
-                                <div class="article-body">
-                                    {% for block in blocks %}
-                                        {% if block.semantic == 'section_title' %}
-                                            <h3 class="{{ block.class }}">{{ block.text }}</h3>
-                                        {% elif block.semantic == 'sub_title' %}
-                                            <h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
-                                        {% elif block.semantic == 'paragraph' %}
-                                            <p class="{{ block.class }}">{{ block.text|safe }}</p>
-                                        {% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
-                                            {% if block.type == 'ol' %}
-                                                <ol class="{{ block.class }}">
-                                            {% else %}
-                                                <ul class="{{ block.class }} pl-0">
-                                            {% endif %}
-                                                {% for item in block.items %}
-                                                    <li class="{{ item.class }}">{{ item.text|safe }}</li>
-                                                {% endfor %}
-                                            {% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
-                                        {% elif block.semantic == 'faq_question' %}
-                                            <h4 class="{{ block.class }}">{{ block.text }}</h4>
-                                        {% elif block.semantic == 'faq_answer' %}
-                                            <p class="{{ block.class }}">{{ block.text|safe }}</p>
-                                        {% elif block.semantic == 'quote' %}
-                                            <div class="{{ block.class }}">
-                                                <div class="quo-txt">{{ block.text|safe }}</div>
-                                                <div class="logotxt">長安醫院，關心你</div>
-                                            </div>
-                                        {% elif block.semantic == 'image' %}
-                                            <div class="{{ block.class }}">
-                                                <img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy" class="w-100">
-                                            </div>
-                                        {% elif block.semantic == 'video' %}
-                                            <div class="{{ block.class }}">
-                                                {{ block.text|safe }}
-                                            </div>
-                                        {% elif block.type == 'div' %}
-                                            <div class="{{ block.class }}">{{ block.text|safe }}</div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </section>
-    </div>
+						<!-- CTA Section -->
+						<div class="treat-detail-cta">
+							<a href="/A006_Online_Booking_1_part/Neurology/" class="btn-muji-primary" target="_blank" title="我要預約">我要預約</a>
+						</div>
+					</div>
+				</section>
+			</div>
+		</section>
+	</div>
 </div>
 {% endblock %}
 <!-- ▲▲▲ Content ▲▲▲-->
@@ -118,6 +126,29 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
+<style>
+	.list-group-item:first-child{
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	.list-group-item:last-child{
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.list-group-item.active{
+		background-color: var(--color-secondary);
+		border-color: var(--color-secondary);
+		color: var(--on-white);
+		font-weight: 500;
+	}
+	
+	@media (min-width: 1200px) {
+		.l-container-panel{
+			padding: 0.5rem 2rem 2rem 2rem;
+		}
+	}
+	
+</style>
 {% endblock %}
 
 
