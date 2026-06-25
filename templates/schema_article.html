@@ -1,16 +1,15 @@
-<!-- [SEO/GEO 整合] Article 專用結構化資料模組 -->
-<!-- 應用情境：「衛教文章」、「影片」、「衛教圖文」 -->
+<!-- Article Schema -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
     "inLanguage": "zh-TW",
-    "datePublished": "{{ datePublished|default:'2022-02-22' }}",
+    "datePublished": "{{ datePublished|default:'2026-01-01' }}",
     "dateModified": "{% if dateModified %}{{ dateModified }}{% else %}{% now 'Y-m-d' %}{% endif %}",
     "author": {
-        "@type": "Organization",
-        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+        "@type": "Person",
+        "name": "{% if doctor_name %}{{ doctor_name }}{% else %}長安醫院{% if center_name %}{{ center_name }}{% elif sub_item_chinese %}{{ sub_item_chinese }}{% endif %}醫療團隊{% endif %}",
         "url": "{{ SITE_DOMAIN }}"
     },
     "publisher": {
@@ -34,7 +33,8 @@
   "name": "{% firstof title title_name %} - 相關圖解",
   "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}：{% firstof title title_name %} 的相關圖文說明。",
   "publisher": {
-    "@type": "Organization",
+    "@type": "MedicalOrganization",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
     "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
   },
   "image": [

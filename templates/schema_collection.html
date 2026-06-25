@@ -1,0 +1,19 @@
+<!-- CollectionPage Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "headline": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}{% if headline %}提供『{{ headline }}』{% else %}提供{% endif %}的相關文章、衛教資訊與醫療介紹列表。",
+    "inLanguage": "zh-TW",
+    "publisher": {
+        "@type": "Hospital",
+        "@id": "{{ SITE_DOMAIN }}/#hospital"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+    }
+}
+</script>

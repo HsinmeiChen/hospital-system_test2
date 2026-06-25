@@ -18,7 +18,7 @@
 	{% else %}
 	<link rel="canonical" href="{{ SITE_DOMAIN|default:"" }}">
 	{% endif %}
-	<meta name="robots" content="index, follow">
+	<meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
 
 	<!-- 語系 ======================== -->
 	<meta property="og:locale" content="zh_TW">
@@ -96,7 +96,7 @@
 	{% endif %}
 	{% endwith %}
 
-	<!-- 網站資料結構 Schema.org -->
+	<!-- Schema.org -->
 	<script type="application/ld+json">
 	{
 		"@context": "https://schema.org",
@@ -111,6 +111,8 @@
 			"url": "{{ SITE_DOMAIN }}/static/common/img/single-logo.png"
 		},
 		"image": "{{ SITE_DOMAIN }}/static/common/img/everan2.png",
+		"description": "長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務，守護您與家人的健康。",
+		"priceRange": "健保/自費",
 		"telephone": "+886-4-36113611",
 		"address": {
 			"@type": "PostalAddress",
@@ -127,10 +129,6 @@
 		},
 		"hasMap": "https://www.google.com/maps/place/?q=place_id:ChIJZ2uZpskiaTQR5iM4FHKy8Kk",
 
-		"mainEntityOfPage": {
-			"@type": "WebPage",
-			"@id": "{{ SITE_DOMAIN }}"
-		},
 		"isAccessibleForFree": true,
 		"openingHoursSpecification": [
 			{
@@ -163,164 +161,161 @@
 			"name": "台中市"
 		},
 		"medicalSpecialty": [
-			"Orthopedic",
-			"PreventiveMedicine",
-			"Neurology",
-			"Neurosurgery",
-			"CardiovascularMedicine",
-			"BreastSurgery",
-			"EmergencyMedicine"
+			"Musculoskeletal",
+			"PrimaryCare",
+			"Neurologic",
+			"Surgical",
+			"Cardiovascular",
+			"Emergency"
 		],
 		"department": [
 			{
 				"@type": "MedicalOrganization",
 				"name": "骨科",
-				"medicalSpecialty": "Orthopedic"
+				"medicalSpecialty": "Musculoskeletal"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "神經外科",
-				"medicalSpecialty": "Neurosurgery"
+				"medicalSpecialty": "Surgical"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "乳房外科",
-				"medicalSpecialty": "BreastSurgery"
+				"medicalSpecialty": "Surgical"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "泌尿科",
-				"medicalSpecialty": "Urology"
+				"medicalSpecialty": "Urologic"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "一般外科",
-				"medicalSpecialty": "GeneralSurgery"
+				"medicalSpecialty": "Surgical"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "大腸直腸外科",
-				"medicalSpecialty": "ColorectalSurgery"
+				"medicalSpecialty": "Surgical"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "高壓氧中心",
-				"medicalSpecialty": "Hyperbaric"
+				"medicalSpecialty": "RespiratoryTherapy"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "傷口照護",
-				"medicalSpecialty": "WoundCare"
+				"medicalSpecialty": "Nursing"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "心臟血管內科",
-				"medicalSpecialty": "CardiovascularMedicine"
+				"medicalSpecialty": "Cardiovascular"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "胸腔內科",
-				"medicalSpecialty": "Pulmonology"
+				"medicalSpecialty": "Pulmonary"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "腎臟內科",
-				"medicalSpecialty": "Nephrology"
+				"medicalSpecialty": "Renal"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "新陳代謝科",
-				"medicalSpecialty": "Endocrinology"
+				"medicalSpecialty": "Endocrine"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "肝膽腸胃科",
-				"medicalSpecialty": "Gastroenterology"
+				"medicalSpecialty": "Gastroenterologic"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "神經內科",
-				"medicalSpecialty": "Neurology"
+				"medicalSpecialty": "Neurologic"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "過敏免疫風濕科",
-				"medicalSpecialty": "ImmunoRheumatology"
+				"medicalSpecialty": "Rheumatologic"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "家醫科",
-				"medicalSpecialty": "FamilyMedicine"
+				"medicalSpecialty": "PrimaryCare"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "眼科",
-				"medicalSpecialty": "Ophthalmology"
+				"medicalSpecialty": "Optometric"
 			},
 			{
 				"@type": "MedicalOrganization",
-				"name": "復健科",
-				"medicalSpecialty": "Rehabilitation"
+				"name": "復健科"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "耳鼻喉科",
-				"medicalSpecialty": "Otolaryngology"
+				"medicalSpecialty": "Otolaryngologic"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "麻醉科",
-				"medicalSpecialty": "Anesthesiology"
+				"medicalSpecialty": "Anesthesia"
 			},
 			{
 				"@type": "MedicalOrganization",
-				"name": "影像醫學科",
-				"medicalSpecialty": "MedicalImaging"
+				"name": "影像醫學科"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "急診醫學科",
-				"medicalSpecialty": "EmergencyMedicine"
+				"medicalSpecialty": "Emergency"
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "婦科",
-				"medicalSpecialty": "Gynecology"
+				"medicalSpecialty": "Gynecologic"
 			},        
 			{
 				"@type": "MedicalOrganization",
 				"name": "兒科",
-				"medicalSpecialty": "Pediatrics"
+				"medicalSpecialty": "Pediatric"
 			},            
 			{
 				"@type": "MedicalOrganization",
 				"name": "神經醫學中心",
-				"medicalSpecialty": ["Neurology","Neurosurgery"]
+				"medicalSpecialty": ["Neurologic","Surgical"]
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "心血管中心",
-				"medicalSpecialty": ["CardiovascularMedicine"]
+				"medicalSpecialty": ["Cardiovascular"]
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "乳房中心",
-				"medicalSpecialty": ["BreastSurgery"]
+				"medicalSpecialty": ["Surgical"]
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "健康管理中心",
-				"medicalSpecialty": ["PreventiveMedicine"]
+				"medicalSpecialty": ["PrimaryCare"]
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "骨科微創手術中心",
-				"medicalSpecialty": ["Orthopedic"]
+				"medicalSpecialty": ["Musculoskeletal"]
 			},
 			{
 				"@type": "MedicalOrganization",
 				"name": "EECP 體外反博治療中心",
-				"medicalSpecialty": ["CardiovascularMedicine"]
+				"medicalSpecialty": ["Cardiovascular"]
 			}
 		],
 		"sameAs": [
@@ -343,6 +338,8 @@
 		}
 	}
 </script>
+<!-- Sub Page Schema JSON-LD -->
+{% block guide_seo %}{% endblock %}
 </head>
 
 <body>

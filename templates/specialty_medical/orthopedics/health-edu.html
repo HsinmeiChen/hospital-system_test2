@@ -32,9 +32,15 @@
                         </div>
                         <!-- (2)、Bread-crumbs -->
                         <div>
-                            <ul class="bc-nav">
-                                <li><a href="/specialty_medical/ort-main/"><i class="fas fa-home"></i> 首頁</a></li>
-                                <li>衛教園地</li>
+                            <ul class="bc-nav" itemscope itemtype="https://schema.org/BreadcrumbList">
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <a href="/specialty_medical/ort-main/" itemprop="item"><i class="fas fa-home"></i> <span itemprop="name">首頁</span></a>
+                                    <meta itemprop="position" content="1">
+                                </li>
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <span itemprop="name">衛教園地</span>
+                                    <meta itemprop="position" content="2">
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -119,7 +125,25 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="衛教園地｜骨科微創手術中心" %}
+{% include 'schema_collection.html' with headline="衛教園地" center_name='骨科微創手術中心' %}
+<!-- ItemList Schema -->
+{% if message_lists_cut %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {% for m in message_lists_cut %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "url": "{{ SITE_DOMAIN }}{% url 'ort_health_edu_detail' title_name=m.hash %}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
 {% endblock %}
 
 

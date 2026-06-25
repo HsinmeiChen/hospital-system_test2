@@ -3,15 +3,15 @@
 {% load static %}
 <!-- === Meta ================================== -->
 {% block title %}衛教園地｜{{ block.super }}{% endblock %}
-{% block meta_description %}「長安醫院-全方位乳房中心」衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
+{% block meta_description %}長安醫院-全方位乳房中心衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
 {% block og_title %}衛教園地｜{{ block.super }}{% endblock %}
-{% block og_description %}「長安醫院-全方位乳房中心」衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
+{% block og_description %}長安醫院-全方位乳房中心衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
 {% block twitter_title %}衛教園地｜{{ block.super }}{% endblock %}
-{% block twitter_description %}「長安醫院-全方位乳房中心」衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
+{% block twitter_description %}長安醫院-全方位乳房中心衛教園地，提供乳房健康相關衛教資訊、術後照護重點與日常保健建議，協助病患與家屬認識乳房疾病，安心面對治療與生活照護。{% endblock %}
 
 
 <!-- === 子頁細節內容 =========================== -->
@@ -32,9 +32,15 @@
                         </div>
                         <!-- (2)、Bread-crumbs -->
                         <div>
-                            <ul class="bc-nav">
-                                <li><a href="{% url 'breast_home' %}"><i class="fas fa-home"></i> 首頁</a></li>
-                                <li>衛教園地</li>
+                            <ul class="bc-nav" itemscope itemtype="https://schema.org/BreadcrumbList">
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <a href="{% url 'breast_home' %}" itemprop="item"><i class="fas fa-home"></i> <span itemprop="name">首頁</span></a>
+                                    <meta itemprop="position" content="1">
+                                </li>
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                    <span itemprop="name">衛教園地</span>
+                                    <meta itemprop="position" content="2">
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -59,7 +65,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="衛教園地｜全方位乳房中心" %}
+{% include 'schema_collection.html' with headline="衛教園地" center_name='全方位乳房中心' %}
 {% endblock %}
 
 

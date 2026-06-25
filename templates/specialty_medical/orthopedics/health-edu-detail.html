@@ -31,11 +31,20 @@
                         </div>
                         <!-- (2)、Bread-crumbs -->
                         <div>
-                            <ul class="bc-nav">
-                                <li><a href="/specialty_medical/ort-main/"><i class="fas fa-home"></i> 首頁</a></li>
-                                <li><a href="/specialty_medical/ort-health-edu/">衛教園地</a></li>
-                                <li>{{ title_name }}</li>
-                            </ul>
+                            <ul class="bc-nav" itemscope itemtype="https://schema.org/BreadcrumbList">
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <a href="/specialty_medical/ort-main/" itemprop="item"><i class="fas fa-home"></i> <span itemprop="name">首頁</span></a>
+                                <meta itemprop="position" content="1">
+                            </li>
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <a href="/specialty_medical/ort-health-edu/" itemprop="item"><span itemprop="name">衛教園地</span></a>
+                                <meta itemprop="position" content="2">
+                            </li>
+                            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                                <span itemprop="name">{{ title_name }}</span>
+                                <meta itemprop="position" content="3">
+                            </li>
+                        </ul>
                         </div>
                     </div>
                 </div>

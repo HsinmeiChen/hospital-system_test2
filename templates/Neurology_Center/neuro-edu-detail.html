@@ -108,11 +108,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% if is_txt %}
-    {% include 'schema_article.html' with headline=title datePublished=date folder="news_2" article_img=image center_name='神經醫學中心' %}
-{% else %}
-    {% include 'schema_medical_edu.html' with title=title center_name='神經醫學中心' %}
-{% endif %}
+{% include 'schema_medical_edu.html' with title=title center_name='神經醫學中心' %}
 {% endblock %}
 
 

@@ -57,6 +57,33 @@ function loadHealthEdu(page = 1) {
                 `;
             });
 
+            // 動態生成 SEO ItemList Schema
+            const itemList = {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "itemListElement": data.items.map((item, idx) => {
+                    const titleId = item.titleId || item.images[0].split('/').pop().split('_page')[0];
+                    return {
+                        "@type": "ListItem",
+                        "position": idx + 1,
+                        "url": window.location.origin + `/breast-care-center/breast-edu/${titleId}/`
+                    };
+                })
+            };
+
+            // 移除舊的動態 Schema (切換分頁時)
+            const oldSchema = document.getElementById("dynamic-itemlist-schema");
+            if (oldSchema) oldSchema.remove();
+
+            // 注入新的 Schema 到 <head>
+            if (data.items.length > 0) {
+                const script = document.createElement("script");
+                script.id = "dynamic-itemlist-schema";
+                script.type = "application/ld+json";
+                script.text = JSON.stringify(itemList);
+                document.head.appendChild(script);
+            }
+
             // 分頁控制
             const pagination = document.getElementById("pagination-list");
             pagination.innerHTML = "";

@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %}搜尋結果｜衛教園地｜{{ block.super }}{% endblock %}
 {% block og_title %}搜尋結果｜衛教園地｜{{ block.super }}{% endblock %}
-
+{% block meta_robots %}noindex, follow{% endblock %}
 
 {% block guide_content %}
 <!-- ▼▼▼ Content ▼▼▼-->
@@ -61,7 +61,7 @@
 			</div>
 
 			<!-- 分頁功能 -->
-			{% if message_lists_cut|length > 0 %}
+			{% if message_lists_cut|length > 0 and paginator_2.num_pages > 1 %}
 			<div class="row mt-4">
 				<div class="col-12 d-flex justify-content-center">
 					<ul class="pagination">
@@ -104,6 +104,7 @@
 				</div>
 			</div>
 			{% endif %}
+            <div class="mt-4 pt-4 text-center border-top"><a href="/A003_health_edu/" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院-回衛教園地首頁" aria-current="page" alt="台中長安醫院-回衛教園地首頁">回衛教園地首頁</a></div>
 		</div>
 	</div>
 </div>

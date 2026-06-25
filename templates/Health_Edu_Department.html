@@ -92,10 +92,29 @@
 <!-- ▲▲▲ Content ▲▲▲-->
 {% endblock %}
 
-
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-    {% include 'schema_article.html' with headline=" {{sub_item_chinese}}｜衛教園地｜{{block.super}}" %}
+{% with dynamic_headline=sub_item_chinese|add:"｜衛教園地" %}
+{% include 'schema_collection.html' with headline=dynamic_headline %}
+{% endwith %}
+<!-- ItemList Schema -->
+{% if message_lists_cut %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {% for m in message_lists_cut %}
+    {
+      "@type": "ListItem",
+      "position": {{ forloop.counter }},
+      "url": "{{ SITE_DOMAIN }}{% url 'detail_page' sub_item_en=sub_item_en title_name=m.hash %}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
 {% endblock %}
 
 

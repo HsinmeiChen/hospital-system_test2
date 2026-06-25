@@ -1,15 +1,15 @@
-<!-- [SEO/GEO 整合] 衛教園地(MedicalWebPage + ImageGallery) -->
+<!-- EDU (MedicalWebPage + ImageGallery) -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "MedicalWebPage",
+    "@type": "MedicalWebPage", // 宣告此網頁是「醫療網頁」
     "@id": "{{ SITE_DOMAIN }}{{ request.path }}#medicalwebpage",
     "url": "{{ SITE_DOMAIN }}{{ request.path }}",
-    "name": "{% firstof title title_name %}｜{% if center_name %}{{ center_name }}{% else %}{{ sub_item_chinese|default:'衛教園地' }}{% endif %}",
-    "headline": "{% firstof title title_name %}｜台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "name": "{% firstof title title_name %}｜{% if center_name %}{{ center_name }}{% else %}{{ sub_item_chinese|default:'衛教園地' }}{% endif %}｜台中長安醫院",
+    "headline": "{% firstof title title_name %}｜{% if center_name %}{{ center_name }}{% else %}{{ sub_item_chinese|default:'衛教園地' }}{% endif %}｜台中長安醫院",
     "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}提供『{% firstof title title_name %}』專業衛教圖文說明，為您提供日常保健、疾病預防與照護指引。",
     "inLanguage": "zh-TW",
-    "datePublished": "2023-01-01",
+    "datePublished": "{{ publish_date|date:'Y-m-d'|default:'2026-01-01' }}",
     "dateModified": "{% now 'Y-m-d' %}",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -20,31 +20,35 @@
         "{{ SITE_DOMAIN }}{{ img.jpg_url }}"{% if not forloop.last %},{% endif %}
         {% endfor %}
     ],
-    "about": [
+    "about": [ // 宣告這個網頁「討論的主題」
         {
-            "@type": "MedicalSpecialty",
+            "@type": "MedicalSpecialty", // 討論的主題是「醫療專科」
             "name": "{% if center_name %}{{ center_name }}{% else %}{{ sub_item_chinese|default:'衛教' }}{% endif %}"
         },
         {
-            "@type": "MedicalCondition",
+            "@type": "MedicalCondition", // 探討什麼特定疾病
             "name": "{% firstof title title_name %}"
         }
     ],
     "author": {
-        "@type": "Hospital",
-        "@id": "{{ SITE_DOMAIN }}/#hospital"
+        "@type": "Person",
+        "name": "{% if doctor_name %}{{ doctor_name }}{% else %}長安醫院{% if center_name %}{{ center_name }}{% elif sub_item_chinese %}{{ sub_item_chinese }}{% endif %}醫療團隊{% endif %}"
     },
     "publisher": {
         "@type": "Hospital",
         "@id": "{{ SITE_DOMAIN }}/#hospital",
-        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
+        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ SITE_DOMAIN }}/static/common/img/single-logo.png"
+        }
     }
 }
 </script>
 
 {% if image_list %}
-<!-- 附加 ImageGallery 結構 -->
-<!-- "name": "{% firstof title title_name %} 因有些中心變數帶入不同 -->
+<!-- ImageGallery -->
+<!-- "name": "{% firstof title title_name %}" -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -53,6 +57,7 @@
   "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}衛教園地：{% firstof title title_name %} 的相關圖文說明與衛教資訊。",
   "publisher": {
     "@type": "MedicalOrganization",
+    "@id": "{{ SITE_DOMAIN }}/#hospital",
     "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
   },
   "image": [
