@@ -1,34 +1,0 @@
-﻿{% extends "department/ward_mes_base.html" %}
-{% load static %}
-
-{% block title %}住院須知 | {{ block.super }}{% endblock %}
-{% block og_title %}住院須知 | {{ block.super }}{% endblock %}
-
-{% block guide_content %}
-<header id="content_h">
-    <h2 class="c-onsale-heading">住院須知</h2>
-</header>
-<div class="l-main-content__body">
-    <div class="row">
-		<div class="col-12">
-			<a href="{% static 'common/doc/ward_mes/Hos_Reminder.pdf' %}" onclick="openInFullScreenWin(this.href);return false">開啟</a>
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-<!-- ▼▼▼ SEO/GEO ▼▼▼-->
-{% block guide_seo %}
-{% include 'schema_article.html' with headline="住院須知" %}
-{% endblock %}
-<!-- ▲▲▲ SEO/GEO ▲▲▲-->
-
-<!-- ※※※ Sub Extra CSS Start ※※※ -->
-{% block sub_extra_css %}
-{% endblock %}
-<!-- ※※※ Sub Extra CSS End ※※※ -->
-
-<!-- ※※※ Sub Extra JS Start ※※※ -->
-{% block sub_extra_js %}
-{% endblock %}
-<!-- ※※※ Sub Extra JS End ※※※ -->
