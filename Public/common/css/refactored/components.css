@@ -893,7 +893,6 @@ table thead th{
 }
 table td, table th{
 	padding: .5rem !important;
-	text-align: center;
   vertical-align: middle !important;
 }
 .table-hover tbody tr:hover {
