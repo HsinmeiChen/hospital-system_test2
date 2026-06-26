@@ -81,8 +81,8 @@
             will-change: transform, opacity; /* Hint browser to optimize layer rendering */
         }
 
-        .aura-1 { width: 600px; height: 600px; top: -150px; right: -50px; background: var(--color-primary); animation-duration: 20s; }
-        .aura-2 { width: 500px; height: 500px; bottom: -150px; left: -50px; background: var(--color-secondary); animation-duration: 28s; animation-delay: -5s; }
+        .aura-1 { width: 500px; height: 500px; top: -150px; right: -50px; background: var(--color-primary); animation-duration: 20s; }
+        .aura-2 { width: 400px; height: 400px; bottom: -150px; left: -50px; background: var(--color-secondary); animation-duration: 28s; animation-delay: -5s; }
         .aura-3 { width: 450px; height: 450px; top: 50%; left: 50%; background: #ffffff; opacity: 0.5; animation: auraPulseCenter 15s infinite ease-in-out; }
 
         @keyframes auraProtect {
@@ -156,13 +156,13 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .logo-container { width: 280px; }
             .philosophy-text { font-size: 0.9rem; letter-spacing: 4px; text-indent: 4px; }
             .progress-minimal { width: 240px; }
-            .aura-1 { width: 300px; height: 300px; top: -100px; right: -80px; }
-            .aura-2 { width: 250px; height: 250px; bottom: -80px; left: -80px; }
-            .aura-3 { width: 200px; height: 200px; }
+            .aura-1 { width: 400px; height: 400px; top: -100px; right: -80px; }
+            .aura-2 { width: 300px; height: 300px; bottom: -80px; left: -80px; }
+            .aura-3 { width: 250px; height: 250px; }
             .aura-background { opacity: 0.3; filter: blur(60px); }
         }
 
