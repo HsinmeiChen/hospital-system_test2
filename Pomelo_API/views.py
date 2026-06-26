@@ -3392,7 +3392,7 @@ def A003_Laboratory(request):
 	return render(request, "MedicalSupport/Laboratory/labor-index.html", {})
 
 def A003_Laboratory_1(request):
-	newFileList = sorted(glob.glob(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'jpg', '*.jpg')), reverse=True)
+	newFileList = sorted(glob.glob(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'processed', 'jpg', '*.jpg')), reverse=True)
 	showData = []
 	for newFile in newFileList:
 		reNewFile = newFile.split("\\")[7].split("_")
