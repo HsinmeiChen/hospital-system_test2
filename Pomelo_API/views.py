@@ -3395,7 +3395,7 @@ def A003_Laboratory_1(request):
 	newFileList = sorted(glob.glob(os.path.join(settings.MEDIA_ROOT, 'lab', 'lab-new', 'processed', 'jpg', '*.jpg')), reverse=True)
 	showData = []
 	for newFile in newFileList:
-		reNewFile = newFile.split("\\")[7].split("_")
+		reNewFile = newFile.split("\\")[8].split("_")
 
 		showDate = reNewFile[0]
 		showCreateDate = reNewFile[1]
