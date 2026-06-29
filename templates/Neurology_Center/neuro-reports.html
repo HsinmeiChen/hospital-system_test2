@@ -52,7 +52,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="媒體報導" center_name="神經醫學中心" %}
+{% include 'schema_collection.html' with headline="媒體報導" center_name="神經醫學中心" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -62,7 +62,7 @@
       "@type": "ListItem",
       "position": 1,
       "name": "首頁",
-      "item": "https://{{ request.get_host }}{% url 'neuro_home' %}"
+      "item": "https://{{ request.get_host }}{% url 'cardio-home' %}"
     },
     {
       "@type": "ListItem",

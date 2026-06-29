@@ -8,7 +8,7 @@
     "datePublished": "{{ datePublished|default:'2026-01-01' }}",
     "dateModified": "{% if dateModified %}{{ dateModified }}{% else %}{% now 'Y-m-d' %}{% endif %}",
     "author": {
-        "@type": "Person",
+        "@type": "{% if doctor_name %}Person{% else %}Organization{% endif %}",
         "name": "{% if doctor_name %}{{ doctor_name }}{% else %}長安醫院{% if center_name %}{{ center_name }}{% elif sub_item_chinese %}{{ sub_item_chinese }}{% endif %}醫療團隊{% endif %}",
         "url": "{{ SITE_DOMAIN }}"
     },

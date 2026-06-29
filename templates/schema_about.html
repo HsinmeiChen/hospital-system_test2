@@ -1,0 +1,20 @@
+<!-- AboutPage Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "headline": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "description": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}關於我們：團隊介紹、核心理念與專業醫療服務項目。",
+    "inLanguage": "zh-TW",
+    "publisher": {
+        "@type": "MedicalOrganization",
+        "@id": "{{ SITE_DOMAIN }}/#hospital",
+        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+    }
+}
+</script>

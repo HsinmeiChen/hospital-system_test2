@@ -143,7 +143,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline="影音專區" center_name="神經醫學中心" %}
+{% include 'schema_collection.html' with headline="影音專區" center_name="神經醫學中心" %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -170,13 +170,6 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
-/* **********************************************************************
- * 神經醫學中心 (Neurology Center) - 影音專區 (neuro-film) 專屬樣式
- * ********************************************************************** */
-
-/* ==========================================================================
-	 1. 英雄橫幅與推薦影片區域 (Hero Banner & Featured Video)
-========================================================================== */
 .page-hero {
 	max-width: 48rem;
 	padding-top: var(--space-xl);

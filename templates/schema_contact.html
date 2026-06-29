@@ -1,0 +1,20 @@
+<!-- ContactPage Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "headline": "{% if headline %}{{ headline }}｜{% endif %}台中長安醫院{% if center_name %}{{ center_name }}{% endif %}",
+    "description": "若您對台中長安醫院{% if center_name %}{{ center_name }}{% endif %}有任何問題或需求，歡迎透過此頁面聯絡我們。",
+    "inLanguage": "zh-TW",
+    "publisher": {
+        "@type": "MedicalOrganization",
+        "@id": "{{ SITE_DOMAIN }}/#hospital",
+        "name": "台中長安醫院{% if center_name %}{{ center_name }}{% endif %}"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ SITE_DOMAIN }}{{ request.path }}"
+    }
+}
+</script>
