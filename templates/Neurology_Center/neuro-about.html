@@ -18,97 +18,97 @@
 {% block breadcrumbs %}{% endblock %}
 <!-- ▼▼▼ Content ▼▼▼-->
 {% block guide_content %}
-<div class="l-div-content__body">
-        <!-- Compassionate Care -->
-        <section class="compassion-section">
-            <div class="container compassion-wrapper">
-                <div class="compassion-image-container">
-                    <div style="aspect-ratio: 1/1; border-radius: var(--radius-full); overflow: hidden; border: 8px solid white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; z-index: 10;">
-                        <img style="width: 100%; height: 100%; object-fit: cover;" data-alt="..." src="{% get_media_prefix %}neuro_center/about-us/neuro-about.webp">
-                    </div>
-                    <div style="position: absolute; bottom: -1rem; right: -1rem; width: 12rem; height: 12rem; background-color: rgba(0,92,85,0.1); border-radius: var(--radius-full); z-index: 0;"></div>
-                    <div style="position: absolute; top: -2rem; left: -2rem; width: 16rem; height: 16rem; background-color: rgba(130,83,53,0.05); border-radius: var(--radius-full); z-index: 0;"></div>
-                </div>
-                <div class="compassion-text-container">
-                    <span style="color: var(--secondary); font-weight: 600; letter-spacing: 0.1em; display: block; margin-bottom: 0.5rem;">人文關懷 · 卓越醫療</span>
-                    <h2 class="section-header-title">長安神經醫學中心</h2>
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem;">
-                        <div style="display: flex; gap: 1.5rem;">
-                            <div style="flex-shrink: 0; width: 3rem; height: 3rem; background-color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; color: var(--primary);">
-                                <span class="material-symbols-outlined">psychiatry</span>
-                            </div>
-                            <div>
-                                <h4 style="font-weight: 600; color: var(--on-surface); margin-bottom: 0.25rem;">人本關懷照護</h4>
-                                <p style="color: var(--on-surface-variant);">重視醫病溝通與照護品質，提供專業、適切的醫療服務。</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1.5rem;">
-                            <div style="flex-shrink: 0; width: 3rem; height: 3rem; background-color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; color: var(--primary);">
-                                <span class="material-symbols-outlined">family_restroom</span>
-                            </div>
-                            <div>
-                                <h4 style="font-weight: 600; color: var(--on-surface); margin-bottom: 0.25rem;">衛教照護支援</h4>
-                                <p style="color: var(--on-surface-variant);">提供疾病照護、居家照護建議及衛教資訊，協助家屬共同守護患者健康。</p>
-                            </div>
-                        </div>
-						<div style="display: flex; gap: 1.5rem;">
-                            <div style="flex-shrink: 0; width: 3rem; height: 3rem; background-color: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; color: var(--primary);">
-                                <span class="material-symbols-outlined">health_and_safety</span>
-                            </div>
+	<div class="l-div-content__body">
+		<!-- Compassionate Care -->
+		<section class="compassion-section">
+			<div class="container compassion-wrapper">
+				<div class="compassion-image-container">
+					<div class="compassion-img">
+						<img data-alt="長安神經醫學中心" src="{% get_media_prefix %}neuro_center/about-us/neuro-about.webp">
+					</div>
+					<div class="deco-green-light"></div>
+					<div class="deco-brown-light"></div>
+				</div>
+				<div class="compassion-text-container">
+					<span>人文關懷 · 卓越醫療</span>
+					<h2 class="section-header-title">長安神經醫學中心</h2>
+					<div class="care-item-wrapper">
+						<div>
+							<div class="care-item-icon">
+								<span class="material-symbols-outlined">psychiatry</span>
+							</div>
 							<div>
-                                <h4 style="font-weight: 600; color: var(--on-surface); margin-bottom: 0.25rem;">專業醫療守護</h4>
-                                <p style="color: var(--on-surface-variant);">整合專業醫療技術與創新治療，提供全方位的神經醫療照護。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+								<h4 class="care-item-title">人本關懷照護</h4>
+								<p>重視醫病溝通與照護品質，提供專業、適切的醫療服務。</p>
+							</div>
+						</div>
+						<div>
+							<div class="care-item-icon">
+								<span class="material-symbols-outlined">family_restroom</span>
+							</div>
+							<div>
+								<h4 class="care-item-title">衛教照護支援</h4>
+								<p>提供疾病照護、居家照護建議及衛教資訊，協助家屬共同守護患者健康。</p>
+							</div>
+						</div>
+						<div>
+							<div class="care-item-icon">
+								<span class="material-symbols-outlined">health_and_safety</span>
+							</div>
+							<div>
+								<h4 class="care-item-title">專業醫療守護</h4>
+								<p>整合專業醫療技術與創新治療，提供全方位的神經醫療照護。</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-        <!-- Mission & Vision -->
-        <section class="mission-vision-section">
-            <div class="container">
-                <div class="mission-grid">
-                    <!-- Mission -->
-                    <div class="mission-card">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--primary); margin-bottom: 1.5rem;">
-                                <span class="material-symbols-outlined" style="font-size: 36px; font-variation-settings: 'FILL' 1;">volunteer_activism</span>
-                                <h2 class="section-header-title" style="margin-bottom: 0;">核心理念</h2>
-                            </div>
-                            <p style="font-size: 20px; color: var(--on-surface-variant); line-height: 1.6; margin-bottom: 1.5rem;">
-                                長安醫院秉持「醫德、醫術、病人優先」精神，成立「神經醫學中心」，由神經內科專業醫師團隊，為病患提供全方位醫療服務，並引進中部首部 移動式電腦斷層與手術導航系統AIRO等先進醫療設備，及各式各樣創新的治療方式─功能醫學、靜脈營養注射治療、靜脈雷射治療，企盼藉由多管齊下，讓患者身體疼痛、慢性疾病，得到最大的改善治療。
-                            </p>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <span style="padding: 0.25rem 1rem; background-color: rgba(0,92,85,0.1); color: var(--primary); border-radius: var(--radius-full); font-weight: 600;">醫病同行</span>
-                            <span style="padding: 0.25rem 1rem; background-color: rgba(0,92,85,0.1); color: var(--primary); border-radius: var(--radius-full); font-weight: 600;">全人照護</span>
-                        </div>
-                    </div>
-                    <!-- Vision -->
-                    <div class="vision-card">
-                        <span class="material-symbols-outlined" style="font-size: 48px; margin-bottom: 1.5rem; opacity: 0.8; font-variation-settings: 'FILL' 1;color: var(--on-white);">medical_information</span>
-                        <h2 class="section-header-title" style="color: var(--on-white);">治療項目</h2>
-                        <p style="font-size: 18px; opacity: 0.9;">
-                            腦血管退化疾病(中風、動脈瘤、腦部出血、帕金森氏症、代謝性腦病變)、失智症、記憶力退化、頭痛、偏頭痛、慢性長期疼痛、腦脊椎神經損傷、失眠、慢性壓力症候群、靜脈雷射 (血管內低能量雷射治療)、靜脈營養、點滴治療、功能醫學、基因檢驗。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>       
+		<!-- Mission & Vision -->
+		<section class="mission-vision-section">
+			<div class="container">
+				<div class="mission-grid">
+					<!-- Mission -->
+					<div class="mission-card">
+						<div>
+							<div class="mission-card-title">
+								<span class="material-symbols-outlined">volunteer_activism</span>
+								<h2 class="section-header-title">核心理念</h2>
+							</div>
+							<p>
+								長安醫院秉持「醫德、醫術、病人優先」精神，成立「神經醫學中心」，由神經內科專業醫師團隊，為病患提供全方位醫療服務，並引進中部首部移動式電腦斷層與手術導航系統AIRO等先進醫療設備，及各式各樣創新的治療方式─功能醫學、靜脈營養注射治療、靜脈雷射治療，企盼藉由多管齊下，讓患者身體疼痛、慢性疾病，得到最大的改善治療。
+							</p>
+						</div>
+						<div class="mission-card-tags">
+							<span>醫病同行</span>
+							<span>全人照護</span>
+						</div>
+					</div>
+					<!-- Vision -->
+					<div class="vision-card">
+						<span class="material-symbols-outlined">medical_information</span>
+						<h2 class="section-header-title">治療項目</h2>
+						<p>
+							腦血管退化疾病(中風、動脈瘤、腦部出血、帕金森氏症、代謝性腦病變)、失智症、記憶力退化、頭痛、偏頭痛、慢性長期疼痛、腦脊椎神經損傷、失眠、慢性壓力症候群、靜脈雷射 (血管內低能量雷射治療)、靜脈營養、點滴治療、功能醫學、基因檢驗。
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>   
 
-        <!-- CTA Section -->
-        <section>
-            <div class="glass-card" style="padding: var(--space-lg); text-align: center;">
-                <h2 class="section-header-title">了解更多中心特色</h2>
-                <p style="color: var(--on-surface-variant); font-size: 20px; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto;">邀請您與我們共同守護健康，如需了解醫師專長或預約門診，請隨時聯繫中心櫃台。</p>
-                <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                    <a class="about-btn-primary" href="/neuro-center/neuro-doctor/" style="padding: 0.75rem 2rem; font-size: 1.125rem;">醫師名單查詢</a>
-                    <a class="btn-secondary about-btn-secondary" href="/A006_Online_Booking_1_part/Neurology/" style="padding: 0.75rem 2rem; font-size: 1.125rem;">我要預約掛號</a>
-                </div>
-            </div>
-        </section>
-</div>
+		<!-- CTA Section -->
+		<section>
+			<div class="glass-card">
+				<h2 class="section-header-title">了解更多中心特色</h2>
+				<p>邀請您與我們共同守護健康，如需了解醫師專長或預約門診，請隨時聯繫中心櫃台。</p>
+				<div>
+					<a class="about-btn-primary" href="/neuro-center/neuro-doctor/">醫師名單查詢</a>
+					<a class="btn-secondary about-btn-secondary" href="/A006_Online_Booking_1_part/Neurology/">我要預約掛號</a>
+				</div>
+			</div>
+		</section>
+	</div>
 {% endblock %}
 <!-- ▲▲▲ Content ▲▲▲-->
 
@@ -121,18 +121,18 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "首頁",
-      "item": "https://{{ request.get_host }}{% url 'neuro_home' %}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "關於我們",
-      "item": "https://{{ request.get_host }}{{ request.path }}"
-    }
+	{
+	  "@type": "ListItem",
+	  "position": 1,
+	  "name": "首頁",
+	  "item": "https://{{ request.get_host }}{% url 'neuro_home' %}"
+	},
+	{
+	  "@type": "ListItem",
+	  "position": 2,
+	  "name": "關於我們",
+	  "item": "https://{{ request.get_host }}{{ request.path }}"
+	}
   ]
 }
 </script>
@@ -152,7 +152,77 @@
 	.l-main-content{
 		background-color: transparent;
 	}
-	
+	.compassion-text-container span{
+		color: var(--secondary);
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+	.care-item-wrapper{
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+	.care-item-wrapper > div{
+		display: flex;
+		gap: 1.5rem;
+	}
+	.care-item-icon{
+		flex-shrink: 0;
+		width: 3rem;
+		height: 3rem;
+		background-color: var(--on-white);
+		box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.5rem;
+		color: var(--primary);
+	}
+	.care-item-title{
+		font-weight: 600;
+		color: var(--on-surface);
+		margin-bottom: 0.25rem;
+	}
+	.care-item-title + p{
+		color: var(--on-surface-variant);
+	}
+	.compassion-img{
+		aspect-ratio: 1/1;
+		border-radius: var(--radius-full);
+		overflow: hidden;
+		border: 8px solid var(--on-white);
+		box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+		position: relative;
+		z-index: 10;
+	}
+	.compassion-img img{
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.deco-green-light{
+		position: absolute;
+		bottom: -1rem;
+		right: -1rem;
+		width: 12rem;
+		height: 12rem;
+		background-color: rgba(0,92,85,0.1);
+		border-radius: var(--radius-full);
+		z-index: 0;
+	}
+	.deco-brown-light{
+		position: absolute;
+		top: -2rem;
+		left: -2rem;
+		width: 16rem;
+		height: 16rem;
+		background-color: rgba(130,83,53,0.05);
+		border-radius: var(--radius-full);
+		z-index: 0;
+	}
 	.about-btn-primary {
 		font-weight: 600;
 		background-color: transparent;
@@ -164,7 +234,7 @@
 	}
 	.about-btn-primary:hover {
 		background-color: var(--primary) !important;
-		color: #ffffff !important;
+		color: var(--on-white) !important;
 		border-color: var(--primary) !important;
 		box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
 		transform: translateY(-4px);
@@ -182,10 +252,81 @@
 	}
 	.about-btn-secondary:hover {
 		background-color: var(--secondary) !important;
-		color: #ffffff !important;
+		color: var(--on-white) !important;
 		border-color: var(--secondary) !important;
 		box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
 		transform: translateY(-4px);
+	}
+
+	.mission-card-title{
+		display: flex;
+		align-items: center;
+		gap: 0.75rem; 
+		color: var(--primary);
+		margin-bottom: 1.5rem;
+	}
+	.mission-card-title .material-symbols-outlined{
+		font-size: 1.7rem;
+		font-variation-settings: 'FILL' 1;
+	}
+	.mission-card-title .section-header-title{
+		margin-bottom: 0;
+	}
+	.mission-card-title + p {
+		font-size: 1.05rem;
+		color: var(--on-surface-variant);
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+		text-align: justify;
+	}
+	.mission-card-tags{
+		display: flex;
+		gap: 0.5rem;
+	}
+	.mission-card-tags span{
+		padding: 0.25rem 1rem;
+		background-color: rgba(0,92,85,0.1);
+		color: var(--primary);
+		border-radius: var(--radius-full);
+		font-weight: 600;
+	}
+	.vision-card > .material-symbols-outlined{
+		font-size: 1.9rem;
+		margin-bottom: 1.5rem;
+		opacity: 0.8;
+		font-variation-settings: 'FILL' 1;
+		color: var(--on-white);
+	}
+	.vision-card > .section-header-title{
+		color: var(--on-white);
+	}
+	.vision-card > p{
+		opacity: 0.9;
+		font-size: 1rem;
+		text-align: justify;
+	}
+	.glass-card{
+		padding: var(--space-lg);
+		text-align: center;
+	}
+	.glass-card p{
+		color: var(--on-surface-variant);
+		font-size: 1.1rem;
+		margin-bottom: 2rem;
+		max-width: 42rem;
+		margin-left: auto;
+		margin-right: auto;
+		font-weight: bold;
+	}
+	.glass-card > div{
+		display: flex;
+		justify-content: center;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+	.glass-card > div > a{
+		padding: 0.75rem 2rem;
+		font-size: 1.125rem;
 	}
 </style>
 {% endblock %}
