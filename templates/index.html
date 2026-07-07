@@ -2,6 +2,27 @@
 {% extends "main_base.html" %}
 <!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
 {% load static %}
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "@id": "{{ SITE_DOMAIN }}/#webpage",
+  "url": "{{ SITE_DOMAIN }}/",
+  "name": "首頁｜台中長安醫院",
+  "description": "長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務，結合先進醫療儀器與專業醫師團隊，致力提供您與家人完整且高品質的健康照護。",
+  "inLanguage": "zh-TW",
+  "about": {
+    "@id": "{{ SITE_DOMAIN }}/#hospital"
+  },
+  "isPartOf": {
+    "@id": "{{ SITE_DOMAIN }}/#website"
+  }
+}
+</script>
+{% endblock %}
 <!-- ※※※ Web Content Start ※※※ -->
 {% block content %}
 <div class="wrapper">
@@ -257,10 +278,6 @@
                     flex: 0 0 100% !important;
                     scroll-snap-align: start !important;
                     display: block !important; /* 覆蓋 slick 預設 display */
-                }
-                /* 確保圖片外框有穩定高度，防止 collapsed 跑版 */
-                .medical_info .spacing_mp .c-card__img-wrapper, .media_reports .spacing_mp .c-card__img-wrapper {
-                    height: 220px !important;
                 }
                 /* 修正 picture 元件在原生 CSS 中的 inline 塌陷問題，確保撐滿容器 */
                 .medical_info .spacing_mp .c-card__img-wrapper picture, .media_reports .spacing_mp .c-card__img-wrapper picture {

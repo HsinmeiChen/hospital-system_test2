@@ -33,9 +33,7 @@ urlpatterns = [
 	re_path('^api/captcha/image/$', pomelo_test_utils.common_captcha_img, name='common_captcha_img'),
 	re_path('^api/captcha/refresh/$', pomelo_test_utils.common_refresh_captcha, name='common_refresh_captcha'),
 	re_path('^$', pomelo_views.index),
-
-
-	re_path('index/', pomelo_views.index),
+	re_path('index/', pomelo_views.index, name="index"),
 	re_path('^A000_news/$', pomelo_views.new_news),
 	re_path('^A000_news/page/(?P<page>\d+)/$', pomelo_views.new_news),
 	re_path('A000_news/(?P<slug>[\w\d]+)/', pomelo_views.new_news_detail, name='news_detail'),
@@ -160,22 +158,25 @@ urlpatterns = [
 	re_path('A006_register/', pomelo_views.A006_register),
 	re_path('A006_find_register/', pomelo_views.A006_find_register),
 	re_path('A006_out_register/', pomelo_views.A006_out_register),
-	re_path(r'^A007_Reserve_pre/',include('Reserve_Pre.urls')), #預約慢箋
+	re_path(r'^A007_Reserve_pre/',include('Reserve_Pre.urls')), # 預約慢箋
 	re_path('A100_search_sename/', pomelo_views.A100_search_sename),
 	re_path('A101_search_bed/', pomelo_views.A101_search_bed),
 	re_path('A102_Safe_ISMS/', pomelo_views.A102_Safe_ISMS),
 	re_path('A103_search_ITH_bed/', pomelo_views.A103_search_ITH_bed),
 	# re_path(r'^web_speech/',include('web_speech.urls')),
 	re_path('EECP/', include('EECP.urls')),
-	re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科
-	re_path('specialty_health/', include('specialty_health.urls')), # 特色醫療-健管
+	re_path('specialty_medical/', include('specialty_medical.urls')), # 特色醫療-骨科微創手術中心
+	re_path('specialty_health/', include('specialty_health.urls')), # 特色醫療-健康管理中心
 	re_path('breast-care-center/', include('Breast_Care_Center.urls')), # 特色醫療-乳房中心
 	re_path('neuro-center/', include('Neurology_Center.urls')), # 特色醫療-神經醫學中心
+	re_path('cardio-center/', include('cardio_center.urls')), # 特色醫療-心血管中心
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # 新增 media (讓檔案可下載 - 強制在 DEBUG=False 時也能由 Django 提供)
 from django.views.static import serve
 
+# 將對 favicon.ico 的請求永久導向靜態資料夾中的圖示檔案位置
+# 同時設定 ^media/ 路由讓伺服器能夠讀取並顯示存放在 settings.MEDIA_ROOT 中的使用者上傳媒體檔案。
 urlpatterns += [
 	re_path('favicon.ico', RedirectView.as_view(url='/static/common/img/favicon.ico', permanent=True)),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),

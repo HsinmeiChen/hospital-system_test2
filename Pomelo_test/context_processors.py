@@ -28,6 +28,8 @@ def default_tracking_ids(request):
 		default_og_image = f"{site_domain}/media/EECP/EECP.png"
 	elif path.startswith('/neuro-center/'): # 神經醫學中心
 		default_og_image = f"{site_domain}/media/neuro_center/og-neuro-center.jpg"
+	elif path.startswith('/cardio-center/'): # 心血管中心
+		default_og_image = f"{site_domain}/media/cardio_center/og_cardio_center.jpg"
 	else:
 		# 主要官網 
 		default_og_image = f"{site_domain}/Public/common/img/everan2.jpg"

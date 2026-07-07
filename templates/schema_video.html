@@ -9,7 +9,7 @@
   "embedUrl": "https://www.youtube.com/embed/{{ video.youtube_id }}",
   "duration": "{{ video.duration_iso|default:'PT5M' }}",
   "author": {
-    "@type": "Person",
+    "@type": "{% if video.description %}Person{% else %}Organization{% endif %}",
     "name": "{{ video.description|default:'台中長安醫院' }}{% if not video.description and center_name %}{{ center_name }}{% endif %}"
   }
 }

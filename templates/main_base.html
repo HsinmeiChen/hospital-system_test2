@@ -330,13 +330,27 @@
 			"telephone": "+886-4-36113611",
 			"contactType": "customer service",
 			"availableLanguage": ["zh-TW"]
-		},
-		"potentialAction": {
-			"@type": "SearchAction",
-			"target": "{{ SITE_DOMAIN }}/search/?q={query}",
-			"query-input": "required name=query"
 		}
 	}
+</script>
+
+<!-- 獨立 WebSite 實體 (確保 Sitelinks Searchbox 生效，並與各科中心之 WebPage 建立完整圖譜) -->
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"@id": "{{ SITE_DOMAIN }}/#website",
+	"url": "{{ SITE_DOMAIN }}",
+	"name": "台中長安醫院",
+	"publisher": {
+		"@id": "{{ SITE_DOMAIN }}/#hospital"
+	},
+	"potentialAction": {
+		"@type": "SearchAction",
+		"target": "{{ SITE_DOMAIN }}/search/?q={query}",
+		"query-input": "required name=query"
+	}
+}
 </script>
 <!-- Sub Page Schema JSON-LD -->
 {% block guide_seo %}{% endblock %}
