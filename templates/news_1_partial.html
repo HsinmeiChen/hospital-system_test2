@@ -13,6 +13,7 @@
 				<td>
 					<div class="cell_left font-weight-bold">標題</div>
 					<div class="cell_right">
+						{% if "~" in news_list.0 %}<i title="置頂" style="font-style: normal;">📌</i>{% endif %}
 						<a class="font-weight-bold" href="/A000_news/{{ news_list.7 }}/">{{ news_list.2 }}</a>
 					</div>
 				</td>

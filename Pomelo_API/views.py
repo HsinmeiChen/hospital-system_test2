@@ -1619,6 +1619,22 @@ def _get_news_1_list():
 			news_lists.append(parts)
 
 	news_lists.sort(key=get_year, reverse=True)
+
+	# --- 限制最多只能有 3 筆置頂 ---
+	pin_count = 0
+	need_resort = False
+	for item in news_lists:
+		if '~' in item[0]:
+			pin_count += 1
+			# 超過 3 筆的置頂文章，移除置頂標記當作一般文章
+			if pin_count > 3:
+				item[0] = item[0].split('~')[0]
+				need_resort = True
+
+	# 如果有拔除標記，需重新排序確保它回到正常的日期排序位置
+	if need_resort:
+		news_lists.sort(key=get_year, reverse=True)
+
 	return news_lists
 
 # ---【 ADD-最新消息:解析檔名 (slug / hash) 】End ---
@@ -1693,8 +1709,8 @@ def _parse_news_2_items(items):
 def index(request):
 
 	# ---【 ADD-首頁：最新消息、媒體報導】Start ---
-	# 1. 沿用並引入共用資料邏輯（僅取最新發布前 5 筆）
-	news_lists_5 = _get_news_1_list()[:5]
+	# 1. 沿用並引入共用資料邏輯（僅取最新發布前 6 筆）
+	news_lists_5 = _get_news_1_list()[:6]
 
 	# 2. 沿用並引入共用資料邏輯（僅取最新發布前 6 筆，並動態提取摘要）
 	medias_split_box = _get_news_2_list()
@@ -1789,7 +1805,18 @@ def index(request):
 
 # 功能(二)、子頁-最新消息
 def get_year(element):
-	return element[6] # ------【 ADD-改成 6】------
+	id_part = element[0]
+	if '~' in id_part:
+		try:
+			pin_order = int(id_part.split('~')[1])
+			# 因為 sort(reverse=True)，由大到小排序
+			# 置頂文章的第一排序值給 1 (一般文章給 0)
+			# 第二排序值給 -pin_order，確保 ~1 排在 ~2 前面 (-1 > -2)
+			# 第三排序值給原本的日期 element[6]
+			return (1, -pin_order, element[6])
+		except ValueError:
+			pass
+	return (0, 0, element[6])
 
 
 # ------【 ADD-最新消息(清單頁)】Start ------
