@@ -31,28 +31,30 @@
 
 <section class="l-main-content__body subpage-container">
 	<div id="treatment-list">
-		<div class="treat-grid-container">
+		<div class="row">
 			{% for treat in treatments %}
-			<a href="{% url 'cardio_center:treatment-article' treat.url_name %}" class="magazine-card fade-in-card">
-				<div class="magazine-img-wrapper">
-					<!-- 加入判斷以避免空縮圖路徑導致錯誤 -->
-					{% if treat.thumb_img %}
-						<img src="/media/{{ treat.thumb_img }}" alt="{{ treat.title }}" loading="lazy">
-					{% else %}
-						<div style="width:100%; height:100%; background:var(--surface-container);"></div>
-					{% endif %}
-				</div>
-				<div class="magazine-content">
-					<div class="magazine-meta">TREATMENT</div>
-					<h3 class="magazine-title">{{ treat.title }}</h3>
-					{% if treat.summary %}
-					<p style="font-size: 1rem; color: var(--on-surface-variant); line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; opacity: 0.85;">{{ treat.summary|truncatechars:80 }}</p>
-					{% endif %}
-					<div class="magazine-read-more">
-						了解更多
+			<div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+				<a href="{% url 'cardio_center:treatment-article' treat.url_name %}" class="magazine-card">
+					<div class="magazine-img-wrapper">
+						<!-- 加入判斷以避免空縮圖路徑導致錯誤 -->
+						{% if treat.thumb_img %}
+							<img src="/media/{{ treat.thumb_img }}" alt="{{ treat.title }}" loading="lazy">
+						{% else %}
+							<div style="width:100%; height:100%; background:var(--surface-container);"></div>
+						{% endif %}
 					</div>
-				</div>
-			</a>
+					<div class="magazine-content">
+						<div class="magazine-meta">TREATMENT</div>
+						<h3 class="magazine-title">{{ treat.title }}</h3>
+						{% if treat.summary %}
+						<p class="magazine-desc">{{ treat.summary|truncatechars:80 }}</p>
+						{% endif %}
+						<div class="magazine-read-more">
+							了解更多
+						</div>
+					</div>
+				</a>
+			</div>
 			{% endfor %}
 		</div>
 	</div>

@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <a href="${article.url}" class="text-decoration-none d-block h-100">
                     <figure class="article-card h-100 m-0">
                         <div class="article-img-wrapper">
-                            <img src="/media/${article.image}" class="article-img" loading="lazy" alt="${article.title}">
+                            <img src="/media/${article.image}" loading="lazy" alt="${article.title}">
                         </div>
                         <figcaption class="article-content">
                             <h4 class="article-title">${article.title}</h4>

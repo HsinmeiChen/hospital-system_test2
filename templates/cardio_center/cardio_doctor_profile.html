@@ -146,10 +146,10 @@
 						</h3>
 						<ul class="row mx-1 mb-0">
 							{% for item in education_list %}
-							<li class="timeline-item col-lg-6 mb-3">
-								<div class="timeline-dot {% cycle 'secondary' 'color-secondary' %}"></div>
+							<li class="list-item-li col-lg-6 mb-3">
+								<div class="list-item-li-dot {% cycle 'secondary' 'color-secondary' %}"></div>
 								<div>
-									<div class="timeline-title">{{ item }}</div>
+									<div class="list-item-li-title">{{ item }}</div>
 								</div>
 							</li>
 							{% endfor %}
@@ -168,7 +168,7 @@
 						</div>
 						{% if related_articles %}
 						<div class="grid grid-cols-1 sm-grid-cols-2 gap-md" id="related-articles-container"></div>
-						<div class="cardio-pagination-wrapper">
+						<div>
 							<ul id="pagination" class="pagination justify-content-center"></ul>
 						</div>
 						{% endif %}
@@ -184,7 +184,7 @@
 						</h3>
 						{% if related_videos %}
 						<div class="grid sm-grid-cols-3 gap-md" id="related-videos-container"></div>
-						<div class="cardio-pagination-wrapper">
+						<div>
 							<ul id="video-pagination" class="pagination justify-content-center pt-5"></ul>
 						</div>
 						{% endif %}

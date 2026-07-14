@@ -320,11 +320,11 @@ def parse_article_txt(filepath, detail=True):
 	# --- 定義簡單標籤字典 (將相似格式的標籤集中管理，避免寫一堆 elif) ---
 	SIMPLE_TAGS = {
 		'<cap>':   {'type': 'h3', 'semantic': 'section_title', 'class': 'title-02'},
-		'<li-t>':  {'type': 'h4', 'semantic': 'sub_title', 'class': 'list-title'},
-		'<li-q>':  {'type': 'h4', 'semantic': 'faq_question', 'class': 'list-question'},
+		'<li-t>':  {'type': 'h4', 'semantic': 'sub_title', 'class': 'list-title'},		
 		'<quo>':   {'type': 'blockquote', 'semantic': 'quote', 'class': 'quote-box'},
 		'<li-p>':  {'type': 'li', 'semantic': 'keypoint', 'class': 'list-text'},
 		'<li-o>':  {'type': 'li', 'semantic': 'ordered_keypoint', 'class': 'list-num'},
+		'<li-q>':  {'type': 'h4', 'semantic': 'faq_question', 'class': 'list-question'},
 		'<li-a>':  {'type': 'div', 'semantic': 'faq_answer', 'class': 'list-answer'},
 		'<t-note>':{'type': 'div', 'class': 'text-note'},
 	}
@@ -812,7 +812,7 @@ def cardio_main(request):
 					'image': image_url,
 					'pub_date': pub_date,
 					'summary': summary,
-					'url': f"/cardio-center/cardio-edu/{title_hash}/"
+					'url': f"/cardio-center/edu/{title_hash}/"
 				})
 	except Exception as e:
 		print(f"[首頁-衛教資訊隨機取得失敗]：{e}")

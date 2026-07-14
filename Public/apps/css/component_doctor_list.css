@@ -56,3 +56,65 @@
 .cta-section{
 	flex-direction: column;
 }
+
+
+
+
+
+
+
+
+/* ==========================================================================
+	留.醫師陣容列表頁
+========================================================================== */
+.doctor-card {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--on-white);
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	transition: all 0.3s ease;
+}
+.doctor-card:hover {
+	box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+.doctor-img-wrapper {
+	margin: 0;
+	text-align: center;
+	overflow: hidden;
+	height: 20rem;
+	position: relative;
+}
+.doctor-img {
+	width: 100%;
+	height: auto;
+	max-height: 350px;
+	object-fit: contain !important;
+	object-position: bottom center;
+	margin: 0 auto;
+	display: block;
+	transition: transform 0.5s;
+}
+.doctor-card:hover .doctor-img {
+	transform: scale(1.05);
+}
+.doctor-badge {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	background-color: var(--primary);
+	color: var(--on-white);
+	padding: 0.25rem 0.75rem;
+	border-radius: var(--radius-full);
+	font-size: .8rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	background-color: var(--secondary);
+}
+.doctor-info {
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}

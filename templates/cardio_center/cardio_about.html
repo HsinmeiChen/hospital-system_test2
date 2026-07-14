@@ -103,8 +103,8 @@
 				<h2 class="section-header-title">了解更多中心特色</h2>
 				<p>邀請您與我們共同守護健康，如需了解醫師專長或預約門診，請隨時聯繫中心櫃台。</p>
 				<div>
-					<a class="about-btn-primary" href="{% url 'cardio_center:doctor-list' %}">醫師名單查詢</a>
-					<a class="btn-secondary about-btn-secondary" href="/A006_Online_Booking_1_part/CardiovascularMedicine/">我要預約掛號</a>
+					<a class="btn-center-primary-outline" href="{% url 'cardio_center:doctor-list' %}">醫師名單查詢</a>
+					<a class="btn-center-secondary" href="/A006_Online_Booking_1_part/CardiovascularMedicine/">我要預約掛號</a>
 				</div>
 			</div>
 		</section>
@@ -223,40 +223,7 @@
 		border-radius: var(--radius-full);
 		z-index: 0;
 	}
-	.about-btn-primary {
-		font-weight: 600;
-		background-color: transparent;
-		border: 2px solid var(--primary);
-		color: var(--primary);
-		border-radius: var(--radius-full);
-		transition: all 0.3s;
-		text-decoration: none;
-	}
-	.about-btn-primary:hover {
-		background-color: var(--primary) !important;
-		color: var(--on-white) !important;
-		border-color: var(--primary) !important;
-		box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-		transform: translateY(-4px);
-		text-decoration: none;
-	}
-
-	.about-btn-secondary {
-		font-weight: 600;
-		background-color: transparent;
-		border: 2px solid var(--secondary);
-		color: var(--secondary);
-		border-radius: var(--radius-full);
-		transition: all 0.3s;
-		text-decoration: none;
-	}
-	.about-btn-secondary:hover {
-		background-color: var(--secondary) !important;
-		color: var(--on-white) !important;
-		border-color: var(--secondary) !important;
-		box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-		transform: translateY(-4px);
-	}
+	
 
 	.mission-card-title{
 		display: flex;
@@ -328,6 +295,90 @@
 		padding: var(--space-sm) var(--space-margin);
 		font-size: 1.125rem;
 	}
+
+
+	/* ==========================================================================
+	留.關於我們-主體內容
+========================================================================== */
+.mission-vision-section {
+	padding-top: var(--space-xl);
+	padding-bottom: var(--space-xl);
+	background-color: var(--surface-container-low);
+}
+.mission-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-md);
+}
+@media (min-width: 768px) {
+	.mission-grid {
+		grid-template-columns: repeat(12, 1fr);
+	}
+}
+.mission-card {
+	background-color: var(--on-white);
+	padding: var(--space-lg);
+	border-radius: var(--radius-xl);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	border: 1px solid rgba(229, 226, 221, 0.3);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+@media (min-width: 768px) {
+	.mission-card {
+		grid-column: span 7 / span 7;
+	}
+}
+.vision-card {
+	background-color: var(--secondary);
+	color: var(--on-white);
+	padding: var(--space-lg);
+	border-radius: var(--radius-xl);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+@media (min-width: 768px) {
+	.vision-card {
+		grid-column: span 5 / span 5;
+	}
+}
+.compassion-section {
+	padding-top: var(--space-xl);
+	padding-bottom: var(--space-xl);
+	overflow: hidden;
+}
+.compassion-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-xl);
+}
+@media (min-width: 768px) {
+	.compassion-wrapper {
+		flex-direction: row;
+	}
+}
+.compassion-image-container {
+	position: relative;
+	width: 100%;
+}
+@media (min-width: 768px) {
+	.compassion-image-container {
+		width: 50%;
+	}
+}
+.compassion-text-container {
+	width: 100%;
+}
+@media (min-width: 768px) {
+	.compassion-text-container {
+		width: 50%;
+	}
+}
+
+
 </style>
 {% endblock %}
 
