@@ -250,6 +250,7 @@ def breadcrumb_processor(request):
 		"A005_ward_mes_1": "病人住院流程",
 		"A005_ward_mes_2": "住院須知", # 未開放
 		"A005_ward_mes_3": "病人出院流程",
+		"A005_ward_mes_4": "住院陪病及探病規範",
 		"A005_ward_mes_0": "病房費用",
 		"A005_Diff_fee": "自付差額特材", # 未開放
 		"A005_Self_fee": "自費項目", # 未開放
