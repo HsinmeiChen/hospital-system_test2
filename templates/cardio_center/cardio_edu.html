@@ -1,0 +1,85 @@
+{% extends "cardio_center/cardio_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安醫院心血管中心衛教文章分享心肌梗塞、心律不整、高血壓、冠狀動脈疾病及周邊血管疾病等健康知識，提供預防保健、症狀辨識、治療新知與術後照護資訊，陪伴您守護心血管健康。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院心血管中心衛教文章分享心肌梗塞、心律不整、高血壓、冠狀動脈疾病及周邊血管疾病等健康知識，提供預防保健、症狀辨識、治療新知與術後照護資訊，陪伴您守護心血管健康。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}衛教園地｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院心血管中心衛教文章分享心肌梗塞、心律不整、高血壓、冠狀動脈疾病及周邊血管疾病等健康知識，提供預防保健、症狀辨識、治療新知與術後照護資訊，陪伴您守護心血管健康。{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<section class="u-hero-header">
+	<div>
+		<div class="u-hero-header__content">
+			<span class="u-tag-primary">Health Education</span>
+			<h1 class="u-hero-title"><span class="u-visually-hidden">台中長安醫院心血管中心 </span>衛教園地</h1>
+			<p class="u-hero-desc">提供心血管疾病預防、檢查、治療及術後照護等衛教資訊，協助您建立正確健康觀念，守護心臟與血管健康。</p>
+		</div>
+	</div>
+</section>
+
+<section class="l-main-content__body subpage-container">
+	<div>
+		<!-- (1)、Health-Edu -->
+		<div class="row" id="edu-list"></div>
+		<!-- (2)、Pagination -->
+		<nav aria-label="Page navigation">
+			<ul class="pagination" id="pagination-list"></ul>
+		</nav>
+	</div>
+</section>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_collection.html' with headline="衛教園地" center_name='心血管中心' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+	{
+	  "@type": "ListItem",
+	  "position": 1,
+	  "name": "首頁",
+	  "item": "https://{{ request.get_host }}{% url 'cardio_center:home' %}"
+	},
+	{
+	  "@type": "ListItem",
+	  "position": 2,
+	  "name": "衛教園地",
+	  "item": "https://{{ request.get_host }}{{ request.path }}"
+	}
+  ]
+}
+</script>
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'apps/css/component_hero_layout.css' %}">
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script>
+const API_URL_EDU = "{% url 'cardio_center:edu-api' %}";
+const URL_EDU_DETAIL = "{% url 'cardio_center:edu-detail' 'PLACEHOLDER' %}";
+</script>
+<script src="{% static 'apps/js/common_edu.js' %}"></script>
+{% endblock %}

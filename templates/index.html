@@ -2,27 +2,6 @@
 {% extends "main_base.html" %}
 <!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
 {% load static %}
-
-<!-- === Schema JSON-LD ======================== -->
-{% block guide_seo %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "MedicalWebPage",
-  "@id": "{{ SITE_DOMAIN }}/#webpage",
-  "url": "{{ SITE_DOMAIN }}/",
-  "name": "首頁｜台中長安醫院",
-  "description": "長安醫院位於台中市太平區，提供多項專科門診、健檢中心、長照護理、與24小時急診服務，結合先進醫療儀器與專業醫師團隊，致力提供您與家人完整且高品質的健康照護。",
-  "inLanguage": "zh-TW",
-  "about": {
-    "@id": "{{ SITE_DOMAIN }}/#hospital"
-  },
-  "isPartOf": {
-    "@id": "{{ SITE_DOMAIN }}/#website"
-  }
-}
-</script>
-{% endblock %}
 <!-- ※※※ Web Content Start ※※※ -->
 {% block content %}
 <div class="wrapper">
@@ -40,13 +19,13 @@
             <div id="menucarousel_pc" class="d-none d-md-block">
                 <div class="banner">
                     <div>
-                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                            <img src="{% get_media_prefix %}everan_banner/D_0001.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
+                        <a href="/A000_medical_info/0bb1431b/" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
+                            <img src="{% get_media_prefix %}everan_banner/D_0001.jpg" class="d-block w-100" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科" title="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
                         </a>
                     </div>
                     <div>
-                        <a href="/A000_medical_info/d7e3312f/" alt="UroLift前列腺拉開術－攝護腺肥大的剋星">
-                            <img src="{% get_media_prefix %}everan_banner/D_0002.jpg" class="d-block w-100" alt="UroLift前列腺拉開術－攝護腺肥大的剋星" title="UroLift前列腺拉開術－攝護腺肥大的剋星">
+                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
+                            <img src="{% get_media_prefix %}everan_banner/D_0002.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
                         </a>
                     </div>
                     <div>
@@ -60,7 +39,7 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/EECP/" target="_blank">
+                        <a href="/EECP/" target="_blank" alt="EECP 體外反搏">
                             <img src="{% get_media_prefix %}everan_banner/D_0005.jpg" class="d-block w-100" alt="EECP 體外反搏" title="EECP 體外反搏">
                         </a>
                     </div>
@@ -69,23 +48,18 @@
                             <img src="{% get_media_prefix %}everan_banner/D_0006.jpg" class="d-block w-100" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！" title="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
                         </a>
                     </div>
-                    <div>
-                        <a href="/A000_medical_info/9f7ab329/" alt="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】">
-                            <img src="{% get_media_prefix %}everan_banner/D_0007.jpg" class="d-block w-100" alt="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】" title="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】">
-                        </a>
-                    </div>
                 </div>
             </div>
             <div id="menucarousel_mobile" class="d-block d-md-none">
                 <div class="banner">
                     <div>
-                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                            <img src="{% get_media_prefix %}everan_banner/M_0001.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
+                        <a href="/A000_medical_info/0bb1431b/" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
+                            <img src="{% get_media_prefix %}everan_banner/M_0001.jpg" class="d-block w-100" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科" title="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
                         </a>
                     </div>
                     <div>
-                        <a href="/A000_medical_info/d7e3312f/" alt="UroLift前列腺拉開術－攝護腺肥大的剋星">
-                            <img src="{% get_media_prefix %}everan_banner/M_0002.jpg" class="d-block w-100" alt="UroLift前列腺拉開術－攝護腺肥大的剋星" title="UroLift前列腺拉開術－攝護腺肥大的剋星">
+                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
+                            <img src="{% get_media_prefix %}everan_banner/M_0002.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
                         </a>
                     </div>
                     <div>
@@ -99,18 +73,13 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/EECP/" target="_blank">
+                        <a href="/EECP/" target="_blank" alt="EECP 體外反搏">
                             <img src="{% get_media_prefix %}everan_banner/M_0005.jpg" class="d-block w-100" alt="EECP 體外反搏" title="EECP 體外反搏">
                         </a>
                     </div>
                     <div>
                         <a href="/A000_medical_info/111730fe/" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
                             <img src="{% get_media_prefix %}everan_banner/M_0006.jpg" class="d-block w-100" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！" title="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/9f7ab329/" alt="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】">
-                            <img src="{% get_media_prefix %}everan_banner/M_0007.jpg" class="d-block w-100" alt="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】" title="長安醫院 10 周年院慶繪畫競賽：【醫心十年，守護太平】">
                         </a>
                     </div>
                 </div>

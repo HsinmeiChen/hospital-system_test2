@@ -1,0 +1,124 @@
+{% extends "cardio_center/cardio_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:home' %}" itemprop="item" title="回心血管中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:media' %}" itemprop="item" title="媒體報導">
+				<span itemprop="name" class="font-weight-bold">媒體報導</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+	<div class="row">
+		<div class="col-lg-8 col-lg-8-detail">
+			<div class="posts-detail-container">
+				<h1 class="posts-detail-title">{{ title }}</h1>
+				<div class="posts-meta-info mb-4 text-muted text-right">
+					<span class="mr-4">
+						<i class="material-symbols-outlined align-middle mr-1">person</i>{% if doctor_name %}{{ doctor_name }} 醫師{% else %}心血管團隊{% endif %}
+					</span>
+					<span>
+						<i class="material-symbols-outlined align-middle mr-1">calendar_month</i>{{ date }}
+					</span>
+				</div>
+
+				<!-- 文章內容 -->
+				<div style="color: var(--color-text-dark);text-align: justify;">
+					{% for block in blocks %}
+						{% if block.semantic == 'section_title' %}
+							<h2 class="{{ block.class }}">{{ block.text }}</h2>
+						{% elif block.semantic == 'paragraph' %}
+							<p class="{{ block.class }}">{{ block.text|safe }}</p>
+						{% elif block.semantic == 'image' %}
+							<div class="{{ block.class }}">
+								<img src="/media/{{ block.article_src }}" alt="{{ title }}" loading="lazy" title="{{ title }}">
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="mt-4 pt-4 border-top" style="gap: 10px;display: flex;justify-content: center;">
+					<a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank" class="btn btn-primary btn-lg rounded-0" aria-label="我要預約掛號" title="我要預約掛號">我要預約掛號</a>
+					<a href="{% url 'cardio_center:media' %}" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院心血管中心-媒體報導列表頁" aria-current="page" aria-label="台中長安醫院心血管中心-媒體報導列表頁">回媒體報導</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="related-posts">
+				<div class="_popIn_recommend_header">
+					<i class="fas fa-book-reader mr-2" style="color: var(--secondary);"></i>推薦閱讀
+				</div>
+				<div id="random-edus" class="row"></div>
+				<div class="_popIn_recommend_header"><i class="fas fa-fire mr-2 text-danger"></i>熱門文章</div>
+				<div id="random-reports" class="row"></div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_article.html' with headline=title datePublished=date folder="news_2" article_img=image center_name='心血管中心' %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'apps/css/component_detail_layout.css' %}">
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script>
+    // 1. API 網址
+    const API_URL_RANDOM_REPORTS = "{% url 'cardio_center:random-reports-api' %}";
+    const API_URL_RANDOM_EDUS = "{% url 'cardio_center:random-edus-api' %}";
+    
+    // 2. 詳細頁的跳轉網址
+    const URL_ARTICLE_DETAIL = "{% url 'cardio_center:article_share_view' 'PLACEHOLDER' %}";
+    const URL_EDU_DETAIL = "{% url 'cardio_center:edu-detail' 'PLACEHOLDER' %}";
+</script>
+<script src="{% static 'apps/js/common_sidebar_random_articles.js' %}"></script>
+{% endblock %}

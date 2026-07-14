@@ -2197,7 +2197,6 @@ def cardio_edu_detail(request, title_id):
 
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■ 聯絡我們 (contact) ■■■■■■■■■■■■■■■■■■■■■■■■■■
-from pandas.io.formats import style_render
 @ratelimit_form_submit(max_requests=5, window=300, redirect_url='cardio_send_mail')  # 5 分鐘內最多 5 次提交
 @captcha_failure_limit(max_failures=5, lockout_time=300, redirect_url='cardio_send_mail', captcha_field='captcha')  # 5 次驗證碼錯誤後鎖定 5 分鐘
 def cardio_send_mail(request):

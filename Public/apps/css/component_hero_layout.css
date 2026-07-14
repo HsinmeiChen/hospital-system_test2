@@ -1,0 +1,26 @@
+.l-sub-layout__main{
+	padding: 0;
+}
+.l-container-panel{
+	padding: 0;
+	border: 0;
+	background-color: transparent;
+	box-shadow: none;
+}
+.l-main-content{
+	background-color: transparent;
+}
+.subpage-container{
+	background-color: rgba(255, 255, 255, 0.9);
+	border: 2px solid var(--color-accent-peach);
+	/* padding: var(--space-md); */
+	max-width: 82.5rem;
+	width: 100%;
+	margin: 0 auto;
+}
+@media (min-width: 1024px) {
+	.subpage-container{
+		margin-bottom: var(--space-lg);
+		padding: var(--space-lg);
+	}
+}

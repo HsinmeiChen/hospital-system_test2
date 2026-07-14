@@ -574,8 +574,9 @@
   display: flex !important;
   flex-wrap: wrap !important;
   justify-content: center !important;
-  padding-left: 0 !important;
+  padding: var(--space-md) 0 !important;
   list-style: none !important;
+  margin-bottom: 0 !important;
 }
 
 .pagination .page-link {
@@ -608,9 +609,8 @@
 .pagination .page-item.disabled .page-link {
   color: var(--color-text-light, #999) !important;
   pointer-events: none !important;
-  background-color: var(--color-bg-light, #f8f9fa) !important;
+  background-color: var(--color-bg-offwhite, #f8f9fa) !important;
   border-color: var(--color-border-light, #ddd) !important;
-  opacity: 0.6 !important;
 }
 
 /* 下拉選單客製樣式 */

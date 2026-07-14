@@ -1,0 +1,123 @@
+{% extends "cardio_center/cardio_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block meta_description %}台中長安醫院-心血管中心衛教園地：{{ title }}{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block og_description %}台中長安醫院-心血管中心衛教園地：{{ title }}{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block twitter_description %}台中長安醫院-心血管中心衛教園地：{{ title }}{% endblock %}
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:home' %}" itemprop="item" title="回心血管中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:edu' %}" itemprop="item" title="衛教園地">
+				<span itemprop="name" class="font-weight-bold">衛教園地</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">	
+	<div class="posts-detail-container">
+		<h1 class="posts-detail-title">{{ title }}</h1>
+		<!-- 文章內容 -->
+		<div style="color: var(--color-text-dark);text-align: justify;">
+			{% if is_txt %}
+					<div class="article-body">
+						<h2 class="article_h">{{ title }}</h2>
+					{% for block in blocks %}
+						{% if block.type == 'h3' %}
+							<h3 class="{{ block.class }}">{{ block.text }}</h3>
+						{% elif block.type == 'h4' %}
+							<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+						{% elif block.type == 'p' %}
+							<p class="{{ block.class }}">{{ block.text|safe }}</p>
+						{% elif block.type == 'img' %}
+							<div class="{{ block.class }}">
+								<img src="/media/{{ block.edu_article_src }}" alt="{{ title }}" loading="lazy">
+							</div>
+						{% elif block.type == 'div' %}
+							<div class="{{ block.class }}">{{ block.text|safe }}</div>
+						{% elif block.type == 'blockquote' %}
+							<div class="{{ block.class }}">
+								<div class="quo-txt">{{ block.text|safe }}</div>
+								<div class="logotxt">長安醫院心血管中心，伴您健康長安</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+					</div>
+				{% else %}
+					<div class="health-edu-images-container text-center">
+						{% for img in image_list %}
+						<div class="mb-4">
+							<picture>
+								{% if img.has_webp %}
+								<source srcset="{{ img.webp_url }}" type="image/webp">
+								{% endif %}
+								<img src="{{ img.jpg_url }}" class="img-fluid w-100" alt="{{ title }} (第 {{ forloop.counter }} 頁)" loading="lazy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+							</picture>
+						</div>
+						{% endfor %}
+					</div>
+					
+					<!-- 做法 4：新增社群分享按鈕 (LINE / FB) -->
+					<div class="d-flex justify-content-center align-items-center mt-5 mb-4">
+						<span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
+						<!-- LINE Share -->
+						<a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #00B900; border-color: #00B900; text-decoration: none;" title="分享到 LINE">
+							<i class="fab fa-line text-white" style="font-size: 1.8rem;"></i>
+						</a>
+						<!-- FB Share -->
+						<a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #1877F2; border-color: #1877F2; text-decoration: none;" title="分享到 Facebook">
+							<i class="fab fa-facebook-f text-white" style="font-size: 1.5rem;"></i>
+						</a>
+					</div>
+				{% endif %}
+		</div>
+		<div class="mt-4 pt-4 border-top" style="display: flex;justify-content: center;">
+			<a href="{% url 'cardio_center:edu' %}" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院心血管中心-衛教園地列表頁" aria-current="page" aria-label="台中長安醫院心血管中心-衛教園地列表頁">回衛教園地</a>
+		</div>
+	</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_medical_edu.html' with title=title center_name='心血管中心' %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'apps/css/component_detail_layout.css' %}">
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

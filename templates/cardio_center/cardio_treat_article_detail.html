@@ -1,0 +1,165 @@
+{% extends "cardio_center/cardio_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}{{ treat_a_title }}｜治療項目｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ treat_summary }}...{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}{{ treat_a_title }}｜治療項目｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ treat_summary }}...{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}{{ treat_a_title }}｜治療項目｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ treat_summary }}...{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" role="navigation">
+	<ol class="breadcrumb justify-content-end" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:home' %}" itemprop="item" title="回心血管中心首頁">
+				<span itemprop="name" class="font-weight-bold">
+					<span class="material-symbols-outlined" style="font-size: 1.2rem; margin-top: -2px;">home</span> 首頁
+				</span>
+			</a>
+			<meta itemprop="position" content="1">
+		</li>
+		<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="{% url 'cardio_center:treatment-list' %}" itemprop="item" title="治療項目">
+				<span itemprop="name" class="font-weight-bold">治療項目</span>
+			</a>
+			<meta itemprop="position" content="2">
+		</li>
+		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<span itemprop="name">{{ treat_title }}</span>
+			<meta itemprop="position" content="3">
+		</li>
+	</ol>
+</nav>
+{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+	<div class="treat-detail-page">
+		<!-- ■■■ Treament-Articles ■■■ -->
+		<section>             
+			<div class="treat-detail-layout">
+				<!-- (1)、側邊選單-治療項目列表 -->
+				<aside class="fade-in-card">
+					<input type="checkbox" id="menu-toggle" />
+					<label for="menu-toggle" class="menu-icon">☰ 其他治療項目</label>
+					<nav class="treat-sidenav-modern">
+						<div class="menu-heading">
+							<span>治療項目 </span>
+							<small>Medical Services</small>
+						</div>
+						<div id="treatment-sidenav" class="treatment-sidenav"></div>
+					</nav>
+				</aside>
+				<!-- (2)、治療項目介紹 -->
+				<section class="fade-in-card">
+					<div class="treat-detail-body">
+						<h1 class="treat-detail-title">{{ treat_a_title }}</h1>                    
+						<div>
+							{% for block in blocks %}
+								{% if block.semantic == 'section_title' %}
+									<h3 class="{{ block.class }}">{{ block.text }}</h3>
+								{% elif block.semantic == 'sub_title' %}
+									<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+								{% elif block.semantic == 'paragraph' %}
+									<p class="{{ block.class }}">{{ block.text|safe }}</p>
+								{% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
+									{% if block.type == 'ol' %}
+										<ol class="{{ block.class }}">
+									{% else %}
+										<ul class="{{ block.class }}">
+									{% endif %}
+										{% for item in block.items %}
+											<li class="{{ item.class }}">{{ item.text|safe }}</li>
+										{% endfor %}
+									{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+								{% elif block.semantic == 'faq_question' %}
+									<h4 class="{{ block.class }}">{{ block.text }}</h4>
+								{% elif block.semantic == 'faq_answer' %}
+									<p class="{{ block.class }}">{{ block.text|safe }}</p>
+								{% elif block.semantic == 'quote' %}
+									<div class="{{ block.class }}">
+										<div class="quo-txt">{{ block.text|safe }}</div>
+										<div class="logotxt">長安醫院心血管中心，伴您健康長安 </div>
+									</div>
+								{% elif block.semantic == 'image' %}
+									<div class="treat-img-container {{ block.class }}">
+										<img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy">
+									</div>
+								{% elif block.semantic == 'video' %}
+									<div class="treat-video-container {{ block.class }}">
+										{{ block.text|safe }}
+									</div>
+								{% elif block.type == 'div' %}
+									<div class="{{ block.class }}">{{ block.text|safe }}</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+
+						<!-- CTA Section -->
+						<div class="treat-detail-cta">
+							<a href="/A006_Online_Booking_1_part/CardiovascularMedicine/" class="btn-muji-primary" target="_blank" title="我要預約">我要預約</a>
+						</div>
+					</div>
+				</section>
+			</div>
+		</section>
+	</div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_service.html' with service_name=treat_a_title description=treat_summary center_name='心血管中心' %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+	.list-group-item:first-child{
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	.list-group-item:last-child{
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.list-group-item.active{
+		background-color: var(--color-secondary);
+		border-color: var(--color-secondary);
+		color: var(--on-white);
+		font-weight: 500;
+	}
+	
+	@media (min-width: 1200px) {
+		.l-container-panel{
+			padding: var(--space-base) var(--space-margin) var(--space-margin) var(--space-margin);
+		}
+	}
+	
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script>
+    // 1. 側邊欄 API 的網址
+    const API_URL_SIDENAV = "{% url 'cardio_center:treatment-sidenav-api' %}";
+    // 2. 詳細頁網址
+    const URL_TREATMENT_BASE = "{% url 'cardio_center:treatment-article' 'PLACEHOLDER' %}";
+</script>
+<script src="{% static 'apps/js/common_sidenav_loader.js' %}"></script>
+<script src="{% static 'apps/js/common_treat_article_detail.js' %}"></script>
+{% endblock %}

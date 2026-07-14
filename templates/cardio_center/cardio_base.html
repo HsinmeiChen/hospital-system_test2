@@ -1,0 +1,79 @@
+{% extends "main_base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}心血管中心｜{{ block.super }}{% endblock %}
+{% block keywords %}長安醫院, 心血管中心, 心臟內科, 心臟血管外科, 心血管疾病, 心導管治療, 心肌梗塞, 冠狀動脈疾病, 心律不整, 高血壓, 心臟衰竭, 周邊血管疾病, 心血管檢查, 心血管照護, 台中醫院{% endblock %}
+{% block meta_description %}長安醫院心血管中心整合心臟內科、心臟血管外科及介入治療專科醫師團隊，提供心肌梗塞、冠狀動脈疾病、心律不整、高血壓及周邊血管疾病等診療服務，結合精準檢查、心導管介入與先進醫療設備，提供完整且安心的心血管照護。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}心血管中心｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院心血管中心整合心臟內科、心臟血管外科及介入治療專科醫師團隊，提供心肌梗塞、冠狀動脈疾病、心律不整、高血壓及周邊血管疾病等診療服務，結合精準檢查、心導管介入與先進醫療設備，提供完整且安心的心血管照護。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}心血管中心｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院心血管中心整合心臟內科、心臟血管外科及介入治療專科醫師團隊，提供心肌梗塞、冠狀動脈疾病、心律不整、高血壓及周邊血管疾病等診療服務，結合精準檢查、心導管介入與先進醫療設備，提供完整且安心的心血管照護。{% endblock %}
+
+<!-- ▼▼▼ Loading 效果 ▼▼▼ -->
+{% block loading_page %}
+{% include 'cardio_center/cardio_loading.html' %}
+{% endblock %}
+<!-- ▲▲▲ Loading 效果 ▲▲▲ -->
+
+{% block content %}
+	{% block page_modals %}{% endblock %} <!-- 存放 Modal -->
+	<div class="l-wrapper l-sub__bg">
+		{% include 'cardio_center/cardio_header.html' %}
+		<main class="l-sub-layout__main" role="main">
+			<div class="l-container-panel">
+				<article>
+					<!-- 麵包屑 -->
+					{% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %}
+					<div class="l-main-content u-panel-pure">
+						<!-- 子頁面內容區 -->
+						{% block guide_content %}{% endblock %}
+					</div>
+				</article>
+			</div>
+		</main>
+	</div>
+{% endblock %}
+
+<!-- ▼▼▼ Bottom Nav (Mobile Only) ▼▼▼ -->
+{% block bottomNav %}
+<nav id="bottomNav" class="bottom-nav">
+	<a href="http://m.me/everanhospital" class="bottom-nav-item" title="長安醫院-FB 客服" target="_blank" alt="長安醫院-FB 客服">
+		<i class="fab fa-facebook" aria-hidden="true"></i>
+		<span>FB 客服</span>
+	</a>
+	<a href="https://line.me/R/ti/p/%40jgc1441j" class="bottom-nav-item" title="長安醫院-LINE 客服" target="_blank" alt="長安醫院-LINE 客服">
+		<i class="fab fa-line" aria-hidden="true"></i>
+		<span>LINE 客服</span>
+	</a>
+	<a href="{% url 'cardio_center:send-mail' %}" class="bottom-nav-item" title="聯絡我們" alt="聯絡我們">
+		<i class="fas fa-envelope" aria-hidden="true"></i>
+		<span>聯絡我們</span>
+	</a>
+	<a href="javascript:void(0)" onclick="topFunction()" class="bottom-nav-item" title="回到最上方" role="button" aria-label="回到最上方">
+		<i class="fas fa-arrow-up" aria-hidden="true"></i>
+		<span>回到最上方</span>
+	</a>
+</nav>
+{% endblock %}
+<!-- ▲▲▲ Bottom Nav (Mobile Only) ▲▲▲ -->
+
+<!-- ※※※ Extra CSS Start ※※※ -->
+{% block extra_css %}
+	<link rel="stylesheet" href="{% static 'common/css/refactored/pages/sub-page.css' %}">
+	<link rel="stylesheet" href="{% static 'apps/css/theme_cardio.css' %}">
+	<link rel="stylesheet" href="{% static 'apps/css/common_center.css' %}">
+	{% block sub_extra_css %}{% endblock %}
+{% endblock %}
+<!-- ※※※ Extra CSS End ※※※ -->
+
+<!-- ※※※ Extra JS Start ※※※ -->
+{% block extra_js %}
+	{% block sub_extra_js %}{% endblock %}
+{% endblock %}
+<!-- ※※※ Extra JS End ※※※ -->

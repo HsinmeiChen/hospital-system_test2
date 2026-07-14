@@ -1,0 +1,104 @@
+{% load static %}
+<div id="m-header-root">
+	<header class="m-header" id="m-header">
+		<div class="m-header__container">
+			<!-- Logo (GEO: 在地標記強化) -->
+			<div class="m-header__logo">
+				<a href="{% url 'cardio_center:home' %}" title="長安醫院 心血管中心">
+					<img src="{% get_media_prefix %}cardio_center/cardio_center.webp" alt="長安醫院心血管中心" title="回首頁 - 長安醫院心血管中心">
+				</a>
+			</div>
+
+			<!-- Desktop Nav (SEO: Schema.org 結構) -->
+			<nav class="m-nav" itemscope itemtype="http://schema.org/SiteNavigationElement">
+				<ul class="m-nav__list">
+
+					<!-- 1. 關於我們 -->
+					<li class="m-nav__item">
+						<a href="{% url 'cardio_center:about' %}" class="m-nav__link" itemprop="url" title="關於我們">
+							<span itemprop="name">關於我們</span>
+						</a>
+					</li>
+
+					<!-- 2. 醫療團隊 -->
+					<li class="m-nav__item">
+						<a href="{% url 'cardio_center:doctor-list' %}" class="m-nav__link" itemprop="url" title="醫師陣容">
+							<span itemprop="name">醫師陣容</span>
+						</a>
+					</li>
+
+					<!-- 3. 治療項目 -->
+					<li class="m-nav__item">
+						<a href="{% url 'cardio_center:treatment-list' %}" class="m-nav__link scroll-link" itemprop="url" title="治療項目">
+							<span itemprop="name">治療項目</span>
+						</a>
+					</li>
+
+					<!-- 4. 案例分享 -->
+					<li class="m-nav__item m-nav__item--dropdown">
+						<!-- SEO/GEO: 移除 javascript:void(0) 的 itemprop="url"，避免無效網址判定 -->
+						<a href="javascript:void(0)" class="m-nav__link" title="案例分享" alt="案例分享">
+							<span itemprop="name">案例分享</span>
+						</a>
+						<div class="m-mega">
+							<ul class="m-mega__list">
+								<li>
+									<a href="{% url 'cardio_center:media' %}" itemprop="url" title="媒體報導" alt="媒體報導">
+										<span itemprop="name">媒體報導</span>
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'cardio_center:film' %}" itemprop="url" title="影音專區" alt="影音專區">
+										<span itemprop="name">影音專區</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>					
+
+					<!-- 5. 衛教資訊 -->
+					<li class="m-nav__item">
+						<a href="{% url 'cardio_center:edu' %}" class="m-nav__link" itemprop="url" title="衛教資訊">
+							<span itemprop="name">衛教園地</span>
+						</a>
+					</li>					
+
+					<!-- 6. 聯絡我們 -->
+					<li class="m-nav__item m-nav__item--btn">
+						<a href="{% url 'cardio_center:send-mail' %}" id="emailBtn" title="聯絡我們" itemprop="url" class="m-nav__link">
+							<span itemprop="name">聯絡我們</span>
+						</a>
+					</li>
+				</ul>
+				
+				
+			</nav>
+
+			<div style="display: inline-flex; align-items: center; gap: 10px;">
+				<!-- 7. 線上掛號 -->
+				<a href="/A006_Online_Booking_1_part/CardiovascularMedicine/" class="btn-primary" itemprop="url" title="立即預約">
+					<span itemprop="name">立即預約</span>
+				</a>
+
+				<!-- 8. 首頁 -->
+				<a href="/" id="homeBtn" class="m-nav__link btn-icon-circle" title="回長安醫院" itemprop="url">
+					<i class="fas fa-home" aria-hidden="true"></i>
+					<span class="btn-icon-text" itemprop="name">長安<br>醫院</span>
+				</a>
+
+				<!-- 行動版切換器 -->
+				<button class="m-hamburger" id="m-toggle" aria-label="切換導覽選單">
+					<span></span><span></span><span></span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- 行動版側邊導覽 -->
+	<div class="m-overlay" id="m-overlay"></div>
+	<nav class="m-mobile-sidebar" id="m-sidebar" aria-label="行動版導覽">
+		<div class="m-mobile-container" id="m-mobile-container">
+			<!-- 行動版選單由 site_main.js 自動根據桌機版選單同步生成 -->
+		</div>
+	</nav>
+</div>

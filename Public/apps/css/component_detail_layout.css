@@ -1,0 +1,16 @@
+.l-main-content { 
+	padding: 1.5rem;
+	border: 1px solid var(--color-accent-peach);
+	background-color: var(--on-white) !important;
+}
+
+@media (min-width: 992px) {
+	.l-container-panel { 
+		padding: 0.5rem 2rem 2rem 2rem; 
+		max-width: 80rem;
+		margin: 0 auto;
+	}
+	.l-main-content { 
+		padding: 1.5rem 2.5rem; 
+	}
+}

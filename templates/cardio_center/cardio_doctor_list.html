@@ -1,0 +1,135 @@
+{% extends "cardio_center/cardio_base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block meta_description %}長安醫院心血管中心醫療團隊由專業心臟內科醫師組成，具備豐富臨床經驗，專精心肌梗塞、冠狀動脈疾病、心律不整、高血壓、心臟衰竭及周邊血管疾病診療，提供專業、精準且個人化的心血管醫療服務。{% endblock %}
+
+<!-- ※※※ Open Graph ※※※ -->
+{% block og_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block og_description %}長安醫院心血管中心醫療團隊由專業心臟內科醫師組成，具備豐富臨床經驗，專精心肌梗塞、冠狀動脈疾病、心律不整、高血壓、心臟衰竭及周邊血管疾病診療，提供專業、精準且個人化的心血管醫療服務。{% endblock %}
+
+<!-- ※※※ Twitter Card ※※※ -->
+{% block twitter_title %}醫師介紹一覽｜{{ block.super }}{% endblock %}
+{% block twitter_description %}長安醫院心血管中心醫療團隊由專業心臟內科醫師組成，具備豐富臨床經驗，專精心肌梗塞、冠狀動脈疾病、心律不整、高血壓、心臟衰竭及周邊血管疾病診療，提供專業、精準且個人化的心血管醫療服務。{% endblock %}
+
+<!-- === 子頁細節內容 =========================== -->
+
+{% block breadcrumbs %}{% endblock %}
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+
+<section class="u-hero-header">
+	<div>
+		<div class="u-hero-header__content">
+			<span class="u-tag-primary">EXPERT PHYSICIANS</span>
+			<h1 class="u-hero-title"><span class="u-visually-hidden">長安醫院心血管中心 </span>專業醫師陣容 ‧ 守護心臟健康</h1>
+			<p class="u-hero-desc">集結心血管醫學專家，提供精準診斷、個人化治療與全方位照護，以專業守護您的心臟與血管健康。</p>
+		</div>
+	</div>
+</section>
+
+<section class="l-main-content__body subpage-container">
+	<!-- Doctors Bento Grid -->
+	<div class="gap-margin l-doctor-grid" id="doctor-grid">
+		<!-- Doctor Card -->
+		{% for doctor in doctors %}
+		<div class="doctor-card">
+			<figure class="doctor-img-wrapper">
+				<picture>
+					{% if doctor.image_webp %}
+						<source srcset="/media/{{ doctor.image_webp }}" type="image/webp">
+					{% endif %}
+					{% if doctor.image %}
+						<img class="doctor-img"
+							 src="/media/department/img/{{ doctor.image }}" 
+							 alt="長安醫院心血管中心 {{ doctor.name }} {{ doctor.job_title }}" 
+							 title="{{ doctor.name }} 醫師 - 專業心血管治療"
+							 loading="lazy">
+					{% endif %}
+				</picture>
+				<figcaption class="doctor-badge">{{ doctor.job_title }}</figcaption>
+			</figure>
+			<div class="doctor-info">
+				<div class="doctor-name-wrapper">
+					<h3 class="doctor-name">{{ doctor.name }} 醫師</h3>
+				</div>
+				<div class="doctor-expertise">
+					<span class="material-symbols-outlined doctor-expertise-icon">workspace_premium</span>
+					{% if doctor.expertise_list %}
+						<span class="doctor-expertise-text doctor-expertise-text--truncate" title="{{ doctor.expertise_list|join:'、' }}">{{ doctor.expertise_list|join:"、" }}</span>
+					{% else %}
+						<span class="doctor-expertise-text">一般心血管疾病診療</span>
+					{% endif %}
+				</div>
+				<div class="doctor-actions-wrapper">
+					<div class="doctor-actions-grid">
+						<a class="btn-center-outline" href="{% url 'cardio_center:doctor-profile' doctor.employee_id %}" title="{{ doctor.name }} 醫師-詳細介紹">
+							<i class="far fa-id-card"></i><span>詳細資料</span>
+						</a>
+						<button class="open-stop-modal btn-center-outline" data-id="{{ doctor.employee_id }}" data-name="{{ doctor.name }}" title="{{ doctor.name }} 醫師-停休診時間">
+							<i class="far fa-calendar-times"></i><span>停休診</span>
+						</button>
+						<a class="btn-center-primary btn-hover-effect" href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ doctor.employee_id }}/" target="_blank" title="{{ doctor.name }} 醫師-網路掛號">
+							<i class="fas fa-notes-medical"></i><span>網路掛號</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</section>
+<!-- Appointment Call to Action -->
+<section class="cta-section cta-center">
+	<div class="cta-content">
+		<h2 class="cta-title">需要進一步的諮詢？</h2>
+		<p class="cta-desc">我們的醫療團隊隨時準備為您提供專業的診斷與建議。</p>
+	</div>
+	<div class="cta-action">
+		<button class="btn-center-white" onclick="location.href='/A006_Online_Booking_1_part/CardiovascularMedicine/'">線上掛號</button>
+	</div>
+</section>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+{% include 'schema_collection.html' with headline="醫師陣容" center_name="心血管中心" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+	{
+	  "@type": "ListItem",
+	  "position": 1,
+	  "name": "首頁",
+	  "item": "https://{{ request.get_host }}{% url 'cardio_center:home' %}"
+	},
+	{
+	  "@type": "ListItem",
+	  "position": 2,
+	  "name": "醫師陣容",
+	  "item": "https://{{ request.get_host }}{{ request.path }}"
+	}
+  ]
+}
+</script>
+{% endblock %}
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<link rel="stylesheet" href="{% static 'apps/css/component_hero_layout.css' %}">
+<link rel="stylesheet" href="{% static 'apps/css/component_doctor_list.css' %}">
+{% endblock %}
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script>
+	// 停代診資訊 API
+	const URL_API_STOP_INFO = "{% url 'cardio_center:api-stop-info' 'PLACEHOLDER' %}";
+</script>
+<script src="{% static 'apps/js/common_doctor_list_use.js' %}"></script>
+{% endblock %}
