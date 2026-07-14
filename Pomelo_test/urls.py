@@ -138,6 +138,7 @@ urlpatterns = [
 	re_path('A005_ward_mes_1/', pomelo_views.A005_ward_mes_1),
 	# re_path('A005_ward_mes_2/', pomelo_views.A005_ward_mes_2),
 	re_path('A005_ward_mes_3/', pomelo_views.A005_ward_mes_3),
+	re_path('A005_ward_mes_4/', pomelo_views.A005_ward_mes_4),
 	re_path('A005_ward_mes_0/', pomelo_views.A005_ward_mes_0),
 	# re_path('A005_Diff_fee/', pomelo_views.A005_Diff_fee),
 	re_path('A005_Self_fee/', pomelo_views.A005_Self_fee),

@@ -3798,45 +3798,78 @@ def A005_Self_fee(request):
 # def A005_Diff_fee(request):
 # 	return render(request, "department/Diff_fee_index.html", locals()) # 秀出網頁
 
+
+# 病房訊息_病房訊息
+def A005_ward_mes_0(request):
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'ward_mes')
+
+	target_dir = os.path.join(source_dir, 'ward_webp')
+
+	if not os.path.exists(target_dir):
+		os.makedirs(target_dir)
+
+	# 掃描資料夾內所有圖檔，統一轉換為 webp
+	for filename in os.listdir(source_dir):
+		if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+			convert_image_to_webp(source_dir, target_dir, filename, quality=80)
+
+	return render(request, "department/ward_mes_index.html", {})
+
+
 # 病房訊息_病人住院流程
 def A005_ward_mes_1(request):
-	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
-	target_dir = os.path.join(source_dir, 'ward-webp')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'ward_mes')
+	target_dir = os.path.join(source_dir, 'ward_webp')
 
 	# 如果子資料夾不存在，則自動建立它
 	if not os.path.exists(target_dir):
 		os.makedirs(target_dir)
 
-	convert_image_to_webp(source_dir, target_dir, 'hos_process.jpg', quality=80)
+	# 掃描資料夾內所有圖檔，統一轉換為 webp
+	for filename in os.listdir(source_dir):
+		if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+			convert_image_to_webp(source_dir, target_dir, filename, quality=80)
+
 	return render(request, "department/ward_mes_1.html", {})
 
 # 病房訊息_住院須知
 # def A005_ward_mes_2(request):
 	#return render(request, "department/ward_mes_2.html", locals())  秀出網頁
 
+
 # 病房訊息_病人出院流程
 def A005_ward_mes_3(request):
-	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'ward_mes')
 
-	target_dir = os.path.join(source_dir, 'ward-webp')
+	target_dir = os.path.join(source_dir, 'ward_webp')
 
 	if not os.path.exists(target_dir):
 		os.makedirs(target_dir)
 
-	convert_image_to_webp(source_dir, target_dir, 'dis_process.jpg', quality=80)
+	# 掃描資料夾內所有圖檔，統一轉換為 webp
+	for filename in os.listdir(source_dir):
+		if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+			convert_image_to_webp(source_dir, target_dir, filename, quality=80)
+
 	return render(request, "department/ward_mes_3.html", {})
 
-# 病房訊息_病房訊息
-def A005_ward_mes_0(request):
-	source_dir = os.path.join(settings.BASE_DIR, 'Public', 'common', 'img', 'ward_mes')
 
-	target_dir = os.path.join(source_dir, 'ward-webp')
+# 病房訊息_住院陪病及探病規範
+def A005_ward_mes_4(request):
+	source_dir = os.path.join(settings.MEDIA_ROOT, 'ward_mes')
+
+	target_dir = os.path.join(source_dir, 'ward_webp')
 
 	if not os.path.exists(target_dir):
 		os.makedirs(target_dir)
 
-	convert_image_to_webp(source_dir, target_dir, 'Room_fee.jpg', quality=80)
-	return render(request, "department/ward_mes_index.html", {})
+	# 掃描資料夾內所有圖檔，統一轉換為 webp
+	for filename in os.listdir(source_dir):
+		if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+			convert_image_to_webp(source_dir, target_dir, filename, quality=80)
+
+	return render(request, "department/ward_mes_4.html", {})
+
 
 
 # =========================================A006(網路掛號)=========================================
