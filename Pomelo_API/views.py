@@ -5080,12 +5080,50 @@ def A006_Online_Booking_2_1(request):
 		userid = request.GET.get("A006_userid"," ")
 	if ("A006_sename" in request.GET):
 		sename = request.GET.get("A006_sename"," ")
-		if (sename == "高壓氧中心"):
-			sename = "骨科"
-
-			return redirect("/A006_Online_Booking_2_1/?A006_sename=骨科&A006_userid=HA01855")
+		
 		# 查詢科別代碼
 		sectno = MSSQLAPI.A006_Search_SEC_SECTNO_BY_SENAME(sename)
+
+		# ========== [動態尋找醫師主科別 2026.07.17 異動] ==========
+		# 若該科室 (例如: 高壓氧中心) 在 HIS 系統中無對應代碼 (sectno == "error")，
+		if sectno == "error":
+			# 1. 優先檢查該醫師在「當前科別」的 .txt 檔案是否有手動指定 <book> 標籤
+			specified_dept = None
+			current_file_pattern = os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', f'*{sename}*', f'*_{userid}.txt')
+			current_files = glob.glob(current_file_pattern)
+			if current_files:
+				try:
+					with open(current_files[0], 'r', encoding='utf-8-sig') as f:
+						for line in f:
+							if "<book>" in line:
+								specified_dept = line.replace("<book>", "").replace("</book>", "").strip()
+								break
+				except Exception:
+					pass
+			
+			if specified_dept:
+				test_sectno = MSSQLAPI.A006_Search_SEC_SECTNO_BY_SENAME(specified_dept)
+				if test_sectno != "error":
+					sename = specified_dept
+					sectno = test_sectno
+					
+			# 2. 若無手動指定，或指定的科別無效，則動態去尋找該醫師隸屬的「其他科別 (主科別)」。
+			if sectno == "error":
+				search_pattern = os.path.join(settings.MEDIA_ROOT, 'department', 'D000*', '*', f'*_{userid}.txt')
+				# 加上 sorted()，確保資料夾名稱前面的序號 (如 5_一般外科 < 8_乳房外科) 決定優先順序
+				for path in sorted(glob.glob(search_pattern)):
+					dept_folder = os.path.basename(os.path.dirname(path))
+					parts = dept_folder.split('_')
+					if len(parts) >= 2:
+						dept_name = parts[1]
+						# 找到非當前失敗的科別，且確定能在 HIS 查到代碼
+						if dept_name and dept_name != sename:
+							test_sectno = MSSQLAPI.A006_Search_SEC_SECTNO_BY_SENAME(dept_name)
+							if test_sectno != "error":
+								sename = dept_name
+								sectno = test_sectno
+								break
+		# ==========================================
 	else:
 		sectno = None
 
