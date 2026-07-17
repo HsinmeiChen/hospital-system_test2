@@ -1,0 +1,21 @@
+# 允許所有一般的搜尋引擎爬蟲
+User-agent: *
+Allow: /
+
+# 明確允許常見的 AI 爬蟲
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://web.everanhospital.com.tw/sitemap.xml

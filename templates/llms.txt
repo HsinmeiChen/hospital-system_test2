@@ -1,0 +1,23 @@
+# 網站介紹
+這是一個提供醫療資訊、線上掛號與衛教資源的網站。
+
+## 主要服務
+- [線上預約掛號](/A006_Online_Booking_0/)：提供病患進行線上看診預約。
+- [門診時刻表](/A002_clinic_time/)：查詢各科別醫師的看診時間。
+- [看診進度查詢](/A002_consultation_progress/)：即時查詢目前的看診號碼。
+- [醫師查詢](/A001_dr_search/)：查詢本院所屬醫師陣容。
+
+## 特色醫療中心
+- [骨科微創手術中心](/specialty_medical/)
+- [健康管理中心](/specialty_health/)
+- [乳房中心](/breast-care-center/)
+- [神經醫學中心](/neuro-center/)
+- [心血管中心](/cardio-center/)
+- [EECP 體外反搏治療](/EECP/)
+
+## 聯絡與交通資訊
+- [交通指引](/A004_hos_traffic_info/)
+- [聯絡我們](/A004_contact_us/)
+
+## 詳細知識庫 (For AI Agents)
+- [完整醫院資訊與導覽](/llms-full.txt)

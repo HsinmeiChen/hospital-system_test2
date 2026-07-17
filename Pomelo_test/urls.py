@@ -23,10 +23,16 @@ import Pomelo_test.utils as pomelo_test_utils
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
+from django.contrib.sitemaps.views import sitemap
+from Pomelo_test.sitemaps import sitemaps_dict
 
 
 # URL路徑 (指可設定網址名稱；若沒有定義參數，可用 re_path 路由)
 urlpatterns = [
+	path('sitemap.xml', sitemap, {'sitemaps': sitemaps_dict}, name='django.contrib.sitemaps.views.sitemap'),
+	path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain; charset=utf-8')),
+	path('llms.txt', TemplateView.as_view(template_name='llms.txt', content_type='text/plain; charset=utf-8')),
+	path('llms-full.txt', TemplateView.as_view(template_name='llms-full.txt', content_type='text/plain; charset=utf-8')),
 	# path('test404/', TemplateView.as_view(template_name='404.html')),
 	# path('test500/', TemplateView.as_view(template_name='500.html')),
 	# re_path('admin/', admin.site.urls),
