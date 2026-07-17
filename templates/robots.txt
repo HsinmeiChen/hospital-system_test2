@@ -19,3 +19,8 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://web.everanhospital.com.tw/sitemap.xml
+
+# AI 內容授權宣告 (Content Signals)
+# 允許 AI 用於搜尋檢索 (search=yes)
+# 拒絕將醫院資料用於底層模型訓練 (ai-train=no)
+Content-Signal: ai-train=no, search=yes
