@@ -47,10 +47,10 @@
 	<section>
 		<div class="row container">
 			<div class="u-hero-header col-lg-6">
-				<div class="u-hero-header__content">
+				<div class="u-hero-header__content align-items-start">
 					<span class="u-tag-primary">VIDEO LIBRARY</span>
 					<h1 class="u-hero-title"><span class="u-visually-hidden">長安醫院心血管中心 </span>影音專區 ‧ 健康知識輕鬆學</h1>
-					<p class="u-hero-desc">集結心臟內科及心血管專科醫師的健康講座、疾病衛教、治療介紹與醫療新知影片，分享心血管疾病預防、診療觀念及照護資訊，協助民眾建立正確健康觀念，守護心血管健康。</p>
+					<p class="u-hero-desc text-left">集結心臟內科及心血管專科醫師的健康講座、疾病衛教、治療介紹與醫療新知影片，分享心血管疾病預防、診療觀念及照護資訊，協助民眾建立正確健康觀念，守護心血管健康。</p>
 				</div>
 			</div>
 			<div class="section-media col-lg-6">
@@ -180,6 +180,9 @@
 <script>
 const API_URL_FILM = "{% url 'cardio_center:film-api' %}";
 const URL_FILM_DETAIL = "{% url 'cardio_center:film-detail' 'PLACEHOLDER' %}";
+
+// 預設影片主講團隊名稱 (供 common_films.js 使用)
+window.DEFAULT_TEAM_NAME = '心血管中心團隊';
 </script>
 <script src="{% static 'apps/js/common_film_modal.js' %}"></script>
 <script src="{% static 'apps/js/common_films.js' %}"></script>

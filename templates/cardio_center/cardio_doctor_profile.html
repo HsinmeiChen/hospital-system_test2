@@ -90,13 +90,13 @@
 					<!-- 左側：照片與按鈕 -->
 					<div class="d-flex flex-column gap-4 align-items-center flex-shrink-0" style="max-width: 100%; width: 18rem;">
 						<figure class="m-0 position-relative d-flex flex-column align-items-center">
-							<div class="profile-img-container doctor-img">
+							<div class="profile-img-container">
 								<picture class="w-full h-100 block">
 									{% if image_webp %}
 										<source srcset="/media/{{ image_webp }}" type="image/webp">
 									{% endif %}
 									{% if image %}
-										<img class="w-full h-100 object-cover doctor-img"
+										<img class="w-full h-100 object-cover"
 											src="/media/department/img/{{ image }}" 
 											alt="台中長安醫院心血管中心 {{ name }} {{ job_title }}" 
 											title="台中長安醫院 {{ name }} 醫師 - 專業心血管"

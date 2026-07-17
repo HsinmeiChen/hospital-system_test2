@@ -155,11 +155,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 const div = document.createElement('div');
                 div.innerHTML = `
                     <a href="${v.youtube_url}" class="video-card-link" target="_blank" title="播放衛教影片：${(v.title || '').replace(/"/g, '&quot;')}" aria-label="播放衛教影片：${(v.title || '').replace(/"/g, '&quot;')}">
-                        <figure class="video-card fade-in-card" data-url="${v.youtube_url}" data-title="${v.title}">
+                        <figure class="video-card" data-url="${v.youtube_url}" data-title="${v.title}" style="margin-bottom: 0;">
                             <div class="video-thumb">
                                 <img src="${v.youtube_image}" class="card-img-top" alt="${(v.title || '').replace(/"/g, '&quot;')}" onload="if(this.naturalWidth <= 120) { this.onload=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg'; }" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg';">
                                 <div class="play-btn-small-overlay">
-                                    <span class="material-symbols-outlined" style="font-size: 60px; color: rgba(255,255,255,0.9);">play_circle</span>
+                                    <div class="play-btn-small">
+                                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                    </div>
                                 </div>
                             </div>
                             <figcaption class="video-card-content video-seo-only">

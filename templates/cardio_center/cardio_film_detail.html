@@ -2,17 +2,17 @@
 {% load static %}
 
 <!-- === Meta ================================== -->
-{% block title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
-{% block meta_description %}{{ video.title }}。主講：{{ video.description|default:"醫療團隊" }}。長安醫院心血管中心專業衛教影片分享。{% endblock %}
+{% block title %}{{ video.yt_title|default:video.filename_title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block meta_description %}{{ video.yt_title|default:video.filename_title }}。主講：{{ video.description|default:"醫療團隊" }}。長安醫院心血管中心專業衛教影片分享。{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
-{% block og_description %}{{ video.title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
+{% block og_title %}{{ video.yt_title|default:video.filename_title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block og_description %}{{ video.yt_title|default:video.filename_title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
 {% block og_image %}{{ video.youtube_image }}{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ video.title }}｜影音專區｜{{ block.super }}{% endblock %}
-{% block twitter_description %}{{ video.title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
+{% block twitter_title %}{{ video.yt_title|default:video.filename_title }}｜影音專區｜{{ block.super }}{% endblock %}
+{% block twitter_description %}{{ video.yt_title|default:video.filename_title }} - 主講：{{ video.description|default:"醫療團隊" }}{% endblock %}
 {% block twitter_image %}{{ video.youtube_image }}{% endblock %}
 
 
@@ -38,7 +38,7 @@
 			<meta itemprop="position" content="2">
 		</li>
 		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-			<span itemprop="name">{{ video.title }}</span>
+			<span itemprop="name">{{ video.yt_title|default:video.filename_title }}</span>
 			<meta itemprop="position" content="3">
 		</li>
 	</ol>
@@ -50,7 +50,7 @@
 {% block guide_content %}
 <div class="l-main-content__body">
 	<div class="video-detail-container">
-		<h1 class="video-detail-title">{{ video.title }}</h1>
+		<h1 class="video-detail-title">{{ video.yt_title|default:video.filename_title }}</h1>
 		<div class="video-meta-info mb-4 text-muted">
 			<span class="mr-4"><i class="material-symbols-outlined align-middle mr-1 video-meta-icon">person</i>主講：{{ video.description|default:"心血管醫學團隊" }}</span>
 			<span><i class="material-symbols-outlined align-middle mr-1 video-meta-icon">calendar_month</i>上架時間：{{ video.date }}</span>
@@ -58,7 +58,7 @@
 
 		<!-- 實體嵌入 YouTube 播放器 -->
 		<div class="video-player-wrapper embed-responsive embed-responsive-16by9 shadow-sm overflow-hidden mb-4">
-			<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="{{ video.title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="{{ video.yt_title|default:video.filename_title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 		</div>
 		
 		<div class="video-article-summary p-4 rounded-sm">

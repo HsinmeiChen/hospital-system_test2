@@ -6,7 +6,8 @@
 	--primary-fixed: #9cf2e8;
 	--on-primary-fixed: #00201d;
 	--primary-fixed-dim: #80d5cb;
-	--bg-soft: #eff4f4;
+	--bg-soft: #f4f1ea;
+	--bg-cap: #eff4f4;
 	--bg-warm: #fcf7ec;
 	
 	--secondary: #825335;
@@ -38,5 +39,5 @@
 	
 	--outline: #6e7977;
 	--outline-variant: #dee2e6;
-	--bg-soft: #f4f1ea;
+	
 }

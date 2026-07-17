@@ -2,15 +2,15 @@
 
 {% load static %}
 <!-- === Meta ================================== -->
-{% block title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block title %}{{ article_title }}｜{{ block.super }}{% endblock %}
 {% block meta_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ article_title }}｜{{ block.super }}{% endblock %}
 {% block og_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
+{% block twitter_title %}{{ article_title }}｜{{ block.super }}{% endblock %}
 {% block twitter_description %}{{ summary }} - 發表於 {{ date }}{% endblock %}
 
 
@@ -35,7 +35,7 @@
 			<meta itemprop="position" content="2">
 		</li>
 		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-			<span itemprop="name">{{ title }}</span>
+			<span itemprop="name">{{ article_title }}</span>
 			<meta itemprop="position" content="3">
 		</li>
 	</ol>
@@ -49,7 +49,7 @@
 	<div class="row">
 		<div class="col-lg-8 col-lg-8-detail">
 			<div class="posts-detail-container">
-				<h1 class="posts-detail-title">{{ title }}</h1>
+				<h1 class="posts-detail-title">{{ article_title }}</h1>
 				<div class="posts-meta-info mb-4 text-muted text-right">
 					<span class="mr-4">
 						<i class="material-symbols-outlined align-middle mr-1">person</i>{% if doctor_name %}{{ doctor_name }} 醫師{% else %}心血管團隊{% endif %}
@@ -62,16 +62,48 @@
 				<!-- 文章內容 -->
 				<div style="color: var(--color-text-dark);text-align: justify;">
 					{% for block in blocks %}
-						{% if block.semantic == 'section_title' %}
-							<h2 class="{{ block.class }}">{{ block.text }}</h2>
+						{% if block.semantic == 'section_title' %}							
+							<h3 class="{{ block.class }}">{{ block.text }}</h3>
+						{% elif block.semantic == 'sub_title' %}							
+							<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+						{% elif block.semantic == 'quote' %}
+							<div class="{{ block.class }}">
+								<div class="quo-txt">{{ block.text|safe }}</div>
+								<div class="logotxt">長安醫院心血管中心，伴您健康長安 </div>
+							</div>						
+						{% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
+							{% if block.type == 'ol' %}
+								<ol class="{{ block.class }}">
+							{% else %}
+								<ul class="{{ block.class }}">
+							{% endif %}
+								{% for item in block.items %}
+									<li class="{{ item.class }}">{{ item.text|safe }}</li>
+								{% endfor %}
+							{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+						{% elif block.semantic == 'faq_question' %}
+							<h4 class="{{ block.class }}">{{ block.text }}</h4>
+						{% elif block.semantic == 'faq_answer' %}
+							<p class="{{ block.class }}">{{ block.text|safe }}</p>
 						{% elif block.semantic == 'paragraph' %}
 							<p class="{{ block.class }}">{{ block.text|safe }}</p>
 						{% elif block.semantic == 'image' %}
-							<div class="{{ block.class }}">
-								<img src="/media/{{ block.article_src }}" alt="{{ title }}" loading="lazy" title="{{ title }}">
+							<figure class="img-container mb-4">
+								<picture>
+									<source srcset="/media/{{ block.article_src }}" type="image/webp">
+									<img class="img-fluid w-100" src="/media/news_2/img/{{ block.original_image }}" alt="{{ article_title }}" title="{{ article_title }}" loading="lazy" decoding="async">
+								</picture>
+								<figcaption>{{ article_title }}</figcaption>
+							</figure>
+						{% elif block.semantic == 'video' %}
+							<div class="video-container">
+								{{ block.text|safe }}
 							</div>
+						{% elif block.type == 'div' %}
+							<div class="{{ block.class }}">{{ block.text|safe }}</div>
 						{% endif %}
 					{% endfor %}
+
 				</div>
 				<div class="mt-4 pt-4 border-top" style="gap: 10px;display: flex;justify-content: center;">
 					<a href="/A006_Online_Booking_2_1/{{ dept_en }}/{{ employee_id }}/" target="_blank" class="btn btn-primary btn-lg rounded-0" aria-label="我要預約掛號" title="我要預約掛號">我要預約掛號</a>

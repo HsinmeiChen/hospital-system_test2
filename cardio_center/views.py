@@ -111,7 +111,7 @@ class PLSQLAPI:
 			if sectno and str(sectno).strip():
 				sectno_cond = "AND SCD_SECTNO = :sectno"
 			else:
-				sectno_cond = "AND SCD_SECTNO = '12'"
+				sectno_cond = "AND SCD_SECTNO = 'AB'"
 
 			sql = f'''SELECT SEC_SENAME,EMP_EMPNAME,SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM REGSCD 
 			INNER JOIN BASEMP
@@ -312,7 +312,7 @@ def parse_article_txt(filepath, detail=True):
 	else:
 		img_url = '/media'
 
-	org_thumb_img = thumb_img = card_image = treat_a_title = original_image = ""
+	org_thumb_img = thumb_img = card_image = article_title = original_image = ""
 	article_image = news_image = treat_article_image = edu_article_image = summary = ""
 	content_blocks = []
 	has_first_img = False
@@ -359,14 +359,20 @@ def parse_article_txt(filepath, detail=True):
 			
 			if detail:
 				content_blocks.append({
-					'type': 'img', 'semantic': 'image', 'class': 'a-img',
-					'src': card_image, 'article_src': article_image, 'news_src': news_image,
-					'treat_article_src': treat_article_image, 'edu_article_src': edu_article_image
+					'type': 'img',
+					'semantic': 'image',
+					'original_image': original_image,
+					# 'class': 'a-img',
+					'src': card_image,
+					'article_src': article_image,
+					'news_src': news_image,
+					'treat_article_src': treat_article_image,
+					'edu_article_src': edu_article_image
 				})
 
 		# --- 4. 處理大標題 (<h01>) 與 發布日期 (<posted>) ---
-		elif line.startswith('<h01>'):
-			treat_a_title = line.replace('<h01>', '').strip()
+		elif line.startswith(('<h01>', '<h>')):
+			article_title = line.replace('<h01>', '').replace('<h>', '').strip()
 		
 		elif line.startswith('<posted>'):
 			if detail: content_blocks.append({'type': 'div', 'class': 'posted-date', 'text': line.replace('<posted>', '').strip()})
@@ -416,8 +422,8 @@ def parse_article_txt(filepath, detail=True):
 			# 若為新聞連結，設定按鈕樣式；否則為一般文字段落
 			if text.startswith('新聞連結'):
 				links = re.findall(r'<a href="([^"]+)"[^>]*>([^<]+)</a>', text)
-				link_html = "".join([f'<a href="{href}" class="btn btn-outline-info btn-sm mr-2" target="_blank"><i class="fas fa-link"></i> {label}</a>' for href, label in links])
-				content_blocks.append({'type': 'p', 'class': 'news-links', 'text': link_html})
+				link_html = "".join([f'<a href="{href}" class="btn btn-link" target="_blank">📰 {label}</a>' for href, label in links])
+				content_blocks.append({'type': 'p', 'semantic': 'paragraph', 'class': 'news-links', 'text': link_html})
 			else:
 				content_blocks.append({'type': 'p', 'semantic': 'paragraph', 'class': 'a-paragraph', 'text': text})
 
@@ -438,7 +444,7 @@ def parse_article_txt(filepath, detail=True):
 	if not detail:
 		return {
 			'thumb_img': thumb_img, 'og_img_treat': org_thumb_img, 'og_img': original_image,
-			'image': card_image, 'treat_a_title': treat_a_title, 'summary': summary, 'blocks': []
+			'image': card_image, 'article_title': article_title, 'summary': summary, 'blocks': []
 		}
 
 	# --- 9. 後處理：將連續的列表項目 (ul/ol) 合併成同一個群組，方便前端渲染 ---
@@ -459,7 +465,7 @@ def parse_article_txt(filepath, detail=True):
 
 	return {
 		'thumb_img': thumb_img, 'og_img_treat': org_thumb_img, 'og_img': original_image, 'image': card_image,
-		'treat_a_title': treat_a_title, 'summary': summary, 'blocks': grouped_blocks
+		'article_title': article_title, 'summary': summary, 'blocks': grouped_blocks
 	}
 
 
@@ -685,7 +691,7 @@ def cardio_media_home_api(request):
 		parsed = parse_article_txt(path, detail=False)
 
 		all_articles.append({
-			'title': parts[2],
+			'filename_title': parts[2],
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
@@ -708,14 +714,14 @@ def cardio_main(request):
 				order_num = int(match.group(1)) if match else 9999
 
 				parts = treat_filename.rsplit('_', 3)
-				treat_title = parts[2]
+				filename_title = parts[2]
 				url_name = parts[3].replace('.txt', '')
 
 				treat_path = os.path.join(treat_dir, treat_filename)
 				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
-					'title': treat_title,
+					'treat_title': filename_title,
 					'url_name': url_name,
 					'thumb_img': treat_parsed['thumb_img'],
 					'summary': treat_parsed['summary'],
@@ -754,7 +760,7 @@ def cardio_main(request):
 			path = os.path.join(article_dir, post_filename)
 			parsed = parse_article_txt(path, detail=False)
 			media_articles.append({
-				'title': parts[2],
+				'filename_title': parts[2],
 				'pub_date': pub_date.strftime('%Y.%m.%d'),
 				'image': parsed['image'],
 				'summary': parsed['summary'],
@@ -776,7 +782,7 @@ def cardio_main(request):
 		if all_items:
 			chosen_items = random.sample(all_items, min(3, len(all_items)))
 			for item in chosen_items:
-				title, title_hash, content, is_txt, thumb = item
+				filename_title, title_hash, content, is_txt, thumb = item
 				pub_date = ""
 				summary = ""
 				
@@ -808,7 +814,7 @@ def cardio_main(request):
 					summary = "點擊瀏覽完整衛教圖文內容。"
 				
 				random_edus.append({
-					'title': title,
+					'filename_title': filename_title,
 					'image': image_url,
 					'pub_date': pub_date,
 					'summary': summary,
@@ -851,12 +857,12 @@ def get_all_health_news():
 			if len(sub_parts) < 7:
 				continue
 
-			title = sub_parts[2].strip()
+			filename_title = sub_parts[2].strip()
 			date = sub_parts[6].strip()
 			pub_date = datetime.datetime.strptime(date, "%Y-%m-%d")
 
 			news_items.append({
-				'title': title,
+				'title': filename_title,
 				'date': pub_date,
 				'key': key,
 				'url': f"/cardio-center/cardio-news/{key}/"
@@ -881,7 +887,7 @@ def cardio_news_api(request):
 		page_obj = paginator.get_page(page)
 
 		data = [{
-			'title': n['title'],
+			'title': n['filename_title'],
 			'date': n['date'].strftime('%Y-%m-%d'),
 			'url': n['url']
 		} for n in page_obj]
@@ -927,13 +933,13 @@ def cardio_news_detail_view(request, key):
 		body_part = file_basename.split('^')[0]
 		sub_parts = body_part.split('_')
 
-		title = sub_parts[2] if len(sub_parts) >= 3 else '未命名'
+		filename_title = sub_parts[2] if len(sub_parts) >= 3 else '未命名'
 		date = sub_parts[6] if len(sub_parts) >= 7 else ''
 
 		return render(request, 'cardio_center/cardio_news_detail.html', {
 			'data': {
 				**parsed_data,
-				'title': title
+				'title': filename_title
 			},
 			'date': date
 		})
@@ -973,7 +979,7 @@ def cardio_media_api(request):
 		path = os.path.join(article_dir, post_filename)
 
 		all_articles.append({
-			'title': parts[2],
+			'filename_title': parts[2],
 			'pub_date': pub_date,
 			'pub_date_str': pub_date.strftime('%Y-%m-%d'),
 			'path': path,
@@ -989,7 +995,7 @@ def cardio_media_api(request):
 	for item in page_obj.object_list:
 		parsed = parse_article_txt(item['path'], detail=False)
 		paginated_articles.append({
-			'title': item['title'],
+			'title': item['filename_title'],
 			'pub_date': item['pub_date_str'],
 			'image': parsed['image'],
 			'summary': parsed['summary'],
@@ -1034,7 +1040,7 @@ def random_cardio_reports_api(request):
 		parsed = parse_article_txt(path, detail=False)
 
 		all_articles.append({
-			'title': parts[2],
+			'filename_title': parts[2],
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
@@ -1079,7 +1085,7 @@ def cardio_media(request):
 		if len(parts) < 8:
 			continue  # 檔名格式不完整就跳過
 
-		title = parts[2]
+		filename_title = parts[2]
 		date = parts[6]
 
 		try:
@@ -1091,7 +1097,7 @@ def cardio_media(request):
 		path = os.path.join(article_dir, post_filename)
 
 		all_articles.append({
-			'title': title,
+			'title': filename_title,
 			'pub_date': pub_date,
 			'filename': web_url,
 			'path': path
@@ -1144,7 +1150,7 @@ def parse_article_filename(parse_filename):
 	"""
 	parts = parse_filename.replace('.txt', '').split('_')
 	return {
-		'title': parts[2],
+		'filename_title': parts[2],
 		# 'category': parts[3],
 		'pub_date': parts[6],
 		'employee_id': parts[7],
@@ -1242,7 +1248,7 @@ def get_related_articles(employee_id):
 			parts = post_filename.split('_')
 			if len(parts) < 8: # 指要要切成幾塊，會影響後面取值順序
 				continue
-			title = parts[2]
+			filename_title = parts[2]
 			date = parts[6]
 			try:
 				# 假設 date 格式為 YYYY-MM-DD，如 2025-04-15
@@ -1255,7 +1261,7 @@ def get_related_articles(employee_id):
 			parsed = parse_article_txt(path, detail=False)
 
 			doc_articles.append({
-				'title': title,
+				'title': filename_title,
 				'pub_date': pub_date,
 				'image': parsed['image'],
 				'summary': parsed['summary'],
@@ -1543,7 +1549,8 @@ def article_share_view(request, get_filename):
 			pass
 
 	context = {
-		'title': meta['title'],
+		# 擷取<h01>、<h>的 title；若 txt 內容沒有設標籤，則取檔名標題
+		'article_title': parsed.get('article_title') or meta['filename_title'],
 		# 'category': meta['category'],
 		'date': meta['pub_date'],
 		'employee_id': employee_id,
@@ -1569,10 +1576,10 @@ def treatment_sidenav_api(request):
 		if treat_filename.endswith('.txt') and "treat" in treat_filename:
 			try:
 				parts = treat_filename.rsplit('_', 3)
-				title = parts[2]
+				filename_title = parts[2]
 				url_name = parts[3].replace('.txt', '')
 				treatments.append({
-					'title': escape(title),
+					'title': escape(filename_title),
 					'url_name': url_name
 				})
 			except Exception as e:
@@ -1593,7 +1600,7 @@ def treatment_list(request):
 				order_num = int(match.group(1)) if match else 9999  # 沒抓到就放後面
 
 				parts = treat_filename.rsplit('_', 3)
-				treat_title = parts[2]
+				filename_title = parts[2]
 				url_name = parts[3].replace('.txt', '')
 
 				# 共用 parse_article_txt 這個函式解析 txt 內容 (函式已有 with open，所以根據參數 filepath 提供檔案路徑)
@@ -1601,7 +1608,7 @@ def treatment_list(request):
 				treat_parsed = parse_article_txt(treat_path, detail=False)
 
 				treatments.append({
-					'title': treat_title,
+					'treat_title': filename_title,
 					'url_name': url_name,
 					'thumb_img': treat_parsed['thumb_img'],
 					'summary': treat_parsed.get('summary', ''),
@@ -1642,11 +1649,11 @@ def treatment_article(request, url_name):
 
 	context = {
 		'treat_title': treat_name, # 標題取自檔名
-		'treat_a_title': treat_parsed['treat_a_title'], # 標題取自 txt 內容
+		'treat_a_title': treat_parsed['article_title'], # 標題取自 txt 內容
 		'blocks': treat_parsed['blocks'],
 		'image': treat_parsed['image'],
 		'treat_summary': treat_parsed['summary'],
-		'og_image': '',
+		'og_image': f"{settings.SITE_DOMAIN}/media/cardio_center/cardio_treat_articles/treat_articles_img/{treat_parsed['og_img']}" if treat_parsed.get('og_img') else '',
 	}
 	return render(request, 'cardio_center/cardio_treat_article_detail.html', context)
 
@@ -1748,7 +1755,8 @@ def cardio_film_api(request):
 					'category_index': None,
 					'description': '',
 					'video_key': video_key,
-					'duration_iso': ''
+					'duration_iso': '',
+					'filename_title': ''
 				}
 
 				for line in lines:
@@ -1785,12 +1793,10 @@ def cardio_film_api(request):
 							video_data['youtube_id'] = ytb_id
 							video_data['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
+				video_data['filename_title'] = name_clean.split('_')[1].strip() if '_' in name_clean else name_clean
 				# 若檔案內沒提供標題，嘗試從檔名取得
 				if not video_data['title']:
-					if '_' in name_clean:
-						video_data['title'] = name_clean.split('_', 1)[1]
-					else:
-						video_data['title'] = name_clean
+					video_data['title'] = video_data['filename_title']
 
 				# 若沒有 youtube_image，但有 youtube_url，嘗試再以 regex 解析一次
 				if not video_data['youtube_image'] and video_data['youtube_url']:
@@ -1875,7 +1881,7 @@ def cardio_film(request):
 	"""影音專區主頁，初始渲染不載入影片內容，由 AJAX 呼叫 health_film_api 動態載入；附帶回傳是否存在 Films_Dir 的簡單狀態供前端使用"""
 	append_crc32_to_filenames()  # 自動將尚未有 hash 的影片 txt 命名為 ...^hash.txt
 	has_films_dir = os.path.exists(Films_Dir) and any(f.endswith('.txt') for f in os.listdir(Films_Dir))
-	return render(request, "Cardio_Center/cardio_film.html", {
+	return render(request, "cardio_center/cardio_film.html", {
 		'og_image': '',
 		'ga_id': '',
 		'gtm_id': '',
@@ -1905,7 +1911,7 @@ def cardio_film_detail(request, video_key):
 		lines = f.read().splitlines()
 
 	video = {
-		'title': '',
+		'yt_title': '',
 		'date': '',
 		'doctor_id': '',
 		'duration': '',
@@ -1914,14 +1920,15 @@ def cardio_film_detail(request, video_key):
 		'youtube_image': '',
 		'description': '',
 		'video_key': video_key,
-		'duration_iso': ''
+		'duration_iso': '',
+		'filename_title': ''
 	}
 
 	for line in lines:
 		if line.startswith('<yh>'):
 			full_title = line.replace('<yh>', '').strip()
 			title_parts = re.split(r'[／/]', full_title)
-			video['title'] = title_parts[0].strip()
+			video['yt_title'] = title_parts[0].strip()
 			if len(title_parts) > 1:
 				video['description'] = title_parts[1].strip()
 		elif line.startswith('<yd>'):
@@ -1940,9 +1947,8 @@ def cardio_film_detail(request, video_key):
 				video['youtube_id'] = ytb_id
 				video['youtube_image'] = f'https://img.youtube.com/vi/{ytb_id}/maxresdefault.jpg'
 
-	if not video['title']:
-		name = os.path.basename(found_filepath).replace('.txt', '').split('^')[0]
-		video['title'] = name.split('_', 1)[1] if '_' in name else name
+	name = os.path.basename(found_filepath).replace('.txt', '').split('^')[0]
+	video['filename_title'] = name.split('_')[1].strip() if '_' in name else name
 
 	video['duration_iso'] = get_iso_duration(video['duration'])
 
@@ -1953,7 +1959,7 @@ def cardio_film_detail(request, video_key):
 
 # ▼▼▼▼▼▼▼▼▼▼ 後端處理 ▼▼▼▼▼▼▼▼▼▼
 def get_health_edu_items():
-	"""取得衛教園地分組後的資料（list of (title, title_hash, images, [optional] is_txt, [optional] thumb)）"""
+	"""取得衛教園地分組後的資料（list of (filename_title, title_hash, images, [optional] is_txt, [optional] thumb)）"""
 	# 優化：先從快取中尋找資料
 	cache_key = 'cardio_edu_items_metadata_v4' # 檔名邏輯更新，更新快取 key
 	cached_data = cache.get(cache_key)
@@ -1972,10 +1978,10 @@ def get_health_edu_items():
 			grouped_images[title].append(filename)
 
 	formatted_items = []
-	for title, images in grouped_images.items():
+	for filename_title, images in grouped_images.items():
 		images.sort(key=lambda name: int(name.split('page-')[-1].split('.')[0]))
-		title_hash = hashlib.md5(title.encode('utf-8')).hexdigest()[:8]
-		formatted_items.append((title, title_hash, images, False, None))
+		title_hash = hashlib.md5(filename_title.encode('utf-8')).hexdigest()[:8]
+		formatted_items.append((filename_title, title_hash, images, False, None))
 
 	# 2. 處理新的 E001 .txt 衛教文章
 	edu_txt_dir = os.path.join(settings.MEDIA_ROOT, 'cardio_center', 'cardio_edu')
@@ -1990,11 +1996,11 @@ def get_health_edu_items():
 			# 解析檔名標題：E001_edu_標題_日期.txt
 			parts = filename.replace('.txt', '').split('_')
 			if len(parts) >= 3:
-				title = parts[2]
+				filename_title = parts[2]
 				prefix = "_".join(parts[:3]) # E001_edu_標題
 			else:
-				title = filename.replace('.txt', '')
-				prefix = title
+				filename_title = filename.replace('.txt', '')
+				prefix = filename_title
 			
 			# 優先從檔名擷取 ^hash，若無則跳過 (需先經過 append_crc32_to_filenames 處理)
 			title_hash = ""
@@ -2017,7 +2023,7 @@ def get_health_edu_items():
 			if thumb_filename:
 				thumb_rel_path = convert_edu_icon_image_to_webp(thumb_filename)
 			
-			formatted_items.append((title, title_hash, filename, True, thumb_rel_path))
+			formatted_items.append((filename_title, title_hash, filename, True, thumb_rel_path))
 
 	# 根據標題文字排序
 	formatted_items.sort(key=lambda x: x[0])
@@ -2040,11 +2046,11 @@ def cardio_edu_api(request):
 	
 	data = []
 	for item in page_obj:
-		title, title_hash, content, is_txt, thumb = item
+		filename_title, title_hash, content, is_txt, thumb = item
 		if is_txt:
 			# 此處 thumb 已經是 media 相對路徑，例如 "xxx_center/xxx_edu/edu_icon/thumb_webp/xxx.webp"
 			data.append({
-				'title': title,
+				'title': filename_title,
 				'titleId': title_hash,
 				'images': [settings.MEDIA_URL + thumb] if thumb else [],
 				'is_txt': True
@@ -2052,7 +2058,7 @@ def cardio_edu_api(request):
 		else:
 			# 此處 content 為圖片清單
 			data.append({
-				'title': title,
+				'title': filename_title,
 				'titleId': title_hash,
 				'images': [image_media_url + img for img in content],
 				'is_txt': False
@@ -2075,7 +2081,7 @@ def random_cardio_edus_api(request):
 
 	edu_data = []
 	for item in random_items:
-		title, title_hash, content, is_txt, thumb = item
+		filename_title, title_hash, content, is_txt, thumb = item
 		
 		# 決定縮圖路徑
 		if is_txt:
@@ -2087,7 +2093,7 @@ def random_cardio_edus_api(request):
 			thumb_image_url = media_url + thumb_image if thumb_image else ''
 
 		edu_data.append({
-			'title': title,
+			'filename_title': filename_title,
 			'thumb_image': thumb_image_url,
 			'title_id': title_hash
 		})
@@ -2128,7 +2134,7 @@ def cardio_edu_detail(request, title_id):
 	if not matched_item:
 		raise Http404("找不到該筆衛教資料")
 
-	title, content, is_txt = matched_item
+	filename_title, content, is_txt = matched_item
 	
 	if is_txt:
 		# 文字檔模式
@@ -2144,7 +2150,7 @@ def cardio_edu_detail(request, title_id):
 				break
 
 		return render(request, 'cardio_center/cardio_edu_detail.html', {
-			'title': title,
+			'title': filename_title,
 			'blocks': parsed['blocks'],
 			'is_txt': True,
 			'images': [], # 確保 JS 變數不會噴錯
@@ -2189,7 +2195,7 @@ def cardio_edu_detail(request, title_id):
 			})
 
 		return render(request, 'cardio_center/cardio_edu_detail.html', {
-			'title': title,
+			'title': filename_title,
 			'image_list': image_list,
 			'is_txt': False,
 			'og_image': f"{settings.SITE_DOMAIN}{image_list[0]['jpg_url']}" if image_list else '',

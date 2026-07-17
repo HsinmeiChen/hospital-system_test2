@@ -1,4 +1,17 @@
-/* 篩選主題效果 */
+.u-hero-desc {
+	max-width: 100%;
+}
+
+.u-tag-primary {
+	align-self: center;
+}
+@media (min-width: 992px) {
+	.u-tag-primary {
+		align-self: self-start;
+	}
+}
+
+/* 主題篩選切換效果 */
 .filter-controls {
 	display: flex;
 	justify-content: center;
@@ -22,6 +35,7 @@
 }
 
 
+/* 影音項目列表 layout */
 .video-grid {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -47,6 +61,9 @@
 	opacity: 0;
 	animation: cardFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+
+/* 影音項目卡片 */
 .video-card-wrapper {
 	text-decoration: none;
 	display: block;
@@ -76,59 +93,9 @@
 	transform: translateY(-4px);
 	box-shadow: 0 12px 24px -10px rgba(130, 83, 53, 0.15);
 }
-.video-thumb {
-	position: relative;
-	aspect-ratio: 16 / 9;
-	background-color: var(--surface-container-highest);
-	overflow: hidden;
-}
-.video-thumb img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-.play-btn-small-overlay {
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.play-btn-small {
-	background-color: rgba(255,255,255,0.9);
-	color: var(--primary);
-	width: 3rem;
-	height: 3rem;
-	border-radius: var(--radius-full);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-	transition: transform 0.2s ease;
-}
-.video-card-content {
-	padding: var(--space-md) var(--space-md) 0 var(--space-md);
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-}
-.video-card-title {
-	font-size: 1.1rem;
-	font-weight: 600;
-	color: var(--on-surface);
-	transition: color 0.2s;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	line-height: 1.5;
-}
-.video-card-meta {
-	color: var(--on-surface-variant);
-	font-size: .8rem;
-	margin-top: auto;
-	margin-bottom: 0;
-}
+
+
+/* 影片長度秒數 */
 .video-duration {
 	position: absolute;
 	bottom: 0.5rem;
@@ -139,6 +106,9 @@
 	padding: 0.25rem 0.5rem;
 	border-radius: var(--radius-sm);
 }
+
+
+/* 影片類別 */
 .video-category {
 	font-size: 12px;
 	font-weight: 600;
@@ -186,6 +156,7 @@
 }
 
 
+/* 影片內容摘要 */
 .featured-video {
 	display: block;
 	position: relative;
@@ -207,15 +178,6 @@
 .featured-video:hover img {
 	transform: scale(1.05);
 }
-/* .video-overlay {
-	position: absolute;
-	inset: 0;
-	background-color: rgba(0,0,0,0.15);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: background-color 0.3s;
-} */
 .featured-video:hover .video-overlay {
 	background-color: rgba(0,0,0,0.05); /* 滑鼠懸停時更加透亮 */
 }
@@ -224,13 +186,13 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: var(--space-lg);
+	padding: var(--space-sm);
 	background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
 }
 .video-info-desc {
 	color: rgba(255,255,255,0.9);
-	font-size: 18px;
-	margin-bottom: var(--space-md);
+	font-size: .8rem;
+	margin-bottom: var(--space-sm);
 	max-width: 42rem;
 }
 .badge-secondary {
@@ -244,7 +206,42 @@
 	margin-bottom: var(--space-sm);
 }
 .video-info-title {
-	font-size: 32px;
+	font-size: 1.1rem;
 	font-weight: 700;
 	color: var(--on-white);
+}
+.video-info .btn-center-primary{
+	padding: var(--space-base);
+}
+.video-info .btn-center-primary .material-symbols-outlined,
+.video-info .btn-center-primary #featured-video-btn-text{
+	font-size: 1rem;
+}
+
+@media (min-width: 480px) {
+	.video-info-title {
+		font-size: 1.2rem;
+	}
+	.video-info {
+		padding: var(--space-md);
+	}
+	.video-info-desc {
+		margin-bottom: var(--space-md);
+	}
+	.video-info .btn-center-primary{
+		padding: var(--space-sm) var(--space-md-sm);
+	}
+	.video-info .btn-center-primary .material-symbols-outlined{
+		font-size: 1.6rem;
+	}
+}
+
+@media (min-width: 768px) {
+	.video-info-desc {
+		font-size: 1rem;
+		margin-bottom: var(--space-md);
+	}
+	.video-info-title {
+		font-size: 1.5rem;
+	}
 }

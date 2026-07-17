@@ -7,6 +7,9 @@ let currentFilteredVideos = [];
 let currentPage = 1;
 const pageSize = 9;
 
+// 預設團隊名稱 (可由外部 HTML 或其他 JS 設定 window.DEFAULT_TEAM_NAME 覆寫)
+const DEFAULT_TEAM_NAME = window.DEFAULT_TEAM_NAME || '長安醫院醫療團隊';
+
 const CATEGORIES = {
 	1: { name: '長安的故事', class: 'cat-1' },
 	2: { name: '長安保健室', class: 'cat-2' },
@@ -156,7 +159,7 @@ function renderCurrentPage() {
 	pageVideos.forEach((v, index) => {
 		const catObj = CATEGORIES[v.category_index] || { name: '衛教影音', class: 'cat-default' };
 		const durationText = v.duration || '05:00';
-		const doctorName = v.description || '神經醫學中心團隊';
+		const doctorName = v.description || DEFAULT_TEAM_NAME;
 		const delay = index * 50; // 卡片依序滑入延遲 (毫秒)
 		const detailUrl = v.video_key ? URL_FILM_DETAIL.replace('PLACEHOLDER', v.video_key) : v.youtube_url;
 
@@ -165,7 +168,7 @@ function renderCurrentPage() {
 				<a href="${detailUrl}" target="_blank" data-no-loading="true" class="video-card-wrapper" data-url="${v.youtube_url}">
 					<figure class="video-card" data-url="${v.youtube_url}">
 						<div class="video-thumb">
-							<img src="${v.youtube_image}" class="card-img-top" alt="${v.title}" onload="if(this.naturalWidth <= 120) { this.onload=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg'; }" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg';">
+							<img src="${v.youtube_image}" class="card-img-top" alt="${v.filename_title}" onload="if(this.naturalWidth <= 120) { this.onload=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg'; }" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/${v.youtube_id}/hqdefault.jpg';">
 							<div class="play-btn-small-overlay">
 								<div class="play-btn-small">
 									<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
@@ -178,7 +181,7 @@ function renderCurrentPage() {
 								<div class="video-category ${catObj.class}">${catObj.name}</div>
 								<span class="video-card-meta">上架時間：${v.date}</span>
 							</div>
-							<h5 class="video-card-title">${v.title}</h5>
+							<h5 class="video-card-title">${v.filename_title}</h5>
 							<span class="video-card-doctor">主講：${doctorName}</span>
 						</figcaption>
 					</figure>

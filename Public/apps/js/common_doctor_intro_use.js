@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="video-card">
                 <button class="open-video-modal h-full" data-toggle="modal" data-target="#videoModal" data-title="${video.ytb_title}" data-date="${video.ytb_date}" data-url="${video.ytb_url}">
                     <figure class="video-card">
-                        <img class="h-full object-cover" src="${video.thumb_url}" alt="${video.ytb_title}">
+                        <img class="h-full" src="${video.thumb_url}" alt="${video.ytb_title}">
                         <div class="video-overlay">
 							<span class="material-symbols-outlined text-5xl video-icon" data-icon="play_circle">play_circle</span>
 						</div>

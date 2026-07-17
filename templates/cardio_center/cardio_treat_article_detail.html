@@ -33,7 +33,7 @@
 			<meta itemprop="position" content="2">
 		</li>
 		<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-			<span itemprop="name">{{ treat_title }}</span>
+			<span itemprop="name">{{ treat_a_title }}</span>
 			<meta itemprop="position" content="3">
 		</li>
 	</ol>
@@ -62,7 +62,7 @@
 				<!-- (2)、治療項目介紹 -->
 				<section class="fade-in-card">
 					<div class="treat-detail-body">
-						<h1 class="treat-detail-title">{{ treat_a_title }}</h1>                    
+						<h1 class="treat-detail-title">{{ treat_a_title }}</h1>
 						<div>
 							{% for block in blocks %}
 								{% if block.semantic == 'section_title' %}
@@ -91,11 +91,15 @@
 										<div class="logotxt">長安醫院心血管中心，伴您健康長安 </div>
 									</div>
 								{% elif block.semantic == 'image' %}
-									<div class="treat-img-container {{ block.class }}">
-										<img src="/media/{{ block.treat_article_src }}" alt="{{ treat_a_title }}" loading="lazy">
-									</div>
+									<figure class="img-container mb-4">
+										<picture>
+											<source srcset="/media/{{ block.treat_article_src }}" type="image/webp">
+											<img class="img-fluid w-100" src="/media/cardio_center/cardio_treat_articles/treat_articles_img/{{ block.original_image }}" alt="{{ treat_a_title }}" title="{{ treat_a_title }}" loading="lazy" decoding="async">
+										</picture>
+										<figcaption>{{ treat_a_title }}</figcaption>
+									</figure>
 								{% elif block.semantic == 'video' %}
-									<div class="treat-video-container {{ block.class }}">
+									<div class="video-container">
 										{{ block.text|safe }}
 									</div>
 								{% elif block.type == 'div' %}
@@ -126,28 +130,12 @@
 
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
-<style>
-	.list-group-item:first-child{
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-	}
-	.list-group-item:last-child{
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-	.list-group-item.active{
-		background-color: var(--color-secondary);
-		border-color: var(--color-secondary);
-		color: var(--on-white);
-		font-weight: 500;
-	}
-	
+<style>	
 	@media (min-width: 1200px) {
 		.l-container-panel{
 			padding: var(--space-base) var(--space-margin) var(--space-margin) var(--space-margin);
 		}
-	}
-	
+	}	
 </style>
 {% endblock %}
 

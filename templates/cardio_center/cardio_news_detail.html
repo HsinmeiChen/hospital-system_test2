@@ -2,15 +2,15 @@
 
 {% load static %}
 <!-- === Meta ================================== -->
-{% block title %}{{ data.treat_a_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
+{% block title %}{{ data.article_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
 {% block meta_description %}{{ data.summary|default:"「長安醫院-心血管中心」最新消息與公告。" }}{% endblock %}
 
 <!-- ※※※ Open Graph ※※※ -->
-{% block og_title %}{{ data.treat_a_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ data.article_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
 {% block og_description %}{{ data.summary|default:"「長安醫院-心血管中心」最新消息與公告。" }}{% endblock %}
 
 <!-- ※※※ Twitter Card ※※※ -->
-{% block twitter_title %}{{ data.treat_a_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
+{% block twitter_title %}{{ data.article_title|default:"最新消息" }}｜最新公告｜{{ block.super }}{% endblock %}
 {% block twitter_description %}{{ data.summary|default:"「長安醫院-心血管中心」最新消息與公告。" }}{% endblock %}
 
 
@@ -113,7 +113,7 @@
 
 <!-- === Schema JSON-LD ======================== -->
 {% block guide_seo %}
-{% include 'schema_article.html' with headline=data.treat_a_title center_name='心血管中心' %}
+{% include 'schema_article.html' with headline=data.article_title center_name='心血管中心' %}
 {% endblock %}
 
 

@@ -108,7 +108,6 @@
 .font-headline-md { font-size: var(--headline-md-size); line-height: var(--headline-md-lh); font-weight: var(--headline-md-weight); color: var(--primary); margin-bottom: var(--space-md-sm); }
 
 
-
 /* ==========================================================================
 	Reset / Base
 ========================================================================== */
@@ -173,6 +172,14 @@ img {
 /* ==========================================================================
 	Sub Layout
 ========================================================================== */
+.l-container-panel {
+	padding: 0;
+}
+@media (min-width: 992px) {
+	.l-container-panel {
+		padding: 1rem;
+	}
+}
 .l-main-content {
 	border: 0px;
 	padding: 0;
@@ -181,7 +188,6 @@ img {
 	border: 0px;
 	background-color: transparent;
 }
-
 
 
 /* ==========================================================================
@@ -449,12 +455,42 @@ img {
 }
 
 
+/* ==========================================================================
+	Sidebar List (治療項目)
+========================================================================== */
+.list-group-item:first-child{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.list-group-item:last-child{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.list-group-item.active{
+	background-color: var(--color-secondary);
+	border-color: var(--color-secondary);
+	color: var(--on-white);
+	font-weight: 500;
+}
+
 
 /* ==========================================================================
 	Tags (標籤)、li (條列式)
 ========================================================================== */
+.news-tag {
+	font-size: 0.8rem;
+	font-weight: 500;
+	padding: 0.25rem 0.65rem;
+	display: inline-block;
+	margin-bottom: 0.75rem;
+	width: fit-content;
+}
 .tag-primary {
 	background-color: var(--primary-container);
+	color: var(--on-white);
+}
+.tag-tertiary{
+	background-color: var(--color-secondary);
 	color: var(--on-white);
 }
 .ne-tag {
@@ -684,6 +720,7 @@ img {
 	font-size: 2.5rem;
 	letter-spacing: 2px;
 	color: var(--primary);
+	text-align: center;
 }
 .u-hero-desc {
 	color: var(--on-surface-variant);
@@ -814,8 +851,8 @@ img {
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
+	border-radius: 0;
 }
-
 
 .video-overlay {
 	position: absolute;
@@ -827,7 +864,113 @@ img {
 	transition: background-color 0.3s;
 }
 
+/* 影片卡片縮圖 */
+.video-thumb {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	background-color: var(--surface-container-highest);
+	overflow: hidden;
+}
+.video-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.play-btn-small-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.play-btn-small {
+	background-color: rgba(255,255,255,0.9);
+	color: var(--primary);
+	width: 3rem;
+	height: 3rem;
+	border-radius: var(--radius-full);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+	transition: transform 0.2s ease;
+}
+.video-card-content {
+	padding: var(--space-md) var(--space-md) 0 var(--space-md);
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+.video-card-title {
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: var(--on-surface);
+	transition: color 0.2s;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.5;
+}
+.video-card-meta {
+	color: var(--on-surface-variant);
+	font-size: .8rem;
+	margin-top: auto;
+	margin-bottom: 0;
+}
 
+/* Cinematic Letterbox (電影上下黑框) */
+.video-thumb::before,
+.video-thumb::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 20px;
+	background-color: #000;
+	z-index: 2;
+}
+.video-thumb::before {
+	top: 0;
+}
+.video-thumb::after {
+	bottom: 0;
+}
+
+/* 影片縮圖 Hover 放大效果 */
+.video-thumb img.card-img-top {
+	transition: transform 0.3s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.video-card:hover img.card-img-top {
+	transform: scale(1.04);
+}
+
+/* 播放按鈕圖示與 Hover 特效 */
+.play-btn-small-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.play-btn-small-overlay {
+	z-index: 3;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+.play-btn-small-overlay span {
+	transition: transform 0.3s ease, color 0.3s ease;
+}
+.video-card:hover .play-btn-small-overlay {
+	opacity: 1;
+}
+.video-card:hover .play-btn-small-overlay span {
+	transform: scale(1.15);
+}
 
 
 /* ==========================================================================
@@ -942,8 +1085,9 @@ img {
 	.col-lg-8-detail { border-right: 1px solid var(--outline-variant); }
 	.posts-detail-container { margin-right: var(--space-md); }
 	.posts-detail-container .btn-lg { font-size: 1.25rem; }
-	.related-posts { margin-left: var(--space-md-sm); }
 }
+
+/* 媒體報導、衛教文章內容對應 class */
 .article-body u {
 	font-weight: 700;
 	text-decoration: none;
@@ -966,6 +1110,108 @@ img {
 	margin-bottom: 15px;
 	padding: 10px;
 	line-height: 1.5;
+}
+
+/* 文章 - 內文段落；對應 <t> */
+.a-paragraph {
+	font-size: 1.1rem;
+	line-height: 2.0;
+	color: var(--on-surface-variant);
+	margin-bottom: var(--space-md);
+	letter-spacing: 0.05em;
+	text-align: justify;
+}
+
+/* 文章 - 內文發布日期；對應 <posted> */
+.posted-date {
+    text-align: right;
+    font-size: 0.85rem;
+    margin: -15px 0 15px 0;
+    background-color: var(--grey5);
+    line-height: 20px;
+    padding: 10px;
+}
+.posted-date::before {
+    content: '發表日期：';
+}
+
+
+/* 文章 - H3 標題；對應 <cap> */
+.title-02 {
+    position: relative;
+    padding: 0.7rem 1.1rem 0.6rem;
+    background-color: var(--bg-cap);
+    border-radius: 0.3rem;
+    font-size: 1.5rem;
+    letter-spacing: 0.03em;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 2rem 0 1rem 0;
+	border-bottom: 1px solid var(--surface-variant);
+	line-height: 1.5;
+}
+.title-02::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto 0;
+    width: 0.3rem;
+    height: 1.8rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    background-color: var(--primary);
+}
+
+
+/* 文章 - 圖片備註文字；對應 <t-note> */
+.text-note {
+    font-size: 0.85rem;
+    color: var(--grey4);
+    text-align: center;
+}
+
+
+/* 文章 - 引用框；對應 <quo> */
+.quote-box {
+    position: relative;
+    padding: 30px 10px 10px 10px;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: var(--grey7);
+    overflow: hidden;
+    text-align: center;
+    background-color: var(--bg-warm);
+    background:
+        repeating-linear-gradient(45deg,
+            rgba(223, 120, 130, 0.06),
+            rgba(223, 120, 130, 0.06) 1px,
+            transparent 1px,
+            transparent 8px),
+        var(--bg-warm);
+    margin-bottom: -20px;
+}
+
+.quote-box::before,
+.quote-box::after {
+    position: absolute;
+    font-size: 10rem;
+    color: #ffd8db;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.quote-box::before {
+    content: "“";
+    top: -70px;
+    left: 20px;
+}
+
+.quote-box::after {
+    content: "”";
+    bottom: 0;
+    right: 15px;
+    line-height: 0;
 }
 .quo-txt,
 .logotxt {
@@ -1002,6 +1248,8 @@ img {
 			rgba(158, 62, 71, 0) 100%);
 }
 
+
+/* 文章 - 條列標題；對應 <li-t> */
 .list-title {
 	position: relative;
 	padding-left: 28px;
@@ -1017,12 +1265,18 @@ img {
 	content: "✦";
 	color: var(--orange);
 }
+
+
+/* 文章 - 條列內容；對應 <li-p> */
 .list-text{
 	font-size: 1.1rem;
 	line-height: 35px;
 	text-align: justify;
 	margin-left: 1.5rem;
 }
+
+
+/* 文章 - 問答；對應 <li-q> / <li-a> */
 .list-question {
 	font-weight: bold;
 	font-size: 1.1rem;
@@ -1058,41 +1312,62 @@ img {
 	content: 'Ａ';
 	background-color: var(--color-secondary);
 }
+
+
+/* 文章 - 內文圖片；對應 <img1> */
+.img-container {
+	overflow: hidden;
+	text-align: center;
+    margin: 1rem 0;
+}
+.img-container img {
+	width: 100%;
+	height: auto;
+	display: block;
+	transition: transform 0.5s ease;
+}
+
+
+/* 文章 - 內文影片；對應 <yt> */
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	height: 0;
+	overflow: hidden;
+	margin: var(--space-lg) 0;
+	border-radius: 4px;
+	border: 1px solid var(--surface-variant);
+}
+.video-container iframe,
+.video-container video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 .embed-responsive {
 	width: 100%;
 	margin: 0 auto;
 }
-.a-paragraph {
-	font-size: 1.125rem;
-	line-height: 1.8;
-	color: #333;
-	margin-bottom: 1.25rem;
-	text-align: justify;
-}
+
+
+/* 文章 - 內文新聞連結；對應 <t><a> */
 .news-links {
-	margin: 1.5rem 0;
+    margin: 1.5rem 0;
 }
 .news-links a {
-	display: inline-block;
-	margin: 0.25rem 0.5rem 0.25rem 0;
-	font-size: 0.95rem;
-	padding: 0.4rem 0.75rem;
-	text-decoration: none;
-	transition: all 0.2s ease-in-out;
-}
-.news-links a i {
-	margin-right: 0.4rem;
-	transition: transform 0.3s ease;
+    display: inline-block;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    font-size: 0.95rem;
+    padding: 0.4rem 0.75rem;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+	background-color: var(--bg-soft);
 }
 .news-links a:hover {
-	background-color: #17a2b8;
-	color: white;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    font-weight: 700;
 }
-.news-links a:hover i {
-	transform: scale(1.2) rotate(-10deg);
-}
-
 
 
 /* ==========================================================================
@@ -1116,7 +1391,7 @@ img {
 	font-size: 2.2rem;
 	font-weight: 700;
 	color: var(--on-surface);
-	margin-bottom: var(--space-lg);
+	margin-bottom: var(--space-md);
 	line-height: 1.5;
 	padding-bottom: var(--space-md);
 	border-bottom: 1px solid var(--surface-variant);
@@ -1141,24 +1416,7 @@ img {
 		overflow-wrap: break-word;
 	}
 }
-.treat-detail-body p {
-	font-size: 1.1rem;
-	line-height: 2.0;
-	color: var(--on-surface-variant);
-	margin-bottom: var(--space-md);
-	letter-spacing: 0.05em;
-	text-align: justify;
-}
-.treat-detail-body h3 {
-	font-size: 1.5rem;
-	font-weight: 700;
-	color: var(--primary);
-	margin: var(--space-lg) 0 var(--space-md) 0;
-	padding-bottom: var(--space-sm);
-	border-bottom: 1px solid var(--surface-variant);
-	line-height: 1.5;
-	letter-spacing: 0.05em;
-}
+
 .treat-detail-body h4 {
 	font-size: 1.25rem;
 	font-weight: 600;
@@ -1178,32 +1436,7 @@ img {
 	padding-left: 0.5rem;
 	letter-spacing: 0.05em;
 }
-.treat-img-container {
-	overflow: hidden;
-}
-.treat-img-container img {
-	width: 100%;
-	height: auto;
-	display: block;
-	transition: transform 0.5s ease;
-}
-.treat-video-container {
-	position: relative;
-	padding-bottom: 56.25%; /* 16:9 */
-	height: 0;
-	overflow: hidden;
-	margin: var(--space-lg) 0;
-	border-radius: 4px;
-	border: 1px solid var(--surface-variant);
-}
-.treat-video-container iframe,
-.treat-video-container video {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
+
 .treat-detail-cta {
 	margin-top: var(--space-lg);
 	padding-top: var(--space-lg);
@@ -1227,35 +1460,14 @@ img {
 	color: var(--on-white);
 	background-color: var(--color-secondary);
 }
-.treat-img-container img {
-	width: 100%;
-	height: auto;
-	display: block;
-	transition: transform 0.5s ease;
-}
-.treat-video-container {
-	position: relative;
-	padding-bottom: 56.25%;
-	height: 0;
-	overflow: hidden;
-	margin: var(--space-lg) 0;
-	border-radius: 4px;
-	border: 1px solid var(--surface-variant);
-}
-.treat-video-container iframe,
-.treat-video-container video {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
 
 
 /* ==========================================================================
    Recommended Articles Sidebar
    ========================================================================== */
+@media (min-width: 992px) {
+	.related-posts { margin-left: var(--space-md-sm); }
+}
 ._popIn_recommend_header {
 	font-weight: bold;
 	letter-spacing: 1px;

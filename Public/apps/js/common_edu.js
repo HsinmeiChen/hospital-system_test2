@@ -19,7 +19,7 @@ function loadHealthEdu(page = 1) {
 				const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '/Public/common/img/everan2.webp';
 
 				container.innerHTML += `
-					<div class="col-md-6 col-lg-4 col-xl-3 mb-4 d-flex align-items-stretch">
+					<div class="col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
 						<a href="${detailUrl}" class="magazine-card">
 							<div class="magazine-img-wrapper">
 								<img src="${imageUrl}" loading="lazy" alt="${item.title}" onerror="this.src='/Public/common/img/everan2.webp'">

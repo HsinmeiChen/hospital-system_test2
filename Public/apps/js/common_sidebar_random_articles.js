@@ -38,7 +38,7 @@ function loadRandomHealthReports() {
                     <div class="row g-3 align-items-center no-gutters">  
                         <div class="col-4">
                             <div class="img-container h-100 position-relative">
-                                <img src="/media/${article.image}" class="img-fluid w-100 h-100 magazine-img" style="aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s ease;" alt="${article.title}">
+                                <img src="/media/${article.image}" class="img-fluid w-100 h-100 magazine-img" style="aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s ease;" alt="${article.filename_title}">
                             </div>
                         </div>                      
                         <div class="col-8">
@@ -46,7 +46,7 @@ function loadRandomHealthReports() {
                                 <div class="mb-2" style="font-size: 0.75rem; letter-spacing: 1.5px; color: #888; text-transform: uppercase;">
                                     <span style="color: var(--color-accent-peach, #d9534f); font-weight: bold;">NEWS</span> <span style="margin: 0 4px;">|</span> ${article.pub_date}
                                 </div>
-                                <h5 class="magazine-title mb-2" style="font-size:1rem; font-weight:700; line-height: 1.5; height: 3rem; color: #222; transition: color 0.3s; text-align:justify; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${article.title}</h5>
+                                <h5 class="magazine-title mb-2" style="font-size:1rem; font-weight:700; line-height: 1.5; height: 3rem; color: #222; transition: color 0.3s; text-align:justify; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${article.filename_title}</h5>
                             </figcaption>
                         </div>
                         
@@ -147,7 +147,7 @@ function loadRandomHealthEdus() {
                 card.innerHTML = `
                     <div class="rank-number">${rank}</div>
                     <div class="flex-grow-1">
-                        <h5 class="ranked-title">${edu.title}</h5>
+                        <h5 class="ranked-title">${edu.filename_title}</h5>
                     </div>
                 `;
 
