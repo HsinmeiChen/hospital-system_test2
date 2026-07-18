@@ -46,8 +46,8 @@
                     </div>
                     {% endfor %}
                 </div>
-                <button type="button" class="banner_arrow_left slick-arrow-btn"><i class="fas fa-angle-left fa-1x"></i></button>
-                <button type="button" class="banner_arrow_right slick-arrow-btn"><i class="fas fa-angle-right"></i></button>
+                <button type="button" class="banner_arrow_left native-arrow-btn"><i class="fas fa-angle-left fa-1x"></i></button>
+                <button type="button" class="banner_arrow_right native-arrow-btn"><i class="fas fa-angle-right"></i></button>
                 <div class="banner-dots">
                     {% for item in banner_items %}
                     <button type="button" class="dot {% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
@@ -492,19 +492,13 @@
 {% block extra_css %}
     <!-- ★ 首頁專屬的 css ★ -->
     <link rel="stylesheet" href="{% static 'common/css/refactored/pages/index.css' %}">
-    
-    <!-- ★ 輪播效果 (已被原生 ES6 取代，移除舊套件) ★ -->
-    <!-- <link rel="stylesheet" href="{% static 'common/css/slick.css' %}" /> -->
-    <!-- <link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" /> -->
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->
 <!-- ※※※ Extra JS Start ※※※ -->
 {% block extra_js %}
-    <!-- ★ 輪播效果 (已被原生 ES6 取代，移除舊套件) ★ -->
-    <!-- <script src="{% static 'common/js/slick.js' %}"></script> -->
     <!-- ★ 頁籤轉下拉選單 ★ -->
     <script src="{% static 'common/js/tab_switch_select.js' %}"></script>
-    <!-- ★ slick 輪播效果 ★ -->
+    <!-- ★ 原生輪播效果 ★ -->
     <script src="{% static 'common/js/slide_div.js' %}"></script>
 {% endblock %}
 <!-- ※※※ Extra JS End ※※※ -->

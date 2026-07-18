@@ -315,7 +315,7 @@
 }
 
 /* Buttons & Slider Overrides */
-.slick-arrow-btn {
+.native-arrow-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
