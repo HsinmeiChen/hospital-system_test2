@@ -234,8 +234,11 @@
   transition: opacity 1s linear;
   z-index: 1;
 }
-.native-fade-slider .slide-item.active {
+/* 讓第一張圖片永遠撐開容器高度 (避免 CLS) */
+.native-fade-slider .slide-item:first-child {
   position: relative;
+}
+.native-fade-slider .slide-item.active {
   opacity: 1;
   z-index: 2;
 }
