@@ -1,7 +1,15 @@
 <!-- ※※※ Web Head (meta/OG/GA) Start ※※※ -->
 {% extends "main_base.html" %}
-<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
 {% load static %}
+
+{% block extra_head %}
+    {% if banner_items %}
+    <!-- LCP 終極優化：預先載入第一張 Banner 圖片，讓瀏覽器在解析 HTML 之前就開始下載 -->
+    <link rel="preload" as="image" href="{{ banner_items.0.pc_webp_url }}" media="(min-width: 768px)">
+    <link rel="preload" as="image" href="{{ banner_items.0.mobile_webp_url }}" media="(max-width: 767px)">
+    {% endif %}
+{% endblock %}
+<!-- ※※※ Web Head (meta/OG/GA) End ※※※ -->
 <!-- ※※※ Web Content Start ※※※ -->
 {% block content %}
 <div class="wrapper">
