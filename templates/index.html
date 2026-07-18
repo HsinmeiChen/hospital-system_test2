@@ -154,10 +154,10 @@
                                             {% if news_list.12 %}
                                             <source srcset="{% get_media_prefix %}{{ news_list.12 }}" type="image/webp">
                                             {% endif %}
-                                            <img class="c-card__img" src="{% get_media_prefix %}news_2/img/{{ news_list.10 }}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                                            <img class="c-card__img" src="{% get_media_prefix %}news_2/img/{{ news_list.10 }}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy" decoding="async" width="800" height="600">
                                         </picture>
                                         {% else %}
-                                        <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy">
+                                        <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ news_list.2 }}" title="{{ news_list.2 }}" loading="lazy" decoding="async" width="800" height="600">
                                         {% endif %}
                                     </div>
                                     <div class="c-card__body">
@@ -296,7 +296,7 @@
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
                                                 <div class="c-card__img-wrapper">
-                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
+                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}" width="480" height="360" loading="lazy" decoding="async">
                                                 </div>
                                                 <div class="c-card__body">
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
@@ -319,7 +319,7 @@
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
                                                 <div class="c-card__img-wrapper">
-                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
+                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}" width="480" height="360" loading="lazy" decoding="async">
                                                 </div>
                                                 <div class="c-card__body">
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
@@ -342,7 +342,7 @@
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
                                                 <div class="c-card__img-wrapper">
-                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
+                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}" width="480" height="360" loading="lazy" decoding="async">
                                                 </div>
                                                 <div class="c-card__body">
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
@@ -365,7 +365,7 @@
    data-video-id="{{ m.youtube_id }}" 
    data-video-title="{% firstof m.title m.name %}">
                                                 <div class="c-card__img-wrapper">
-                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}">
+                                                    <img class="c-card__img" src="{{m.youtube_image}}" alt="{{m.name}}" title="{{m.name}}" width="480" height="360" loading="lazy" decoding="async">
                                                 </div>
                                                 <div class="c-card__body">
                                                     <div class="c-card__description text-right mb-0 mt-2">{{m.sub}}</div>
@@ -405,69 +405,69 @@
                         <div class="slider">
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="/specialty_medical/ort-main/" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/bone_center.jpg' %}" alt="骨科微創手術中心" title="骨科微創手術中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>骨科微創手術中心</h2>
-                                            <p>Orthopaedics Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="/specialty_medical/ort-main/" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/bone_center.jpg' %}" alt="骨科微創手術中心" title="骨科微創手術中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>骨科微創手術中心</h2>
+											<p>Orthopaedics Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="/neuro-center" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/Neurology_center.jpg' %}" alt="神經醫學中心" title="神經醫學中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>神經醫學中心</h2>
-                                            <p>Neurology Therapy Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="/neuro-center" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/Neurology_center.jpg' %}" alt="神經醫學中心" title="神經醫學中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>神經醫學中心</h2>
+											<p>Neurology Therapy Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/CVD_center.jpg' %}" alt="心血管中心" title="心血管中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>心血管中心</h2>
-                                            <p>Cardiovascular Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/CVD_center.jpg' %}" alt="心血管中心" title="心血管中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>心血管中心</h2>
+											<p>Cardiovascular Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="/breast-care-center" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/breast_center.jpg' %}" alt="全方位乳房中心" title="全方位乳房中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>全方位乳房中心</h2>
-                                            <p>Breast Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="/breast-care-center" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/breast_center.jpg' %}" alt="全方位乳房中心" title="全方位乳房中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>全方位乳房中心</h2>
+											<p>Breast Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="/specialty_health/" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/health_center.jpg' %}" alt="健康管理中心" title="健康管理中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>健康管理中心</h2>
-                                            <p>Health Management Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="/specialty_health/" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/health_center.jpg' %}" alt="健康管理中心" title="健康管理中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>健康管理中心</h2>
+											<p>Health Management Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                             <div>
                                 <div class="spacing_mp">
-                                    <a href="/EECP/" target="_blank" class="p-home-special border d-block text-decoration-none">
-                                        <img src="{% static 'common/img/eecp_center.jpg' %}" alt="EECP 體外反搏治療中心" title="EECP 體外反搏治療中心" class="p-home-special__img">
-                                        <div class="p-home-special__caption">
-                                            <h2>EECP 體外反搏治療中心</h2>
-                                            <p>EECP Service Center</p>
-                                        </div>
-                                    </a>
-                                </div>
+									<a href="/EECP/" target="_blank" class="p-home-special border d-block text-decoration-none">
+										<img src="{% static 'common/img/eecp_center.jpg' %}" alt="EECP 體外反搏治療中心" title="EECP 體外反搏治療中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+										<div class="p-home-special__caption">
+											<h2>EECP 體外反搏治療中心</h2>
+											<p>EECP Service Center</p>
+										</div>
+									</a>
+								</div>
                             </div>
                         </div>
                     </div>

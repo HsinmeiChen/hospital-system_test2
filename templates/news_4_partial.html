@@ -17,10 +17,10 @@
                         {% if item.5 %}
                         <source srcset="{% get_media_prefix %}{{ item.5 }}" type="image/webp">
                         {% endif %}
-                        <img class="c-card__img" src="{% get_media_prefix %}news_4/img/{{ item.3 }}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                        <img class="c-card__img" src="{% get_media_prefix %}news_4/img/{{ item.3 }}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy" width="800" height="600">
                     </picture>
                     {% else %}
-                    <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                    <img class="c-card__img" src="{% static 'common/img/everan2.webp' %}" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy" width="800" height="600">
                     {% endif %}
                 </div>
                 <div class="c-card__body">
@@ -43,10 +43,10 @@
                             {% if item.5 %}
                             <source srcset="{% get_media_prefix %}{{ item.5 }}" type="image/webp">
                             {% endif %}
-                            <img src="{% get_media_prefix %}news_4/img/{{ item.3 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                            <img src="{% get_media_prefix %}news_4/img/{{ item.3 }}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy" width="800" height="600">
                         </picture>
                         {% else %}
-                        <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy">
+                        <img src="{% static 'common/img/everan2.webp' %}" class="img-fluid w-100 h-100 object-fit-cover" alt="{{ item.0 }}" title="{{ item.0 }}" loading="lazy" width="800" height="600">
                         {% endif %}
                     </div>
                     <div class="card-body cofe-word">

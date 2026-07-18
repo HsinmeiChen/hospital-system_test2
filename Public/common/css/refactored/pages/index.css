@@ -204,6 +204,37 @@
   transform: scale(1.1);
 }
 
+/* 醫療資訊專屬圖片設定 (確保重要文字不被裁切) */
+#medical_info .c-card__img-wrapper {
+  aspect-ratio: auto; /* 解除 16:9 強制比例，改用圖片原始比例 */
+  height: 100%;       /* 填滿父容器 */
+  max-height: 220px;  /* 限制最高高度避免過長 */
+}
+#medical_info .c-card__img {
+  object-fit: contain; /* 自動縮放以完全顯示整張圖片，不會裁切 */
+  background-color: var(--color-bg-white); /* 填滿空白處的底色 */
+}
+
+/* 防止 Slick Carousel 載入前造成巨大的 CLS (垂直堆疊) */
+.slider:not(.slick-initialized) {
+  display: flex;
+  overflow: hidden;
+}
+.slider:not(.slick-initialized) > div {
+  width: 100%;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .slider:not(.slick-initialized) > div {
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .slider:not(.slick-initialized) > div {
+    width: 25%;
+  }
+}
+
 .p-home-special__caption {
   position: absolute;
   top: 0;
