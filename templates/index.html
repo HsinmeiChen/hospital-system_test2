@@ -16,10 +16,10 @@
     <main>
         <!-- ■■■ Banner ■■■ -->
         <section id="ad_commercial">
-            <div id="menucarousel_pc" class="d-none d-md-block">
-                <div class="banner">
+            <div id="menucarousel_pc" class="d-none d-md-block native-banner-container">
+                <div class="banner native-fade-slider">
                     {% for item in banner_items %}
-                    <div>
+                    <div class="slide-item {% if forloop.first %}active{% endif %}">
                         {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
                             <figure class="m-0">
                                 <picture>
@@ -31,11 +31,18 @@
                     </div>
                     {% endfor %}
                 </div>
-            </div>
-            <div id="menucarousel_mobile" class="d-block d-md-none">
-                <div class="banner">
+                <button type="button" class="banner_arrow_left slick-arrow-btn"><i class="fas fa-angle-left fa-1x"></i></button>
+                <button type="button" class="banner_arrow_right slick-arrow-btn"><i class="fas fa-angle-right"></i></button>
+                <div class="banner-dots">
                     {% for item in banner_items %}
-                    <div>
+                    <button type="button" class="dot {% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div id="menucarousel_mobile" class="d-block d-md-none native-banner-container">
+                <div class="banner native-fade-slider">
+                    {% for item in banner_items %}
+                    <div class="slide-item {% if forloop.first %}active{% endif %}">
                         {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
                             <figure class="m-0">
                                 <picture>
@@ -45,6 +52,13 @@
                             </figure>
                         {% if item.link %}</a>{% endif %}
                     </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="banner_arrow_left slick-arrow-btn"><i class="fas fa-angle-left fa-1x"></i></button>
+                <button type="button" class="banner_arrow_right slick-arrow-btn"><i class="fas fa-angle-right"></i></button>
+                <div class="banner-dots">
+                    {% for item in banner_items %}
+                    <button type="button" class="dot {% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
                     {% endfor %}
                 </div>
             </div>
@@ -402,73 +416,77 @@
                         <h2>重點醫療<span><br class="d-block d-lg-none">Specialty Medical</span></h2>
                     </div>
                     <div class="a_content_div">
-                        <div class="slider">
-                            <div>
-                                <div class="spacing_mp">
-									<a href="/specialty_medical/ort-main/" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/bone_center.jpg' %}" alt="骨科微創手術中心" title="骨科微創手術中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>骨科微創手術中心</h2>
-											<p>Orthopaedics Center</p>
-										</div>
-									</a>
-								</div>
+                        <div class="slider-wrapper position-relative">
+                            <div class="slider native-scroll-slider">
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="/specialty_medical/ort-main/" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/bone_center.jpg' %}" alt="骨科微創手術中心" title="骨科微創手術中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>骨科微創手術中心</h2>
+                                                <p>Orthopaedics Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="/neuro-center" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/Neurology_center.jpg' %}" alt="神經醫學中心" title="神經醫學中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>神經醫學中心</h2>
+                                                <p>Neurology Therapy Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/CVD_center.jpg' %}" alt="心血管中心" title="心血管中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>心血管中心</h2>
+                                                <p>Cardiovascular Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="/breast-care-center" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/breast_center.jpg' %}" alt="全方位乳房中心" title="全方位乳房中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>全方位乳房中心</h2>
+                                                <p>Breast Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="/specialty_health/" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/health_center.jpg' %}" alt="健康管理中心" title="健康管理中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>健康管理中心</h2>
+                                                <p>Health Management Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="slide-item">
+                                    <div class="spacing_mp">
+                                        <a href="/EECP/" target="_blank" class="p-home-special border d-block text-decoration-none">
+                                            <img src="{% static 'common/img/eecp_center.jpg' %}" alt="EECP 體外反搏治療中心" title="EECP 體外反搏治療中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
+                                            <div class="p-home-special__caption">
+                                                <h2>EECP 體外反搏治療中心</h2>
+                                                <p>EECP Service Center</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="spacing_mp">
-									<a href="/neuro-center" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/Neurology_center.jpg' %}" alt="神經醫學中心" title="神經醫學中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>神經醫學中心</h2>
-											<p>Neurology Therapy Center</p>
-										</div>
-									</a>
-								</div>
-                            </div>
-                            <div>
-                                <div class="spacing_mp">
-									<a href="http://www.everanhospital.com.tw/cv/" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/CVD_center.jpg' %}" alt="心血管中心" title="心血管中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>心血管中心</h2>
-											<p>Cardiovascular Center</p>
-										</div>
-									</a>
-								</div>
-                            </div>
-                            <div>
-                                <div class="spacing_mp">
-									<a href="/breast-care-center" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/breast_center.jpg' %}" alt="全方位乳房中心" title="全方位乳房中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>全方位乳房中心</h2>
-											<p>Breast Center</p>
-										</div>
-									</a>
-								</div>
-                            </div>
-                            <div>
-                                <div class="spacing_mp">
-									<a href="/specialty_health/" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/health_center.jpg' %}" alt="健康管理中心" title="健康管理中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>健康管理中心</h2>
-											<p>Health Management Center</p>
-										</div>
-									</a>
-								</div>
-                            </div>
-                            <div>
-                                <div class="spacing_mp">
-									<a href="/EECP/" target="_blank" class="p-home-special border d-block text-decoration-none">
-										<img src="{% static 'common/img/eecp_center.jpg' %}" alt="EECP 體外反搏治療中心" title="EECP 體外反搏治療中心" class="p-home-special__img" width="1920" height="600" loading="lazy" decoding="async">
-										<div class="p-home-special__caption">
-											<h2>EECP 體外反搏治療中心</h2>
-											<p>EECP Service Center</p>
-										</div>
-									</a>
-								</div>
-                            </div>
+                            <button type="button" class="arrow_btleft slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-left fa-1x"></i></button>
+                            <button type="button" class="arrow_btright slick-arrow-btn btn btn-outline-warning"><i class="fas fa-angle-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -483,15 +501,15 @@
 <!-- ※※※ Extra CSS Start ※※※ -->
 {% block extra_css %}
     
-    <!-- ★ 輪播效果 ★ -->
-    <link rel="stylesheet" href="{% static 'common/css/slick.css' %}" />
-    <link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" />
+    <!-- ★ 輪播效果 (已被原生 ES6 取代，移除舊套件) ★ -->
+    <!-- <link rel="stylesheet" href="{% static 'common/css/slick.css' %}" /> -->
+    <!-- <link rel="stylesheet" href="{% static 'common/css/slick-theme.css' %}" /> -->
 {% endblock %}
 <!-- ※※※ Extra CSS End ※※※ -->
 <!-- ※※※ Extra JS Start ※※※ -->
 {% block extra_js %}
-    <!-- ★ 輪播效果 ★ -->
-    <script src="{% static 'common/js/slick.js' %}"></script>
+    <!-- ★ 輪播效果 (已被原生 ES6 取代，移除舊套件) ★ -->
+    <!-- <script src="{% static 'common/js/slick.js' %}"></script> -->
     <!-- ★ 頁籤轉下拉選單 ★ -->
     <script src="{% static 'common/js/tab_switch_select.js' %}"></script>
     <!-- ★ slick 輪播效果 ★ -->
