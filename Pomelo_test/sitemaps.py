@@ -5,7 +5,20 @@ import glob
 from django.conf import settings
 import re
 
-class StaticSitemap(Sitemap):
+class ForceDomainSitemapMixin:
+    """
+    這個 Mixin 強制 Sitemap 輸出 HTTPS 以及指定的網域名稱，
+    避免 Django 去抓資料庫裡預設的 example.com 導致 Google Search Console 報錯。
+    """
+    protocol = 'https'
+
+    def get_urls(self, page=1, site=None, protocol=None):
+        class FakeSite:
+            domain = 'web.everanhospital.com.tw'
+            name = '長安醫院'
+        return super().get_urls(page=page, site=FakeSite(), protocol=self.protocol)
+
+class StaticSitemap(ForceDomainSitemapMixin, Sitemap):
     """
     靜態核心網頁的 Sitemap (包含所有特色醫療中心首頁及常用服務)
     """
@@ -59,7 +72,7 @@ class StaticSitemap(Sitemap):
         except:
             return f"/{item}/"
 
-class TxtDynamicSitemap(Sitemap):
+class TxtDynamicSitemap(ForceDomainSitemapMixin, Sitemap):
     """
     動態掃描 TXT 資料夾並產生網址的 Sitemap 類別。
     """
@@ -138,7 +151,7 @@ sitemaps_dict = {
 
 try:
     from Pomelo_API.views import _get_dept_dr_map
-    class DoctorSitemap(Sitemap):
+    class DoctorSitemap(ForceDomainSitemapMixin, Sitemap):
         """
         醫師介紹頁的動態 Sitemap
         掃描 HIS 同步下來的醫師資料夾，並產生類似 /A001_department_doctor/Orthopedic/HA00504/ 的專屬網址。
