@@ -16,38 +16,22 @@
     <main>
         <!-- ■■■ Banner ■■■ -->
         <section id="ad_commercial">
-            <div id="menucarousel_pc" class="d-none d-md-block native-banner-container">
+            <div id="menucarousel" class="native-banner-container">
                 <div class="banner native-fade-slider">
                     {% for item in banner_items %}
                     <div class="slide-item {% if forloop.first %}active{% endif %}">
                         {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
                             <figure class="m-0">
                                 <picture>
-                                    <source srcset="{{ item.pc_webp_url }}" type="image/webp">
-                                    <img src="{{ item.pc_url }}" class="d-block w-100" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.pc_width }}" height="{{ item.pc_height }}">
-                                </picture>
-                            </figure>
-                        {% if item.link %}</a>{% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
-                <button type="button" class="banner_arrow_left slick-arrow-btn"><i class="fas fa-angle-left fa-1x"></i></button>
-                <button type="button" class="banner_arrow_right slick-arrow-btn"><i class="fas fa-angle-right"></i></button>
-                <div class="banner-dots">
-                    {% for item in banner_items %}
-                    <button type="button" class="dot {% if forloop.first %}active{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
-                    {% endfor %}
-                </div>
-            </div>
-            <div id="menucarousel_mobile" class="d-block d-md-none native-banner-container">
-                <div class="banner native-fade-slider">
-                    {% for item in banner_items %}
-                    <div class="slide-item {% if forloop.first %}active{% endif %}">
-                        {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
-                            <figure class="m-0">
-                                <picture>
-                                    <source srcset="{{ item.mobile_webp_url }}" type="image/webp">
-                                    <img src="{{ item.mobile_url }}" class="d-block w-100" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.mobile_width }}" height="{{ item.mobile_height }}">
+                                    <!-- 電腦版 (>=768px) -->
+                                    <source media="(min-width: 768px)" srcset="{{ item.pc_webp_url }}" type="image/webp" width="{{ item.pc_width }}" height="{{ item.pc_height }}">
+                                    <source media="(min-width: 768px)" srcset="{{ item.pc_url }}" width="{{ item.pc_width }}" height="{{ item.pc_height }}">
+                                    
+                                    <!-- 手機版 (<768px) -->
+                                    <source media="(max-width: 767px)" srcset="{{ item.mobile_webp_url }}" type="image/webp" width="{{ item.mobile_width }}" height="{{ item.mobile_height }}">
+                                    
+                                    <!-- 預設顯示 (會根據 media 自動被覆蓋，加上 fetchpriority 與 lazy) -->
+                                    <img src="{{ item.mobile_url }}" class="d-block w-100" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.mobile_width }}" height="{{ item.mobile_height }}" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy" decoding="async"{% endif %}>
                                 </picture>
                             </figure>
                         {% if item.link %}</a>{% endif %}
