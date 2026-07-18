@@ -1735,7 +1735,7 @@ def _get_homepage_banners():
 			if not line or line.startswith('#'):
 				continue
 				
-			parts = line.split('|', 2)
+			parts = line.split('^', 2)
 			banner_id = parts[0]
 			link = parts[1] if len(parts) > 1 and parts[1] != '無' else ''
 			alt_text = parts[2] if len(parts) > 2 else f'長安醫院首頁活動 {banner_id}'
