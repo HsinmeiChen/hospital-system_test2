@@ -18,70 +18,34 @@
         <section id="ad_commercial">
             <div id="menucarousel_pc" class="d-none d-md-block">
                 <div class="banner">
+                    {% for item in banner_items %}
                     <div>
-                        <a href="/A000_medical_info/0bb1431b/" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
-                            <img src="{% get_media_prefix %}everan_banner/D_0001.jpg" class="d-block w-100" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科" title="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
-                        </a>
+                        {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
+                            <figure class="m-0">
+                                <picture>
+                                    <source srcset="{{ item.pc_webp_url }}" type="image/webp">
+                                    <img src="{{ item.pc_url }}" class="d-block w-100" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.pc_width }}" height="{{ item.pc_height }}">
+                                </picture>
+                            </figure>
+                        {% if item.link %}</a>{% endif %}
                     </div>
-                    <div>
-                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                            <img src="{% get_media_prefix %}everan_banner/D_0002.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/7fc4fa3f/" alt="陰道雷射治療-蒙娜麗莎之吻">
-                            <img src="{% get_media_prefix %}everan_banner/D_0003.jpg" class="d-block w-100" alt="陰道雷射治療-蒙娜麗莎之吻" title="陰道雷射治療-蒙娜麗莎之吻">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/de2339ba/" alt="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！">
-                            <img src="{% get_media_prefix %}everan_banner/D_0004.jpg" class="d-block w-100" alt="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！" title="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/EECP/" target="_blank" alt="EECP 體外反搏">
-                            <img src="{% get_media_prefix %}everan_banner/D_0005.jpg" class="d-block w-100" alt="EECP 體外反搏" title="EECP 體外反搏">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/111730fe/" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
-                            <img src="{% get_media_prefix %}everan_banner/D_0006.jpg" class="d-block w-100" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！" title="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div id="menucarousel_mobile" class="d-block d-md-none">
                 <div class="banner">
+                    {% for item in banner_items %}
                     <div>
-                        <a href="/A000_medical_info/0bb1431b/" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
-                            <img src="{% get_media_prefix %}everan_banner/M_0001.jpg" class="d-block w-100" alt="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科" title="攝護腺肥大治療：告別排尿困擾，重拾順暢人生｜長安醫院泌尿科">
-                        </a>
+                        {% if item.link %}<a href="{{ item.link }}" target="_blank" title="{{ item.alt }}">{% endif %}
+                            <figure class="m-0">
+                                <picture>
+                                    <source srcset="{{ item.mobile_webp_url }}" type="image/webp">
+                                    <img src="{{ item.mobile_url }}" class="d-block w-100" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.mobile_width }}" height="{{ item.mobile_height }}">
+                                </picture>
+                            </figure>
+                        {% if item.link %}</a>{% endif %}
                     </div>
-                    <div>
-                        <a href="/A000_medical_info/09e19c17/" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                            <img src="{% get_media_prefix %}everan_banner/M_0002.jpg" class="d-block w-100" alt="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！" title="【醫療級】高壓氧治療－深呼吸，「氧」出健康力！">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/7fc4fa3f/" alt="陰道雷射治療-蒙娜麗莎之吻">
-                            <img src="{% get_media_prefix %}everan_banner/M_0003.jpg" class="d-block w-100" alt="陰道雷射治療-蒙娜麗莎之吻" title="陰道雷射治療-蒙娜麗莎之吻">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/de2339ba/" alt="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！">
-                            <img src="{% get_media_prefix %}everan_banner/M_0004.jpg" class="d-block w-100"  alt="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！" title="男過50老跑廁所？微創攝護腺動脈栓塞術（PAE）免開刀幫你解鎖！">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/EECP/" target="_blank" alt="EECP 體外反搏">
-                            <img src="{% get_media_prefix %}everan_banner/M_0005.jpg" class="d-block w-100" alt="EECP 體外反搏" title="EECP 體外反搏">
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/A000_medical_info/111730fe/" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
-                            <img src="{% get_media_prefix %}everan_banner/M_0006.jpg" class="d-block w-100" alt="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！" title="免挨餓、免開刀，胃鏡減重，小肚不再卡褲頭！">
-                        </a>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

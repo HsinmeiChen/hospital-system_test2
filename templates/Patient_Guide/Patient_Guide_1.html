@@ -1,4 +1,4 @@
-﻿{% extends "Patient_Guide/Patient_Guide_base.html" %}
+{% extends "Patient_Guide/Patient_Guide_base.html" %}
 
 {% load static %}
 
@@ -16,18 +16,16 @@
 <div class="l-main-content__body">
     <div class="row">
         <div class="col-12">
+            {% for item in clinic_images %}
             <div class="u-image-full">
-                <img class="w-100" src="{% get_media_prefix %}clinic_time/B001_page-0001.jpg" alt="門診時刻表 第一頁" title="門診時刻表 第一頁">
+                <figure class="my-3 m-0">
+                    <picture>
+                        <source srcset="{{ item.webp_url }}" type="image/webp">
+                        <img class="w-100" src="{{ item.url }}" alt="{{ item.alt }}" title="{{ item.alt }}" width="{{ item.width }}" height="{{ item.height }}" loading="lazy" decoding="async">
+                    </picture>
+                </figure>
             </div>
-            <div class="u-image-full">
-                <img class="w-100" src="{% get_media_prefix %}clinic_time/B001_page-0002.jpg" alt="門診時刻表 第二頁" title="門診時刻表 第二頁">
-            </div>
-            <div class="u-image-full">
-                <img class="w-100" src="{% get_media_prefix %}clinic_time/B001_page-0003.jpg" alt="門診時刻表 第三頁" title="門診時刻表 第三頁">
-            </div>
-            <div class="u-image-full">
-                <img class="w-100" src="{% get_media_prefix %}clinic_time/B001_page-0004.jpg" alt="門診時刻表 第四頁" title="門診時刻表 第四頁">
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

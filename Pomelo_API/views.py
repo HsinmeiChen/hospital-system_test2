@@ -12,6 +12,11 @@ from django.conf import settings
 from Pomelo_test.utils import convert_image_to_webp, safe_cleanup_webp_cache
 
 try:
+	from PIL import Image
+except ImportError:
+	Image = None
+
+try:
 	import oracledb
 	try:
 		# 從 settings 讀取 Oracle Client 路徑
@@ -1706,9 +1711,99 @@ def _parse_news_2_items(items):
 		item.append(webp_path)  # Index [12]
 # ---【 ADD-媒體報導:解析檔名(slug / hash)】End ---
 
+# =========================================================================
+# 首頁自動化輪播橫幅模組 (Banner) 
+# =========================================================================
+def _get_homepage_banners():
+	"""
+	掃描 media/everan_banner/banner.txt，自動找出輪播圖、產出 WebP 並取得寬高，
+	回傳提供給首頁的字典陣列。
+	"""
+	banner_dir = os.path.join(settings.MEDIA_ROOT, 'everan_banner')
+	txt_path = os.path.join(banner_dir, 'banner.txt')
+	
+	if not os.path.exists(banner_dir):
+		return []
+		
+	banner_items = []
+	if os.path.exists(txt_path):
+		with open(txt_path, 'r', encoding='utf-8-sig') as f:
+			lines = f.read().splitlines()
+		
+		for line in lines:
+			line = line.strip()
+			if not line or line.startswith('#'):
+				continue
+				
+			parts = line.split('|', 2)
+			banner_id = parts[0]
+			link = parts[1] if len(parts) > 1 and parts[1] != '無' else ''
+			alt_text = parts[2] if len(parts) > 2 else f'長安醫院首頁活動 {banner_id}'
+			
+			d_img = f"D_{banner_id}.jpg"
+			m_img = f"M_{banner_id}.jpg"
+			
+			item = _process_banner_pair(banner_dir, d_img, m_img, link, alt_text)
+			if item:
+				banner_items.append(item)
+	else:
+		import glob
+		d_files = glob.glob(os.path.join(banner_dir, 'D_*.jpg'))
+		d_files.sort()
+		for d_path in d_files:
+			d_img = os.path.basename(d_path)
+			banner_id = d_img.replace('D_', '').replace('.jpg', '')
+			m_img = f"M_{banner_id}.jpg"
+			item = _process_banner_pair(banner_dir, d_img, m_img, '', f'長安醫院首頁活動 {banner_id}')
+			if item:
+				banner_items.append(item)
+				
+	return banner_items
+
+def _process_banner_pair(banner_dir, d_img, m_img, link, alt_text):
+	d_path = os.path.join(banner_dir, d_img)
+	m_path = os.path.join(banner_dir, m_img)
+	if not os.path.exists(d_path):
+		return None
+		
+	# 建立專屬儲存 WebP 的子資料夾
+	webp_dir = os.path.join(banner_dir, 'webp')
+	if not os.path.exists(webp_dir):
+		os.makedirs(webp_dir)
+		
+	d_url = f"{settings.MEDIA_URL}everan_banner/{d_img}"
+	convert_image_to_webp(banner_dir, webp_dir, d_img, quality=80)
+	d_webp_url = f"{settings.MEDIA_URL}everan_banner/webp/{d_img.replace('.jpg', '.webp')}"
+	d_width, d_height = _get_banner_image_size(d_path)
+	
+	if os.path.exists(m_path):
+		m_url = f"{settings.MEDIA_URL}everan_banner/{m_img}"
+		convert_image_to_webp(banner_dir, webp_dir, m_img, quality=80)
+		m_webp_url = f"{settings.MEDIA_URL}everan_banner/webp/{m_img.replace('.jpg', '.webp')}"
+		m_width, m_height = _get_banner_image_size(m_path)
+	else:
+		m_url, m_webp_url, m_width, m_height = d_url, d_webp_url, d_width, d_height
+		
+	return {
+		'link': link, 'alt': alt_text,
+		'pc_url': d_url, 'pc_webp_url': d_webp_url, 'pc_width': d_width, 'pc_height': d_height,
+		'mobile_url': m_url, 'mobile_webp_url': m_webp_url, 'mobile_width': m_width, 'mobile_height': m_height,
+	}
+
+def _get_banner_image_size(filepath):
+	try:
+		if Image is not None:
+			with Image.open(filepath) as img:
+				return img.size
+	except Exception:
+		pass
+	return ("", "")
+
 def index(request):
 
 	# ---【 ADD-首頁：最新消息、媒體報導】Start ---
+	banner_items = _get_homepage_banners()
+
 	# 1. 沿用並引入共用資料邏輯（僅取最新發布前 6 筆）
 	news_lists_5 = _get_news_1_list()[:6]
 
@@ -1788,6 +1883,7 @@ def index(request):
 	media_page_list = mapping['list_data'][:4]
 
 	return render(request, "index.html", {
+		'banner_items': banner_items,
 		'news_lists_5': news_lists_5,
 		'media_reports_6': media_reports_6,
 		'message_lists_1': message_lists_1,
@@ -3321,9 +3417,60 @@ def A002_registration_notice(request):
 	})
 
 # 門診時刻表
-def A002_clinic_time(request):
+def _get_clinic_time_images():
+	clinic_dir = os.path.join(settings.MEDIA_ROOT, 'clinic_time')
+	if not os.path.exists(clinic_dir):
+		return []
+		
+	webp_dir = os.path.join(clinic_dir, 'webp')
+	if not os.path.exists(webp_dir):
+		os.makedirs(webp_dir)
+		
+	import glob
+	# 抓取所有 jpg 與 png
+	files = []
+	for ext in ('*.jpg', '*.png', '*.jpeg', '*.JPG', '*.PNG', '*.JPEG'):
+		files.extend(glob.glob(os.path.join(clinic_dir, ext)))
+		
+	# 消除 Windows 底下大小寫不分導致的重複抓取
+	files = list(set(files))
+	# 依據檔名排序 (例如 B001_page-0001.jpg 會在 0002.jpg 之前)
+	files.sort()
+	
+	items = []
+	page_index = 1
+	for f_path in files:
+		img_name = os.path.basename(f_path)
+		
+		# 原圖 URL
+		img_url = f"{settings.MEDIA_URL}clinic_time/{img_name}"
+		
+		# 轉檔 WebP
+		convert_image_to_webp(clinic_dir, webp_dir, img_name, quality=80)
+		webp_name = os.path.splitext(img_name)[0] + '.webp'
+		webp_url = f"{settings.MEDIA_URL}clinic_time/webp/{webp_name}"
+		
+		# 抓取寬高 (直接復用之前的工具函式)
+		width, height = _get_banner_image_size(f_path)
+		
+		alt_text = f"門診時刻表 第{page_index}頁"
+		
+		items.append({
+			'url': img_url,
+			'webp_url': webp_url,
+			'width': width,
+			'height': height,
+			'alt': alt_text
+		})
+		page_index += 1
+		
+	return items
 
-	return render(request, "Patient_Guide/Patient_Guide_1.html", {})
+def A002_clinic_time(request):
+	clinic_images = _get_clinic_time_images()
+	return render(request, "Patient_Guide/Patient_Guide_1.html", {
+		'clinic_images': clinic_images
+	})
 
 # 我該看哪一科
 def A002_which_disease(request):
