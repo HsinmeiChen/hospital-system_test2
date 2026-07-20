@@ -35,14 +35,18 @@
 			{% for treat in treatments %}
 			<div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
 				<a href="{% url 'cardio_center:treatment-article' treat.url_name %}" class="magazine-card">
-					<div class="magazine-img-wrapper">
+					<figure class="magazine-img-wrapper m-0">
 						<!-- 加入判斷以避免空縮圖路徑導致錯誤 -->
 						{% if treat.thumb_img %}
-							<img src="/media/{{ treat.thumb_img }}" alt="{{ treat.treat_title }}" loading="lazy">
+							<picture>
+								<source srcset="/media/{{ treat.thumb_img }}" type="image/webp">
+								<img class="img-fluid w-100" src="/media/{{ treat.org_thumb_img }}" alt="{{ treat.treat_title }}" title="{{ treat.treat_title }}" loading="lazy" decoding="async">
+							</picture>
+							<figcaption class="d-none">{{ treat.treat_title }}</figcaption>
 						{% else %}
 							<div style="width:100%; height:100%; background:var(--surface-container);"></div>
 						{% endif %}
-					</div>
+					</figure>
 					<div class="magazine-content">
 						<div class="magazine-meta">TREATMENT</div>
 						<h3 class="magazine-title">{{ treat.treat_title }}</h3>

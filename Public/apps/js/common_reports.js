@@ -32,7 +32,8 @@ function loadMediaArticles(page = 1) {
                     const pubDate = article.pub_date || '';
                     const title = article.title || '';
                     const summary = article.summary || '';
-                    const img = `/media/${article.image}`;
+                    const webpImg = `/media/${article.image}`;
+                    const img = webpImg.replace('/thumb_webp/', '/').replace('/img_webp_article/', '/').replace('/img_webp_news/', '/').replace(/\.webp$/i, '.jpg');
                     const url = article.url || '#';
 
                     // 採用 10 篇一循環的報紙排版
@@ -42,7 +43,13 @@ function loadMediaArticles(page = 1) {
                         // 1. 頭條大版面 (The Lead Story) - Span 2x2
                         html += `
                             <a href="${url}" class="np-card np-hero">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <div class="np-meta">頭條報導</div>
                                     <h2 class="np-title">${title}</h2>
@@ -55,7 +62,13 @@ function loadMediaArticles(page = 1) {
                         // 2. 側邊直欄專題 (Sidebar Feature) - Span 1x2
                         html += `
                             <a href="${url}" class="np-card np-sidebar">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <div class="np-meta">深度專欄</div>
                                     <h3 class="np-title">${title}</h3>
@@ -78,7 +91,13 @@ function loadMediaArticles(page = 1) {
                         // 4. 圖片短訊 (Sub-feature) - Span 1x1
                         html += `
                             <a href="${url}" class="np-card np-sub">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <h4 class="np-title">${title}</h4>
                                     <div class="np-date">${pubDate}</div>
@@ -89,7 +108,13 @@ function loadMediaArticles(page = 1) {
                         // 5. 橫幅分隔報導 (Horizontal Banner) - Span 3x1
                         html += `
                             <a href="${url}" class="np-card np-banner">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <div class="np-meta">特別企劃</div>
                                     <h3 class="np-title">${title}</h3>
@@ -112,7 +137,13 @@ function loadMediaArticles(page = 1) {
                         // 7. 半橫幅報導 (Half Banner) - Span 2x1
                         html += `
                             <a href="${url}" class="np-card np-banner-half">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <div class="np-meta">觀點</div>
                                     <h3 class="np-title">${title}</h3>
@@ -124,7 +155,13 @@ function loadMediaArticles(page = 1) {
                         // 8. 標準卡 (Standard Columns) - patternIndex 5, 8 - Span 1x1
                         html += `
                             <a href="${url}" class="np-card np-standard">
-                                <img src="${img}" alt="${title}" loading="lazy">
+                                <figure class="m-0">
+                                    <picture>
+                                        <source srcset="${webpImg}" type="image/webp">
+                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                    </picture>
+                                    <figcaption class="d-none">${title}</figcaption>
+                                </figure>
                                 <div class="np-content">
                                     <div class="np-meta" style="color: var(--secondary);">媒體報導</div>
                                     <h4 class="np-title">${title}</h4>

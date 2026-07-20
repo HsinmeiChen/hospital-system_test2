@@ -76,17 +76,32 @@
 .grid { display: grid; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 @media (min-width: 576px) {
+	.sm-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 	.sm-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.sm-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.sm-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 768px) {
+	.md-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+	.md-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.md-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.md-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (min-width: 992px) {
+	.lg-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+	.lg-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.lg-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 	.lg-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-	.lg-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (min-width: 1200px) {
+	.xl-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+	.xl-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.xl-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.xl-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 .gap-2 { gap: var(--space-base) !important; }
@@ -235,7 +250,7 @@ img {
 }
 .m-header .btn-primary:hover {
 	background-color: var(--primary, #005c55);
-	box-shadow: 0 4px 10px rgba(0, 92, 85, 0.25);
+	box-shadow: 0 4px 10px rgba(var(--primary-rgb), 0.25);
 	transform: translateY(-2px);
 }
 .m-header .btn-primary span {
@@ -640,6 +655,35 @@ img {
 }
 
 
+/* ==========================================================================
+   Social Buttons
+   ========================================================================== */
+.social-btn{
+	margin: 0 .25rem;
+	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	width: 45px;
+	height: 45px;
+	text-decoration: none;
+	transition: all 0.3s;
+}
+.social-btn:hover{
+	transform: translateY(-4px);
+}
+.social-btn.icon-line{
+	background-color:var(--line-color); border-color: var(--line-color);
+}
+.social-btn.icon-line > i{
+	font-size: 1.8rem;
+}
+.social-btn.icon-fb{background-color: var(--facebook-color); border-color: var(--facebook-color);}
+.social-btn.icon-fb > i{
+	font-size: 1.5rem;
+}
+
 
 /* ==========================================================================
    Sidebar Menu Modernization
@@ -664,7 +708,7 @@ img {
 .treat-sidenav-modern {
 	display: none;
 	background: var(--on-white);
-	padding: var(--space-md);
+	padding: var(--space-sm);
 	border: 1px solid var(--color-accent-peach);
 }
 #menu-toggle:checked ~ .treat-sidenav-modern {
@@ -679,6 +723,7 @@ img {
 		position: sticky;
 		top: 100px;
 		border: 0px;
+		padding: 0 var(--space-md) 0 0;
 	}
 }
 .treat-sidenav-modern .menu-heading {
@@ -710,6 +755,11 @@ img {
 .u-hero-header{
 	padding: 2.5rem 0;
 }
+@media (min-width: 1200px) {
+	.u-hero-header{
+		padding: 2.5rem .8rem;
+	}
+}
 .u-hero-header__content {
 	display: flex;
 	flex-direction: column;
@@ -718,6 +768,7 @@ img {
 .u-hero-title{
 	font-weight: 600;
 	font-size: 2.5rem;
+	line-height: 3.3rem;
 	letter-spacing: 2px;
 	color: var(--primary);
 	text-align: center;
@@ -758,7 +809,7 @@ img {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
+	gap: var(--space-md-sm);
 	position: relative;
 	overflow: hidden;
 }
@@ -802,7 +853,7 @@ img {
 	right: -6rem;
 	width: 16rem;
 	height: 16rem;
-	background-color: rgba(255,255,255,0.1);
+	background-color: rgba(var(--on-white-rgb), 0.1);
 	border-radius: 50%;
 	filter: blur(40px);
 	pointer-events: none;
@@ -884,7 +935,7 @@ img {
 	justify-content: center;
 }
 .play-btn-small {
-	background-color: rgba(255,255,255,0.9);
+	background-color: rgba(var(--on-white-rgb), 0.9);
 	color: var(--primary);
 	width: 3rem;
 	height: 3rem;
@@ -1139,7 +1190,7 @@ img {
 /* 文章 - H3 標題；對應 <cap> */
 .title-02 {
     position: relative;
-    padding: 0.7rem 1.1rem 0.6rem;
+    padding: 0.7rem 1.1rem var(--space-sm) 0.6rem;
     background-color: var(--bg-cap);
     border-radius: 0.3rem;
     font-size: 1.5rem;
@@ -1228,7 +1279,7 @@ img {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 12px;
+	gap: var(--space-sm);
 	font-size: 0.9rem;
 	margin-top: 15px;
 	color: rgba(158, 62, 71, 0.7);
@@ -1465,8 +1516,9 @@ img {
 /* ==========================================================================
    Recommended Articles Sidebar
    ========================================================================== */
+.related-posts { padding-top: 4rem; }
 @media (min-width: 992px) {
-	.related-posts { margin-left: var(--space-md-sm); }
+	.related-posts { margin-left: var(--space-md-sm);padding-top: 0; }
 }
 ._popIn_recommend_header {
 	font-weight: bold;
@@ -1474,4 +1526,44 @@ img {
 	color: var(--primary);
 	font-size: 1.3rem;
 	padding-bottom: var(--space-md-sm);
+}
+
+
+
+/* ==========================================================================
+	Contact Page
+========================================================================== */
+:root {
+	--theme-primary: var(--primary) !important;
+	--theme-primary-hover: var(--primary-container) !important;
+	--theme-secondary: var(--primary-fixed-dim, #80d5cb) !important;
+	--theme-secondary-hover: var(--primary-fixed, #9cf2e8) !important;
+	--theme-primary-glow: rgba(var(--primary-rgb), 0.4) !important;
+	--theme-secondary-glow: rgba(var(--primary-rgb), 0.15) !important;
+	--theme-primary-shadow: rgba(var(--primary-rgb), 0.3) !important;
+	--input-focus-ring: rgba(var(--primary-rgb), 0.25) !important;
+	--theme-outline-hover-bg: rgba(var(--primary-rgb), 0.05) !important;
+}
+
+.text-theme { color: var(--color-secondary) !important; }
+.section-title, .modern-title{ color: var(--primary) !important; }
+
+/* 信封 icon 漸層色 */
+.icon-wrapper .text-gradient {
+	background: linear-gradient(135deg, var(--secondary-container, #fdbf99) 0%, var(--secondary) 100%) !important;
+	-webkit-background-clip: text !important;
+	-webkit-text-fill-color: transparent !important;
+}
+.icon-bg-glow {
+	background: radial-gradient(circle, rgba(var(--secondary-rgb), 0.15) 0%, transparent 70%) !important;
+}
+/* 清空重填按鈕 */
+.modern-btn-outline {
+	color: var(--secondary) !important;
+	border-color: var(--secondary) !important;
+}
+.modern-btn-outline:hover {
+	background-color: var(--secondary) !important;
+	color: var(--on-white) !important;
+	border-color: var(--secondary) !important;
 }

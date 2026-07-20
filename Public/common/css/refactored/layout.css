@@ -207,10 +207,10 @@
 }
 
 /* 社群品牌色：保留品牌原色，無對應全站變數 */
-.l-footer__social-link--facebook:hover { background: #1877f2; border-color: #1877f2; }
-.l-footer__social-link--youtube:hover  { background: #ff0000; border-color: #ff0000; }
-.l-footer__social-link--line:hover     { background: #06c755; border-color: #06c755; }
-.l-footer__social-link--map:hover      { background: #ea4335; border-color: #ea4335; }
+.l-footer__social-link--facebook:hover { background: var(--facebook-color); border-color: var(--facebook-color); }
+.l-footer__social-link--youtube:hover  { background: var(--youtube-color); border-color: var(--youtube-color); }
+.l-footer__social-link--line:hover     { background: var(--line-color); border-color: var(--line-color); }
+.l-footer__social-link--map:hover      { background: var(--map-color); border-color: var(--map-color); }
 
 .l-footer__bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.15);

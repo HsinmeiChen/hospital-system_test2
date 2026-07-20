@@ -10,7 +10,7 @@ function loadRandomHealthReports() {
         style.innerHTML = `
             .magazine-card { transition: all 0.3s ease; }
             .magazine-card:hover .magazine-img { transform: scale(1.05); }
-            .magazine-card:hover .magazine-title { color:var(--color-primary) !important; }
+            .magazine-card:hover .magazine-title { color: var(--primary) !important; }
             .magazine-card .img-container { overflow: hidden; border-radius: 4px; }
         `;
         document.head.appendChild(style);
@@ -26,7 +26,7 @@ function loadRandomHealthReports() {
 
                 // 先建立外層 div
                 const wrapper = document.createElement('div');
-                wrapper.className = 'col-md-6 col-xl-12';
+                wrapper.className = 'col-6 col-lg-12';
 
                 // 建立 figure                
                 const card = document.createElement('figure');
@@ -37,16 +37,20 @@ function loadRandomHealthReports() {
                 card.innerHTML = `
                     <div class="row g-3 align-items-center no-gutters">  
                         <div class="col-4">
-                            <div class="img-container h-100 position-relative">
-                                <img src="/media/${article.image}" class="img-fluid w-100 h-100 magazine-img" style="aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s ease;" alt="${article.filename_title}">
-                            </div>
+                            <figure class="img-container h-100 position-relative m-0">
+                                <picture>
+                                    <source srcset="/media/${article.image}" type="image/webp">
+                                    <img src="/media/${article.image.replace('/thumb_webp/', '/').replace('/img_webp_article/', '/').replace('/img_webp_news/', '/').replace(/\.webp$/i, '.jpg')}" class="img-fluid w-100 h-100 magazine-img" style="aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s ease;" alt="${article.filename_title}" title="${article.filename_title}" loading="lazy" decoding="async">
+                                </picture>
+                                <figcaption class="d-none">${article.filename_title}</figcaption>
+                            </figure>
                         </div>                      
                         <div class="col-8">
                             <figcaption class="d-flex flex-column justify-content-center h-100 pl-2">
-                                <div class="mb-2" style="font-size: 0.75rem; letter-spacing: 1.5px; color: #888; text-transform: uppercase;">
+                                <div class="mb-2" style="font-size: 0.75rem; letter-spacing: 1.5px; color: var(--outline); text-transform: uppercase;">
                                     <span style="color: var(--color-accent-peach, #d9534f); font-weight: bold;">NEWS</span> <span style="margin: 0 4px;">|</span> ${article.pub_date}
                                 </div>
-                                <h5 class="magazine-title mb-2" style="font-size:1rem; font-weight:700; line-height: 1.5; height: 3rem; color: #222; transition: color 0.3s; text-align:justify; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${article.filename_title}</h5>
+                                <h5 class="magazine-title mb-2" style="font-size:1rem; font-weight:700; line-height: 1.5; height: 3rem; color: var(--on-surface); transition: color 0.3s; text-align:justify; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${article.filename_title}</h5>
                             </figcaption>
                         </div>
                         
@@ -80,26 +84,26 @@ function loadRandomHealthEdus() {
             .ranked-article-card { 
                 transition: background-color 0.3s ease; 
                 padding: 12px 8px;
-                border-bottom: 1px dashed #eaeaea;
+                border-bottom: 1px dashed var(--outline-variant);
                 background-color: transparent;
             }
             .ranked-article-card:last-child {
                 border-bottom: none;
             }
             .ranked-article-card:hover { 
-                background-color: #fcfcfc;
+                background-color: var(--surface-container-low);
             }
-            .ranked-article-card:hover .ranked-title { color: var(--color-primary, #0056b3) !important; }
+            .ranked-article-card:hover .ranked-title { color: var(--primary) !important; }
             .rank-number { 
                 font-size: 1rem; 
                 font-weight: 600; 
-                color: #777; 
+                color: var(--outline); 
                 min-width: 26px;
                 height: 26px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: #f1f3f5;
+                background-color: var(--surface-container-low);
                 border-radius: 4px;
                 margin-right: 12px;
                 font-family: inherit;
@@ -107,13 +111,13 @@ function loadRandomHealthEdus() {
                 line-height: 1;
             }
             .ranked-article-card:hover .rank-number { 
-                background-color: var(--color-primary, #0056b3); 
-                color: #fff;
+                background-color: var(--primary); 
+                color: var(--on-white);
             }
             .ranked-title {
                 font-size: 0.95rem;
                 font-weight: 500;
-                color: #444;
+                color: var(--on-surface-variant);
                 margin: 0;
                 line-height: 1.4;
                 transition: color 0.3s;

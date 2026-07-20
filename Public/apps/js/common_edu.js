@@ -17,13 +17,23 @@ function loadHealthEdu(page = 1) {
 				const titleId = item.titleId || (item.images && item.images.length > 0 ? item.images[0].split('/').pop().split('_page')[0] : '');
 				const detailUrl = URL_EDU_DETAIL.replace('PLACEHOLDER', titleId);
 				const imageUrl = item.images && item.images.length > 0 ? item.images[0] : '/Public/common/img/everan2.webp';
+				let webpUrl = imageUrl;
+				if (imageUrl.includes('/media/health_edu/')) {
+					webpUrl = imageUrl.replace(/([^\/]+)$/, 'webp/$1').replace(/\.(jpg|jpeg|png)$/i, '.webp');
+				}
+
+				const safeTitle = (item.title || '').replace(/"/g, '&quot;');
 
 				container.innerHTML += `
 					<div class="col-md-6 col-lg-3 mb-4 d-flex align-items-stretch">
 						<a href="${detailUrl}" class="magazine-card">
-							<div class="magazine-img-wrapper">
-								<img src="${imageUrl}" loading="lazy" alt="${item.title}" onerror="this.src='/Public/common/img/everan2.webp'">
-							</div>
+							<figure class="magazine-img-wrapper m-0">
+								<picture>
+									<source srcset="${webpUrl}" type="image/webp">
+									<img class="img-fluid w-100" src="${imageUrl}" alt="${safeTitle}" title="${safeTitle}" width="1200" height="630" loading="lazy" decoding="async">
+								</picture>
+								<figcaption class="d-none">${safeTitle}</figcaption>
+							</figure>
 							<div class="magazine-content">
 								<div class="magazine-meta">Health Education</div>
 								<h5 class="magazine-title">${item.title}</h5>
@@ -72,20 +82,20 @@ function loadHealthEdu(page = 1) {
 			if (total > 1) {
 				// 第一頁
 				pagination.innerHTML += `
-					<li class="page-item ${current === 1 ? 'disabled' : ''} mx-1">
-						<a class="page-link page-btn nav-btn" href="#" data-page="1" style="border:none; border-radius:50%;"><i class="fas fa-angle-double-left"></i></a>
+					<li class="page-item ${current === 1 ? 'disabled' : ''}">
+						<a class="page-link" href="#" data-page="1">&laquo;</a>
 					</li>
 				`;
 				// 上一頁
 				pagination.innerHTML += `
-					<li class="page-item ${current === 1 ? 'disabled' : ''} mx-1">
-						<a class="page-link page-btn nav-btn" href="#" data-page="${current - 1}" style="border:none; border-radius:50%;"><i class="fas fa-angle-left"></i></a>
+					<li class="page-item ${current === 1 ? 'disabled' : ''}">
+						<a class="page-link" href="#" data-page="${current - 1}">&lsaquo;</a>
 					</li>
 				`;
 				// 下拉選單
 				let selectHtml = `
-					<li class="page-item mx-2 d-flex align-items-center">
-						<select id="edu-page-select" class="form-select form-select-sm page-select" style="border-radius: var(--radius-xl); padding-left: 1rem; padding-right: 2rem; cursor: pointer;">
+					<li class="page-item">
+						<select id="edu-page-select" class="form-control form-control-sm h-100" style="width:auto; display:inline-block;">
 				`;
 				for (let i = 1; i <= total; i++) {
 					selectHtml += `<option value="${i}" ${i === current ? 'selected' : ''}>第 ${i} 頁</option>`;
@@ -94,14 +104,14 @@ function loadHealthEdu(page = 1) {
 				pagination.innerHTML += selectHtml;
 				// 下一頁
 				pagination.innerHTML += `
-					<li class="page-item ${current === total ? 'disabled' : ''} mx-1">
-						<a class="page-link page-btn nav-btn" href="#" data-page="${current + 1}" style="border:none; border-radius:50%;"><i class="fas fa-angle-right"></i></a>
+					<li class="page-item ${current === total ? 'disabled' : ''}">
+						<a class="page-link" href="#" data-page="${current + 1}">&rsaquo;</a>
 					</li>
 				`;
 				// 最後頁
 				pagination.innerHTML += `
-					<li class="page-item ${current === total ? 'disabled' : ''} mx-1">
-						<a class="page-link page-btn nav-btn" href="#" data-page="${total}" style="border:none; border-radius:50%;"><i class="fas fa-angle-double-right"></i></a>
+					<li class="page-item ${current === total ? 'disabled' : ''}">
+						<a class="page-link" href="#" data-page="${total}">&raquo;</a>
 					</li>
 				`;
 				// 下拉事件

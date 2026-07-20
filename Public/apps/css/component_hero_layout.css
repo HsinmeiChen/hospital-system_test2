@@ -11,9 +11,8 @@
 	background-color: transparent;
 }
 .subpage-container{
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(var(--on-white-rgb), 0.9);
 	border: 2px solid var(--color-accent-peach);
-	/* padding: var(--space-md); */
 	max-width: 82.5rem;
 	width: 100%;
 	margin: 0 auto;

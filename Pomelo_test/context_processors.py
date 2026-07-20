@@ -182,7 +182,7 @@ def breadcrumb_processor(request):
 		"A003_Story_2": "定期訓練",
 		# 檢驗科子頁面
 		"A003_Laboratory": "檢驗科",
-		"A003_Laboratory_1": "最新公告", # asp
+		"A003_Laboratory_1": "最新公告",
 		"A003_Laboratory_2": "公正性及保密承諾",
 		"A003_Laboratory_3": "抱怨程序", # asp
 		"A003_Laboratory_4": "聯絡我們",

@@ -39,7 +39,7 @@
 
         <!-- Form Container -->
         <div class="mx-auto animate-fade-in-up">
-            <div class="p-4 p-md-5">
+            <div class="px-md-3">
                 
                 <!-- Hero / Intro Section -->
                 <div class="modern-hero text-center mb-5">
@@ -96,69 +96,6 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <link rel="stylesheet" href="{% static 'common/css/modern-contact.css' %}">
-<style>
-    :root {
-        --theme-primary: var(--primary);
-        --theme-primary-hover: var(--primary-container);
-        --theme-secondary: var(--primary-fixed-dim, #80d5cb);
-        --theme-secondary-hover: var(--primary-fixed, #9cf2e8);
-        --theme-primary-glow: rgba(0, 92, 85, 0.4);
-        --theme-secondary-glow: rgba(0, 92, 85, 0.15);
-        --theme-primary-shadow: rgba(0, 92, 85, 0.3);
-        --input-focus-ring: rgba(0, 92, 85, 0.25);
-        --theme-outline-hover-bg: rgba(0, 92, 85, 0.05);
-    }
-    
-    .l-sub-layout__main {
-        max-width: 1000px;
-        width: 100%;
-        margin: 0 auto;
-    }
-    .l-container-panel{
-        padding: 0;
-    }
-
-    .text-theme { color: var(--color-secondary) !important; }
-    .section-title,
-    .modern-title{
-        color: var(--primary);
-    }
-
-    /* 信封 icon 漸層色 (使用 secondary 色系) */
-    .icon-wrapper .text-gradient {
-        background: linear-gradient(135deg, var(--secondary-container, #fdbf99) 0%, var(--secondary) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    .icon-bg-glow {
-        background: radial-gradient(circle, rgba(130, 83, 53, 0.15) 0%, transparent 70%); /* secondary glow */
-    }
-
-    /* 清空重填按鈕 (使用 secondary 色系) */
-    .modern-btn-outline {
-        color: var(--secondary) !important;
-        border-color: var(--secondary) !important;
-        background-color: transparent !important;
-        transition: all 0.3s ease;
-    }
-    .modern-btn-outline:hover {
-        background-color: var(--secondary) !important;
-        color: var(--on-white) !important;
-        border-color: var(--secondary) !important;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-        transform: translateY(-4px) !important;
-    }
-
-    /* 確定送出按鈕 hover 比照 about-btn-primary */
-    .modern-btn-primary:hover {
-        background-image: none !important;
-        background-color: var(--primary) !important;
-        color: var(--on-white) !important;
-        border-color: var(--primary) !important;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
-        transform: translateY(-4px) !important;
-    }
-</style>
 {% endblock %}
 
 

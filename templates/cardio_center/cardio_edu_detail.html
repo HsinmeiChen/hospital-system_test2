@@ -13,6 +13,7 @@
 {% block twitter_title %}{{ title }}｜{{ block.super }}{% endblock %}
 {% block twitter_description %}台中長安醫院-心血管中心衛教園地：{{ title }}{% endblock %}
 
+
 <!-- === 子頁細節內容 =========================== -->
 {% block breadcrumbs %}
 <nav aria-label="breadcrumb" role="navigation">
@@ -88,12 +89,12 @@
 					<div class="d-flex justify-content-center align-items-center mt-5 mb-4">
 						<span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
 						<!-- LINE Share -->
-						<a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #00B900; border-color: #00B900; text-decoration: none;" title="分享到 LINE">
-							<i class="fab fa-line text-white" style="font-size: 1.8rem;"></i>
+						<a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-line" title="分享到 LINE">
+							<i class="fab fa-line text-white"></i>
 						</a>
 						<!-- FB Share -->
-						<a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center mx-1 shadow-sm" style="width: 45px; height: 45px; background-color: #1877F2; border-color: #1877F2; text-decoration: none;" title="分享到 Facebook">
-							<i class="fab fa-facebook-f text-white" style="font-size: 1.5rem;"></i>
+						<a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-fb" title="分享到 Facebook">
+							<i class="fab fa-facebook-f text-white"></i>
 						</a>
 					</div>
 				{% endif %}

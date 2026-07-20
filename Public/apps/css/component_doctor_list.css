@@ -1,10 +1,6 @@
 .l-container-panel{
 	max-width: none;
 }
-.l-doctor-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-}
 .doctor-name-wrapper {
 	margin-bottom: var(--space-md-sm);
 	text-align: center;

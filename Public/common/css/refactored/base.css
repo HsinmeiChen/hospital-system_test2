@@ -12,8 +12,11 @@
   --color-bg-white: #ffffff;
   --color-text-dark: #444;
   --color-text-light: #6c757d;
+  --color-input: #e2e8f0;
   --color-border: #dbd5d5;
   --color-text: #121212;
+  --color-red:#dc3545;
+  --color-green: #28a745;
   
   /* Layout Sizes */
   --header-height: 70px;
@@ -41,6 +44,12 @@
   --color-amber-hover: #ffca2c;
   --color-amber-active: #ffc720;
   --color-dark-gray: #212529;
+
+  /* social font */
+  --line-color: #06c755;
+  --youtube-color: #ff0000;
+  --facebook-color: #1877f2;
+  --map-color: #ea4335;
 
   /* Fonts */
   --font-family-base: Arial, 'Microsoft JhengHei', '微軟正黑體', sans-serif;

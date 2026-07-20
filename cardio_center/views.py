@@ -407,7 +407,24 @@ def parse_article_txt(filepath, detail=True):
 						else:
 							webp_path = convert_article_image_to_webp(filename)
 
-						img_tag = f'<img src="/media/{webp_path}" class="img-fluid w-100">' if webp_path else f'<img src="{img_url}/{filename}" class="img-fluid w-100">'
+						alt_text = article_title if article_title else filename
+						if webp_path:
+							img_tag = (
+								f'<figure class="my-3 m-0">'
+								f'<picture>'
+								f'<source srcset="/media/{webp_path}" type="image/webp">'
+								f'<img src="{img_url}/{filename}" class="img-fluid w-100" alt="{alt_text}" title="{alt_text}" loading="lazy" decoding="async">'
+								f'</picture>'
+								f'<figcaption class="d-none">圖-{alt_text}</figcaption>'
+								f'</figure>'
+							)
+						else:
+							img_tag = (
+								f'<figure class="my-3 m-0">'
+								f'<img src="{img_url}/{filename}" class="img-fluid w-100" alt="{alt_text}" title="{alt_text}" loading="lazy" decoding="async">'
+								f'<figcaption class="d-none">圖-{alt_text}</figcaption>'
+								f'</figure>'
+							)
 						text = text.replace(f'<img1>{filename}', img_tag)
 
 				# 替換內嵌的 <yt>
@@ -695,7 +712,7 @@ def cardio_media_home_api(request):
 			'pub_date': pub_date.strftime('%Y-%m-%d'),
 			'image': parsed['image'],
 			'summary': parsed['summary'],
-			'url': f"/cardio_center/articles/{web_url}"
+			'url': f"/cardio-center/articles/{web_url}"
 		})
 
 	return JsonResponse({'articles': all_articles})
@@ -763,8 +780,9 @@ def cardio_main(request):
 				'filename_title': parts[2],
 				'pub_date': pub_date.strftime('%Y.%m.%d'),
 				'image': parsed['image'],
+				'org_image': f"news_2/img/{parsed['og_img']}" if parsed['og_img'] else "",
 				'summary': parsed['summary'],
-				'url': f"/cardio_center/articles/{web_url}"
+				'url': f"/cardio-center/articles/{web_url}"
 			})
 		if len(media_articles) > 0:
 			media_layer1_1 = media_articles[0]
@@ -1611,6 +1629,7 @@ def treatment_list(request):
 					'treat_title': filename_title,
 					'url_name': url_name,
 					'thumb_img': treat_parsed['thumb_img'],
+					'org_thumb_img': f"cardio_center/cardio_treat_articles/treat_icon/{treat_parsed.get('og_img_treat', '')}",
 					'summary': treat_parsed.get('summary', ''),
 					'order': order_num  # 排序用的欄位
 				})
@@ -1653,7 +1672,7 @@ def treatment_article(request, url_name):
 		'blocks': treat_parsed['blocks'],
 		'image': treat_parsed['image'],
 		'treat_summary': treat_parsed['summary'],
-		'og_image': f"{settings.SITE_DOMAIN}/media/cardio_center/cardio_treat_articles/treat_articles_img/{treat_parsed['og_img']}" if treat_parsed.get('og_img') else '',
+		'og_image': f"{settings.SITE_DOMAIN}/media/cardio_center/cardio_treat_articles/treat_icon/{treat_parsed['og_img_treat']}" if treat_parsed.get('og_img_treat') else '',
 	}
 	return render(request, 'cardio_center/cardio_treat_article_detail.html', context)
 

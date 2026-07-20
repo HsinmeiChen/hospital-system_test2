@@ -2,7 +2,7 @@
 .newspaper-grid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: 20px;
+	gap: var(--space-md);
 	margin-bottom: var(--space-lg);
 }
 @media (min-width: 768px) {

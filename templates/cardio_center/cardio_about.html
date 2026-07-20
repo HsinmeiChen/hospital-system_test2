@@ -30,25 +30,25 @@
 					<div class="deco-brown-light"></div>
 				</div>
 				<div class="compassion-text-container">
-					<span>人文關懷 · 卓越醫療</span>
+					<span>守護心臟 · 專業照護</span>
 					<h2 class="section-header-title">長安心血管中心</h2>
 					<div class="care-item-wrapper">
 						<div>
 							<div class="care-item-icon">
-								<span class="material-symbols-outlined">psychiatry</span>
+								<span class="material-symbols-outlined">favorite</span>
 							</div>
 							<div>
-								<h4 class="care-item-title">人本關懷照護</h4>
-								<p>重視醫病溝通與照護品質，提供專業、適切的醫療服務。</p>
+								<h4 class="care-item-title">完善醫療照護</h4>
+								<p>提供完整的心血管疾病診療與照護服務，陪伴患者進行疾病管理與健康維護。</p>
 							</div>
 						</div>
 						<div>
 							<div class="care-item-icon">
-								<span class="material-symbols-outlined">family_restroom</span>
+								<span class="material-symbols-outlined">monitor_heart</span>
 							</div>
 							<div>
-								<h4 class="care-item-title">衛教照護支援</h4>
-								<p>提供疾病照護、居家照護建議及衛教資訊，協助家屬共同守護患者健康。</p>
+								<h4 class="care-item-title">疾病預防與衛教</h4>
+								<p>提供心血管疾病相關衛教資訊與健康管理建議，協助民眾提升預防保健觀念。</p>
 							</div>
 						</div>
 						<div>
@@ -56,8 +56,8 @@
 								<span class="material-symbols-outlined">health_and_safety</span>
 							</div>
 							<div>
-								<h4 class="care-item-title">專業醫療守護</h4>
-								<p>整合專業醫療技術與創新治療，提供全方位的神經醫療照護。</p>
+								<h4 class="care-item-title">整合醫療照護</h4>
+								<p>整合醫療團隊與相關診療資源，提供完整的心血管疾病診療服務。</p>
 							</div>
 						</div>
 					</div>
@@ -142,243 +142,16 @@
 <!-- === Sub Extra CSS ========================= -->
 {% block sub_extra_css %}
 <style>
-	.l-sub-layout__main{
+	/* ===== Layout Overrides ===== */
+	.l-sub-layout__main, .l-container-panel {
 		padding: 0;
 	}
-	.l-container-panel{
-		padding: 0;
+	.l-container-panel {
 		max-width: 100%;
 	}
-	.l-main-content{
+	.l-main-content {
 		background-color: transparent;
 	}
-	.compassion-text-container span{
-		color: var(--secondary);
-		font-weight: 600;
-		letter-spacing: 0.1em;
-		display: block;
-		margin-bottom: var(--space-base);
-	}
-	.care-item-wrapper{
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-md);
-		margin-top: var(--space-md);
-	}
-	.care-item-wrapper > div{
-		display: flex;
-		gap: var(--space-md);
-	}
-	.care-item-icon{
-		flex-shrink: 0;
-		width: var(--space-lg);
-		height: var(--space-lg);
-		background-color: var(--on-white);
-		box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: var(--radius-lg);
-		color: var(--primary);
-	}
-	.care-item-title{
-		font-weight: 600;
-		color: var(--on-surface);
-		margin-bottom: var(--space-xs);
-	}
-	.care-item-title + p{
-		color: var(--on-surface-variant);
-	}
-	.compassion-img{
-		aspect-ratio: 1/1;
-		border-radius: var(--radius-full);
-		overflow: hidden;
-		border: var(--space-base) solid var(--on-white);
-		box-shadow: 0 10px var(--space-md-sm) -3px rgba(0,0,0,0.1);
-		position: relative;
-		z-index: 10;
-	}
-	.compassion-img img{
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-	.deco-green-light{
-		position: absolute;
-		bottom: -1rem;
-		right: -1rem;
-		width: 12rem;
-		height: 12rem;
-		background-color: rgba(0,92,85,0.1);
-		border-radius: var(--radius-full);
-		z-index: 0;
-	}
-	.deco-brown-light{
-		position: absolute;
-		top: -2rem;
-		left: -2rem;
-		width: 16rem;
-		height: 16rem;
-		background-color: rgba(130,83,53,0.05);
-		border-radius: var(--radius-full);
-		z-index: 0;
-	}
-	
-
-	.mission-card-title{
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm); 
-		color: var(--primary);
-		margin-bottom: var(--space-md);
-	}
-	.mission-card-title .material-symbols-outlined{
-		font-size: 1.7rem;
-		font-variation-settings: 'FILL' 1;
-	}
-	.mission-card-title .section-header-title{
-		margin-bottom: 0;
-	}
-	.mission-card-title + p {
-		font-size: 1.05rem;
-		color: var(--on-surface-variant);
-		line-height: 1.6;
-		margin-bottom: var(--space-md);
-		text-align: justify;
-	}
-	.mission-card-tags{
-		display: flex;
-		gap: var(--space-base);
-	}
-	.mission-card-tags span{
-		padding: var(--space-xs) var(--space-md-sm);
-		background-color: rgba(0,92,85,0.1);
-		color: var(--primary);
-		border-radius: var(--radius-full);
-		font-weight: 600;
-	}
-	.vision-card > .material-symbols-outlined{
-		font-size: 1.9rem;
-		margin-bottom: var(--space-md);
-		opacity: 0.8;
-		font-variation-settings: 'FILL' 1;
-		color: var(--on-white);
-	}
-	.vision-card > .section-header-title{
-		color: var(--on-white);
-	}
-	.vision-card > p{
-		opacity: 0.9;
-		font-size: var(--space-md-sm);
-		text-align: justify;
-	}
-	.glass-card{
-		padding: var(--space-lg);
-		text-align: center;
-	}
-	.glass-card p{
-		color: var(--on-surface-variant);
-		font-size: 1.1rem;
-		margin-bottom: var(--space-margin);
-		max-width: 42rem;
-		margin-left: auto;
-		margin-right: auto;
-		font-weight: bold;
-	}
-	.glass-card > div{
-		display: flex;
-		justify-content: center;
-		gap: var(--space-md);
-		flex-wrap: wrap;
-	}
-	.glass-card > div > a{
-		padding: var(--space-sm) var(--space-margin);
-		font-size: 1.125rem;
-	}
-
-
-	/* ==========================================================================
-	留.關於我們-主體內容
-========================================================================== */
-.mission-vision-section {
-	padding-top: var(--space-xl);
-	padding-bottom: var(--space-xl);
-	background-color: var(--surface-container-low);
-}
-.mission-grid {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: var(--space-md);
-}
-@media (min-width: 768px) {
-	.mission-grid {
-		grid-template-columns: repeat(12, 1fr);
-	}
-}
-.mission-card {
-	background-color: var(--on-white);
-	padding: var(--space-lg);
-	border-radius: var(--radius-xl);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-	border: 1px solid rgba(229, 226, 221, 0.3);
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-@media (min-width: 768px) {
-	.mission-card {
-		grid-column: span 7 / span 7;
-	}
-}
-.vision-card {
-	background-color: var(--secondary);
-	color: var(--on-white);
-	padding: var(--space-lg);
-	border-radius: var(--radius-xl);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-@media (min-width: 768px) {
-	.vision-card {
-		grid-column: span 5 / span 5;
-	}
-}
-.compassion-section {
-	padding-top: var(--space-xl);
-	padding-bottom: var(--space-xl);
-	overflow: hidden;
-}
-.compassion-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: var(--space-xl);
-}
-@media (min-width: 768px) {
-	.compassion-wrapper {
-		flex-direction: row;
-	}
-}
-.compassion-image-container {
-	position: relative;
-	width: 100%;
-}
-@media (min-width: 768px) {
-	.compassion-image-container {
-		width: 50%;
-	}
-}
-.compassion-text-container {
-	width: 100%;
-}
-@media (min-width: 768px) {
-	.compassion-text-container {
-		width: 50%;
-	}
-}
-
-
 </style>
 {% endblock %}
 

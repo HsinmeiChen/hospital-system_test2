@@ -216,7 +216,7 @@ function renderPaginationControls(current, total) {
 	// 下拉選單頁碼切換
 	let selectHtml = `
 		<li class="page-item">
-			<select id="video-page-select" class="form-control form-control-sm h-100" style="width:auto; display:inline-block; border-color:#dee2e6;">
+			<select id="video-page-select" class="form-control form-control-sm h-100" style="width:auto; display:inline-block; border-color:var(--outline-variant);">
 	`;
 	for (let i = 1; i <= total; i++) {
 		selectHtml += `<option value="${i}" ${i === current ? 'selected' : ''}>第 ${i} 頁 / 共 ${total} 頁</option>`;
