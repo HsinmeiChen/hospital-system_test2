@@ -176,7 +176,7 @@
 .service-icon-wrapper {
 	width: 4rem;
 	height: 4rem;
-	background-color: rgba(var(--primary-container-rgb), 0.1);
+	background-color: var(--on-primary-container);
 	border-radius: var(--radius-full);
 	display: flex;
 	align-items: center;

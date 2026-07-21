@@ -115,20 +115,20 @@
 						</div>
 						{% endfor %}
 					</div>
-					
-					<!-- 做法 4：新增社群分享按鈕 (LINE / FB) -->
-					<div class="d-flex justify-content-center align-items-center mt-5 mb-4">
-						<span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
-						<!-- LINE Share -->
-						<a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-line" title="分享到 LINE">
-							<i class="fab fa-line text-white"></i>
-						</a>
-						<!-- FB Share -->
-						<a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-fb" title="分享到 Facebook">
-							<i class="fab fa-facebook-f text-white"></i>
-						</a>
-					</div>
 				{% endif %}
+				
+				<!-- 做法 4：新增社群分享按鈕 (LINE / FB) -->
+				<div class="d-flex justify-content-center align-items-center mt-5 mb-4">
+					<span class="font-weight-bold text-secondary mr-3" style="font-size: 1.1rem;">分享這份實用圖文：</span>
+					<!-- LINE Share -->
+					<a href="javascript:void(0);" onclick="window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-line" title="分享到 LINE">
+						<i class="fab fa-line text-white"></i>
+					</a>
+					<!-- FB Share -->
+					<a href="javascript:void(0);" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');" class="btn social-btn icon-fb" title="分享到 Facebook">
+						<i class="fab fa-facebook-f text-white"></i>
+					</a>
+				</div>
 		</div>
 		<div class="mt-4 pt-4 border-top" style="display: flex;justify-content: center;">
 			<a href="{% url 'cardio_center:edu' %}" class="btn btn-outline-warning btn-lg rounded-0" title="台中長安醫院心血管中心-衛教園地列表頁" aria-current="page" aria-label="台中長安醫院心血管中心-衛教園地列表頁">回衛教園地</a>

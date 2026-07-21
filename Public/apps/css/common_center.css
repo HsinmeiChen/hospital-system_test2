@@ -1223,9 +1223,9 @@ img {
 	color: var(--outline);
 	text-align: center;
 }
-.text-note::before {
+/* .text-note::before {
 	content: "圖-";
-}
+} */
 
 
 /* 文章 - 引用框；對應 <quo> */

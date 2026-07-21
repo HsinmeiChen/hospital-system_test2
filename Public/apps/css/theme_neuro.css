@@ -1,12 +1,12 @@
 :root{
-	--primary: #B63A3A;
+	--primary: #005c55;
 	--on-white: #ffffff;
-	--primary-container: #B63A3A;
-	--on-primary-container: #f9eeee;
-	--primary-fixed: #f9eeee;
-	--primary-fixed-dim: #f9eeee;
+	--primary-container: #0f766e;
+	--on-primary-container: #a3faef;
+	--primary-fixed: #9cf2e8;
+	--primary-fixed-dim: #80d5cb;
 	--bg-soft: #f4f1ea;
-	--bg-cap: #fcf6f6;
+	--bg-cap: #eff4f4;
 	--bg-warm: #fcf7ec;
 	
 	--secondary: #825335;
@@ -17,7 +17,7 @@
 	--tertiary-fixed: #ffdcbe;
 
 
-	--surface: #f9eeee;
+	--surface: #fcf9f4;
 	--on-surface: #1c1c19;
 	--surface-variant: #e5e2dd;
 	--on-surface-variant: #3e4947;
@@ -168,7 +168,7 @@
 .mission-card-title .section-header-title {
 	margin-bottom: 0;
 }
-.mission-card-title ~ p {
+.mission-card-title + p {
 	font-size: 1.05rem;
 	color: var(--on-surface-variant);
 	line-height: 1.6;
@@ -181,7 +181,7 @@
 }
 .mission-card-tags span {
 	padding: var(--space-xs) var(--space-md-sm);
-	background-color: var(--on-primary-container);
+	background-color: rgba(var(--primary-rgb), 0.1);
 	color: var(--primary);
 	border-radius: var(--radius-full);
 	font-weight: 600;

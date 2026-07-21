@@ -2065,6 +2065,17 @@ def cardio_edu_api(request):
 	
 	if edu_type == "txt":
 		all_items = [item for item in all_items if item[3]]
+		
+		# 從檔名中擷取日期以進行排序 (由新到舊)
+		def extract_date(item):
+			filename = item[2]
+			base_name = filename.replace('.txt', '').split('^')[0]
+			parts = base_name.split('_')
+			if len(parts) >= 4:
+				return parts[-1]
+			return ""
+			
+		all_items.sort(key=extract_date, reverse=True)
 	elif edu_type == "img":
 		all_items = [item for item in all_items if not item[3]]
 		
