@@ -1,6 +1,6 @@
 .l-main-content { 
 	padding: 1.5rem;
-	border: 1px solid var(--color-accent-peach);
+	border: 1px solid var(--div-border);
 	background-color: var(--on-white) !important;
 }
 

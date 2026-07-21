@@ -12,7 +12,7 @@
 }
 .subpage-container{
 	background-color: rgba(var(--on-white-rgb), 0.9);
-	border: 2px solid var(--color-accent-peach);
+	border: 2px solid var(--div-border);
 	max-width: 82.5rem;
 	width: 100%;
 	margin: 0 auto;

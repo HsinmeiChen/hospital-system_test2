@@ -136,6 +136,9 @@
 /* ==========================================================================
    Core Services / Treatment Grid (核心醫療服務)
    ========================================================================== */
+.material-symbols-outlined {
+	color: var(--primary-container);
+}
 .core-services-section {
 	padding-top: var(--space-xl);
 	padding-bottom: var(--space-xl);
@@ -186,7 +189,7 @@
 	color: var(--on-surface);
 }
 .service-card:hover .service-icon-wrapper {
-	background-color: var(--primary);
+	background-color: var(--primary-container);
 	color: var(--on-white);
 }
 .service-card:hover .material-symbols-outlined {
