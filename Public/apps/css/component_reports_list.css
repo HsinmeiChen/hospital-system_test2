@@ -1,246 +1,194 @@
-/* 報紙版面基礎網格 */
+/* 現代化卡片基礎網格 */
 .newspaper-grid {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: var(--space-md);
+	gap: 24px;
 	margin-bottom: var(--space-lg);
 }
 @media (min-width: 768px) {
 	.newspaper-grid {
-		grid-template-columns: repeat(4, 1fr);
-		grid-auto-rows: minmax(100px, auto);
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (min-width: 1024px) {
+	.newspaper-grid {
+		grid-template-columns: repeat(3, 1fr);
 	}
 }
 
 /* 共用卡片設定 */
 .np-card {
 	background: var(--on-white);
-	border: 1px solid var(--surface-container-highest);
+	border: 1px solid var(--surface-container-highest, #e0e0e0);
+	border-radius: 16px;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	transition: transform 0.2s, box-shadow 0.2s;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	text-decoration: none !important;
 	color: var(--on-surface);
+	height: 100%;
 }
 .np-card:hover {
-	box-shadow: 0 var(--space-base) 16px rgba(0,0,0,0.08);
-	transform: translateY(-2px);
+	box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+	transform: translateY(-4px);
+}
+.np-card figure {
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+	aspect-ratio: 16/10;
+}
+.np-card figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.np-card:hover figure img {
+	transform: scale(1.05);
+}
+
+/* Content 區域 */
+.np-content {
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 }
 .np-meta {
-	font-size: 0.8rem;
+	font-size: 0.85rem;
 	font-weight: 700;
 	color: var(--primary);
 	text-transform: uppercase;
-	margin-bottom: var(--space-base);
-	letter-spacing: 1px;
-}
-.np-date {
-	font-size: 0.8rem;
-	color: var(--outline);
-	margin-top: auto;
-	padding-top: 10px;
+	margin-bottom: 12px;
+	letter-spacing: 0.5px;
 }
 .np-title {
+	font-size: 1.25rem;
 	font-weight: 800;
+	line-height: 1.4;
+	margin-bottom: 12px;
 	color: var(--on-surface);
-	line-height: 1.3;
-	margin-bottom: 10px;
 	transition: color 0.2s;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 .np-card:hover .np-title {
 	color: var(--primary);
 }
 .np-desc {
-	font-size: 0.95rem;
+	font-size: 1rem;
 	color: var(--on-surface-variant);
 	line-height: 1.6;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
+	margin-bottom: 16px;
+}
+.np-date {
+	font-size: 0.85rem;
+	color: var(--outline);
+	margin-top: auto;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+/* SVG Icon for Date */
+.np-date::before {
+	content: "";
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	background-color: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E") no-repeat center / contain;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-/* 1. 頭條 (Index 0) */
+/* 1. 頭條 (Hero) */
 .np-hero {
 	grid-column: span 1;
 }
 @media (min-width: 768px) {
 	.np-hero {
 		grid-column: span 2;
-		grid-row: span 2;
 	}
 }
-.np-hero img {
-	width: 100%;
-	aspect-ratio: 16/10;
-	object-fit: cover;
-}
-.np-hero .np-content {
-	padding: var(--space-md);
-}
-.np-hero .np-title {
-	font-size: var(--space-margin);
-	font-family: serif;
-}
-
-/* 2. 側欄專題 (Index 1) */
-.np-sidebar {
-	grid-column: span 1;
-}
-@media (min-width: 768px) {
-	.np-sidebar {
-		grid-row: span 2;
-	}
-}
-.np-sidebar img {
-	width: 100%;
-	aspect-ratio: 4/3;
-	object-fit: cover;
-}
-.np-sidebar .np-content {
-	padding: 16px;
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-}
-.np-sidebar .np-title {
-	font-size: 1.4rem;
-}
-
-/* 3. 焦點快訊 (Index 2) */
-.np-brief {
-	grid-column: span 1;
-	background-color: var(--surface-container-low);
-	border-top: 4px solid var(--primary);
-	padding: 20px;
-}
-.np-brief .np-title {
-	font-size: 1.25rem;
-}
-.np-brief .np-desc {
-	-webkit-line-clamp: 5;
-	font-style: italic;
-}
-
-/* 4. 圖片短訊 (Index 3) */
-.np-sub {
-	grid-column: span 1;
-}
-.np-sub img {
-	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
-}
-.np-sub .np-content {
-	padding: 16px;
-}
-.np-sub .np-title {
-	font-size: 1.1rem;
-}
-
-/* 5. 橫幅報導 (Index 4) */
-.np-banner {
-	grid-column: span 1;
-	flex-direction: column;
-}
-@media (min-width: 768px) {
-	.np-banner {
-		grid-column: span 3;
+@media (min-width: 1024px) {
+	.np-hero {
 		flex-direction: row;
-		align-items: stretch;
+		grid-column: span 2;
 	}
-}
-.np-banner img {
-	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
-}
-@media (min-width: 768px) {
-	.np-banner img {
-		width: 40%;
+	.np-hero figure {
+		width: 55%;
 		height: 100%;
 		aspect-ratio: auto;
 	}
-}
-.np-banner .np-content {
-	padding: 20px;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-.np-banner .np-title {
-	font-size: 1.6rem;
+	.np-hero .np-content {
+		width: 45%;
+		padding: 40px;
+		justify-content: center;
+	}
+	.np-hero .np-title {
+		font-size: 1.75rem;
+		-webkit-line-clamp: 3;
+	}
+	.np-hero .np-desc {
+		font-size: 1.1rem;
+		-webkit-line-clamp: 4;
+	}
 }
 
-/* 6. 標準卡 (Index 5, 8) */
+/* 2. 暗黑快訊 (Brief Dark) */
+.np-brief-dark {
+	background: var(--on-surface, #1d1b20);
+	color: var(--on-primary, var(--on-white));
+	border-color: transparent;
+	justify-content: center;
+}
+.np-brief-dark .np-title {
+	font-size: 1.4rem;
+	color: var(--on-primary, var(--on-white));
+	-webkit-line-clamp: 4;
+}
+.np-brief-dark .np-desc {
+	color: rgba(255, 255, 255, 0.7);
+	-webkit-line-clamp: 4;
+}
+.np-brief-dark .np-meta {
+	color: var(--primary-container, #d5f1ff);
+}
+.np-brief-dark .np-date {
+	color: rgba(255, 255, 255, 0.5);
+}
+.np-brief-dark:hover .np-title {
+	color: var(--primary-container, #d5f1ff);
+}
+
+/* 3. 標準卡 (Standard) */
 .np-standard {
 	grid-column: span 1;
 }
-.np-standard img {
-	width: 100%;
-	aspect-ratio: 3/2;
-	object-fit: cover;
-}
-.np-standard .np-content {
-	padding: 16px;
-}
-.np-standard .np-title {
-	font-size: 1.15rem;
-}
 
-/* 7. 暗黑快訊 (Index 7) */
-.np-brief-dark {
+/* 4. 橫幅重點 (Highlight) */
+.np-highlight {
 	grid-column: span 1;
-	background-color: var(--on-surface);
-	color: var(--on-primary);
-	padding: 20px;
-}
-.np-brief-dark .np-title {
-	font-size: 1.25rem;
-	color: var(--on-primary);
-}
-.np-brief-dark .np-desc {
-	-webkit-line-clamp: 5;
-	font-style: italic;
-	color: var(--surface-container);
-}
-.np-brief-dark:hover .np-title {
-	color: var(--primary-container);
-}
-
-/* 8. 半橫幅報導 (Index 9) */
-.np-banner-half {
-	grid-column: span 1;
-	flex-direction: column;
 }
 @media (min-width: 768px) {
-	.np-banner-half {
+	.np-highlight {
 		grid-column: span 2;
 		flex-direction: row;
-		align-items: stretch;
 	}
-}
-.np-banner-half img {
-	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
-}
-@media (min-width: 768px) {
-	.np-banner-half img {
+	.np-highlight figure {
 		width: 40%;
-		height: 100%;
 		aspect-ratio: auto;
+		height: 100%;
 	}
-}
-.np-banner-half .np-content {
-	padding: 20px;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-.np-banner-half .np-title {
-	font-size: 1.3rem;
+	.np-highlight .np-content {
+		width: 60%;
+		justify-content: center;
+	}
 }

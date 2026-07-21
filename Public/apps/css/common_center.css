@@ -515,7 +515,7 @@ img {
 	padding: 0.3rem 0.6rem; border-radius: var(--radius-sm);
 	border: 1px solid var(--outline-variant);
 	transition: all 0.2s;
-    line-height: 1.2rem;
+	line-height: 1.2rem;
 }
 .ne-tag:hover {
 	transform: translateY(-2px);
@@ -1033,7 +1033,7 @@ img {
 	font-weight: var(--headline-lg-weight);
 }
 .video-article-summary{	
-    background-color: var(--bg-soft);
+	background-color: var(--bg-soft);
 }
 
 
@@ -1143,20 +1143,20 @@ img {
 	font-weight: 700;
 	text-decoration: none;
 	transition: color 0.3s, text-decoration-color 0.3s;
-	border-bottom: 1px solid var(--grey3);
+	border-bottom: 1px solid var(--on-surface-variant);
 }
 .article-body u:hover {
 	background-color: var(--vanilla-yellow);
 }
 .article_border {
-	border: 15px solid #f5e7dc;
+	border: 15px solid var(--outline-variant);
 	border-radius: .25rem;
 }
 .article_h {
 	font-size: 1.6rem;
 	color: var(--info);
 	font-weight: bold !important;
-	border-bottom: solid 2px var(--grey5);
+	border-bottom: solid 2px var(--outline-variant);
 	text-align: center;
 	margin-bottom: 15px;
 	padding: 10px;
@@ -1175,94 +1175,98 @@ img {
 
 /* 文章 - 內文發布日期；對應 <posted> */
 .posted-date {
-    text-align: right;
-    font-size: 0.85rem;
-    margin: -15px 0 15px 0;
-    background-color: var(--grey5);
-    line-height: 20px;
-    padding: 10px;
+	text-align: right;
+	font-size: 0.9rem;
+	margin: -15px 0 5px 0;
+	line-height: 20px;
+	padding: 10px;
 }
 .posted-date::before {
-    content: '發表日期：';
+	content: '發表日期：';
 }
 
 
 /* 文章 - H3 標題；對應 <cap> */
 .title-02 {
-    position: relative;
-    padding: 0.7rem 1.1rem var(--space-sm) 0.6rem;
-    background-color: var(--bg-cap);
-    border-radius: 0.3rem;
-    font-size: 1.5rem;
-    letter-spacing: 0.03em;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 2rem 0 1rem 0;
+	position: relative;
+	padding: 0.7rem 1.1rem var(--space-sm) 1.5rem;
+	background-color: var(--bg-cap);
+	border-radius: 0.3rem;
+	font-size: 1.5rem;
+	letter-spacing: 0.03em;
+	font-weight: 700;
+	color: var(--primary);
 	border-bottom: 1px solid var(--surface-variant);
 	line-height: 1.5;
+	margin-top: 1.3rem;
+}
+.posted-date + .title-02 {
+	margin-top: 0;
 }
 .title-02::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto 0;
-    width: 0.3rem;
-    height: 1.8rem;
-    border-radius: 0 0.5rem 0.5rem 0;
-    background-color: var(--primary);
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto 0;
+	width: 0.3rem;
+	height: 1.8rem;
+	border-radius: 0 0.5rem 0.5rem 0;
+	background-color: var(--primary);
 }
 
 
 /* 文章 - 圖片備註文字；對應 <t-note> */
 .text-note {
-    font-size: 0.85rem;
-    color: var(--grey4);
-    text-align: center;
+	font-size: 0.9rem;
+	color: var(--outline);
+	text-align: center;
+}
+.text-note::before {
+	content: "圖-";
 }
 
 
 /* 文章 - 引用框；對應 <quo> */
 .quote-box {
-    position: relative;
-    padding: 30px 10px 10px 10px;
-    font-size: 1.3rem;
-    line-height: 1.8;
-    color: var(--grey7);
-    overflow: hidden;
-    text-align: center;
-    background-color: var(--bg-warm);
-    background:
-        repeating-linear-gradient(45deg,
-            rgba(223, 120, 130, 0.06),
-            rgba(223, 120, 130, 0.06) 1px,
-            transparent 1px,
-            transparent 8px),
-        var(--bg-warm);
-    margin-bottom: -20px;
+	position: relative;
+	padding: 30px 10px 10px 10px;
+	font-size: 1.3rem;
+	line-height: 1.8;
+	color: var(--on-surface-variant);
+	overflow: hidden;
+	text-align: center;
+	background-color: var(--bg-warm);
+	background:
+		repeating-linear-gradient(45deg,
+			rgba(223, 120, 130, 0.06),
+			rgba(223, 120, 130, 0.06) 1px,
+			transparent 1px,
+			transparent 8px),
+		var(--bg-warm);
 }
 
 .quote-box::before,
 .quote-box::after {
-    position: absolute;
-    font-size: 10rem;
-    color: #ffd8db;
-    z-index: 0;
-    pointer-events: none;
+	position: absolute;
+	font-size: 10rem;
+	color: #ffd8db;
+	z-index: 0;
+	pointer-events: none;
 }
 
 .quote-box::before {
-    content: "“";
-    top: -70px;
-    left: 20px;
+	content: "“";
+	top: -70px;
+	left: 20px;
 }
 
 .quote-box::after {
-    content: "”";
-    bottom: 0;
-    right: 15px;
-    line-height: 0;
+	content: "”";
+	bottom: 0;
+	right: 15px;
+	line-height: 0;
 }
 .quo-txt,
 .logotxt {
@@ -1274,6 +1278,7 @@ img {
 	line-height: 30px;
 	color: var(--primary);
 	font-size: 1.1rem;
+	padding: 0 15%;
 }
 .logotxt {
 	display: flex;
@@ -1299,31 +1304,86 @@ img {
 			rgba(158, 62, 71, 0) 100%);
 }
 
+.marker {
+	font-size: 1.25rem;
+	font-weight: 500;
+	display: inline;
+	background: linear-gradient(0deg, #face4a 40%, transparent 40%);
+	margin: 0.8rem 0rem;
+	/* background: linear-gradient(transparent 60%, #aaa 60%); */
+}
+
 
 /* 文章 - 條列標題；對應 <li-t> */
 .list-title {
 	position: relative;
 	padding-left: 28px;
-	font-weight: bold;
-	margin: 1rem 0.5rem .2rem 0.5rem;
+	margin: 0.8rem 0rem;
 	line-height: 30px;
-	font-size: 1.06rem;
+	font-size: 1.1rem;
+	letter-spacing: 2px;
+	word-wrap: break-word;
 }
 .list-title::before {
 	position: absolute;
-	top: calc(50% - 15px);
+	/* top: calc(50% - 15px); */
 	left: 0px;
 	content: "✦";
 	color: var(--orange);
 }
 
 
-/* 文章 - 條列內容；對應 <li-p> */
-.list-text{
+/* 文章 - 條列內容；對應 <li-p>、<li-o> */
+.list-text {
 	font-size: 1.1rem;
-	line-height: 35px;
+	line-height: 1.8;
 	text-align: justify;
-	margin-left: 1.5rem;
+	margin: .2rem .5rem 0.2rem 1.9rem;
+	letter-spacing: 2px;
+	color: var(--on-surface-variant);
+}
+
+
+/* --- 項目清單樣式 (適用於 <li-p>) --- */
+.list-ul{
+	margin-bottom: 1rem;
+}
+.list-ul .list-text {
+	list-style-type: disc !important; /* ul 內強制顯示圓點 */
+}
+
+
+/* --- 步驟/數字清單樣式 (適用於 <li-o>) --- */
+.list-num {
+	list-style-type: none !important;
+	counter-reset: custom-num-counter;
+}
+.list-num .list-text {
+	position: relative;
+	counter-increment: custom-num-counter;
+}
+.list-num .list-text::before {
+	content: counter(custom-num-counter);
+	position: absolute;
+	left: -1.8rem;
+	top: 8px;
+	width: 1.2rem;
+	height: 1.2rem;
+	background-color: var(--primary);
+	color: var(--on-white);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.8rem;
+	font-weight: bold;
+	letter-spacing: 0;
+}
+/* 如果在 txt 裡使用了 <strong> 包覆標題 */
+.list-num .list-text strong {
+	display: inline-block;
+	margin-bottom: 0.25rem;
+	color: var(--primary, #005b82);
 }
 
 
@@ -1331,7 +1391,6 @@ img {
 .list-question {
 	font-weight: bold;
 	font-size: 1.1rem;
-	margin: 30px 0px 0px 0px;
 	display: flex;
 	align-items: center;
 	text-align: justify;
@@ -1339,7 +1398,7 @@ img {
 	padding-bottom: 6px;
 }
 .list-answer {
-	margin: 20px 0px 0px 0px;
+	margin: 10px 0px 40px 0px;
 	display: flex;
 	align-items: start;
 }
@@ -1369,7 +1428,7 @@ img {
 .img-container {
 	overflow: hidden;
 	text-align: center;
-    margin: 1rem 0;
+	margin: 1rem 0;
 }
 .img-container img {
 	width: 100%;
@@ -1405,19 +1464,21 @@ img {
 
 /* 文章 - 內文新聞連結；對應 <t><a> */
 .news-links {
-    margin: 1.5rem 0;
+	margin: 1.5rem 0;
 }
 .news-links a {
-    display: inline-block;
-    margin: 0.25rem 0.5rem 0.25rem 0;
-    font-size: 0.95rem;
-    padding: 0.4rem 0.75rem;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-	background-color: var(--bg-soft);
+	display: inline-block;
+	margin: 0.25rem 0.5rem 0.25rem 0;
+	font-size: 0.95rem;
+	padding: 0.4rem 0.75rem;
+	text-decoration: none;
+	transition: all 0.2s ease-in-out;
+	background-color: var(--surface);
+	border: 1px solid var(--color-border);
+	border-radius: 0px;
 }
 .news-links a:hover {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 

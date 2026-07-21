@@ -36,135 +36,74 @@ function loadMediaArticles(page = 1) {
                     const img = webpImg.replace('/thumb_webp/', '/').replace('/img_webp_article/', '/').replace('/img_webp_news/', '/').replace(/\.webp$/i, '.jpg');
                     const url = article.url || '#';
 
-                    // 採用 10 篇一循環的報紙排版
-                    const patternIndex = index % 10;
+                    // 採用 6 篇一循環的現代排版
+                    const patternIndex = index % 6;
 
-                    if (patternIndex === 0 || patternIndex === 6) {
-                        // 1. 頭條大版面 (The Lead Story) - Span 2x2
+                    if (index === 0) {
+                        // 1. 頭條 (Hero) - 滿兩格寬，大圖
                         html += `
                             <a href="${url}" class="np-card np-hero">
                                 <figure class="m-0">
                                     <picture>
                                         <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                        <img src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
                                     </picture>
                                     <figcaption class="d-none">${title}</figcaption>
                                 </figure>
                                 <div class="np-content">
-                                    <div class="np-meta">頭條報導</div>
+                                    <div class="np-meta">最新報導</div>
                                     <h2 class="np-title">${title}</h2>
                                     <p class="np-desc">${summary}</p>
                                     <div class="np-date">${pubDate}</div>
                                 </div>
                             </a>
                         `;
-                    } else if (patternIndex === 1) {
-                        // 2. 側邊直欄專題 (Sidebar Feature) - Span 1x2
+                    } else if (patternIndex === 3) {
+                        // 2. 暗黑快訊 (Brief Dark) - 無圖片，強調文字
                         html += `
-                            <a href="${url}" class="np-card np-sidebar">
-                                <figure class="m-0">
-                                    <picture>
-                                        <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
-                                    </picture>
-                                    <figcaption class="d-none">${title}</figcaption>
-                                </figure>
+                            <a href="${url}" class="np-card np-brief-dark">
                                 <div class="np-content">
-                                    <div class="np-meta">深度專欄</div>
+                                    <div class="np-meta">編輯精選</div>
                                     <h3 class="np-title">${title}</h3>
                                     <p class="np-desc">${summary}</p>
                                     <div class="np-date">${pubDate}</div>
                                 </div>
                             </a>
                         `;
-                    } else if (patternIndex === 2) {
-                        // 3. 焦點快訊 (Text-Only Brief) - Span 1x1
+                    } else if (patternIndex === 5) {
+                        // 3. 橫幅重點 (Highlight) - 橫向卡片
                         html += `
-                            <a href="${url}" class="np-card np-brief">
-                                <div class="np-meta" style="color: var(--on-surface-variant);">最新快訊</div>
-                                <h3 class="np-title">${title}</h3>
-                                <p class="np-desc">${summary}</p>
-                                <div class="np-date">${pubDate}</div>
-                            </a>
-                        `;
-                    } else if (patternIndex === 3) {
-                        // 4. 圖片短訊 (Sub-feature) - Span 1x1
-                        html += `
-                            <a href="${url}" class="np-card np-sub">
+                            <a href="${url}" class="np-card np-highlight">
                                 <figure class="m-0">
                                     <picture>
                                         <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
-                                    </picture>
-                                    <figcaption class="d-none">${title}</figcaption>
-                                </figure>
-                                <div class="np-content">
-                                    <h4 class="np-title">${title}</h4>
-                                    <div class="np-date">${pubDate}</div>
-                                </div>
-                            </a>
-                        `;
-                    } else if (patternIndex === 4) {
-                        // 5. 橫幅分隔報導 (Horizontal Banner) - Span 3x1
-                        html += `
-                            <a href="${url}" class="np-card np-banner">
-                                <figure class="m-0">
-                                    <picture>
-                                        <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                        <img src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
                                     </picture>
                                     <figcaption class="d-none">${title}</figcaption>
                                 </figure>
                                 <div class="np-content">
                                     <div class="np-meta">特別企劃</div>
                                     <h3 class="np-title">${title}</h3>
-                                    <p class="np-desc" style="-webkit-line-clamp: 2;">${summary}</p>
-                                    <div class="np-date">${pubDate}</div>
-                                </div>
-                            </a>
-                        `;
-                    } else if (patternIndex === 7) {
-                        // 6. 暗黑快訊 (Dark Brief) - Span 1x1
-                        html += `
-                            <a href="${url}" class="np-card np-brief-dark">
-                                <div class="np-meta" style="color: var(--on-primary);">編輯精選</div>
-                                <h3 class="np-title">${title}</h3>
-                                <p class="np-desc">${summary}</p>
-                                <div class="np-date" style="color: var(--surface-container);">${pubDate}</div>
-                            </a>
-                        `;
-                    } else if (patternIndex === 9) {
-                        // 7. 半橫幅報導 (Half Banner) - Span 2x1
-                        html += `
-                            <a href="${url}" class="np-card np-banner-half">
-                                <figure class="m-0">
-                                    <picture>
-                                        <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
-                                    </picture>
-                                    <figcaption class="d-none">${title}</figcaption>
-                                </figure>
-                                <div class="np-content">
-                                    <div class="np-meta">觀點</div>
-                                    <h3 class="np-title">${title}</h3>
+                                    <p class="np-desc">${summary}</p>
                                     <div class="np-date">${pubDate}</div>
                                 </div>
                             </a>
                         `;
                     } else {
-                        // 8. 標準卡 (Standard Columns) - patternIndex 5, 8 - Span 1x1
+                        // 4. 標準卡 (Standard)
                         html += `
                             <a href="${url}" class="np-card np-standard">
                                 <figure class="m-0">
                                     <picture>
                                         <source srcset="${webpImg}" type="image/webp">
-                                        <img class="img-fluid w-100" src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
+                                        <img src="${img}" alt="${title}" title="${title}" loading="lazy" decoding="async">
                                     </picture>
                                     <figcaption class="d-none">${title}</figcaption>
                                 </figure>
                                 <div class="np-content">
                                     <div class="np-meta" style="color: var(--secondary);">媒體報導</div>
                                     <h4 class="np-title">${title}</h4>
+                                    <p class="np-desc">${summary}</p>
                                     <div class="np-date">${pubDate}</div>
                                 </div>
                             </a>

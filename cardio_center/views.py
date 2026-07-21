@@ -319,13 +319,14 @@ def parse_article_txt(filepath, detail=True):
 
 	# --- 定義簡單標籤字典 (將相似格式的標籤集中管理，避免寫一堆 elif) ---
 	SIMPLE_TAGS = {
+		# semantic 主要用於 li 組成群組設計
 		'<cap>':   {'type': 'h3', 'semantic': 'section_title', 'class': 'title-02'},
-		'<li-t>':  {'type': 'h4', 'semantic': 'sub_title', 'class': 'list-title'},		
+		'<li-t>':  {'type': 'h4', 'semantic': 'sub_title', 'class': 'marker'},
+		'<li-p>':  {'type': 'li', 'semantic': 'keypoint', 'class': 'list-title'},
+		'<li-o>':  {'type': 'li', 'semantic': 'ordered_keypoint', 'class': 'list-text'},
+		'<li-q>':  {'type': 'dt', 'semantic': 'faq_question', 'class': 'list-question'},
+		'<li-a>':  {'type': 'dd', 'semantic': 'faq_answer', 'class': 'list-answer'},
 		'<quo>':   {'type': 'blockquote', 'semantic': 'quote', 'class': 'quote-box'},
-		'<li-p>':  {'type': 'li', 'semantic': 'keypoint', 'class': 'list-text'},
-		'<li-o>':  {'type': 'li', 'semantic': 'ordered_keypoint', 'class': 'list-num'},
-		'<li-q>':  {'type': 'h4', 'semantic': 'faq_question', 'class': 'list-question'},
-		'<li-a>':  {'type': 'div', 'semantic': 'faq_answer', 'class': 'list-answer'},
 		'<t-note>':{'type': 'div', 'class': 'text-note'},
 	}
 
@@ -474,7 +475,14 @@ def parse_article_txt(filepath, detail=True):
 			if current_list and current_list['semantic'] == sem:
 				current_list['items'].append(block)
 			else:
-				current_list = {'type': 'ol' if sem == 'ordered_keypoint' else 'ul', 'semantic': sem, 'items': [block], 'class': 'mb-0'}
+				ol_class = 'list-num' if sem == 'ordered_keypoint' else 'list-ul'
+				current_list = {'type': 'ol' if sem == 'ordered_keypoint' else 'ul', 'semantic': sem, 'items': [block], 'class': ol_class}
+				grouped_blocks.append(current_list)
+		elif sem in ['faq_question', 'faq_answer']:
+			if current_list and current_list['semantic'] == 'faq_list':
+				current_list['items'].append(block)
+			else:
+				current_list = {'type': 'dl', 'semantic': 'faq_list', 'items': [block], 'class': 'faq-list my-4'}
 				grouped_blocks.append(current_list)
 		else:
 			current_list = None
@@ -2030,17 +2038,12 @@ def get_health_edu_items():
 				# title_hash = hashlib.md5(title.encode('utf-8')).hexdigest()[:8]
 				continue
 			
-			# 從檔名對應縮圖，不讀取檔案內容
-			thumb_filename = ""
-			for icon_f in icon_files:
-				if icon_f.startswith(prefix) and icon_f.lower().endswith(('.jpg', '.jpeg', '.png')):
-					thumb_filename = icon_f
-					break
-			
-			# 轉換縮圖為 WebP
+			# 改為讀取檔案內容，取得文章內的第一張圖片 <img1> 作為縮圖
+			filepath = os.path.join(edu_txt_dir, filename)
+			parsed = parse_article_txt(filepath, detail=False)
 			thumb_rel_path = ""
-			if thumb_filename:
-				thumb_rel_path = convert_edu_icon_image_to_webp(thumb_filename)
+			if parsed.get('og_img'):
+				thumb_rel_path = convert_edu_article_image_to_webp(parsed['og_img'])
 			
 			formatted_items.append((filename_title, title_hash, filename, True, thumb_rel_path))
 
@@ -2056,8 +2059,15 @@ def get_health_edu_items():
 def cardio_edu_api(request):
 	'''支援 ajax 分頁'''
 	page = int(request.GET.get("page", 1))
-	per_page = int(request.GET.get("per_page", 20))
+	per_page = int(request.GET.get("per_page", 8))
+	edu_type = request.GET.get("type", "all")
 	all_items, base_path = get_health_edu_items()
+	
+	if edu_type == "txt":
+		all_items = [item for item in all_items if item[3]]
+	elif edu_type == "img":
+		all_items = [item for item in all_items if not item[3]]
+		
 	paginator = Paginator(all_items, per_page)
 	page_obj = paginator.get_page(page)
 	
@@ -2170,6 +2180,7 @@ def cardio_edu_detail(request, title_id):
 
 		return render(request, 'cardio_center/cardio_edu_detail.html', {
 			'title': filename_title,
+			'article_title': parsed.get('article_title'),
 			'blocks': parsed['blocks'],
 			'is_txt': True,
 			'images': [], # 確保 JS 變數不會噴錯

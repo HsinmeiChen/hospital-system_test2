@@ -1,16 +1,24 @@
-function loadHealthEdu(page = 1) {
-	fetch(`${API_URL_EDU}?page=${page}`)
+function loadHealthEdu(page = 1, type = 'all', containerId = 'edu-list', paginationId = 'pagination-list') {
+	fetch(`${API_URL_EDU}?page=${page}&type=${type}`)
 		.then(res => res.json())
 		.then(data => {
-			const container = document.getElementById("edu-list");
+			const container = document.getElementById(containerId);
+			const section = container ? container.closest('div[id^="section-"]') : null;
 			container.innerHTML = "";
 
-			// （data.news 為空時）
+			// （data.items 為空時）
 			if (!data.items || data.items.length === 0) {
-				container.innerHTML = `<div class="col-12 text-center my-5"><p class="text-muted mb-0 h3">暫無資料</p></div>`;
-				document.getElementById("pagination-list").innerHTML = "";
+				if (section) {
+					section.style.display = "none";
+				} else {
+					container.innerHTML = `<div class="col-12 text-center my-5"><p class="text-muted mb-0 h3">暫無資料</p></div>`;
+					document.getElementById(paginationId).innerHTML = "";
+				}
 				return;
 			}
+			
+			// 有資料時顯示
+			if (section) section.style.display = "block";
 
 			data.items.forEach((item, idx) => {
 				// 若 API 已回傳 titleId，使用它；否則從第一張圖檔名取前綴
@@ -59,13 +67,13 @@ function loadHealthEdu(page = 1) {
 			};
 
 			// 移除舊的動態 Schema (切換分頁時)
-			const oldSchema = document.getElementById("dynamic-itemlist-schema");
+			const oldSchema = document.getElementById(`dynamic-itemlist-schema-${type}`);
 			if (oldSchema) oldSchema.remove();
 
 			// 注入新的 Schema 到 <head>
 			if (data.items.length > 0) {
 				const script = document.createElement("script");
-				script.id = "dynamic-itemlist-schema";
+				script.id = `dynamic-itemlist-schema-${type}`;
 				script.type = "application/ld+json";
 				script.text = JSON.stringify(itemList);
 				document.head.appendChild(script);
@@ -73,13 +81,15 @@ function loadHealthEdu(page = 1) {
 
 
 			// 分頁控制
-			const pagination = document.getElementById("pagination-list");
-			pagination.innerHTML = "";
+			const pagination = document.getElementById(paginationId);
+			const nav = pagination ? pagination.closest('nav') : null;
+			if (pagination) pagination.innerHTML = "";
 
 			const total = data.num_pages;
 			const current = data.current_page;
 
 			if (total > 1) {
+				if (nav) nav.style.display = "block";
 				// 第一頁
 				pagination.innerHTML += `
 					<li class="page-item ${current === 1 ? 'disabled' : ''}">
@@ -95,7 +105,7 @@ function loadHealthEdu(page = 1) {
 				// 下拉選單
 				let selectHtml = `
 					<li class="page-item">
-						<select id="edu-page-select" class="form-control form-control-sm h-100" style="width:auto; display:inline-block;">
+						<select class="form-control form-control-sm h-100 edu-page-select" style="width:auto; display:inline-block;">
 				`;
 				for (let i = 1; i <= total; i++) {
 					selectHtml += `<option value="${i}" ${i === current ? 'selected' : ''}>第 ${i} 頁</option>`;
@@ -114,30 +124,51 @@ function loadHealthEdu(page = 1) {
 						<a class="page-link" href="#" data-page="${total}">&raquo;</a>
 					</li>
 				`;
-				// 下拉事件
-				document.getElementById("edu-page-select").addEventListener("change", function() {
-					loadHealthEdu(this.value);
-				});
+				// 下拉事件 (改由下方委派事件處理)
+			} else {
+				if (nav) nav.style.display = "none";
 			}
 		})
 
 		// （API 出錯時）
 		.catch(err => {
-			const container = document.getElementById("edu-list");
-			container.innerHTML = `<div class="col-12 text-center my-5"><p class="text-danger mb-0 h3">資料載入失敗，請稍後再試。</p></div>`;
-			document.getElementById("pagination-list").innerHTML = "";
+			const container = document.getElementById(containerId);
+			const section = container ? container.closest('div[id^="section-"]') : null;
+			if (section) {
+				section.style.display = "none";
+			} else {
+				if (container) container.innerHTML = `<div class="col-12 text-center my-5"><p class="text-danger mb-0 h3">資料載入失敗，請稍後再試。</p></div>`;
+				const pagination = document.getElementById(paginationId);
+				if (pagination) pagination.innerHTML = "";
+			}
 		});
 }
 
 // 點擊分頁
-$(document).on("click", "#pagination-list .page-link", function(e) {
+$(document).on("click", ".edu-pagination .page-link", function(e) {
 	e.preventDefault();
 	if ($(this).parent().hasClass("disabled")) return;
 	let page = $(this).data("page");
-	if (page) loadHealthEdu(page);
+	let $nav = $(this).closest('.edu-pagination');
+	let type = $nav.data('type') || 'all';
+	let listId = $nav.data('list-id') || 'edu-list';
+	let paginationId = $nav.attr('id') || 'pagination-list';
+	if (page) loadHealthEdu(page, type, listId, paginationId);
 });
 
-// 預設載入
+// 改變下拉選單
+$(document).on("change", ".edu-pagination .edu-page-select", function(e) {
+	let page = $(this).val();
+	let $nav = $(this).closest('.edu-pagination');
+	let type = $nav.data('type') || 'all';
+	let listId = $nav.data('list-id') || 'edu-list';
+	let paginationId = $nav.attr('id') || 'pagination-list';
+	if (page) loadHealthEdu(page, type, listId, paginationId);
+});
+
+// 向下相容預設載入
 document.addEventListener("DOMContentLoaded", () => {
-	loadHealthEdu(1);
+	if (document.getElementById("edu-list")) {
+		loadHealthEdu(1);
+	}
 });

@@ -44,23 +44,54 @@
 {% block guide_content %}
 <div class="l-main-content__body">	
 	<div class="posts-detail-container">
-		<h1 class="posts-detail-title">{{ title }}</h1>
+		<h1 class="posts-detail-title">{% if article_title %}{{ article_title }}{% else %}{{ title }}{% endif %}</h1>
 		<!-- 文章內容 -->
-		<div style="color: var(--color-text-dark);text-align: justify;">
+		<div>
 			{% if is_txt %}
-					<div class="article-body">
-						<h2 class="article_h">{{ title }}</h2>
+				<div class="article-body">
 					{% for block in blocks %}
 						{% if block.type == 'h3' %}
 							<h3 class="{{ block.class }}">{{ block.text }}</h3>
 						{% elif block.type == 'h4' %}
-							<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+							<div class="mt-3 mb-1">
+								<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
+							</div>
 						{% elif block.type == 'p' %}
 							<p class="{{ block.class }}">{{ block.text|safe }}</p>
 						{% elif block.type == 'img' %}
-							<div class="{{ block.class }}">
-								<img src="/media/{{ block.edu_article_src }}" alt="{{ title }}" loading="lazy">
+							<figure class="my-3 m-0">
+								<picture>
+									{% if block.edu_article_src %}
+									<source srcset="/media/{{ block.edu_article_src }}" type="image/webp">
+									{% endif %}
+									<img src="/media/cardio_center/cardio_edu/edu_article/{{ block.original_image }}" class="img-fluid w-100" alt="{{ title }}" title="{{ title }}" loading="lazy" decoding="async">
+								</picture>
+								<figcaption class="d-none text-note">{{ title }}</figcaption>
+							</figure>
+						{% elif block.type == 'video' %}
+							<div class="video-container">
+								{{ block.text|safe }}
 							</div>
+						{% elif block.type == 'ul' or block.type == 'ol' %}
+							{% if block.type == 'ol' %}
+								<ol class="{{ block.class }}">
+							{% else %}
+								<ul class="{{ block.class }}">
+							{% endif %}
+								{% for item in block.items %}
+									<li class="{{ item.class }}">{{ item.text|safe }}</li>
+								{% endfor %}
+							{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+						{% elif block.type == 'dl' %}
+							<dl class="{{ block.class }}">
+								{% for item in block.items %}
+									{% if item.type == 'dt' %}
+										<dt class="{{ item.class }}">{{ item.text|safe }}</dt>
+									{% elif item.type == 'dd' %}
+										<dd class="{{ item.class }}">{{ item.text|safe }}</dd>
+									{% endif %}
+								{% endfor %}
+							</dl>
 						{% elif block.type == 'div' %}
 							<div class="{{ block.class }}">{{ block.text|safe }}</div>
 						{% elif block.type == 'blockquote' %}

@@ -64,48 +64,56 @@
 					<div class="treat-detail-body">
 						<h1 class="treat-detail-title">{{ treat_a_title }}</h1>
 						<div>
-							{% for block in blocks %}
-								{% if block.semantic == 'section_title' %}
-									<h3 class="{{ block.class }}">{{ block.text }}</h3>
-								{% elif block.semantic == 'sub_title' %}
+						{% for block in blocks %}
+							{% if block.type == 'h3' %}
+								<h3 class="{{ block.class }}">{{ block.text }}</h3>
+							{% elif block.type == 'h4' %}
+								<div class="mt-3 mb-1">
 									<h4 class="{{ block.class }}">{{ block.text|safe }}</h4>
-								{% elif block.semantic == 'paragraph' %}
-									<p class="{{ block.class }}">{{ block.text|safe }}</p>
-								{% elif block.semantic == 'keypoint' or block.semantic == 'ordered_keypoint' %}
-									{% if block.type == 'ol' %}
-										<ol class="{{ block.class }}">
-									{% else %}
-										<ul class="{{ block.class }}">
-									{% endif %}
-										{% for item in block.items %}
-											<li class="{{ item.class }}">{{ item.text|safe }}</li>
-										{% endfor %}
-									{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
-								{% elif block.semantic == 'faq_question' %}
-									<h4 class="{{ block.class }}">{{ block.text }}</h4>
-								{% elif block.semantic == 'faq_answer' %}
-									<p class="{{ block.class }}">{{ block.text|safe }}</p>
-								{% elif block.semantic == 'quote' %}
-									<div class="{{ block.class }}">
-										<div class="quo-txt">{{ block.text|safe }}</div>
-										<div class="logotxt">長安醫院心血管中心，伴您健康長安 </div>
-									</div>
-								{% elif block.semantic == 'image' %}
-									<figure class="img-container mb-4">
-										<picture>
-											<source srcset="/media/{{ block.treat_article_src }}" type="image/webp">
-											<img class="img-fluid w-100" src="/media/cardio_center/cardio_treat_articles/treat_articles_img/{{ block.original_image }}" alt="{{ treat_a_title }}" title="{{ treat_a_title }}" loading="lazy" decoding="async">
-										</picture>
-										<figcaption style="color: var(--color-text-light);">圖-{{ treat_a_title }}</figcaption>
-									</figure>
-								{% elif block.semantic == 'video' %}
-									<div class="video-container">
-										{{ block.text|safe }}
-									</div>
-								{% elif block.type == 'div' %}
-									<div class="{{ block.class }}">{{ block.text|safe }}</div>
-								{% endif %}
-							{% endfor %}
+								</div>
+							{% elif block.type == 'p' %}
+								<p class="{{ block.class }}">{{ block.text|safe }}</p>
+							{% elif block.type == 'img' %}
+								<figure class="my-3 m-0">
+									<picture>
+										<source srcset="/media/{{ block.treat_article_src }}" type="image/webp">
+										<img class="img-fluid w-100" src="/media/cardio_center/cardio_treat_articles/treat_articles_img/{{ block.original_image }}" alt="{{ treat_a_title }}" title="{{ treat_a_title }}" loading="lazy" decoding="async">
+								</picture>
+								<figcaption class="d-none text-note">圖-{{ treat_a_title }}</figcaption>
+							</figure>
+							{% elif block.type == 'video' %}
+							<div class="video-container">
+								{{ block.text|safe }}
+							</div>
+							{% elif block.type == 'ul' or block.type == 'ol' %}
+							{% if block.type == 'ol' %}
+								<ol class="{{ block.class }}">
+							{% else %}
+								<ul class="{{ block.class }}">
+							{% endif %}
+								{% for item in block.items %}
+									<li class="{{ item.class }}">{{ item.text|safe }}</li>
+								{% endfor %}
+							{% if block.type == 'ol' %}</ol>{% else %}</ul>{% endif %}
+							{% elif block.type == 'dl' %}
+								<dl class="{{ block.class }}">
+									{% for item in block.items %}
+										{% if item.type == 'dt' %}
+											<dt class="{{ item.class }}">{{ item.text|safe }}</dt>
+										{% elif item.type == 'dd' %}
+											<dd class="{{ item.class }}">{{ item.text|safe }}</dd>
+										{% endif %}
+									{% endfor %}
+								</dl>
+							{% elif block.type == 'div' %}
+								<div class="{{ block.class }}">{{ block.text|safe }}</div>
+							{% elif block.type == 'blockquote' %}
+								<div class="{{ block.class }}">
+									<div class="quo-txt">{{ block.text|safe }}</div>
+									<div class="logotxt">長安醫院心血管中心，伴您健康長安</div>
+								</div>
+							{% endif %}
+						{% endfor %}
 						</div>
 
 						<!-- CTA Section -->

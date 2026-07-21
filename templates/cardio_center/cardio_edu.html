@@ -31,12 +31,28 @@
 
 <section class="l-main-content__body subpage-container">
 	<div class="p-4">
-		<!-- (1)、Health-Edu -->
-		<div class="row" id="edu-list"></div>
-		<!-- (2)、Pagination -->
-		<nav aria-label="Page navigation">
-			<ul class="pagination" id="pagination-list"></ul>
-		</nav>
+		<!-- 最新醫療情報 -->
+		<div id="section-txt" style="display: none;">
+			<h3 class="u-title-primary font-weight-bold mb-4" style="color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; display: inline-block;">
+				<i class="fas fa-file-medical-alt me-2"></i> 最新醫療情報
+			</h3>
+			<div class="row" id="edu-txt-list"></div>
+			<nav aria-label="Page navigation" class="mt-4">
+				<ul class="pagination edu-pagination justify-content-center" id="pagination-txt" data-type="txt" data-list-id="edu-txt-list"></ul>
+			</nav>
+			<hr class="my-5">
+		</div>
+
+		<!-- 衛教文刊 -->
+		<div id="section-img" style="display: none;">
+			<h3 class="u-title-primary font-weight-bold mb-4" style="color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; display: inline-block;">
+				<i class="fas fa-book-open me-2"></i> 衛教文刊
+			</h3>
+			<div class="row" id="edu-img-list"></div>
+			<nav aria-label="Page navigation" class="mt-4">
+				<ul class="pagination edu-pagination justify-content-center" id="pagination-img" data-type="img" data-list-id="edu-img-list"></ul>
+			</nav>
+		</div>
 	</div>
 </section>
 {% endblock %}
@@ -82,4 +98,10 @@ const API_URL_EDU = "{% url 'cardio_center:edu-api' %}";
 const URL_EDU_DETAIL = "{% url 'cardio_center:edu-detail' 'PLACEHOLDER' %}";
 </script>
 <script src="{% static 'apps/js/common_edu.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+	loadHealthEdu(1, 'txt', 'edu-txt-list', 'pagination-txt');
+	loadHealthEdu(1, 'img', 'edu-img-list', 'pagination-img');
+});
+</script>
 {% endblock %}
