@@ -84,7 +84,7 @@ e_time = datetime.datetime.strptime("2000/01/01 00:00:01", "%Y/%m/%d %H:%M:%S")
 
 # 2026/06/11 新增過濾HA02660，因為該醫師還未就職
 datenow = datetime.datetime.now()
-dateStr = "2026-07-31 00:00:00"
+dateStr = "2026-07-27 00:00:00"
 targetTime = datetime.datetime.strptime(dateStr, "%Y-%m-%d %H:%M:%S")
 
 
