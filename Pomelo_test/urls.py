@@ -166,6 +166,17 @@ urlpatterns = [
 	re_path('A006_find_register/', pomelo_views.A006_find_register),
 	re_path('A006_out_register/', pomelo_views.A006_out_register),
 	re_path(r'^A007_Reserve_pre/',include('Reserve_Pre.urls')), # 預約慢箋
+	re_path('A008_login/', pomelo_views.A008_login), # 自助繳費機－網路掛號－登入（ get 方式接收登入帳號密碼，包含金鑰 ）
+	re_path('A008_Online_Booking_0/', pomelo_views.A008_Online_Booking_0), # 自助繳費機－網路掛號－選擇醫師/科別
+	re_path('A008_Online_Booking_1/', pomelo_views.A008_Online_Booking_1), # 自助繳費機－網路掛號－選擇科別
+	re_path('A008_Online_Booking_1_part/', pomelo_views.A008_Online_Booking_1_1), # 自助繳費機－網路掛號－選擇科別
+	re_path('A008_Online_Booking_2/', pomelo_views.A008_Online_Booking_2), # 自助繳費機－網路掛號－選擇醫師
+	re_path('A008_Online_Booking_2_1/', pomelo_views.A008_Online_Booking_2_1), # 自助繳費機－網路掛號－選擇醫師
+	re_path('A008_Online_Booking_check/', pomelo_views.A008_Online_Booking_check), # 自助繳費機－網路掛號－確認預約資料
+	re_path('A008_register/', pomelo_views.A008_register), # 自助繳費機－網路掛號－掛號
+	re_path('A008_find_register/', pomelo_views.A008_find_register), # 自助繳費機－網路掛號－掛號查詢（資料結果回傳 <postmessage> ）
+	re_path('A008_error/', pomelo_views.A008_error), # 自助繳費機－網路掛號－錯誤訊息頁面（資料結果回傳 <postmessage> ）
+	re_path('A008_logout/', pomelo_views.A008_logout), # 自助繳費機－網路掛號－登出
 	re_path('A100_search_sename/', pomelo_views.A100_search_sename),
 	re_path('A101_search_bed/', pomelo_views.A101_search_bed),
 	re_path('A102_Safe_ISMS/', pomelo_views.A102_Safe_ISMS),

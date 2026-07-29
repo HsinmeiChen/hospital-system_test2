@@ -404,6 +404,121 @@ function error_message(message) {
     });
 };
 
+// ╠════ 自助繳費機掛號區塊 ════╣
+// 預約作業結果
+const A008_sure_ok = () => {
+    // 觸發掛號API
+    $( function () {
+        $.get("/A008_register/",function(result){
+            if (result == "OK"){
+            // 掛號成功
+            }
+            // 掛號失敗
+            else{
+                // 1. 整理從 Django 後端帶過來的資料
+                var data = {
+                    response: "error",
+                    errorMessage: "超過可預約時間"
+                };
+
+                const json = JSON.stringify(data);
+
+                // 2. 尋找接收端視窗（如果是彈出視窗用 opener，如果是 iframe 用 parent）
+                var targetWindow = window.opener || window.parent;
+
+                if (targetWindow) {
+                    // 3. 直接發送 postMessage (建議將 '*' 替換為您前端的精準網址以保安全)
+                    targetWindow.postMessage(json, '*');
+                    
+                    // 4. 如果是彈出視窗(Popup)，傳完訊息後自動把自己關掉
+                    if (window.opener) {
+                        window.close();
+                    }
+                } else {
+                    console.error("找不到接收訊息的目標視窗");
+                }
+
+                Fancybox.close();
+            }
+        });
+    });
+
+    let timerInterval;
+    Swal.fire({
+        title: "預約處理中...",
+        timer: 7000,
+        timerProgressBar: true,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+                timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+        },
+        willClose: () => {
+            clearInterval(timerInterval);
+        }
+    }).then((result) => {
+        // 查詢結果
+        $( function () {
+            $.get("/A008_find_register/",function(result){
+                var targetWindow = window.opener || window.parent;
+
+                if (targetWindow) {
+                    targetWindow.postMessage(result, '*');
+                    if (window.opener) {
+                        window.close();
+                    }
+                } else {
+                    console.error("找不到接收訊息的目標視窗");
+                }
+
+                Fancybox.close();
+            });
+        });
+        Fancybox.close();
+    });
+};
+// 轉兒科
+function A008_sectno_to_04() {
+    Swal.fire({
+      title: "18歲以下不開放掛號內科。\n12歲以下不開放掛號耳鼻喉科。",
+      text: "為您轉到兒科介面。",
+      icon: "error"
+    }).then((result) => {
+        window.location = "/A008_Online_Booking_1_part/?A008_sename=兒科";
+
+        Swal.fire({
+            title: "請稍等!",
+            // text: "若要請重新登入，謝謝。",
+            // icon: "success",
+            showConfirmButton: false,
+            timer: 3000,
+        })
+    });
+};
+// 已有掛號資料轉預約紀錄
+function A008_repeat_to_data() {
+    Swal.fire({
+      title: "您已重複預約。",
+      text: "為您轉到預約紀錄。",
+      icon: "error"
+    }).then((result) => {
+        window.location = "/A008_Online_Booking_0/";
+
+        Swal.fire({
+            title: "請稍等!",
+            // text: "若要請重新登入，謝謝。",
+            // icon: "success",
+            showConfirmButton: false,
+            timer: 3000,
+        })
+    });
+};
+// ╠════ 自助繳費機掛號區塊 ════╣
+
 // ╠════ 慢箋預約區塊 ════╣
 // 慢箋-登入
 function drug_login() {

@@ -1,0 +1,297 @@
+{% extends "Patient_Guide/Patient_Guide_2_Base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}{{ drname }}｜{{ sename }}｜網路掛號｜{{ block.super }}{% endblock %}
+{% block og_title %}{{ drname }}｜{{ sename }}｜網路掛號｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+{% block guide_content %}
+
+<!-- ======= 上下一週切換按鈕 (Mobile) ======= -->
+<div id="weekbtn" class="c_switch_btn_box">
+	{% if c_startdt <= A008_today %}
+	{% else %}
+		<button type="submit" class="btn btn-primary" onclick="document.getElementById('A008_date_sub').click()"><i class="fas fa-chevron-left"  aria-hidden="true"></i> 上週</button>
+	{% endif %}
+	{% if dr_days_limit_start %}
+	{% else %}
+		<button type="submit" class="btn btn-success" onclick="document.getElementById('A008_date_add').click()">下週 <i class="fas fa-chevron-right"  aria-hidden="true"></i></button>
+	{% endif %}
+</div>
+<!-- ======= 上下一週切換按鈕 (Mobile) End ======= -->
+
+<!-- ▼▼▼ Content ▼▼▼-->
+<header id="content_h">
+    <h2 class="c-onsale-heading">{{ drname }}｜{{ sename }}</h2>
+</header>
+<div class="l-main-content__body">
+	<div>
+		<div class="container py-2">
+			<div class="row">
+				<div class="col-lg-5">
+					<div class="d_img_div doctor_wh">
+						<img src="{{ MEDIA_URL }}department/img/{{ dr_img }}" title="{{ sename }}-{{ drname }}" alt="{{ sename }}-{{ drname }}">
+					</div>
+				</div>
+				<div class="col-lg-7">
+					<div>
+						<div class="caption">主治項目</div>
+						<div class="px-1">
+							<ul class="list-bullets font-18 mt-3">
+								{% for e in dr_e %}
+									<li>{{ e }}</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr class="mt-1"/>
+		<div class="booking_sys">
+			<form action="" method="GET">
+				<input type="hidden" name="A008_date_check" value="{{ dr_day_list.0|cut:"/" }}">
+				<input type="hidden" name="A008_userid" value="{{ userid }}">
+				<input type="hidden" name="A008_sename" value="{{ sename }}">
+				<p ></p>
+				<div class="tab-button-outer">
+					<div id="tab-button_a">
+						<div class="switch-field">
+							<input type="radio" onchange="this.form.submit();" id="radio-one" name="switch_day" value="1" {% if switch_day == 1 %} checked {% endif %}/>
+							<label for="radio-one">{{ A008_radio_day_1 }}月</label>
+							<input type="radio" onchange="this.form.submit();" id="radio-two" name="switch_day" value="2" {% if switch_day == 2 %} checked {% endif %}/>
+							<label for="radio-two">{{ A008_radio_day_2 }}月</label>
+							<input type="radio" onchange="this.form.submit();" id="radio-three" name="switch_day" value="3" {% if switch_day == 3 %} checked {% endif %}/>
+							<label for="radio-three">{{ A008_radio_day_3 }}月</label>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div id="week_switch_btn">
+				<div>
+					{% if c_startdt <= A008_today %}
+					{% else %}
+					<form action="" method="GET">
+						<input type="hidden" name="A008_date_check_sub" value="{{ dr_day_list.0|cut:"/" }}">
+						<input type="hidden" name="A008_userid" value="{{ userid }}">
+						<input type="hidden" name="A008_sename" value="{{ sename }}">
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A008_date_sub"><i class="fas fa-chevron-left"></i> 上一週</button>
+					</form>
+					{% endif %}
+				</div>
+				<div>
+					{% if dr_days_limit_start %}
+					{% else %}
+					<form action="" method="GET">
+						<input type="hidden" name="A008_date_check_add" value="{{ dr_day_list.0|cut:"/" }}">
+						<input type="hidden" name="A008_userid" value="{{ userid }}">
+						<input type="hidden" name="A008_sename" value="{{ sename }}">
+						<button type="submit" class="btn btn-success btn-lg rounded-0 font-weight-bold" id="A008_date_add">下一週 <i class="fas fa-chevron-right"></i></button>
+					</form>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class="doc_bookable">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th class="font-weight-bold title-bg text-center beige-word text-nowrap" style="width: 20%;">日期</th>
+						<th class="font-weight-bold title-bg text-center beige-word text-nowrap">可預約時段{{document.documentElement.scrollWidth}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for dr_day,dr_weekday,dr_lookday_s,dr_lookday_a,dr_lookday_n in dr_clinic_list %}
+						<tr>
+							<td>
+								<div class="booking_date_col">
+									<div>{{ dr_day }}</div>
+									<div>{{ dr_weekday }}</div>
+								</div>
+							</td>
+							<td class="p-0">
+								<div class="Div_out">
+									<div class="Div_box_3pic d-flex align-items-stretch">
+										<div class="Div_body p-0">
+											<div class="css_table">
+												<div class="css_tr">
+													<div class="css_th mor_a">早</div>
+													{% if dr_lookday_s.0 == 'Q' %}
+														<div class="css_td">
+															<input type="submit" value="停約" class="booking_btn booking_disable">
+														</div>
+													{% elif dr_lookday_s.4 == 'M' %}
+														<div class="css_td">
+															<div class="booking_full">約滿</div>
+														</div>
+													{% elif dr_lookday_s.0 == 'Y' %}
+														<form action="/A008_Online_Booking_check/" method="GET" class="h-100 d-flex align-items-center">
+															<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+															<input type="hidden" name="user_shiftno" value="1">
+															<input type="hidden" name="user_sectno" value="{{ sectno }}">
+															<input type="hidden" name="user_doccd" value="{{ userid }}">
+															<input type="hidden" name="user_drname" value="{{ drname }}">
+															<div class="css_td">
+																<div class="booking">{{ dr_lookday_s.1 }}</div>{% if dr_lookday_s.2 == 'R' %}<span>{{ dr_lookday_s.3 }}</span>{% endif %}
+															</div>
+															<div class="css_td">
+																<input type="submit" value="預約" class="booking_btn">
+															</div>
+														</form>
+													{% endif %}
+													<div></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="Div_box_3pic d-flex align-items-stretch">
+										<div class="Div_body p-0">
+											<div class="css_table">
+												<div class="css_tr">
+													<div class="css_th noon_a">午</div>
+													{% if dr_lookday_a.0 == 'Q' %}
+														<div class="css_td">
+															<input type="submit" value="停約" class="booking_btn booking_disable">
+														</div>
+													{% elif dr_lookday_a.4 == 'M' %}
+														<div class="css_td">
+															<div class="booking_full">約滿</div>
+														</div>
+													{% elif dr_lookday_a.0 == 'Y' %}
+														<form action="/A008_Online_Booking_check/" method="GET" class="h-100 d-flex align-items-center">
+															<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+															<input type="hidden" name="user_shiftno" value="2">
+															<input type="hidden" name="user_sectno" value="{{ sectno }}">
+															<input type="hidden" name="user_doccd" value="{{ userid }}">
+															<input type="hidden" name="user_drname" value="{{ drname }}">
+															<div class="css_td">
+																<div class="booking">{{ dr_lookday_a.1 }}</div>{% if dr_lookday_a.2 == 'R' %}<span>{{ dr_lookday_a.3 }}</span>{% endif %}
+															</div>
+															<div class="css_td">
+																<input type="submit" value="預約" class="booking_btn">
+															</div>
+														</form>
+													{% endif %}
+													<div></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="Div_box_3pic d-flex align-items-stretch">
+										<div class="Div_body p-0">
+											<div class="css_table">
+												<div class="css_tr">
+													<div class="css_th night_a">晚</div>
+													{% if dr_lookday_n.0 == 'Q' %}
+														<div class="css_td">
+															<input type="submit" value="停約" class="booking_btn booking_disable">
+														</div>
+													{% elif dr_lookday_n.4 == 'M' %}
+														<div class="css_td">
+															<div class="booking_full">約滿</div>
+														</div>
+													{% elif dr_lookday_n.0 == 'Y' %}
+														<form action="/A008_Online_Booking_check/" method="GET" class="h-100 d-flex align-items-center">
+															<input type="hidden" name="user_visitdt" value="{{ dr_day }}">
+															<input type="hidden" name="user_shiftno" value="3">
+															<input type="hidden" name="user_sectno" value="{{ sectno }}">
+															<input type="hidden" name="user_doccd" value="{{ userid }}">
+															<input type="hidden" name="user_drname" value="{{ drname }}">
+															<div class="css_td">
+																<div class="booking">{{ dr_lookday_n.1 }}</div>{% if dr_lookday_n.2 == 'R' %}<span>{{ dr_lookday_n.3 }}</span>{% endif %}
+															</div>
+															<div class="css_td">
+																<input type="submit" value="預約" class="booking_btn">
+															</div>
+														</form>
+													{% endif %}
+													<div></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="py-3 text-center border-top">
+			<button type="button" class="btn btn-warning btn-lg rounded-0" onclick="window.location.href='/A008_Online_Booking_1/';"> 回科別查詢</button>
+			<button type="button" class="btn btn-outline-warning btn-lg rounded-0" onclick="window.location.href='/A008_Online_Booking_2/';">回醫師查詢</button>
+		</div>
+	</div>
+</div>
+<!-- ▲▲▲ Content ▲▲▲-->
+{% endblock %}
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="{{ drname }}｜{{ sename }}｜網路掛號" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+	.doctor_wh{
+		height: 295px !important;
+		max-width: 225px !important;
+		margin-bottom: 10px;
+	}		
+	.doc_bookable .css_table{
+		min-height: 70px;
+	}
+	.reg_bg .d_intro:hover{
+		background-color: #75482b;
+	}
+	
+	/* 上下一週按鈕 (PC/Mobile) */
+	#week_switch_btn{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.5rem;
+	}
+	.c_switch_btn_box{
+		position: fixed;
+		bottom: 135px;
+		right: 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		width: 40px;
+		z-index: 4;
+	}
+	.c_switch_btn_box > button{
+		border-radius: 0 !important;
+		font-weight: bold;
+		padding: 8px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 3px;
+		font-size: 18px;
+		line-height: 22px;
+		border: 1px solid rgba(255,255,255,0.5);
+	}
+
+	@media only screen and (min-width: 768px) {			
+	  .c_switch_btn_box{
+		   display: none !important;
+		}
+	}
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+<script src="{% static 'common/js/weekbtn.js' %}"></script>
+{% endblock %}

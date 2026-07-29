@@ -32,25 +32,40 @@
                 </div>
             </div>
             <style>
+                {% if A008_True %}
+                    body{
+                        padding-top: 0;
+                    }
+                {% endif %}
                 body.swal2-height-auto{
                     height: 100% !important;
                 }
                 .l-sub-header-group {
-                    display: contents;
+                    display: {% if A008_True %} none {% else %} contents {% endif %};
                 }
                 .online_nav_bg {
                     position: -webkit-sticky;
                     position: sticky;
                     top: var(--header-height, 70px);
                     z-index: 9;
-                }                
+                }
+                {% if A008_True %}
+                    footer{
+                        display: none;
+                    }
+                {% endif %}
             </style>
         </div>
         <main class="l-sub-layout__main" role="main">
             <div class="l-container-panel pt-2">
                 <article>
                     <!-- 讓子頁面決定是否要用預設的麵包屑 -->
-                    {% block breadcrumbs %}{% include 'breadcrumbs.html' %}{% endblock %} <!-- 麵包屑自動化 -->
+                    {% block breadcrumbs %} 
+                        {% if A008_True %}
+                        {% else %}
+                            {% include 'breadcrumbs.html' %} <!-- 麵包屑自動化 -->
+                        {% endif %}
+                    {% endblock %}
                     <div class="l-main-content u-panel-pure">
                         {% block guide_content %}{% endblock %} <!-- 子頁面內容區 -->
                     </div>

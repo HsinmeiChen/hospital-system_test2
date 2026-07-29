@@ -1,0 +1,91 @@
+{% extends "Patient_Guide/Patient_Guide_2_Base.html" %}
+
+{% load static %}
+<!-- === Meta ================================== -->
+{% block title %}網路掛號｜{{ block.super }}{% endblock %}
+{% block og_title %}網路掛號｜{{ block.super }}{% endblock %}
+{% block twitter_title %}網路掛號｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+<!-- ▼▼▼ Breadcrumb ▼▼▼-->
+{% block breadcrumbs %}{% endblock %}
+<!-- ▲▲▲ Breadcrumb ▲▲▲-->
+
+
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}
+	<div id="dialog-content" class="Booking_login"></div>
+{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
+
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<div class="l-main-content__body">
+	<div class="row items_div items_div_w mt-5">
+
+		<div class="col-lg-6 d-flex justify-content-center">
+			<div class="A_card trasition_site" onclick="location.href='/A008_Online_Booking_1/';">
+				<div class="info row align-items-center">
+					<div class="icon_1 col-4 col-lg-12">
+						<span class="livicon livicon-processed">
+							<i class="fas fa-notes-medical" aria-hidden="true"></i>
+						</span>
+					</div>
+					<div class="title col-8 col-lg-12">選擇科別</div>
+					<div class="descricao col-12">點我進入「科別名稱」查詢</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6 d-flex justify-content-center">
+			<div class="A_card trasition_site" onclick="location.href='/A008_Online_Booking_2/';">
+				<div class="info row align-items-center">
+					<div class="icon_2 col-4 col-lg-12">
+						<span class="livicon livicon-processed">
+							<i class="fas fa-user-md" aria-hidden="true"></i>
+						</span>
+					</div>
+					<div class="title col-8 col-lg-12">選擇醫師</div>
+					<div class="descricao col-12">點我進入「醫師名稱」查詢</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="網路掛號" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+<style>
+	.l-main-content{
+		background-color: transparent;
+		border: 0px solid var(--color-accent-peach);
+		padding: 0;
+	}
+	.l-main-content__body{
+		background-color: transparent;
+	}
+	.l-container-panel{
+		background-color: transparent;
+		box-shadow: none;
+		border: 0px;
+	}
+</style>
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================= -->
+{% block sub_extra_js %}
+{% endblock %}

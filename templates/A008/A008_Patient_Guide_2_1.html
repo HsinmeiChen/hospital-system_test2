@@ -1,0 +1,75 @@
+{% extends "Patient_Guide/Patient_Guide_2_Base.html" %}
+
+{% load static %}
+
+<!-- === Meta ================================== -->
+{% block title %}選擇科別｜網路掛號｜{{ block.super }}{% endblock %}
+{% block og_title %}選擇科別｜網路掛號｜{{ block.super }}{% endblock %}
+
+
+<!-- === 子頁細節內容 =========================== -->
+
+<!-- ▼▼▼ Modal ▼▼▼-->
+{% block page_modals %}
+	<!-- ※※※ Fancy box ※※※ -->
+	<div id="dialog-content" class="Booking_login"></div>	
+{% endblock %}
+<!-- ▲▲▲ Modal ▲▲▲-->
+
+
+<!-- ▼▼▼ Content ▼▼▼-->
+{% block guide_content %}
+<header id="content_h">
+    <h2 class="c-onsale-heading">選擇科別</h2>
+</header>
+<div class="l-main-content__body">
+	{% for subject,senames in datas %}
+	<div class="row">
+		<div class="col-12">
+			<div class="baseline_title long_t cofe-word mt-3">
+				<h3>{{ subject }}</h3>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="row my-3">
+				{% for sename in senames %}
+				<div class="col-12 col-md-3">
+					<a href="/A008_Online_Booking_1_part?A008_sename={{ sename }}">
+						<div class="trasition_site d_intro animate-from-bottom__0 mb-3 rounded">
+							<div class="w-100 position-relative">
+								<div class="in_icon position-absolute">
+									<i class="fas fa-notes-medical darkcoco-word font-70"></i>
+								</div>
+								<div class="in_content position-relative"> 
+									<div class="in_title">
+										<span class="title_line_org">{{ sename }}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %}
+<!-- ▲▲▲ Content ▲▲▲-->
+
+
+<!-- === Schema JSON-LD ======================== -->
+{% block guide_seo %}
+    {% include 'schema_article.html' with headline="選擇科別｜網路掛號" %}
+{% endblock %}
+
+
+<!-- === Sub Extra CSS ========================= -->
+{% block sub_extra_css %}
+{% endblock %}
+
+
+<!-- === Sub Extra JS ========================== -->
+{% block sub_extra_js %}
+{% endblock %}

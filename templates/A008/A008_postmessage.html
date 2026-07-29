@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>正在同步資料...</title>
+</head>
+<body>
+    <script>
+        // 1. 整理從 Django 後端帶過來的資料
+        var data = {
+            response: "{{ response }}",
+            errorMessage: "{{ errorMessage }}"
+        };
+
+        const json = JSON.stringify(data);
+
+        // 2. 尋找接收端視窗（如果是彈出視窗用 opener，如果是 iframe 用 parent）
+        var targetWindow = window.opener || window.parent;
+
+        if (targetWindow) {
+            // 3. 直接發送 postMessage (建議將 '*' 替換為您前端的精準網址以保安全)
+            targetWindow.postMessage(json, '*');
+            
+            // 4. 如果是彈出視窗(Popup)，傳完訊息後自動把自己關掉
+            if (window.opener) {
+                window.close();
+            }
+        } else {
+            console.error("找不到接收訊息的目標視窗");
+        }
+    </script>
+</body>
+</html>
