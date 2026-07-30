@@ -1,4 +1,5 @@
 # 網路掛號_登入頁
+@xframe_options_exempt
 def A008_login(request):
 		from urllib.parse import urlencode
 
@@ -51,9 +52,11 @@ def A008_login(request):
 
 			return redirect(url_with_params)
 
+@xframe_options_exempt
 def A008_Online_Booking_0(request):
 	return render(request, "A008/A008_Patient_Guide_2_0.html", {"A008_True": True})
 
+@xframe_options_exempt
 def A008_Online_Booking_1(request):
 	subjects = []
 	django_subjects = []
@@ -79,6 +82,7 @@ def A008_Online_Booking_1(request):
 		'datas': datas,
 	})
 
+@xframe_options_exempt
 def A008_Online_Booking_1_1(request):
 	A008_now = datetime.datetime.now()
 	A008_now = datetime.datetime.strftime(A008_now,"%H:%M:%S")
@@ -346,6 +350,7 @@ def A008_Online_Booking_1_1(request):
 		'A008_today': A008_today,
 	})
 
+@xframe_options_exempt
 def A008_Online_Booking_2(request):
 	subjects = []
 	django_subjects = []
@@ -391,6 +396,7 @@ def A008_Online_Booking_2(request):
 		'datas': datas,
 	})
 
+@xframe_options_exempt
 def A008_Online_Booking_2_1(request):
 	A008_radio_day_1 = datetime.date.today()
 	A008_radio_day_2 = get_next_month_start(1)
@@ -703,6 +709,7 @@ def A008_Online_Booking_2_1(request):
 		'A008_today': A008_today,
 	})
 
+@xframe_options_exempt
 def A008_Online_Booking_check(request):
 	# 預先定義變數以避免 UnboundLocalError  (115/05/19 新增)
 	stop_reserve_on = False
@@ -784,6 +791,7 @@ def A008_Online_Booking_check(request):
 	})
 
 # 掛號
+@xframe_options_exempt
 def A008_register(request):
 	A008_now = datetime.datetime.now()
 	A008_now = datetime.datetime.strftime(A008_now,"%H:%M:%S")
@@ -826,13 +834,14 @@ def A008_register(request):
 	return HttpResponse("OK")
 
 # 掛號結果
+@xframe_options_exempt
 def A008_find_register(request):
 	data = {}
 	now = datetime.datetime.now()
 	recno = request.session["A008_user_recno"]
 	visitdt = request.session["A008_user_visitdt"]
 
-	visitno = MSSQLAPI.A006_Search_NRGRGB_VISITNO(visitdt, recno)
+	visitno = MSSQLAPI.A006_Search_NRGRGB_VISITNO(visitdt, recno)[0]
 	del request.session["A008_user_recno"]
 
 	if (visitno > -1):
@@ -849,9 +858,11 @@ def A008_find_register(request):
 
 	return JsonResponse(data)
 
+@xframe_options_exempt
 def A008_error(request):
 		errorMessage = request.GET.get("errorMessage", None)
 		return render(request, "A008/A008_postmessage.html", {"response": "error", "errorMessage": errorMessage})
 
+@xframe_options_exempt
 def A008_logout(request):
 	request.session.flush()

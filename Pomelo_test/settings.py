@@ -97,6 +97,7 @@ INSTALLED_APPS = [
 	"Breast_Care_Center",
 	"Neurology_Center",
 	"cardio_center",
+	# "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 MIDDLEWARE = [
@@ -316,3 +317,9 @@ CONTACT_EMAIL_RECIPIENTS_MAIN = _parse_contact_recipients('CONTACT_EMAIL_RECIPIE
 CONTACT_EMAIL_RECIPIENTS_ORT = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_ORT', NOTIFY_EMAIL_RECIPIENTS)       # 骨科微創手術中心
 CONTACT_EMAIL_RECIPIENTS_NEURO = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_NEURO', NOTIFY_EMAIL_RECIPIENTS)       # 神經醫學中心
 CONTACT_EMAIL_RECIPIENTS_CARDIO = _parse_contact_recipients('CONTACT_EMAIL_RECIPIENTS_CARDIO', NOTIFY_EMAIL_RECIPIENTS)       # 心血管中心
+
+# 自助繳費機因為使用iframe嵌入，所以需要允許跨來源 Cookie，並且強制使用 HTTPS 傳輸
+# 允許跨來源 Cookie（關鍵設定）
+SESSION_COOKIE_SAMESITE = 'None'
+# 強制 Cookie 只能透過 HTTPS 傳輸（SameSite=None 的必要條件）
+SESSION_COOKIE_SECURE = True

@@ -453,9 +453,13 @@ const A008_sure_ok = () => {
         didOpen: () => {
             Swal.showLoading();
             const timer = Swal.getPopup().querySelector("b");
-            timerInterval = setInterval(() => {
-                timer.textContent = `${Swal.getTimerLeft()}`;
-            }, 100);
+            
+            // 加上安全檢查（防呆），確保 timer 存在才執行
+            if (timer) {
+                timerInterval = setInterval(() => {
+                    timer.textContent = `${Swal.getTimerLeft()}`;
+                }, 100);
+            }
         },
         willClose: () => {
             clearInterval(timerInterval);
@@ -465,7 +469,6 @@ const A008_sure_ok = () => {
         $( function () {
             $.get("/A008_find_register/",function(result){
                 var targetWindow = window.opener || window.parent;
-
                 if (targetWindow) {
                     targetWindow.postMessage(result, '*');
                     if (window.opener) {

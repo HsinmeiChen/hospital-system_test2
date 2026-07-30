@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 import os, datetime, re, glob, calendar, time, smtplib, openpyxl, textwrap
 from django.conf import settings
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 # --- 導入共用圖片轉 .webp 格式 與清理舊檔案函式 ---
 from Pomelo_test.utils import convert_image_to_webp, safe_cleanup_webp_cache
