@@ -9,8 +9,15 @@ def A008_login(request):
 			user_pwd = request.GET.get("Birthday", None)
 			token = request.GET.get("token", None)
 
+			publicToken = ""
+			A008KeyDate = datetime.datetime.now().strftime("%Y%m%d")
+			A008KeyName = str(A008KeyDate) + 'key.txt'
+			shutil.copy('C:\Everan_website\Pomelo_test\A008_key\key.txt', A008KeyName)
 			# 確認金鑰正確
-			publicToken = "test"
+			with open(A008KeyName, 'r', encoding='utf-8') as f:
+				publicToken = f.read()
+
+			print("publicToken: ", publicToken)
 			if token != publicToken:
 				url = "/A008_error/"
 				params = {"errorMessage": "Token驗證失敗，請重新輸入！"}

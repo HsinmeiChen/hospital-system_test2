@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from dateutil.relativedelta import relativedelta
 import pandas as pd
-import os, datetime, re, glob, calendar, time, smtplib, openpyxl, textwrap
+import os, datetime, re, glob, calendar, time, smtplib, openpyxl, textwrap, shutil
 from django.conf import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
 

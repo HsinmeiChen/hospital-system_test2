@@ -40,3 +40,5 @@ staticfiles/
 Public/common/img/
 Public/common/doc/
 
+# 忽略 和訊繳費機網路掛號金鑰
+A008_key/
