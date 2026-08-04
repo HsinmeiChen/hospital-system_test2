@@ -740,7 +740,7 @@ def A008_Online_Booking_check(request):
 	sectno = request.GET.get("user_sectno")
 	n_sectno = MSSQLAPI.A006_Search_NRGSEC_SHOWNAME(sectno)[0]
 	doccd = request.GET.get("user_doccd")
-	n_doccd = request.GET.get("user_drname")
+	n_doccd = PLSQLAPI.A006_Search_BASEMP_EMPNAME(doccd) + " 醫師"
 	roomno = MSSQLAPI.A006_Search_SCD_ROOMNO(visitdt, shiftno, sectno, doccd)[0]
 	n_roomno = roomno[1:]
 	patid = request.session["A008_patid"]
