@@ -21,7 +21,7 @@ uv run deptry .
 
 ### 2. 檢測結果與修正
 
-#### 處理名稱對應（False Positive）
+#### 處理Package Name與Import Module Name不同問題
 * **問題**：檢測顯示 `fitz` 被引用但未定義在 `pyproject.toml` 中，而 `pymupdf` 被標示為未使用。
 * **原因**：`pymupdf` 套件在程式碼中是以 `import fitz` 方式匯入。
 * **解決方案**：在 `pyproject.toml` 中新增設定：
@@ -34,7 +34,7 @@ uv run deptry .
 
 ### 3. 套件移除與保留規劃
 
-#### 確定可以直接移除（程式碼中無相關功能）
+#### 確定可以直接移除
 * `xlrd`：舊版 Excel 讀取套件。
 * `beautifulsoup4`：HTML 解析套件。
 * `lxml`：XML / HTML 解析套件。
@@ -55,13 +55,16 @@ uv remove xlrd beautifulsoup4 lxml urllib3
 ```bash
 uv run python manage.py check
 ```
+> [!NOTE]
+> 執行 `uv run python manage.py check` 若完全正常，終端機將會顯示：
+> `System check identified no issues (0 silenced).`
 
 ---
 
 ## 二、 升級 Python 與 Django 版本
 
 ### 1. 固定 Python 版本
-因為要更新至 Django 5.2 會因 Python 版本太舊而被擋，所以需要先升級 Python：
+升級 Python：
 ```bash
 uv python pin 3.12
 ```
@@ -80,8 +83,9 @@ uv add "django>=5.2,<5.3"
 ```bash
 uv run python manage.py check
 ```
-
+> [!WARNING]
 > **注意事項**：發現版本不同時，正規化方式已改變，請檢查資料庫 Migration 狀態：
+
 ```bash
 uv run python manage.py makemigrations --dry-run
 ```
