@@ -36,27 +36,27 @@ urlpatterns = [
 	# path('test404/', TemplateView.as_view(template_name='404.html')),
 	# path('test500/', TemplateView.as_view(template_name='500.html')),
 	# re_path('admin/', admin.site.urls),
-	re_path('^api/captcha/image/$', pomelo_test_utils.common_captcha_img, name='common_captcha_img'),
+	re_path(r'^api/captcha/image/$', pomelo_test_utils.common_captcha_img, name='common_captcha_img'),
 	re_path('^api/captcha/refresh/$', pomelo_test_utils.common_refresh_captcha, name='common_refresh_captcha'),
 	re_path('^$', pomelo_views.index),
 	re_path('index/', pomelo_views.index, name="index"),
 	re_path('^A000_news/$', pomelo_views.new_news),
-	re_path('^A000_news/page/(?P<page>\d+)/$', pomelo_views.new_news),
-	re_path('A000_news/(?P<slug>[\w\d]+)/', pomelo_views.new_news_detail, name='news_detail'),
+	re_path(r'^A000_news/page/(?P<page>\d+)/$', pomelo_views.new_news),
+	re_path(r'A000_news/(?P<slug>[\w\d]+)/', pomelo_views.new_news_detail, name='news_detail'),
 	re_path('^A000_reports/$', pomelo_views.new_medias),
-	re_path('^A000_reports/page/(?P<page>\d+)/$', pomelo_views.new_medias),
-	re_path('A000_reports/(?P<slug>[\w\d_-]+)/', pomelo_views.new_media_detail, name='media_detail'),
+	re_path(r'^A000_reports/page/(?P<page>\d+)/$', pomelo_views.new_medias),
+	re_path(r'A000_reports/(?P<slug>[\w\d_-]+)/', pomelo_views.new_media_detail, name='media_detail'),
 	re_path('A000_closed_clinic/', pomelo_views.new_stop_show),
 	re_path('A000_video_message/', pomelo_views.new_video),
 	re_path('^A000_medical_info/$', pomelo_views.medical_info), # 醫療資訊 (清單頁)
-	re_path('^A000_medical_info/page/(?P<page>\d+)/$', pomelo_views.medical_info), # 醫療資訊 (AJAX 分頁)
-	re_path('^A000_medical_info/(?P<slug>[\w\d_-]+)/$', pomelo_views.medical_pages_detail, name='medical_detail'), # 醫療資訊(詳細頁-短網址)
+	re_path(r'^A000_medical_info/page/(?P<page>\d+)/$', pomelo_views.medical_info), # 醫療資訊 (AJAX 分頁)
+	re_path(r'^A000_medical_info/(?P<slug>[\w\d_-]+)/$', pomelo_views.medical_pages_detail, name='medical_detail'), # 醫療資訊(詳細頁-短網址)
 	re_path('A000_medical_pages/', pomelo_views.medical_pages),
 	re_path('^A001_department_overview/$', pomelo_views.A001_department_overview),
-	re_path('^A001_department_overview/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A001_department_part_short),
+	re_path(r'^A001_department_overview/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A001_department_part_short),
 	re_path('^A001_department_part/$', pomelo_views.A001_department_part),
 	re_path('^A001_department_doctor/$', pomelo_views.A001_department_doctor),
-	re_path('^A001_department_doctor/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A001_department_doctor_short),
+	re_path(r'^A001_department_doctor/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A001_department_doctor_short),
 	re_path('^A001_dr_search/$', pomelo_views.A001_dr_search),
 	re_path('A002_consultation_progress/', pomelo_views.A002_consultation_progress),
 	re_path('A002_registration_notice/', pomelo_views.A002_registration_notice),
@@ -157,10 +157,10 @@ urlpatterns = [
 	re_path('A006_Online_Booking_check/', pomelo_views.A006_Online_Booking_check),
 	re_path('A006_Online_Booking_1/', pomelo_views.A006_Online_Booking_1),
 	re_path('^A006_Online_Booking_1_part/$', pomelo_views.A006_Online_Booking_1_part_legacy), # 科別預約頁(舊網址轉接)
-	re_path('^A006_Online_Booking_1_part/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_1_part_short), # 科別預約頁(新網址)
+	re_path(r'^A006_Online_Booking_1_part/(?P<dept_en>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_1_part_short), # 科別預約頁(新網址)
 	re_path('A006_Online_Booking_2/', pomelo_views.A006_Online_Booking_2),
 	re_path('^A006_Online_Booking_2_1/$', pomelo_views.A006_Online_Booking_2_1_legacy), # 醫師預約頁(舊網址轉接)
-	re_path('^A006_Online_Booking_2_1/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_2_1_short), # 醫師預約頁(新網址)
+	re_path(r'^A006_Online_Booking_2_1/(?P<dept_en>[\w\d_-]+)/(?P<dr_id>[\w\d_-]+)/$', pomelo_views.A006_Online_Booking_2_1_short), # 醫師預約頁(新網址)
 	re_path('A006_sign_out/', pomelo_views.A006_sign_out),
 	re_path('A006_register/', pomelo_views.A006_register),
 	re_path('A006_find_register/', pomelo_views.A006_find_register),
