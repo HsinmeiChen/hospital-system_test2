@@ -78,7 +78,7 @@ def get_dynamic_name(segment, request):
 					name_val = mapping['doctors'][path_id]['dept_name']
 				# 如果是科別 ID (如 1_1)，直接從科別對照表抓名稱
 				elif path_id in mapping['depts']:
-				   name_val = mapping['depts'][path_id]['name']
+					name_val = mapping['depts'][path_id]['name']
 				# --- [備案：如果快取找不到，才跑原本的目錄掃描 (保持相容性)] ---
 				if not name_val and "_" in path_id:
 					parts = path_id.split("_")
@@ -516,17 +516,17 @@ def breadcrumb_processor(request):
 									# 優先以 hash 值比對
 									for f in os.listdir(_dir):
 										if f.lower().endswith('.jpg') and '_' in f:
-											 prefix = f.split('_')[0]
-											 h = hashlib.md5(prefix.encode('utf-8')).hexdigest()[:8]
-											 if h == title_segment:
-												 display_title = prefix
-												 break
+											prefix = f.split('_')[0]
+											h = hashlib.md5(prefix.encode('utf-8')).hexdigest()[:8]
+											if h == title_segment:
+												display_title = prefix
+												break
 									# 備案：若傳入的就是原中文 (相容舊網址)
 									if display_title == title_segment:
-										 for f in os.listdir(_dir):
-											 if f.lower().endswith('.jpg') and f.startswith(title_segment + '_'):
-												 display_title = title_segment
-												 break
+										for f in os.listdir(_dir):
+											if f.lower().endswith('.jpg') and f.startswith(title_segment + '_'):
+												display_title = title_segment
+												break
 							breadcrumbs.append({"name": display_title, "url": f"/A003_health_edu/{sub_item_en}/{title_segment}/"})
 
 				else:
