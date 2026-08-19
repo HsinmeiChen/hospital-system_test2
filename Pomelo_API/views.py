@@ -1,13 +1,17 @@
+from django.core.management import sql
 from django.http import HttpResponse, JsonResponse, Http404
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator , EmptyPage, PageNotAnInteger #分頁功能套件，Django本身就有支援
 from dateutil.relativedelta import relativedelta
+from oracledb import cursor
 import pandas as pd
 import os, datetime, re, glob, calendar, time, smtplib, openpyxl, textwrap, shutil
 from django.conf import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.db import connections
+
 
 # --- 導入共用圖片轉 .webp 格式 與清理舊檔案函式 ---
 from Pomelo_test.utils import convert_image_to_webp, safe_cleanup_webp_cache
@@ -39,6 +43,8 @@ try:
 except ImportError:
 	cx_Oracle = None
 	print("oracledb module not installed")
+
+from Pomelo_test.db_pools import pool_oracle_case, get_pooled_connection
 
 try:
 	import pymssql
@@ -95,7 +101,8 @@ def error_update_send_mail(e):
 	message['Subject'] = Header('網路掛號錯誤提示（本郵件為自動發送，請勿回覆）', 'utf-8')
 	message['From'] = Header("網路掛號系統", 'utf-8')   # 發送者
 	message['To'] =  Header("資訊室", 'utf-8')        # 接收者
-	ftp_text = MIMEText('掛號失敗，' + e + '。', 'plain', 'utf-8')
+	# ftp_text = MIMEText('掛號失敗，' + e + '。', 'plain', 'utf-8')
+	ftp_text = MIMEText('掛號失敗，' + str(e) + '。', 'plain', 'utf-8')
 	message.attach(ftp_text)
 
 	try:
@@ -108,6 +115,7 @@ def error_update_send_mail(e):
 		pass
 
 # HIS資料庫相關程式
+#20260817get_pooled_connection(pool_oracle_case)
 class PLSQLAPI:
 	def Search_Stop_Show(date):
 		if cx_Oracle is None:
@@ -115,7 +123,7 @@ class PLSQLAPI:
 			return []
 		try:
 			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			connection = get_pooled_connection(pool_oracle_case)
 		except Exception as e:
 			print(f"Oracle connection failed: {e}")
 			return []
@@ -159,17 +167,18 @@ class PLSQLAPI:
 			except:
 				pass
 			return []
-
+		
+	#20260817 get_pooled_connection(pool_oracle_case)
 	def get_connection():
 		if cx_Oracle is None:
 			print("cx_Oracle driver not installed.")
 			return None
 		try:
-			return cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			return get_pooled_connection(pool_oracle_case)
 		except Exception as e:
 			print(f"Oracle connection failed: {e}")
 			return None
-
+		
 	def Search_Stop_Show_by_Dr(patid, sectno=None, connection=None): # ---【 Modify-多綁定科別 】---
 		if cx_Oracle is None:
 			print("cx_Oracle driver not installed.")
@@ -178,7 +187,7 @@ class PLSQLAPI:
 		if not is_shared:
 			try:
 				# 連線Oracle資料庫
-				connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+				connection = get_pooled_connection(pool_oracle_case)
 			except Exception as e:
 				print(f"Oracle connection failed: {e}")
 				return []
@@ -231,7 +240,7 @@ class PLSQLAPI:
 					datas[i][3] = "晚診"
 
 				i += 1
-
+			
 			c.close()
 			if not is_shared:
 				connection.close()
@@ -260,7 +269,7 @@ class PLSQLAPI:
 
 		try:
 			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			connection = get_pooled_connection(pool_oracle_case)
 		except Exception as e:
 			print(f"Oracle connection failed in A002_Search_Room_All_Number: {e}")
 			return []
@@ -287,6 +296,7 @@ class PLSQLAPI:
 			c.execute(sql, (shiftno, date, roomno))
 
 			rows = c.fetchall()
+			print("A002 DEBUG:", shiftno, roomno, rows[:10])
 
 			c.close()
 			connection.close()
@@ -306,8 +316,7 @@ class PLSQLAPI:
 
 	def A006_Search_BASEMP_EMPNAME(deptno):
 		try:
-			# 連線Oracle資料庫
-			connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+			connection = get_pooled_connection(pool_oracle_case)
 		except Exception as e:
 			print(f"Oracle connection failed in A006_Search_BASEMP_EMPNAME: {e}")
 			return None
@@ -347,13 +356,6 @@ class PLSQLAPI:
 class MSSQLAPI:
 	# 網路掛號，登入LOG 20241225新增
 	def insertA006LoginLogWeb(idno, patBirthday, url):
-		# 連線MSSQL資料庫
-		connection = pymssql.connect(
-			host = mssql_66_146_host,
-			user = mssql_66_146_user,
-			password = mssql_66_146_pwd,
-			database = mssql_66_146_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -366,28 +368,14 @@ class MSSQLAPI:
 			%s)
 		"""
 
-		# 定義資料庫游標
-		c = connection.cursor(as_dict = True)
-		c.execute(sql, (idno, patBirthday, url))
-
-		# 如果執行的是修改操作，需要提交事務；如果執行的是查詢操作，不需要提交
-		connection.commit()
-
-		c.close()
-		connection.close()
+		with connections['mssql_66_146'].cursor() as cursor:
+			cursor.execute(sql, (idno, patBirthday, url))
 
 		return("true")
+
 	def A002_Now_Call(shiftno):
 		today = datetime.datetime.now()
 		date = today.strftime("%Y%m%d")
-
-		# 連線MSSQL資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -398,26 +386,13 @@ class MSSQLAPI:
 			AND SCD_CANCEL='N'
 		ORDER BY SCD_ROOMNO
 		"""
-
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (shiftno, date))
-
-		rows = c.fetchall()
-
-		c.close()
-		connection.close()
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (shiftno, date))
+			rows = cursor.fetchall()
 
 		return(rows)
 
 	def Insert_LOG_WEB(patid, idno, visitdt, recno, shiftno, roomno, sectno, doccd):
-		# 連線MSSQL資料庫
-		connection = pymssql.connect(
-			host = mssql_66_146_host,
-			user = mssql_66_146_user,
-			password = mssql_66_146_pwd,
-			database = mssql_66_146_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -440,85 +415,44 @@ class MSSQLAPI:
 			%s)
 		"""
 
-		# 定義資料庫游標
-		c = connection.cursor(as_dict = True)
-
 		try:
-			c.execute(sql, (patid, idno, visitdt, recno, shiftno, roomno, sectno, doccd))
-			# 如果執行的是修改操作，需要提交事務；如果執行的是查詢操作，不需要提交
-			connection.commit()
+			with connections['mssql_66_146'].cursor() as cursor:
+				cursor.execute(
+					sql,
+					(patid, idno, visitdt, recno, shiftno, roomno, sectno, doccd)
+				)
+
 		except Exception as e:
 			error_update_send_mail(e)
-			# pass
-		finally:
-			pass
-
-		c.close()
-		connection.close()
 
 		return("true")
 
 	def Search_Dr_SECTNO(sename):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''SELECT SEC_SECTNO FROM NRGSEC 
 		WHERE SEC_SHOWNAME=%s
 		'''
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (sename,))
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (sename,))
+			rows = cursor.fetchone()
 
-		rows = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		return (rows)
+		return(rows)
 
 	def Search_SENAME_BASSECT():
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='CP950')
 
 		# 輸入你要查找的資料表語法
 		sql = '''SELECT SEC_SHOWNAME,SEC_SENAME,SEC_INSSECTNO FROM NRGSEC'''
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
+		
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql)
+			rows = cursor.fetchall()
 
-		rows = c.fetchall()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(rows)
 
 	# 查詢儲存在table的資料
 	def Search_EAH_WEB_DATA(data_type):
-		try:
-			# 連線MSSQL資料庫
-			connection = pymssql.connect(
-				host = mssql_66_146_host,
-				user = mssql_66_146_user,
-				password = mssql_66_146_pwd,
-				database = mssql_66_146_db,
-				charset='UTF-8')
-		except Exception as e:
-			print(f"MSSQL connection failed: {e}")
-			return []
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -527,27 +461,19 @@ class MSSQLAPI:
 			AND EAH_WEB_STOP = 'N'
 			ORDER BY EAH_WEBNO
 			"""
+		try:
+			with connections['mssql_66_146'].cursor() as cursor:
+				cursor.execute(sql, (data_type,))
+				rows = cursor.fetchall()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (data_type,))
+			return rows
 
-		rows = c.fetchall()
-
-		c.close()
-		connection.close()
-
-		return(rows)
+		except Exception as e:
+			print(f"Search_EAH_WEB_DATA 查詢失敗: {e}")
+			return []
 
 	# 根據中文科別名稱，查HIS科別代碼
 	def A006_Search_SEC_SECTNO_BY_SENAME(sename):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -555,67 +481,61 @@ class MSSQLAPI:
 			WHERE SEC_SHOWNAME = %s
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (sename,))
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, [sename])
+				data = cursor.fetchone()
 
-		data = c.fetchone()
+			if data is None:
+				return "error"
 
-		c.close()
-		connection.close()
+			return data[0]
 
-		# 回傳第一比查詢資料(rows[0])
-		if (data == None):
-			return("error")
-		else:
-			return(data[0])
+		except Exception as e:
+			print(f"A006_Search_SEC_SECTNO_BY_SENAME 查詢失敗: {e}")
+			return "error"
 
 	# 根據醫師，查詢當週看診的日期與診別
 	def A006_Search_NRGSCD_BY_EMPNO(empno, sectno, startdt, enddt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
-		sql = '''SELECT SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM NRGSCD
-			-- INNER JOIN NRGSEC
-			-- 	  ON SCD_HOSPAREA = SEC_HOSPAREA
-			-- 	  AND SCD_SECTNO = SEC_SECTNO
-			  WHERE SCD_HOSPAREA='1'
-				  AND SCD_CANCEL='N'
-				  AND SCD_KNDKIND='1'
-				  AND SCD_SECTNO = %s
-				  --AND SEC_ISNET='Y'
-				  AND SCD_VISITDT BETWEEN %s AND %s
-				  AND SCD_EMPNO = %s
+		# sql = '''SELECT SCD_VISITDT,SCD_SHIFTNO,SCD_ROOMNO FROM NRGSCD
+		# 	-- INNER JOIN NRGSEC
+		# 	-- 	  ON SCD_HOSPAREA = SEC_HOSPAREA
+		# 	-- 	  AND SCD_SECTNO = SEC_SECTNO
+		# 	  WHERE SCD_HOSPAREA='1'
+		# 		  AND SCD_CANCEL='N'
+		# 		  AND SCD_KNDKIND='1'
+		# 		  AND SCD_SECTNO = %s
+		# 		  --AND SEC_ISNET='Y'
+		# 		  AND SCD_VISITDT BETWEEN %s AND %s
+		# 		  AND SCD_EMPNO = %s
+		# 	'''
+		sql = '''SELECT SCD_VISITDT, SCD_SHIFTNO, SCD_EMPNO, SCD_SECTNO, SCD_EMPNAME
+				FROM NRGSCD
+				WHERE SCD_HOSPAREA = '1'
+				AND SCD_CANCEL = 'N'
+				AND SCD_KNDKIND = '1'
+				AND SCD_SECTNO = %s
+				AND SCD_VISITDT BETWEEN %s AND %s
+				AND SCD_EMPNO = %s
 			'''
-
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (sectno, startdt, enddt, empno))
-
-		data = c.fetchall()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(
+					sql,
+					[sectno, startdt, enddt, empno]
+				)
+				data = cursor.fetchall()
+			return data
+		
+		except Exception as e:
+			print(f"A006_Search_NRGSCD_BY_EMPNO 查詢失敗: {e}")
+			return []
 
 	# 根據科別，查詢當週看診的日期與診別
 	def A006_Search_NRGSCD_BY_SECTNO(sectno, startdt, enddt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -631,27 +551,19 @@ class MSSQLAPI:
 				  AND SCD_VISITDT BETWEEN %s AND %s
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (sectno, startdt, enddt))
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, [sectno, startdt, enddt])
+				data = cursor.fetchall()
 
-		data = c.fetchall()
+			return data
 
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		except Exception as e:
+			print(f"A006_Search_NRGSCD_BY_SECTNO 查詢失敗: {e}")
+			return []
 
 	# 根據醫師，查詢診間以掛號人數（醫師查詢用）
 	def A006_Search_NRGRGB_COUNT(visitdt, sectno, doccd ,shiftno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -666,69 +578,51 @@ class MSSQLAPI:
 					AND REG_CANCEL='N'
 				GROUP BY REG_HOSPAREA,REG_VISITDT,REG_SECTNO,REG_SHIFTNO,REG_DOCCD
 			'''
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (visitdt, sectno, doccd, shiftno))
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, sectno, doccd, shiftno))
+				data = cursor.fetchall()
 
-		data = c.fetchall()
-		if (len(data) == 0):
-			data = 0
-		else:
-			data = data[0][5]
+				if (len(data) == 0):
+					data = 0
+				else:
+					data = data[0][5]
 
-		c.close()
-		connection.close()
+			return(data)
 
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		except Exception as e:
+			print(f"A006_Search_NRGRGB_COUNT 查詢失敗: {e}")
+			return 0
 
-	# 根據醫師，查詢診間以掛號人數（科室查詢用）
-	def A006_Search_NRGNPRO_COUNT(visitdt, sectno, doccd ,shiftno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_66_147_host,
-			user = mssql_66_147_user,
-			password = mssql_66_147_pwd,
-			database = mssql_66_147_db,
-			charset='UTF-8')
+	# 根據醫師，查詢診間以掛號人數（科室查詢用）以沒用
+	# def A006_Search_NRGNPRO_COUNT(visitdt, sectno, doccd ,shiftno):
 
-		# 輸入你要查找的資料表語法
-		# 使用 %s 作為佔位符
-		sql = '''
-				SELECT NPRO_HOSPAREA,NPRO_VISITDT,NPRO_SECTNO,NPRO_SHIFTNO,NPRO_DOCCD,NPRO_NRP FROM NRGNPRO
-				WHERE NPRO_HOSPAREA='1'
-					AND NPRO_VISITDT=%s
-					AND NPRO_SECTNO=%s
-					AND NPRO_DOCCD=%s
-					AND NPRO_SHIFTNO=%s
-			'''
+	# 	# 輸入你要查找的資料表語法
+	# 	# 使用 %s 作為佔位符
+	# 	sql = '''
+	# 			SELECT NPRO_HOSPAREA,NPRO_VISITDT,NPRO_SECTNO,NPRO_SHIFTNO,NPRO_DOCCD,NPRO_NRP FROM NRGNPRO
+	# 			WHERE NPRO_HOSPAREA='1'
+	# 				AND NPRO_VISITDT=%s
+	# 				AND NPRO_SECTNO=%s
+	# 				AND NPRO_DOCCD=%s
+	# 				AND NPRO_SHIFTNO=%s
+	# 		'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, sectno, doccd, shiftno))
+	# 	with connections['mssql_66_147'].cursor() as cursor:
+	# 		cursor.execute(sql, (visitdt, sectno, doccd, shiftno))
 
-		data = c.fetchall()
-		if (len(data) == 0):
-			data = 0
-		else:
-			data = data[0][5]
+	# 		data = cursor.fetchall()
 
-		c.close()
-		connection.close()
+	# 		if (len(data) == 0):
+	# 			data = 0
+	# 		else:
+	# 			data = data[0][5]
 
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+	# 	return(data)
 
 	# 根據科別，查詢診間當周已掛號人數（科室查詢用）
 	def A006_Search_NRGNPRO_COUNT_BY_SECTNO(sectno, startdt, enddt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -755,27 +649,18 @@ class MSSQLAPI:
 				 REG_SHIFTNO,
 				 REG_DOCCD ;
 			'''
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, [startdt, enddt, sectno])
+				data = cursor.fetchall()
+			return data
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (startdt, enddt, sectno))
-
-		data = c.fetchall()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
-
+		except Exception as e:
+			print(f"A006_Search_NRGNPRO_COUNT_BY_SECTNO 查詢失敗: {e}")
+			return []
 
 	# 根據醫師，查詢診間是否有代診、約滿、停約尚不知道欄位
 	def A006_Search_NRGSCD_DATA(visitdt, sectno, doccd ,shiftno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -787,29 +672,18 @@ class MSSQLAPI:
 				AND SCD_EMPNO = %s
 				AND SCD_CANCEL = 'N'
 			'''
-
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, shiftno, sectno, doccd))
-
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, [visitdt, shiftno, sectno, doccd])
+				data = cursor.fetchone()
+			return data
+		
+		except Exception as e:
+			print(f"A006_Search_NRGSCD_DATA 查詢失敗: {e}")
+			return []
 
 	# 根據科別，查詢診間當周是否有代診、約滿、停約尚不知道欄位
 	def A006_Search_NRGSCD_DATA_BY_SECTNO(sectno, startdt, enddt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -821,28 +695,19 @@ class MSSQLAPI:
 					AND SCD_CANCEL = 'N'
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (startdt, enddt, sectno))
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, [startdt, enddt, sectno])
+				data = cursor.fetchall()
 
-		data = c.fetchall()
+			return data
 
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		except Exception as e:
+			print(f"A006_Search_NRGSCD_DATA_BY_SECTNO 查詢失敗: {e}")
+			return []
 
 	# 查詢病人病歷號
 	def A006_Search_NRGPAT(acc):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -859,40 +724,25 @@ class MSSQLAPI:
 				AND TPT_PATID <> ' '
 			'''
 
-		#print(sql2)
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (acc, acc))
+				data = cursor.fetchone()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (acc, acc))
+			# 若 NRGPAT 找不到資料，則到 NRGPATTEMP 查找
+			if data is None:
+				with connections['mssql_200_211'].cursor() as cursor:
+					cursor.execute(sql2, (acc, acc))
+					data = cursor.fetchone()
 
-		data = c.fetchone()
+			return data
 
-		c.close()
-		# 若NRGPAT找不到資料，則到NRGPATTEMP查找
-		if (data == None):
-			# 定義資料庫游標
-			c = connection.cursor()
-			c.execute(sql2, (acc, acc))
-
-			data = c.fetchone()
-
-			c.close()
-
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+		except Exception as e:
+			print(f"A006_Search_NRGPAT 查詢失敗: {e}")
+			return None
 
 	# 查詢病人全部看診資料
 	def A006_Search_NRGRGB_BY_PATID(patid):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		date = datetime.date.today().strftime("%Y%m%d")
 		if (patid[0].isdigit()):
@@ -932,29 +782,14 @@ class MSSQLAPI:
 					AND REG_CANCEL='N'
 					AND SCD_CANCEL='N'
 				'''
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (patid, date))
+			data = cursor.fetchall()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (patid, date))
-
-		data = c.fetchall()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 查詢病人是否重複看診
 	def A006_Search_NRGRGB_FOR_PATID(patid, visitdt, shiftno, doccd):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -969,28 +804,14 @@ class MSSQLAPI:
 				AND REG_VISITNO <> -300
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (patid, visitdt, shiftno, doccd))
+		with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (patid, visitdt, shiftno, doccd))
+				data = cursor.fetchone()
 
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 根據科別查科別名稱
 	def A006_Search_NRGSEC_SHOWNAME(sectno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='CP950')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -998,30 +819,16 @@ class MSSQLAPI:
 			SELECT SEC_SHOWNAME FROM NRGSEC
 			WHERE SEC_SECTNO = %s
 		'''
-		#print(sql)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (sectno,))
 
-		rows = c.fetchone()
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (sectno,))
+			rows = cursor.fetchone()
 
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(rows)
 
 	# 查詢診間號
 	def A006_Search_SCD_ROOMNO(visitdt, shiftno, sectno, doccd):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
-
+		
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
@@ -1032,31 +839,15 @@ class MSSQLAPI:
 					AND SCD_EMPNO = %s
 					AND SCD_CANCEL='N'
 			'''
-		#print(sql)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, shiftno, sectno, doccd))
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (visitdt, shiftno, sectno, doccd))
+			data = cursor.fetchone()
 
-		data = c.fetchone()
-
-		c.close()
-
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 查詢病人個資
 	def A006_Search_NRGPAT_BY_PATID(patid):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
-
+		
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
@@ -1071,150 +862,77 @@ class MSSQLAPI:
 				AND TPT_PATID = %s
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (patid,))
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (patid,))
+			data = cursor.fetchone()
 
-		data = c.fetchone()
-
-		c.close()
-		# 若NRGPAT找不到資料，則到NRGPATTEMP查找
+		# 若 NRGPAT 找不到資料，則到 NRGPATTEMP 查找
 		if (data == None):
-			# 定義資料庫游標
-			c = connection.cursor()
-			c.execute(sql2, (patid,))
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql2, (patid,))
+				data = cursor.fetchone()
 
-			data = c.fetchone()
-
-			c.close()
-
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 查詢診資料序號
-	def A006_Search_EAH_NRGCON_COUNT():
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
+	# def A006_Search_EAH_NRGCON_COUNT():
+		
+	# 	# 輸入你要查找的資料表語法
+	# 	sql = '''
+	# 			SELECT * FROM EAH_NRGCON WHERE PK_EAH=1
+	# 		'''
 
-		# 輸入你要查找的資料表語法
-		sql = '''
-				SELECT * FROM EAH_NRGCON WHERE PK_EAH=1
-			'''
+	# 	with connections['mssql_200_211'].cursor() as cursor:
+	# 		cursor.execute(sql)
+	# 		data = cursor.fetchone()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql)
-
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
-		return(data)
+	# 	return(data)
 
 	# 更新資料最大序號
-	def A006_Update_EAH_NRGCON_COUNT():
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 5,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
+	# def A006_Update_EAH_NRGCON_COUNT():
 
-		try:
-			# 輸入你要查找的資料表語法
-			sql = '''
-					IF EXISTS(
-						SELECT * FROM EAH_NRGCON
-						WHERE PK_EAH=1
-						AND EAH_NRGCOUNT<9999
-					)BEGIN
-						UPDATE EAH_NRGCON SET EAH_NRGCOUNT=EAH_NRGCOUNT+1
-						WHERE PK_EAH=1
-					END
-					ELSE
-					BEGIN
-						UPDATE EAH_NRGCON SET EAH_NRGCOUNT=8001
-						WHERE PK_EAH=1
-					END
-				'''
+	# 	try:
+	# 		# 輸入你要查找的資料表語法
+	# 		sql = '''
+	# 				IF EXISTS(
+	# 					SELECT * FROM EAH_NRGCON
+	# 					WHERE PK_EAH=1
+	# 					AND EAH_NRGCOUNT<9999
+	# 				)BEGIN
+	# 					UPDATE EAH_NRGCON SET EAH_NRGCOUNT=EAH_NRGCOUNT+1
+	# 					WHERE PK_EAH=1
+	# 				END
+	# 				ELSE
+	# 				BEGIN
+	# 					UPDATE EAH_NRGCON SET EAH_NRGCOUNT=8001
+	# 					WHERE PK_EAH=1
+	# 				END
+	# 			'''
 
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql)
-			connection.commit()
+	# 		with connections['mssql_200_211'].cursor() as cursor:
+	# 			cursor.execute(sql)
 
-			c.close()
-			connection.close()
-
-		except Exception as e:
-			try:
-				c.close()
-			except:
-				pass
-			try:
-				connection.close()
-			except:
-				pass
-			return("更新最大序號失敗!", e)
+	# 	except Exception as e:
+	# 		return ("更新最大序號失敗!", e)
 
 	# 查詢診資料序號
 	def A006_Search_NRGRGS_RECNO(visitdt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
-
+		
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
 				SELECT * FROM NRGRGS WHERE RGS_VISITDT=%s
 			'''
+		
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (visitdt,))
+			data = cursor.fetchone()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt,))
-
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 新增資料序號
 	def A006_Insert_NRGRGS_RECNO(visitdt):
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 5,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
-
+		
 		try:
 			# 輸入你要查找的資料表語法
 			# 使用 %s 作為佔位符
@@ -1222,40 +940,17 @@ class MSSQLAPI:
 					INSERT INTO NRGRGS VALUES ('1', %s, 1)
 				'''
 
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql, (visitdt,))
-			connection.commit()
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (visitdt,))
 
-			c.close()
-			connection.close()
-
-			# 回傳第一比查詢資料(rows[0])
 			return("OK")
-		except:
-			try:
-				c.close()
-			except:
-				pass
-			try:
-				connection.close()
-			except:
-				pass
-			return("新增資料序號失敗!")
 
+		except Exception as e:
+			print(f"A006_Insert_NRGRGS_RECNO 新增失敗: {e}")
+			return("新增資料序號失敗!")
+		
 	# 更新資料最大序號
 	def A006_Update_NRGRGS_RECNO(visitdt):
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 5,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
 
 		try:
 			# 輸入你要查找的資料表語法
@@ -1265,19 +960,11 @@ class MSSQLAPI:
 				WHERE RGS_HOSPAREA='1' AND RGS_VISITDT=%s
 				'''
 
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql, (visitdt,))
-			connection.commit()
-
-			c.close()
-			connection.close()
-			return("OK")
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (visitdt,))
 
 		except Exception as e:
-			c.close()
-			connection.close()
-			return("更新最大序號失敗!", e)
+			return ("更新最大序號失敗!", e)
 
 	# 新增複診掛號資料
 	def A006_Insert_NRGRGB_0(patid, visitdt, recno, shiftno, roomno, sectno, doccd):
@@ -1290,19 +977,7 @@ class MSSQLAPI:
 
 		# MSSQLAPI.Insert_LOG_WEB(patid, visitdt, recno, shiftno, roomno, sectno, doccd, sql)
 
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 10,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
-
-		try:
+		# try:
 			# 輸入你要查找的資料表語法
 			# sql = '''
 			# 	INSERT INTO NRGRGB ( REG_HOSPAREA, REG_PATID, REG_VISITDT, REG_RECNO, REG_SHIFTNO,
@@ -1325,34 +1000,22 @@ class MSSQLAPI:
 			# 		roomno = roomno,
 			# 		sectno = sectno,
 			# 		doccd = doccd)
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(
+					sql,
+					(patid, visitdt, recno, shiftno, roomno, sectno, doccd)
+				)
 
-			#print(sql)
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql, (patid, visitdt, recno, shiftno, roomno, sectno, doccd))
-			connection.commit()
-
-			c.close()
-			connection.close()
-
-			# 回傳第一比查詢資料(rows[0])
 			return("OK")
+
 		except Exception as e:
-			c.close()
-			connection.close()
+			print(f"A006_Insert_NRGRGB_0 寫入失敗: {e}")
 			return("寫入掛號資料失敗：", e)
 
 	# 查詢診資料序號
 	def A006_Search_NRGRGB_RECNO(visitdt):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
-
+		
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
@@ -1361,30 +1024,15 @@ class MSSQLAPI:
 					AND REG_VISITDT=%s
 				ORDER BY REG_RECNO DESC
 			'''
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (visitdt,))
+			data = cursor.fetchone()
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt,))
-
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 查詢掛號結果
 	def A006_Search_NRGRGB_VISITNO(visitdt, recno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
-
+		
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
 		sql = '''
@@ -1393,30 +1041,14 @@ class MSSQLAPI:
 				AND REG_VISITDT=%s
 				AND REG_RECNO=%s
 			'''
-		#print(sql)
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, recno))
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (visitdt, recno))
+			data = cursor.fetchone()
 
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-		#print("OK")
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 確認退掛的使用者身分
 	def A006_Search_NRGRGB_PATID_SURE(patid, visitdt, recno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -1429,30 +1061,14 @@ class MSSQLAPI:
 			'''
 
 		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (visitdt, recno, patid))
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (visitdt, recno, patid))
+			data = cursor.fetchone()
 
-		data = c.fetchone()
-
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 更新掛號狀態
 	def A006_Update_NRGRGS_CANCEL(visitdt, recno):
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 5,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
 
 		try:
 			# 輸入你要查找的資料表語法
@@ -1464,31 +1080,18 @@ class MSSQLAPI:
 					AND REG_RECNO=%s
 				'''
 
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql, (visitdt, recno))
-			connection.commit()
 
-			c.close()
-			connection.close()
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(sql, (visitdt, recno))
 
-			# 回傳第一比查詢資料(rows[0])
 			return("OK")
+
 		except Exception as e:
-			c.close()
-			connection.close()
-			return("更新資料序號失敗!",e)
+			print(f"A006_Update_NRGRGS_CANCEL 更新失敗: {e}")
+			return("更新資料序號失敗!", e)
 
 	# 查詢病人是否有資料存在
 	def A006_Search_NRGPAT_EXISIT(idno):
-		# 連線Oracle資料庫
-		connection = pymssql.connect(
-			host = mssql_200_211_host,
-			user = mssql_200_211_user,
-			password = mssql_200_211_pwd,
-			database = mssql_200_211_db,
-			timeout = 5,
-			charset='UTF-8')
 
 		# 輸入你要查找的資料表語法
 		# 使用 %s 作為佔位符
@@ -1504,62 +1107,41 @@ class MSSQLAPI:
 				AND TPT_IDNO = %s
 			'''
 
-		# 定義資料庫游標
-		c = connection.cursor()
-		c.execute(sql, (idno,))
 
-		data = c.fetchone()
+		with connections['mssql_200_211'].cursor() as cursor:
+			cursor.execute(sql, (idno,))
+			data = cursor.fetchone()
 
-		if (data == None):
-			c.execute(sql2, (idno,))
-			data = c.fetchone()
+			if data == None:
+				cursor.execute(sql2, (idno,))
+				data = cursor.fetchone()
 
-		c.close()
-		connection.close()
-
-		# 回傳第一比查詢資料(rows[0])
 		return(data)
 
 	# 新增初診掛號資料
 	def A006_Insert_NRGPATTEMP(visitdt, recno, idno, name, sex, birthday, phone):
-		try:
-			# 連線Oracle資料庫
-			connection = pymssql.connect(
-				host = mssql_200_211_host,
-				user = mssql_200_211_user,
-				password = mssql_200_211_pwd,
-				database = mssql_200_211_db,
-				timeout = 5,
-				charset='UTF-8')
-		except:
-			return("資料庫連線失敗!")
 
-		try:
 			# 輸入你要查找的資料表語法
 			# 使用 %s 作為佔位符
-			sql = '''
-					INSERT INTO NRGPATTEMP ( TPT_HOSPAREA, TPT_VISITDT, TPT_RECNO, TPT_PATID, TPT_IDNO, TPT_PATNAME,
-					 TPT_SEX, TPT_BIRTHDATE, TPT_HOMETELNO, TPT_MOBILETELNO )
-					  VALUES ( '1', %s, %s, ' ', %s, %s,
-					   %s, %s, %s, ' ' )
-				'''
+		sql = '''
+				INSERT INTO NRGPATTEMP ( TPT_HOSPAREA, TPT_VISITDT, TPT_RECNO, TPT_PATID, TPT_IDNO, TPT_PATNAME,
+				 TPT_SEX, TPT_BIRTHDATE, TPT_HOMETELNO, TPT_MOBILETELNO )
+				  VALUES ( '1', %s, %s, ' ', %s, %s,
+				   %s, %s, %s, ' ' )
+			'''
 
-			#print(sql)
+		try:
+			with connections['mssql_200_211'].cursor() as cursor:
+				cursor.execute(
+					sql,
+					(visitdt, recno, idno, name, sex, birthday, phone)
+				)
 
-			# 定義資料庫游標
-			c = connection.cursor(as_dict = True)
-			c.execute(sql, (visitdt, recno, idno, name, sex, birthday, phone))
-			connection.commit()
+			return "OK"
 
-			c.close()
-			connection.close()
-
-			# 回傳第一比查詢資料(rows[0])
-			return("OK")
 		except Exception as e:
-			c.close()
-			connection.close()
-			return("新增初診資料失敗!",e)
+			print(f"A006_Insert_NRGPATTEMP 新增失敗: {e}")
+			return "新增初診資料失敗!"
 
 # Create your views here.
 def Hellow_world(request):
@@ -3527,7 +3109,6 @@ def A002_data_apply(request):
 
 # 醫療支援-科室總覽
 def A003_Medical_Support(request):
-
 	return render(request, "MedicalSupport/d_support_index.html", {})
 
 # 急診醫學科
@@ -5589,7 +5170,7 @@ def A101_search_bed(request):
 
 
 	# 連線Oracle資料庫
-	connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+	connection = get_pooled_connection(pool_oracle_case)
 
 	# 輸入你要查找的資料表語法
 	sql = textwrap.dedent(f"""
@@ -5705,7 +5286,7 @@ def A103_search_ITH_bed(request):
 		stations_str = ", ".join([f"'{s}'" for s in stations])  # SQL 的字串用單引號
 
 		# 連線Oracle資料庫
-		connection = cx_Oracle.connect(case_plsql_user + '/' + case_plsql_pwd + '@' + case_plsql_host + '/' + case_plsql_db)
+		connection = get_pooled_connection(pool_oracle_case)
 
 		sql = textwrap.dedent(f"""
 			SELECT NBD_BEDNO, NBD_BEDKIND, NBD_BDSTATUS, IBAP_BEDNO, NBD_BEDGRADE
@@ -5775,6 +5356,9 @@ def A103_search_ITH_bed(request):
 
 		stats["general_empty"] = stats["double_empty"] + stats["single_empty"] + stats["nhi_empty"]
 		stats["general_occupied"] = stats["double_occupied"] + stats["single_occupied"] + stats["nhi_occupied"]
+
+		cursor.close()
+		connection.close()
 
 		return render(request, "ITH_BED.html", locals()) # 秀出網頁
 	else:

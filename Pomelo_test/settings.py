@@ -161,7 +161,42 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
 		'NAME': BASE_DIR / 'db.sqlite3',
-	}
+	},
+	'oracle_case': {
+		'ENGINE': 'django.db.backends.oracle',
+		'NAME': f"{os.getenv('CASE_PLSQL_HOST')}/{os.getenv('CASE_PLSQL_DB')}",
+		'USER': os.getenv('CASE_PLSQL_USER'),
+		'PASSWORD': os.getenv('CASE_PLSQL_PWD'),
+		'CONN_MAX_AGE': 600,
+	},
+	'mssql_66_146': {
+		'ENGINE': 'mssql',
+		'NAME': os.getenv('MSSQL_66_146_DB'),
+		'USER': os.getenv('MSSQL_66_146_USER'),
+		'PASSWORD': os.getenv('MSSQL_66_146_PWD'),
+		'HOST': os.getenv('MSSQL_66_146_HOST'),
+		'PORT': '1433',
+		'CONN_MAX_AGE': 600,   
+		'OPTIONS': {
+			'driver': 'ODBC Driver 18 for SQL Server',
+			'connection_timeout': 30,
+			'extra_params': 'TrustServerCertificate=yes', 
+		},
+	},
+	'mssql_200_211': {
+		'ENGINE': 'mssql',
+		'NAME': os.getenv('MSSQL_200_211_DB'),
+		'USER': os.getenv('MSSQL_200_211_USER'),
+		'PASSWORD': os.getenv('MSSQL_200_211_PWD'),
+		'HOST': os.getenv('MSSQL_200_211_HOST'),
+		'PORT': '1433',
+		'CONN_MAX_AGE': 600,
+		'OPTIONS': {
+			'driver': 'ODBC Driver 18 for SQL Server',
+			'connection_timeout': 30,
+			'extra_params': 'TrustServerCertificate=yes',
+		},
+	},
 }
 
 
@@ -323,3 +358,13 @@ CONTACT_EMAIL_RECIPIENTS_CARDIO = _parse_contact_recipients('CONTACT_EMAIL_RECIP
 SESSION_COOKIE_SAMESITE = 'None'
 # 強制 Cookie 只能透過 HTTPS 傳輸（SameSite=None 的必要條件）
 SESSION_COOKIE_SECURE = True
+
+
+ORACLE_POOL_CONFIG = {
+	'maxconnections': int(os.getenv('ORACLE_POOL_MAX', 6)),
+	'mincached': int(os.getenv('ORACLE_POOL_MIN_CACHED', 2)),
+	'maxcached': int(os.getenv('ORACLE_POOL_MAX_CACHED', 4)),
+	'blocking': False,
+	'ping': 1,
+	'timeout_seconds': int(os.getenv('ORACLE_POOL_TIMEOUT', 8)),
+}

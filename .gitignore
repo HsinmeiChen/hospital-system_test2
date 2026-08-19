@@ -42,3 +42,5 @@ Public/common/doc/
 
 # 忽略 和訊繳費機網路掛號金鑰
 A008_key/
+
+Pomelo_API/test_mssql_full.py
